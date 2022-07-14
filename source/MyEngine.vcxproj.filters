@@ -2,5 +2,11 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="_main\main.cpp" />
+    <ClCompile Include="Logging\Logger.cpp" />
+    <ClCompile Include="Framework\Win32Framework.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Logging\Logger.h" />
+    <ClInclude Include="Framework\Win32Framework.h" />
   </ItemGroup>
 </Project>
