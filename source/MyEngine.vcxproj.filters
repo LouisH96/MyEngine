@@ -4,9 +4,13 @@
     <ClCompile Include="_main\main.cpp" />
     <ClCompile Include="Logging\Logger.cpp" />
     <ClCompile Include="Framework\Win32Framework.cpp" />
+    <ClCompile Include="Framework\Dx\DxFramework.cpp" />
+    <ClCompile Include="Rendering\DxHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logging\Logger.h" />
     <ClInclude Include="Framework\Win32Framework.h" />
+    <ClInclude Include="Framework\Dx\DxFramework.h" />
+    <ClInclude Include="Rendering\DxHelper.h" />
   </ItemGroup>
 </Project>

@@ -11,11 +11,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Rendering\DxHelper.cpp" />
+    <ClCompile Include="Framework\Dx\DxFramework.cpp" />
     <ClCompile Include="Framework\Win32Framework.cpp" />
     <ClCompile Include="Logging\Logger.cpp" />
     <ClCompile Include="_main\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Rendering\DxHelper.h" />
+    <ClInclude Include="Framework\Dx\DxFramework.h" />
     <ClInclude Include="Framework\Win32Framework.h" />
     <ClInclude Include="Logging\Logger.h" />
   </ItemGroup>
@@ -74,6 +78,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d11.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -92,6 +97,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d11.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <Windows.h>
 
 namespace MyEngine
 {
@@ -10,8 +11,14 @@ namespace MyEngine
 		public:
 			Win32Framework(const std::wstring& title);
 
+			bool Loop();
+
+			HWND GetWindowHandle()const { return m_WindowHandle; }
+
 		private:
-			static void Init(const std::wstring& title);
+			void Init(const std::wstring& title);
+
+			HWND m_WindowHandle{};
 		};
 	}
 }
