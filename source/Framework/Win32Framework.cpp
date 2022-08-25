@@ -1,7 +1,6 @@
 #include "Win32Framework.h"
 
 #include <string>
-#include "../Logging/Logger.h"
 
 LRESULT CALLBACK window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
