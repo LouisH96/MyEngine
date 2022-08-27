@@ -1,7 +1,7 @@
-#include "Win32Queue.h"
+#include "Win32MsgHandler.h"
 #include <Windows.h>
 
-void MyEngine::App::Win32Queue::HandleMessages()
+void MyEngine::App::Win32MsgHandler::HandleMessages()
 {
 	MSG msg;
 	while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE) > 0)

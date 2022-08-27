@@ -5,7 +5,7 @@
     <ClCompile Include="Framework\Dx\DxFramework.cpp" />
     <ClCompile Include="Rendering\DxHelper.cpp" />
     <ClCompile Include="App\Win32Window.cpp" />
-    <ClCompile Include="App\Win32Queue.cpp" />
+    <ClCompile Include="App\Win32MsgHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logging\Logger.h" />
@@ -13,6 +13,6 @@
     <ClInclude Include="Rendering\DxHelper.h" />
     <ClInclude Include="App\IWindow.h" />
     <ClInclude Include="App\Win32Window.h" />
-    <ClInclude Include="App\Win32Queue.h" />
+    <ClInclude Include="App\Win32MsgHandler.h" />
   </ItemGroup>
 </Project>

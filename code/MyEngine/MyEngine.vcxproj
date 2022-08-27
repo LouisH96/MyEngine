@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="App\Win32Queue.cpp" />
+    <ClCompile Include="App\Win32MsgHandler.cpp" />
     <ClCompile Include="Rendering\DxHelper.cpp" />
     <ClCompile Include="Framework\Dx\DxFramework.cpp" />
     <ClCompile Include="Logging\Logger.cpp" />
@@ -19,7 +19,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\IWindow.h" />
-    <ClInclude Include="App\Win32Queue.h" />
+    <ClInclude Include="App\Win32MsgHandler.h" />
     <ClInclude Include="Rendering\DxHelper.h" />
     <ClInclude Include="Framework\Dx\DxFramework.h" />
     <ClInclude Include="Logging\Logger.h" />
