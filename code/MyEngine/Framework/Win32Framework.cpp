@@ -65,12 +65,9 @@ LRESULT CALLBACK window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM
 {
 	switch (uMsg)
 	{
-	default:
-		return DefWindowProc(windowHandle, uMsg, wParam, lParam);
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		return 0;
-
 	case WM_PAINT:
 	{
 		PAINTSTRUCT ps;
@@ -83,5 +80,7 @@ LRESULT CALLBACK window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM
 		EndPaint(windowHandle, &ps);
 	}
 	return 0;
+	default:
+		return DefWindowProc(windowHandle, uMsg, wParam, lParam);
 	}
 }
