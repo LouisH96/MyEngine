@@ -6,6 +6,7 @@
     <ClCompile Include="Rendering\DxHelper.cpp" />
     <ClCompile Include="App\Win32Window.cpp" />
     <ClCompile Include="App\Win32MsgHandler.cpp" />
+    <ClCompile Include="App\App.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logging\Logger.h" />
@@ -14,5 +15,6 @@
     <ClInclude Include="App\IWindow.h" />
     <ClInclude Include="App\Win32Window.h" />
     <ClInclude Include="App\Win32MsgHandler.h" />
+    <ClInclude Include="App\App.h" />
   </ItemGroup>
 </Project>

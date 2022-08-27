@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="App\App.cpp" />
     <ClCompile Include="App\Win32MsgHandler.cpp" />
     <ClCompile Include="Rendering\DxHelper.cpp" />
     <ClCompile Include="Framework\Dx\DxFramework.cpp" />
@@ -18,6 +19,7 @@
     <ClCompile Include="App\Win32Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="App\App.h" />
     <ClInclude Include="App\IWindow.h" />
     <ClInclude Include="App\Win32MsgHandler.h" />
     <ClInclude Include="Rendering\DxHelper.h" />
