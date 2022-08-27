@@ -11,17 +11,19 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="App\Win32Queue.cpp" />
     <ClCompile Include="Rendering\DxHelper.cpp" />
     <ClCompile Include="Framework\Dx\DxFramework.cpp" />
-    <ClCompile Include="Framework\Win32Framework.cpp" />
     <ClCompile Include="Logging\Logger.cpp" />
-    <ClCompile Include="_main\main.cpp" />
+    <ClCompile Include="App\Win32Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="App\IWindow.h" />
+    <ClInclude Include="App\Win32Queue.h" />
     <ClInclude Include="Rendering\DxHelper.h" />
     <ClInclude Include="Framework\Dx\DxFramework.h" />
-    <ClInclude Include="Framework\Win32Framework.h" />
     <ClInclude Include="Logging\Logger.h" />
+    <ClInclude Include="App\Win32Window.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

@@ -1,16 +1,20 @@
 #include <iostream>
 
-#include "../MyEngine/Framework/Win32Framework.h"
+#include "../MyEngine/App/Win32Window.h"
+#include "../MyEngine/App/Win32Queue.h"
 #include "../MyEngine/Framework/Dx/DxFramework.h"
 
 int main()
 {
-	MyEngine::Framework::Win32Framework f(L"Window");
-	MyEngine::Framework::Dx::DxFramework ff{ f.GetWindowHandle() };
+	using namespace MyEngine;
 
-	while (f.Loop())
+	const App::Win32Window window(L"Window");
+	App::Win32Queue msgQueue{};
+	Framework::Dx::DxFramework ff{ window.GetWindowHandle() };
+
+	while (msgQueue.IsActive())
 	{
-
+		msgQueue.HandleMessages();
 	}
 
 	std::cout << "hi\n";

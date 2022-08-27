@@ -1,30 +1,18 @@
-#include "Win32Framework.h"
+#include "Win32Window.h"
 
-#include <string>
+LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-LRESULT CALLBACK window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam);
-
-MyEngine::Framework::Win32Framework::Win32Framework(const std::wstring& title)
+MyEngine::App::Win32Window::Win32Window(const std::wstring& title)
 {
 	Init(title);
 }
 
-bool MyEngine::Framework::Win32Framework::Loop()
+MyEngine::App::Win32Window::~Win32Window()
 {
-	bool continueAfter = true;
-	//Run message loop
-	MSG msg{};
-	while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE) > 0)
-	{
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
-		if (msg.message == WM_QUIT)
-			continueAfter = false;
-	}
-	return continueAfter;
+	Release();
 }
 
-void MyEngine::Framework::Win32Framework::Init(const std::wstring& title)
+void MyEngine::App::Win32Window::Init(const std::wstring& title)
 {
 	// Enable run-time memory check for debug builds.
 #if defined(DEBUG) | defined(_DEBUG)
@@ -37,7 +25,7 @@ void MyEngine::Framework::Win32Framework::Init(const std::wstring& title)
 	HINSTANCE hInstance = GetModuleHandle(nullptr);
 
 	WNDCLASS windowClass{};
-	windowClass.lpfnWndProc = window_proc;
+	windowClass.lpfnWndProc = win32_window_proc;
 	windowClass.lpszClassName = className.c_str();
 	windowClass.hInstance = hInstance;
 	RegisterClass(&windowClass);
@@ -61,7 +49,13 @@ void MyEngine::Framework::Win32Framework::Init(const std::wstring& title)
 	ShowWindow(m_WindowHandle, true);
 }
 
-LRESULT CALLBACK window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam)
+void MyEngine::App::Win32Window::Release()
+{
+	//todo: check if and how you could quit the app from here, and not from a quit msg on the queue
+	//simply PostMessage with wm_quit would work probably, but normally this shouldn't be closed like this
+}
+
+LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg)
 	{

@@ -1,0 +1,22 @@
+#pragma once
+
+namespace MyEngine
+{
+	namespace App
+	{
+		class IWindow
+		{
+		public:
+			IWindow(const IWindow& other) = delete;
+			IWindow(IWindow&& other) noexcept = delete;
+			IWindow& operator=(const IWindow& other) = delete;
+			IWindow& operator=(IWindow&& other) noexcept = delete;
+
+			IWindow() = default;
+			virtual ~IWindow() = default;
+
+			virtual void Init(const std::wstring& title) = 0;
+			virtual void Release() = 0;
+		};
+	}
+}
