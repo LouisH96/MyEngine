@@ -4,7 +4,7 @@
 
 namespace MyEngine
 {
-	namespace Rendering
+	namespace DirectX
 	{
 		class DxHelper
 		{

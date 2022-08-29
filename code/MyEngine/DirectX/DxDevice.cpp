@@ -1,27 +1,31 @@
-#include "DxFramework.h"
+#include "DxDevice.h"
 
 #include <d3d11.h>
 #include <exception>
-#include "../../Rendering/DxHelper.h"
+#include "DxHelper.h"
 
-MyEngine::Framework::Dx::DxFramework::DxFramework(HWND windowHandle)
+MyEngine::DirectX::DxDevice::DxDevice(HWND windowHandle)
 {
 	Init(windowHandle);
 }
 
-MyEngine::Framework::Dx::DxFramework::~DxFramework()
+MyEngine::DirectX::DxDevice::~DxDevice()
 {
 	Release();
 }
 
-void MyEngine::Framework::Dx::DxFramework::Release()
+void MyEngine::DirectX::DxDevice::Release()
 {
 	SAFE_RELEASE(m_pSwapChain);
 	SAFE_RELEASE(m_pContext);
 	SAFE_RELEASE(m_pDevice);
 }
 
-void MyEngine::Framework::Dx::DxFramework::Init(HWND windowHandle)
+void MyEngine::DirectX::DxDevice::Render() const
+{
+}
+
+void MyEngine::DirectX::DxDevice::Init(HWND windowHandle)
 {
 	DXGI_SWAP_CHAIN_DESC d{};
 	d.BufferCount = 2;

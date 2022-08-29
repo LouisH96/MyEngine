@@ -4,7 +4,7 @@
 
 #include "Win32MsgHandler.h"
 #include "Win32Window.h"
-#include "../Framework/Dx/DxFramework.h"
+#include "../DirectX/DxDevice.h"
 #include "FpsControl.h"
 #include "../Logging/Logger.h"
 
@@ -12,7 +12,7 @@ void MyEngine::App::App::Run()
 {
 	const Win32Window window(L"Window");
 	Win32MsgHandler msgQueue{};
-	Framework::Dx::DxFramework ff{ window.GetWindowHandle() };
+	DirectX::DxDevice ff{ window.GetWindowHandle() };
 
 	FpsControl fpsControl{ 60 };
 

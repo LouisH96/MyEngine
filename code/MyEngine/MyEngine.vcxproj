@@ -14,8 +14,8 @@
     <ClCompile Include="App\App.cpp" />
     <ClCompile Include="App\Win32MsgHandler.cpp" />
     <ClCompile Include="App\FpsControl.cpp" />
-    <ClCompile Include="Rendering\DxHelper.cpp" />
-    <ClCompile Include="Framework\Dx\DxFramework.cpp" />
+    <ClCompile Include="DirectX\DxHelper.cpp" />
+    <ClCompile Include="DirectX\DxDevice.cpp" />
     <ClCompile Include="Logging\Logger.cpp" />
     <ClCompile Include="App\Win32Window.cpp" />
   </ItemGroup>
@@ -24,8 +24,8 @@
     <ClInclude Include="App\IWindow.h" />
     <ClInclude Include="App\Win32MsgHandler.h" />
     <ClInclude Include="App\FpsControl.h" />
-    <ClInclude Include="Rendering\DxHelper.h" />
-    <ClInclude Include="Framework\Dx\DxFramework.h" />
+    <ClInclude Include="DirectX\DxHelper.h" />
+    <ClInclude Include="DirectX\DxDevice.h" />
     <ClInclude Include="Logging\Logger.h" />
     <ClInclude Include="App\Win32Window.h" />
     <ClInclude Include="App\Time.h" />
