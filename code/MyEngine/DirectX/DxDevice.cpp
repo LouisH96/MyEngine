@@ -16,9 +16,9 @@ MyEngine::DirectX::DxDevice::~DxDevice()
 
 void MyEngine::DirectX::DxDevice::Release()
 {
-	SAFE_RELEASE(m_pSwapChain);
-	SAFE_RELEASE(m_pContext);
-	SAFE_RELEASE(m_pDevice);
+	SAFE_RELEASE(m_pSwapChain)
+	SAFE_RELEASE(m_pContext)
+	SAFE_RELEASE(m_pDevice)
 }
 
 void MyEngine::DirectX::DxDevice::Render() const

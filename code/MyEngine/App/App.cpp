@@ -1,6 +1,7 @@
 #include "App.h"
 
 #include <iostream>
+#include "../../3rdParty/VLD/include/vld.h"
 
 #include "Win32MsgHandler.h"
 #include "Win32Window.h"
