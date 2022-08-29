@@ -1,7 +1,6 @@
 #pragma once
 #include "d3d11.h"
-
-
+#include <dxgi1_2.h>
 
 namespace MyEngine
 {
@@ -21,7 +20,7 @@ namespace MyEngine
 
 			ID3D11Device* m_pDevice{};
 			ID3D11DeviceContext* m_pContext{};
-			IDXGISwapChain* m_pSwapChain{};
+			IDXGISwapChain1* m_pSwapChain{};
 
 			//temp
 			void TempInit(HWND windowHandle);

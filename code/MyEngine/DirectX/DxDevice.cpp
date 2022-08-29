@@ -29,18 +29,15 @@ void MyEngine::DirectX::DxDevice::Render() const
 
 void MyEngine::DirectX::DxDevice::Init(HWND windowHandle)
 {
-	DXGI_SWAP_CHAIN_DESC d{};
+	DXGI_SWAP_CHAIN_DESC1 d{};
 	d.BufferCount = 2;
-	d.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	d.BufferDesc.RefreshRate.Numerator = 60;
-	d.BufferDesc.RefreshRate.Denominator = 1;
+	d.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	d.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 	d.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-	d.OutputWindow = windowHandle;
 	d.SampleDesc.Count = 1;
 	d.SampleDesc.Quality = 0;
-	d.Windowed = true;
 	d.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
+	d.Stereo = true;
 
 	UINT createDeviceFlags = 0;
 #if defined(_DEBUG)
@@ -50,8 +47,21 @@ void MyEngine::DirectX::DxDevice::Init(HWND windowHandle)
 	D3D_FEATURE_LEVEL featureLevel;
 	constexpr D3D_FEATURE_LEVEL featureLevelArray[2] = { D3D_FEATURE_LEVEL_11_0, D3D_FEATURE_LEVEL_10_0, };
 
-	if (D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, createDeviceFlags, featureLevelArray, 2, D3D11_SDK_VERSION, &d, &m_pSwapChain, &m_pDevice, &featureLevel, &m_pContext) != S_OK)
+	//if (D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, createDeviceFlags, featureLevelArray, 2, D3D11_SDK_VERSION, &d, &m_pSwapChain, &m_pDevice, &featureLevel, &m_pContext) != S_OK)
+	if (D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, createDeviceFlags, featureLevelArray, 2, D3D11_SDK_VERSION, &m_pDevice, &featureLevel, &m_pContext) != S_OK)
 		throw std::exception("CreateDeviceD3D failed");
+
+	IDXGIDevice2* pDXGIDevice;
+	HRESULT hr = m_pDevice->QueryInterface(__uuidof(IDXGIDevice2), (void**)&pDXGIDevice);
+
+	IDXGIAdapter* pDXGIAdapter;
+	hr = pDXGIDevice->GetParent(__uuidof(IDXGIAdapter), (void**)&pDXGIAdapter);
+
+	IDXGIFactory2* pIDXGIFactory;
+	pDXGIAdapter->GetParent(__uuidof(IDXGIFactory2), (void**)&pIDXGIFactory);
+
+	if (pIDXGIFactory->CreateSwapChainForHwnd(m_pDevice, windowHandle, &d, nullptr, nullptr, &m_pSwapChain) != S_OK)
+		throw std::exception("CreateSwapChain1 Failed");
 
 	TempInit(windowHandle);
 }
@@ -136,9 +146,9 @@ void MyEngine::DirectX::DxDevice::TempInit(HWND windowHandle)
 	};
 	const D3D11_BUFFER_DESC vertexBufferDesc
 	{
-		sizeof(float)*3*3,
+		sizeof(float) * 3 * 3,
 		D3D11_USAGE_DEFAULT, D3D11_BIND_VERTEX_BUFFER,
-		0, 0, sizeof(float)*3
+		0, 0, sizeof(float) * 3
 	};
 	const D3D11_SUBRESOURCE_DATA srData{ &vertex_data_array,0,0 };
 	HRESULT hr = m_pDevice->CreateBuffer(&vertexBufferDesc, &srData, &m_pVertexBuffer);
@@ -189,5 +199,7 @@ void MyEngine::DirectX::DxDevice::TempRender() const
 	m_pContext->VSSetShader(m_pVertexShader, NULL, 0);
 	m_pContext->PSSetShader(m_pPixelShader, NULL, 0);
 	m_pContext->Draw(vertex_count, 0);
-	m_pSwapChain->Present(0, 0);
+
+	DXGI_PRESENT_PARAMETERS param{ 0,nullptr,0,nullptr };
+	m_pSwapChain->Present1(0, 0, &param);
 }
