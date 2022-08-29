@@ -15,12 +15,13 @@ void MyEngine::App::App::Run()
 	Win32MsgHandler msgQueue{};
 	DirectX::DxDevice ff{ window.GetWindowHandle() };
 
-	FpsControl fpsControl{ 60 };
+	FpsControl fpsControl{ 80 };
 
 	while (msgQueue.IsActive())
 	{
 		msgQueue.HandleMessages();
 		fpsControl.Wait();
+		ff.Render();
 		Logging::Logger::Print("Frame " + std::to_string(fpsControl.GetNrFramesLastSec()));
 	}
 
