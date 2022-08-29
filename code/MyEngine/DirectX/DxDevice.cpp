@@ -38,7 +38,7 @@ void MyEngine::DirectX::DxDevice::Init(HWND windowHandle)
 	d.SampleDesc.Count = 1;
 	d.SampleDesc.Quality = 0;
 	d.Windowed = true;
-	d.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+	d.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
 
 	UINT createDeviceFlags = 0;
 #if defined(_DEBUG)
