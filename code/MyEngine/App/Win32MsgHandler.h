@@ -17,11 +17,7 @@ namespace MyEngine
 
 			void HandleMessages();
 
-			bool IsActive() const { return m_IsActive; }
-			void ResetState() { m_IsActive = true; }
-
 		private:
-			bool m_IsActive = true;
 		};
 	}
 }

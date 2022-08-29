@@ -1,6 +1,5 @@
+// ReSharper disable CppClangTidyPerformanceNoIntToPtr
 #include "Win32Window.h"
-
-LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 MyEngine::App::Win32Window::Win32Window(const std::wstring& title)
 {
@@ -46,6 +45,7 @@ void MyEngine::App::Win32Window::Init(const std::wstring& title)
 		hInstance,  // Instance handle
 		nullptr        // Additional application data
 	);
+	SetWindowLongPtr(m_WindowHandle, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 	ShowWindow(m_WindowHandle, true);
 }
 
@@ -57,11 +57,17 @@ void MyEngine::App::Win32Window::Release()
 
 LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+	using namespace MyEngine::App;
+
 	switch (uMsg)
 	{
 	case WM_DESTROY:
+		{
+		Win32Window& window = *reinterpret_cast<Win32Window*>(GetWindowLongPtr(windowHandle, GWLP_USERDATA));
+		window.m_IsDestroyed = true;
 		PostQuitMessage(0);
 		return 0;
+		}
 	case WM_PAINT:
 	{
 		PAINTSTRUCT ps;
@@ -74,6 +80,7 @@ LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, 
 		EndPaint(windowHandle, &ps);
 	}
 	return 0;
+
 	default:
 		return DefWindowProc(windowHandle, uMsg, wParam, lParam);
 	}

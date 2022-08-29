@@ -8,7 +8,5 @@ void MyEngine::App::Win32MsgHandler::HandleMessages()
 	{
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
-		if (msg.message == WM_QUIT)
-			m_IsActive = false;
 	}
 }

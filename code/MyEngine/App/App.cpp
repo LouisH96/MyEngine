@@ -17,7 +17,7 @@ void MyEngine::App::App::Run()
 
 	FpsControl fpsControl{ 80 };
 
-	while (msgQueue.IsActive())
+	while (!window.IsDestroyed())
 	{
 		msgQueue.HandleMessages();
 		fpsControl.Wait();

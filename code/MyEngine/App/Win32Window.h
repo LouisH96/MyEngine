@@ -6,6 +6,8 @@
 #include <Windows.h>
 #include <string>
 
+LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
 namespace MyEngine
 {
 	namespace App
@@ -26,9 +28,14 @@ namespace MyEngine
 			void Release() override;
 
 			HWND GetWindowHandle()const { return m_WindowHandle; }
+			bool IsDestroyed()const { return m_IsDestroyed; }
 
 		private:
+			bool m_IsDestroyed{false};
 			HWND m_WindowHandle{};
+
+
+			friend LRESULT CALLBACK ::win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam);
 		};
 	}
 }
