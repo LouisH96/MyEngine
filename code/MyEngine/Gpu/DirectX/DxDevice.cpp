@@ -17,6 +17,11 @@ MyEngine::Gpu::DirectX::DxDevice::~DxDevice()
 
 void MyEngine::Gpu::DirectX::DxDevice::Release()
 {
+		SAFE_RELEASE(m_pMainRenderTargetView)
+		SAFE_RELEASE(m_pVertexBuffer)
+		SAFE_RELEASE(m_pInputLayout)
+		SAFE_RELEASE(m_pVertexShader)
+		SAFE_RELEASE(m_pPixelShader)
 	SAFE_RELEASE(m_pSwapChain)
 		SAFE_RELEASE(m_pContext)
 		SAFE_RELEASE(m_pDevice)
@@ -62,6 +67,10 @@ void MyEngine::Gpu::DirectX::DxDevice::Init(HWND windowHandle)
 
 	if (pIDXGIFactory->CreateSwapChainForHwnd(m_pDevice, windowHandle, &d, nullptr, nullptr, &m_pSwapChain) != S_OK)
 		throw std::exception("CreateSwapChain1 Failed");
+
+	pIDXGIFactory->Release();
+	pDXGIAdapter->Release();
+	pDXGIDevice->Release();
 
 	TempInit(windowHandle);
 }
