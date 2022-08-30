@@ -2,25 +2,26 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="Logging\Logger.cpp" />
-    <ClCompile Include="DirectX\DxDevice.cpp" />
-    <ClCompile Include="DirectX\DxHelper.cpp" />
+    <ClCompile Include="Gpu\DirectX\DxDevice.cpp" />
+    <ClCompile Include="Gpu\DirectX\DxHelper.cpp" />
     <ClCompile Include="App\Win32\Win32Window.cpp" />
     <ClCompile Include="App\Win32\Win32Messages.cpp" />
     <ClCompile Include="App\App.cpp" />
     <ClCompile Include="App\FpsControl.cpp" />
-    <ClCompile Include="DirectX\GpuCreator.cpp" />
+    <ClCompile Include="Gpu\GpuCreator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logging\Logger.h" />
-    <ClInclude Include="DirectX\DxDevice.h" />
-    <ClInclude Include="DirectX\DxHelper.h" />
+    <ClInclude Include="Gpu\DirectX\DxDevice.h" />
+    <ClInclude Include="Gpu\DirectX\DxHelper.h" />
     <ClInclude Include="App\IWindow.h" />
     <ClInclude Include="App\Win32\Win32Window.h" />
     <ClInclude Include="App\Win32\Win32Messages.h" />
     <ClInclude Include="App\App.h" />
     <ClInclude Include="App\FpsControl.h" />
     <ClInclude Include="App\Time.h" />
-    <ClInclude Include="DirectX\GpuCreator.h" />
+    <ClInclude Include="Gpu\GpuCreator.h" />
     <ClInclude Include="App\IOsMessages.h" />
+    <ClInclude Include="Gpu\IGpu.h" />
   </ItemGroup>
 </Project>

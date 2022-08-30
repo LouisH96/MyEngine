@@ -14,9 +14,9 @@
     <ClCompile Include="App\App.cpp" />
     <ClCompile Include="App\Win32\Win32Messages.cpp" />
     <ClCompile Include="App\FpsControl.cpp" />
-    <ClCompile Include="DirectX\DxHelper.cpp" />
-    <ClCompile Include="DirectX\DxDevice.cpp" />
-    <ClCompile Include="DirectX\GpuCreator.cpp" />
+    <ClCompile Include="Gpu\DirectX\DxHelper.cpp" />
+    <ClCompile Include="Gpu\DirectX\DxDevice.cpp" />
+    <ClCompile Include="Gpu\GpuCreator.cpp" />
     <ClCompile Include="Logging\Logger.cpp" />
     <ClCompile Include="App\Win32\Win32Window.cpp" />
   </ItemGroup>
@@ -26,9 +26,10 @@
     <ClInclude Include="App\IOsMessages.h" />
     <ClInclude Include="App\Win32\Win32Messages.h" />
     <ClInclude Include="App\FpsControl.h" />
-    <ClInclude Include="DirectX\DxHelper.h" />
-    <ClInclude Include="DirectX\DxDevice.h" />
-    <ClInclude Include="DirectX\GpuCreator.h" />
+    <ClInclude Include="Gpu\DirectX\DxHelper.h" />
+    <ClInclude Include="Gpu\DirectX\DxDevice.h" />
+    <ClInclude Include="Gpu\GpuCreator.h" />
+    <ClInclude Include="Gpu\IGpu.h" />
     <ClInclude Include="Logging\Logger.h" />
     <ClInclude Include="App\Win32\Win32Window.h" />
     <ClInclude Include="App\Time.h" />

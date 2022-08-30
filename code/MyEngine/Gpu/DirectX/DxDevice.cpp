@@ -5,29 +5,29 @@
 #include <exception>
 #include "DxHelper.h"
 
-MyEngine::DirectX::DxDevice::DxDevice(HWND windowHandle)
+MyEngine::Gpu::DirectX::DxDevice::DxDevice(HWND windowHandle)
 {
 	Init(windowHandle);
 }
 
-MyEngine::DirectX::DxDevice::~DxDevice()
+MyEngine::Gpu::DirectX::DxDevice::~DxDevice()
 {
 	Release();
 }
 
-void MyEngine::DirectX::DxDevice::Release()
+void MyEngine::Gpu::DirectX::DxDevice::Release()
 {
 	SAFE_RELEASE(m_pSwapChain)
 		SAFE_RELEASE(m_pContext)
 		SAFE_RELEASE(m_pDevice)
 }
 
-void MyEngine::DirectX::DxDevice::Render() const
+void MyEngine::Gpu::DirectX::DxDevice::Temp() const
 {
 	TempRender();
 }
 
-void MyEngine::DirectX::DxDevice::Init(HWND windowHandle)
+void MyEngine::Gpu::DirectX::DxDevice::Init(HWND windowHandle)
 {
 	DXGI_SWAP_CHAIN_DESC1 d{};
 	d.BufferCount = 2;
@@ -66,7 +66,7 @@ void MyEngine::DirectX::DxDevice::Init(HWND windowHandle)
 	TempInit(windowHandle);
 }
 
-void MyEngine::DirectX::DxDevice::TempInit(HWND windowHandle)
+void MyEngine::Gpu::DirectX::DxDevice::TempInit(HWND windowHandle)
 {
 	//----| Shaders |----
 	TCHAR buffer[MAX_PATH] = { 0 };
@@ -175,7 +175,7 @@ void MyEngine::DirectX::DxDevice::TempInit(HWND windowHandle)
 	pBackBuffer->Release();
 }
 
-void MyEngine::DirectX::DxDevice::TempRender() const
+void MyEngine::Gpu::DirectX::DxDevice::TempRender() const
 {
 	/* clear the back buffer to cornflower blue for the new frame */
 	float background_colour[4] = {

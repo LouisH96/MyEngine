@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../IOsMessages.h";
+#include "../IOsMessages.h"
 
 namespace MyEngine
 {

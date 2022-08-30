@@ -10,14 +10,14 @@ namespace MyEngine
 
 namespace MyEngine
 {
-	namespace DirectX
+	namespace Gpu
 	{
-		class DxDevice;
+		class IGpu;
 
 		class GpuCreator
 		{
 		public:
-			static DxDevice* Create(App::IWindow& window);
+			static IGpu* Create(App::IWindow& window);
 		};
 	}
 }
