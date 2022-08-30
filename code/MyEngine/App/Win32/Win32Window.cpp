@@ -1,17 +1,17 @@
 // ReSharper disable CppClangTidyPerformanceNoIntToPtr
 #include "Win32Window.h"
 
-MyEngine::App::Win32Window::Win32Window(const std::wstring& title)
+MyEngine::App::Win32::Win32Window::Win32Window(const std::wstring& title)
 {
 	Init(title);
 }
 
-MyEngine::App::Win32Window::~Win32Window()
+MyEngine::App::Win32::Win32Window::~Win32Window()
 {
 	Release();
 }
 
-void MyEngine::App::Win32Window::Init(const std::wstring& title)
+void MyEngine::App::Win32::Win32Window::Init(const std::wstring& title)
 {
 	// Enable run-time memory check for debug builds.
 #if defined(DEBUG) | defined(_DEBUG)
@@ -49,14 +49,14 @@ void MyEngine::App::Win32Window::Init(const std::wstring& title)
 	ShowWindow(m_WindowHandle, true);
 }
 
-void MyEngine::App::Win32Window::Release()
+void MyEngine::App::Win32::Win32Window::Release()
 {
 	//todo: check if and how you could quit the app from here, and not from a quit msg on the queue
 	//simply PostMessage with wm_quit would work probably, but normally this shouldn't be closed like this
 }
 
-#include "../Logging/Logger.h"
-void MyEngine::App::Win32Window::DispatchEvents()
+#include "../../Logging/Logger.h"
+void MyEngine::App::Win32::Win32Window::DispatchEvents()
 {
 	//resize
 	if(m_Width != 0)
@@ -70,7 +70,7 @@ void MyEngine::App::Win32Window::DispatchEvents()
 
 LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	using namespace MyEngine::App;
+	using namespace MyEngine::App::Win32;
 	Win32Window& window = *reinterpret_cast<Win32Window*>(GetWindowLongPtr(windowHandle, GWLP_USERDATA));
 
 	switch (uMsg)
