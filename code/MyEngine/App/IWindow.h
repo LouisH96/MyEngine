@@ -1,5 +1,7 @@
 #pragma once
 
+#include "DirectXMath.h"
+
 namespace MyEngine
 {
 	namespace App
@@ -21,6 +23,7 @@ namespace MyEngine
 			virtual void DispatchEvents() = 0;
 
 			virtual bool IsDestroyed() const = 0;
+			virtual DirectX::XMINT2 GetSize() const = 0;
 		};
 	}
 }

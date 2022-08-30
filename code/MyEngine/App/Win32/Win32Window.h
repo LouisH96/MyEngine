@@ -33,13 +33,13 @@ namespace MyEngine
 
 				HWND GetWindowHandle()const { return m_WindowHandle; }
 				bool IsDestroyed() const override { return m_IsDestroyed; }
+				DirectX::XMINT2 GetSize() const override;
 
 			private:
 				HWND m_WindowHandle{};
 
 				bool m_IsDestroyed{ false };
-				unsigned m_Width{};
-				unsigned m_Height{};
+				DirectX::XMINT2 m_NewSize{};
 
 				friend LRESULT CALLBACK::win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam);
 			};

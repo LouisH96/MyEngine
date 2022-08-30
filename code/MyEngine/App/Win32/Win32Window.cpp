@@ -47,6 +47,7 @@ void MyEngine::App::Win32::Win32Window::Init(const std::wstring& title)
 	);
 	SetWindowLongPtr(m_WindowHandle, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 	ShowWindow(m_WindowHandle, true);
+	m_NewSize = { 0,0 };
 }
 
 void MyEngine::App::Win32::Win32Window::Release()
@@ -59,13 +60,20 @@ void MyEngine::App::Win32::Win32Window::Release()
 void MyEngine::App::Win32::Win32Window::DispatchEvents()
 {
 	//resize
-	if(m_Width != 0)
+	if (m_NewSize.x != 0)
 	{
-		Logging::Logger::Print("width:" + std::to_string(m_Width));
-		Logging::Logger::Print("height:" + std::to_string(m_Height));
-		m_Width = 0;
-		m_Height = 0;
+		Logging::Logger::Print("width:" + std::to_string(m_NewSize.x));
+		Logging::Logger::Print("height:" + std::to_string(m_NewSize.y));
+		m_NewSize.x = 0;
+		m_NewSize.y = 0;
 	}
+}
+
+DirectX::XMINT2 MyEngine::App::Win32::Win32Window::GetSize() const
+{
+	RECT rect{};
+	GetClientRect(m_WindowHandle, &rect);
+	return { rect.right - rect.left, rect.top - rect.bottom };
 }
 
 LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -83,8 +91,8 @@ LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, 
 	}
 	case WM_SIZE:
 	{
-		window.m_Width = LOWORD(lParam);
-		window.m_Height = HIWORD(lParam);
+		window.m_NewSize.x = LOWORD(lParam);
+		window.m_NewSize.y = HIWORD(lParam);
 		return 0;
 	}
 	default:
