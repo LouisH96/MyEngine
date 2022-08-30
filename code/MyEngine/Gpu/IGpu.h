@@ -2,8 +2,18 @@
 
 namespace MyEngine
 {
+	namespace App
+	{
+		class IWindow;
+	}
+}
+
+namespace MyEngine
+{
 	namespace Gpu
 	{
+		class ICanvas;
+
 		class IGpu
 		{
 		public:
@@ -17,6 +27,7 @@ namespace MyEngine
 
 			virtual void Release() = 0;
 
+			virtual ICanvas* MakeCanvas(App::IWindow& window) = 0;
 			virtual void Temp() const = 0;
 		};
 	}

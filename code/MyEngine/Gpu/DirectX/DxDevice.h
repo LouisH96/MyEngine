@@ -6,9 +6,20 @@
 
 namespace MyEngine
 {
+	namespace App
+	{
+		namespace Win32
+		{
+			class Win32Window;
+		}
+	}
+}
+
+namespace MyEngine
+{
 	namespace Gpu
 	{
-		namespace DirectX
+		namespace Dx
 		{
 			class DxDevice final
 				: public IGpu
@@ -24,23 +35,24 @@ namespace MyEngine
 				
 				void Release() override;
 
+				ICanvas* MakeCanvas(App::IWindow& window) override;
 				void Temp() const override;
 
 			private:
-				void Init(HWND windowHandle);
-
 				ID3D11Device* m_pDevice{};
 				ID3D11DeviceContext* m_pContext{};
-				IDXGISwapChain1* m_pSwapChain{};
+
+				void Init(HWND windowHandle);
 
 				//temp
 				void TempInit(HWND windowHandle);
 				void TempRender() const;
+
+			private:
 				ID3D11VertexShader* m_pVertexShader{};
 				ID3D11PixelShader* m_pPixelShader{};
 				ID3D11InputLayout* m_pInputLayout{};
 				ID3D11Buffer* m_pVertexBuffer{};
-				ID3D11RenderTargetView* m_pMainRenderTargetView{};
 			};
 		}
 	}

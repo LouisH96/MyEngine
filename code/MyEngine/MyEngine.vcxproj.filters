@@ -9,6 +9,7 @@
     <ClCompile Include="App\App.cpp" />
     <ClCompile Include="App\FpsControl.cpp" />
     <ClCompile Include="Gpu\GpuCreator.cpp" />
+    <ClCompile Include="Gpu\DirectX\DxCanvas.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logging\Logger.h" />
@@ -23,5 +24,7 @@
     <ClInclude Include="Gpu\GpuCreator.h" />
     <ClInclude Include="App\IOsMessages.h" />
     <ClInclude Include="Gpu\IGpu.h" />
+    <ClInclude Include="Gpu\ICanvas.h" />
+    <ClInclude Include="Gpu\DirectX\DxCanvas.h" />
   </ItemGroup>
 </Project>

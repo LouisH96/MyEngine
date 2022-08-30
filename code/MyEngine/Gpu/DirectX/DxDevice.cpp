@@ -2,48 +2,50 @@
 
 #include <d3d11.h>
 #include <d3dcompiler.h>
+#include <DirectXMath.h>
 #include <exception>
-#include "DxHelper.h"
 
-MyEngine::Gpu::DirectX::DxDevice::DxDevice(HWND windowHandle)
+#include "DxCanvas.h"
+#include "DxHelper.h"
+#include "../../App/IWindow.h"
+#include "../../App/Win32/Win32Window.h"
+
+MyEngine::Gpu::Dx::DxDevice::DxDevice(HWND windowHandle)
 {
 	Init(windowHandle);
 }
 
-MyEngine::Gpu::DirectX::DxDevice::~DxDevice()
+MyEngine::Gpu::Dx::DxDevice::~DxDevice()
 {
 	Release();
 }
 
-void MyEngine::Gpu::DirectX::DxDevice::Release()
+void MyEngine::Gpu::Dx::DxDevice::Release()
 {
-		SAFE_RELEASE(m_pMainRenderTargetView)
 		SAFE_RELEASE(m_pVertexBuffer)
 		SAFE_RELEASE(m_pInputLayout)
 		SAFE_RELEASE(m_pVertexShader)
 		SAFE_RELEASE(m_pPixelShader)
-	SAFE_RELEASE(m_pSwapChain)
 		SAFE_RELEASE(m_pContext)
 		SAFE_RELEASE(m_pDevice)
 }
 
-void MyEngine::Gpu::DirectX::DxDevice::Temp() const
+MyEngine::Gpu::ICanvas* MyEngine::Gpu::Dx::DxDevice::MakeCanvas(App::IWindow& window)
+{
+	App::Win32::Win32Window* pWin32 = dynamic_cast<App::Win32::Win32Window*>(&window);
+	if (!pWin32)
+		throw std::exception("DxDevice::MakeCanvas - window should be Win32App");
+
+	return new DxCanvas(*m_pDevice, *m_pContext, *pWin32);
+}
+
+void MyEngine::Gpu::Dx::DxDevice::Temp() const
 {
 	TempRender();
 }
 
-void MyEngine::Gpu::DirectX::DxDevice::Init(HWND windowHandle)
+void MyEngine::Gpu::Dx::DxDevice::Init(HWND windowHandle)
 {
-	DXGI_SWAP_CHAIN_DESC1 d{};
-	d.BufferCount = 2;
-	d.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	d.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
-	d.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-	d.SampleDesc.Count = 1;
-	d.SampleDesc.Quality = 0;
-	d.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
-	d.Stereo = true;
-
 	UINT createDeviceFlags = 0;
 #if defined(_DEBUG)
 	// If the project is in a debug build, enable the debug layer.
@@ -56,26 +58,10 @@ void MyEngine::Gpu::DirectX::DxDevice::Init(HWND windowHandle)
 	if (D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, createDeviceFlags, featureLevelArray, 2, D3D11_SDK_VERSION, &m_pDevice, &featureLevel, &m_pContext) != S_OK)
 		throw std::exception("CreateDeviceD3D failed");
 
-	IDXGIDevice2* pDXGIDevice;
-	HRESULT hr = m_pDevice->QueryInterface(__uuidof(IDXGIDevice2), (void**)&pDXGIDevice);
-
-	IDXGIAdapter* pDXGIAdapter;
-	hr = pDXGIDevice->GetParent(__uuidof(IDXGIAdapter), (void**)&pDXGIAdapter);
-
-	IDXGIFactory2* pIDXGIFactory;
-	pDXGIAdapter->GetParent(__uuidof(IDXGIFactory2), (void**)&pIDXGIFactory);
-
-	if (pIDXGIFactory->CreateSwapChainForHwnd(m_pDevice, windowHandle, &d, nullptr, nullptr, &m_pSwapChain) != S_OK)
-		throw std::exception("CreateSwapChain1 Failed");
-
-	pIDXGIFactory->Release();
-	pDXGIAdapter->Release();
-	pDXGIDevice->Release();
-
 	TempInit(windowHandle);
 }
 
-void MyEngine::Gpu::DirectX::DxDevice::TempInit(HWND windowHandle)
+void MyEngine::Gpu::Dx::DxDevice::TempInit(HWND windowHandle)
 {
 	//----| Shaders |----
 	TCHAR buffer[MAX_PATH] = { 0 };
@@ -163,39 +149,13 @@ void MyEngine::Gpu::DirectX::DxDevice::TempInit(HWND windowHandle)
 	HRESULT hr = m_pDevice->CreateBuffer(&vertexBufferDesc, &srData, &m_pVertexBuffer);
 	if (FAILED(hr))
 		throw std::exception("DxDevice::CreateVertexBuffer");
-
-	//----| ViewPort |----
-	RECT winRect;
-	GetClientRect(windowHandle, &winRect);
-	D3D11_VIEWPORT viewport = {
-	  0.0f,
-	  0.0f,
-	  (FLOAT)(winRect.right - winRect.left),
-	  (FLOAT)(winRect.bottom - winRect.top),
-	  0.0f,
-	  1.0f };
-	m_pContext->RSSetViewports(1, &viewport);
-
-	//----| RenderTarget |----
-	ID3D11Texture2D* pBackBuffer;
-	m_pSwapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer));
-	if (pBackBuffer)
-		m_pDevice->CreateRenderTargetView(pBackBuffer, nullptr, &m_pMainRenderTargetView);
-	pBackBuffer->Release();
 }
 
-void MyEngine::Gpu::DirectX::DxDevice::TempRender() const
+void MyEngine::Gpu::Dx::DxDevice::TempRender() const
 {
-	/* clear the back buffer to cornflower blue for the new frame */
-	float background_colour[4] = {
-	  0x64 / 255.0f, 0x95 / 255.0f, 0xED / 255.0f, 1.0f };
-	m_pContext->ClearRenderTargetView(
-		m_pMainRenderTargetView, background_colour);
-
 	UINT vertex_stride = 3 * sizeof(float);
 	UINT vertex_offset = 0;
 	UINT vertex_count = 3;
-	m_pContext->OMSetRenderTargets(1, &m_pMainRenderTargetView, NULL);
 	m_pContext->IASetPrimitiveTopology(
 		D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	m_pContext->IASetInputLayout(m_pInputLayout);
@@ -209,6 +169,4 @@ void MyEngine::Gpu::DirectX::DxDevice::TempRender() const
 	m_pContext->PSSetShader(m_pPixelShader, NULL, 0);
 	m_pContext->Draw(vertex_count, 0);
 
-	DXGI_PRESENT_PARAMETERS param{ 0,nullptr,0,nullptr };
-	m_pSwapChain->Present1(0, 0, &param);
 }

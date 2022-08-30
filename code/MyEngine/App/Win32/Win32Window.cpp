@@ -73,7 +73,7 @@ DirectX::XMINT2 MyEngine::App::Win32::Win32Window::GetSize() const
 {
 	RECT rect{};
 	GetClientRect(m_WindowHandle, &rect);
-	return { rect.right - rect.left, rect.top - rect.bottom };
+	return { rect.right - rect.left, rect.bottom - rect.top};
 }
 
 LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam)

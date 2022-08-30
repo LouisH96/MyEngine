@@ -13,7 +13,7 @@ namespace MyEngine
 {
 	namespace Gpu
 	{
-		namespace DirectX
+		namespace Dx
 		{
 			class DxHelper
 			{
