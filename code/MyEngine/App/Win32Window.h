@@ -27,10 +27,10 @@ namespace MyEngine
 			void Init(const std::wstring& title) override;
 			void Release() override;
 
-			void DispatchEvents();
+			void DispatchEvents() override;
 
 			HWND GetWindowHandle()const { return m_WindowHandle; }
-			bool IsDestroyed()const { return m_IsDestroyed; }
+			bool IsDestroyed() const override { return m_IsDestroyed; }
 
 		private:
 			HWND m_WindowHandle{};

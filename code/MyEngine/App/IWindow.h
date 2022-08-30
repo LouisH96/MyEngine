@@ -17,6 +17,10 @@ namespace MyEngine
 
 			virtual void Init(const std::wstring& title) = 0;
 			virtual void Release() = 0;
+
+			virtual void DispatchEvents() = 0;
+
+			virtual bool IsDestroyed() const = 0;
 		};
 	}
 }

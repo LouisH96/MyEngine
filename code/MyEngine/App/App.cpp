@@ -3,17 +3,18 @@
 #include <iostream>
 #include "../../3rdParty/VLD/include/vld.h"
 
+#include "FpsControl.h"
 #include "Win32MsgHandler.h"
 #include "Win32Window.h"
 #include "../DirectX/DxDevice.h"
-#include "FpsControl.h"
 #include "../Logging/Logger.h"
+#include "../DirectX/GpuCreator.h"
 
 void MyEngine::App::App::Run()
 {
-	Win32Window window(L"Window");
+	IWindow& window = *new Win32Window(L"Window");
 	Win32MsgHandler msgQueue{};
-	DirectX::DxDevice ff{ window.GetWindowHandle() };
+	DirectX::DxDevice& gpu = *DirectX::GpuCreator::Create(window);
 
 	FpsControl fpsControl{ 80 };
 
@@ -22,9 +23,12 @@ void MyEngine::App::App::Run()
 		fpsControl.Wait();
 		msgQueue.HandleMessages();
 		window.DispatchEvents();
-		ff.Render();
+		gpu.Render();
 		//Logging::Logger::Print("Frame " + std::to_string(fpsControl.GetNrFramesLastSec()));
 	}
 
 	std::cout << "hi\n";
+
+	delete& window;
+	delete &gpu;
 }
