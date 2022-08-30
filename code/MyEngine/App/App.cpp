@@ -11,7 +11,7 @@
 
 void MyEngine::App::App::Run()
 {
-	const Win32Window window(L"Window");
+	Win32Window window(L"Window");
 	Win32MsgHandler msgQueue{};
 	DirectX::DxDevice ff{ window.GetWindowHandle() };
 
@@ -19,10 +19,11 @@ void MyEngine::App::App::Run()
 
 	while (!window.IsDestroyed())
 	{
-		msgQueue.HandleMessages();
 		fpsControl.Wait();
+		msgQueue.HandleMessages();
+		window.DispatchEvents();
 		ff.Render();
-		Logging::Logger::Print("Frame " + std::to_string(fpsControl.GetNrFramesLastSec()));
+		//Logging::Logger::Print("Frame " + std::to_string(fpsControl.GetNrFramesLastSec()));
 	}
 
 	std::cout << "hi\n";

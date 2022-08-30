@@ -55,32 +55,38 @@ void MyEngine::App::Win32Window::Release()
 	//simply PostMessage with wm_quit would work probably, but normally this shouldn't be closed like this
 }
 
+#include "../Logging/Logger.h"
+void MyEngine::App::Win32Window::DispatchEvents()
+{
+	//resize
+	if(m_Width != 0)
+	{
+		Logging::Logger::Print("width:" + std::to_string(m_Width));
+		Logging::Logger::Print("height:" + std::to_string(m_Height));
+		m_Width = 0;
+		m_Height = 0;
+	}
+}
+
 LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	using namespace MyEngine::App;
+	Win32Window& window = *reinterpret_cast<Win32Window*>(GetWindowLongPtr(windowHandle, GWLP_USERDATA));
 
 	switch (uMsg)
 	{
 	case WM_DESTROY:
-		{
-		Win32Window& window = *reinterpret_cast<Win32Window*>(GetWindowLongPtr(windowHandle, GWLP_USERDATA));
+	{
 		window.m_IsDestroyed = true;
 		PostQuitMessage(0);
 		return 0;
-		}
-	case WM_PAINT:
-	{
-		PAINTSTRUCT ps;
-		// ReSharper disable once CppLocalVariableMayBeConst
-		HDC hdc = BeginPaint(windowHandle, &ps);
-
-		// All painting occurs here, between BeginPaint and EndPaint.
-		FillRect(hdc, &ps.rcPaint, reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1));  // NOLINT(performance-no-int-to-ptr)
-
-		EndPaint(windowHandle, &ps);
 	}
-	return 0;
-
+	case WM_SIZE:
+	{
+		window.m_Width = LOWORD(lParam);
+		window.m_Height = HIWORD(lParam);
+		return 0;
+	}
 	default:
 		return DefWindowProc(windowHandle, uMsg, wParam, lParam);
 	}

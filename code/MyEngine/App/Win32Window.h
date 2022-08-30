@@ -27,13 +27,17 @@ namespace MyEngine
 			void Init(const std::wstring& title) override;
 			void Release() override;
 
+			void DispatchEvents();
+
 			HWND GetWindowHandle()const { return m_WindowHandle; }
 			bool IsDestroyed()const { return m_IsDestroyed; }
 
 		private:
-			bool m_IsDestroyed{false};
 			HWND m_WindowHandle{};
 
+			bool m_IsDestroyed{false};
+			unsigned m_Width{};
+			unsigned m_Height{};
 
 			friend LRESULT CALLBACK ::win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam);
 		};
