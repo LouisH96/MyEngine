@@ -11,7 +11,7 @@ namespace MyEngine
 	{
 		namespace Dx
 		{
-			class DxDevice;
+			class DxGpu;
 
 			class DxShader final
 				: public IShader
@@ -22,7 +22,7 @@ namespace MyEngine
 				DxShader& operator=(const DxShader& other) = delete;
 				DxShader& operator=(DxShader&& other) noexcept = delete;
 
-				explicit DxShader(DxDevice& device);
+				explicit DxShader(DxGpu& gpu);
 				~DxShader() override;
 
 				void Activate() const;
@@ -34,7 +34,7 @@ namespace MyEngine
 				};
 
 			private:
-				DxDevice& m_Gpu;
+				DxGpu& m_Gpu;
 
 				ID3D11VertexShader* m_pVertexShader{};
 				ID3D11PixelShader* m_pPixelShader{};

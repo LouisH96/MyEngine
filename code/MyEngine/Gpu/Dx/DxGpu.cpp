@@ -1,4 +1,4 @@
-#include "DxDevice.h"
+#include "DxGpu.h"
 
 #include <d3d11.h>
 #include <d3dcompiler.h>
@@ -14,44 +14,44 @@
 #include "../../App/Resources.h"
 #include "../../App/Win32/Win32Window.h"
 
-MyEngine::Gpu::Dx::DxDevice::DxDevice(App::Win32::Win32Window& window)
+MyEngine::Gpu::Dx::DxGpu::DxGpu(App::Win32::Win32Window& window)
 	: m_Window{window}
 {
 	Init();
 }
 
-MyEngine::Gpu::Dx::DxDevice::~DxDevice()
+MyEngine::Gpu::Dx::DxGpu::~DxGpu()
 {
 	Release();
 }
 
-void MyEngine::Gpu::Dx::DxDevice::Release()
+void MyEngine::Gpu::Dx::DxGpu::Release()
 {
 		SAFE_RELEASE(m_pContext)
 		SAFE_RELEASE(m_pDevice)
 }
 
-MyEngine::Gpu::ICanvas* MyEngine::Gpu::Dx::DxDevice::MakeCanvas()
+MyEngine::Gpu::ICanvas* MyEngine::Gpu::Dx::DxGpu::MakeCanvas()
 {
 	return new DxCanvas(*this, m_Window);
 }
 
-MyEngine::Gpu::IMesh* MyEngine::Gpu::Dx::DxDevice::MakeMesh()
+MyEngine::Gpu::IMesh* MyEngine::Gpu::Dx::DxGpu::MakeMesh()
 {
 	return new DxMesh(*this);
 }
 
-MyEngine::Gpu::IShader* MyEngine::Gpu::Dx::DxDevice::MakeShader()
+MyEngine::Gpu::IShader* MyEngine::Gpu::Dx::DxGpu::MakeShader()
 {
 	return new DxShader(*this);
 }
 
-MyEngine::Gpu::IPainter* MyEngine::Gpu::Dx::DxDevice::MakePainter()
+MyEngine::Gpu::IPainter* MyEngine::Gpu::Dx::DxGpu::MakePainter()
 {
 	return new DxPainter();
 }
 
-void MyEngine::Gpu::Dx::DxDevice::Init()
+void MyEngine::Gpu::Dx::DxGpu::Init()
 {
 	UINT createDeviceFlags = 0;
 #if defined(_DEBUG)

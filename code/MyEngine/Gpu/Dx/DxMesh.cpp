@@ -3,7 +3,7 @@
 #include "DxHelper.h"
 #include "DxShader.h"
 
-MyEngine::Gpu::Dx::DxMesh::DxMesh(DxDevice& gpu)
+MyEngine::Gpu::Dx::DxMesh::DxMesh(DxGpu& gpu)
 	: m_Gpu(gpu)
 	, m_VertexCount(3)
 	, m_VertexStride(sizeof(DxShader::Vertex))

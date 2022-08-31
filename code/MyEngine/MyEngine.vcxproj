@@ -19,7 +19,7 @@
     <ClCompile Include="Gpu\Dx\DxShader.cpp" />
     <ClCompile Include="Gpu\Dx\DxCanvas.cpp" />
     <ClCompile Include="Gpu\Dx\DxHelper.cpp" />
-    <ClCompile Include="Gpu\Dx\DxDevice.cpp" />
+    <ClCompile Include="Gpu\Dx\DxGpu.cpp" />
     <ClCompile Include="Gpu\GpuCreator.cpp" />
     <ClCompile Include="Logging\Logger.cpp" />
     <ClCompile Include="App\Win32\Win32Window.cpp" />
@@ -38,7 +38,7 @@
     <ClInclude Include="App\Win32\Win32Messages.h" />
     <ClInclude Include="App\FpsControl.h" />
     <ClInclude Include="Gpu\Dx\DxHelper.h" />
-    <ClInclude Include="Gpu\Dx\DxDevice.h" />
+    <ClInclude Include="Gpu\Dx\DxGpu.h" />
     <ClInclude Include="Gpu\GpuCreator.h" />
     <ClInclude Include="Gpu\IGpu.h" />
     <ClInclude Include="Gpu\IMesh.h" />

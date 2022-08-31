@@ -3,7 +3,7 @@
 #include "DxHelper.h"
 #include "../../App/Win32/Win32Window.h"
 
-MyEngine::Gpu::Dx::DxCanvas::DxCanvas(DxDevice& gpu, App::Win32::Win32Window& window)
+MyEngine::Gpu::Dx::DxCanvas::DxCanvas(DxGpu& gpu, App::Win32::Win32Window& window)
 	: m_Gpu{ gpu }
 {
 	InitSwapChain(window);

@@ -22,17 +22,17 @@ namespace MyEngine
 	{
 		namespace Dx
 		{
-			class DxDevice final
+			class DxGpu final
 				: public IGpu
 			{
 			public:
-				DxDevice(const DxDevice& other) = delete;
-				DxDevice(DxDevice&& other) noexcept = delete;
-				DxDevice& operator=(const DxDevice& other) = delete;
-				DxDevice& operator=(DxDevice&& other) noexcept = delete;
+				DxGpu(const DxGpu& other) = delete;
+				DxGpu(DxGpu&& other) noexcept = delete;
+				DxGpu& operator=(const DxGpu& other) = delete;
+				DxGpu& operator=(DxGpu&& other) noexcept = delete;
 
-				explicit DxDevice(App::Win32::Win32Window& window);
-				~DxDevice() override;
+				explicit DxGpu(App::Win32::Win32Window& window);
+				~DxGpu() override;
 				
 				void Release() override;
 

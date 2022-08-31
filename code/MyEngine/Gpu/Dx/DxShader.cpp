@@ -2,12 +2,12 @@
 
 #include <d3dcompiler.h>
 
-#include "DxDevice.h"
+#include "DxGpu.h"
 #include "DxHelper.h"
 #include "../../App/Resources.h"
 
-MyEngine::Gpu::Dx::DxShader::DxShader(DxDevice& device)
-	: m_Gpu(device)
+MyEngine::Gpu::Dx::DxShader::DxShader(DxGpu& gpu)
+	: m_Gpu(gpu)
 {
 	InitShaders();
 	InitInputLayout();

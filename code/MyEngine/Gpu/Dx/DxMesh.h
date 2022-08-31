@@ -1,6 +1,6 @@
 #pragma once
 
-#include "DxDevice.h"
+#include "DxGpu.h"
 #include "../IMesh.h"
 
 namespace MyEngine
@@ -18,14 +18,14 @@ namespace MyEngine
 				DxMesh& operator=(const DxMesh& other) = delete;
 				DxMesh& operator=(DxMesh&& other) noexcept = delete;
 
-				explicit DxMesh(DxDevice& gpu);
+				explicit DxMesh(DxGpu& gpu);
 				~DxMesh() override;
 
 				void Activate() const;
 				void Draw() const;
 
 			private:
-				DxDevice& m_Gpu;
+				DxGpu& m_Gpu;
 
 				ID3D11Buffer* m_pVertexBuffer{};
 				unsigned int m_VertexCount{};

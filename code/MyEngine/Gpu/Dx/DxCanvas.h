@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../ICanvas.h"
-#include "DxDevice.h"
+#include "DxGpu.h"
 #include <DirectXMath.h>
 
 namespace MyEngine
@@ -30,7 +30,7 @@ namespace MyEngine
 				DxCanvas& operator=(const DxCanvas& other) = delete;
 				DxCanvas& operator=(DxCanvas&& other) noexcept = delete;
 
-				DxCanvas(DxDevice& gpu, App::Win32::Win32Window& window);
+				DxCanvas(DxGpu& gpu, App::Win32::Win32Window& window);
 				~DxCanvas() override;
 
 				void Clear() const override;
@@ -40,7 +40,7 @@ namespace MyEngine
 				void OnWindowResized(DirectX::XMINT2 newSize) override;
 
 			private:
-				DxDevice& m_Gpu;
+				DxGpu& m_Gpu;
 				IDXGISwapChain1* m_pSwapChain{};
 				ID3D11RenderTargetView* m_pMainRenderTargetView{};
 				D3D11_VIEWPORT m_ViewPort{};
