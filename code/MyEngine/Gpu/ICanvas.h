@@ -1,11 +1,13 @@
 #pragma once
 #include <DirectXMath.h>
+#include "../App/IWindowResizeListener.h"
 
 namespace MyEngine
 {
 	namespace Gpu
 	{
 		class ICanvas
+			: public App::IWindowResizeListener
 		{
 		public:
 			ICanvas(const ICanvas& other) = delete;
@@ -14,12 +16,12 @@ namespace MyEngine
 			ICanvas& operator=(ICanvas&& other) noexcept = delete;
 
 			ICanvas() = default;
-			virtual ~ICanvas() = default;
+			~ICanvas() override = default;
 
 			virtual void BeginPaint() const = 0;
 			virtual void Render() const = 0;
 
-			virtual void Resize(DirectX::XMINT2 newSize) = 0;
+			void OnWindowResized(DirectX::XMINT2 newSize) override = 0;
 		};
 	}
 }

@@ -10,6 +10,8 @@ MyEngine::Gpu::Dx::DxCanvas::DxCanvas(ID3D11Device& device, ID3D11DeviceContext&
 	InitSwapChain(window);
 	InitRenderTarget();
 	SetViewPort(window);
+
+	window.Listen(*this);
 }
 
 MyEngine::Gpu::Dx::DxCanvas::~DxCanvas()
@@ -31,13 +33,15 @@ void MyEngine::Gpu::Dx::DxCanvas::BeginPaint() const
 
 void MyEngine::Gpu::Dx::DxCanvas::Render() const
 {
-
 	DXGI_PRESENT_PARAMETERS param{ 0,nullptr,0,nullptr };
 	m_pSwapChain->Present1(0, 0, &param);
 }
 
-void MyEngine::Gpu::Dx::DxCanvas::Resize(DirectX::XMINT2 newSize)
+#include "../../Logging/Logger.h"
+void MyEngine::Gpu::Dx::DxCanvas::OnWindowResized(DirectX::XMINT2 newSize)
 {
+	Logging::Logger::Print("canvas-width:" + std::to_string(newSize.x));
+	Logging::Logger::Print("canvas-height:" + std::to_string(newSize.y));
 }
 
 void MyEngine::Gpu::Dx::DxCanvas::InitSwapChain(const App::Win32::Win32Window& window)

@@ -23,6 +23,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\App.h" />
+    <ClInclude Include="App\IWindowResizeListener.h" />
     <ClInclude Include="Gpu\DirectX\DxCanvas.h" />
     <ClInclude Include="Gpu\ICanvas.h" />
     <ClInclude Include="App\IWindow.h" />

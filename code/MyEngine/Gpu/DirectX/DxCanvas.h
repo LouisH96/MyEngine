@@ -35,7 +35,7 @@ namespace MyEngine
 
 				void BeginPaint() const override;
 				void Render() const override;
-				void Resize(DirectX::XMINT2 newSize) override;
+				void OnWindowResized(DirectX::XMINT2 newSize) override;
 
 			private:
 				ID3D11Device& m_Device;

@@ -6,6 +6,8 @@ namespace MyEngine
 {
 	namespace App
 	{
+		class IWindowResizeListener;
+
 		class IWindow
 		{
 		public:
@@ -21,6 +23,8 @@ namespace MyEngine
 			virtual void Release() = 0;
 
 			virtual void DispatchEvents() = 0;
+
+			virtual void Listen(IWindowResizeListener& listener) = 0;
 
 			virtual bool IsDestroyed() const = 0;
 			virtual DirectX::XMINT2 GetSize() const = 0;

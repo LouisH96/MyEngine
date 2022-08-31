@@ -1,5 +1,6 @@
 // ReSharper disable CppClangTidyPerformanceNoIntToPtr
 #include "Win32Window.h"
+#include "../IWindowResizeListener.h"
 
 MyEngine::App::Win32::Win32Window::Win32Window(const std::wstring& title)
 {
@@ -56,14 +57,17 @@ void MyEngine::App::Win32::Win32Window::Release()
 	//simply PostMessage with wm_quit would work probably, but normally this shouldn't be closed like this
 }
 
-#include "../../Logging/Logger.h"
+void MyEngine::App::Win32::Win32Window::Listen(IWindowResizeListener& listener)
+{
+	m_ResizeListeners.push_back(&listener);
+}
+
 void MyEngine::App::Win32::Win32Window::DispatchEvents()
 {
-	//resize
 	if (m_NewSize.x != 0)
 	{
-		Logging::Logger::Print("width:" + std::to_string(m_NewSize.x));
-		Logging::Logger::Print("height:" + std::to_string(m_NewSize.y));
+		for (auto* pListener : m_ResizeListeners)
+			pListener->OnWindowResized(m_NewSize);
 		m_NewSize.x = 0;
 		m_NewSize.y = 0;
 	}

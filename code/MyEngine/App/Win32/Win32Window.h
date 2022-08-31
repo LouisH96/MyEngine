@@ -5,6 +5,7 @@
 
 #include <Windows.h>
 #include <string>
+#include <vector>
 
 LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
@@ -29,7 +30,9 @@ namespace MyEngine
 				void Init(const std::wstring& title) override;
 				void Release() override;
 
+				void Listen(IWindowResizeListener& listener) override;
 				void DispatchEvents() override;
+
 
 				HWND GetWindowHandle()const { return m_WindowHandle; }
 				bool IsDestroyed() const override { return m_IsDestroyed; }
@@ -40,6 +43,8 @@ namespace MyEngine
 
 				bool m_IsDestroyed{ false };
 				DirectX::XMINT2 m_NewSize{};
+
+				std::vector<IWindowResizeListener*> m_ResizeListeners{};
 
 				friend LRESULT CALLBACK::win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam);
 			};

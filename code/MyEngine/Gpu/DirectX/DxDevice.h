@@ -45,7 +45,7 @@ namespace MyEngine
 				void Init(HWND windowHandle);
 
 				//temp
-				void TempInit(HWND windowHandle);
+				void TempInit();
 				void TempRender() const;
 
 			private:

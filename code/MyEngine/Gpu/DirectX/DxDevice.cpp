@@ -58,10 +58,10 @@ void MyEngine::Gpu::Dx::DxDevice::Init(HWND windowHandle)
 	if (D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, createDeviceFlags, featureLevelArray, 2, D3D11_SDK_VERSION, &m_pDevice, &featureLevel, &m_pContext) != S_OK)
 		throw std::exception("CreateDeviceD3D failed");
 
-	TempInit(windowHandle);
+	TempInit();
 }
 
-void MyEngine::Gpu::Dx::DxDevice::TempInit(HWND windowHandle)
+void MyEngine::Gpu::Dx::DxDevice::TempInit()
 {
 	//----| Shaders |----
 	TCHAR buffer[MAX_PATH] = { 0 };

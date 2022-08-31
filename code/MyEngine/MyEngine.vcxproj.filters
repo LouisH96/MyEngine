@@ -26,5 +26,6 @@
     <ClInclude Include="Gpu\IGpu.h" />
     <ClInclude Include="Gpu\ICanvas.h" />
     <ClInclude Include="Gpu\DirectX\DxCanvas.h" />
+    <ClInclude Include="App\IWindowResizeListener.h" />
   </ItemGroup>
 </Project>
