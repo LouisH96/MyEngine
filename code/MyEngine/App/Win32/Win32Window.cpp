@@ -28,6 +28,7 @@ void MyEngine::App::Win32::Win32Window::Init(const std::wstring& title)
 	windowClass.lpfnWndProc = win32_window_proc;
 	windowClass.lpszClassName = className.c_str();
 	windowClass.hInstance = hInstance;
+	windowClass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	RegisterClass(&windowClass);
 
 	//Create window
