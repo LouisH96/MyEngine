@@ -48,15 +48,6 @@ MyEngine::Gpu::IShader* MyEngine::Gpu::Dx::DxDevice::MakeShader()
 	return new DxShader(*this);
 }
 
-void MyEngine::Gpu::Dx::DxDevice::Paint(const ICanvas& canvas, const IShader& shader, const IMesh& mesh)
-{
-	canvas.Activate();
-	canvas.BeginPaint();
-	shader.Activate();
-	mesh.Draw();
-	canvas.ShowPaint();
-}
-
 void MyEngine::Gpu::Dx::DxDevice::Init(HWND windowHandle)
 {
 	UINT createDeviceFlags = 0;

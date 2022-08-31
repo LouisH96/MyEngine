@@ -14,8 +14,6 @@ namespace MyEngine
 
 			IShader() = default;
 			virtual ~IShader() = default;
-
-			virtual void Activate() const = 0;
 		};
 	}
 }

@@ -24,7 +24,7 @@ MyEngine::Gpu::Dx::DxCanvas::~DxCanvas()
 		SAFE_RELEASE(m_pSwapChain)
 }
 
-void MyEngine::Gpu::Dx::DxCanvas::BeginPaint() const
+void MyEngine::Gpu::Dx::DxCanvas::Clear() const
 {
 	/* clear the back buffer to cornflower blue for the new frame */
 	constexpr float background_colour[4] = {
@@ -33,7 +33,7 @@ void MyEngine::Gpu::Dx::DxCanvas::BeginPaint() const
 		m_pMainRenderTargetView, background_colour);
 }
 
-void MyEngine::Gpu::Dx::DxCanvas::ShowPaint() const
+void MyEngine::Gpu::Dx::DxCanvas::Present() const
 {
 	DXGI_PRESENT_PARAMETERS param{ 0,nullptr,0,nullptr };
 	m_pSwapChain->Present1(0, DXGI_PRESENT_DO_NOT_WAIT, &param);

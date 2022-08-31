@@ -30,16 +30,20 @@ MyEngine::Gpu::Dx::DxMesh::DxMesh(DxDevice& gpu)
 
 void MyEngine::Gpu::Dx::DxMesh::Draw() const
 {
-	m_Gpu.GetContext().IASetVertexBuffers(
-		0,
-		1,
-		&m_pVertexBuffer,
-		&m_VertexStride,
-		&m_VertexOffset);
 	m_Gpu.GetContext().Draw(m_VertexCount, 0);
 }
 
 MyEngine::Gpu::Dx::DxMesh::~DxMesh()
 {
 	SAFE_RELEASE(m_pVertexBuffer);
+}
+
+void MyEngine::Gpu::Dx::DxMesh::Activate() const
+{
+	m_Gpu.GetContext().IASetVertexBuffers(
+		0,
+		1,
+		&m_pVertexBuffer,
+		&m_VertexStride,
+		&m_VertexOffset);
 }

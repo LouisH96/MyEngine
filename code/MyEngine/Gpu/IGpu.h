@@ -32,9 +32,6 @@ namespace MyEngine
 			virtual ICanvas* MakeCanvas(App::IWindow& window) = 0;
 			virtual IShader* MakeShader() = 0;
 			virtual IMesh* MakeMesh() = 0;
-
-			virtual void Paint(const ICanvas& canvas, const IShader& shader, const IMesh& mesh) = 0;
-
 		};
 	}
 }

@@ -1,7 +1,6 @@
 #include "App.h"
 
 #include <iostream>
-#include "../../3rdParty/VLD/include/vld.h"
 
 #include "FpsControl.h"
 #include "Resources.h"
@@ -10,6 +9,7 @@
 #include "../Gpu/IGpu.h"
 #include "../Gpu/IMesh.h"
 #include "../Gpu/IShader.h"
+#include "../Gpu/Dx/DxPainter.h"
 #include "../Logging/Logger.h"
 #include "Win32/Win32Messages.h"
 #include "Win32/Win32Window.h"
@@ -27,6 +27,11 @@ void MyEngine::App::App::Run()
 	Gpu::IShader& shader = *gpu.MakeShader();
 	Gpu::IMesh& mesh = *gpu.MakeMesh();
 
+	Gpu::IPainter& painter = *new Gpu::Dx::DxPainter();
+	painter.SetCanvas(canvas);
+	painter.SetShader(shader);
+	painter.SetMesh(mesh);
+
 	FpsControl fpsControl{ 200 };
 
 	while (!window.IsDestroyed())
@@ -34,14 +39,17 @@ void MyEngine::App::App::Run()
 		fpsControl.Wait();
 		osMessages.HandleMessages();
 		window.DispatchEvents();
-
-		gpu.Paint(canvas, shader, mesh);
+		
+		painter.BeginPaint();
+		painter.Paint();
+		painter.EndPaint();
 
 		//Logging::Logger::Print("Frame " + std::to_string(fpsControl.GetNrFramesLastSec()));
 	}
 
 	std::cout << "hi\n";
 
+	delete& painter;
 	delete& mesh;
 	delete& shader;
 	delete& canvas;

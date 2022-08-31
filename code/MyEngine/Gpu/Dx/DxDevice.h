@@ -40,8 +40,6 @@ namespace MyEngine
 				IMesh* MakeMesh() override;
 				IShader* MakeShader() override;
 
-				void Paint(const ICanvas& canvas, const IShader& shader, const IMesh& mesh) override;
-
 				ID3D11Device& GetDevice() const { return *m_pDevice; }
 				ID3D11DeviceContext& GetContext() const { return *m_pContext; }
 

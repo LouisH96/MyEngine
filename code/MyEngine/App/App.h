@@ -1,4 +1,5 @@
 #pragma once
+#include "../../3rdParty/VLD/include/vld.h"
 
 namespace MyEngine
 {

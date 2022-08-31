@@ -14,8 +14,6 @@ namespace MyEngine
 
 			IMesh() = default;
 			virtual ~IMesh() = default;
-
-			virtual void Draw() const = 0;
 		};
 	}
 }

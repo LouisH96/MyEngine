@@ -13,6 +13,7 @@
     <ClCompile Include="App\Resources.cpp" />
     <ClCompile Include="Gpu\Dx\DxShader.cpp" />
     <ClCompile Include="Gpu\Dx\DxMesh.cpp" />
+    <ClCompile Include="Gpu\Dx\DxPainter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logging\Logger.h" />
@@ -35,5 +36,7 @@
     <ClInclude Include="Gpu\IMesh.h" />
     <ClInclude Include="Gpu\Dx\DxShader.h" />
     <ClInclude Include="Gpu\Dx\DxMesh.h" />
+    <ClInclude Include="Gpu\IPainter.h" />
+    <ClInclude Include="Gpu\Dx\DxPainter.h" />
   </ItemGroup>
 </Project>

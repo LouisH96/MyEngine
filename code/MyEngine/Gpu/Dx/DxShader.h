@@ -25,7 +25,7 @@ namespace MyEngine
 				explicit DxShader(DxDevice& device);
 				~DxShader() override;
 
-				void Activate() const override;
+				void Activate() const;
 
 				struct Vertex
 				{

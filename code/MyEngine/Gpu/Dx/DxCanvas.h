@@ -33,9 +33,9 @@ namespace MyEngine
 				DxCanvas(DxDevice& gpu, App::Win32::Win32Window& window);
 				~DxCanvas() override;
 
-				void BeginPaint() const override;
-				void ShowPaint() const override;
-				void Activate() const override;
+				void Clear() const override;
+				void Present() const override;
+				void Activate() const;
 
 				void OnWindowResized(DirectX::XMINT2 newSize) override;
 

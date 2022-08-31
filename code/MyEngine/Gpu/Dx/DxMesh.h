@@ -18,10 +18,11 @@ namespace MyEngine
 				DxMesh& operator=(const DxMesh& other) = delete;
 				DxMesh& operator=(DxMesh&& other) noexcept = delete;
 
-				DxMesh(DxDevice& gpu);
+				explicit DxMesh(DxDevice& gpu);
 				~DxMesh() override;
 
-				void Draw() const override;
+				void Activate() const;
+				void Draw() const;
 
 			private:
 				DxDevice& m_Gpu;

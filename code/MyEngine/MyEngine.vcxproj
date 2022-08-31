@@ -14,6 +14,7 @@
     <ClCompile Include="App\App.cpp" />
     <ClCompile Include="App\Win32\Win32Messages.cpp" />
     <ClCompile Include="App\FpsControl.cpp" />
+    <ClCompile Include="Gpu\Dx\DxPainter.cpp" />
     <ClCompile Include="Gpu\Dx\DxMesh.cpp" />
     <ClCompile Include="Gpu\Dx\DxShader.cpp" />
     <ClCompile Include="Gpu\Dx\DxCanvas.cpp" />
@@ -27,6 +28,7 @@
   <ItemGroup>
     <ClInclude Include="App\App.h" />
     <ClInclude Include="App\IWindowResizeListener.h" />
+    <ClInclude Include="Gpu\Dx\DxPainter.h" />
     <ClInclude Include="Gpu\Dx\DxMesh.h" />
     <ClInclude Include="Gpu\Dx\DxShader.h" />
     <ClInclude Include="Gpu\Dx\DxCanvas.h" />
@@ -40,6 +42,7 @@
     <ClInclude Include="Gpu\GpuCreator.h" />
     <ClInclude Include="Gpu\IGpu.h" />
     <ClInclude Include="Gpu\IMesh.h" />
+    <ClInclude Include="Gpu\IPainter.h" />
     <ClInclude Include="Gpu\IShader.h" />
     <ClInclude Include="Logging\Logger.h" />
     <ClInclude Include="App\Win32\Win32Window.h" />
