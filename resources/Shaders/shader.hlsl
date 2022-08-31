@@ -2,12 +2,14 @@
 //--| STRUCTS |---
 struct Vertex
 {
-	float3 pos : POS;
+	float3 pos : POSITION;
+	float3 col : COLOR;
 };
 
 struct Pixel
 {
 	float4 pos : SV_POSITION;
+	float3 col : COLOR;
 };
 
 //--| VERTEX SHADER |--
@@ -15,6 +17,7 @@ Pixel vs_main(Vertex vertex)
 {
 	Pixel pixel = (Pixel)0;
 	pixel.pos = float4(vertex.pos, 1);
+	pixel.col = vertex.col;
 	return pixel;
 }
 
@@ -22,5 +25,5 @@ Pixel vs_main(Vertex vertex)
 //--| PIXEL SHADER |--
 float4 ps_main(Pixel pixel) : SV_TARGET
 {
-	return float4(1,0,0,1);
+	return float4(pixel.col,1);
 }

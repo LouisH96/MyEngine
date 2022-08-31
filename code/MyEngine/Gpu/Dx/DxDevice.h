@@ -1,6 +1,7 @@
 #pragma once
-#include "d3d11.h"
+#include <DirectXMath.h>
 #include <dxgi1_2.h>
+#include "d3d11.h"
 
 #include "../IGpu.h"
 
@@ -39,6 +40,12 @@ namespace MyEngine
 				void Temp() const override;
 
 			private:
+				struct Vertex
+				{
+					DirectX::XMFLOAT3 pos{};
+					DirectX::XMFLOAT3 col{};
+				};
+
 				ID3D11Device* m_pDevice{};
 				ID3D11DeviceContext* m_pContext{};
 

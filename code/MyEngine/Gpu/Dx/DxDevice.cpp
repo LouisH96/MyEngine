@@ -85,7 +85,8 @@ void MyEngine::Gpu::Dx::DxDevice::TempInit()
 	{
 		R"V0G0N(
 		struct Vertex{
-			float3 pos : POS;
+			float3 pos : POSITION;
+			float3 col : COLOR;
 		};
 
 		struct Pixel { float4 pos : VS_POSITION; };
@@ -118,7 +119,8 @@ void MyEngine::Gpu::Dx::DxDevice::TempInit()
 	//--- InputLayout ---
 	constexpr D3D11_INPUT_ELEMENT_DESC inputElementDesc[]
 	{
-		{"POS", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{"COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
 	};
 
 	result = m_pDevice->CreateInputLayout(
@@ -134,18 +136,18 @@ void MyEngine::Gpu::Dx::DxDevice::TempInit()
 		throw std::exception("DxDevice::CreateInputLayout");
 
 	//----| VertexBuffer |----
-	float vertex_data_array[] = {
-	   0.0f,  0.5f,  0.0f, // point at top
-	   0.5f, -0.5f,  0.0f, // point at bottom-right
-	  -0.5f, -0.5f,  0.0f, // point at bottom-left
+	const Vertex vertexBuffer[] = {
+	   {{0.0f,  0.5f,  0.0f}, {1,0,0}}, // point at top
+	   {{0.5f, -0.5f,  0.0f}, {0,1,0}}, // point at bottom-right
+	  {{-0.5f, -0.5f,  0.0f}, {0,0,1}}, // point at bottom-left
 	};
 	const D3D11_BUFFER_DESC vertexBufferDesc
 	{
-		sizeof(float) * 3 * 3,
+		sizeof(Vertex) * 3,
 		D3D11_USAGE_DEFAULT, D3D11_BIND_VERTEX_BUFFER,
-		0, 0, sizeof(float) * 3
+		0, 0, sizeof(Vertex)
 	};
-	const D3D11_SUBRESOURCE_DATA srData{ &vertex_data_array,0,0 };
+	const D3D11_SUBRESOURCE_DATA srData{ &vertexBuffer,0,0 };
 	HRESULT hr = m_pDevice->CreateBuffer(&vertexBufferDesc, &srData, &m_pVertexBuffer);
 	if (FAILED(hr))
 		throw std::exception("DxDevice::CreateVertexBuffer");
@@ -153,7 +155,7 @@ void MyEngine::Gpu::Dx::DxDevice::TempInit()
 
 void MyEngine::Gpu::Dx::DxDevice::TempRender() const
 {
-	UINT vertex_stride = 3 * sizeof(float);
+	UINT vertex_stride = sizeof(Vertex);
 	UINT vertex_offset = 0;
 	UINT vertex_count = 3;
 	m_pContext->IASetPrimitiveTopology(
