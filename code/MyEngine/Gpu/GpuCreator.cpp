@@ -1,6 +1,6 @@
 #include "GpuCreator.h"
 
-#include "DirectX/DxDevice.h"
+#include "Dx/DxDevice.h"
 #include "../App/Win32/Win32Window.h"
 
 MyEngine::Gpu::IGpu* MyEngine::Gpu::GpuCreator::Create(MyEngine::App::IWindow& window)
