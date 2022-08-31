@@ -9,7 +9,7 @@ MyEngine::Gpu::Dx::DxCanvas::DxCanvas(ID3D11Device& device, ID3D11DeviceContext&
 {
 	InitSwapChain(window);
 	InitRenderTarget();
-	SetViewPort(window);
+	SetViewPort(window.GetSize());
 
 	window.Listen(*this);
 }
@@ -37,11 +37,12 @@ void MyEngine::Gpu::Dx::DxCanvas::Render() const
 	m_pSwapChain->Present1(0, 0, &param);
 }
 
-#include "../../Logging/Logger.h"
 void MyEngine::Gpu::Dx::DxCanvas::OnWindowResized(DirectX::XMINT2 newSize)
 {
-	Logging::Logger::Print("canvas-width:" + std::to_string(newSize.x));
-	Logging::Logger::Print("canvas-height:" + std::to_string(newSize.y));
+	SAFE_RELEASE(m_pMainRenderTargetView);
+	m_pSwapChain->ResizeBuffers(0, newSize.x, newSize.y, DXGI_FORMAT_UNKNOWN, 0);
+	InitRenderTarget();
+	SetViewPort(newSize);
 }
 
 void MyEngine::Gpu::Dx::DxCanvas::InitSwapChain(const App::Win32::Win32Window& window)
@@ -82,9 +83,8 @@ void MyEngine::Gpu::Dx::DxCanvas::InitRenderTarget()
 	pBackBuffer->Release();
 }
 
-void MyEngine::Gpu::Dx::DxCanvas::SetViewPort(const App::Win32::Win32Window& window)
+void MyEngine::Gpu::Dx::DxCanvas::SetViewPort(DirectX::XMINT2 windowSize)
 {
-	const DirectX::XMINT2 windowSize = window.GetSize();
 	m_ViewPort = {
 	  0.0f, 0.0f,
 	 static_cast<float>(windowSize.x),

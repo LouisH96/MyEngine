@@ -46,7 +46,7 @@ namespace MyEngine
 
 				void InitSwapChain(const App::Win32::Win32Window& window);
 				void InitRenderTarget();
-				void SetViewPort(const App::Win32::Win32Window& window);
+				void SetViewPort(DirectX::XMINT2 windowSize);
 
 				void GetFactory2(IDXGIDevice2*& pDevice2, IDXGIAdapter*& pAdapter, IDXGIFactory2*& pFactory) const;//clean after use
 			};
