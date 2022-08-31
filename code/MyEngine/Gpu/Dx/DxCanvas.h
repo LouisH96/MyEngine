@@ -30,16 +30,17 @@ namespace MyEngine
 				DxCanvas& operator=(const DxCanvas& other) = delete;
 				DxCanvas& operator=(DxCanvas&& other) noexcept = delete;
 
-				DxCanvas(ID3D11Device& device, ID3D11DeviceContext& context, App::Win32::Win32Window& window);
+				DxCanvas(DxDevice& gpu, App::Win32::Win32Window& window);
 				~DxCanvas() override;
 
 				void BeginPaint() const override;
-				void Render() const override;
+				void ShowPaint() const override;
+				void Activate() const override;
+
 				void OnWindowResized(DirectX::XMINT2 newSize) override;
 
 			private:
-				ID3D11Device& m_Device;
-				ID3D11DeviceContext& m_Context;
+				DxDevice& m_Gpu;
 				IDXGISwapChain1* m_pSwapChain{};
 				ID3D11RenderTargetView* m_pMainRenderTargetView{};
 				D3D11_VIEWPORT m_ViewPort{};

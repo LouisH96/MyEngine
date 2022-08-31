@@ -12,6 +12,8 @@ namespace MyEngine
 {
 	namespace Gpu
 	{
+		class IShader;
+		class IMesh;
 		class ICanvas;
 
 		class IGpu
@@ -28,7 +30,11 @@ namespace MyEngine
 			virtual void Release() = 0;
 
 			virtual ICanvas* MakeCanvas(App::IWindow& window) = 0;
-			virtual void Temp() const = 0;
+			virtual IShader* MakeShader() = 0;
+			virtual IMesh* MakeMesh() = 0;
+
+			virtual void Paint(const ICanvas& canvas, const IShader& shader, const IMesh& mesh) = 0;
+
 		};
 	}
 }

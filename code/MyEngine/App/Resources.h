@@ -5,7 +5,7 @@ namespace MyEngine
 {
 	namespace App
 	{
-		static class Resources
+		class Resources
 		{
 		public:
 			static void Init();

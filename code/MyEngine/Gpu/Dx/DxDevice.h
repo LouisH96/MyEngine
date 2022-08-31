@@ -37,7 +37,13 @@ namespace MyEngine
 				void Release() override;
 
 				ICanvas* MakeCanvas(App::IWindow& window) override;
-				void Temp() const override;
+				IMesh* MakeMesh() override;
+				IShader* MakeShader() override;
+
+				void Paint(const ICanvas& canvas, const IShader& shader, const IMesh& mesh) override;
+
+				ID3D11Device& GetDevice() const { return *m_pDevice; }
+				ID3D11DeviceContext& GetContext() const { return *m_pContext; }
 
 			private:
 				struct Vertex
@@ -50,16 +56,6 @@ namespace MyEngine
 				ID3D11DeviceContext* m_pContext{};
 
 				void Init(HWND windowHandle);
-
-				//temp
-				void TempInit();
-				void TempRender() const;
-
-			private:
-				ID3D11VertexShader* m_pVertexShader{};
-				ID3D11PixelShader* m_pPixelShader{};
-				ID3D11InputLayout* m_pInputLayout{};
-				ID3D11Buffer* m_pVertexBuffer{};
 			};
 		}
 	}

@@ -11,6 +11,8 @@
     <ClCompile Include="Gpu\GpuCreator.cpp" />
     <ClCompile Include="Gpu\Dx\DxCanvas.cpp" />
     <ClCompile Include="App\Resources.cpp" />
+    <ClCompile Include="Gpu\Dx\DxShader.cpp" />
+    <ClCompile Include="Gpu\Dx\DxMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logging\Logger.h" />
@@ -29,5 +31,9 @@
     <ClInclude Include="Gpu\Dx\DxCanvas.h" />
     <ClInclude Include="App\IWindowResizeListener.h" />
     <ClInclude Include="App\Resources.h" />
+    <ClInclude Include="Gpu\IShader.h" />
+    <ClInclude Include="Gpu\IMesh.h" />
+    <ClInclude Include="Gpu\Dx\DxShader.h" />
+    <ClInclude Include="Gpu\Dx\DxMesh.h" />
   </ItemGroup>
 </Project>

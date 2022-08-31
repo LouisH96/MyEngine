@@ -19,7 +19,8 @@ namespace MyEngine
 			~ICanvas() override = default;
 
 			virtual void BeginPaint() const = 0;
-			virtual void Render() const = 0;
+			virtual void ShowPaint() const = 0;
+			virtual void Activate() const = 0;
 
 			void OnWindowResized(DirectX::XMINT2 newSize) override = 0;
 		};
