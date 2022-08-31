@@ -34,7 +34,7 @@ void MyEngine::Gpu::Dx::DxCanvas::BeginPaint() const
 void MyEngine::Gpu::Dx::DxCanvas::Render() const
 {
 	DXGI_PRESENT_PARAMETERS param{ 0,nullptr,0,nullptr };
-	m_pSwapChain->Present1(0, 0, &param);
+	m_pSwapChain->Present1(0, DXGI_PRESENT_DO_NOT_WAIT, &param);
 }
 
 void MyEngine::Gpu::Dx::DxCanvas::OnWindowResized(DirectX::XMINT2 newSize)
@@ -56,7 +56,6 @@ void MyEngine::Gpu::Dx::DxCanvas::InitSwapChain(const App::Win32::Win32Window& w
 	desc.SampleDesc.Count = 1;
 	desc.SampleDesc.Quality = 0;
 	desc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
-	desc.Stereo = true;
 	desc.Scaling = DXGI_SCALING_NONE;
 	desc.Width = windowSize.x;
 	desc.Height = windowSize.y;

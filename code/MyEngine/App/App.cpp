@@ -18,7 +18,7 @@ void MyEngine::App::App::Run()
 	Gpu::IGpu& gpu = *Gpu::GpuCreator::Create(window);
 	Gpu::ICanvas& canvas = *gpu.MakeCanvas(window);
 
-	FpsControl fpsControl{ 80 };
+	FpsControl fpsControl{ 200 };
 
 	while (!window.IsDestroyed())
 	{
