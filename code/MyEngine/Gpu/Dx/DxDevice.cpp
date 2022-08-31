@@ -8,6 +8,7 @@
 #include "DxCanvas.h"
 #include "DxHelper.h"
 #include "../../App/IWindow.h"
+#include "../../App/Resources.h"
 #include "../../App/Win32/Win32Window.h"
 
 MyEngine::Gpu::Dx::DxDevice::DxDevice(HWND windowHandle)
@@ -67,10 +68,7 @@ void MyEngine::Gpu::Dx::DxDevice::TempInit()
 	TCHAR buffer[MAX_PATH] = { 0 };
 	GetModuleFileName(nullptr, buffer, MAX_PATH);
 
-	std::wstring path = buffer;
-	path = path.substr(0, path.find_last_of('\\'));
-	path = path.append(LR"(\resources)");
-	path = path.append(LR"(\Shaders\shader.hlsl)");
+	const std::wstring path = App::Resources::GetShaderPath(L"shader.hlsl");
 	DxHelper::CreateVertexShader(*m_pDevice, path, "vs_main", m_pVertexShader);
 	DxHelper::CreatePixelShader(*m_pDevice, path, "ps_main", m_pPixelShader);
 

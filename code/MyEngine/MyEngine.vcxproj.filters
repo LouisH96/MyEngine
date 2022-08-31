@@ -10,6 +10,7 @@
     <ClCompile Include="App\FpsControl.cpp" />
     <ClCompile Include="Gpu\GpuCreator.cpp" />
     <ClCompile Include="Gpu\Dx\DxCanvas.cpp" />
+    <ClCompile Include="App\Resources.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logging\Logger.h" />
@@ -27,5 +28,6 @@
     <ClInclude Include="Gpu\ICanvas.h" />
     <ClInclude Include="Gpu\Dx\DxCanvas.h" />
     <ClInclude Include="App\IWindowResizeListener.h" />
+    <ClInclude Include="App\Resources.h" />
   </ItemGroup>
 </Project>

@@ -20,6 +20,7 @@
     <ClCompile Include="Gpu\GpuCreator.cpp" />
     <ClCompile Include="Logging\Logger.cpp" />
     <ClCompile Include="App\Win32\Win32Window.cpp" />
+    <ClCompile Include="App\Resources.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\App.h" />
@@ -37,6 +38,7 @@
     <ClInclude Include="Logging\Logger.h" />
     <ClInclude Include="App\Win32\Win32Window.h" />
     <ClInclude Include="App\Time.h" />
+    <ClInclude Include="App\Resources.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

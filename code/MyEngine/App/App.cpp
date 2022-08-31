@@ -4,15 +4,18 @@
 #include "../../3rdParty/VLD/include/vld.h"
 
 #include "FpsControl.h"
+#include "Resources.h"
 #include "../Gpu/GpuCreator.h"
-#include "../Gpu/IGpu.h"
 #include "../Gpu/ICanvas.h"
+#include "../Gpu/IGpu.h"
 #include "../Logging/Logger.h"
 #include "Win32/Win32Messages.h"
 #include "Win32/Win32Window.h"
 
 void MyEngine::App::App::Run()
 {
+	Resources::Init();
+
 	IWindow& window = *new Win32::Win32Window(L"Window");
 	IOsMessages& osMessages = *new Win32::Win32Messages();
 	Gpu::IGpu& gpu = *Gpu::GpuCreator::Create(window);
