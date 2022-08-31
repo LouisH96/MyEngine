@@ -9,7 +9,7 @@
 #include "../Gpu/IGpu.h"
 #include "../Gpu/IMesh.h"
 #include "../Gpu/IShader.h"
-#include "../Gpu/Dx/DxPainter.h"
+#include "../Gpu/IPainter.h"
 #include "../Logging/Logger.h"
 #include "Win32/Win32Messages.h"
 #include "Win32/Win32Window.h"
@@ -23,11 +23,11 @@ void MyEngine::App::App::Run()
 
 	Gpu::IGpu& gpu = *Gpu::GpuCreator::Create(window);
 
-	Gpu::ICanvas& canvas = *gpu.MakeCanvas(window);
+	Gpu::ICanvas& canvas = *gpu.MakeCanvas();
 	Gpu::IShader& shader = *gpu.MakeShader();
 	Gpu::IMesh& mesh = *gpu.MakeMesh();
+	Gpu::IPainter& painter = *gpu.MakePainter();
 
-	Gpu::IPainter& painter = *new Gpu::Dx::DxPainter();
 	painter.SetCanvas(canvas);
 	painter.SetShader(shader);
 	painter.SetMesh(mesh);

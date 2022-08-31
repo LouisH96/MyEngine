@@ -8,14 +8,16 @@
 #include "DxCanvas.h"
 #include "DxHelper.h"
 #include "DxMesh.h"
+#include "DxPainter.h"
 #include "DxShader.h"
 #include "../../App/IWindow.h"
 #include "../../App/Resources.h"
 #include "../../App/Win32/Win32Window.h"
 
-MyEngine::Gpu::Dx::DxDevice::DxDevice(HWND windowHandle)
+MyEngine::Gpu::Dx::DxDevice::DxDevice(App::Win32::Win32Window& window)
+	: m_Window{window}
 {
-	Init(windowHandle);
+	Init();
 }
 
 MyEngine::Gpu::Dx::DxDevice::~DxDevice()
@@ -29,13 +31,9 @@ void MyEngine::Gpu::Dx::DxDevice::Release()
 		SAFE_RELEASE(m_pDevice)
 }
 
-MyEngine::Gpu::ICanvas* MyEngine::Gpu::Dx::DxDevice::MakeCanvas(App::IWindow& window)
+MyEngine::Gpu::ICanvas* MyEngine::Gpu::Dx::DxDevice::MakeCanvas()
 {
-	App::Win32::Win32Window* pWin32 = dynamic_cast<App::Win32::Win32Window*>(&window);
-	if (!pWin32)
-		throw std::exception("DxDevice::MakeCanvas - window should be Win32App");
-
-	return new DxCanvas(*this, *pWin32);
+	return new DxCanvas(*this, m_Window);
 }
 
 MyEngine::Gpu::IMesh* MyEngine::Gpu::Dx::DxDevice::MakeMesh()
@@ -48,7 +46,12 @@ MyEngine::Gpu::IShader* MyEngine::Gpu::Dx::DxDevice::MakeShader()
 	return new DxShader(*this);
 }
 
-void MyEngine::Gpu::Dx::DxDevice::Init(HWND windowHandle)
+MyEngine::Gpu::IPainter* MyEngine::Gpu::Dx::DxDevice::MakePainter()
+{
+	return new DxPainter();
+}
+
+void MyEngine::Gpu::Dx::DxDevice::Init()
 {
 	UINT createDeviceFlags = 0;
 #if defined(_DEBUG)

@@ -31,14 +31,15 @@ namespace MyEngine
 				DxDevice& operator=(const DxDevice& other) = delete;
 				DxDevice& operator=(DxDevice&& other) noexcept = delete;
 
-				explicit DxDevice(HWND windowHandle);
+				explicit DxDevice(App::Win32::Win32Window& window);
 				~DxDevice() override;
 				
 				void Release() override;
 
-				ICanvas* MakeCanvas(App::IWindow& window) override;
+				ICanvas* MakeCanvas() override;
 				IMesh* MakeMesh() override;
 				IShader* MakeShader() override;
+				IPainter* MakePainter() override;
 
 				ID3D11Device& GetDevice() const { return *m_pDevice; }
 				ID3D11DeviceContext& GetContext() const { return *m_pContext; }
@@ -52,8 +53,9 @@ namespace MyEngine
 
 				ID3D11Device* m_pDevice{};
 				ID3D11DeviceContext* m_pContext{};
+				App::Win32::Win32Window& m_Window;
 
-				void Init(HWND windowHandle);
+				void Init();
 			};
 		}
 	}

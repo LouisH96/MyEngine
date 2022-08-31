@@ -12,6 +12,7 @@ namespace MyEngine
 {
 	namespace Gpu
 	{
+		class IPainter;
 		class IShader;
 		class IMesh;
 		class ICanvas;
@@ -29,9 +30,10 @@ namespace MyEngine
 
 			virtual void Release() = 0;
 
-			virtual ICanvas* MakeCanvas(App::IWindow& window) = 0;
+			virtual ICanvas* MakeCanvas() = 0;
 			virtual IShader* MakeShader() = 0;
 			virtual IMesh* MakeMesh() = 0;
+			virtual IPainter* MakePainter() = 0;
 		};
 	}
 }
