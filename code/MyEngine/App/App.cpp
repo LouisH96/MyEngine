@@ -13,6 +13,8 @@
 #include "../Logging/Logger.h"
 #include "Win32/Win32Messages.h"
 #include "Win32/Win32Window.h"
+#include "ICamera.h"
+#include "Camera.h"
 
 void MyEngine::App::App::Run()
 {
@@ -26,11 +28,13 @@ void MyEngine::App::App::Run()
 	Gpu::ICanvas& canvas = *gpu.MakeCanvas();
 	Gpu::IShader& shader = *gpu.MakeShader();
 	Gpu::IMesh& mesh = *gpu.MakeMesh();
+	MyEngine::App::ICamera& camera = *new MyEngine::App::Camera();
 	Gpu::IPainter& painter = *gpu.MakePainter();
 
 	painter.SetCanvas(canvas);
 	painter.SetShader(shader);
 	painter.SetMesh(mesh);
+	painter.SetCamera(camera);
 
 	FpsControl fpsControl{ 200 };
 
@@ -50,6 +54,7 @@ void MyEngine::App::App::Run()
 	std::cout << "hi\n";
 
 	delete& painter;
+	delete& camera;
 	delete& mesh;
 	delete& shader;
 	delete& canvas;

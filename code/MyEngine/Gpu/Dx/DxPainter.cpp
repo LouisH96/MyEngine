@@ -14,6 +14,9 @@ void MyEngine::Gpu::Dx::DxPainter::SetShader(IShader& shader)
 {
 	m_pShader = reinterpret_cast<DxShader*>(&shader);
 	m_pShader->Activate();
+
+	if (m_IsPainting && m_pCamera)
+		m_pShader->OnCamUpdated(*m_pCamera);
 }
 
 void MyEngine::Gpu::Dx::DxPainter::SetMesh(IMesh& mesh)
@@ -22,8 +25,21 @@ void MyEngine::Gpu::Dx::DxPainter::SetMesh(IMesh& mesh)
 	m_pMesh->Activate();
 }
 
+void MyEngine::Gpu::Dx::DxPainter::SetCamera(App::ICamera& camera)
+{
+	//Changing camera while painting won't work
+	m_pCamera = &camera;
+}
+
+void MyEngine::Gpu::Dx::DxPainter::OnCamUpdated()
+{
+	if (m_pShader)
+		m_pShader->OnCamUpdated(*m_pCamera);
+}
+
 void MyEngine::Gpu::Dx::DxPainter::BeginPaint()
 {
+	OnCamUpdated();
 	m_pCanvas->Clear();
 	m_pCanvas->Activate();
 }

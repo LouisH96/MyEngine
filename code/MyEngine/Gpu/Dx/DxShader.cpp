@@ -22,6 +22,12 @@ void MyEngine::Gpu::Dx::DxShader::Activate() const
 	m_Gpu.GetContext().PSSetShader(m_pPixelShader, nullptr, 0);
 }
 
+#include "../../Logging/Logger.h"
+void MyEngine::Gpu::Dx::DxShader::OnCamUpdated(App::ICamera&)
+{
+	Logging::Logger::Print("Shader-OnCamUpdated");
+}
+
 MyEngine::Gpu::Dx::DxShader::~DxShader()
 {
 	SAFE_RELEASE(m_pInputLayout)

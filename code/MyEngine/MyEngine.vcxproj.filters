@@ -14,6 +14,7 @@
     <ClCompile Include="Gpu\Dx\DxShader.cpp" />
     <ClCompile Include="Gpu\Dx\DxMesh.cpp" />
     <ClCompile Include="Gpu\Dx\DxPainter.cpp" />
+    <ClCompile Include="App\Camera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logging\Logger.h" />
@@ -38,5 +39,7 @@
     <ClInclude Include="Gpu\Dx\DxMesh.h" />
     <ClInclude Include="Gpu\IPainter.h" />
     <ClInclude Include="Gpu\Dx\DxPainter.h" />
+    <ClInclude Include="App\ICamera.h" />
+    <ClInclude Include="App\Camera.h" />
   </ItemGroup>
 </Project>

@@ -2,6 +2,14 @@
 
 namespace MyEngine
 {
+	namespace App
+	{
+		class ICamera;
+	}
+}
+
+namespace MyEngine
+{
 	namespace Gpu
 	{
 		class IShader
@@ -14,6 +22,8 @@ namespace MyEngine
 
 			IShader() = default;
 			virtual ~IShader() = default;
+
+			virtual void OnCamUpdated(App::ICamera& camera) = 0;
 		};
 	}
 }

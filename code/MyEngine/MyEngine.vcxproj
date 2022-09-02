@@ -14,6 +14,7 @@
     <ClCompile Include="App\App.cpp" />
     <ClCompile Include="App\Win32\Win32Messages.cpp" />
     <ClCompile Include="App\FpsControl.cpp" />
+    <ClCompile Include="App\Camera.cpp" />
     <ClCompile Include="Gpu\Dx\DxPainter.cpp" />
     <ClCompile Include="Gpu\Dx\DxMesh.cpp" />
     <ClCompile Include="Gpu\Dx\DxShader.cpp" />
@@ -27,7 +28,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\App.h" />
+    <ClInclude Include="App\ICamera.h" />
     <ClInclude Include="App\IWindowResizeListener.h" />
+    <ClInclude Include="App\Camera.h" />
     <ClInclude Include="Gpu\Dx\DxPainter.h" />
     <ClInclude Include="Gpu\Dx\DxMesh.h" />
     <ClInclude Include="Gpu\Dx\DxShader.h" />
