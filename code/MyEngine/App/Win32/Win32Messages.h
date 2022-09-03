@@ -12,7 +12,7 @@ namespace MyEngine
 				: public IOsMessages
 			{
 			public:
-				void HandleMessages() override;
+				void HandleMessages(Input::IInputWriter& inputWriter) override;
 			};
 		}
 	}

@@ -4,6 +4,11 @@ namespace MyEngine
 {
 	namespace App
 	{
+		namespace Input
+		{
+			class IInputWriter;
+		}
+
 		class IOsMessages
 		{
 		public:
@@ -15,7 +20,7 @@ namespace MyEngine
 			IOsMessages() = default;
 			virtual ~IOsMessages() = default;
 
-			virtual void HandleMessages() = 0;
+			virtual void HandleMessages(Input::IInputWriter& inputWriter) = 0;
 		};
 	}
 }

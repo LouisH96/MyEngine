@@ -15,6 +15,9 @@
     <ClCompile Include="Gpu\Dx\DxMesh.cpp" />
     <ClCompile Include="Gpu\Dx\DxPainter.cpp" />
     <ClCompile Include="App\Camera.cpp" />
+    <ClCompile Include="App\Input\InputData.cpp" />
+    <ClCompile Include="App\Input\InputWriter.cpp" />
+    <ClCompile Include="App\Input\InputReader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logging\Logger.h" />
@@ -41,5 +44,11 @@
     <ClInclude Include="Gpu\Dx\DxPainter.h" />
     <ClInclude Include="App\ICamera.h" />
     <ClInclude Include="App\Camera.h" />
+    <ClInclude Include="App\Input\IInputData.h" />
+    <ClInclude Include="App\Input\IInputWriter.h" />
+    <ClInclude Include="App\Input\IInputReader.h" />
+    <ClInclude Include="App\Input\InputData.h" />
+    <ClInclude Include="App\Input\InputWriter.h" />
+    <ClInclude Include="App\Input\InputReader.h" />
   </ItemGroup>
 </Project>

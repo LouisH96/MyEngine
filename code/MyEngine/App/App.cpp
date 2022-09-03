@@ -16,6 +16,10 @@
 #include "ICamera.h"
 #include "Camera.h"
 
+#include "Input/InputData.h"
+#include "Input/InputWriter.h"
+#include "Input/InputReader.h"
+
 void MyEngine::App::App::Run()
 {
 	Resources::Init();
@@ -28,7 +32,7 @@ void MyEngine::App::App::Run()
 	Gpu::ICanvas& canvas = *gpu.MakeCanvas();
 	Gpu::IShader& shader = *gpu.MakeShader();
 	Gpu::IMesh& mesh = *gpu.MakeMesh();
-	MyEngine::App::ICamera& camera = *new MyEngine::App::Camera();
+	ICamera& camera = *new Camera();
 	Gpu::IPainter& painter = *gpu.MakePainter();
 
 	painter.SetCanvas(canvas);
@@ -36,14 +40,24 @@ void MyEngine::App::App::Run()
 	painter.SetMesh(mesh);
 	painter.SetCamera(camera);
 
+	//input
+	Input::IInputData& inputData = *new Input::InputData();
+	Input::IInputWriter& inputWriter = *inputData.CreateWriter();
+	Input::IInputReader& inputReader = *inputData.CreateReader();
+
+	//fps
 	FpsControl fpsControl{ 200 };
 
+	//loop
 	while (!window.IsDestroyed())
 	{
 		fpsControl.Wait();
-		osMessages.HandleMessages();
+
+		//update
+		osMessages.HandleMessages(inputWriter);
 		window.DispatchEvents();
-		
+
+		//render
 		painter.BeginPaint();
 		painter.Paint();
 		painter.EndPaint();
@@ -52,6 +66,11 @@ void MyEngine::App::App::Run()
 	}
 
 	std::cout << "hi\n";
+
+	//input
+	delete& inputReader;
+	delete& inputWriter;
+	delete& inputData;
 
 	delete& painter;
 	delete& camera;

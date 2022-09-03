@@ -25,7 +25,7 @@ void MyEngine::Gpu::Dx::DxShader::Activate() const
 #include "../../Logging/Logger.h"
 void MyEngine::Gpu::Dx::DxShader::OnCamUpdated(App::ICamera&)
 {
-	Logging::Logger::Print("Shader-OnCamUpdated");
+	//Logging::Logger::Print("Shader-OnCamUpdated");
 }
 
 MyEngine::Gpu::Dx::DxShader::~DxShader()
