@@ -11,7 +11,6 @@
 #include "../Gpu/IShader.h"
 #include "../Gpu/IPainter.h"
 #include "../Logging/Logger.h"
-#include "Win32/Win32Messages.h"
 #include "Win32/Win32Window.h"
 #include "ICamera.h"
 #include "Camera.h"
@@ -25,7 +24,6 @@ void MyEngine::App::App::Run()
 	Resources::Init();
 
 	IWindow& window = *new Win32::Win32Window(L"Window");
-	IOsMessages& osMessages = *new Win32::Win32Messages();
 
 	Gpu::IGpu& gpu = *Gpu::GpuCreator::Create(window);
 
@@ -45,7 +43,7 @@ void MyEngine::App::App::Run()
 	Input::IInputWriter& inputWriter = *inputData.CreateWriter();
 	Input::IInputReader& inputReader = *inputData.CreateReader();
 
-	//fps
+	//fps 
 	FpsControl fpsControl{ 200 };
 
 	//loop
@@ -54,8 +52,7 @@ void MyEngine::App::App::Run()
 		fpsControl.Wait();
 
 		//update
-		osMessages.HandleMessages(inputWriter);
-		window.DispatchEvents();
+		window.HandleMessages();
 
 		//render
 		painter.BeginPaint();
@@ -79,6 +76,5 @@ void MyEngine::App::App::Run()
 	delete& canvas;
 
 	delete &gpu;
-	delete& osMessages;
 	delete &window;
 }

@@ -63,8 +63,17 @@ void MyEngine::App::Win32::Win32Window::Listen(IWindowResizeListener& listener)
 	m_ResizeListeners.push_back(&listener);
 }
 
-void MyEngine::App::Win32::Win32Window::DispatchEvents()
+void MyEngine::App::Win32::Win32Window::HandleMessages()
 {
+	//win32-messages
+	MSG msg;
+	while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE) > 0)
+	{
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+	}
+
+	//resize event
 	if (m_NewSize.x != 0)
 	{
 		for (auto* pListener : m_ResizeListeners)
@@ -79,6 +88,11 @@ DirectX::XMINT2 MyEngine::App::Win32::Win32Window::GetSize() const
 	RECT rect{};
 	GetClientRect(m_WindowHandle, &rect);
 	return { rect.right - rect.left, rect.bottom - rect.top};
+}
+
+void MyEngine::App::Win32::Win32Window::SetInputWriter(Input::IInputWriter& writer)
+{
+	m_pInputWriter = &writer;
 }
 
 LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam)
