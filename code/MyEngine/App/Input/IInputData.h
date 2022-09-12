@@ -22,6 +22,8 @@ namespace MyEngine
 
 				virtual IInputWriter* CreateWriter() = 0;
 				virtual IInputReader* CreateReader() = 0;
+
+				virtual void Update() = 0;
 			};
 		}
 	}

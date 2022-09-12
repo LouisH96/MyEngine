@@ -1,9 +1,13 @@
 // ReSharper disable CppClangTidyPerformanceNoIntToPtr
 #include "Win32Window.h"
 #include "../IWindowResizeListener.h"
+#include "../Input/InputWriter.h"
+#include "../Input/EmptyInputWriter.h"
 
 MyEngine::App::Win32::Win32Window::Win32Window(const std::wstring& title)
+	: m_pEmptyInputWriter(new Input::EmptyInputWriter())
 {
+	m_pInputWriter = m_pEmptyInputWriter;
 	Init(title);
 }
 
@@ -56,6 +60,10 @@ void MyEngine::App::Win32::Win32Window::Release()
 {
 	//todo: check if and how you could quit the app from here, and not from a quit msg on the queue
 	//simply PostMessage with wm_quit would work probably, but normally this shouldn't be closed like this
+
+	//Input
+	delete m_pEmptyInputWriter;
+	m_pEmptyInputWriter = nullptr;
 }
 
 void MyEngine::App::Win32::Win32Window::Listen(IWindowResizeListener& listener)
@@ -87,14 +95,20 @@ DirectX::XMINT2 MyEngine::App::Win32::Win32Window::GetSize() const
 {
 	RECT rect{};
 	GetClientRect(m_WindowHandle, &rect);
-	return { rect.right - rect.left, rect.bottom - rect.top};
+	return { rect.right - rect.left, rect.bottom - rect.top };
 }
 
 void MyEngine::App::Win32::Win32Window::SetInputWriter(Input::IInputWriter& writer)
 {
+	if (m_pInputWriter == m_pEmptyInputWriter)
+	{
+		delete m_pEmptyInputWriter;
+		m_pEmptyInputWriter = nullptr;
+	}
 	m_pInputWriter = &writer;
 }
 
+#include "../../Logging/Logger.h"
 LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	using namespace MyEngine::App::Win32;
@@ -106,15 +120,21 @@ LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, 
 	{
 		window.m_IsDestroyed = true;
 		PostQuitMessage(0);
-		return 0;
 	}
 	case WM_SIZE:
 	{
 		window.m_NewSize.x = LOWORD(lParam);
 		window.m_NewSize.y = HIWORD(lParam);
-		return 0;
 	}
+	case WM_KEYDOWN:
+		if (!(lParam & 1 << 30))
+			window.m_pInputWriter->OnKeyPressed(static_cast<char>(wParam));
+		break;
+	case WM_KEYUP:
+		window.m_pInputWriter->OnKeyReleased(static_cast<char>(wParam));
+		break;
 	default:
 		return DefWindowProc(windowHandle, uMsg, wParam, lParam);
 	}
+	return 0;
 }

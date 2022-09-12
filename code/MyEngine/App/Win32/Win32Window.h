@@ -7,6 +7,18 @@
 #include <string>
 #include <vector>
 
+namespace MyEngine
+{
+	namespace App
+	{
+		namespace Input
+		{
+			class EmptyInputWriter;
+			class IInputWriter;
+		}
+	}
+}
+
 LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 namespace MyEngine
@@ -65,6 +77,7 @@ namespace MyEngine
 				void SetInputWriter(Input::IInputWriter& writer) override;
 			private:
 				Input::IInputWriter* m_pInputWriter{};
+				Input::EmptyInputWriter* m_pEmptyInputWriter;
 #pragma endregion
 			};
 		}

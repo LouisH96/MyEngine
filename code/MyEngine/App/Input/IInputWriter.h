@@ -17,8 +17,8 @@ namespace MyEngine
 				IInputWriter() = default;
 				virtual ~IInputWriter() = default;
 
-				virtual void OnKeyPressed(char character) = 0;
-				virtual void OnKeReleased(char character) = 0;
+				virtual void OnKeyPressed(char character) const = 0;
+				virtual void OnKeyReleased(char character) const = 0;
 			};
 		}
 	}

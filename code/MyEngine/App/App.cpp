@@ -42,6 +42,7 @@ void MyEngine::App::App::Run()
 	Input::IInputData& inputData = *new Input::InputData();
 	Input::IInputWriter& inputWriter = *inputData.CreateWriter();
 	Input::IInputReader& inputReader = *inputData.CreateReader();
+	window.SetInputWriter(inputWriter);
 
 	//fps 
 	FpsControl fpsControl{ 200 };
@@ -49,7 +50,11 @@ void MyEngine::App::App::Run()
 	//loop
 	while (!window.IsDestroyed())
 	{
+		//fps
 		fpsControl.Wait();
+
+		//input
+		inputData.Update();
 
 		//update
 		window.HandleMessages();
@@ -58,6 +63,9 @@ void MyEngine::App::App::Run()
 		painter.BeginPaint();
 		painter.Paint();
 		painter.EndPaint();
+
+		if (inputReader.IsKeyReleased(VK_LEFT))
+			Logging::Logger::Print("left");
 
 		//Logging::Logger::Print("Frame " + std::to_string(fpsControl.GetNrFramesLastSec()));
 	}
@@ -75,6 +83,6 @@ void MyEngine::App::App::Run()
 	delete& shader;
 	delete& canvas;
 
-	delete &gpu;
-	delete &window;
+	delete& gpu;
+	delete& window;
 }

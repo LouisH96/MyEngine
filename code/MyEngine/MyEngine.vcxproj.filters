@@ -47,5 +47,6 @@
     <ClInclude Include="App\Input\InputData.h" />
     <ClInclude Include="App\Input\InputWriter.h" />
     <ClInclude Include="App\Input\InputReader.h" />
+    <ClInclude Include="App\Input\EmptyInputWriter.h" />
   </ItemGroup>
 </Project>

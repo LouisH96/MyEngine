@@ -36,6 +36,7 @@
     <ClInclude Include="App\Input\IInputWriter.h" />
     <ClInclude Include="App\IWindowResizeListener.h" />
     <ClInclude Include="App\Camera.h" />
+    <ClInclude Include="App\Input\EmptyInputWriter.h" />
     <ClInclude Include="Gpu\Dx\DxPainter.h" />
     <ClInclude Include="Gpu\Dx\DxMesh.h" />
     <ClInclude Include="Gpu\Dx\DxShader.h" />
