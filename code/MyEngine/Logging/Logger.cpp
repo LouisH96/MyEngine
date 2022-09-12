@@ -3,6 +3,7 @@
 #include <iostream>
 #include <locale>
 #include <iomanip>
+#include <sstream>
 
 std::string MyEngine::Logging::Logger::GetLogLine(const std::string& logMessage)
 {
@@ -22,4 +23,50 @@ std::string MyEngine::Logging::Logger::GetLogLine(const std::string& logMessage)
 void MyEngine::Logging::Logger::Print(const std::string& logMessage)
 {
 	std::cout << GetLogLine(logMessage);
+}
+
+void MyEngine::Logging::Logger::Print(float x, float y, float z)
+{
+	Print(ToString(x, y, z));
+}
+
+void MyEngine::Logging::Logger::Print(const DirectX::XMFLOAT3& vector)
+{
+	Print(ToString(vector));
+}
+
+void MyEngine::Logging::Logger::PrintXYZ(const DirectX::XMVECTOR& vector)
+{
+	Print(ToStringXYZ(vector));
+}
+
+std::string MyEngine::Logging::Logger::ToString(float x, float y, float z)
+{
+	std::stringstream ss{};
+	ss << "(";
+	ss << std::to_string(x);
+	ss << ",";
+	ss << std::to_string(y);
+	ss << ",";
+	ss << std::to_string(z);
+	ss << ")";
+	return ss.str();
+}
+
+std::string MyEngine::Logging::Logger::ToString(const DirectX::XMFLOAT3& vector)
+{
+	return ToString(vector.x, vector.y, vector.z);
+}
+
+std::string MyEngine::Logging::Logger::ToStringXYZ(const DirectX::XMVECTOR& vector)
+{
+	std::stringstream ss{};
+	ss << "(";
+	ss << std::to_string(DirectX::XMVectorGetX(vector));
+	ss << ",";
+	ss << std::to_string(DirectX::XMVectorGetY(vector));
+	ss << ",";
+	ss << std::to_string(DirectX::XMVectorGetZ(vector));
+	ss << ")";
+	return ss.str();
 }
