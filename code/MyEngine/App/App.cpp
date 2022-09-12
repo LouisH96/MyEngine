@@ -12,12 +12,13 @@
 #include "../Gpu/IPainter.h"
 #include "../Logging/Logger.h"
 #include "Win32/Win32Window.h"
-#include "ICamera.h"
-#include "Camera.h"
 
 #include "Input/InputData.h"
 #include "Input/InputWriter.h"
 #include "Input/InputReader.h"
+
+#include "../Game/Camera/Camera.h"
+#include "../Game/Camera/CameraController.h"
 
 void MyEngine::App::App::Run()
 {
@@ -30,7 +31,7 @@ void MyEngine::App::App::Run()
 	Gpu::ICanvas& canvas = *gpu.MakeCanvas();
 	Gpu::IShader& shader = *gpu.MakeShader();
 	Gpu::IMesh& mesh = *gpu.MakeMesh();
-	ICamera& camera = *new Camera();
+	Game::Camera::ICamera& camera = *new Game::Camera::Camera();
 	Gpu::IPainter& painter = *gpu.MakePainter();
 
 	painter.SetCanvas(canvas);
@@ -43,6 +44,7 @@ void MyEngine::App::App::Run()
 	Input::IInputWriter& inputWriter = *inputData.CreateWriter();
 	Input::IInputReader& inputReader = *inputData.CreateReader();
 	window.SetInputWriter(inputWriter);
+	Game::Camera::CameraController& cameraController = *new Game::Camera::CameraController(camera, inputReader);
 
 	//fps 
 	FpsControl fpsControl{ 200 };
@@ -55,6 +57,7 @@ void MyEngine::App::App::Run()
 
 		//input
 		inputData.Update();
+		cameraController.Update(1.f);
 
 		//update
 		window.HandleMessages();
@@ -64,15 +67,13 @@ void MyEngine::App::App::Run()
 		painter.Paint();
 		painter.EndPaint();
 
-		if (inputReader.IsKeyReleased(VK_LEFT))
-			Logging::Logger::Print("left");
-
 		//Logging::Logger::Print("Frame " + std::to_string(fpsControl.GetNrFramesLastSec()));
 	}
 
 	std::cout << "hi\n";
 
 	//input
+	delete& cameraController;
 	delete& inputReader;
 	delete& inputWriter;
 	delete& inputData;

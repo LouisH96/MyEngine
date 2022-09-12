@@ -18,7 +18,7 @@ namespace MyEngine
 				void SetCanvas(ICanvas& canvas) override;
 				void SetShader(IShader& shader) override;
 				void SetMesh(IMesh& mesh) override;
-				void SetCamera(App::ICamera& camera) override;
+				void SetCamera(Game::Camera::ICamera& camera) override;
 
 				void BeginPaint() override;
 				void EndPaint() override;
@@ -28,7 +28,7 @@ namespace MyEngine
 				DxCanvas* m_pCanvas{};
 				DxShader* m_pShader{};
 				DxMesh* m_pMesh{};
-				App::ICamera* m_pCamera{};
+				Game::Camera::ICamera* m_pCamera{};
 
 				bool m_IsPainting{ false };
 

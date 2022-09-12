@@ -26,7 +26,7 @@ namespace MyEngine
 				~DxShader() override;
 
 				void Activate() const;
-				void OnCamUpdated(App::ICamera& camera) override;
+				void OnCamUpdated(Game::Camera::ICamera& camera) override;
 
 				struct Vertex
 				{

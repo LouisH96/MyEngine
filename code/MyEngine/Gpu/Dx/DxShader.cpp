@@ -23,7 +23,7 @@ void MyEngine::Gpu::Dx::DxShader::Activate() const
 }
 
 #include "../../Logging/Logger.h"
-void MyEngine::Gpu::Dx::DxShader::OnCamUpdated(App::ICamera&)
+void MyEngine::Gpu::Dx::DxShader::OnCamUpdated(Game::Camera::ICamera&)
 {
 	//Logging::Logger::Print("Shader-OnCamUpdated");
 }

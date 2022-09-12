@@ -2,9 +2,12 @@
 
 namespace MyEngine
 {
-	namespace App
+	namespace Game
 	{
-		class ICamera;
+		namespace Camera
+		{
+			class ICamera;
+		}
 	}
 }
 
@@ -23,7 +26,7 @@ namespace MyEngine
 			IShader() = default;
 			virtual ~IShader() = default;
 
-			virtual void OnCamUpdated(App::ICamera& camera) = 0;
+			virtual void OnCamUpdated(Game::Camera::ICamera& camera) = 0;
 		};
 	}
 }

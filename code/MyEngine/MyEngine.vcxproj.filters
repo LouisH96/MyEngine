@@ -13,10 +13,11 @@
     <ClCompile Include="Gpu\Dx\DxShader.cpp" />
     <ClCompile Include="Gpu\Dx\DxMesh.cpp" />
     <ClCompile Include="Gpu\Dx\DxPainter.cpp" />
-    <ClCompile Include="App\Camera.cpp" />
+    <ClCompile Include="Game\Camera\Camera.cpp" />
     <ClCompile Include="App\Input\InputData.cpp" />
     <ClCompile Include="App\Input\InputWriter.cpp" />
     <ClCompile Include="App\Input\InputReader.cpp" />
+    <ClCompile Include="Game\Camera\CameraController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logging\Logger.h" />
@@ -39,8 +40,8 @@
     <ClInclude Include="Gpu\Dx\DxMesh.h" />
     <ClInclude Include="Gpu\IPainter.h" />
     <ClInclude Include="Gpu\Dx\DxPainter.h" />
-    <ClInclude Include="App\ICamera.h" />
-    <ClInclude Include="App\Camera.h" />
+    <ClInclude Include="Game\Camera\ICamera.h" />
+    <ClInclude Include="Game\Camera\Camera.h" />
     <ClInclude Include="App\Input\IInputData.h" />
     <ClInclude Include="App\Input\IInputWriter.h" />
     <ClInclude Include="App\Input\IInputReader.h" />
@@ -48,5 +49,7 @@
     <ClInclude Include="App\Input\InputWriter.h" />
     <ClInclude Include="App\Input\InputReader.h" />
     <ClInclude Include="App\Input\EmptyInputWriter.h" />
+    <ClInclude Include="Game\Camera\ICameraController.h" />
+    <ClInclude Include="Game\Camera\CameraController.h" />
   </ItemGroup>
 </Project>

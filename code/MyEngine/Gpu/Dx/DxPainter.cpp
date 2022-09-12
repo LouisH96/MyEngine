@@ -25,7 +25,7 @@ void MyEngine::Gpu::Dx::DxPainter::SetMesh(IMesh& mesh)
 	m_pMesh->Activate();
 }
 
-void MyEngine::Gpu::Dx::DxPainter::SetCamera(App::ICamera& camera)
+void MyEngine::Gpu::Dx::DxPainter::SetCamera(Game::Camera::ICamera& camera)
 {
 	//Changing camera while painting won't work
 	m_pCamera = &camera;

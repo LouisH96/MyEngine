@@ -2,9 +2,12 @@
 
 namespace MyEngine
 {
-	namespace App
+	namespace Game
 	{
-		class ICamera;
+		namespace Camera
+		{
+			class ICamera;
+		}
 	}
 }
 
@@ -30,7 +33,7 @@ namespace MyEngine
 			virtual void SetCanvas(ICanvas& canvas) = 0;
 			virtual void SetShader(IShader& shader) = 0;
 			virtual void SetMesh(IMesh& mesh) = 0;
-			virtual void SetCamera(App::ICamera& camera) = 0;
+			virtual void SetCamera(Game::Camera::ICamera& camera) = 0;
 
 			virtual void BeginPaint() = 0;
 			virtual void EndPaint() = 0;
