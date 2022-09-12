@@ -57,7 +57,7 @@ void MyEngine::App::App::Run()
 
 		//input
 		inputData.Update();
-		cameraController.Update(1.f);
+		cameraController.Update(fpsControl.GetDurationLastFrame());
 
 		//update
 		window.HandleMessages();
