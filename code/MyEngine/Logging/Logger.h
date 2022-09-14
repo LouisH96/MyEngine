@@ -15,10 +15,12 @@ namespace MyEngine
 			static void Print(float x, float y, float z);
 			static void Print(const DirectX::XMFLOAT3& vector);
 			static void PrintXYZ(const DirectX::XMVECTOR& vector);
+			static void PrintXYZ(const float* x);
 
 			static std::string ToString(float x, float y, float z);
 			static std::string ToString(const DirectX::XMFLOAT3& vector);
 			static std::string ToStringXYZ(const DirectX::XMVECTOR& vector);
+			static std::string ToStringXYZ(const float* x);
 
 			template <typename T>
 			static void ToStringPrint(const T& value);
