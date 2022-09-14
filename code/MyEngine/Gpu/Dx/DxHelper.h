@@ -31,6 +31,9 @@ namespace MyEngine
 				static void CreateImmutableConstantBuffer(ID3D11Device& device, ID3D11Buffer*& pBuffer, T& initData = nullptr);
 
 				template <typename T>
+				static void UpdateBuffer(ID3D11DeviceContext& context, ID3D11Buffer& buffer, const T& bufferContent);
+
+				template <typename T>
 				static void CreateRwStructuredBuffer(ID3D11Device& device, ID3D11Buffer*& pBuffer, ID3D11UnorderedAccessView*& pView, T* pInitData, size_t nrInitElems);
 				template <typename T>
 				static void CreateRwStructuredBuffer(ID3D11Device& device, ID3D11Buffer*& pBuffer, ID3D11UnorderedAccessView*& pView, const std::vector<T>& initData);
@@ -72,6 +75,16 @@ namespace MyEngine
 				const HRESULT result = device.CreateBuffer(&desc, &dataResource, &pBuffer);
 				if (FAILED(result))
 					throw std::exception("DxHelper::CreateImmutableConstantBuffer");
+			}
+
+			template <typename T>
+			void DxHelper::UpdateBuffer(ID3D11DeviceContext& context, ID3D11Buffer& buffer, const T& bufferContent)
+			{
+				D3D11_MAPPED_SUBRESOURCE mappedResource{};
+				context.Map(&buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+				T& mappedContent = *static_cast<T*>(mappedResource.pData);
+				mappedContent = bufferContent;
+				context.Unmap(&buffer, 0);
 			}
 
 			template <typename T>

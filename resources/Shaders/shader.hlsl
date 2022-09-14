@@ -1,3 +1,8 @@
+//--| CBUFFER |--
+cbuffer CBuffer
+{
+    float4x4 cameraMatrix;
+}
 
 //--| STRUCTS |---
 struct Vertex
@@ -16,7 +21,7 @@ struct Pixel
 Pixel vs_main(Vertex vertex)
 {
 	Pixel pixel = (Pixel)0;
-	pixel.pos = float4(vertex.pos, 1);
+    pixel.pos = mul(float4(vertex.pos, 1), cameraMatrix);
 	pixel.col = vertex.col;
 	return pixel;
 }

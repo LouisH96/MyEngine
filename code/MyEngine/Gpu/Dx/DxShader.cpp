@@ -5,27 +5,28 @@
 #include "DxGpu.h"
 #include "DxHelper.h"
 #include "../../App/Resources.h"
+#include "../../Game/Camera/Camera.h"
 
 MyEngine::Gpu::Dx::DxShader::DxShader(DxGpu& gpu)
 	: m_Gpu(gpu)
 {
 	InitShaders();
 	InitInputLayout();
+	InitCBuffer();
 }
 
 void MyEngine::Gpu::Dx::DxShader::Activate() const
 {
-	m_Gpu.GetContext().IASetPrimitiveTopology(
-		D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	m_Gpu.GetContext().IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	m_Gpu.GetContext().IASetInputLayout(m_pInputLayout);
 	m_Gpu.GetContext().VSSetShader(m_pVertexShader, nullptr, 0);
 	m_Gpu.GetContext().PSSetShader(m_pPixelShader, nullptr, 0);
+	m_Gpu.GetContext().VSSetConstantBuffers(0, 1, &m_pCBuffer);
 }
 
-#include "../../Logging/Logger.h"
-void MyEngine::Gpu::Dx::DxShader::OnCamUpdated(Game::Camera::ICamera&)
+void MyEngine::Gpu::Dx::DxShader::OnCamUpdated(Game::Camera::ICamera& camera)
 {
-	//Logging::Logger::Print("Shader-OnCamUpdated");
+	UpdateCBuffer(*reinterpret_cast<Game::Camera::Camera*>(&camera));
 }
 
 MyEngine::Gpu::Dx::DxShader::~DxShader()
@@ -33,6 +34,7 @@ MyEngine::Gpu::Dx::DxShader::~DxShader()
 	SAFE_RELEASE(m_pInputLayout)
 		SAFE_RELEASE(m_pPixelShader)
 		SAFE_RELEASE(m_pVertexShader)
+		ReleaseCBuffer();
 }
 
 void MyEngine::Gpu::Dx::DxShader::InitShaders()
@@ -102,4 +104,19 @@ void MyEngine::Gpu::Dx::DxShader::InitInputLayout()
 
 	if (FAILED(result))
 		throw std::exception("DxDevice::CreateInputLayout");
+}
+
+void MyEngine::Gpu::Dx::DxShader::InitCBuffer()
+{
+	DxHelper::CreateDynamicConstantBuffer<CBuffer>(m_Gpu.GetDevice(), m_pCBuffer);
+}
+
+void MyEngine::Gpu::Dx::DxShader::ReleaseCBuffer()
+{
+	SAFE_RELEASE(m_pCBuffer)
+}
+
+void MyEngine::Gpu::Dx::DxShader::UpdateCBuffer(const Game::Camera::Camera& camera) const
+{
+	DxHelper::UpdateBuffer(m_Gpu.GetContext(), *m_pCBuffer, camera.GetMatrix());
 }

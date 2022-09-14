@@ -11,10 +11,11 @@ namespace MyEngine
 				: public ICamera
 			{
 			public:
-				void Translate(DirectX::XMFLOAT3 translation) override;
+				void Move(DirectX::XMFLOAT3 movement) override;
 
+				const DirectX::XMFLOAT4X4& GetMatrix() const { return m_Matrix; }
 			private:
-				DirectX::XMFLOAT3 m_Position{ 0,0,0 };
+				DirectX::XMFLOAT4X4 m_Matrix{1,0,0,0, 0,1,0,0, 0,0,1,0 ,0,0,0,1};
 			};
 		}
 	}

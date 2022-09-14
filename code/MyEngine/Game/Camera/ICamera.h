@@ -19,7 +19,7 @@ namespace MyEngine
 				ICamera() = default;
 				virtual ~ICamera() = default;
 
-				virtual void Translate(DirectX::XMFLOAT3 translation) = 0;
+				virtual void Move(DirectX::XMFLOAT3 translation) = 0;
 			};
 		}
 	}

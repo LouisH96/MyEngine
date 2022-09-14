@@ -63,5 +63,5 @@ void MyEngine::Game::Camera::CameraController::Update(float dt)
 		translation.z /= SQR2;
 	}
 
-	m_Camera.Translate(translation);
+	m_Camera.Move(translation);
 }

@@ -40,6 +40,16 @@ void MyEngine::Logging::Logger::PrintXYZ(const DirectX::XMVECTOR& vector)
 	Print(ToStringXYZ(vector));
 }
 
+void MyEngine::Logging::Logger::PrintXYZ(const float* x)
+{
+	Print(ToStringXYZ(x));
+}
+
+std::string MyEngine::Logging::Logger::ToStringXYZ(const float* x)
+{
+	return ToString(x[0], x[1], x[2]);
+}
+
 std::string MyEngine::Logging::Logger::ToString(float x, float y, float z)
 {
 	std::stringstream ss{};

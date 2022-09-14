@@ -1,13 +1,12 @@
 #include "Camera.h"
 
 #include "../../Logging/Logger.h"
-void MyEngine::Game::Camera::Camera::Translate(DirectX::XMFLOAT3 translation)
+
+void MyEngine::Game::Camera::Camera::Move(DirectX::XMFLOAT3 movement)
 {
 	using namespace DirectX;
 
-	const XMVECTOR xm_current{ XMLoadFloat3(&m_Position) };
-	const XMVECTOR xm_translation{ XMLoadFloat3(&translation) };
-	XMStoreFloat3(&m_Position, xm_current + xm_translation);
-
-	Logging::Logger::Print(m_Position);
+	m_Matrix.m[0][3] -= movement.x;
+	m_Matrix.m[1][3] -= movement.y;
+	m_Matrix.m[2][3] -= movement.z;
 }

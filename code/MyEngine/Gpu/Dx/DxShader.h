@@ -7,6 +7,17 @@
 
 namespace MyEngine
 {
+	namespace Game
+	{
+		namespace Camera
+		{
+			class Camera;
+		}
+	}
+}
+
+namespace MyEngine
+{
 	namespace Gpu
 	{
 		namespace Dx
@@ -35,6 +46,7 @@ namespace MyEngine
 				};
 
 			private:
+
 				DxGpu& m_Gpu;
 
 				ID3D11VertexShader* m_pVertexShader{};
@@ -43,6 +55,21 @@ namespace MyEngine
 
 				void InitShaders();
 				void InitInputLayout();
+
+#pragma region CBuffer
+
+			private:
+				struct CBuffer
+				{
+					DirectX::XMFLOAT4X4 cameraMatrix;
+				};
+				ID3D11Buffer* m_pCBuffer{};
+				void InitCBuffer();
+				void ReleaseCBuffer();
+				void UpdateCBuffer(const Game::Camera::Camera& camera) const;
+
+#pragma endregion
+
 			};
 		}
 	}
