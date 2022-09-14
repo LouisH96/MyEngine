@@ -21,7 +21,7 @@ struct Pixel
 Pixel vs_main(Vertex vertex)
 {
 	Pixel pixel = (Pixel)0;
-    pixel.pos = mul(float4(vertex.pos, 1), cameraMatrix);
+    pixel.pos = mul(cameraMatrix, float4(vertex.pos, 1));
 	pixel.col = vertex.col;
 	return pixel;
 }
