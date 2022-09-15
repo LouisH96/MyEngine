@@ -11,9 +11,11 @@ namespace MyEngine
 				: public ICamera
 			{
 			public:
+				explicit Camera(DirectX::XMINT2 size);
 				void Move(DirectX::XMFLOAT3 movement) override;
 
 				const DirectX::XMFLOAT4X4& GetMatrix() const { return m_Matrix; }
+				void OnWindowResized(DirectX::XMINT2 newSize) override;
 			private:
 				DirectX::XMFLOAT4X4 m_Matrix{1,0,0,0, 0,1,0,0, 0,0,1,1 ,0,0,0,0};
 			};

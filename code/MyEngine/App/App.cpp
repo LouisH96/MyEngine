@@ -31,7 +31,9 @@ void MyEngine::App::App::Run()
 	Gpu::ICanvas& canvas = *gpu.MakeCanvas();
 	Gpu::IShader& shader = *gpu.MakeShader();
 	Gpu::IMesh& mesh = *gpu.MakeMesh();
-	Game::Camera::ICamera& camera = *new Game::Camera::Camera();
+	Game::Camera::ICamera& camera = *new Game::Camera::Camera(window.GetSize());
+	window.Listen(camera);
+	camera.Move({ 0,0,-1 });
 	Gpu::IPainter& painter = *gpu.MakePainter();
 
 	painter.SetCanvas(canvas);
