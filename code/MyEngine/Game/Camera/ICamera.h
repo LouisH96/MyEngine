@@ -19,10 +19,11 @@ namespace MyEngine
 				ICamera& operator=(ICamera&& other) noexcept = delete;
 
 				ICamera() = default;
-				virtual ~ICamera() override = default;
+				~ICamera() override = default;
 
 				virtual void Move(DirectX::XMFLOAT3 translation) = 0;
-				virtual void OnWindowResized(DirectX::XMINT2 newSize) override = 0;
+				void OnWindowResized(DirectX::XMINT2 newSize) override = 0;
+				virtual void SetFieldOfView(float angle) = 0;
 			};
 		}
 	}
