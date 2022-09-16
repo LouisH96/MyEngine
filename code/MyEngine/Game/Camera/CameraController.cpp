@@ -1,5 +1,6 @@
 #include "CameraController.h"
 
+#include "Windows.h"
 #include <DirectXMath.h>
 
 #include "ICamera.h"
@@ -54,9 +55,7 @@ void MyEngine::Game::Camera::CameraController::Update(float dt)
 		translation.z += speed;
 		nrDirections++;
 	}
-
-	if (nrDirections == 0 && translation.y == 0)
-		return;
+	
 	if(nrDirections > 1)
 	{
 		translation.x /= SQR2;
@@ -64,4 +63,21 @@ void MyEngine::Game::Camera::CameraController::Update(float dt)
 	}
 
 	m_Camera.Move(translation);
+
+	//ROTATION
+	constexpr float maxPitchSpeed = 40.f; //angle/sec
+	const float pitchSpeed = maxPitchSpeed * dt;
+
+	if (m_Input.IsKeyDown(VK_UP))
+		m_Camera.Pitch(pitchSpeed);
+	else if (m_Input.IsKeyDown(VK_DOWN))
+		m_Camera.Pitch(-pitchSpeed);
+
+	constexpr float maxYawSpeed = 40.f; //angle/sec
+	const float yawSpeed = maxYawSpeed * dt;
+
+	if (m_Input.IsKeyDown(VK_RIGHT))
+		m_Camera.Yaw(yawSpeed);
+	else if (m_Input.IsKeyDown(VK_LEFT))
+		m_Camera.Yaw(-yawSpeed);
 }

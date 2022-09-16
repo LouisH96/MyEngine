@@ -51,5 +51,6 @@
     <ClInclude Include="App\Input\EmptyInputWriter.h" />
     <ClInclude Include="Game\Camera\ICameraController.h" />
     <ClInclude Include="Game\Camera\CameraController.h" />
+    <ClInclude Include="Math\Math.h" />
   </ItemGroup>
 </Project>

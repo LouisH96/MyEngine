@@ -61,6 +61,7 @@
     <ClInclude Include="App\Win32\Win32Window.h" />
     <ClInclude Include="App\Time.h" />
     <ClInclude Include="App\Resources.h" />
+    <ClInclude Include="Math\Math.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
