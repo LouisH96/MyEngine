@@ -21,7 +21,11 @@ namespace MyEngine
 				ICamera() = default;
 				~ICamera() override = default;
 
+				virtual void Update() = 0;
+
 				virtual void Move(DirectX::XMFLOAT3 translation) = 0;
+				virtual void MoveInDirection(DirectX::XMFLOAT3 movement) = 0;
+
 				virtual void Pitch(float addAngle) = 0;
 				virtual void Yaw(float addAngle) = 0;
 

@@ -118,5 +118,5 @@ void MyEngine::Gpu::Dx::DxShader::ReleaseCBuffer()
 
 void MyEngine::Gpu::Dx::DxShader::UpdateCBuffer(const Game::Camera::Camera& camera) const
 {
-	DxHelper::UpdateBuffer(m_Gpu.GetContext(), *m_pCBuffer, camera.GetMatrix());
+	DxHelper::UpdateBuffer(m_Gpu.GetContext(), *m_pCBuffer, camera.GetViewProjMatrix());
 }

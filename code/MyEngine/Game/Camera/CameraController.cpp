@@ -77,7 +77,7 @@ void MyEngine::Game::Camera::CameraController::Update(float dt)
 	const float yawSpeed = maxYawSpeed * dt;
 
 	if (m_Input.IsKeyDown(VK_RIGHT))
-		m_Camera.Yaw(yawSpeed);
-	else if (m_Input.IsKeyDown(VK_LEFT))
 		m_Camera.Yaw(-yawSpeed);
+	else if (m_Input.IsKeyDown(VK_LEFT))
+		m_Camera.Yaw(yawSpeed);
 }
