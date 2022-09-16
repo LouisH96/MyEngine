@@ -5,7 +5,7 @@
 
 MyEngine::Gpu::Dx::DxMesh::DxMesh(DxGpu& gpu)
 	: m_Gpu(gpu)
-	, m_VertexCount(3)
+	, m_VertexCount(6)
 	, m_VertexStride(sizeof(DxShader::Vertex))
 	, m_VertexOffset(0)
 {
@@ -13,6 +13,10 @@ MyEngine::Gpu::Dx::DxMesh::DxMesh(DxGpu& gpu)
 	   {{0.0f,  0.5f,  0.0f}, {1,0,0}}, // point at top
 	   {{0.5f, -0.5f,  0.0f}, {0,1,0}}, // point at bottom-right
 	  {{-0.5f, -0.5f,  0.0f}, {0,0,1}}, // point at bottom-left
+
+		{{0.0f, -0.5f, -1.0f}, {1,0,0}},
+		{{-0.5f, -0.5f, 0.0f}, {0,1,0}},
+		{{0.5f, -0.5f, 0.0f}, {0,0,1}}
 	};
 
 	const D3D11_BUFFER_DESC vertexBufferDesc
