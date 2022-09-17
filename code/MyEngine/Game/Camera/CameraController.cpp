@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "CameraController.h"
 
 #include "Windows.h"
@@ -12,13 +13,13 @@ MyEngine::Game::Camera::CameraController::CameraController(ICamera& camera, App:
 {
 }
 
-void MyEngine::Game::Camera::CameraController::Update(float dt)
+void MyEngine::Game::Camera::CameraController::Update()
 {
 	constexpr float maxSpeed = 1;
 	constexpr float yMaxSpeed = 1;
 
-	const float speed = maxSpeed * dt;
-	const float ySpeed = yMaxSpeed * dt;
+	const float speed = maxSpeed * DELTA_TIME;
+	const float ySpeed = yMaxSpeed * DELTA_TIME;
 	DirectX::XMFLOAT3 translation{ 0,0,0 };
 	int nrDirections = 0;
 
@@ -66,7 +67,7 @@ void MyEngine::Game::Camera::CameraController::Update(float dt)
 
 	//ROTATION
 	constexpr float maxPitchSpeed = 40.f; //angle/sec
-	const float pitchSpeed = maxPitchSpeed * dt;
+	const float pitchSpeed = maxPitchSpeed * DELTA_TIME;
 
 	if (m_Input.IsKeyDown(VK_UP))
 		m_Camera.Pitch(pitchSpeed);
@@ -74,7 +75,7 @@ void MyEngine::Game::Camera::CameraController::Update(float dt)
 		m_Camera.Pitch(-pitchSpeed);
 
 	constexpr float maxYawSpeed = 40.f; //angle/sec
-	const float yawSpeed = maxYawSpeed * dt;
+	const float yawSpeed = maxYawSpeed * DELTA_TIME;
 
 	if (m_Input.IsKeyDown(VK_RIGHT))
 		m_Camera.Yaw(-yawSpeed);

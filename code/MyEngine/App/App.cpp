@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "App.h"
 
 #include <iostream>
@@ -56,10 +57,11 @@ void MyEngine::App::App::Run()
 	{
 		//fps
 		fpsControl.Wait();
+		Game::GameGlobals::SetDeltaTime(fpsControl.GetDurationLastFrame());
 
 		//input
 		inputData.Update();
-		cameraController.Update(fpsControl.GetDurationLastFrame());
+		cameraController.Update();
 		camera.Update();
 
 		//update

@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "DxShader.h"
 
 #include <d3dcompiler.h>

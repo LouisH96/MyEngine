@@ -14,7 +14,7 @@ namespace MyEngine
 			{
 			public:
 				CameraController(ICamera& camera, App::Input::IInputReader& input);
-				void Update(float dt) override;
+				void Update() override;
 
 			private:
 				static constexpr float SQR2 = 1.4142135623730950488016887242097f;

@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "DxCanvas.h"
 
 #include "DxHelper.h"

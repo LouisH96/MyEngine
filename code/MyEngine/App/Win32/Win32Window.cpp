@@ -1,3 +1,4 @@
+#include "pch.h"
 // ReSharper disable CppClangTidyPerformanceNoIntToPtr
 #include "Win32Window.h"
 #include "../IWindowResizeListener.h"

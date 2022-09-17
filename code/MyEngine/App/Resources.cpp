@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "Resources.h"
 
 #include <Windows.h>
