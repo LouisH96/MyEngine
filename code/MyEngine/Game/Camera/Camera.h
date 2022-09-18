@@ -25,9 +25,9 @@ namespace MyEngine
 				void OnWindowResized(DirectX::XMINT2 newSize) override;
 				void SetFieldOfView(float angle) override;
 			private:
-				DirectX::XMFLOAT4X4 m_ViewProjMatrix{ 1,0,0,0, 0,1,0,0, 0,0,1,1 ,0,0,0,0 };
-				DirectX::XMFLOAT4X4 m_World{ 1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1 };
-				DirectX::XMFLOAT4X4 m_Proj{ 1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1 };
+				DirectX::XMFLOAT4X4 m_ViewProjMatrix{};
+				DirectX::XMFLOAT4X4 m_World{ };
+				DirectX::XMFLOAT4X4 m_Proj{};
 				float m_FovValue{};
 				float m_InvAspectRatio{};
 
