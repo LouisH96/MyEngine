@@ -31,16 +31,36 @@ MyEngine::Gpu::Dx::DxMesh::DxMesh(DxGpu& gpu)
 	const HRESULT hr = m_Gpu.GetDevice().CreateBuffer(&vertexBufferDesc, &srData, &m_pVertexBuffer);
 	if (FAILED(hr))
 		throw std::exception("DxMesh::InitVertexBuffer");
+
+	InitRasterizerState();
 }
 
 void MyEngine::Gpu::Dx::DxMesh::Draw() const
 {
+	m_Gpu.GetContext().RSSetState(m_pRasterizerState);
 	m_Gpu.GetContext().Draw(m_VertexCount, 0);
+}
+
+void MyEngine::Gpu::Dx::DxMesh::InitRasterizerState()
+{
+	D3D11_RASTERIZER_DESC desc{};
+	desc.FillMode = D3D11_FILL_SOLID;
+	desc.CullMode = D3D11_CULL_NONE;
+
+	const HRESULT hr = m_Gpu.GetDevice().CreateRasterizerState(&desc, &m_pRasterizerState);
+	if (FAILED(hr))
+		throw std::exception("DxMesh::InitRasterizerState");
+}
+
+void MyEngine::Gpu::Dx::DxMesh::ReleaseRasterizerState()
+{
+	SAFE_RELEASE(m_pRasterizerState);
 }
 
 MyEngine::Gpu::Dx::DxMesh::~DxMesh()
 {
 	SAFE_RELEASE(m_pVertexBuffer);
+	ReleaseRasterizerState();
 }
 
 void MyEngine::Gpu::Dx::DxMesh::Activate() const

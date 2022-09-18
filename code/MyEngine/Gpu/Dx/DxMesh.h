@@ -31,6 +31,12 @@ namespace MyEngine
 				unsigned int m_VertexCount{};
 				unsigned int m_VertexStride{};
 				unsigned int m_VertexOffset{};
+
+#pragma region RasterizerState
+				ID3D11RasterizerState* m_pRasterizerState{};
+				void InitRasterizerState();
+				void ReleaseRasterizerState();
+#pragma endregion
 			};
 		}
 	}
