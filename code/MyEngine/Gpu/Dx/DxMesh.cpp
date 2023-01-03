@@ -46,6 +46,7 @@ void MyEngine::Gpu::Dx::DxMesh::InitRasterizerState()
 	D3D11_RASTERIZER_DESC desc{};
 	desc.FillMode = D3D11_FILL_SOLID;
 	desc.CullMode = D3D11_CULL_NONE;
+	desc.DepthClipEnable = true;
 
 	const HRESULT hr = m_Gpu.GetDevice().CreateRasterizerState(&desc, &m_pRasterizerState);
 	if (FAILED(hr))

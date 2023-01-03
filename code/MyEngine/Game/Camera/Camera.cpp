@@ -106,12 +106,18 @@ void MyEngine::Game::Camera::Camera::UpdateWorldMatrix()
 
 void MyEngine::Game::Camera::Camera::UpdateProjMatrix()
 {
+	constexpr float far = 5;
+	constexpr float near = .5f;
+
+	constexpr float a = far / (far - near);
+	constexpr float b = -(far * near) / (far - near);
+
 	m_Proj =
 	{
 		m_InvAspectRatio * m_FovValue,0,0,0,
 		0,m_FovValue,0,0,
-		0,0,1,1,
-		0,0,0,0
+		0,0,a,1,
+		0,0,b,0
 	};
 }
 

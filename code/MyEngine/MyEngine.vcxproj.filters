@@ -57,4 +57,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="Game\GameGlobals.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="PropertySheet.props" />
+  </ItemGroup>
 </Project>

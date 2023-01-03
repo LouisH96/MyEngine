@@ -1,6 +1,10 @@
 #include "pch.h"
 #include "App.h"
 
+#define _CRTDBG_MAP_ALLOC
+#include <cstdlib>
+#include <crtdbg.h>
+
 #include <iostream>
 
 #include "FpsControl.h"
@@ -23,6 +27,8 @@
 
 void MyEngine::App::App::Run()
 {
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
 	Resources::Init();
 
 	IWindow& window = *new Win32::Win32Window(L"Window");

@@ -8,9 +8,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTest", "code\UnitTest\U
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Example", "code\Example\Example.vcxproj", "{E09312B4-60C4-4621-A2C2-76EBFC8A733A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shaders", "Shaders", "{7285CD2E-A973-484A-8CA8-1C12205D71F7}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{3CF7746F-EBD2-463D-8DF2-C755C70045FF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shaders", "Shaders", "{B3D2FEC9-2E72-4C84-AD6C-0FEC8118BC0F}"
 	ProjectSection(SolutionItems) = preProject
-		resources\Shaders\shader.hlsl = resources\Shaders\shader.hlsl
+		..\..\..\..\..\..\VirtualWorld\resources\Shaders\shader.hlsl = ..\..\..\..\..\..\VirtualWorld\resources\Shaders\shader.hlsl
 	EndProjectSection
 EndProject
 Global
@@ -34,6 +36,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B3D2FEC9-2E72-4C84-AD6C-0FEC8118BC0F} = {3CF7746F-EBD2-463D-8DF2-C755C70045FF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A9E692FF-8193-416D-A8AA-DE5D2773B431}
