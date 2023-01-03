@@ -26,7 +26,7 @@ namespace MyEngine
 			virtual ~IWindow() = default;
 
 			//object
-			virtual void Init(const std::wstring& title) = 0;
+			virtual void Init(const std::wstring& title, int width, int height) = 0;
 			virtual void Release() = 0;
 
 			//messages

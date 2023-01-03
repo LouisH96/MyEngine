@@ -17,7 +17,7 @@ MyEngine::App::Win32::Win32Window::~Win32Window()
 	Release();
 }
 
-void MyEngine::App::Win32::Win32Window::Init(const std::wstring& title)
+void MyEngine::App::Win32::Win32Window::Init(const std::wstring& title, int width, int height)
 {
 	// Enable run-time memory check for debug builds.
 #if defined(DEBUG) | defined(_DEBUG)
@@ -36,6 +36,12 @@ void MyEngine::App::Win32::Win32Window::Init(const std::wstring& title)
 	windowClass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	RegisterClass(&windowClass);
 
+	//Get the entire screen rect and calculate center
+	RECT screenRect;
+	GetClientRect(GetDesktopWindow(), &screenRect);
+	const int screenCenterX = (screenRect.right - screenRect.left) / 2;
+	const int screenCenterY = (screenRect.bottom - screenRect.top) / 2;
+
 	//Create window
 	// ReSharper disable once CppLocalVariableMayBeConst
 	m_WindowHandle = CreateWindowEx(
@@ -45,7 +51,9 @@ void MyEngine::App::Win32::Win32Window::Init(const std::wstring& title)
 		WS_OVERLAPPEDWINDOW,            // Window style
 
 		// Size and position
-		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
+		screenCenterX - (width/2),
+		screenCenterY - (height/2),
+		width, height,
 
 		nullptr,       // Parent window    
 		nullptr,       // Menu

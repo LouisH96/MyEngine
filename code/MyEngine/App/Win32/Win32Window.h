@@ -43,7 +43,7 @@ namespace MyEngine
 
 #pragma region Object
 			public:
-				void Init(const std::wstring& title) override;
+				void Init(const std::wstring& title, int width = 1200, int height = 800) override;
 				void Release() override;
 #pragma endregion
 
