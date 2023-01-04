@@ -14,6 +14,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shaders", "Shaders", "{B3D2
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExampleApp", "code\ExampleApp\ExampleApp.vcxproj", "{529D120B-798E-42F8-99EE-0BA76CF64FF6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A022E896-D2D1-4445-960F-440E17870DA2} = {A022E896-D2D1-4445-960F-440E17870DA2}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -38,7 +38,7 @@ void MyEngine::App::Win32::Win32Window::Init(const std::wstring& title, int widt
 	RegisterClass(&windowClass);
 
 	//Get the entire screen center
-	const Screen& screen = Screen::Instance;
+	const Screen& screen = Screen::GetInstance();
 	const int screenCenterX = screen.GetRect().CenterX();
 	const int screenCenterY = screen.GetRect().CenterY();
 

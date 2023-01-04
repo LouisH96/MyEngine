@@ -3,7 +3,7 @@
 
 #include "Win32/Win32Window.h"
 
-MyEngine::App::Screen MyEngine::App::Screen::Instance = {};
+MyEngine::App::Screen MyEngine::App::Screen::m_Instance = {};
 
 MyEngine::App::Screen::Screen()
 {
