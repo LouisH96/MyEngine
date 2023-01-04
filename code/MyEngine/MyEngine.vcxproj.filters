@@ -20,6 +20,8 @@
     <ClCompile Include="Game\Camera\CameraController.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Game\GameGlobals.cpp" />
+    <ClCompile Include="Math\RectInt.cpp" />
+    <ClCompile Include="App\Screen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logging\Logger.h" />
@@ -56,6 +58,8 @@
     <ClInclude Include="Math\Math.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Game\GameGlobals.h" />
+    <ClInclude Include="Math\RectInt.h" />
+    <ClInclude Include="App\Screen.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

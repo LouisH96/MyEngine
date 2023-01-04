@@ -4,6 +4,7 @@
 #include "../IWindowResizeListener.h"
 #include "../Input/InputWriter.h"
 #include "../Input/EmptyInputWriter.h"
+#include "App/Screen.h"
 
 MyEngine::App::Win32::Win32Window::Win32Window(const std::wstring& title)
 	: m_pEmptyInputWriter(new Input::EmptyInputWriter())
@@ -36,11 +37,10 @@ void MyEngine::App::Win32::Win32Window::Init(const std::wstring& title, int widt
 	windowClass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	RegisterClass(&windowClass);
 
-	//Get the entire screen rect and calculate center
-	RECT screenRect;
-	GetClientRect(GetDesktopWindow(), &screenRect);
-	const int screenCenterX = (screenRect.right - screenRect.left) / 2;
-	const int screenCenterY = (screenRect.bottom - screenRect.top) / 2;
+	//Get the entire screen center
+	const Screen& screen = Screen::Instance;
+	const int screenCenterX = screen.GetRect().CenterX();
+	const int screenCenterY = screen.GetRect().CenterY();
 
 	//Create window
 	// ReSharper disable once CppLocalVariableMayBeConst
