@@ -18,12 +18,14 @@
 #include "../Logging/Logger.h"
 #include "Win32/Win32Window.h"
 
+#include "Input/Keyboard.h"
 #include "Input/InputData.h"
 #include "Input/InputWriter.h"
 #include "Input/InputReader.h"
 
 #include "../Game/Camera/Camera.h"
 #include "../Game/Camera/CameraController.h"
+
 
 void MyEngine::App::App::Run()
 {
@@ -58,6 +60,8 @@ void MyEngine::App::App::Run()
 	//fps 
 	FpsControl fpsControl{ 200 };
 
+	Input::Keyboard keyboard{};
+
 	//loop
 	while (!window.IsDestroyed())
 	{
@@ -79,6 +83,10 @@ void MyEngine::App::App::Run()
 		painter.EndPaint();
 
 		//Logging::Logger::Print("Frame " + std::to_string(fpsControl.GetNrFramesLastSec()));
+		keyboard.Update();
+
+		if (keyboard.IsDown('A')) std::cout << "a is down\n";
+		if (keyboard.IsDown('V')) std::cout << "v is down\n";
 	}
 
 	std::cout << "hi\n";

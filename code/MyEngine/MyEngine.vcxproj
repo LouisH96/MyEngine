@@ -26,6 +26,7 @@
     <ClCompile Include="App\Input\InputData.cpp" />
     <ClCompile Include="App\Input\InputWriter.cpp" />
     <ClCompile Include="App\Input\InputReader.cpp" />
+    <ClCompile Include="App\Input\Keyboard.cpp" />
     <ClCompile Include="Logging\Logger.cpp" />
     <ClCompile Include="App\Win32\Win32Window.cpp" />
     <ClCompile Include="App\Resources.cpp" />
@@ -65,6 +66,7 @@
     <ClInclude Include="App\Input\InputWriter.h" />
     <ClInclude Include="App\Input\InputReader.h" />
     <ClInclude Include="Game\Camera\ICameraController.h" />
+    <ClInclude Include="App\Input\Keyboard.h" />
     <ClInclude Include="Logging\Logger.h" />
     <ClInclude Include="App\Win32\Win32Window.h" />
     <ClInclude Include="App\Time.h" />
