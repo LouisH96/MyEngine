@@ -28,10 +28,10 @@ void MyEngine::App::Input::Keyboard::Pack(const unsigned char* pSource, unsigned
 		const unsigned char* pUnpacked = &pSource[iPack * 8];
 		unsigned char& packed = pDest[iPack];
 		packed = 0;
-		for (int8_t iChar = 0; iChar < 8; iChar++)
+		for (uint8_t iChar = 0; iChar < 8; iChar++)
 		{
-			const int8_t mask = static_cast<int8_t>(*pUnpacked++ & (1 << 7));
-			packed |= (mask >> (7 - iChar));
+			const uint8_t mask = static_cast<uint8_t>(*(pUnpacked++) & (1 << 7));
+			packed |= mask >> (7 - iChar);
 		}
 	}
 }

@@ -55,12 +55,12 @@ void MyEngine::App::App::Run()
 	Input::IInputWriter& inputWriter = *inputData.CreateWriter();
 	Input::IInputReader& inputReader = *inputData.CreateReader();
 	window.SetInputWriter(inputWriter);
-	Game::Camera::CameraController& cameraController = *new Game::Camera::CameraController(camera, inputReader);
+	Input::Keyboard keyboard{};
+	Game::Camera::CameraController& cameraController = *new Game::Camera::CameraController(camera, keyboard);
 
 	//fps 
 	FpsControl fpsControl{ 200 };
 
-	Input::Keyboard keyboard{};
 
 	//loop
 	while (!window.IsDestroyed())
@@ -70,6 +70,7 @@ void MyEngine::App::App::Run()
 		Game::GameGlobals::SetDeltaTime(fpsControl.GetDurationLastFrame());
 
 		//input
+		keyboard.Update();
 		inputData.Update();
 		cameraController.Update();
 		camera.Update();
@@ -83,10 +84,6 @@ void MyEngine::App::App::Run()
 		painter.EndPaint();
 
 		//Logging::Logger::Print("Frame " + std::to_string(fpsControl.GetNrFramesLastSec()));
-		keyboard.Update();
-
-		if (keyboard.IsDown('A')) std::cout << "a is down\n";
-		if (keyboard.IsDown('V')) std::cout << "v is down\n";
 	}
 
 	std::cout << "hi\n";
