@@ -34,8 +34,6 @@ void MyEngine::Game::Camera::CameraController::Update()
 	{
 		translation.x += speed;
 		nrDirections++;
-
-		std::cout << "d down\n";
 	}
 
 	//y
@@ -46,8 +44,6 @@ void MyEngine::Game::Camera::CameraController::Update()
 	else if(m_Keyboard.IsDown('E'))
 	{
 		translation.y += ySpeed;
-		std::cout << "e down\n";
-		bool r = m_Keyboard.IsDown('E');
 	}
 
 	//z

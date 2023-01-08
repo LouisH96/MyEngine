@@ -71,14 +71,6 @@ namespace MyEngine
 				HWND m_WindowHandle{};
 				friend LRESULT CALLBACK::win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam);
 #pragma endregion
-
-#pragma region Input
-			public:
-				void SetInputWriter(Input::IInputWriter& writer) override;
-			private:
-				Input::IInputWriter* m_pInputWriter{};
-				Input::EmptyInputWriter* m_pEmptyInputWriter;
-#pragma endregion
 			};
 		}
 	}

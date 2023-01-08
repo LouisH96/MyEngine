@@ -6,11 +6,6 @@ namespace MyEngine
 {
 	namespace App
 	{
-		namespace Input
-		{
-			class IInputWriter;
-		}
-
 		class IWindowResizeListener;
 
 		class IWindow
@@ -36,9 +31,6 @@ namespace MyEngine
 			virtual void Listen(IWindowResizeListener& listener) = 0;
 			virtual bool IsDestroyed() const = 0;
 			virtual DirectX::XMINT2 GetSize() const = 0;
-
-			//input
-			virtual void SetInputWriter(Input::IInputWriter& writer) = 0;
 		};
 	}
 }

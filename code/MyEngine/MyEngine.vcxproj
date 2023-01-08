@@ -23,9 +23,6 @@
     <ClCompile Include="Gpu\Dx\DxHelper.cpp" />
     <ClCompile Include="Gpu\Dx\DxGpu.cpp" />
     <ClCompile Include="Gpu\GpuCreator.cpp" />
-    <ClCompile Include="App\Input\InputData.cpp" />
-    <ClCompile Include="App\Input\InputWriter.cpp" />
-    <ClCompile Include="App\Input\InputReader.cpp" />
     <ClCompile Include="App\Input\Keyboard.cpp" />
     <ClCompile Include="Logging\Logger.cpp" />
     <ClCompile Include="App\Win32\Win32Window.cpp" />
@@ -42,12 +39,8 @@
     <ClInclude Include="Game\GameGlobals.h" />
     <ClInclude Include="Game\Camera\CameraController.h" />
     <ClInclude Include="Game\Camera\ICamera.h" />
-    <ClInclude Include="App\Input\IInputData.h" />
-    <ClInclude Include="App\Input\IInputReader.h" />
-    <ClInclude Include="App\Input\IInputWriter.h" />
     <ClInclude Include="App\IWindowResizeListener.h" />
     <ClInclude Include="Game\Camera\Camera.h" />
-    <ClInclude Include="App\Input\EmptyInputWriter.h" />
     <ClInclude Include="Gpu\Dx\DxPainter.h" />
     <ClInclude Include="Gpu\Dx\DxMesh.h" />
     <ClInclude Include="Gpu\Dx\DxShader.h" />
@@ -62,9 +55,6 @@
     <ClInclude Include="Gpu\IMesh.h" />
     <ClInclude Include="Gpu\IPainter.h" />
     <ClInclude Include="Gpu\IShader.h" />
-    <ClInclude Include="App\Input\InputData.h" />
-    <ClInclude Include="App\Input\InputWriter.h" />
-    <ClInclude Include="App\Input\InputReader.h" />
     <ClInclude Include="Game\Camera\ICameraController.h" />
     <ClInclude Include="App\Input\Keyboard.h" />
     <ClInclude Include="Logging\Logger.h" />

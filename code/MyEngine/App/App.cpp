@@ -19,9 +19,6 @@
 #include "Win32/Win32Window.h"
 
 #include "Input/Keyboard.h"
-#include "Input/InputData.h"
-#include "Input/InputWriter.h"
-#include "Input/InputReader.h"
 
 #include "../Game/Camera/Camera.h"
 #include "../Game/Camera/CameraController.h"
@@ -51,10 +48,6 @@ void MyEngine::App::App::Run()
 	painter.SetCamera(camera);
 
 	//input
-	Input::IInputData& inputData = *new Input::InputData();
-	Input::IInputWriter& inputWriter = *inputData.CreateWriter();
-	Input::IInputReader& inputReader = *inputData.CreateReader();
-	window.SetInputWriter(inputWriter);
 	Input::Keyboard keyboard{};
 	Game::Camera::CameraController& cameraController = *new Game::Camera::CameraController(camera, keyboard);
 
@@ -71,7 +64,6 @@ void MyEngine::App::App::Run()
 
 		//input
 		keyboard.Update();
-		inputData.Update();
 		cameraController.Update();
 		camera.Update();
 
@@ -90,9 +82,6 @@ void MyEngine::App::App::Run()
 
 	//input
 	delete& cameraController;
-	delete& inputReader;
-	delete& inputWriter;
-	delete& inputData;
 
 	delete& painter;
 	delete& camera;
