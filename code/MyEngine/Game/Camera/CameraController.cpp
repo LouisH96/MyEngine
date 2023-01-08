@@ -7,6 +7,7 @@
 
 #include "ICamera.h"
 #include "App/Input/Keyboard.h"
+#include "Math/Math.h"
 
 MyEngine::Game::Camera::CameraController::CameraController(ICamera& camera, App::Input::Keyboard& keyboard)
 	: m_Keyboard(keyboard)
@@ -16,70 +17,30 @@ MyEngine::Game::Camera::CameraController::CameraController(ICamera& camera, App:
 
 void MyEngine::Game::Camera::CameraController::Update()
 {
-	constexpr float maxSpeed = 1;
-	constexpr float yMaxSpeed = 1;
-
-	const float speed = maxSpeed * DELTA_TIME;
-	const float ySpeed = yMaxSpeed * DELTA_TIME;
 	DirectX::XMFLOAT3 translation{ 0,0,0 };
-	int nrDirections = 0;
+	translation.x = static_cast<float>(m_Keyboard.IsDown('D') - m_Keyboard.IsDown('Q'));
+	translation.y = static_cast<float>(m_Keyboard.IsDown('E') - m_Keyboard.IsDown('A'));
+	translation.z = static_cast<float>(m_Keyboard.IsDown('Z') - m_Keyboard.IsDown('S'));
 
-	//x
-	if (m_Keyboard.IsDown('Q'))
-	{
-		translation.x -= speed;
-		nrDirections++;
-	}
-	else if (m_Keyboard.IsDown('D'))
-	{
-		translation.x += speed;
-		nrDirections++;
-	}
+	//multiply with speed
+	constexpr float maxHorSpeed = 1;
+	constexpr float maxVerSpeed = 1;
+	const float verSpeed = maxVerSpeed * DELTA_TIME;
+	float horSpeed = maxHorSpeed * DELTA_TIME;
+	if (translation.x != 0 && translation.z != 0) horSpeed *= Math::DIVSQR2;
 
-	//y
-	if(m_Keyboard.IsDown('A'))
-	{
-		translation.y -= ySpeed;
-	}
-	else if(m_Keyboard.IsDown('E'))
-	{
-		translation.y += ySpeed;
-	}
-
-	//z
-	if (m_Keyboard.IsDown('S'))
-	{
-		translation.z -= speed;
-		nrDirections++;
-	}
-	else if (m_Keyboard.IsDown('Z'))
-	{
-		translation.z += speed;
-		nrDirections++;
-	}
-	
-	if(nrDirections > 1)
-	{
-		translation.x /= SQR2;
-		translation.z /= SQR2;
-	}
-
+	translation.x *= horSpeed;
+	translation.z *= horSpeed;
+	translation.y *= verSpeed;
 	m_Camera.Move(translation);
 
 	//ROTATION
 	constexpr float maxPitchSpeed = 40.f; //angle/sec
-	const float pitchSpeed = maxPitchSpeed * DELTA_TIME;
-
-	if (m_Keyboard.IsDown(VK_UP))
-		m_Camera.Pitch(pitchSpeed);
-	else if (m_Keyboard.IsDown(VK_DOWN))
-		m_Camera.Pitch(-pitchSpeed);
-
 	constexpr float maxYawSpeed = 40.f; //angle/sec
+	const float pitchSpeed = maxPitchSpeed * DELTA_TIME;
 	const float yawSpeed = maxYawSpeed * DELTA_TIME;
-
-	if (m_Keyboard.IsDown(VK_RIGHT))
-		m_Camera.Yaw(-yawSpeed);
-	else if (m_Keyboard.IsDown(VK_LEFT))
-		m_Camera.Yaw(yawSpeed);
+	const float pitch = static_cast<float>(m_Keyboard.IsDown(VK_UP) - m_Keyboard.IsDown(VK_DOWN)) * pitchSpeed;
+	const float yaw = static_cast<float>(m_Keyboard.IsDown(VK_LEFT) - m_Keyboard.IsDown(VK_RIGHT)) * yawSpeed;
+	m_Camera.Pitch(pitch);
+	m_Camera.Yaw(yaw);
 }
