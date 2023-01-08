@@ -28,8 +28,6 @@ namespace MyEngine
 				void Update() override;
 
 			private:
-				static constexpr float SQR2 = 1.4142135623730950488016887242097f;
-
 				App::Input::Keyboard& m_Keyboard;
 				ICamera& m_Camera;
 			};
