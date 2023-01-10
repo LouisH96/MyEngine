@@ -16,7 +16,7 @@
 #include "../Gpu/IShader.h"
 #include "../Gpu/IPainter.h"
 #include "../Logging/Logger.h"
-#include "Win32/Win32Window.h"
+#include "Window.h"
 
 #include "../Game/Camera/Camera.h"
 #include "../Game/Camera/CameraController.h"
@@ -28,7 +28,7 @@ void MyEngine::App::App::Run()
 
 	Resources::Init();
 
-	Win32::Win32Window& window = *new Win32::Win32Window(L"Window");
+	Window& window = *new Window(L"Window");
 
 	Gpu::IGpu& gpu = *Gpu::GpuCreator::Create(window);
 

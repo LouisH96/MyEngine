@@ -5,7 +5,7 @@ namespace MyEngine
 {
 	namespace App
 	{
-		namespace Window
+		namespace Input
 		{
 			class Keyboard_MsgListener
 				: public Input::Keyboard_<Keyboard_MsgListener>
@@ -13,7 +13,7 @@ namespace MyEngine
 			public:
 				Keyboard_MsgListener();
 				bool IsDown_(char c) const;
-				
+
 				void KeyUp(char c);
 				void KeyDown(char c);
 

@@ -2,7 +2,7 @@
 #include "Keyboard_.h"
 
 //#include "Keyboard_StateReader.h"
-#include "../Win32/Keyboard_MsgListener.h"
+#include "Keyboard_MsgListener.h"
 
 namespace MyEngine
 {
@@ -10,7 +10,7 @@ namespace MyEngine
 	{
 		namespace Input
 		{
-			typedef Keyboard_<Window::Keyboard_MsgListener> Keyboard;
+			typedef Keyboard_<Keyboard_MsgListener> Keyboard;
 		}
 	}
 }

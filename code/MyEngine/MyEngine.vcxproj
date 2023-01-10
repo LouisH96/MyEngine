@@ -25,9 +25,9 @@
     <ClCompile Include="Gpu\GpuCreator.cpp" />
     <ClCompile Include="App\Input\Keyboard_StateReader.cpp" />
     <ClCompile Include="App\Input\InputTypes.cpp" />
-    <ClCompile Include="App\Win32\Keyboard_MsgListener.cpp" />
+    <ClCompile Include="App\Input\Keyboard_MsgListener.cpp" />
     <ClCompile Include="Logging\Logger.cpp" />
-    <ClCompile Include="App\Win32\Win32Window.cpp" />
+    <ClCompile Include="App\Window.cpp" />
     <ClCompile Include="App\Resources.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -48,7 +48,6 @@
     <ClInclude Include="Gpu\Dx\DxShader.h" />
     <ClInclude Include="Gpu\Dx\DxCanvas.h" />
     <ClInclude Include="Gpu\ICanvas.h" />
-    <ClInclude Include="App\IWindow.h" />
     <ClInclude Include="App\FpsControl.h" />
     <ClInclude Include="Gpu\Dx\DxHelper.h" />
     <ClInclude Include="Gpu\Dx\DxGpu.h" />
@@ -61,9 +60,9 @@
     <ClInclude Include="App\Input\Keyboard_StateReader.h" />
     <ClInclude Include="App\Input\Keyboard_.h" />
     <ClInclude Include="App\Input\InputTypes.h" />
-    <ClInclude Include="App\Win32\Keyboard_MsgListener.h" />
+    <ClInclude Include="App\Input\Keyboard_MsgListener.h" />
     <ClInclude Include="Logging\Logger.h" />
-    <ClInclude Include="App\Win32\Win32Window.h" />
+    <ClInclude Include="App\Window.h" />
     <ClInclude Include="App\Time.h" />
     <ClInclude Include="App\Resources.h" />
     <ClInclude Include="Math\Math.h" />

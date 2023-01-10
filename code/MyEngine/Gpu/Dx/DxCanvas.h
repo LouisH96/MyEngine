@@ -8,10 +8,7 @@ namespace MyEngine
 {
 	namespace App
 	{
-		namespace Win32
-		{
-			class Win32Window;
-		}
+			class Window;
 	}
 }
 
@@ -30,7 +27,7 @@ namespace MyEngine
 				DxCanvas& operator=(const DxCanvas& other) = delete;
 				DxCanvas& operator=(DxCanvas&& other) noexcept = delete;
 
-				DxCanvas(DxGpu& gpu, App::Win32::Win32Window& window);
+				DxCanvas(DxGpu& gpu, App::Window& window);
 				~DxCanvas() override;
 
 				void Clear() const override;
@@ -45,7 +42,7 @@ namespace MyEngine
 				ID3D11RenderTargetView* m_pMainRenderTargetView{};
 				D3D11_VIEWPORT m_ViewPort{};
 
-				void InitSwapChain(const App::Win32::Win32Window& window);
+				void InitSwapChain(const App::Window& window);
 				void InitRenderTarget();
 				void SetViewPort(DirectX::XMINT2 windowSize);
 

@@ -11,11 +11,10 @@
 #include "DxMesh.h"
 #include "DxPainter.h"
 #include "DxShader.h"
-#include "../../App/IWindow.h"
+#include "../../App/Window.h"
 #include "../../App/Resources.h"
-#include "../../App/Win32/Win32Window.h"
 
-MyEngine::Gpu::Dx::DxGpu::DxGpu(App::Win32::Win32Window& window)
+MyEngine::Gpu::Dx::DxGpu::DxGpu(App::Window& window)
 	: m_Window{window}
 {
 	Init();

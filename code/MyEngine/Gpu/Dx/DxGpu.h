@@ -9,10 +9,7 @@ namespace MyEngine
 {
 	namespace App
 	{
-		namespace Win32
-		{
-			class Win32Window;
-		}
+		class Window;
 	}
 }
 
@@ -31,9 +28,9 @@ namespace MyEngine
 				DxGpu& operator=(const DxGpu& other) = delete;
 				DxGpu& operator=(DxGpu&& other) noexcept = delete;
 
-				explicit DxGpu(App::Win32::Win32Window& window);
+				explicit DxGpu(App::Window& window);
 				~DxGpu() override;
-				
+
 				void Release() override;
 
 				ICanvas* MakeCanvas() override;
@@ -53,7 +50,7 @@ namespace MyEngine
 
 				ID3D11Device* m_pDevice{};
 				ID3D11DeviceContext* m_pContext{};
-				App::Win32::Win32Window& m_Window;
+				App::Window& m_Window;
 
 				void Init();
 			};

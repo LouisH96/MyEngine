@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Screen.h"
 
-#include "Win32/Win32Window.h"
+#include "Window.h"
 
 MyEngine::App::Screen MyEngine::App::Screen::m_Instance = {};
 

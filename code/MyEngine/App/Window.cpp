@@ -1,20 +1,21 @@
 #include "pch.h"
 // ReSharper disable CppClangTidyPerformanceNoIntToPtr
-#include "Win32Window.h"
-#include "../IWindowResizeListener.h"
+#include "Window.h"
+#include "IWindowResizeListener.h"
 #include "App/Screen.h"
+#include "Gpu/Dx/DxCanvas.h"
 
-MyEngine::App::Win32::Win32Window::Win32Window(const std::wstring& title)
+MyEngine::App::Window::Window(const std::wstring& title)
 {
 	Init(title);
 }
 
-MyEngine::App::Win32::Win32Window::~Win32Window()
+MyEngine::App::Window::~Window()
 {
 	Release();
 }
 
-void MyEngine::App::Win32::Win32Window::Init(const std::wstring& title, int width, int height)
+void MyEngine::App::Window::Init(const std::wstring& title, int width, int height)
 {
 	// Enable run-time memory check for debug builds.
 #if defined(DEBUG) | defined(_DEBUG)
@@ -61,18 +62,18 @@ void MyEngine::App::Win32::Win32Window::Init(const std::wstring& title, int widt
 	m_NewSize = { 0,0 };
 }
 
-void MyEngine::App::Win32::Win32Window::Release()
+void MyEngine::App::Window::Release()
 {
 	//todo: check if and how you could quit the app from here, and not from a quit msg on the queue
 	//simply PostMessage with wm_quit would work probably, but normally this shouldn't be closed like this
 }
 
-void MyEngine::App::Win32::Win32Window::Listen(IWindowResizeListener& listener)
+void MyEngine::App::Window::Listen(IWindowResizeListener& listener)
 {
 	m_ResizeListeners.push_back(&listener);
 }
 
-void MyEngine::App::Win32::Win32Window::HandleMessages()
+void MyEngine::App::Window::HandleMessages()
 {
 	//win32-messages
 	MSG msg;
@@ -89,7 +90,7 @@ void MyEngine::App::Win32::Win32Window::HandleMessages()
 	}
 }
 
-DirectX::XMINT2 MyEngine::App::Win32::Win32Window::GetSize() const
+DirectX::XMINT2 MyEngine::App::Window::GetSize() const
 {
 	RECT rect{};
 	GetClientRect(m_WindowHandle, &rect);
@@ -98,8 +99,7 @@ DirectX::XMINT2 MyEngine::App::Win32::Win32Window::GetSize() const
 
 LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	using namespace MyEngine::App::Win32;
-	Win32Window& window = *reinterpret_cast<Win32Window*>(GetWindowLongPtr(windowHandle, GWLP_USERDATA));
+	MyEngine::App::Window& window = *reinterpret_cast<MyEngine::App::Window*>(GetWindowLongPtr(windowHandle, GWLP_USERDATA));
 
 	switch (uMsg)
 	{
