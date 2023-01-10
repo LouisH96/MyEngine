@@ -47,8 +47,8 @@ void MyEngine::App::Win32::Win32Window::Init(const std::wstring& title, int widt
 		WS_OVERLAPPEDWINDOW,            // Window style
 
 		// Size and position
-		screenCenterX - (width/2),
-		screenCenterY - (height/2),
+		screenCenterX - (width / 2),
+		screenCenterY - (height / 2),
 		width, height,
 
 		nullptr,       // Parent window    
@@ -104,15 +104,19 @@ LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, 
 	switch (uMsg)
 	{
 	case WM_DESTROY:
-	{
 		window.m_IsDestroyed = true;
 		PostQuitMessage(0);
-	}
+		break;
 	case WM_SIZE:
-	{
 		window.m_NewSize.x = LOWORD(lParam);
 		window.m_NewSize.y = HIWORD(lParam);
-	}
+		break;
+	case WM_KEYDOWN:
+		window.m_Keyboard.KeyDown(static_cast<char>(wParam));
+		break;
+	case WM_KEYUP:
+		window.m_Keyboard.KeyUp(static_cast<char>(wParam));
+		break;
 	default:
 		return DefWindowProc(windowHandle, uMsg, wParam, lParam);
 	}

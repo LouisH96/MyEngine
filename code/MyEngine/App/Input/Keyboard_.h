@@ -10,13 +10,13 @@ namespace MyEngine
 			class Keyboard_
 			{
 			public:
-				bool IsDown(char c);
+				bool IsDown(char c) const;
 			};
 
 			template <class T>
-			bool Keyboard_<T>::IsDown(char c)
+			bool Keyboard_<T>::IsDown(char c) const
 			{
-				return reinterpret_cast<T*>(this)->IsDown_(c);
+				return reinterpret_cast<const T*>(this)->IsDown_(c);
 			}
 		}
 	}

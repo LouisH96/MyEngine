@@ -14,11 +14,11 @@ namespace MyEngine
 				: public ICameraController
 			{
 			public:
-				CameraController(ICamera& camera, App::Input::Keyboard& keyboard);
+				CameraController(ICamera& camera, const App::Input::Keyboard& keyboard);
 				void Update() override;
 
 			private:
-				App::Input::Keyboard& m_Keyboard;
+				const App::Input::Keyboard& m_Keyboard;
 				ICamera& m_Camera;
 			};
 		}

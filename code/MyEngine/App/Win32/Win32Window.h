@@ -7,6 +7,8 @@
 #include <string>
 #include <vector>
 
+#include "Keyboard_MsgListener.h"
+
 namespace MyEngine
 {
 	namespace App
@@ -63,6 +65,15 @@ namespace MyEngine
 				bool m_IsDestroyed{ false };
 				DirectX::XMINT2 m_NewSize{};
 #pragma endregion
+
+#pragma region Input
+			public:
+				const Window::Keyboard_MsgListener& GetKeyboard() const { return m_Keyboard; }
+			private:
+				Window::Keyboard_MsgListener m_Keyboard{};
+
+#pragma endregion
+
 
 #pragma region Win32
 			public:

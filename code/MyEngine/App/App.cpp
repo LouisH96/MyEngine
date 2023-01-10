@@ -18,8 +18,6 @@
 #include "../Logging/Logger.h"
 #include "Win32/Win32Window.h"
 
-#include "Input/Keyboard_StateReader.h"
-
 #include "../Game/Camera/Camera.h"
 #include "../Game/Camera/CameraController.h"
 
@@ -30,7 +28,7 @@ void MyEngine::App::App::Run()
 
 	Resources::Init();
 
-	IWindow& window = *new Win32::Win32Window(L"Window");
+	Win32::Win32Window& window = *new Win32::Win32Window(L"Window");
 
 	Gpu::IGpu& gpu = *Gpu::GpuCreator::Create(window);
 
@@ -48,8 +46,7 @@ void MyEngine::App::App::Run()
 	painter.SetCamera(camera);
 
 	//input
-	Input::Keyboard_StateReader keyboard{};
-	Game::Camera::CameraController& cameraController = *new Game::Camera::CameraController(camera, keyboard);
+	Game::Camera::CameraController& cameraController = *new Game::Camera::CameraController(camera, window.GetKeyboard());
 
 	//fps 
 	FpsControl fpsControl{ 200 };
@@ -63,7 +60,6 @@ void MyEngine::App::App::Run()
 		Game::GameGlobals::SetDeltaTime(fpsControl.GetDurationLastFrame());
 
 		//input
-		keyboard.Update();
 		cameraController.Update();
 		camera.Update();
 
