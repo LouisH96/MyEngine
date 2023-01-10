@@ -11,9 +11,9 @@ namespace MyEngine
 				: public Input::Keyboard_<Keyboard_MsgListener>
 			{
 			public:
+				Keyboard_MsgListener();
 				bool IsDown_(char c) const;
-
-				void Reset();
+				
 				void KeyUp(char c);
 				void KeyDown(char c);
 
