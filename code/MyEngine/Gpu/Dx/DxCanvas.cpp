@@ -9,9 +9,7 @@ MyEngine::Gpu::Dx::DxCanvas::DxCanvas(DxGpu& gpu, App::Window& window)
 {
 	InitSwapChain(window);
 	InitRenderTarget();
-	SetViewPort(window.GetSize());
-
-	window.Listen(*this);
+	SetViewPort(window.GetSize_WinApi());
 }
 
 void MyEngine::Gpu::Dx::DxCanvas::Activate() const
@@ -50,7 +48,7 @@ void MyEngine::Gpu::Dx::DxCanvas::OnWindowResized(DirectX::XMINT2 newSize)
 
 void MyEngine::Gpu::Dx::DxCanvas::InitSwapChain(const App::Window& window)
 {
-	const DirectX::XMINT2 windowSize = window.GetSize();
+	const DirectX::XMINT2 windowSize = window.GetSize_WinApi();
 	DXGI_SWAP_CHAIN_DESC1 desc{};
 	desc.BufferCount = 2;
 	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;

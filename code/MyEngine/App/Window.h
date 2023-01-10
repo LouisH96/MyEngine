@@ -40,19 +40,19 @@ namespace MyEngine
 
 #pragma region Messages
 		public:
-			void Listen(IWindowResizeListener& listener);
 			void HandleMessages();
-		private:
-			std::vector<IWindowResizeListener*> m_ResizeListeners{};
 #pragma endregion
 
 #pragma region Screen
 		public:
 			bool IsDestroyed() const { return m_IsDestroyed; }
-			DirectX::XMINT2 GetSize() const;
+			DirectX::XMINT2 GetSize_WinApi() const;
+			DirectX::XMINT2 GetSize() const { return m_Size; };
+			bool IsResized() const { return m_IsResized; }
 		private:
 			bool m_IsDestroyed{ false };
-			DirectX::XMINT2 m_NewSize{};
+			DirectX::XMINT2 m_Size{};
+			bool m_IsResized{ false };
 #pragma endregion
 
 #pragma region Input

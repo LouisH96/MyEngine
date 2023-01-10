@@ -21,7 +21,6 @@
 #include "../Game/Camera/Camera.h"
 #include "../Game/Camera/CameraController.h"
 
-
 void MyEngine::App::App::Run()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
@@ -35,8 +34,7 @@ void MyEngine::App::App::Run()
 	Gpu::ICanvas& canvas = *gpu.MakeCanvas();
 	Gpu::IShader& shader = *gpu.MakeShader();
 	Gpu::IMesh& mesh = *gpu.MakeMesh();
-	Game::Camera::ICamera& camera = *new Game::Camera::Camera(window.GetSize());
-	window.Listen(camera);
+	Game::Camera::ICamera& camera = *new Game::Camera::Camera(window.GetSize_WinApi());
 	camera.Move({ 0,0,-1 });
 	Gpu::IPainter& painter = *gpu.MakePainter();
 
@@ -50,8 +48,7 @@ void MyEngine::App::App::Run()
 
 	//fps 
 	FpsControl fpsControl{ 200 };
-
-
+	
 	//loop
 	while (!window.IsDestroyed())
 	{
@@ -59,19 +56,22 @@ void MyEngine::App::App::Run()
 		fpsControl.Wait();
 		Game::GameGlobals::SetDeltaTime(fpsControl.GetDurationLastFrame());
 
+		//window-msg's
+		window.HandleMessages();
+		if(window.IsResized())
+		{
+			canvas.OnWindowResized(window.GetSize());
+			camera.OnWindowResized(window.GetSize());
+		}
+
 		//input
 		cameraController.Update();
 		camera.Update();
-
-		//update
-		window.HandleMessages();
-
+		
 		//render
 		painter.BeginPaint();
 		painter.Paint();
 		painter.EndPaint();
-
-		//Logging::Logger::Print("Frame " + std::to_string(fpsControl.GetNrFramesLastSec()));
 	}
 
 	std::cout << "hi\n";

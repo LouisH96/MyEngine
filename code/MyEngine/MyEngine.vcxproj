@@ -41,7 +41,6 @@
     <ClInclude Include="Game\GameGlobals.h" />
     <ClInclude Include="Game\Camera\CameraController.h" />
     <ClInclude Include="Game\Camera\ICamera.h" />
-    <ClInclude Include="App\IWindowResizeListener.h" />
     <ClInclude Include="Game\Camera\Camera.h" />
     <ClInclude Include="Gpu\Dx\DxPainter.h" />
     <ClInclude Include="Gpu\Dx\DxMesh.h" />

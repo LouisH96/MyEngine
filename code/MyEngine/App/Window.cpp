@@ -1,7 +1,6 @@
 #include "pch.h"
 // ReSharper disable CppClangTidyPerformanceNoIntToPtr
 #include "Window.h"
-#include "IWindowResizeListener.h"
 #include "App/Screen.h"
 #include "Gpu/Dx/DxCanvas.h"
 
@@ -59,7 +58,7 @@ void MyEngine::App::Window::Init(const std::wstring& title, int width, int heigh
 	);
 	SetWindowLongPtr(m_WindowHandle, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 	ShowWindow(m_WindowHandle, true);
-	m_NewSize = { 0,0 };
+	m_Size = { width,height };
 }
 
 void MyEngine::App::Window::Release()
@@ -68,29 +67,17 @@ void MyEngine::App::Window::Release()
 	//simply PostMessage with wm_quit would work probably, but normally this shouldn't be closed like this
 }
 
-void MyEngine::App::Window::Listen(IWindowResizeListener& listener)
-{
-	m_ResizeListeners.push_back(&listener);
-}
-
 void MyEngine::App::Window::HandleMessages()
 {
+	m_IsResized = false;
+
 	//win32-messages
 	MSG msg;
 	while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 		DispatchMessage(&msg);
-
-	//resize event
-	if (m_NewSize.x != 0)
-	{
-		for (auto* pListener : m_ResizeListeners)
-			pListener->OnWindowResized(m_NewSize);
-		m_NewSize.x = 0;
-		m_NewSize.y = 0;
-	}
 }
 
-DirectX::XMINT2 MyEngine::App::Window::GetSize() const
+DirectX::XMINT2 MyEngine::App::Window::GetSize_WinApi() const
 {
 	RECT rect{};
 	GetClientRect(m_WindowHandle, &rect);
@@ -108,8 +95,9 @@ LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, 
 		PostQuitMessage(0);
 		break;
 	case WM_SIZE:
-		window.m_NewSize.x = LOWORD(lParam);
-		window.m_NewSize.y = HIWORD(lParam);
+		window.m_Size.x = LOWORD(lParam);
+		window.m_Size.y = HIWORD(lParam);
+		window.m_IsResized = true;
 		break;
 	case WM_KEYDOWN:
 		window.m_Keyboard.KeyDown(static_cast<char>(wParam));
@@ -117,7 +105,7 @@ LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, 
 	case WM_KEYUP:
 		window.m_Keyboard.KeyUp(static_cast<char>(wParam));
 		break;
-	default:
-		return DefWindowProc(windowHandle, uMsg, wParam, lParam);
+	default:;
 	}
+	return DefWindowProc(windowHandle, uMsg, wParam, lParam);
 }

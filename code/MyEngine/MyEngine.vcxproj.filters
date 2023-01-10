@@ -35,7 +35,6 @@
     <ClInclude Include="Gpu\IGpu.h" />
     <ClInclude Include="Gpu\ICanvas.h" />
     <ClInclude Include="Gpu\Dx\DxCanvas.h" />
-    <ClInclude Include="App\IWindowResizeListener.h" />
     <ClInclude Include="App\Resources.h" />
     <ClInclude Include="Gpu\IShader.h" />
     <ClInclude Include="Gpu\IMesh.h" />
