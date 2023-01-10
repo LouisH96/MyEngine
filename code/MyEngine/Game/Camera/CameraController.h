@@ -1,16 +1,6 @@
 #pragma once
 #include "ICameraController.h"
-
-namespace MyEngine
-{
-	namespace App
-	{
-		namespace Input
-		{
-			class Keyboard;
-		}
-	}
-}
+#include "App/Input/InputTypes.h"
 
 namespace MyEngine
 {

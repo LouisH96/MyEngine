@@ -6,7 +6,6 @@
 #include <iostream>
 
 #include "ICamera.h"
-#include "App/Input/Keyboard.h"
 #include "Math/Math.h"
 
 MyEngine::Game::Camera::CameraController::CameraController(ICamera& camera, App::Input::Keyboard& keyboard)

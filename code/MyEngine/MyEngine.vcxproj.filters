@@ -19,7 +19,8 @@
     <ClCompile Include="Game\GameGlobals.cpp" />
     <ClCompile Include="Math\RectInt.cpp" />
     <ClCompile Include="App\Screen.cpp" />
-    <ClCompile Include="App\Input\Keyboard.cpp" />
+    <ClCompile Include="App\Input\Keyboard_StateReader.cpp" />
+    <ClCompile Include="App\Input\InputTypes.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logging\Logger.h" />
@@ -51,7 +52,9 @@
     <ClInclude Include="Game\GameGlobals.h" />
     <ClInclude Include="Math\RectInt.h" />
     <ClInclude Include="App\Screen.h" />
-    <ClInclude Include="App\Input\Keyboard.h" />
+    <ClInclude Include="App\Input\Keyboard_StateReader.h" />
+    <ClInclude Include="App\Input\Keyboard_.h" />
+    <ClInclude Include="App\Input\InputTypes.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

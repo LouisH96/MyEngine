@@ -23,7 +23,8 @@
     <ClCompile Include="Gpu\Dx\DxHelper.cpp" />
     <ClCompile Include="Gpu\Dx\DxGpu.cpp" />
     <ClCompile Include="Gpu\GpuCreator.cpp" />
-    <ClCompile Include="App\Input\Keyboard.cpp" />
+    <ClCompile Include="App\Input\Keyboard_StateReader.cpp" />
+    <ClCompile Include="App\Input\InputTypes.cpp" />
     <ClCompile Include="Logging\Logger.cpp" />
     <ClCompile Include="App\Win32\Win32Window.cpp" />
     <ClCompile Include="App\Resources.cpp" />
@@ -56,7 +57,9 @@
     <ClInclude Include="Gpu\IPainter.h" />
     <ClInclude Include="Gpu\IShader.h" />
     <ClInclude Include="Game\Camera\ICameraController.h" />
-    <ClInclude Include="App\Input\Keyboard.h" />
+    <ClInclude Include="App\Input\Keyboard_StateReader.h" />
+    <ClInclude Include="App\Input\Keyboard_.h" />
+    <ClInclude Include="App\Input\InputTypes.h" />
     <ClInclude Include="Logging\Logger.h" />
     <ClInclude Include="App\Win32\Win32Window.h" />
     <ClInclude Include="App\Time.h" />

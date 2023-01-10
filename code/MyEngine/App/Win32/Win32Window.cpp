@@ -76,11 +76,8 @@ void MyEngine::App::Win32::Win32Window::HandleMessages()
 {
 	//win32-messages
 	MSG msg;
-	while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE) > 0)
-	{
-		TranslateMessage(&msg);
+	while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 		DispatchMessage(&msg);
-	}
 
 	//resize event
 	if (m_NewSize.x != 0)

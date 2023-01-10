@@ -1,17 +1,19 @@
 #pragma once
 
+#include "Keyboard_.h"
+
 namespace MyEngine
 {
 	namespace App
 	{
 		namespace Input
 		{
-			class Keyboard
+			class Keyboard_StateReader
+				: public Keyboard_<Keyboard_StateReader>
 			{
 			public:
-
 				void Update();
-				bool IsDown(unsigned char c) const;
+				bool IsDown_(unsigned char c) const;
 
 			private:
 				static constexpr unsigned NR_KEYS = 256;

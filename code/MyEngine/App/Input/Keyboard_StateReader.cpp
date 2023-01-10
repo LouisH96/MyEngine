@@ -1,9 +1,9 @@
 #include "pch.h"
 #include <Windows.h>
-#include "Keyboard.h"
+#include "Keyboard_StateReader.h"
 #include <iostream>
 
-void MyEngine::App::Input::Keyboard::Update()
+void MyEngine::App::Input::Keyboard_StateReader::Update()
 {
 	unsigned char keys[NR_KEYS];
 	GetKeyboardState(keys);
@@ -11,14 +11,14 @@ void MyEngine::App::Input::Keyboard::Update()
 	Pack(keys, m_Keys);
 }
 
-bool MyEngine::App::Input::Keyboard::IsDown(unsigned char c) const
+bool MyEngine::App::Input::Keyboard_StateReader::IsDown_(unsigned char c) const
 {
 	const int iPack = c / PACK_SIZE;
 	const int iBit = c % PACK_SIZE;
 	return m_Keys[iPack] & (1 << iBit);
 }
 
-void MyEngine::App::Input::Keyboard::Pack(const unsigned char* pSource, unsigned char* pDest)
+void MyEngine::App::Input::Keyboard_StateReader::Pack(const unsigned char* pSource, unsigned char* pDest)
 {
 	//source is array of char's per keyboard key
 	//the highest bit in the source bits is whether the key is up/down (0/1)

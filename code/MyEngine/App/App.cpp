@@ -18,7 +18,7 @@
 #include "../Logging/Logger.h"
 #include "Win32/Win32Window.h"
 
-#include "Input/Keyboard.h"
+#include "Input/Keyboard_StateReader.h"
 
 #include "../Game/Camera/Camera.h"
 #include "../Game/Camera/CameraController.h"
@@ -48,7 +48,7 @@ void MyEngine::App::App::Run()
 	painter.SetCamera(camera);
 
 	//input
-	Input::Keyboard keyboard{};
+	Input::Keyboard_StateReader keyboard{};
 	Game::Camera::CameraController& cameraController = *new Game::Camera::CameraController(camera, keyboard);
 
 	//fps 
