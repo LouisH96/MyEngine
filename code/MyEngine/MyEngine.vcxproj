@@ -47,12 +47,10 @@
     <ClInclude Include="Wrappers\Gpu\Canvas.h" />
     <ClInclude Include="Game\GameGlobals.h" />
     <ClInclude Include="Game\Camera\CameraController.h" />
-    <ClInclude Include="Game\Camera\ICamera.h" />
     <ClInclude Include="Game\Camera\Camera.h" />
     <ClInclude Include="App\FpsControl.h" />
     <ClInclude Include="Wrappers\Gpu\DxHelper.h" />
     <ClInclude Include="Wrappers\Gpu\GpuCreator.h" />
-    <ClInclude Include="Game\Camera\ICameraController.h" />
     <ClInclude Include="Wrappers\Win32\Keyboard_StateReader.h" />
     <ClInclude Include="Wrappers\Win32\Keyboard_.h" />
     <ClInclude Include="Wrappers\Win32\InputTypes.h" />

@@ -1,5 +1,5 @@
 #pragma once
-#include "ICamera.h"
+#include <DirectXMath.h>
 
 namespace MyEngine
 {
@@ -7,23 +7,22 @@ namespace MyEngine
 	{
 		namespace Camera
 		{
-			class Camera final
-				: public ICamera
+			class Camera
 			{
 			public:
 				explicit Camera(DirectX::XMINT2 size);
 
-				void Update() override;
+				void Update();
 
-				void Move(DirectX::XMFLOAT3 movement) override;
-				void MoveInDirection(DirectX::XMFLOAT3 movement) override;
+				void Move(DirectX::XMFLOAT3 movement);
+				void MoveInDirection(DirectX::XMFLOAT3 movement);
 
-				void Pitch(float addAngle) override;
-				void Yaw(float addAngle) override;
+				void Pitch(float addAngle);
+				void Yaw(float addAngle);
 
 				const DirectX::XMFLOAT4X4& GetViewProjMatrix() const { return m_ViewProjMatrix; }
-				void OnWindowResized(DirectX::XMINT2 newSize) override;
-				void SetFieldOfView(float angle) override;
+				void OnWindowResized(DirectX::XMINT2 newSize);
+				void SetFieldOfView(float angle);
 			private:
 				DirectX::XMFLOAT4X4 m_ViewProjMatrix{};
 				DirectX::XMFLOAT4X4 m_World{ };

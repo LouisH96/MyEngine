@@ -33,9 +33,7 @@
     <ClInclude Include="App\Time.h" />
     <ClInclude Include="Wrappers\Gpu\GpuCreator.h" />
     <ClInclude Include="App\Resources.h" />
-    <ClInclude Include="Game\Camera\ICamera.h" />
     <ClInclude Include="Game\Camera\Camera.h" />
-    <ClInclude Include="Game\Camera\ICameraController.h" />
     <ClInclude Include="Game\Camera\CameraController.h" />
     <ClInclude Include="Math\Math.h" />
     <ClInclude Include="pch.h" />
