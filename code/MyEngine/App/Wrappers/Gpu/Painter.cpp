@@ -5,13 +5,13 @@
 #include "Shader.h"
 #include "Mesh.h"
 
-void MyEngine::Wrappers::Gpu::Painter::SetCanvas(Canvas& canvas)
+void MyEngine::App::Wrappers::Gpu::Painter::SetCanvas(Canvas& canvas)
 {
 	m_pCanvas = reinterpret_cast<Canvas*>(&canvas);
 	m_pCanvas->Activate();
 }
 
-void MyEngine::Wrappers::Gpu::Painter::SetShader(Shader& shader)
+void MyEngine::App::Wrappers::Gpu::Painter::SetShader(Shader& shader)
 {
 	m_pShader = reinterpret_cast<Shader*>(&shader);
 	m_pShader->Activate();
@@ -20,37 +20,37 @@ void MyEngine::Wrappers::Gpu::Painter::SetShader(Shader& shader)
 		m_pShader->OnCamUpdated(*m_pCamera);
 }
 
-void MyEngine::Wrappers::Gpu::Painter::SetMesh(Mesh& mesh)
+void MyEngine::App::Wrappers::Gpu::Painter::SetMesh(Mesh& mesh)
 {
 	m_pMesh = reinterpret_cast<Mesh*>(&mesh);
 	m_pMesh->Activate();
 }
 
-void MyEngine::Wrappers::Gpu::Painter::SetCamera(Game::Camera::Camera& camera)
+void MyEngine::App::Wrappers::Gpu::Painter::SetCamera(Game::Camera::Camera& camera)
 {
 	//Changing camera while painting won't work
 	m_pCamera = &camera;
 }
 
-void MyEngine::Wrappers::Gpu::Painter::OnCamUpdated()
+void MyEngine::App::Wrappers::Gpu::Painter::OnCamUpdated()
 {
 	if (m_pShader)
 		m_pShader->OnCamUpdated(*m_pCamera);
 }
 
-void MyEngine::Wrappers::Gpu::Painter::BeginPaint()
+void MyEngine::App::Wrappers::Gpu::Painter::BeginPaint()
 {
 	OnCamUpdated();
 	m_pCanvas->Clear();
 	m_pCanvas->Activate();
 }
 
-void MyEngine::Wrappers::Gpu::Painter::EndPaint()
+void MyEngine::App::Wrappers::Gpu::Painter::EndPaint()
 {
 	m_pCanvas->Present();
 }
 
-void MyEngine::Wrappers::Gpu::Painter::Paint() const
+void MyEngine::App::Wrappers::Gpu::Painter::Paint() const
 {
 	m_pMesh->Draw();
 }

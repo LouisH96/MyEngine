@@ -4,7 +4,7 @@
 #include "DxHelper.h"
 #include "Shader.h"
 
-MyEngine::Wrappers::Gpu::Mesh::Mesh(Gpu& gpu)
+MyEngine::App::Wrappers::Gpu::Mesh::Mesh(Gpu& gpu)
 	: m_Gpu(gpu)
 	, m_VertexCount(6)
 	, m_VertexStride(sizeof(Shader::Vertex))
@@ -35,13 +35,13 @@ MyEngine::Wrappers::Gpu::Mesh::Mesh(Gpu& gpu)
 	InitRasterizerState();
 }
 
-void MyEngine::Wrappers::Gpu::Mesh::Draw() const
+void MyEngine::App::Wrappers::Gpu::Mesh::Draw() const
 {
 	m_Gpu.GetContext().RSSetState(m_pRasterizerState);
 	m_Gpu.GetContext().Draw(m_VertexCount, 0);
 }
 
-void MyEngine::Wrappers::Gpu::Mesh::InitRasterizerState()
+void MyEngine::App::Wrappers::Gpu::Mesh::InitRasterizerState()
 {
 	D3D11_RASTERIZER_DESC desc{};
 	desc.FillMode = D3D11_FILL_SOLID;
@@ -53,18 +53,18 @@ void MyEngine::Wrappers::Gpu::Mesh::InitRasterizerState()
 		throw std::exception("Mesh::InitRasterizerState");
 }
 
-void MyEngine::Wrappers::Gpu::Mesh::ReleaseRasterizerState()
+void MyEngine::App::Wrappers::Gpu::Mesh::ReleaseRasterizerState()
 {
 	SAFE_RELEASE(m_pRasterizerState);
 }
 
-MyEngine::Wrappers::Gpu::Mesh::~Mesh()
+MyEngine::App::Wrappers::Gpu::Mesh::~Mesh()
 {
 	SAFE_RELEASE(m_pVertexBuffer);
 	ReleaseRasterizerState();
 }
 
-void MyEngine::Wrappers::Gpu::Mesh::Activate() const
+void MyEngine::App::Wrappers::Gpu::Mesh::Activate() const
 {
 	m_Gpu.GetContext().IASetVertexBuffers(
 		0,

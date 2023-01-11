@@ -1,5 +1,5 @@
 #pragma once
-#include "Wrappers/Win32/InputTypes.h"
+#include "App/Wrappers/Win32/InputTypes.h"
 
 namespace MyEngine
 {
@@ -12,11 +12,11 @@ namespace MyEngine
 			class CameraController
 			{
 			public:
-				CameraController(Camera& camera, const Wrappers::Win32::Keyboard& keyboard);
+				CameraController(Camera& camera, const App::Wrappers::Win32::Keyboard& keyboard);
 				void Update();
 
 			private:
-				const Wrappers::Win32::Keyboard& m_Keyboard;
+				const App::Wrappers::Win32::Keyboard& m_Keyboard;
 				Camera& m_Camera;
 			};
 		}

@@ -2,10 +2,10 @@
 #include "Canvas.h"
 
 #include "DxHelper.h"
-#include "Wrappers/Win32/Window.h"
+#include "App/Wrappers/Win32/Window.h"
 #include "Gpu.h"
 
-MyEngine::Wrappers::Gpu::Canvas::Canvas(Gpu& gpu, Wrappers::Win32::Window& window)
+MyEngine::App::Wrappers::Gpu::Canvas::Canvas(Gpu& gpu, App::Wrappers::Win32::Window& window)
 	: m_Gpu{ gpu }
 {
 	InitSwapChain(window);
@@ -13,18 +13,18 @@ MyEngine::Wrappers::Gpu::Canvas::Canvas(Gpu& gpu, Wrappers::Win32::Window& windo
 	SetViewPort(window.GetSize_WinApi());
 }
 
-void MyEngine::Wrappers::Gpu::Canvas::Activate() const
+void MyEngine::App::Wrappers::Gpu::Canvas::Activate() const
 {
 	m_Gpu.GetContext().OMSetRenderTargets(1, &m_pMainRenderTargetView, nullptr);
 }
 
-MyEngine::Wrappers::Gpu::Canvas::~Canvas()
+MyEngine::App::Wrappers::Gpu::Canvas::~Canvas()
 {
 	SAFE_RELEASE(m_pMainRenderTargetView)
 		SAFE_RELEASE(m_pSwapChain)
 }
 
-void MyEngine::Wrappers::Gpu::Canvas::Clear() const
+void MyEngine::App::Wrappers::Gpu::Canvas::Clear() const
 {
 	/* clear the back buffer to cornflower blue for the new frame */
 	constexpr float background_colour[4] = {
@@ -33,13 +33,13 @@ void MyEngine::Wrappers::Gpu::Canvas::Clear() const
 		m_pMainRenderTargetView, background_colour);
 }
 
-void MyEngine::Wrappers::Gpu::Canvas::Present() const
+void MyEngine::App::Wrappers::Gpu::Canvas::Present() const
 {
 	DXGI_PRESENT_PARAMETERS param{ 0,nullptr,0,nullptr };
 	m_pSwapChain->Present1(0, DXGI_PRESENT_DO_NOT_WAIT, &param);
 }
 
-void MyEngine::Wrappers::Gpu::Canvas::OnWindowResized(DirectX::XMINT2 newSize)
+void MyEngine::App::Wrappers::Gpu::Canvas::OnWindowResized(DirectX::XMINT2 newSize)
 {
 	SAFE_RELEASE(m_pMainRenderTargetView);
 	m_pSwapChain->ResizeBuffers(0, newSize.x, newSize.y, DXGI_FORMAT_UNKNOWN, 0);
@@ -47,7 +47,7 @@ void MyEngine::Wrappers::Gpu::Canvas::OnWindowResized(DirectX::XMINT2 newSize)
 	SetViewPort(newSize);
 }
 
-void MyEngine::Wrappers::Gpu::Canvas::InitSwapChain(const Wrappers::Win32::Window& window)
+void MyEngine::App::Wrappers::Gpu::Canvas::InitSwapChain(const App::Wrappers::Win32::Window& window)
 {
 	const DirectX::XMINT2 windowSize = window.GetSize_WinApi();
 	DXGI_SWAP_CHAIN_DESC1 desc{};
@@ -75,7 +75,7 @@ void MyEngine::Wrappers::Gpu::Canvas::InitSwapChain(const Wrappers::Win32::Windo
 	pDevice2->Release();
 }
 
-void MyEngine::Wrappers::Gpu::Canvas::InitRenderTarget()
+void MyEngine::App::Wrappers::Gpu::Canvas::InitRenderTarget()
 {
 	ID3D11Texture2D* pBackBuffer;
 	m_pSwapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer));
@@ -84,7 +84,7 @@ void MyEngine::Wrappers::Gpu::Canvas::InitRenderTarget()
 	pBackBuffer->Release();
 }
 
-void MyEngine::Wrappers::Gpu::Canvas::SetViewPort(DirectX::XMINT2 windowSize)
+void MyEngine::App::Wrappers::Gpu::Canvas::SetViewPort(DirectX::XMINT2 windowSize)
 {
 	m_ViewPort = {
 	  0.0f, 0.0f,
@@ -94,7 +94,7 @@ void MyEngine::Wrappers::Gpu::Canvas::SetViewPort(DirectX::XMINT2 windowSize)
 	m_Gpu.GetContext().RSSetViewports(1, &m_ViewPort);
 }
 
-void MyEngine::Wrappers::Gpu::Canvas::GetFactory2(IDXGIDevice2*& pDevice2, IDXGIAdapter*& pAdapter,
+void MyEngine::App::Wrappers::Gpu::Canvas::GetFactory2(IDXGIDevice2*& pDevice2, IDXGIAdapter*& pAdapter,
 	IDXGIFactory2*& pFactory) const
 {
 	HRESULT hr = m_Gpu.GetDevice().QueryInterface(__uuidof(IDXGIDevice2), reinterpret_cast<void**>(&pDevice2));

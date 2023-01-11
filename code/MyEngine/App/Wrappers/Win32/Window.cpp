@@ -2,19 +2,19 @@
 // ReSharper disable CppClangTidyPerformanceNoIntToPtr
 #include "Window.h"
 #include "Screen.h"
-#include "Wrappers/Gpu/Canvas.h"
+#include "App/Wrappers/Gpu/Canvas.h"
 
-MyEngine::Wrappers::Win32::Window::Window(const std::wstring& title)
+MyEngine::App::Wrappers::Win32::Window::Window(const std::wstring& title)
 {
 	Init(title);
 }
 
-MyEngine::Wrappers::Win32::Window::~Window()
+MyEngine::App::Wrappers::Win32::Window::~Window()
 {
 	Release();
 }
 
-void MyEngine::Wrappers::Win32::Window::Init(const std::wstring& title, int width, int height)
+void MyEngine::App::Wrappers::Win32::Window::Init(const std::wstring& title, int width, int height)
 {
 	//Register window class
 	const std::wstring className = L"MyWindowClass";
@@ -56,13 +56,13 @@ void MyEngine::Wrappers::Win32::Window::Init(const std::wstring& title, int widt
 	m_Size = { width,height };
 }
 
-void MyEngine::Wrappers::Win32::Window::Release()
+void MyEngine::App::Wrappers::Win32::Window::Release()
 {
 	//todo: check if and how you could quit the app from here, and not from a quit msg on the queue
 	//simply PostMessage with wm_quit would work probably, but normally this shouldn't be closed like this
 }
 
-void MyEngine::Wrappers::Win32::Window::HandleMessages()
+void MyEngine::App::Wrappers::Win32::Window::HandleMessages()
 {
 	m_IsResized = false;
 
@@ -72,7 +72,7 @@ void MyEngine::Wrappers::Win32::Window::HandleMessages()
 		DispatchMessage(&msg);
 }
 
-DirectX::XMINT2 MyEngine::Wrappers::Win32::Window::GetSize_WinApi() const
+DirectX::XMINT2 MyEngine::App::Wrappers::Win32::Window::GetSize_WinApi() const
 {
 	RECT rect{};
 	GetClientRect(m_WindowHandle, &rect);
@@ -81,7 +81,7 @@ DirectX::XMINT2 MyEngine::Wrappers::Win32::Window::GetSize_WinApi() const
 
 LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	MyEngine::Wrappers::Win32::Window& window = *reinterpret_cast<MyEngine::Wrappers::Win32::Window*>(GetWindowLongPtr(windowHandle, GWLP_USERDATA));
+	MyEngine::App::Wrappers::Win32::Window& window = *reinterpret_cast<MyEngine::App::Wrappers::Win32::Window*>(GetWindowLongPtr(windowHandle, GWLP_USERDATA));
 
 	switch (uMsg)
 	{

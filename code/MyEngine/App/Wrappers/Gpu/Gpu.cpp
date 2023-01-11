@@ -11,47 +11,47 @@
 #include "Mesh.h"
 #include "Painter.h"
 #include "Shader.h"
-#include "Wrappers/Win32/Window.h"
+#include "App/Wrappers/Win32/Window.h"
 #include "App/Resources.h"
 
-MyEngine::Wrappers::Gpu::Gpu::Gpu(Wrappers::Win32::Window& window)
+MyEngine::App::Wrappers::Gpu::Gpu::Gpu(App::Wrappers::Win32::Window& window)
 	: m_Window{ window }
 {
 	Init();
 }
 
-MyEngine::Wrappers::Gpu::Gpu::~Gpu()
+MyEngine::App::Wrappers::Gpu::Gpu::~Gpu()
 {
 	Release();
 }
 
-void MyEngine::Wrappers::Gpu::Gpu::Release()
+void MyEngine::App::Wrappers::Gpu::Gpu::Release()
 {
 	SAFE_RELEASE(m_pContext)
 		SAFE_RELEASE(m_pDevice)
 }
 
-MyEngine::Wrappers::Gpu::Canvas* MyEngine::Wrappers::Gpu::Gpu::MakeCanvas()
+MyEngine::App::Wrappers::Gpu::Canvas* MyEngine::App::Wrappers::Gpu::Gpu::MakeCanvas()
 {
 	return new Canvas(*this, m_Window);
 }
 
-MyEngine::Wrappers::Gpu::Mesh* MyEngine::Wrappers::Gpu::Gpu::MakeMesh()
+MyEngine::App::Wrappers::Gpu::Mesh* MyEngine::App::Wrappers::Gpu::Gpu::MakeMesh()
 {
 	return new Mesh(*this);
 }
 
-MyEngine::Wrappers::Gpu::Shader* MyEngine::Wrappers::Gpu::Gpu::MakeShader()
+MyEngine::App::Wrappers::Gpu::Shader* MyEngine::App::Wrappers::Gpu::Gpu::MakeShader()
 {
 	return new Shader(*this);
 }
 
-MyEngine::Wrappers::Gpu::Painter* MyEngine::Wrappers::Gpu::Gpu::MakePainter()
+MyEngine::App::Wrappers::Gpu::Painter* MyEngine::App::Wrappers::Gpu::Gpu::MakePainter()
 {
 	return new Painter();
 }
 
-void MyEngine::Wrappers::Gpu::Gpu::Init()
+void MyEngine::App::Wrappers::Gpu::Gpu::Init()
 {
 	UINT createDeviceFlags = 0;
 #if defined(_DEBUG)
