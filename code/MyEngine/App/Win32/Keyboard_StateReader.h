@@ -1,12 +1,11 @@
 #pragma once
-
 #include "Keyboard_.h"
 
 namespace MyEngine
 {
 	namespace App
 	{
-		namespace Input
+		namespace Win32
 		{
 			class Keyboard_StateReader
 				: public Keyboard_<Keyboard_StateReader>

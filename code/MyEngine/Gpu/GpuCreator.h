@@ -4,7 +4,10 @@ namespace MyEngine
 {
 	namespace App
 	{
-		class Window;
+		namespace Win32
+		{
+			class Window;
+		}
 	}
 }
 
@@ -17,7 +20,7 @@ namespace MyEngine
 		class GpuCreator
 		{
 		public:
-			static IGpu* Create(App::Window& window);
+			static IGpu* Create(App::Win32::Window& window);
 		};
 	}
 }

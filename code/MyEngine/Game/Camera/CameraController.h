@@ -1,6 +1,6 @@
 #pragma once
 #include "ICameraController.h"
-#include "App/Input/InputTypes.h"
+#include "App/Win32/InputTypes.h"
 
 namespace MyEngine
 {
@@ -14,11 +14,11 @@ namespace MyEngine
 				: public ICameraController
 			{
 			public:
-				CameraController(ICamera& camera, const App::Input::Keyboard& keyboard);
+				CameraController(ICamera& camera, const App::Win32::Keyboard& keyboard);
 				void Update() override;
 
 			private:
-				const App::Input::Keyboard& m_Keyboard;
+				const App::Win32::Keyboard& m_Keyboard;
 				ICamera& m_Camera;
 			};
 		}

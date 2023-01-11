@@ -1,14 +1,14 @@
 #pragma once
-#include "../Input/Keyboard_.h"
+#include "../Win32/Keyboard_.h"
 
 namespace MyEngine
 {
 	namespace App
 	{
-		namespace Input
+		namespace Win32
 		{
 			class Keyboard_MsgListener
-				: public Input::Keyboard_<Keyboard_MsgListener>
+				: public Keyboard_<Keyboard_MsgListener>
 			{
 			public:
 				Keyboard_MsgListener();

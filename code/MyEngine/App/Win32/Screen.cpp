@@ -1,11 +1,10 @@
 #include "pch.h"
 #include "Screen.h"
-
 #include "Window.h"
 
-MyEngine::App::Screen MyEngine::App::Screen::m_Instance = {};
+MyEngine::App::Win32::Screen MyEngine::App::Win32::Screen::m_Instance = {};
 
-MyEngine::App::Screen::Screen()
+MyEngine::App::Win32::Screen::Screen()
 {
 	RECT rect;
 	GetClientRect(GetDesktopWindow(), &rect);

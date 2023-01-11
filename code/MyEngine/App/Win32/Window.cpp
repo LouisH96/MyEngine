@@ -1,20 +1,20 @@
 #include "pch.h"
 // ReSharper disable CppClangTidyPerformanceNoIntToPtr
 #include "Window.h"
-#include "App/Screen.h"
+#include "Screen.h"
 #include "Gpu/Dx/DxCanvas.h"
 
-MyEngine::App::Window::Window(const std::wstring& title)
+MyEngine::App::Win32::Window::Window(const std::wstring& title)
 {
 	Init(title);
 }
 
-MyEngine::App::Window::~Window()
+MyEngine::App::Win32::Window::~Window()
 {
 	Release();
 }
 
-void MyEngine::App::Window::Init(const std::wstring& title, int width, int height)
+void MyEngine::App::Win32::Window::Init(const std::wstring& title, int width, int height)
 {
 	// Enable run-time memory check for debug builds.
 #if defined(DEBUG) | defined(_DEBUG)
@@ -61,13 +61,13 @@ void MyEngine::App::Window::Init(const std::wstring& title, int width, int heigh
 	m_Size = { width,height };
 }
 
-void MyEngine::App::Window::Release()
+void MyEngine::App::Win32::Window::Release()
 {
 	//todo: check if and how you could quit the app from here, and not from a quit msg on the queue
 	//simply PostMessage with wm_quit would work probably, but normally this shouldn't be closed like this
 }
 
-void MyEngine::App::Window::HandleMessages()
+void MyEngine::App::Win32::Window::HandleMessages()
 {
 	m_IsResized = false;
 
@@ -77,7 +77,7 @@ void MyEngine::App::Window::HandleMessages()
 		DispatchMessage(&msg);
 }
 
-DirectX::XMINT2 MyEngine::App::Window::GetSize_WinApi() const
+DirectX::XMINT2 MyEngine::App::Win32::Window::GetSize_WinApi() const
 {
 	RECT rect{};
 	GetClientRect(m_WindowHandle, &rect);
@@ -86,7 +86,7 @@ DirectX::XMINT2 MyEngine::App::Window::GetSize_WinApi() const
 
 LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	MyEngine::App::Window& window = *reinterpret_cast<MyEngine::App::Window*>(GetWindowLongPtr(windowHandle, GWLP_USERDATA));
+	MyEngine::App::Win32::Window& window = *reinterpret_cast<MyEngine::App::Win32::Window*>(GetWindowLongPtr(windowHandle, GWLP_USERDATA));
 
 	switch (uMsg)
 	{

@@ -4,7 +4,7 @@ namespace MyEngine
 {
 	namespace App
 	{
-		namespace Input
+		namespace Win32
 		{
 			template <class T>
 			class Keyboard_

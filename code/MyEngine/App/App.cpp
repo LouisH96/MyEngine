@@ -16,18 +16,19 @@
 #include "../Gpu/IShader.h"
 #include "../Gpu/IPainter.h"
 #include "../Logging/Logger.h"
-#include "Window.h"
+#include "Win32/Window.h"
 
 #include "../Game/Camera/Camera.h"
 #include "../Game/Camera/CameraController.h"
 
 void MyEngine::App::App::Run()
 {
+	using namespace Win32;
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
 	Resources::Init();
 
-	Window& window = *new Window(L"Window");
+	Win32::Window& window = *new Win32::Window(L"Window");
 
 	Gpu::IGpu& gpu = *Gpu::GpuCreator::Create(window);
 
