@@ -16,17 +16,16 @@
 #include "../Gpu/IShader.h"
 #include "../Gpu/IPainter.h"
 #include "../Logging/Logger.h"
-#include "Win32/Window.h"
+#include "Wrappers/Win32/Window.h"
 
 #include "../Game/Camera/Camera.h"
 #include "../Game/Camera/CameraController.h"
 
-void MyEngine::Wrappers::App::Run()
+void MyEngine::App::App::Run()
 {
+	using namespace Wrappers::Win32;
+
 	m_Framework.Init();
-
-	using namespace Win32;
-
 	Resources::Init();
 
 	Window& window = *new Window(L"Window");

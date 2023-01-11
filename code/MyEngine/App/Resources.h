@@ -3,7 +3,7 @@
 
 namespace MyEngine
 {
-	namespace Wrappers
+	namespace App
 	{
 		class Resources
 		{

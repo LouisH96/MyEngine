@@ -12,7 +12,7 @@
 #include "DxPainter.h"
 #include "DxShader.h"
 #include "../../Wrappers/Win32/Window.h"
-#include "../../Wrappers/Resources.h"
+#include "../../App/Resources.h"
 
 MyEngine::Gpu::Dx::DxGpu::DxGpu(Wrappers::Win32::Window& window)
 	: m_Window{window}
