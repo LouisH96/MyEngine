@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Framework.h"
 
+#define _CRTDBG_MAP_ALLOC
+
 void MyEngine::App::Framework::Init()
 {
 #if defined(DEBUG) | defined(_DEBUG)

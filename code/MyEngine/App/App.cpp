@@ -1,10 +1,6 @@
 #include "pch.h"
 #include "App.h"
 
-#define _CRTDBG_MAP_ALLOC
-#include <cstdlib>
-#include <crtdbg.h>
-
 #include <iostream>
 
 #include "FpsControl.h"

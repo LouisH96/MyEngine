@@ -1,7 +1,8 @@
 #include <App/App.h>
 
-void main()
+int main()
 {
 	MyEngine::App::App app{};
 	app.Run();
+	return 0;
 }
