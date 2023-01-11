@@ -23,8 +23,9 @@
 
 void MyEngine::App::App::Run()
 {
+	m_Framework.Init();
+
 	using namespace Win32;
-	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
 	Resources::Init();
 

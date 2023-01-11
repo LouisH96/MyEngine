@@ -22,6 +22,7 @@
     <ClCompile Include="App\Win32\Keyboard_StateReader.cpp" />
     <ClCompile Include="App\Win32\InputTypes.cpp" />
     <ClCompile Include="App\Win32\Keyboard_MsgListener.cpp" />
+    <ClCompile Include="App\Framework.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logging\Logger.h" />
@@ -55,6 +56,7 @@
     <ClInclude Include="App\Win32\Keyboard_.h" />
     <ClInclude Include="App\Win32\InputTypes.h" />
     <ClInclude Include="App\Win32\Keyboard_MsgListener.h" />
+    <ClInclude Include="App\Framework.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

@@ -1,4 +1,5 @@
 #pragma once
+#include "Framework.h"
 
 namespace MyEngine
 {
@@ -8,6 +9,9 @@ namespace MyEngine
 	{
 	public:
 		void Run();
+
+	private:
+		Framework m_Framework{};
 	};
 	}
 }
