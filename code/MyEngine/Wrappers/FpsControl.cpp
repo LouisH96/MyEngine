@@ -4,7 +4,7 @@
 #include <cmath>
 #include <thread>
 
-MyEngine::App::FpsControl::FpsControl(float desiredFps)
+MyEngine::Wrappers::FpsControl::FpsControl(float desiredFps)
 	: m_DesiredInterval{ static_cast<int>(std::roundf(Time::SEC_TO_CLOCK_UNIT / desiredFps)) }
 	, m_DesiredIntervalSec(1.f / desiredFps)
 	, m_DesiredNextFrame{ static_cast<Time::Duration>(0) }
@@ -12,7 +12,7 @@ MyEngine::App::FpsControl::FpsControl(float desiredFps)
 {
 }
 
-void MyEngine::App::FpsControl::Wait()
+void MyEngine::Wrappers::FpsControl::Wait()
 {
 	const Time::TimePoint now = Time::Clock::now();
 

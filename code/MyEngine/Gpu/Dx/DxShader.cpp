@@ -5,7 +5,7 @@
 
 #include "DxGpu.h"
 #include "DxHelper.h"
-#include "../../App/Resources.h"
+#include "../../Wrappers/Resources.h"
 #include "../../Game/Camera/Camera.h"
 
 MyEngine::Gpu::Dx::DxShader::DxShader(DxGpu& gpu)
@@ -40,7 +40,7 @@ MyEngine::Gpu::Dx::DxShader::~DxShader()
 
 void MyEngine::Gpu::Dx::DxShader::InitShaders()
 {
-	const std::wstring path = App::Resources::GetShaderPath(L"shader.hlsl");
+	const std::wstring path = Wrappers::Resources::GetShaderPath(L"shader.hlsl");
 	DxHelper::CreateVertexShader(m_Gpu.GetDevice(), path, "vs_main", m_pVertexShader);
 	DxHelper::CreatePixelShader(m_Gpu.GetDevice(), path, "ps_main", m_pPixelShader);
 }

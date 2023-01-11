@@ -8,7 +8,7 @@ LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, 
 
 namespace MyEngine
 {
-	namespace App
+	namespace Wrappers
 	{
 		namespace Win32
 		{

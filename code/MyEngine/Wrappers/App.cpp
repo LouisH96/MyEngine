@@ -21,7 +21,7 @@
 #include "../Game/Camera/Camera.h"
 #include "../Game/Camera/CameraController.h"
 
-void MyEngine::App::App::Run()
+void MyEngine::Wrappers::App::Run()
 {
 	m_Framework.Init();
 
@@ -29,7 +29,7 @@ void MyEngine::App::App::Run()
 
 	Resources::Init();
 
-	Win32::Window& window = *new Win32::Window(L"Window");
+	Window& window = *new Window(L"Window");
 
 	Gpu::IGpu& gpu = *Gpu::GpuCreator::Create(window);
 

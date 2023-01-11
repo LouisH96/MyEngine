@@ -2,7 +2,7 @@
 
 namespace MyEngine
 {
-	namespace App
+	namespace Wrappers
 	{
 		class Framework
 		{

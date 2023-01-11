@@ -2,9 +2,9 @@
 #include "DxCanvas.h"
 
 #include "DxHelper.h"
-#include "../../App/Win32/Window.h"
+#include "../../Wrappers/Win32/Window.h"
 
-MyEngine::Gpu::Dx::DxCanvas::DxCanvas(DxGpu& gpu, App::Win32::Window& window)
+MyEngine::Gpu::Dx::DxCanvas::DxCanvas(DxGpu& gpu, Wrappers::Win32::Window& window)
 	: m_Gpu{ gpu }
 {
 	InitSwapChain(window);
@@ -46,7 +46,7 @@ void MyEngine::Gpu::Dx::DxCanvas::OnWindowResized(DirectX::XMINT2 newSize)
 	SetViewPort(newSize);
 }
 
-void MyEngine::Gpu::Dx::DxCanvas::InitSwapChain(const App::Win32::Window& window)
+void MyEngine::Gpu::Dx::DxCanvas::InitSwapChain(const Wrappers::Win32::Window& window)
 {
 	const DirectX::XMINT2 windowSize = window.GetSize_WinApi();
 	DXGI_SWAP_CHAIN_DESC1 desc{};

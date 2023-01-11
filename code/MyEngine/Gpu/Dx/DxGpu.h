@@ -7,7 +7,7 @@
 
 namespace MyEngine
 {
-	namespace App
+	namespace Wrappers
 	{
 		namespace Win32
 		{
@@ -31,7 +31,7 @@ namespace MyEngine
 				DxGpu& operator=(const DxGpu& other) = delete;
 				DxGpu& operator=(DxGpu&& other) noexcept = delete;
 
-				explicit DxGpu(App::Win32::Window& window);
+				explicit DxGpu(Wrappers::Win32::Window& window);
 				~DxGpu() override;
 
 				void Release() override;
@@ -53,7 +53,7 @@ namespace MyEngine
 
 				ID3D11Device* m_pDevice{};
 				ID3D11DeviceContext* m_pContext{};
-				App::Win32::Window& m_Window;
+				Wrappers::Win32::Window& m_Window;
 
 				void Init();
 			};

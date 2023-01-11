@@ -4,7 +4,7 @@
 
 namespace MyEngine
 {
-	namespace App
+	namespace Wrappers
 	{
 		namespace Win32
 		{

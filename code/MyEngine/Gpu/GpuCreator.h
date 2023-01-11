@@ -2,7 +2,7 @@
 
 namespace MyEngine
 {
-	namespace App
+	namespace Wrappers
 	{
 		namespace Win32
 		{
@@ -20,7 +20,7 @@ namespace MyEngine
 		class GpuCreator
 		{
 		public:
-			static IGpu* Create(App::Win32::Window& window);
+			static IGpu* Create(Wrappers::Win32::Window& window);
 		};
 	}
 }

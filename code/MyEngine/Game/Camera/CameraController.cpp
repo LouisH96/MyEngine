@@ -8,7 +8,7 @@
 #include "ICamera.h"
 #include "Math/Math.h"
 
-MyEngine::Game::Camera::CameraController::CameraController(ICamera& camera, const App::Win32::Keyboard& keyboard)
+MyEngine::Game::Camera::CameraController::CameraController(ICamera& camera, const Wrappers::Win32::Keyboard& keyboard)
 	: m_Keyboard(keyboard)
 	, m_Camera(camera)
 {

@@ -4,12 +4,12 @@
     <ClCompile Include="Logging\Logger.cpp" />
     <ClCompile Include="Gpu\Dx\DxGpu.cpp" />
     <ClCompile Include="Gpu\Dx\DxHelper.cpp" />
-    <ClCompile Include="App\Win32\Window.cpp" />
-    <ClCompile Include="App\App.cpp" />
-    <ClCompile Include="App\FpsControl.cpp" />
+    <ClCompile Include="Wrappers\Win32\Window.cpp" />
+    <ClCompile Include="Wrappers\App.cpp" />
+    <ClCompile Include="Wrappers\FpsControl.cpp" />
     <ClCompile Include="Gpu\GpuCreator.cpp" />
     <ClCompile Include="Gpu\Dx\DxCanvas.cpp" />
-    <ClCompile Include="App\Resources.cpp" />
+    <ClCompile Include="Wrappers\Resources.cpp" />
     <ClCompile Include="Gpu\Dx\DxShader.cpp" />
     <ClCompile Include="Gpu\Dx\DxMesh.cpp" />
     <ClCompile Include="Gpu\Dx\DxPainter.cpp" />
@@ -18,25 +18,25 @@
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Game\GameGlobals.cpp" />
     <ClCompile Include="Math\RectInt.cpp" />
-    <ClCompile Include="App\Win32\Screen.cpp" />
-    <ClCompile Include="App\Win32\Keyboard_StateReader.cpp" />
-    <ClCompile Include="App\Win32\InputTypes.cpp" />
-    <ClCompile Include="App\Win32\Keyboard_MsgListener.cpp" />
-    <ClCompile Include="App\Framework.cpp" />
+    <ClCompile Include="Wrappers\Win32\Screen.cpp" />
+    <ClCompile Include="Wrappers\Win32\Keyboard_StateReader.cpp" />
+    <ClCompile Include="Wrappers\Win32\InputTypes.cpp" />
+    <ClCompile Include="Wrappers\Win32\Keyboard_MsgListener.cpp" />
+    <ClCompile Include="Wrappers\Framework.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logging\Logger.h" />
     <ClInclude Include="Gpu\Dx\DxGpu.h" />
     <ClInclude Include="Gpu\Dx\DxHelper.h" />
-    <ClInclude Include="App\Win32\Window.h" />
-    <ClInclude Include="App\App.h" />
-    <ClInclude Include="App\FpsControl.h" />
-    <ClInclude Include="App\Time.h" />
+    <ClInclude Include="Wrappers\Win32\Window.h" />
+    <ClInclude Include="Wrappers\App.h" />
+    <ClInclude Include="Wrappers\FpsControl.h" />
+    <ClInclude Include="Wrappers\Time.h" />
     <ClInclude Include="Gpu\GpuCreator.h" />
     <ClInclude Include="Gpu\IGpu.h" />
     <ClInclude Include="Gpu\ICanvas.h" />
     <ClInclude Include="Gpu\Dx\DxCanvas.h" />
-    <ClInclude Include="App\Resources.h" />
+    <ClInclude Include="Wrappers\Resources.h" />
     <ClInclude Include="Gpu\IShader.h" />
     <ClInclude Include="Gpu\IMesh.h" />
     <ClInclude Include="Gpu\Dx\DxShader.h" />
@@ -51,12 +51,12 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="Game\GameGlobals.h" />
     <ClInclude Include="Math\RectInt.h" />
-    <ClInclude Include="App\Win32\Screen.h" />
-    <ClInclude Include="App\Win32\Keyboard_StateReader.h" />
-    <ClInclude Include="App\Win32\Keyboard_.h" />
-    <ClInclude Include="App\Win32\InputTypes.h" />
-    <ClInclude Include="App\Win32\Keyboard_MsgListener.h" />
-    <ClInclude Include="App\Framework.h" />
+    <ClInclude Include="Wrappers\Win32\Screen.h" />
+    <ClInclude Include="Wrappers\Win32\Keyboard_StateReader.h" />
+    <ClInclude Include="Wrappers\Win32\Keyboard_.h" />
+    <ClInclude Include="Wrappers\Win32\InputTypes.h" />
+    <ClInclude Include="Wrappers\Win32\Keyboard_MsgListener.h" />
+    <ClInclude Include="Wrappers\Framework.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

@@ -2,14 +2,6 @@
 
 namespace MyEngine
 {
-	namespace App
-	{
-		class IWindow;
-	}
-}
-
-namespace MyEngine
-{
 	namespace Gpu
 	{
 		class IPainter;

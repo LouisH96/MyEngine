@@ -1,9 +1,9 @@
 
-#include <App/App.h>
+#include <Wrappers/App.h>
 
 void main()
 {
 	using namespace MyEngine;
-	App::App app{};
+	Wrappers::App app{};
 	app.Run();
 }
