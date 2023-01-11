@@ -1,57 +1,57 @@
 #include "pch.h"
-#include "DxGpu.h"
+#include "Gpu.h"
 
 #include <d3d11.h>
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
 #include <exception>
 
-#include "DxCanvas.h"
+#include "Canvas.h"
 #include "DxHelper.h"
-#include "DxMesh.h"
-#include "DxPainter.h"
-#include "DxShader.h"
-#include "../../Wrappers/Win32/Window.h"
-#include "../../App/Resources.h"
+#include "Mesh.h"
+#include "Painter.h"
+#include "Shader.h"
+#include "Wrappers/Win32/Window.h"
+#include "App/Resources.h"
 
-MyEngine::Gpu::Dx::DxGpu::DxGpu(Wrappers::Win32::Window& window)
-	: m_Window{window}
+MyEngine::Wrappers::Gpu::Gpu::Gpu(Wrappers::Win32::Window& window)
+	: m_Window{ window }
 {
 	Init();
 }
 
-MyEngine::Gpu::Dx::DxGpu::~DxGpu()
+MyEngine::Wrappers::Gpu::Gpu::~Gpu()
 {
 	Release();
 }
 
-void MyEngine::Gpu::Dx::DxGpu::Release()
+void MyEngine::Wrappers::Gpu::Gpu::Release()
 {
-		SAFE_RELEASE(m_pContext)
+	SAFE_RELEASE(m_pContext)
 		SAFE_RELEASE(m_pDevice)
 }
 
-MyEngine::Gpu::ICanvas* MyEngine::Gpu::Dx::DxGpu::MakeCanvas()
+MyEngine::Wrappers::Gpu::Canvas* MyEngine::Wrappers::Gpu::Gpu::MakeCanvas()
 {
-	return new DxCanvas(*this, m_Window);
+	return new Canvas(*this, m_Window);
 }
 
-MyEngine::Gpu::IMesh* MyEngine::Gpu::Dx::DxGpu::MakeMesh()
+MyEngine::Wrappers::Gpu::Mesh* MyEngine::Wrappers::Gpu::Gpu::MakeMesh()
 {
-	return new DxMesh(*this);
+	return new Mesh(*this);
 }
 
-MyEngine::Gpu::IShader* MyEngine::Gpu::Dx::DxGpu::MakeShader()
+MyEngine::Wrappers::Gpu::Shader* MyEngine::Wrappers::Gpu::Gpu::MakeShader()
 {
-	return new DxShader(*this);
+	return new Shader(*this);
 }
 
-MyEngine::Gpu::IPainter* MyEngine::Gpu::Dx::DxGpu::MakePainter()
+MyEngine::Wrappers::Gpu::Painter* MyEngine::Wrappers::Gpu::Gpu::MakePainter()
 {
-	return new DxPainter();
+	return new Painter();
 }
 
-void MyEngine::Gpu::Dx::DxGpu::Init()
+void MyEngine::Wrappers::Gpu::Gpu::Init()
 {
 	UINT createDeviceFlags = 0;
 #if defined(_DEBUG)

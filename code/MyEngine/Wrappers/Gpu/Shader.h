@@ -1,9 +1,6 @@
 #pragma once
-
 #include <d3d11.h>
 #include <DirectXMath.h>
-
-#include "../IShader.h"
 
 namespace MyEngine
 {
@@ -18,26 +15,25 @@ namespace MyEngine
 
 namespace MyEngine
 {
-	namespace Gpu
+	namespace Wrappers
 	{
-		namespace Dx
+		namespace Gpu
 		{
-			class DxGpu;
+			class Gpu;
 
-			class DxShader final
-				: public IShader
+			class Shader
 			{
 			public:
-				DxShader(const DxShader& other) = delete;
-				DxShader(DxShader&& other) noexcept = delete;
-				DxShader& operator=(const DxShader& other) = delete;
-				DxShader& operator=(DxShader&& other) noexcept = delete;
+				Shader(const Shader& other) = delete;
+				Shader(Shader&& other) noexcept = delete;
+				Shader& operator=(const Shader& other) = delete;
+				Shader& operator=(Shader&& other) noexcept = delete;
 
-				explicit DxShader(DxGpu& gpu);
-				~DxShader() override;
+				explicit Shader(Gpu& gpu);
+				~Shader();
 
 				void Activate() const;
-				void OnCamUpdated(Game::Camera::ICamera& camera) override;
+				void OnCamUpdated(Game::Camera::Camera& camera);
 
 				struct Vertex
 				{
@@ -47,7 +43,7 @@ namespace MyEngine
 
 			private:
 
-				DxGpu& m_Gpu;
+				Gpu& m_Gpu;
 
 				ID3D11VertexShader* m_pVertexShader{};
 				ID3D11PixelShader* m_pPixelShader{};

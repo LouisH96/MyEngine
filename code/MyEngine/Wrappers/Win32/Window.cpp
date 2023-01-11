@@ -2,7 +2,7 @@
 // ReSharper disable CppClangTidyPerformanceNoIntToPtr
 #include "Window.h"
 #include "Screen.h"
-#include "Gpu/Dx/DxCanvas.h"
+#include "Wrappers/Gpu/Canvas.h"
 
 MyEngine::Wrappers::Win32::Window::Window(const std::wstring& title)
 {

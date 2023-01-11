@@ -3,8 +3,6 @@
 #include <dxgi1_2.h>
 #include "d3d11.h"
 
-#include "../IGpu.h"
-
 namespace MyEngine
 {
 	namespace Wrappers
@@ -13,33 +11,39 @@ namespace MyEngine
 		{
 			class Window;
 		}
+		namespace Gpu
+		{
+			class Canvas;
+			class Mesh;
+			class Shader;
+			class Painter;
+		}
 	}
 }
 
 namespace MyEngine
 {
-	namespace Gpu
+	namespace Wrappers
 	{
-		namespace Dx
+		namespace Gpu
 		{
-			class DxGpu final
-				: public IGpu
+			class Gpu
 			{
 			public:
-				DxGpu(const DxGpu& other) = delete;
-				DxGpu(DxGpu&& other) noexcept = delete;
-				DxGpu& operator=(const DxGpu& other) = delete;
-				DxGpu& operator=(DxGpu&& other) noexcept = delete;
+				Gpu(const Gpu& other) = delete;
+				Gpu(Gpu&& other) noexcept = delete;
+				Gpu& operator=(const Gpu& other) = delete;
+				Gpu& operator=(Gpu&& other) noexcept = delete;
 
-				explicit DxGpu(Wrappers::Win32::Window& window);
-				~DxGpu() override;
+				explicit Gpu(Wrappers::Win32::Window& window);
+				~Gpu();
 
-				void Release() override;
+				void Release();
 
-				ICanvas* MakeCanvas() override;
-				IMesh* MakeMesh() override;
-				IShader* MakeShader() override;
-				IPainter* MakePainter() override;
+				Canvas* MakeCanvas();
+				Mesh* MakeMesh();
+				Shader* MakeShader();
+				Painter* MakePainter();
 
 				ID3D11Device& GetDevice() const { return *m_pDevice; }
 				ID3D11DeviceContext& GetContext() const { return *m_pContext; }

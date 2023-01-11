@@ -1,10 +1,11 @@
 #include "pch.h"
-#include "DxCanvas.h"
+#include "Canvas.h"
 
 #include "DxHelper.h"
-#include "../../Wrappers/Win32/Window.h"
+#include "Wrappers/Win32/Window.h"
+#include "Gpu.h"
 
-MyEngine::Gpu::Dx::DxCanvas::DxCanvas(DxGpu& gpu, Wrappers::Win32::Window& window)
+MyEngine::Wrappers::Gpu::Canvas::Canvas(Gpu& gpu, Wrappers::Win32::Window& window)
 	: m_Gpu{ gpu }
 {
 	InitSwapChain(window);
@@ -12,18 +13,18 @@ MyEngine::Gpu::Dx::DxCanvas::DxCanvas(DxGpu& gpu, Wrappers::Win32::Window& windo
 	SetViewPort(window.GetSize_WinApi());
 }
 
-void MyEngine::Gpu::Dx::DxCanvas::Activate() const
+void MyEngine::Wrappers::Gpu::Canvas::Activate() const
 {
 	m_Gpu.GetContext().OMSetRenderTargets(1, &m_pMainRenderTargetView, nullptr);
 }
 
-MyEngine::Gpu::Dx::DxCanvas::~DxCanvas()
+MyEngine::Wrappers::Gpu::Canvas::~Canvas()
 {
 	SAFE_RELEASE(m_pMainRenderTargetView)
 		SAFE_RELEASE(m_pSwapChain)
 }
 
-void MyEngine::Gpu::Dx::DxCanvas::Clear() const
+void MyEngine::Wrappers::Gpu::Canvas::Clear() const
 {
 	/* clear the back buffer to cornflower blue for the new frame */
 	constexpr float background_colour[4] = {
@@ -32,13 +33,13 @@ void MyEngine::Gpu::Dx::DxCanvas::Clear() const
 		m_pMainRenderTargetView, background_colour);
 }
 
-void MyEngine::Gpu::Dx::DxCanvas::Present() const
+void MyEngine::Wrappers::Gpu::Canvas::Present() const
 {
 	DXGI_PRESENT_PARAMETERS param{ 0,nullptr,0,nullptr };
 	m_pSwapChain->Present1(0, DXGI_PRESENT_DO_NOT_WAIT, &param);
 }
 
-void MyEngine::Gpu::Dx::DxCanvas::OnWindowResized(DirectX::XMINT2 newSize)
+void MyEngine::Wrappers::Gpu::Canvas::OnWindowResized(DirectX::XMINT2 newSize)
 {
 	SAFE_RELEASE(m_pMainRenderTargetView);
 	m_pSwapChain->ResizeBuffers(0, newSize.x, newSize.y, DXGI_FORMAT_UNKNOWN, 0);
@@ -46,7 +47,7 @@ void MyEngine::Gpu::Dx::DxCanvas::OnWindowResized(DirectX::XMINT2 newSize)
 	SetViewPort(newSize);
 }
 
-void MyEngine::Gpu::Dx::DxCanvas::InitSwapChain(const Wrappers::Win32::Window& window)
+void MyEngine::Wrappers::Gpu::Canvas::InitSwapChain(const Wrappers::Win32::Window& window)
 {
 	const DirectX::XMINT2 windowSize = window.GetSize_WinApi();
 	DXGI_SWAP_CHAIN_DESC1 desc{};
@@ -67,14 +68,14 @@ void MyEngine::Gpu::Dx::DxCanvas::InitSwapChain(const Wrappers::Win32::Window& w
 	GetFactory2(pDevice2, pAdapter, pFactory);
 
 	if (pFactory->CreateSwapChainForHwnd(&m_Gpu.GetDevice(), window.GetWindowHandle(), &desc, nullptr, nullptr, &m_pSwapChain) != S_OK)
-		throw std::exception("DxCanvas::InitSwapChain");
+		throw std::exception("Canvas::InitSwapChain");
 
 	pFactory->Release();
 	pAdapter->Release();
 	pDevice2->Release();
 }
 
-void MyEngine::Gpu::Dx::DxCanvas::InitRenderTarget()
+void MyEngine::Wrappers::Gpu::Canvas::InitRenderTarget()
 {
 	ID3D11Texture2D* pBackBuffer;
 	m_pSwapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer));
@@ -83,7 +84,7 @@ void MyEngine::Gpu::Dx::DxCanvas::InitRenderTarget()
 	pBackBuffer->Release();
 }
 
-void MyEngine::Gpu::Dx::DxCanvas::SetViewPort(DirectX::XMINT2 windowSize)
+void MyEngine::Wrappers::Gpu::Canvas::SetViewPort(DirectX::XMINT2 windowSize)
 {
 	m_ViewPort = {
 	  0.0f, 0.0f,
@@ -93,18 +94,18 @@ void MyEngine::Gpu::Dx::DxCanvas::SetViewPort(DirectX::XMINT2 windowSize)
 	m_Gpu.GetContext().RSSetViewports(1, &m_ViewPort);
 }
 
-void MyEngine::Gpu::Dx::DxCanvas::GetFactory2(IDXGIDevice2*& pDevice2, IDXGIAdapter*& pAdapter,
+void MyEngine::Wrappers::Gpu::Canvas::GetFactory2(IDXGIDevice2*& pDevice2, IDXGIAdapter*& pAdapter,
 	IDXGIFactory2*& pFactory) const
 {
 	HRESULT hr = m_Gpu.GetDevice().QueryInterface(__uuidof(IDXGIDevice2), reinterpret_cast<void**>(&pDevice2));
 	if (FAILED(hr))
-		throw std::exception("DxCanvas::GetFactory2::Device2");
+		throw std::exception("Canvas::GetFactory2::Device2");
 
 	hr = pDevice2->GetParent(__uuidof(IDXGIAdapter), reinterpret_cast<void**>(&pAdapter));
 	if (FAILED(hr))
-		throw std::exception("DxCanvas::GetFactory2::Adapter");
+		throw std::exception("Canvas::GetFactory2::Adapter");
 
 	hr = pAdapter->GetParent(__uuidof(IDXGIFactory2), reinterpret_cast<void**>(&pFactory));
 	if (FAILED(hr))
-		throw std::exception("DxCanvas::GetFactory2::Factory");
+		throw std::exception("Canvas::GetFactory2::Factory");
 }

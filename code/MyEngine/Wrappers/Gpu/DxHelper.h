@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#define SAFE_RELEASE(x) if(x) { (x)->Release(); (x) = nullptr; }
+#define SAFE_RELEASE(x){if(x){(x)->Release();(x)=nullptr;}}
 
 struct ID3D11Device;
 struct ID3D11VertexShader;
@@ -11,9 +11,9 @@ struct ID3D11PixelShader;
 
 namespace MyEngine
 {
-	namespace Gpu
+	namespace Wrappers
 	{
-		namespace Dx
+		namespace Gpu
 		{
 			class DxHelper
 			{

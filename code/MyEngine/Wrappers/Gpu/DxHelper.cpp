@@ -4,7 +4,7 @@
 #include <d3d11.h>
 #include <d3dcompiler.h>
 
-void MyEngine::Gpu::Dx::DxHelper::CreateVertexShader(ID3D11Device& device, const std::wstring& path, const std::string& functionName,
+void MyEngine::Wrappers::Gpu::DxHelper::CreateVertexShader(ID3D11Device& device, const std::wstring& path, const std::string& functionName,
 	ID3D11VertexShader*& pVertexShader)
 {
 	ID3D10Blob* pBlob{};
@@ -20,7 +20,7 @@ void MyEngine::Gpu::Dx::DxHelper::CreateVertexShader(ID3D11Device& device, const
 		throw std::exception("DxHelper::CreateVertexShader - Error");
 }
 
-void MyEngine::Gpu::Dx::DxHelper::CreatePixelShader(ID3D11Device& device, const std::wstring& path, const std::string& functionName,
+void MyEngine::Wrappers::Gpu::DxHelper::CreatePixelShader(ID3D11Device& device, const std::wstring& path, const std::string& functionName,
 	ID3D11PixelShader*& pVertexShader)
 {
 	ID3D10Blob* pBlob{};
@@ -36,7 +36,7 @@ void MyEngine::Gpu::Dx::DxHelper::CreatePixelShader(ID3D11Device& device, const 
 		throw std::exception("DxHelper::CreatePixelShader - Error");
 }
 
-void MyEngine::Gpu::Dx::DxHelper::CreateComputeShader(ID3D11Device& device, const std::wstring& path, const std::string& functionName,
+void MyEngine::Wrappers::Gpu::DxHelper::CreateComputeShader(ID3D11Device& device, const std::wstring& path, const std::string& functionName,
 	ID3D11ComputeShader*& pShader)
 {
 	ID3D10Blob* pBlob{};
@@ -52,7 +52,7 @@ void MyEngine::Gpu::Dx::DxHelper::CreateComputeShader(ID3D11Device& device, cons
 		throw std::exception("DxHelper::CreateComputeShader - Error");
 }
 
-void MyEngine::Gpu::Dx::DxHelper::CompileFromFile(const std::wstring& path, const std::string& functionName, ID3DBlob*& pBlob)
+void MyEngine::Wrappers::Gpu::DxHelper::CompileFromFile(const std::wstring& path, const std::string& functionName, ID3DBlob*& pBlob)
 {
 	UINT flags = D3DCOMPILE_ENABLE_STRICTNESS;
 #if defined( DEBUG ) || defined( _DEBUG )
@@ -94,7 +94,7 @@ void MyEngine::Gpu::Dx::DxHelper::CompileFromFile(const std::wstring& path, cons
 	}
 }
 
-void MyEngine::Gpu::Dx::DxHelper::CreateVertexBufferView(ID3D11Device& device, ID3D11Buffer*& pVertexBuffer,
+void MyEngine::Wrappers::Gpu::DxHelper::CreateVertexBufferView(ID3D11Device& device, ID3D11Buffer*& pVertexBuffer,
 	ID3D11UnorderedAccessView*& pView)
 {
 	D3D11_BUFFER_DESC descBuf = {};

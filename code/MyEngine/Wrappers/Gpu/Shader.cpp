@@ -1,14 +1,14 @@
 #include "pch.h"
-#include "DxShader.h"
+#include "Shader.h"
 
 #include <d3dcompiler.h>
 
-#include "DxGpu.h"
+#include "Gpu.h"
 #include "DxHelper.h"
 #include "../../App/Resources.h"
 #include "../../Game/Camera/Camera.h"
 
-MyEngine::Gpu::Dx::DxShader::DxShader(DxGpu& gpu)
+MyEngine::Wrappers::Gpu::Shader::Shader(Gpu& gpu)
 	: m_Gpu(gpu)
 {
 	InitShaders();
@@ -16,7 +16,7 @@ MyEngine::Gpu::Dx::DxShader::DxShader(DxGpu& gpu)
 	InitCBuffer();
 }
 
-void MyEngine::Gpu::Dx::DxShader::Activate() const
+void MyEngine::Wrappers::Gpu::Shader::Activate() const
 {
 	m_Gpu.GetContext().IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	m_Gpu.GetContext().IASetInputLayout(m_pInputLayout);
@@ -25,12 +25,12 @@ void MyEngine::Gpu::Dx::DxShader::Activate() const
 	m_Gpu.GetContext().VSSetConstantBuffers(0, 1, &m_pCBuffer);
 }
 
-void MyEngine::Gpu::Dx::DxShader::OnCamUpdated(Game::Camera::ICamera& camera)
+void MyEngine::Wrappers::Gpu::Shader::OnCamUpdated(Game::Camera::Camera& camera)
 {
 	UpdateCBuffer(*reinterpret_cast<Game::Camera::Camera*>(&camera));
 }
 
-MyEngine::Gpu::Dx::DxShader::~DxShader()
+MyEngine::Wrappers::Gpu::Shader::~Shader()
 {
 	SAFE_RELEASE(m_pInputLayout)
 		SAFE_RELEASE(m_pPixelShader)
@@ -38,14 +38,14 @@ MyEngine::Gpu::Dx::DxShader::~DxShader()
 		ReleaseCBuffer();
 }
 
-void MyEngine::Gpu::Dx::DxShader::InitShaders()
+void MyEngine::Wrappers::Gpu::Shader::InitShaders()
 {
 	const std::wstring path = App::Resources::GetShaderPath(L"shader.hlsl");
 	DxHelper::CreateVertexShader(m_Gpu.GetDevice(), path, "vs_main", m_pVertexShader);
 	DxHelper::CreatePixelShader(m_Gpu.GetDevice(), path, "ps_main", m_pPixelShader);
 }
 
-void MyEngine::Gpu::Dx::DxShader::InitInputLayout()
+void MyEngine::Wrappers::Gpu::Shader::InitInputLayout()
 {
 	UINT flags = D3DCOMPILE_ENABLE_STRICTNESS;
 #if defined( DEBUG ) || defined( _DEBUG )
@@ -107,17 +107,17 @@ void MyEngine::Gpu::Dx::DxShader::InitInputLayout()
 		throw std::exception("DxDevice::CreateInputLayout");
 }
 
-void MyEngine::Gpu::Dx::DxShader::InitCBuffer()
+void MyEngine::Wrappers::Gpu::Shader::InitCBuffer()
 {
 	DxHelper::CreateDynamicConstantBuffer<CBuffer>(m_Gpu.GetDevice(), m_pCBuffer);
 }
 
-void MyEngine::Gpu::Dx::DxShader::ReleaseCBuffer()
+void MyEngine::Wrappers::Gpu::Shader::ReleaseCBuffer()
 {
 	SAFE_RELEASE(m_pCBuffer)
 }
 
-void MyEngine::Gpu::Dx::DxShader::UpdateCBuffer(const Game::Camera::Camera& camera) const
+void MyEngine::Wrappers::Gpu::Shader::UpdateCBuffer(const Game::Camera::Camera& camera) const
 {
 	DxHelper::UpdateBuffer(m_Gpu.GetContext(), *m_pCBuffer, camera.GetViewProjMatrix());
 }

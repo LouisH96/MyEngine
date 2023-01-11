@@ -9,12 +9,12 @@
 
 #include "FpsControl.h"
 #include "Resources.h"
-#include "../Gpu/GpuCreator.h"
-#include "../Gpu/ICanvas.h"
-#include "../Gpu/IGpu.h"
-#include "../Gpu/IMesh.h"
-#include "../Gpu/IShader.h"
-#include "../Gpu/IPainter.h"
+#include "Wrappers/Gpu/GpuCreator.h"
+#include "Wrappers/Gpu/Canvas.h"
+#include "Wrappers/Gpu/Gpu.h"
+#include "Wrappers/Gpu/Mesh.h"
+#include "Wrappers/Gpu/Shader.h"
+#include "Wrappers/Gpu/Painter.h"
 #include "../Logging/Logger.h"
 #include "Wrappers/Win32/Window.h"
 
@@ -24,20 +24,21 @@
 void MyEngine::App::App::Run()
 {
 	using namespace Wrappers::Win32;
+	using namespace Wrappers::Gpu;
 
 	m_Framework.Init();
 	Resources::Init();
 
 	Window& window = *new Window(L"Window");
 
-	Gpu::IGpu& gpu = *Gpu::GpuCreator::Create(window);
+	Gpu& gpu = *GpuCreator::Create(window);
 
-	Gpu::ICanvas& canvas = *gpu.MakeCanvas();
-	Gpu::IShader& shader = *gpu.MakeShader();
-	Gpu::IMesh& mesh = *gpu.MakeMesh();
-	Game::Camera::ICamera& camera = *new Game::Camera::Camera(window.GetSize_WinApi());
+	Canvas& canvas = *gpu.MakeCanvas();
+	Shader& shader = *gpu.MakeShader();
+	Mesh& mesh = *gpu.MakeMesh();
+	Game::Camera::Camera& camera = *new Game::Camera::Camera(window.GetSize_WinApi());
 	camera.Move({ 0,0,-1 });
-	Gpu::IPainter& painter = *gpu.MakePainter();
+	Painter& painter = *gpu.MakePainter();
 
 	painter.SetCanvas(canvas);
 	painter.SetShader(shader);

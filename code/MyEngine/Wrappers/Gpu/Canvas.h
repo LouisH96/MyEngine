@@ -1,7 +1,6 @@
 #pragma once
 
-#include "../ICanvas.h"
-#include "DxGpu.h"
+#include "Gpu.h"
 #include <DirectXMath.h>
 
 namespace MyEngine
@@ -12,35 +11,38 @@ namespace MyEngine
 		{
 			class Window;
 		}
+		namespace Gpu
+		{
+			class Gpu;
+		}
 	}
 }
 
 namespace MyEngine
 {
-	namespace Gpu
+	namespace Wrappers
 	{
-		namespace Dx
+		namespace Gpu
 		{
-			class DxCanvas final
-				: public ICanvas
+			class Canvas
 			{
 			public:
-				DxCanvas(const DxCanvas& other) = delete;
-				DxCanvas(DxCanvas&& other) noexcept = delete;
-				DxCanvas& operator=(const DxCanvas& other) = delete;
-				DxCanvas& operator=(DxCanvas&& other) noexcept = delete;
+				Canvas(const Canvas& other) = delete;
+				Canvas(Canvas&& other) noexcept = delete;
+				Canvas& operator=(const Canvas& other) = delete;
+				Canvas& operator=(Canvas&& other) noexcept = delete;
 
-				DxCanvas(DxGpu& gpu, Wrappers::Win32::Window& window);
-				~DxCanvas() override;
+				Canvas(Gpu& gpu, Wrappers::Win32::Window& window);
+				~Canvas();
 
-				void Clear() const override;
-				void Present() const override;
+				void Clear() const;
+				void Present() const;
 				void Activate() const;
 
-				void OnWindowResized(DirectX::XMINT2 newSize) override;
+				void OnWindowResized(DirectX::XMINT2 newSize);
 
 			private:
-				DxGpu& m_Gpu;
+				Gpu& m_Gpu;
 				IDXGISwapChain1* m_pSwapChain{};
 				ID3D11RenderTargetView* m_pMainRenderTargetView{};
 				D3D11_VIEWPORT m_ViewPort{};
@@ -54,3 +56,4 @@ namespace MyEngine
 		}
 	}
 }
+
