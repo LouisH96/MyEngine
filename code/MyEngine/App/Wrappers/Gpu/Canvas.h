@@ -58,8 +58,8 @@ namespace MyEngine
 
 					void InitSwapChain(const Win32::Window& window);
 					void InitRenderTarget();
-					void InitDepthStencil(const Win32::Window& window);
-					void SetViewPort(DirectX::XMINT2 windowSize);
+					void InitDepthStencil(const DirectX::XMINT2& size);
+					void SetViewPort(DirectX::XMINT2 size);
 
 					void GetFactory2(IDXGIDevice2*& pDevice2, IDXGIAdapter*& pAdapter, IDXGIFactory2*& pFactory) const;//clean after use
 				};

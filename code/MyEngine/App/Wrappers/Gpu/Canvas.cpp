@@ -10,8 +10,8 @@ MyEngine::App::Wrappers::Gpu::Canvas::Canvas(Gpu& gpu, App::Wrappers::Win32::Win
 {
 	InitSwapChain(window);
 	InitRenderTarget();
-	InitDepthStencil(window);
-	SetViewPort(window.GetSize_WinApi());
+	InitDepthStencil(window.GetClientSize());
+	SetViewPort(window.GetClientSize());
 }
 
 void MyEngine::App::Wrappers::Gpu::Canvas::Activate() const
@@ -50,15 +50,17 @@ void MyEngine::App::Wrappers::Gpu::Canvas::Present() const
 
 void MyEngine::App::Wrappers::Gpu::Canvas::OnWindowResized(DirectX::XMINT2 newSize)
 {
+	SAFE_RELEASE(m_pDepthStencilView);
 	SAFE_RELEASE(m_pMainRenderTargetView);
 	m_pSwapChain->ResizeBuffers(0, newSize.x, newSize.y, DXGI_FORMAT_UNKNOWN, 0);
 	InitRenderTarget();
+	InitDepthStencil(newSize);
 	SetViewPort(newSize);
 }
 
 void MyEngine::App::Wrappers::Gpu::Canvas::InitSwapChain(const App::Wrappers::Win32::Window& window)
 {
-	const DirectX::XMINT2 windowSize = window.GetSize_WinApi();
+	const DirectX::XMINT2 windowSize = window.GetClientSize();
 	DXGI_SWAP_CHAIN_DESC1 desc{};
 	desc.BufferCount = 2;
 	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -93,12 +95,12 @@ void MyEngine::App::Wrappers::Gpu::Canvas::InitRenderTarget()
 	pBackBuffer->Release();
 }
 
-void MyEngine::App::Wrappers::Gpu::Canvas::InitDepthStencil(const Win32::Window& window)
+void MyEngine::App::Wrappers::Gpu::Canvas::InitDepthStencil(const DirectX::XMINT2& size)
 {
 	//TEXTURE
 	D3D11_TEXTURE2D_DESC descDepth;
-	descDepth.Width = window.GetSize_WinApi().x;
-	descDepth.Height = window.GetSize_WinApi().y;
+	descDepth.Width = size.x;
+	descDepth.Height = size.y;
 	descDepth.MipLevels = 1;
 	descDepth.ArraySize = 1;
 	descDepth.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
@@ -113,7 +115,6 @@ void MyEngine::App::Wrappers::Gpu::Canvas::InitDepthStencil(const Win32::Window&
 	//STATE
 	D3D11_DEPTH_STENCIL_DESC dsDesc;
 	
-
 	// Depth test parameters
 	dsDesc.DepthEnable = true;
 	dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
@@ -151,12 +152,12 @@ void MyEngine::App::Wrappers::Gpu::Canvas::InitDepthStencil(const Win32::Window&
 		&m_pDepthStencilView);  // [out] Depth stencil view
 }
 
-void MyEngine::App::Wrappers::Gpu::Canvas::SetViewPort(DirectX::XMINT2 windowSize)
+void MyEngine::App::Wrappers::Gpu::Canvas::SetViewPort(DirectX::XMINT2 size)
 {
 	m_ViewPort = {
 	  0.0f, 0.0f,
-	 static_cast<float>(windowSize.x),
-	 static_cast<float>(windowSize.y),
+	 static_cast<float>(size.x),
+	 static_cast<float>(size.y),
 	  0.0f, 1.0f };
 	m_Gpu.GetContext().RSSetViewports(1, &m_ViewPort);
 }

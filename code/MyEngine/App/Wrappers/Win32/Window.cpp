@@ -14,7 +14,7 @@ MyEngine::App::Wrappers::Win32::Window::~Window()
 	Release();
 }
 
-void MyEngine::App::Wrappers::Win32::Window::Init(const std::wstring& title, int width, int height)
+void MyEngine::App::Wrappers::Win32::Window::Init(const std::wstring& title, int clientWidth, int clientHeight)
 {
 	//Register window class
 	const std::wstring className = L"MyWindowClass";
@@ -30,21 +30,31 @@ void MyEngine::App::Wrappers::Win32::Window::Init(const std::wstring& title, int
 
 	//Get the entire screen center
 	const Screen& screen = Screen::GetInstance();
-	const int screenCenterX = screen.GetRect().CenterX();
-	const int screenCenterY = screen.GetRect().CenterY();
+	const Math::RectInt& screenRect = screen.GetRect();
 
 	//Create window
-	// ReSharper disable once CppLocalVariableMayBeConst
+	constexpr DWORD windowStyle = WS_OVERLAPPEDWINDOW;
+	const RECT clientRect
+	{
+		 (screenRect.GetWidth() - clientWidth) / 2, //left
+		 (screenRect.GetHeight() - clientHeight) / 2, //top
+		 (screenRect.GetWidth() - clientWidth) / 2 + clientWidth, //right
+		 (screenRect.GetHeight() - clientHeight) / 2 + clientHeight //bottom
+	};
+	RECT rect = clientRect;
+	AdjustWindowRect(&rect, windowStyle, false); //from desired client-rect to window-rect
+	const RECT windowRect = rect;
+
 	m_WindowHandle = CreateWindowEx(
 		0,                              // Optional window styles.
 		className.c_str(),              // Window class
 		title.c_str(),    // Window text
-		WS_OVERLAPPEDWINDOW,            // Window style
+		windowStyle,            // Window style
 
 		// Size and position
-		screenCenterX - (width / 2),
-		screenCenterY - (height / 2),
-		width, height,
+		windowRect.left, windowRect.top,
+		windowRect.right - windowRect.left, //windowRect-width
+		windowRect.bottom - windowRect.top, //windowRect-height
 
 		nullptr,       // Parent window    
 		nullptr,       // Menu
@@ -53,7 +63,7 @@ void MyEngine::App::Wrappers::Win32::Window::Init(const std::wstring& title, int
 	);
 	SetWindowLongPtr(m_WindowHandle, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 	ShowWindow(m_WindowHandle, true);
-	m_Size = { width,height };
+	m_ClientSize = { clientWidth,clientHeight };
 }
 
 void MyEngine::App::Wrappers::Win32::Window::Release()
@@ -72,7 +82,7 @@ void MyEngine::App::Wrappers::Win32::Window::HandleMessages()
 		DispatchMessage(&msg);
 }
 
-DirectX::XMINT2 MyEngine::App::Wrappers::Win32::Window::GetSize_WinApi() const
+DirectX::XMINT2 MyEngine::App::Wrappers::Win32::Window::AskClientSize_WinApi() const
 {
 	RECT rect{};
 	GetClientRect(m_WindowHandle, &rect);
@@ -90,8 +100,8 @@ LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, 
 		PostQuitMessage(0);
 		break;
 	case WM_SIZE:
-		window.m_Size.x = LOWORD(lParam);
-		window.m_Size.y = HIWORD(lParam);
+		window.m_ClientSize.x = LOWORD(lParam);
+		window.m_ClientSize.y = HIWORD(lParam);
 		window.m_IsResized = true;
 		break;
 	case WM_KEYDOWN:

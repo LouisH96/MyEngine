@@ -32,7 +32,7 @@ void MyEngine::App::App::Run()
 	Canvas& canvas = *gpu.MakeCanvas();
 	Shader& shader = *gpu.MakeShader();
 	Mesh& mesh = *gpu.MakeMesh();
-	Game::Camera::Camera& camera = *new Game::Camera::Camera(window.GetSize_WinApi());
+	Game::Camera::Camera& camera = *new Game::Camera::Camera(window.AskClientSize_WinApi());
 	camera.Move({ 0,0,-1 });
 	Painter& painter = *gpu.MakePainter();
 
@@ -58,8 +58,8 @@ void MyEngine::App::App::Run()
 		window.HandleMessages();
 		if(window.IsResized())
 		{
-			canvas.OnWindowResized(window.GetSize());
-			camera.OnWindowResized(window.GetSize());
+			canvas.OnWindowResized(window.GetClientSize());
+			camera.OnWindowResized(window.GetClientSize());
 		}
 
 		//input

@@ -28,8 +28,8 @@ namespace MyEngine
 					//window
 					bool IsDestroyed() const { return m_IsDestroyed; }
 					bool IsResized() const { return m_IsResized; }
-					DirectX::XMINT2 GetSize() const { return m_Size; };
-					DirectX::XMINT2 GetSize_WinApi() const;
+					DirectX::XMINT2 GetClientSize() const { return m_ClientSize; };
+					DirectX::XMINT2 AskClientSize_WinApi() const;
 					HWND GetWindowHandle()const { return m_WindowHandle; }
 
 					//messages
@@ -39,11 +39,11 @@ namespace MyEngine
 					const Keyboard_MsgListener& GetKeyboard() const { return m_Keyboard; }
 
 				private:
-					void Init(const std::wstring& title, int width = 1200, int height = 800);
+					void Init(const std::wstring& title, int clientWidth = 1200, int clientHeight = 800);
 					void Release();
 
 					Keyboard_MsgListener m_Keyboard{};
-					DirectX::XMINT2 m_Size{};
+					DirectX::XMINT2 m_ClientSize{};
 					HWND m_WindowHandle{};
 					bool m_IsDestroyed{ false };
 					bool m_IsResized{ false };
