@@ -13,7 +13,7 @@ MyEngine::App::Wrappers::Win32::Window::Window(const std::wstring& title)
 }
 
 MyEngine::App::Wrappers::Win32::Window::Window(const std::wstring& title, IExtraWinProc& extraWinProc)
-	: m_pExtraWinProc{&extraWinProc}
+	: m_pExtraWinProc{ &extraWinProc }
 {
 	Init(title);
 }
@@ -139,8 +139,13 @@ LRESULT CALLBACK win32_window_proc_extra(HWND windowHandle, UINT uMsg, WPARAM wP
 		window.m_pExtraWinProc->OnResize(window.GetClientSize());
 		break;
 	case WM_KEYDOWN:
+		window.m_pExtraWinProc->OnKeyDown(static_cast<char>(wParam));
 		break;
 	case WM_KEYUP:
+		window.m_pExtraWinProc->OnKeyUp(static_cast<char>(wParam));
+		break;
+	case WM_PAINT:
+		window.m_pExtraWinProc->OnPaint();
 		break;
 	default:;
 	}
