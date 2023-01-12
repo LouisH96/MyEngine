@@ -97,7 +97,7 @@ void MyEngine::App::Wrappers::Gpu::Canvas::InitRenderTarget()
 
 void MyEngine::App::Wrappers::Gpu::Canvas::InitDepthStencilState()
 {
-	D3D11_DEPTH_STENCIL_DESC dsDesc;
+	D3D11_DEPTH_STENCIL_DESC dsDesc{};
 
 	// Depth test parameters
 	dsDesc.DepthEnable = true;
@@ -128,8 +128,8 @@ void MyEngine::App::Wrappers::Gpu::Canvas::InitDepthStencilState()
 void MyEngine::App::Wrappers::Gpu::Canvas::InitDepthStencil(const DirectX::XMINT2& size)
 {
 	//TEXTURE
-	ID3D11Texture2D* pTempTexture;
-	D3D11_TEXTURE2D_DESC descDepth;
+	ID3D11Texture2D* pTempTexture{};
+	D3D11_TEXTURE2D_DESC descDepth{};
 	descDepth.Width = size.x;
 	descDepth.Height = size.y;
 	descDepth.MipLevels = 1;
@@ -142,6 +142,12 @@ void MyEngine::App::Wrappers::Gpu::Canvas::InitDepthStencil(const DirectX::XMINT
 	descDepth.CPUAccessFlags = 0;
 	descDepth.MiscFlags = 0;
 	HRESULT hr = m_Gpu.GetDevice().CreateTexture2D(&descDepth, nullptr, &pTempTexture);
+
+	if(FAILED(hr))
+	{
+		std::cout << "depthStencil-Texture creation failed\n";
+		return;
+	}
 
 	//VIEW
 	D3D11_DEPTH_STENCIL_VIEW_DESC descDSV{};
