@@ -10,6 +10,7 @@ MyEngine::App::Wrappers::Gpu::Canvas::Canvas(Gpu& gpu, App::Wrappers::Win32::Win
 {
 	InitSwapChain(window);
 	InitRenderTarget();
+	InitDepthStencilState();
 	InitDepthStencil(window.GetClientSize());
 	SetViewPort(window.GetClientSize());
 }
@@ -29,7 +30,6 @@ MyEngine::App::Wrappers::Gpu::Canvas::~Canvas()
 	SAFE_RELEASE(m_pSwapChain);
 	SAFE_RELEASE(m_pDepthStencilView);
 	SAFE_RELEASE(m_pDepthStencilState);
-	SAFE_RELEASE(m_pDepthStencil);
 }
 
 void MyEngine::App::Wrappers::Gpu::Canvas::Clear() const
@@ -95,26 +95,10 @@ void MyEngine::App::Wrappers::Gpu::Canvas::InitRenderTarget()
 	pBackBuffer->Release();
 }
 
-void MyEngine::App::Wrappers::Gpu::Canvas::InitDepthStencil(const DirectX::XMINT2& size)
+void MyEngine::App::Wrappers::Gpu::Canvas::InitDepthStencilState()
 {
-	//TEXTURE
-	D3D11_TEXTURE2D_DESC descDepth;
-	descDepth.Width = size.x;
-	descDepth.Height = size.y;
-	descDepth.MipLevels = 1;
-	descDepth.ArraySize = 1;
-	descDepth.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-	descDepth.SampleDesc.Count = 1;
-	descDepth.SampleDesc.Quality = 0;
-	descDepth.Usage = D3D11_USAGE_DEFAULT;
-	descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-	descDepth.CPUAccessFlags = 0;
-	descDepth.MiscFlags = 0;
-	HRESULT hr = m_Gpu.GetDevice().CreateTexture2D(&descDepth, nullptr, &m_pDepthStencil);
-
-	//STATE
 	D3D11_DEPTH_STENCIL_DESC dsDesc;
-	
+
 	// Depth test parameters
 	dsDesc.DepthEnable = true;
 	dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
@@ -139,6 +123,25 @@ void MyEngine::App::Wrappers::Gpu::Canvas::InitDepthStencil(const DirectX::XMINT
 
 	// Create depth stencil state
 	m_Gpu.GetDevice().CreateDepthStencilState(&dsDesc, &m_pDepthStencilState);
+}
+
+void MyEngine::App::Wrappers::Gpu::Canvas::InitDepthStencil(const DirectX::XMINT2& size)
+{
+	//TEXTURE
+	ID3D11Texture2D* pTempTexture;
+	D3D11_TEXTURE2D_DESC descDepth;
+	descDepth.Width = size.x;
+	descDepth.Height = size.y;
+	descDepth.MipLevels = 1;
+	descDepth.ArraySize = 1;
+	descDepth.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	descDepth.SampleDesc.Count = 1;
+	descDepth.SampleDesc.Quality = 0;
+	descDepth.Usage = D3D11_USAGE_DEFAULT;
+	descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	descDepth.CPUAccessFlags = 0;
+	descDepth.MiscFlags = 0;
+	HRESULT hr = m_Gpu.GetDevice().CreateTexture2D(&descDepth, nullptr, &pTempTexture);
 
 	//VIEW
 	D3D11_DEPTH_STENCIL_VIEW_DESC descDSV{};
@@ -147,9 +150,11 @@ void MyEngine::App::Wrappers::Gpu::Canvas::InitDepthStencil(const DirectX::XMINT
 	descDSV.Texture2D.MipSlice = 0;
 
 	// Create the depth stencil view
-	hr = m_Gpu.GetDevice().CreateDepthStencilView(m_pDepthStencil, // Depth stencil texture
+	hr = m_Gpu.GetDevice().CreateDepthStencilView(pTempTexture, // Depth stencil texture
 		&descDSV, // Depth stencil desc
 		&m_pDepthStencilView);  // [out] Depth stencil view
+
+	pTempTexture->Release();
 }
 
 void MyEngine::App::Wrappers::Gpu::Canvas::SetViewPort(DirectX::XMINT2 size)
