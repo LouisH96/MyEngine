@@ -85,4 +85,6 @@ void MyEngine::App::App::Run()
 
 	delete& gpu;
 	delete& window;
+
+	m_Framework.Release();
 }

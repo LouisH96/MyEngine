@@ -8,6 +8,7 @@ namespace MyEngine
 		{
 		public:
 			void Init();
+			void Release();
 		};
 	}
 }
