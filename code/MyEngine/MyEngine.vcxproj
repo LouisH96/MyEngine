@@ -45,6 +45,7 @@
     <ClInclude Include="App\Wrappers\Gpu\Mesh.h" />
     <ClInclude Include="App\Wrappers\Gpu\Gpu.h" />
     <ClInclude Include="App\Wrappers\Gpu\Canvas.h" />
+    <ClInclude Include="App\Wrappers\Win32\IExtraWinProc.h" />
     <ClInclude Include="Game\GameGlobals.h" />
     <ClInclude Include="Game\Camera\CameraController.h" />
     <ClInclude Include="Game\Camera\Camera.h" />

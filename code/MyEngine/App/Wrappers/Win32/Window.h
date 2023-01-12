@@ -5,6 +5,7 @@
 #include "Keyboard_MsgListener.h"
 
 LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK win32_window_proc_extra(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 namespace MyEngine
 {
@@ -14,6 +15,8 @@ namespace MyEngine
 		{
 			namespace Win32
 			{
+				class IExtraWinProc;
+
 				class Window
 				{
 				public:
@@ -23,6 +26,7 @@ namespace MyEngine
 					Window& operator=(Window&& other) noexcept = delete;
 
 					explicit Window(const std::wstring& title);
+					explicit Window(const std::wstring& title, IExtraWinProc& extraWinProc);
 					~Window();
 
 					//window
@@ -45,10 +49,12 @@ namespace MyEngine
 					Keyboard_MsgListener m_Keyboard{};
 					DirectX::XMINT2 m_ClientSize{};
 					HWND m_WindowHandle{};
+					IExtraWinProc* m_pExtraWinProc{};
 					bool m_IsDestroyed{ false };
 					bool m_IsResized{ false };
 
 					friend LRESULT CALLBACK::win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam);
+					friend LRESULT CALLBACK::win32_window_proc_extra(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam);
 				};
 			}
 		}

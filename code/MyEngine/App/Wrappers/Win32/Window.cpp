@@ -1,10 +1,19 @@
 #include "pch.h"
 // ReSharper disable CppClangTidyPerformanceNoIntToPtr
 #include "Window.h"
+
+#include "IExtraWinProc.h"
 #include "Screen.h"
 #include "App/Wrappers/Gpu/Canvas.h"
 
 MyEngine::App::Wrappers::Win32::Window::Window(const std::wstring& title)
+	: m_pExtraWinProc{ nullptr }
+{
+	Init(title);
+}
+
+MyEngine::App::Wrappers::Win32::Window::Window(const std::wstring& title, IExtraWinProc& extraWinProc)
+	: m_pExtraWinProc{&extraWinProc}
 {
 	Init(title);
 }
@@ -22,7 +31,7 @@ void MyEngine::App::Wrappers::Win32::Window::Init(const std::wstring& title, int
 	HINSTANCE hInstance = GetModuleHandle(nullptr);
 
 	WNDCLASS windowClass{};
-	windowClass.lpfnWndProc = win32_window_proc;
+	windowClass.lpfnWndProc = m_pExtraWinProc ? win32_window_proc_extra : win32_window_proc;
 	windowClass.lpszClassName = className.c_str();
 	windowClass.hInstance = hInstance;
 	windowClass.hCursor = LoadCursor(nullptr, IDC_ARROW);
@@ -113,4 +122,27 @@ LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, 
 	default:;
 	}
 	return DefWindowProc(windowHandle, uMsg, wParam, lParam);
+}
+
+LRESULT CALLBACK win32_window_proc_extra(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	const LRESULT result = win32_window_proc(windowHandle, uMsg, wParam, lParam);
+
+	using namespace MyEngine::App::Wrappers::Win32;
+	const Window& window = *reinterpret_cast<Window*>(GetWindowLongPtr(windowHandle, GWLP_USERDATA));
+
+	switch (uMsg)
+	{
+	case WM_DESTROY:
+		break;
+	case WM_SIZE:
+		window.m_pExtraWinProc->OnResize(window.GetClientSize());
+		break;
+	case WM_KEYDOWN:
+		break;
+	case WM_KEYUP:
+		break;
+	default:;
+	}
+	return result;
 }

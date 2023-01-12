@@ -50,6 +50,7 @@
     <ClInclude Include="App\Wrappers\Gpu\Mesh.h" />
     <ClInclude Include="App\Wrappers\Gpu\Painter.h" />
     <ClInclude Include="App\Wrappers\Gpu\Shader.h" />
+    <ClInclude Include="App\Wrappers\Win32\IExtraWinProc.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
