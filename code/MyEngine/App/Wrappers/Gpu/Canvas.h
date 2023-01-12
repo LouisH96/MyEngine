@@ -52,8 +52,13 @@ namespace MyEngine
 					ID3D11RenderTargetView* m_pMainRenderTargetView{};
 					D3D11_VIEWPORT m_ViewPort{};
 
+					ID3D11Texture2D* m_pDepthStencil{};
+					ID3D11DepthStencilState* m_pDepthStencilState{};
+					ID3D11DepthStencilView* m_pDepthStencilView{};
+
 					void InitSwapChain(const Win32::Window& window);
 					void InitRenderTarget();
+					void InitDepthStencil(const Win32::Window& window);
 					void SetViewPort(DirectX::XMINT2 windowSize);
 
 					void GetFactory2(IDXGIDevice2*& pDevice2, IDXGIAdapter*& pAdapter, IDXGIFactory2*& pFactory) const;//clean after use

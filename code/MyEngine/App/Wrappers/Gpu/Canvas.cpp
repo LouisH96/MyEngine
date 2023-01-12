@@ -10,18 +10,26 @@ MyEngine::App::Wrappers::Gpu::Canvas::Canvas(Gpu& gpu, App::Wrappers::Win32::Win
 {
 	InitSwapChain(window);
 	InitRenderTarget();
+	InitDepthStencil(window);
 	SetViewPort(window.GetSize_WinApi());
 }
 
 void MyEngine::App::Wrappers::Gpu::Canvas::Activate() const
 {
-	m_Gpu.GetContext().OMSetRenderTargets(1, &m_pMainRenderTargetView, nullptr);
+	//DepthStencil
+	m_Gpu.GetContext().OMSetDepthStencilState(m_pDepthStencilState, 1);
+
+	//Rendertarget
+	m_Gpu.GetContext().OMSetRenderTargets(1, &m_pMainRenderTargetView, m_pDepthStencilView);
 }
 
 MyEngine::App::Wrappers::Gpu::Canvas::~Canvas()
 {
-	SAFE_RELEASE(m_pMainRenderTargetView)
-		SAFE_RELEASE(m_pSwapChain)
+	SAFE_RELEASE(m_pMainRenderTargetView);
+	SAFE_RELEASE(m_pSwapChain);
+	SAFE_RELEASE(m_pDepthStencilView);
+	SAFE_RELEASE(m_pDepthStencilState);
+	SAFE_RELEASE(m_pDepthStencil);
 }
 
 void MyEngine::App::Wrappers::Gpu::Canvas::Clear() const
@@ -31,6 +39,7 @@ void MyEngine::App::Wrappers::Gpu::Canvas::Clear() const
 	  0x64 / 255.0f, 0x95 / 255.0f, 0xED / 255.0f, 1.0f };
 	m_Gpu.GetContext().ClearRenderTargetView(
 		m_pMainRenderTargetView, background_colour);
+	m_Gpu.GetContext().ClearDepthStencilView(m_pDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 }
 
 void MyEngine::App::Wrappers::Gpu::Canvas::Present() const
@@ -82,6 +91,64 @@ void MyEngine::App::Wrappers::Gpu::Canvas::InitRenderTarget()
 	if (pBackBuffer)
 		m_Gpu.GetDevice().CreateRenderTargetView(pBackBuffer, nullptr, &m_pMainRenderTargetView);
 	pBackBuffer->Release();
+}
+
+void MyEngine::App::Wrappers::Gpu::Canvas::InitDepthStencil(const Win32::Window& window)
+{
+	//TEXTURE
+	D3D11_TEXTURE2D_DESC descDepth;
+	descDepth.Width = window.GetSize_WinApi().x;
+	descDepth.Height = window.GetSize_WinApi().y;
+	descDepth.MipLevels = 1;
+	descDepth.ArraySize = 1;
+	descDepth.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	descDepth.SampleDesc.Count = 1;
+	descDepth.SampleDesc.Quality = 0;
+	descDepth.Usage = D3D11_USAGE_DEFAULT;
+	descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	descDepth.CPUAccessFlags = 0;
+	descDepth.MiscFlags = 0;
+	HRESULT hr = m_Gpu.GetDevice().CreateTexture2D(&descDepth, nullptr, &m_pDepthStencil);
+
+	//STATE
+	D3D11_DEPTH_STENCIL_DESC dsDesc;
+	
+
+	// Depth test parameters
+	dsDesc.DepthEnable = true;
+	dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	dsDesc.DepthFunc = D3D11_COMPARISON_LESS;
+
+	// Stencil test parameters
+	dsDesc.StencilEnable = true;
+	dsDesc.StencilReadMask = 0xFF;
+	dsDesc.StencilWriteMask = 0xFF;
+
+	// Stencil operations if pixel is front-facing
+	dsDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+	dsDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_INCR;
+	dsDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+	dsDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+
+	// Stencil operations if pixel is back-facing
+	dsDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+	dsDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_DECR;
+	dsDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+	dsDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+
+	// Create depth stencil state
+	m_Gpu.GetDevice().CreateDepthStencilState(&dsDesc, &m_pDepthStencilState);
+
+	//VIEW
+	D3D11_DEPTH_STENCIL_VIEW_DESC descDSV{};
+	descDSV.Format = descDepth.Format;
+	descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	descDSV.Texture2D.MipSlice = 0;
+
+	// Create the depth stencil view
+	hr = m_Gpu.GetDevice().CreateDepthStencilView(m_pDepthStencil, // Depth stencil texture
+		&descDSV, // Depth stencil desc
+		&m_pDepthStencilView);  // [out] Depth stencil view
 }
 
 void MyEngine::App::Wrappers::Gpu::Canvas::SetViewPort(DirectX::XMINT2 windowSize)
