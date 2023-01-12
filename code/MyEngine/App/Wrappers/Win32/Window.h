@@ -20,13 +20,19 @@ namespace MyEngine
 				class Window
 				{
 				public:
+					struct Options
+					{
+						bool FullRedrawOnScale{ false };
+					};
+
+				public:
 					Window(const Window& other) = delete;
 					Window(Window&& other) noexcept = delete;
 					Window& operator=(const Window& other) = delete;
 					Window& operator=(Window&& other) noexcept = delete;
 
-					explicit Window(const std::wstring& title);
-					explicit Window(const std::wstring& title, IExtraWinProc& extraWinProc);
+					explicit Window(const std::wstring& title, Options options = {});
+					explicit Window(const std::wstring& title, IExtraWinProc& extraWinProc, Options options = {});
 					~Window();
 
 					//window
@@ -43,7 +49,7 @@ namespace MyEngine
 					const Keyboard_MsgListener& GetKeyboard() const { return m_Keyboard; }
 
 				private:
-					void Init(const std::wstring& title, int clientWidth = 1200, int clientHeight = 800);
+					void Init(const std::wstring& title, const Options& options, int clientWidth = 1200, int clientHeight = 800);
 					void Release();
 
 					Keyboard_MsgListener m_Keyboard{};

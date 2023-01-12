@@ -6,16 +6,16 @@
 #include "Screen.h"
 #include "App/Wrappers/Gpu/Canvas.h"
 
-MyEngine::App::Wrappers::Win32::Window::Window(const std::wstring& title)
+MyEngine::App::Wrappers::Win32::Window::Window(const std::wstring& title, Options options)
 	: m_pExtraWinProc{ nullptr }
 {
-	Init(title);
+	Init(title, options);
 }
 
-MyEngine::App::Wrappers::Win32::Window::Window(const std::wstring& title, IExtraWinProc& extraWinProc)
+MyEngine::App::Wrappers::Win32::Window::Window(const std::wstring& title, IExtraWinProc& extraWinProc, Options options)
 	: m_pExtraWinProc{ &extraWinProc }
 {
-	Init(title);
+	Init(title, options);
 }
 
 MyEngine::App::Wrappers::Win32::Window::~Window()
@@ -23,7 +23,7 @@ MyEngine::App::Wrappers::Win32::Window::~Window()
 	Release();
 }
 
-void MyEngine::App::Wrappers::Win32::Window::Init(const std::wstring& title, int clientWidth, int clientHeight)
+void MyEngine::App::Wrappers::Win32::Window::Init(const std::wstring& title, const Options& options, int clientWidth, int clientHeight)
 {
 	//Register window class
 	const std::wstring className = L"MyWindowClass";
@@ -35,6 +35,8 @@ void MyEngine::App::Wrappers::Win32::Window::Init(const std::wstring& title, int
 	windowClass.lpszClassName = className.c_str();
 	windowClass.hInstance = hInstance;
 	windowClass.hCursor = LoadCursor(nullptr, IDC_ARROW);
+	windowClass.style = 0;
+	if (options.FullRedrawOnScale) windowClass.style |= CS_HREDRAW | CS_VREDRAW;
 	RegisterClass(&windowClass);
 
 	//Get the entire screen center
@@ -126,8 +128,6 @@ LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, 
 
 LRESULT CALLBACK win32_window_proc_extra(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	const LRESULT result = win32_window_proc(windowHandle, uMsg, wParam, lParam);
-
 	using namespace MyEngine::App::Wrappers::Win32;
 	const Window& window = *reinterpret_cast<Window*>(GetWindowLongPtr(windowHandle, GWLP_USERDATA));
 
@@ -149,5 +149,5 @@ LRESULT CALLBACK win32_window_proc_extra(HWND windowHandle, UINT uMsg, WPARAM wP
 		break;
 	default:;
 	}
-	return result;
+	return win32_window_proc(windowHandle, uMsg, wParam, lParam);
 }
