@@ -23,6 +23,7 @@ namespace MyEngine
 					struct Options
 					{
 						bool FullRedrawOnScale{ false };
+						HBRUSH BackgroundBrush{ nullptr };
 					};
 
 				public:

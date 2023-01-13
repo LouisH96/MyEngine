@@ -37,6 +37,7 @@ void MyEngine::App::Wrappers::Win32::Window::Init(const std::wstring& title, con
 	windowClass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	windowClass.style = 0;
 	if (options.FullRedrawOnScale) windowClass.style |= CS_HREDRAW | CS_VREDRAW;
+	windowClass.hbrBackground = options.BackgroundBrush;
 	RegisterClass(&windowClass);
 
 	//Get the entire screen center
