@@ -40,6 +40,8 @@ namespace MyEngine
 					bool IsDestroyed() const { return m_IsDestroyed; }
 					bool IsResized() const { return m_IsResized; }
 					DirectX::XMINT2 GetClientSize() const { return m_ClientSize; };
+					int GetClientWidth() const { return m_ClientSize.x; }
+					int GetClientHeight() const { return m_ClientSize.y; }
 					DirectX::XMINT2 AskClientSize_WinApi() const;
 					HWND GetWindowHandle()const { return m_WindowHandle; }
 
