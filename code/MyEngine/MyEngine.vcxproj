@@ -36,6 +36,7 @@
     </ClCompile>
     <ClCompile Include="Math\RectInt.cpp" />
     <ClCompile Include="App\Wrappers\Win32\Screen.cpp" />
+    <ClCompile Include="App\Wrappers\Win32\Renderer2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\App.h" />
@@ -64,6 +65,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="Math\RectInt.h" />
     <ClInclude Include="App\Wrappers\Win32\Screen.h" />
+    <ClInclude Include="App\Wrappers\Win32\Renderer2D.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
@@ -124,6 +126,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <ExternalWarningLevel>Level1</ExternalWarningLevel>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
