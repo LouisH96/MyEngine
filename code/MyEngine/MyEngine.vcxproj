@@ -138,7 +138,7 @@
     <PostBuildEvent>
       <Command>xcopy /y /d "$(OutDir)*.lib" "$(GlobalOutputFolder)lib\$(Configuration)\$(Platform)\"
 rd /s /q "$(GlobalOutputFolder)include"
-xcopy /y /d /s "$(SolutionDir)code\MyEngine\*.h" "$(GlobalOutputFolder)include\"</Command>
+xcopy /y /d /s "$(ProjectDir)*.h" "$(GlobalOutputFolder)include\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -167,7 +167,7 @@ xcopy /y /d /s "$(SolutionDir)code\MyEngine\*.h" "$(GlobalOutputFolder)include\"
     <PostBuildEvent>
       <Command>xcopy /y /d "$(OutDir)*.lib" "$(GlobalOutputFolder)lib\$(Configuration)\$(Platform)\"
 rd /s /q "$(GlobalOutputFolder)include"
-xcopy /y /d /s "$(SolutionDir)code\MyEngine\*.h" "$(GlobalOutputFolder)include\"</Command>
+xcopy /y /d /s "$(ProjectDir)*.h" "$(GlobalOutputFolder)include\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
