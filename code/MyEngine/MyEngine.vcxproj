@@ -37,6 +37,7 @@
     <ClCompile Include="Math\RectInt.cpp" />
     <ClCompile Include="App\Wrappers\Win32\Screen.cpp" />
     <ClCompile Include="App\Wrappers\Win32\Renderer2D.cpp" />
+    <ClCompile Include="App\Wrappers\Gpu\RendererD2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\App.h" />
@@ -66,6 +67,7 @@
     <ClInclude Include="Math\RectInt.h" />
     <ClInclude Include="App\Wrappers\Win32\Screen.h" />
     <ClInclude Include="App\Wrappers\Win32\Renderer2D.h" />
+    <ClInclude Include="App\Wrappers\Gpu\RendererD2D.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
