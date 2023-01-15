@@ -35,7 +35,7 @@ void MyEngine::App::Wrappers::Win32::Window::Init(const std::wstring& title, con
 	windowClass.lpszClassName = className.c_str();
 	windowClass.hInstance = hInstance;
 	windowClass.hCursor = LoadCursor(nullptr, IDC_ARROW);
-	windowClass.style = 0;
+	windowClass.style = CS_BYTEALIGNCLIENT;
 	if (options.FullRedrawOnScale) windowClass.style |= CS_HREDRAW | CS_VREDRAW;
 	windowClass.hbrBackground = options.BackgroundBrush;
 	RegisterClass(&windowClass);
@@ -122,6 +122,7 @@ LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, 
 	case WM_KEYUP:
 		window.m_Keyboard.KeyUp(static_cast<char>(wParam));
 		break;
+
 	default:;
 	}
 	return DefWindowProc(windowHandle, uMsg, wParam, lParam);
