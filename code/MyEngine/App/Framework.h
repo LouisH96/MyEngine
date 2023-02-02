@@ -7,8 +7,8 @@ namespace MyEngine
 		class Framework
 		{
 		public:
-			void Init();
-			void Release();
+			Framework();
+			~Framework();
 		};
 	}
 }

@@ -21,8 +21,7 @@ void MyEngine::App::App::Run()
 {
 	using namespace Wrappers::Win32;
 	using namespace Wrappers::Gpu;
-
-	m_Framework.Init();
+	
 	Resources::Init();
 
 	Window& window = *new Window(L"Window");
@@ -85,6 +84,4 @@ void MyEngine::App::App::Run()
 
 	delete& gpu;
 	delete& window;
-
-	m_Framework.Release();
 }

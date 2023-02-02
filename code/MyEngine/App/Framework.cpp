@@ -4,7 +4,7 @@
 #define _CRTDBG_MAP_ALLOC
 #define _LEAK_TO_CONSOLE
 
-void MyEngine::App::Framework::Init()
+MyEngine::App::Framework::Framework()
 {
 #if defined(DEBUG) | defined(_DEBUG)
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
@@ -15,7 +15,6 @@ void MyEngine::App::Framework::Init()
 #endif
 }
 
-void MyEngine::App::Framework::Release()
+MyEngine::App::Framework::~Framework()
 {
-
 }
