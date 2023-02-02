@@ -25,6 +25,7 @@
     <ClCompile Include="App\Wrappers\Gpu\Shader.cpp" />
     <ClCompile Include="App\Wrappers\Win32\Renderer2D.cpp" />
     <ClCompile Include="App\Wrappers\Gpu\RendererD2D.cpp" />
+    <ClCompile Include="Math\Int2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logging\Logger.h" />
@@ -55,6 +56,7 @@
     <ClInclude Include="App\Wrappers\Win32\IExtraWinProc.h" />
     <ClInclude Include="App\Wrappers\Win32\Renderer2D.h" />
     <ClInclude Include="App\Wrappers\Gpu\RendererD2D.h" />
+    <ClInclude Include="Math\Int2.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

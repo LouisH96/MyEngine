@@ -5,6 +5,7 @@
 #include "IExtraWinProc.h"
 #include "Screen.h"
 #include "App/Wrappers/Gpu/Canvas.h"
+#include "Math/Int2.h"
 
 MyEngine::App::Wrappers::Win32::Window::Window(const std::wstring& title, Options options)
 	: m_pExtraWinProc{ nullptr }
@@ -18,12 +19,28 @@ MyEngine::App::Wrappers::Win32::Window::Window(const std::wstring& title, IExtra
 	Init(title, options);
 }
 
+MyEngine::App::Wrappers::Win32::Window::Window(const std::wstring& title, const Math::Int2&& clientSize,
+	Options options)
+	: m_ClientSize(clientSize.x, clientSize.y)
+	, m_pExtraWinProc{ nullptr }
+{
+	Init(title, options);
+}
+
+MyEngine::App::Wrappers::Win32::Window::Window(const std::wstring& title, const Math::Int2&& clientSize,
+	IExtraWinProc& extraWinProc, Options options)
+	: m_ClientSize(clientSize.x, clientSize.y)
+	, m_pExtraWinProc{ &extraWinProc }
+{
+	Init(title, options);
+}
+
 MyEngine::App::Wrappers::Win32::Window::~Window()
 {
 	Release();
 }
 
-void MyEngine::App::Wrappers::Win32::Window::Init(const std::wstring& title, const Options& options, int clientWidth, int clientHeight)
+void MyEngine::App::Wrappers::Win32::Window::Init(const std::wstring& title, const Options& options)
 {
 	//Register window class
 	const std::wstring className = L"MyWindowClass";
@@ -48,10 +65,10 @@ void MyEngine::App::Wrappers::Win32::Window::Init(const std::wstring& title, con
 	constexpr DWORD windowStyle = WS_OVERLAPPEDWINDOW;
 	const RECT clientRect
 	{
-		 (screenRect.GetWidth() - clientWidth) / 2, //left
-		 (screenRect.GetHeight() - clientHeight) / 2, //top
-		 (screenRect.GetWidth() - clientWidth) / 2 + clientWidth, //right
-		 (screenRect.GetHeight() - clientHeight) / 2 + clientHeight //bottom
+		 (screenRect.GetWidth() - m_ClientSize.x) / 2, //left
+		 (screenRect.GetHeight() - m_ClientSize.y) / 2, //top
+		 (screenRect.GetWidth() - m_ClientSize.x) / 2 + m_ClientSize.x, //right
+		 (screenRect.GetHeight() - m_ClientSize.y) / 2 + m_ClientSize.y //bottom
 	};
 	RECT rect = clientRect;
 	AdjustWindowRect(&rect, windowStyle, false); //from desired client-rect to window-rect
@@ -75,7 +92,6 @@ void MyEngine::App::Wrappers::Win32::Window::Init(const std::wstring& title, con
 	);
 	SetWindowLongPtr(m_WindowHandle, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 	ShowWindow(m_WindowHandle, true);
-	m_ClientSize = { clientWidth,clientHeight };
 }
 
 void MyEngine::App::Wrappers::Win32::Window::Release()

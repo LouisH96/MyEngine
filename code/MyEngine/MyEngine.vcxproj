@@ -27,6 +27,7 @@
     <ClCompile Include="App\Wrappers\Win32\Keyboard_StateReader.cpp" />
     <ClCompile Include="App\Wrappers\Win32\InputTypes.cpp" />
     <ClCompile Include="App\Wrappers\Win32\Keyboard_MsgListener.cpp" />
+    <ClCompile Include="Math\Int2.cpp" />
     <ClCompile Include="Logging\Logger.cpp" />
     <ClCompile Include="App\Wrappers\Win32\Window.cpp" />
     <ClCompile Include="App\Resources.cpp" />
@@ -58,6 +59,7 @@
     <ClInclude Include="App\Wrappers\Win32\Keyboard_.h" />
     <ClInclude Include="App\Wrappers\Win32\InputTypes.h" />
     <ClInclude Include="App\Wrappers\Win32\Keyboard_MsgListener.h" />
+    <ClInclude Include="Math\Int2.h" />
     <ClInclude Include="Logging\Logger.h" />
     <ClInclude Include="App\Wrappers\Win32\Window.h" />
     <ClInclude Include="App\Time.h" />
