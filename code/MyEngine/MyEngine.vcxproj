@@ -31,6 +31,7 @@
     <ClCompile Include="Logging\Logger.cpp" />
     <ClCompile Include="App\Wrappers\Win32\Window.cpp" />
     <ClCompile Include="App\Resources.cpp" />
+    <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -65,6 +66,7 @@
     <ClInclude Include="App\Time.h" />
     <ClInclude Include="App\Resources.h" />
     <ClInclude Include="Math\Math.h" />
+    <ClInclude Include="Mouse.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Math\RectInt.h" />
     <ClInclude Include="App\Wrappers\Win32\Screen.h" />

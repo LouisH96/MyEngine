@@ -103,11 +103,14 @@ void MyEngine::App::Wrappers::Win32::Window::Release()
 void MyEngine::App::Wrappers::Win32::Window::HandleMessages()
 {
 	m_IsResized = false;
+	m_Mouse.PreChange();
 
 	//win32-messages
 	MSG msg;
 	while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 		DispatchMessage(&msg);
+
+	m_Mouse.PostChange();
 }
 
 DirectX::XMINT2 MyEngine::App::Wrappers::Win32::Window::AskClientSize_WinApi() const
@@ -137,8 +140,33 @@ LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, 
 		break;
 	case WM_KEYUP:
 		window.m_Keyboard.KeyUp(static_cast<char>(wParam));
+	case WM_MOUSEMOVE:
+		window.m_Mouse.OnMove(lParam);
 		break;
-
+	case WM_LBUTTONDOWN:
+		SetCapture(window.GetWindowHandle());
+		window.m_Mouse.OnLeftBtnPressed();
+		break;
+	case WM_LBUTTONUP:
+		ReleaseCapture();
+		window.m_Mouse.OnLeftBtnReleased();
+		break;
+	case WM_MBUTTONDOWN:
+		SetCapture(window.GetWindowHandle());
+		window.m_Mouse.OnMiddleBtnPressed();
+		break;
+	case WM_MBUTTONUP:
+		ReleaseCapture();
+		window.m_Mouse.OnMiddleBtnReleased();
+		break;
+	case WM_RBUTTONDOWN:
+		SetCapture(window.GetWindowHandle());
+		window.m_Mouse.OnRightBtnPressed();
+		break;
+	case WM_RBUTTONUP:
+		ReleaseCapture();
+		window.m_Mouse.OnRightBtnReleased();
+		break;
 	default:;
 	}
 	return DefWindowProc(windowHandle, uMsg, wParam, lParam);

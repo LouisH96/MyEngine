@@ -3,6 +3,7 @@
 #include <DirectXMath.h>
 #include <string>
 #include "Keyboard_MsgListener.h"
+#include "Mouse.h"
 #include "Math/Int2.h"
 
 LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -53,12 +54,14 @@ namespace MyEngine
 
 					//input
 					const Keyboard_MsgListener& GetKeyboard() const { return m_Keyboard; }
+					const Mouse& GetMouse() const { return m_Mouse; }
 
 				private:
 					void Init(const std::wstring& title, const Options& options);
 					void Release();
 
 					Keyboard_MsgListener m_Keyboard{};
+					Mouse m_Mouse{};
 					DirectX::XMINT2 m_ClientSize{ 1200,800 };
 					HWND m_WindowHandle{};
 					IExtraWinProc* m_pExtraWinProc{};
