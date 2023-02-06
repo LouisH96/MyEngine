@@ -12,6 +12,25 @@ namespace MyEngine
 			int value[2];
 
 			Int2(int x, int y);
+
+			Int2 operator+ (const Int2& right) const
+			{
+				return { x + right.x, y + right.y };
+			}
+			Int2 operator- (const Int2& right) const
+			{
+				return { x - right.x, y - right.y };
+			}
+			void operator+= (const Int2& right)
+			{
+				x += right.x;
+				y += right.y;
+			}
+			void operator-= (const Int2& right)
+			{
+				x -= right.x;
+				y -= right.y;
+			}
 		};
 	}
 }
