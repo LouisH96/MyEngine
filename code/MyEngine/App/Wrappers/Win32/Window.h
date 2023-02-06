@@ -35,8 +35,8 @@ namespace MyEngine
 
 					explicit Window(const std::wstring& title, Options options = {});
 					explicit Window(const std::wstring& title, IExtraWinProc& extraWinProc, Options options = {});
-					explicit Window(const std::wstring& title, const Math::Int2&& clientSize, Options options = {});
-					explicit Window(const std::wstring& title, const Math::Int2&& clientSize, IExtraWinProc& extraWinProc, Options options = {});
+					explicit Window(const std::wstring& title, const Math::Int2& clientSize, Options options = {});
+					explicit Window(const std::wstring& title, const Math::Int2& clientSize, IExtraWinProc& extraWinProc, Options options = {});
 					~Window();
 
 					//window

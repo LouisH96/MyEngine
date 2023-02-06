@@ -19,7 +19,7 @@ MyEngine::App::Wrappers::Win32::Window::Window(const std::wstring& title, IExtra
 	Init(title, options);
 }
 
-MyEngine::App::Wrappers::Win32::Window::Window(const std::wstring& title, const Math::Int2&& clientSize,
+MyEngine::App::Wrappers::Win32::Window::Window(const std::wstring& title, const Math::Int2& clientSize,
 	Options options)
 	: m_ClientSize(clientSize.x, clientSize.y)
 	, m_pExtraWinProc{ nullptr }
@@ -27,7 +27,7 @@ MyEngine::App::Wrappers::Win32::Window::Window(const std::wstring& title, const 
 	Init(title, options);
 }
 
-MyEngine::App::Wrappers::Win32::Window::Window(const std::wstring& title, const Math::Int2&& clientSize,
+MyEngine::App::Wrappers::Win32::Window::Window(const std::wstring& title, const Math::Int2& clientSize,
 	IExtraWinProc& extraWinProc, Options options)
 	: m_ClientSize(clientSize.x, clientSize.y)
 	, m_pExtraWinProc{ &extraWinProc }
