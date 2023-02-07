@@ -3,7 +3,9 @@
 
 #include <cmath>
 #include "../../Logging/Logger.h"
-#include "../../Math/Math.h"
+#include "../../Math/Constants.h"
+
+using namespace MyEngine::Math;
 
 MyEngine::Game::Camera::Camera::Camera(DirectX::XMINT2 size)
 {
@@ -21,7 +23,7 @@ void MyEngine::Game::Camera::Camera::Move(DirectX::XMFLOAT3 movement)
 {
 	using namespace DirectX;
 
-	const float rad = m_Yaw * Math::TO_RAD;
+	const float rad = m_Yaw * Constants::TO_RAD;
 	const float cos = cosf(rad);
 	const float sin = sinf(rad);
 
@@ -72,11 +74,11 @@ void MyEngine::Game::Camera::Camera::SetFieldOfView(float angle)
 
 void MyEngine::Game::Camera::Camera::UpdateWorldMatrix()
 {
-	const float pitchRad = m_Pitch * Math::TO_RAD;
+	const float pitchRad = m_Pitch * Constants::TO_RAD;
 	const float pitchCos = cosf(pitchRad);
 	const float pitchSin = sinf(pitchRad);
 
-	const float yawRad = m_Yaw * Math::TO_RAD;
+	const float yawRad = m_Yaw * Constants::TO_RAD;
 	const float yawCos = cosf(yawRad);
 	const float yawSin = sinf(yawRad);
 

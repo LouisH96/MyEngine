@@ -5,6 +5,7 @@
 #include <locale>
 #include <iomanip>
 #include <sstream>
+#include "Math/Int2.h"
 
 std::string MyEngine::Logging::Logger::GetLogLine(const std::string& logMessage)
 {
@@ -44,6 +45,30 @@ void MyEngine::Logging::Logger::PrintXYZ(const DirectX::XMVECTOR& vector)
 void MyEngine::Logging::Logger::PrintXYZ(const float* x)
 {
 	Print(ToStringXYZ(x));
+}
+
+void Logger::PrintXY(const Math::Int2& vector)
+{
+	Print(ToStringXY(vector));
+}
+
+void Logger::PrintXY(const std::string& prefix, const Math::Int2& vector)
+{
+	std::stringstream ss;
+	ss << prefix;
+	ss << ToStringXY(vector);
+	Print(ss.str());
+}
+
+std::string Logger::ToStringXY(const Math::Int2& vector)
+{
+	std::stringstream ss{};
+	ss << "(";
+	ss << std::to_string(vector.x);
+	ss << ",";
+	ss << std::to_string(vector.y);
+	ss << ")";
+	return ss.str();
 }
 
 std::string MyEngine::Logging::Logger::ToStringXYZ(const float* x)

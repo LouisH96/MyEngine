@@ -3,6 +3,20 @@
 
 namespace MyEngine
 {
+	namespace App
+	{
+		namespace Wrappers
+		{
+			namespace Win32
+			{
+				class Mouse;
+			}
+		}
+	}
+}
+
+namespace MyEngine
+{
 	namespace Game
 	{
 		namespace Camera
@@ -12,12 +26,16 @@ namespace MyEngine
 			class CameraController
 			{
 			public:
-				CameraController(Camera& camera, const App::Wrappers::Win32::Keyboard& keyboard);
+				CameraController(Camera& camera, const App::Wrappers::Win32::Keyboard& keyboard, const App::Wrappers::Win32::Mouse& mouse);
 				void Update();
 
 			private:
 				const App::Wrappers::Win32::Keyboard& m_Keyboard;
+				const App::Wrappers::Win32::Mouse& m_Mouse;
 				Camera& m_Camera;
+
+				void KeyboardRotation() const;
+				void MouseRotation() const;
 			};
 		}
 	}

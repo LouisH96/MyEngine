@@ -1,5 +1,6 @@
 #include "pch.h"
 #include <Windows.h>
+#include <windowsx.h>
 #include "Mouse.h"
 
 MyEngine::App::Wrappers::Win32::Mouse::Mouse()
@@ -69,7 +70,7 @@ void MyEngine::App::Wrappers::Win32::Mouse::PostChange()
 
 void MyEngine::App::Wrappers::Win32::Mouse::OnMove(long long position)
 {
-	m_Pos = { LOWORD(position), HIWORD(position) };
+	m_Pos = { GET_X_LPARAM(position), GET_Y_LPARAM(position) };
 }
 
 void MyEngine::App::Wrappers::Win32::Mouse::OnLeftBtnPressed()

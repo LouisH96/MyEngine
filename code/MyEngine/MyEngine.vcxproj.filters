@@ -26,7 +26,7 @@
     <ClCompile Include="App\Wrappers\Win32\Renderer2D.cpp" />
     <ClCompile Include="App\Wrappers\Gpu\RendererD2D.cpp" />
     <ClCompile Include="Math\Int2.cpp" />
-    <ClCompile Include="Mouse.cpp" />
+    <ClCompile Include="App\Wrappers\Win32\Mouse.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logging\Logger.h" />
@@ -39,7 +39,7 @@
     <ClInclude Include="App\Resources.h" />
     <ClInclude Include="Game\Camera\Camera.h" />
     <ClInclude Include="Game\Camera\CameraController.h" />
-    <ClInclude Include="Math\Math.h" />
+    <ClInclude Include="Math\Constants.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Game\GameGlobals.h" />
     <ClInclude Include="Math\RectInt.h" />
@@ -58,7 +58,7 @@
     <ClInclude Include="App\Wrappers\Win32\Renderer2D.h" />
     <ClInclude Include="App\Wrappers\Gpu\RendererD2D.h" />
     <ClInclude Include="Math\Int2.h" />
-    <ClInclude Include="Mouse.h" />
+    <ClInclude Include="App\Wrappers\Win32\Mouse.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

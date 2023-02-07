@@ -4,6 +4,14 @@
 
 namespace MyEngine
 {
+	namespace Math
+	{
+		union Int2;
+	}
+}
+
+namespace MyEngine
+{
 	namespace Logging
 	{
 		class Logger
@@ -16,11 +24,14 @@ namespace MyEngine
 			static void Print(const DirectX::XMFLOAT3& vector);
 			static void PrintXYZ(const DirectX::XMVECTOR& vector);
 			static void PrintXYZ(const float* x);
+			static void PrintXY(const Math::Int2& vector);
+			static void PrintXY(const std::string& prefix, const Math::Int2& vector);
 
 			static std::string ToString(float x, float y, float z);
 			static std::string ToString(const DirectX::XMFLOAT3& vector);
 			static std::string ToStringXYZ(const DirectX::XMVECTOR& vector);
 			static std::string ToStringXYZ(const float* x);
+			static std::string ToStringXY(const Math::Int2& vector);
 
 			template <typename T>
 			static void ToStringPrint(const T& value);
