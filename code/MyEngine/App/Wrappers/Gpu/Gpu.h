@@ -46,7 +46,6 @@ namespace MyEngine
 					void Release();
 
 					Canvas* MakeCanvas();
-					Mesh* MakeMesh();
 					Shader* MakeShader();
 					Painter* MakePainter();
 

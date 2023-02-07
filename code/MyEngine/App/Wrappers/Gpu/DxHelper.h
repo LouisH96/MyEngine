@@ -26,6 +26,7 @@ namespace MyEngine
 					static void CompileFromFile(const std::wstring& path, const std::string& functionName, ID3DBlob*& pBlob);
 
 					static void CreateVertexBufferView(ID3D11Device& device, ID3D11Buffer*& pVertexBuffer, ID3D11UnorderedAccessView*& pView);
+					static void CreateIndexBuffer(ID3D11Device& device, ID3D11Buffer*& pIndexBuffer, const int* pInitIndices, int nrInitIndices);
 
 					template <typename T>
 					static void CreateDynamicConstantBuffer(ID3D11Device& device, ID3D11Buffer*& pBuffer, T* pInitData = nullptr);

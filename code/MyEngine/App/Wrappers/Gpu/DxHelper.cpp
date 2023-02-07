@@ -110,3 +110,23 @@ void MyEngine::App::Wrappers::Gpu::DxHelper::CreateVertexBufferView(ID3D11Device
 
 	device.CreateUnorderedAccessView(pVertexBuffer, &uavDesc, &pView);
 }
+
+void MyEngine::App::Wrappers::Gpu::DxHelper::CreateIndexBuffer(ID3D11Device& device, ID3D11Buffer*& pIndexBuffer,
+	const int* pInitIndices, int nrInitIndices)
+{
+	D3D11_BUFFER_DESC desc{};
+	desc.Usage = D3D11_USAGE_DEFAULT;
+	desc.ByteWidth = sizeof(int) * nrInitIndices;
+	desc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	desc.CPUAccessFlags = 0;
+	desc.MiscFlags = 0;
+
+	D3D11_SUBRESOURCE_DATA initData{};
+	initData.pSysMem = pInitIndices;
+	initData.SysMemPitch = 0;
+	initData.SysMemSlicePitch = 0;
+
+	const HRESULT result = device.CreateBuffer(&desc, &initData, &pIndexBuffer);
+	if (FAILED(result))
+		Logger::PrintError("CreateIndexBuffer");
+}

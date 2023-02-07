@@ -1,5 +1,6 @@
 #pragma once
 #include "Gpu.h"
+#include "Shader.h"
 
 namespace MyEngine
 {
@@ -17,7 +18,7 @@ namespace MyEngine
 					Mesh& operator=(const Mesh& other) = delete;
 					Mesh& operator=(Mesh&& other) noexcept = delete;
 
-					explicit Mesh(Gpu& gpu);
+					explicit Mesh(Gpu& gpu, const Shader::Vertex* pVertices, int nrVertices, const int* pIndices, int nrIndices);
 					~Mesh();
 
 					void Activate() const;
@@ -27,6 +28,7 @@ namespace MyEngine
 					Gpu& m_Gpu;
 
 					ID3D11Buffer* m_pVertexBuffer{};
+					ID3D11Buffer* m_pIndexBuffer{};
 					unsigned int m_VertexCount{};
 					unsigned int m_VertexStride{};
 					unsigned int m_VertexOffset{};

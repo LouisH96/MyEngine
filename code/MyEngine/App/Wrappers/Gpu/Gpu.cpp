@@ -36,11 +36,6 @@ MyEngine::App::Wrappers::Gpu::Canvas* MyEngine::App::Wrappers::Gpu::Gpu::MakeCan
 	return new Canvas(*this, m_Window);
 }
 
-MyEngine::App::Wrappers::Gpu::Mesh* MyEngine::App::Wrappers::Gpu::Gpu::MakeMesh()
-{
-	return new Mesh(*this);
-}
-
 MyEngine::App::Wrappers::Gpu::Shader* MyEngine::App::Wrappers::Gpu::Gpu::MakeShader()
 {
 	return new Shader(*this);

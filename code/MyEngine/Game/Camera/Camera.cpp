@@ -113,7 +113,7 @@ void MyEngine::Game::Camera::Camera::UpdateWorldMatrix()
 
 void MyEngine::Game::Camera::Camera::UpdateProjMatrix()
 {
-	constexpr float far = 5;
+	constexpr float far = 50;
 	constexpr float near = .5f;
 
 	constexpr float a = far / (far - near);

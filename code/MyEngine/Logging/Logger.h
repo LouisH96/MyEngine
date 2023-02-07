@@ -28,6 +28,8 @@ namespace MyEngine
 			static void PrintXY(const Math::Int2& vector);
 			static void PrintXY(const std::string& prefix, const Math::Int2& vector);
 
+			static void PrintError(const std::string& message);
+
 			static std::string ToString(float x, float y, float z);
 			static std::string ToString(const DirectX::XMFLOAT3& vector);
 			static std::string ToStringXYZ(const DirectX::XMVECTOR& vector);

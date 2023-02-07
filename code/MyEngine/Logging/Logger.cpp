@@ -67,6 +67,14 @@ void Logger::PrintXY(const std::string& prefix, const Math::Int2& vector)
 	Print(ss.str());
 }
 
+void Logger::PrintError(const std::string& message)
+{
+	std::stringstream ss;
+	ss << "[Error] ";
+	ss << message;
+	Print(ss.str());
+}
+
 std::string Logger::ToStringXY(const Math::Int2& vector)
 {
 	std::stringstream ss{};
