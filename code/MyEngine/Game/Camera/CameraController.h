@@ -29,10 +29,13 @@ namespace MyEngine
 				CameraController(Camera& camera, const App::Wrappers::Win32::Keyboard& keyboard, const App::Wrappers::Win32::Mouse& mouse);
 				void Update();
 
+				void SetScrollSpeed(float scrollSpeed) { m_ScrollSpeed = -scrollSpeed; };
+
 			private:
 				const App::Wrappers::Win32::Keyboard& m_Keyboard;
 				const App::Wrappers::Win32::Mouse& m_Mouse;
 				Camera& m_Camera;
+				float m_ScrollSpeed;
 
 				void KeyboardRotation() const;
 				void MouseRotation() const;

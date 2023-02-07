@@ -20,6 +20,7 @@ namespace MyEngine
 			static std::string GetLogLine(const std::string& logMessage); //returns: [13:20:13]: MyMessage/n
 			static void Print(const std::string& logMessage); //print to console: [13:20:13]: MyMessage/n
 
+			static void Print(const std::string& prefix, float value);
 			static void Print(float x, float y, float z);
 			static void Print(const DirectX::XMFLOAT3& vector);
 			static void PrintXYZ(const DirectX::XMVECTOR& vector);

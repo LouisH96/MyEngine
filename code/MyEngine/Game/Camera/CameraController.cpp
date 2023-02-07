@@ -17,6 +17,7 @@ MyEngine::Game::Camera::CameraController::CameraController(Camera& camera, const
 	: m_Keyboard(keyboard)
 	, m_Mouse(mouse)
 	, m_Camera(camera)
+	, m_ScrollSpeed(-1.f)
 {
 }
 
@@ -40,10 +41,13 @@ void MyEngine::Game::Camera::CameraController::Update()
 	m_Camera.Move(translation);
 
 	//ROTATION
-	if (m_Mouse.IsMiddleBtnDown())
+	if (m_Mouse.IsRightBtnDown())
 		MouseRotation();
 	else
 		KeyboardRotation();
+
+	//SCROLL
+	m_Camera.Zoom(m_Mouse.GetScroll() * m_ScrollSpeed);
 }
 
 void MyEngine::Game::Camera::CameraController::KeyboardRotation() const

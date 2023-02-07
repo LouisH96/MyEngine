@@ -19,6 +19,7 @@ namespace MyEngine
 					void PostChange();
 
 					void OnMove(long long position);
+					void OnScroll(float scroll);
 					void OnLeftBtnPressed();
 					void OnLeftBtnReleased();
 					void OnMiddleBtnPressed();
@@ -40,6 +41,7 @@ namespace MyEngine
 
 					const Math::Int2& GetPos() const { return m_Pos; }
 					const Math::Int2& GetMovement() const { return m_Movement; }
+					float GetScroll() const { return m_Scroll; }
 
 				private:
 					static constexpr int LEFT_MASK = 1;
@@ -48,6 +50,7 @@ namespace MyEngine
 					static constexpr int NR_BUTTONS = 3;
 					Math::Int2 m_Pos;
 					Math::Int2 m_Movement;
+					float m_Scroll;
 					int m_State;
 				};
 			}

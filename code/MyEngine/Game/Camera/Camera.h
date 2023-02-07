@@ -19,8 +19,10 @@ namespace MyEngine
 
 				void Pitch(float addAngle);
 				void Yaw(float addAngle);
+				void Zoom(float addDistance);
 
 				const DirectX::XMFLOAT4X4& GetViewProjMatrix() const { return m_ViewProjMatrix; }
+				float GetFocusPointDistance() const { return m_FocusPointDistance; }
 				void OnWindowResized(DirectX::XMINT2 newSize);
 				void SetFieldOfView(float angle);
 			private:

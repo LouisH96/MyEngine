@@ -42,6 +42,7 @@ void MyEngine::App::App::Run()
 
 	//input
 	Game::Camera::CameraController& cameraController = *new Game::Camera::CameraController(camera, window.GetKeyboard(), window.GetMouse());
+	cameraController.SetScrollSpeed(.25f);
 
 	//fps 
 	FpsControl fpsControl{ 200 };

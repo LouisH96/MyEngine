@@ -27,6 +27,13 @@ void MyEngine::Logging::Logger::Print(const std::string& logMessage)
 	std::cout << GetLogLine(logMessage);
 }
 
+void Logger::Print(const std::string& prefix, float value)
+{
+	std::stringstream ss;
+	ss << prefix << value;
+	Print(ss.str());
+}
+
 void MyEngine::Logging::Logger::Print(float x, float y, float z)
 {
 	Print(ToString(x, y, z));

@@ -167,6 +167,9 @@ LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, 
 		ReleaseCapture();
 		window.m_Mouse.OnRightBtnReleased();
 		break;
+	case WM_MOUSEWHEEL:
+		window.m_Mouse.OnScroll(static_cast<float>(GET_WHEEL_DELTA_WPARAM(wParam)) / 120.f);
+		break;
 	default:;
 	}
 	return DefWindowProc(windowHandle, uMsg, wParam, lParam);

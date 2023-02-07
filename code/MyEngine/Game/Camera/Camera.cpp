@@ -59,6 +59,11 @@ void MyEngine::Game::Camera::Camera::Yaw(float addAngle)
 	m_Yaw += addAngle;
 }
 
+void MyEngine::Game::Camera::Camera::Zoom(float addDistance)
+{
+	m_FocusPointDistance += addDistance;
+}
+
 void MyEngine::Game::Camera::Camera::OnWindowResized(DirectX::XMINT2 newSize)
 {
 	m_InvAspectRatio = static_cast<float>(newSize.y) / static_cast<float>(newSize.x);

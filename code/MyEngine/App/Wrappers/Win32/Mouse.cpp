@@ -58,7 +58,7 @@ bool MyEngine::App::Wrappers::Win32::Mouse::IsRightBtnReleased() const
 void MyEngine::App::Wrappers::Win32::Mouse::PreChange()
 {
 	m_Movement = m_Pos; //temp store old position in m_Movement
-
+	m_Scroll = 0;
 	m_State &= LEFT_MASK | MIDDLE_MASK | RIGHT_MASK;
 	m_State |= m_State << NR_BUTTONS;
 }
@@ -71,6 +71,11 @@ void MyEngine::App::Wrappers::Win32::Mouse::PostChange()
 void MyEngine::App::Wrappers::Win32::Mouse::OnMove(long long position)
 {
 	m_Pos = { GET_X_LPARAM(position), GET_Y_LPARAM(position) };
+}
+
+void MyEngine::App::Wrappers::Win32::Mouse::OnScroll(float scroll)
+{
+	m_Scroll = scroll;
 }
 
 void MyEngine::App::Wrappers::Win32::Mouse::OnLeftBtnPressed()
