@@ -12,8 +12,11 @@ void MyEngine::App::Resources::Init()
 	TCHAR buffer[MAX_PATH] = { 0 };
 	GetModuleFileName(nullptr, buffer, MAX_PATH);
 
-	const std::wstring cmd{ GetCommandLineW() };
-	m_LocalResourcesPath = cmd;
+	int nrArgs;
+	const LPWSTR* args = CommandLineToArgvW(GetCommandLineW(), &nrArgs);
+
+	if (nrArgs >= 2)
+		m_LocalResourcesPath = args[1];
 
 	/*m_GlobalResourcesPath = buffer;
 	m_GlobalResourcesPath = m_GlobalResourcesPath.substr(0, m_GlobalResourcesPath.find_last_of('\\'));
