@@ -16,11 +16,19 @@
 
 #include "../Game/Camera/Camera.h"
 #include "../Game/Camera/CameraController.h"
+#include "App/Wrappers/Gpu/InputLayout.h"
 
 void MyEngine::App::App::Run()
 {
 	using namespace Wrappers::Win32;
 	using namespace Wrappers::Gpu;
+	using namespace MyEngine::Gpu;
+
+	//APP
+	Resources::Init();
+	Window& window = *new Window(L"Window");
+	Gpu& gpu = *GpuCreator::Create(window);
+	Canvas& canvas = *gpu.MakeCanvas();
 
 	//MESH
 	struct Vertex
@@ -28,7 +36,6 @@ void MyEngine::App::App::Run()
 		DirectX::XMFLOAT3 pos{};
 		DirectX::XMFLOAT3 col{};
 	};
-
 	const Vertex vertexBuffer[] = {
 	   {{0.0f,  0.5f,  0.0f}, {1,0,0}}, // point at top
 	   {{0.5f, -0.5f,  0.0f}, {0,1,0}}, // point at bottom-right
@@ -39,19 +46,22 @@ void MyEngine::App::App::Run()
 		{{0.5f, -0.5f, 0.0f}, {0,0,1}}
 	};
 	constexpr int indexBuffer[]{ 3,0,1,3,2,0 };
+	const InputLayout::Element meshElements[]
+	{
+		{"POSITION", InputLayout::ElementType::Float3},
+		{"COLOR", InputLayout::ElementType::Float3},
+	};
+	const InputLayout inputLayout{ gpu, meshElements, ARRAYSIZE(meshElements) };
+	inputLayout.Activate(gpu);
 
-	//APP
-	Resources::Init();
-	Window& window = *new Window(L"Window");
-	Gpu& gpu = *GpuCreator::Create(window);
-
-	Canvas& canvas = *gpu.MakeCanvas();
 	Shader<Vertex>& shader = *new Shader<Vertex>(gpu);
 	Mesh<Vertex>& mesh = *new Mesh<Vertex>(gpu, vertexBuffer, 6, indexBuffer, 6);
+
+	//GAME
 	Game::Camera::Camera& camera = *new Game::Camera::Camera(window.AskClientSize_WinApi());
 	camera.Move({ 0,0,-1 });
 	Painter<Vertex>& painter = *new Painter<Vertex>();
-	
+
 	painter.SetShader(shader);
 	painter.SetMesh(mesh);
 	painter.SetCamera(camera);
@@ -62,7 +72,7 @@ void MyEngine::App::App::Run()
 
 	//fps 
 	FpsControl fpsControl{ 200 };
-	
+
 	//loop
 	while (!window.IsDestroyed())
 	{
@@ -72,7 +82,7 @@ void MyEngine::App::App::Run()
 
 		//window-msg's
 		window.HandleMessages();
-		if(window.IsResized())
+		if (window.IsResized())
 		{
 			canvas.OnWindowResized(window.GetClientSize());
 			camera.OnWindowResized(window.GetClientSize());
@@ -81,7 +91,7 @@ void MyEngine::App::App::Run()
 		//input
 		cameraController.Update();
 		camera.Update();
-		
+
 		//render
 		canvas.BeginPaint();
 		painter.BeginPaint();

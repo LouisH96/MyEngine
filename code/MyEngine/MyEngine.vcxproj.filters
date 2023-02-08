@@ -24,6 +24,7 @@
     <ClCompile Include="App\Wrappers\Gpu\RendererD2D.cpp" />
     <ClCompile Include="Math\Int2.cpp" />
     <ClCompile Include="App\Wrappers\Win32\Mouse.cpp" />
+    <ClCompile Include="App\Wrappers\Gpu\InputLayout.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logging\Logger.h" />
@@ -56,6 +57,7 @@
     <ClInclude Include="App\Wrappers\Gpu\RendererD2D.h" />
     <ClInclude Include="Math\Int2.h" />
     <ClInclude Include="App\Wrappers\Win32\Mouse.h" />
+    <ClInclude Include="App\Wrappers\Gpu\InputLayout.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
