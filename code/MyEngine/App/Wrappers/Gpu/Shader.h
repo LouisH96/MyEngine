@@ -1,11 +1,8 @@
 #pragma once
 #include <d3d11.h>
-#include <DirectXMath.h>
 #include <d3dcompiler.h>
 #include "Gpu.h"
 #include "DxHelper.h"
-#include "App/Resources.h"
-#include "Game/Camera/Camera.h"
 
 namespace MyEngine
 {
@@ -24,7 +21,7 @@ namespace MyEngine
 					Shader& operator=(const Shader& other) = delete;
 					Shader& operator=(Shader&& other) noexcept = delete;
 
-					explicit Shader(Gpu& gpu);
+					explicit Shader(Gpu& gpu, const std::wstring& fullPath);
 					~Shader();
 
 					void Activate() const;
@@ -35,14 +32,14 @@ namespace MyEngine
 					ID3D11VertexShader* m_pVertexShader{};
 					ID3D11PixelShader* m_pPixelShader{};
 
-					void InitShaders();
+					void InitShaders(const std::wstring& fullPath);
 				};
 
 				template <typename Vertex>
-				Shader<Vertex>::Shader(Gpu& gpu)
+				Shader<Vertex>::Shader(Gpu& gpu, const std::wstring& fullPath)
 					: m_Gpu(gpu)
 				{
-					InitShaders();
+					InitShaders(fullPath);
 				}
 
 				template <typename Vertex>
@@ -61,11 +58,10 @@ namespace MyEngine
 				}
 
 				template <typename Vertex>
-				void Shader<Vertex>::InitShaders()
+				void Shader<Vertex>::InitShaders(const std::wstring& fullPath)
 				{
-					const std::wstring path = Resources::GetShaderPath(L"shader.hlsl");
-					DxHelper::CreateVertexShader(m_Gpu.GetDevice(), path, "vs_main", m_pVertexShader);
-					DxHelper::CreatePixelShader(m_Gpu.GetDevice(), path, "ps_main", m_pPixelShader);
+					DxHelper::CreateVertexShader(m_Gpu.GetDevice(), fullPath, "vs_main", m_pVertexShader);
+					DxHelper::CreatePixelShader(m_Gpu.GetDevice(), fullPath, "ps_main", m_pPixelShader);
 				}
 			}
 		}
