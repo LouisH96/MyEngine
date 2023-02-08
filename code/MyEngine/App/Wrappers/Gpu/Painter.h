@@ -20,13 +20,10 @@ namespace MyEngine
 			{
 				class Shader;
 				class Mesh;
-				class Canvas;
-				class Shader;
-
+				
 				class Painter
 				{
 				public:
-					void SetCanvas(Canvas& canvas);
 					void SetShader(Shader& shader);
 					void SetMesh(Mesh& mesh);
 					void SetCamera(Game::Camera::Camera& camera);
@@ -36,7 +33,6 @@ namespace MyEngine
 					void Paint() const;
 
 				private:
-					Canvas* m_pCanvas{};
 					Shader* m_pShader{};
 					Mesh* m_pMesh{};
 					Game::Camera::Camera* m_pCamera{};

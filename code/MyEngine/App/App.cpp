@@ -45,8 +45,7 @@ void MyEngine::App::App::Run()
 	Game::Camera::Camera& camera = *new Game::Camera::Camera(window.AskClientSize_WinApi());
 	camera.Move({ 0,0,-1 });
 	Painter& painter = *new Painter();
-
-	painter.SetCanvas(canvas);
+	
 	painter.SetShader(shader);
 	painter.SetMesh(mesh);
 	painter.SetCamera(camera);
@@ -78,9 +77,11 @@ void MyEngine::App::App::Run()
 		camera.Update();
 		
 		//render
+		canvas.BeginPaint();
 		painter.BeginPaint();
 		painter.Paint();
 		painter.EndPaint();
+		canvas.Present();
 	}
 
 	std::cout << "hi\n";

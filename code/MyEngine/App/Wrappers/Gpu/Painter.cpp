@@ -1,15 +1,7 @@
 #include "pch.h"
 #include "Painter.h"
-
-#include "Canvas.h"
 #include "Shader.h"
 #include "Mesh.h"
-
-void MyEngine::App::Wrappers::Gpu::Painter::SetCanvas(Canvas& canvas)
-{
-	m_pCanvas = reinterpret_cast<Canvas*>(&canvas);
-	m_pCanvas->Activate();
-}
 
 void MyEngine::App::Wrappers::Gpu::Painter::SetShader(Shader& shader)
 {
@@ -41,13 +33,10 @@ void MyEngine::App::Wrappers::Gpu::Painter::OnCamUpdated()
 void MyEngine::App::Wrappers::Gpu::Painter::BeginPaint()
 {
 	OnCamUpdated();
-	m_pCanvas->Clear();
-	m_pCanvas->Activate();
 }
 
 void MyEngine::App::Wrappers::Gpu::Painter::EndPaint()
 {
-	m_pCanvas->Present();
 }
 
 void MyEngine::App::Wrappers::Gpu::Painter::Paint() const

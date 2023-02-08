@@ -32,6 +32,12 @@ MyEngine::App::Wrappers::Gpu::Canvas::~Canvas()
 	SAFE_RELEASE(m_pDepthStencilState);
 }
 
+void MyEngine::App::Wrappers::Gpu::Canvas::BeginPaint() const
+{
+	Clear();
+	Activate();
+}
+
 void MyEngine::App::Wrappers::Gpu::Canvas::Clear() const
 {
 	/* clear the back buffer to cornflower blue for the new frame */

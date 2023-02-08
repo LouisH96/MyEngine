@@ -40,9 +40,8 @@ namespace MyEngine
 					Canvas(Gpu& gpu, Wrappers::Win32::Window& window);
 					~Canvas();
 
-					void Clear() const;
+					void BeginPaint() const;
 					void Present() const;
-					void Activate() const;
 
 					void OnWindowResized(DirectX::XMINT2 newSize);
 
@@ -54,6 +53,9 @@ namespace MyEngine
 
 					ID3D11DepthStencilState* m_pDepthStencilState{};
 					ID3D11DepthStencilView* m_pDepthStencilView{};
+
+					void Clear() const;
+					void Activate() const;
 
 					void InitSwapChain(const Win32::Window& window);
 					void InitRenderTarget();
