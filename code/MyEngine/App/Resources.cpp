@@ -13,10 +13,12 @@ void MyEngine::App::Resources::Init()
 	GetModuleFileName(nullptr, buffer, MAX_PATH);
 
 	int nrArgs;
-	const LPWSTR* args = CommandLineToArgvW(GetCommandLineW(), &nrArgs);
+	LPWSTR* args = CommandLineToArgvW(GetCommandLineW(), &nrArgs);
 
 	if (nrArgs >= 2)
 		m_LocalResourcesPath = args[1];
+
+	LocalFree(args);
 
 	/*m_GlobalResourcesPath = buffer;
 	m_GlobalResourcesPath = m_GlobalResourcesPath.substr(0, m_GlobalResourcesPath.find_last_of('\\'));
