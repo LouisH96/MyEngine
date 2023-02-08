@@ -48,6 +48,7 @@ namespace MyEngine
 					int GetClientHeight() const { return m_ClientSize.y; }
 					DirectX::XMINT2 AskClientSize_WinApi() const;
 					HWND GetWindowHandle()const { return m_WindowHandle; }
+					float GetAspectRatio() const { return static_cast<float>(m_ClientSize.x) / m_ClientSize.y; }
 
 					//messages
 					void HandleMessages();
