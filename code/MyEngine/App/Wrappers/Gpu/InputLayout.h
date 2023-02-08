@@ -25,7 +25,7 @@ namespace MyEngine
 		public:
 			enum class ElementType
 			{
-				Float3 = 0
+				Float3, Float2
 			};
 			struct Element
 			{

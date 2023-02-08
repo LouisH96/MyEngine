@@ -7,7 +7,7 @@
 #include "DxHelper.h"
 #include "Gpu.h"
 
-Gpu::InputLayout::InputLayout(const App::Wrappers::Gpu::Gpu& gpu, const Element* pElements, int nrElements)
+MyEngine::Gpu::InputLayout::InputLayout(const App::Wrappers::Gpu::Gpu& gpu, const Element* pElements, int nrElements)
 {
 	//CREATE INPUT_ELEMENT_DESC
 	D3D11_INPUT_ELEMENT_DESC* pDxElements = new D3D11_INPUT_ELEMENT_DESC[nrElements];
@@ -66,26 +66,27 @@ Gpu::InputLayout::InputLayout(const App::Wrappers::Gpu::Gpu& gpu, const Element*
 	delete[] pDxElements;
 }
 
-Gpu::InputLayout::~InputLayout()
+MyEngine::Gpu::InputLayout::~InputLayout()
 {
 	SAFE_RELEASE(m_pInputLayout);
 }
 
-void Gpu::InputLayout::Activate(const App::Wrappers::Gpu::Gpu& gpu) const
+void MyEngine::Gpu::InputLayout::Activate(const App::Wrappers::Gpu::Gpu& gpu) const
 {
 	gpu.GetContext().IASetInputLayout(m_pInputLayout);
 }
 
-DXGI_FORMAT Gpu::InputLayout::ToDxFormat(ElementType type)
+DXGI_FORMAT MyEngine::Gpu::InputLayout::ToDxFormat(ElementType type)
 {
 	switch(type)
 	{
 	case ElementType::Float3: return DXGI_FORMAT_R32G32B32_FLOAT;
+	case ElementType::Float2: return DXGI_FORMAT_R32G32_FLOAT;
 	default: return DXGI_FORMAT_UNKNOWN;
 	}
 }
 
-std::string Gpu::InputLayout::CreateDummyShaderString(const Element* pElements, int nrElements)
+std::string MyEngine::Gpu::InputLayout::CreateDummyShaderString(const Element* pElements, int nrElements)
 {
 	std::stringstream ss;
 	ss << "struct Vertex{\n";
@@ -100,11 +101,12 @@ std::string Gpu::InputLayout::CreateDummyShaderString(const Element* pElements, 
 	return ss.str();
 }
 
-std::string Gpu::InputLayout::ToTypeString(ElementType type)
+std::string MyEngine::Gpu::InputLayout::ToTypeString(ElementType type)
 {
 	switch (type)
 	{
 	case ElementType::Float3: return "float3";
+	case ElementType::Float2: return "float2";
 	default: return "";
 	}
 }
