@@ -16,6 +16,7 @@
     <ClCompile Include="App\Framework.cpp" />
     <ClCompile Include="App\Wrappers\Dx\Gpu.cpp" />
     <ClCompile Include="App\Wrappers\Dx\Canvas.cpp" />
+    <ClCompile Include="App\Wrappers\Dx\BlendState.cpp" />
     <ClCompile Include="Game\Camera\CameraController.cpp" />
     <ClCompile Include="Game\Camera\Camera.cpp" />
     <ClCompile Include="Game\GameGlobals.cpp" />
@@ -49,6 +50,7 @@
     <ClInclude Include="App\Wrappers\Dx\Canvas.h" />
     <ClInclude Include="App\Wrappers\Win32\IExtraWinProc.h" />
     <ClInclude Include="App\Wrappers\Dx\ConstantBuffer.h" />
+    <ClInclude Include="App\Wrappers\Dx\BlendState.h" />
     <ClInclude Include="Game\GameGlobals.h" />
     <ClInclude Include="Game\Camera\CameraController.h" />
     <ClInclude Include="Game\Camera\Camera.h" />
