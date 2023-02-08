@@ -17,6 +17,7 @@
 #include "../Game/Camera/Camera.h"
 #include "../Game/Camera/CameraController.h"
 #include "App/Wrappers/Gpu/InputLayout.h"
+#include "Wrappers/Gpu/ConstantBuffer.h"
 
 void MyEngine::App::App::Run()
 {
@@ -36,6 +37,10 @@ void MyEngine::App::App::Run()
 		DirectX::XMFLOAT3 pos{};
 		DirectX::XMFLOAT3 col{};
 	};
+	struct CameraMatrixCBuffer
+	{
+		DirectX::XMFLOAT4X4 cameraMatrix;
+	};
 	const Vertex vertexBuffer[] = {
 	   {{0.0f,  0.5f,  0.0f}, {1,0,0}}, // point at top
 	   {{0.5f, -0.5f,  0.0f}, {0,1,0}}, // point at bottom-right
@@ -52,16 +57,19 @@ void MyEngine::App::App::Run()
 		{"COLOR", InputLayout::ElementType::Float3},
 	};
 	const InputLayout inputLayout{ gpu, meshElements, ARRAYSIZE(meshElements) };
-	inputLayout.Activate(gpu);
 
 	Shader<Vertex>& shader = *new Shader<Vertex>(gpu);
 	Mesh<Vertex>& mesh = *new Mesh<Vertex>(gpu, vertexBuffer, 6, indexBuffer, 6);
+	const ConstantBuffer<CameraMatrixCBuffer> constantBuffer{ gpu };
 
 	//GAME
 	Game::Camera::Camera& camera = *new Game::Camera::Camera(window.AskClientSize_WinApi());
 	camera.Move({ 0,0,-1 });
 	Painter<Vertex>& painter = *new Painter<Vertex>();
 
+	//RENDER-PIPELINE
+	constantBuffer.Activate(gpu);
+	inputLayout.Activate(gpu);
 	painter.SetShader(shader);
 	painter.SetMesh(mesh);
 	painter.SetCamera(camera);
@@ -93,10 +101,9 @@ void MyEngine::App::App::Run()
 		camera.Update();
 
 		//render
+		constantBuffer.Update(gpu, { camera.GetViewProjMatrix() });
 		canvas.BeginPaint();
-		painter.BeginPaint();
 		painter.Paint();
-		painter.EndPaint();
 		canvas.Present();
 	}
 

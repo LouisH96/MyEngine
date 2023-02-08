@@ -58,6 +58,7 @@
     <ClInclude Include="Math\Int2.h" />
     <ClInclude Include="App\Wrappers\Win32\Mouse.h" />
     <ClInclude Include="App\Wrappers\Gpu\InputLayout.h" />
+    <ClInclude Include="App\Wrappers\Gpu\ConstantBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

@@ -32,9 +32,7 @@ namespace MyEngine
 					void SetShader(Shader<Vertex>& shader);
 					void SetMesh(Mesh<Vertex>& mesh);
 					void SetCamera(Game::Camera::Camera& camera);
-
-					void BeginPaint();
-					void EndPaint();
+					
 					void Paint() const;
 
 				private:
@@ -43,8 +41,6 @@ namespace MyEngine
 					Game::Camera::Camera* m_pCamera{};
 
 					bool m_IsPainting{ false };
-
-					void OnCamUpdated();
 				};
 
 				template <typename Vertex>
@@ -52,9 +48,6 @@ namespace MyEngine
 				{
 					m_pShader = &shader;
 					m_pShader->Activate();
-
-					if (m_IsPainting && m_pCamera)
-						m_pShader->OnCamUpdated(*m_pCamera);
 				}
 
 				template <typename Vertex>
@@ -71,26 +64,9 @@ namespace MyEngine
 				}
 
 				template <typename Vertex>
-				void Painter<Vertex>::BeginPaint()
-				{
-					OnCamUpdated();
-				}
-
-				template <typename Vertex>
-				void Painter<Vertex>::EndPaint()
-				{
-				}
-
-				template <typename Vertex>
 				void Painter<Vertex>::Paint() const
 				{
 					m_pMesh->Draw();
-				}
-
-				template <typename Vertex>
-				void Painter<Vertex>::OnCamUpdated()
-				{
-					m_pShader->OnCamUpdated(*m_pCamera);
 				}
 			}
 		}
