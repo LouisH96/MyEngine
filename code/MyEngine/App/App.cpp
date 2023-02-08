@@ -5,25 +5,25 @@
 
 #include "FpsControl.h"
 #include "Resources.h"
-#include "App/Wrappers/Gpu/GpuCreator.h"
-#include "App/Wrappers/Gpu/Canvas.h"
-#include "App/Wrappers/Gpu/Gpu.h"
-#include "App/Wrappers/Gpu/Mesh.h"
-#include "App/Wrappers/Gpu/Shader.h"
-#include "App/Wrappers/Gpu/Painter.h"
+#include "App/Wrappers/Dx/GpuCreator.h"
+#include "App/Wrappers/Dx/Canvas.h"
+#include "App/Wrappers/Dx/Gpu.h"
+#include "App/Wrappers/Dx/Mesh.h"
+#include "App/Wrappers/Dx/Shader.h"
+#include "App/Wrappers/Dx/Painter.h"
 #include "../Logging/Logger.h"
 #include "App/Wrappers/Win32/Window.h"
 
 #include "../Game/Camera/Camera.h"
 #include "../Game/Camera/CameraController.h"
-#include "App/Wrappers/Gpu/InputLayout.h"
-#include "Wrappers/Gpu/ConstantBuffer.h"
+#include "App/Wrappers/Dx/InputLayout.h"
+#include "Wrappers/Dx/ConstantBuffer.h"
 
 void MyEngine::App::App::Run()
 {
 	using namespace Wrappers::Win32;
-	using namespace Wrappers::Gpu;
-	using namespace MyEngine::Gpu;
+	using namespace Wrappers::Dx;
+	using namespace Dx;
 
 	//APP
 	Resources::Init();

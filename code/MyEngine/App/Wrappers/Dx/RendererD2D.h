@@ -21,7 +21,7 @@ namespace MyEngine
 	{
 		namespace Wrappers
 		{
-			namespace Gpu
+			namespace Dx
 			{
 				class RendererD2D
 				{

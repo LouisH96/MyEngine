@@ -15,7 +15,7 @@ namespace MyEngine
 	{
 		namespace Wrappers
 		{
-			namespace Gpu
+			namespace Dx
 			{
 				class DxHelper
 				{

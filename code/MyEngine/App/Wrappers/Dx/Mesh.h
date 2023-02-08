@@ -9,7 +9,7 @@ namespace MyEngine
 	{
 		namespace Wrappers
 		{
-			namespace Gpu
+			namespace Dx
 			{
 				template<typename Vertex>
 				class Mesh

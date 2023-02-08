@@ -4,7 +4,7 @@
 
 #include "IExtraWinProc.h"
 #include "Screen.h"
-#include "App/Wrappers/Gpu/Canvas.h"
+#include "App/Wrappers/Dx/Canvas.h"
 #include "Math/Int2.h"
 
 MyEngine::App::Wrappers::Win32::Window::Window(const std::wstring& title, Options options)

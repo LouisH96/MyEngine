@@ -5,7 +5,7 @@
 #include "App/Wrappers/Win32/Window.h"
 #include "Gpu.h"
 
-MyEngine::App::Wrappers::Gpu::Canvas::Canvas(Gpu& gpu, App::Wrappers::Win32::Window& window)
+MyEngine::App::Wrappers::Dx::Canvas::Canvas(Gpu& gpu, App::Wrappers::Win32::Window& window)
 	: m_Gpu{ gpu }
 {
 	InitSwapChain(window);
@@ -15,7 +15,7 @@ MyEngine::App::Wrappers::Gpu::Canvas::Canvas(Gpu& gpu, App::Wrappers::Win32::Win
 	SetViewPort(window.GetClientSize());
 }
 
-void MyEngine::App::Wrappers::Gpu::Canvas::Activate() const
+void MyEngine::App::Wrappers::Dx::Canvas::Activate() const
 {
 	//DepthStencil
 	m_Gpu.GetContext().OMSetDepthStencilState(m_pDepthStencilState, 1);
@@ -24,7 +24,7 @@ void MyEngine::App::Wrappers::Gpu::Canvas::Activate() const
 	m_Gpu.GetContext().OMSetRenderTargets(1, &m_pMainRenderTargetView, m_pDepthStencilView);
 }
 
-MyEngine::App::Wrappers::Gpu::Canvas::~Canvas()
+MyEngine::App::Wrappers::Dx::Canvas::~Canvas()
 {
 	SAFE_RELEASE(m_pMainRenderTargetView);
 	SAFE_RELEASE(m_pSwapChain);
@@ -32,13 +32,13 @@ MyEngine::App::Wrappers::Gpu::Canvas::~Canvas()
 	SAFE_RELEASE(m_pDepthStencilState);
 }
 
-void MyEngine::App::Wrappers::Gpu::Canvas::BeginPaint() const
+void MyEngine::App::Wrappers::Dx::Canvas::BeginPaint() const
 {
 	Clear();
 	Activate();
 }
 
-void MyEngine::App::Wrappers::Gpu::Canvas::Clear() const
+void MyEngine::App::Wrappers::Dx::Canvas::Clear() const
 {
 	/* clear the back buffer to cornflower blue for the new frame */
 	constexpr float background_colour[4] = {
@@ -48,13 +48,13 @@ void MyEngine::App::Wrappers::Gpu::Canvas::Clear() const
 	m_Gpu.GetContext().ClearDepthStencilView(m_pDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 }
 
-void MyEngine::App::Wrappers::Gpu::Canvas::Present() const
+void MyEngine::App::Wrappers::Dx::Canvas::Present() const
 {
 	DXGI_PRESENT_PARAMETERS param{ 0,nullptr,0,nullptr };
 	m_pSwapChain->Present1(0, DXGI_PRESENT_DO_NOT_WAIT, &param);
 }
 
-void MyEngine::App::Wrappers::Gpu::Canvas::OnWindowResized(DirectX::XMINT2 newSize)
+void MyEngine::App::Wrappers::Dx::Canvas::OnWindowResized(DirectX::XMINT2 newSize)
 {
 	SAFE_RELEASE(m_pDepthStencilView);
 	SAFE_RELEASE(m_pMainRenderTargetView);
@@ -64,7 +64,7 @@ void MyEngine::App::Wrappers::Gpu::Canvas::OnWindowResized(DirectX::XMINT2 newSi
 	SetViewPort(newSize);
 }
 
-void MyEngine::App::Wrappers::Gpu::Canvas::InitSwapChain(const App::Wrappers::Win32::Window& window)
+void MyEngine::App::Wrappers::Dx::Canvas::InitSwapChain(const App::Wrappers::Win32::Window& window)
 {
 	const DirectX::XMINT2 windowSize = window.GetClientSize();
 	DXGI_SWAP_CHAIN_DESC1 desc{};
@@ -92,7 +92,7 @@ void MyEngine::App::Wrappers::Gpu::Canvas::InitSwapChain(const App::Wrappers::Wi
 	pDevice2->Release();
 }
 
-void MyEngine::App::Wrappers::Gpu::Canvas::InitRenderTarget()
+void MyEngine::App::Wrappers::Dx::Canvas::InitRenderTarget()
 {
 	ID3D11Texture2D* pBackBuffer;
 	m_pSwapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer));
@@ -101,7 +101,7 @@ void MyEngine::App::Wrappers::Gpu::Canvas::InitRenderTarget()
 	pBackBuffer->Release();
 }
 
-void MyEngine::App::Wrappers::Gpu::Canvas::InitDepthStencilState()
+void MyEngine::App::Wrappers::Dx::Canvas::InitDepthStencilState()
 {
 	D3D11_DEPTH_STENCIL_DESC dsDesc{};
 
@@ -131,7 +131,7 @@ void MyEngine::App::Wrappers::Gpu::Canvas::InitDepthStencilState()
 	m_Gpu.GetDevice().CreateDepthStencilState(&dsDesc, &m_pDepthStencilState);
 }
 
-void MyEngine::App::Wrappers::Gpu::Canvas::InitDepthStencil(const DirectX::XMINT2& size)
+void MyEngine::App::Wrappers::Dx::Canvas::InitDepthStencil(const DirectX::XMINT2& size)
 {
 	//TEXTURE
 	ID3D11Texture2D* pTempTexture{};
@@ -169,7 +169,7 @@ void MyEngine::App::Wrappers::Gpu::Canvas::InitDepthStencil(const DirectX::XMINT
 	pTempTexture->Release();
 }
 
-void MyEngine::App::Wrappers::Gpu::Canvas::SetViewPort(DirectX::XMINT2 size)
+void MyEngine::App::Wrappers::Dx::Canvas::SetViewPort(DirectX::XMINT2 size)
 {
 	m_ViewPort = {
 	  0.0f, 0.0f,
@@ -179,7 +179,7 @@ void MyEngine::App::Wrappers::Gpu::Canvas::SetViewPort(DirectX::XMINT2 size)
 	m_Gpu.GetContext().RSSetViewports(1, &m_ViewPort);
 }
 
-void MyEngine::App::Wrappers::Gpu::Canvas::GetFactory2(IDXGIDevice2*& pDevice2, IDXGIAdapter*& pAdapter,
+void MyEngine::App::Wrappers::Dx::Canvas::GetFactory2(IDXGIDevice2*& pDevice2, IDXGIAdapter*& pAdapter,
 	IDXGIFactory2*& pFactory) const
 {
 	HRESULT hr = m_Gpu.GetDevice().QueryInterface(__uuidof(IDXGIDevice2), reinterpret_cast<void**>(&pDevice2));

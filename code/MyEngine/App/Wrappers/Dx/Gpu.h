@@ -13,7 +13,7 @@ namespace MyEngine
 			{
 				class Window;
 			}
-			namespace Gpu
+			namespace Dx
 			{
 				class Canvas;
 			}
@@ -27,7 +27,7 @@ namespace MyEngine
 	{
 		namespace Wrappers
 		{
-			namespace Gpu
+			namespace Dx
 			{
 				class Gpu
 				{

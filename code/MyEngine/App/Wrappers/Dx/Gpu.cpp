@@ -10,29 +10,29 @@
 #include "DxHelper.h"
 #include "App/Wrappers/Win32/Window.h"
 
-MyEngine::App::Wrappers::Gpu::Gpu::Gpu(App::Wrappers::Win32::Window& window)
+MyEngine::App::Wrappers::Dx::Gpu::Gpu(App::Wrappers::Win32::Window& window)
 	: m_Window{ window }
 {
 	Init();
 }
 
-MyEngine::App::Wrappers::Gpu::Gpu::~Gpu()
+MyEngine::App::Wrappers::Dx::Gpu::~Gpu()
 {
 	Release();
 }
 
-void MyEngine::App::Wrappers::Gpu::Gpu::Release()
+void MyEngine::App::Wrappers::Dx::Gpu::Release()
 {
 	SAFE_RELEASE(m_pContext)
 		SAFE_RELEASE(m_pDevice)
 }
 
-MyEngine::App::Wrappers::Gpu::Canvas* MyEngine::App::Wrappers::Gpu::Gpu::MakeCanvas()
+MyEngine::App::Wrappers::Dx::Canvas* MyEngine::App::Wrappers::Dx::Gpu::MakeCanvas()
 {
 	return new Canvas(*this, m_Window);
 }
 
-void MyEngine::App::Wrappers::Gpu::Gpu::Init()
+void MyEngine::App::Wrappers::Dx::Gpu::Init()
 {
 	UINT createDeviceFlags = 0;
 #if defined(_DEBUG)
