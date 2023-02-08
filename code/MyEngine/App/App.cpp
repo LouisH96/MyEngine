@@ -40,11 +40,11 @@ void MyEngine::App::App::Run()
 	Gpu& gpu = *GpuCreator::Create(window);
 
 	Canvas& canvas = *gpu.MakeCanvas();
-	Shader& shader = *gpu.MakeShader();
+	Shader& shader = *new Shader(gpu);
 	Mesh& mesh = *new Mesh(gpu, vertexBuffer, 6, indexBuffer, 6);
 	Game::Camera::Camera& camera = *new Game::Camera::Camera(window.AskClientSize_WinApi());
 	camera.Move({ 0,0,-1 });
-	Painter& painter = *gpu.MakePainter();
+	Painter& painter = *new Painter();
 
 	painter.SetCanvas(canvas);
 	painter.SetShader(shader);

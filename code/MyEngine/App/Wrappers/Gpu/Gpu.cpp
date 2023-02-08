@@ -8,11 +8,7 @@
 
 #include "Canvas.h"
 #include "DxHelper.h"
-#include "Mesh.h"
-#include "Painter.h"
-#include "Shader.h"
 #include "App/Wrappers/Win32/Window.h"
-#include "App/Resources.h"
 
 MyEngine::App::Wrappers::Gpu::Gpu::Gpu(App::Wrappers::Win32::Window& window)
 	: m_Window{ window }
@@ -34,16 +30,6 @@ void MyEngine::App::Wrappers::Gpu::Gpu::Release()
 MyEngine::App::Wrappers::Gpu::Canvas* MyEngine::App::Wrappers::Gpu::Gpu::MakeCanvas()
 {
 	return new Canvas(*this, m_Window);
-}
-
-MyEngine::App::Wrappers::Gpu::Shader* MyEngine::App::Wrappers::Gpu::Gpu::MakeShader()
-{
-	return new Shader(*this);
-}
-
-MyEngine::App::Wrappers::Gpu::Painter* MyEngine::App::Wrappers::Gpu::Gpu::MakePainter()
-{
-	return new Painter();
 }
 
 void MyEngine::App::Wrappers::Gpu::Gpu::Init()

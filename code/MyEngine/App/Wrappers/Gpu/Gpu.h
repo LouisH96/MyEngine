@@ -16,9 +16,6 @@ namespace MyEngine
 			namespace Gpu
 			{
 				class Canvas;
-				class Mesh;
-				class Shader;
-				class Painter;
 			}
 		}
 	}
@@ -46,8 +43,6 @@ namespace MyEngine
 					void Release();
 
 					Canvas* MakeCanvas();
-					Shader* MakeShader();
-					Painter* MakePainter();
 
 					ID3D11Device& GetDevice() const { return *m_pDevice; }
 					ID3D11DeviceContext& GetContext() const { return *m_pContext; }
