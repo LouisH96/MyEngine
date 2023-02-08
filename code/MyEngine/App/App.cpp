@@ -44,7 +44,7 @@ void MyEngine::App::App::Run()
 	Mesh& mesh = *new Mesh(gpu, vertexBuffer, 6, indexBuffer, 6);
 	Game::Camera::Camera& camera = *new Game::Camera::Camera(window.AskClientSize_WinApi());
 	camera.Move({ 0,0,-1 });
-	Painter& painter = *new Painter();
+	Painter<Shader::Vertex>& painter = *new Painter<Shader::Vertex>();
 	
 	painter.SetShader(shader);
 	painter.SetMesh(mesh);
