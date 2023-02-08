@@ -34,6 +34,7 @@ namespace MyEngine
 					unsigned int m_VertexCount{};
 					unsigned int m_VertexStride{};
 					unsigned int m_VertexOffset{};
+					unsigned int m_IndexCount{};
 
 					ID3D11RasterizerState* m_pRasterizerState{};
 					void InitRasterizerState();
@@ -47,6 +48,7 @@ namespace MyEngine
 					, m_VertexCount(nrVertices)
 					, m_VertexStride(sizeof(Vertex))
 					, m_VertexOffset(0)
+					, m_IndexCount(nrIndices)
 				{
 					const D3D11_BUFFER_DESC vertexBufferDesc
 					{
@@ -89,7 +91,7 @@ namespace MyEngine
 				void Mesh<Vertex>::Draw() const
 				{
 					m_Gpu.GetContext().RSSetState(m_pRasterizerState);
-					m_Gpu.GetContext().DrawIndexed(m_VertexCount, 0, 0);
+					m_Gpu.GetContext().DrawIndexed(m_IndexCount, 0, 0);
 				}
 
 				template <typename Vertex>
