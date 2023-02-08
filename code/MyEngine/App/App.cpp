@@ -23,7 +23,13 @@ void MyEngine::App::App::Run()
 	using namespace Wrappers::Gpu;
 
 	//MESH
-	const Shader::Vertex vertexBuffer[] = {
+	struct Vertex
+	{
+		DirectX::XMFLOAT3 pos{};
+		DirectX::XMFLOAT3 col{};
+	};
+
+	const Vertex vertexBuffer[] = {
 	   {{0.0f,  0.5f,  0.0f}, {1,0,0}}, // point at top
 	   {{0.5f, -0.5f,  0.0f}, {0,1,0}}, // point at bottom-right
 	  {{-0.5f, -0.5f,  0.0f}, {0,0,1}}, // point at bottom-left
@@ -40,11 +46,11 @@ void MyEngine::App::App::Run()
 	Gpu& gpu = *GpuCreator::Create(window);
 
 	Canvas& canvas = *gpu.MakeCanvas();
-	Shader& shader = *new Shader(gpu);
-	Mesh& mesh = *new Mesh(gpu, vertexBuffer, 6, indexBuffer, 6);
+	Shader<Vertex>& shader = *new Shader<Vertex>(gpu);
+	Mesh<Vertex>& mesh = *new Mesh<Vertex>(gpu, vertexBuffer, 6, indexBuffer, 6);
 	Game::Camera::Camera& camera = *new Game::Camera::Camera(window.AskClientSize_WinApi());
 	camera.Move({ 0,0,-1 });
-	Painter<Shader::Vertex>& painter = *new Painter<Shader::Vertex>();
+	Painter<Vertex>& painter = *new Painter<Vertex>();
 	
 	painter.SetShader(shader);
 	painter.SetMesh(mesh);

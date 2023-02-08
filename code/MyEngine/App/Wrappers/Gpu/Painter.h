@@ -20,15 +20,17 @@ namespace MyEngine
 		{
 			namespace Gpu
 			{
+				template<typename Vertex>
 				class Shader;
+				template<typename Vertex>
 				class Mesh;
 
 				template<typename Vertex>
 				class Painter
 				{
 				public:
-					void SetShader(Shader& shader);
-					void SetMesh(Mesh& mesh);
+					void SetShader(Shader<Vertex>& shader);
+					void SetMesh(Mesh<Vertex>& mesh);
 					void SetCamera(Game::Camera::Camera& camera);
 
 					void BeginPaint();
@@ -36,8 +38,8 @@ namespace MyEngine
 					void Paint() const;
 
 				private:
-					Shader* m_pShader{};
-					Mesh* m_pMesh{};
+					Shader<Vertex>* m_pShader{};
+					Mesh<Vertex>* m_pMesh{};
 					Game::Camera::Camera* m_pCamera{};
 
 					bool m_IsPainting{ false };
@@ -46,7 +48,7 @@ namespace MyEngine
 				};
 
 				template <typename Vertex>
-				void Painter<Vertex>::SetShader(Shader& shader)
+				void Painter<Vertex>::SetShader(Shader<Vertex>& shader)
 				{
 					m_pShader = &shader;
 					m_pShader->Activate();
@@ -56,7 +58,7 @@ namespace MyEngine
 				}
 
 				template <typename Vertex>
-				void Painter<Vertex>::SetMesh(Mesh& mesh)
+				void Painter<Vertex>::SetMesh(Mesh<Vertex>& mesh)
 				{
 					m_pMesh = &mesh;
 					m_pMesh->Activate();

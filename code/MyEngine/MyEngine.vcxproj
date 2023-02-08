@@ -14,8 +14,6 @@
     <ClCompile Include="App\App.cpp" />
     <ClCompile Include="App\FpsControl.cpp" />
     <ClCompile Include="App\Framework.cpp" />
-    <ClCompile Include="App\Wrappers\Gpu\Shader.cpp" />
-    <ClCompile Include="App\Wrappers\Gpu\Mesh.cpp" />
     <ClCompile Include="App\Wrappers\Gpu\Gpu.cpp" />
     <ClCompile Include="App\Wrappers\Gpu\Canvas.cpp" />
     <ClCompile Include="Game\Camera\CameraController.cpp" />

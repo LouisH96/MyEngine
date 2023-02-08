@@ -20,8 +20,6 @@
     <ClCompile Include="App\Framework.cpp" />
     <ClCompile Include="App\Wrappers\Gpu\Canvas.cpp" />
     <ClCompile Include="App\Wrappers\Gpu\Gpu.cpp" />
-    <ClCompile Include="App\Wrappers\Gpu\Mesh.cpp" />
-    <ClCompile Include="App\Wrappers\Gpu\Shader.cpp" />
     <ClCompile Include="App\Wrappers\Win32\Renderer2D.cpp" />
     <ClCompile Include="App\Wrappers\Gpu\RendererD2D.cpp" />
     <ClCompile Include="Math\Int2.cpp" />
