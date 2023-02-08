@@ -23,8 +23,8 @@ MyEngine::App::Wrappers::Dx::Gpu::~Gpu()
 
 void MyEngine::App::Wrappers::Dx::Gpu::Release()
 {
-	SAFE_RELEASE(m_pContext)
-		SAFE_RELEASE(m_pDevice)
+	SAFE_RELEASE(m_pContext);
+	SAFE_RELEASE(m_pDevice);
 }
 
 MyEngine::App::Wrappers::Dx::Canvas* MyEngine::App::Wrappers::Dx::Gpu::MakeCanvas()
