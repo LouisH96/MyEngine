@@ -68,7 +68,7 @@ void MyEngine::App::App::Run()
 	Painter<Vertex>& painter = *new Painter<Vertex>();
 
 	//RENDER-PIPELINE
-	constantBuffer.Activate(gpu);
+	constantBuffer.ActivateVs(gpu);
 	inputLayout.Activate(gpu);
 	painter.SetShader(shader);
 	painter.SetMesh(mesh);
