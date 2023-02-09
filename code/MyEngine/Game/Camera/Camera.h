@@ -25,6 +25,8 @@ namespace MyEngine
 				float GetFocusPointDistance() const { return m_FocusPointDistance; }
 				void OnWindowResized(DirectX::XMINT2 newSize);
 				void SetFieldOfView(float angle);
+				DirectX::XMFLOAT3 GetPosition() const;
+
 			private:
 				DirectX::XMFLOAT4X4 m_ViewProjMatrix{};
 				DirectX::XMFLOAT4X4 m_World{ };

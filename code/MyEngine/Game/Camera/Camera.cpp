@@ -77,6 +77,11 @@ void MyEngine::Game::Camera::Camera::SetFieldOfView(float angle)
 	UpdateProjMatrix();
 }
 
+DirectX::XMFLOAT3 Game::Camera::Camera::GetPosition() const
+{
+	return { m_World(3,0), m_World(3,1), m_World(3,2) };
+}
+
 void MyEngine::Game::Camera::Camera::UpdateWorldMatrix()
 {
 	const float pitchRad = m_Pitch * Constants::TO_RAD;
