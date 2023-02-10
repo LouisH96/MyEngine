@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "App.h"
+#include "BasicExampleApp.h"
 
 #include <iostream>
 
@@ -19,7 +19,7 @@
 #include "App/Wrappers/Dx/InputLayout.h"
 #include "Wrappers/Dx/ConstantBuffer.h"
 
-void MyEngine::App::App::Run()
+void MyEngine::App::BasicExampleApp::Run()
 {
 	using namespace Wrappers::Win32;
 	using namespace Wrappers::Dx;

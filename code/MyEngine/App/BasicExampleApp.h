@@ -5,7 +5,7 @@ namespace MyEngine
 {
 	namespace App
 	{
-	class App
+	class BasicExampleApp
 	{
 	public:
 		void Run();

@@ -1,9 +1,8 @@
-#include <iostream>
-#include <App/App.h>
+#include <App/BasicExampleApp.h>
 
 int main()
 {
-	MyEngine::App::App app{};
+	MyEngine::App::BasicExampleApp app{};
 	app.Run();
 	return 0;
 }
