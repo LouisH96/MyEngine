@@ -39,6 +39,7 @@
     <ClCompile Include="App\Wrappers\Win32\Screen.cpp" />
     <ClCompile Include="App\Wrappers\Win32\Renderer2D.cpp" />
     <ClCompile Include="App\Wrappers\Dx\RendererD2D.cpp" />
+    <ClCompile Include="App\Wrappers\Dx\RasterizerState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\App.h" />
@@ -74,6 +75,7 @@
     <ClInclude Include="App\Wrappers\Win32\Screen.h" />
     <ClInclude Include="App\Wrappers\Win32\Renderer2D.h" />
     <ClInclude Include="App\Wrappers\Dx\RendererD2D.h" />
+    <ClInclude Include="App\Wrappers\Dx\RasterizerState.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

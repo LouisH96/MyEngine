@@ -26,6 +26,7 @@
     <ClCompile Include="App\Wrappers\Win32\Mouse.cpp" />
     <ClCompile Include="App\Wrappers\Dx\InputLayout.cpp" />
     <ClCompile Include="App\Wrappers\Dx\BlendState.cpp" />
+    <ClCompile Include="App\Wrappers\Dx\RasterizerState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logging\Logger.h" />
@@ -61,6 +62,7 @@
     <ClInclude Include="App\Wrappers\Dx\InputLayout.h" />
     <ClInclude Include="App\Wrappers\Dx\ConstantBuffer.h" />
     <ClInclude Include="App\Wrappers\Dx\BlendState.h" />
+    <ClInclude Include="App\Wrappers\Dx\RasterizerState.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

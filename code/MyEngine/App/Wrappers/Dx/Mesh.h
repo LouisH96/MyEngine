@@ -35,10 +35,6 @@ namespace MyEngine
 					unsigned int m_VertexStride{};
 					unsigned int m_VertexOffset{};
 					unsigned int m_IndexCount{};
-
-					ID3D11RasterizerState* m_pRasterizerState{};
-					void InitRasterizerState();
-					void ReleaseRasterizerState();
 				};
 
 				template <typename Vertex>
@@ -63,8 +59,6 @@ namespace MyEngine
 						throw std::exception("Mesh::InitVertexBuffer");
 
 					DxHelper::CreateIndexBuffer(gpu.GetDevice(), m_pIndexBuffer, pIndices, nrIndices);
-
-					InitRasterizerState();
 				}
 
 				template <typename Vertex>
@@ -72,7 +66,6 @@ namespace MyEngine
 				{
 					SAFE_RELEASE(m_pIndexBuffer);
 					SAFE_RELEASE(m_pVertexBuffer);
-					ReleaseRasterizerState();
 				}
 
 				template <typename Vertex>
@@ -90,27 +83,7 @@ namespace MyEngine
 				template <typename Vertex>
 				void Mesh<Vertex>::Draw() const
 				{
-					m_Gpu.GetContext().RSSetState(m_pRasterizerState);
 					m_Gpu.GetContext().DrawIndexed(m_IndexCount, 0, 0);
-				}
-
-				template <typename Vertex>
-				void Mesh<Vertex>::InitRasterizerState()
-				{
-					D3D11_RASTERIZER_DESC desc{};
-					desc.FillMode = D3D11_FILL_SOLID;
-					desc.CullMode = D3D11_CULL_NONE;
-					desc.DepthClipEnable = true;
-
-					const HRESULT hr = m_Gpu.GetDevice().CreateRasterizerState(&desc, &m_pRasterizerState);
-					if (FAILED(hr))
-						throw std::exception("Mesh::InitRasterizerState");
-				}
-
-				template <typename Vertex>
-				void Mesh<Vertex>::ReleaseRasterizerState()
-				{
-					SAFE_RELEASE(m_pRasterizerState);
 				}
 			}
 		}
