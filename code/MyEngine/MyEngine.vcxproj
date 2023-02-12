@@ -17,6 +17,9 @@
     <ClCompile Include="App\Wrappers\Dx\Gpu.cpp" />
     <ClCompile Include="App\Wrappers\Dx\Canvas.cpp" />
     <ClCompile Include="App\Wrappers\Dx\BlendState.cpp" />
+    <ClCompile Include="Math\Cube.cpp" />
+    <ClCompile Include="Math\Float3.cpp" />
+    <ClCompile Include="Math\Float2.cpp" />
     <ClCompile Include="Game\Camera\CameraController.cpp" />
     <ClCompile Include="Game\Camera\Camera.cpp" />
     <ClCompile Include="Game\GameGlobals.cpp" />
@@ -40,6 +43,8 @@
     <ClCompile Include="App\Wrappers\Win32\Renderer2D.cpp" />
     <ClCompile Include="App\Wrappers\Dx\RendererD2D.cpp" />
     <ClCompile Include="App\Wrappers\Dx\RasterizerState.cpp" />
+    <ClCompile Include="Generation\Shapes.cpp" />
+    <ClCompile Include="Math\Rect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\BasicExampleApp.h" />
@@ -52,6 +57,10 @@
     <ClInclude Include="App\Wrappers\Win32\IExtraWinProc.h" />
     <ClInclude Include="App\Wrappers\Dx\ConstantBuffer.h" />
     <ClInclude Include="App\Wrappers\Dx\BlendState.h" />
+    <ClInclude Include="DataStructures\Array.h" />
+    <ClInclude Include="Math\Cube.h" />
+    <ClInclude Include="Math\Float3.h" />
+    <ClInclude Include="Math\Float2.h" />
     <ClInclude Include="Game\GameGlobals.h" />
     <ClInclude Include="Game\Camera\CameraController.h" />
     <ClInclude Include="Game\Camera\Camera.h" />
@@ -76,6 +85,8 @@
     <ClInclude Include="App\Wrappers\Win32\Renderer2D.h" />
     <ClInclude Include="App\Wrappers\Dx\RendererD2D.h" />
     <ClInclude Include="App\Wrappers\Dx\RasterizerState.h" />
+    <ClInclude Include="Generation\Shapes.h" />
+    <ClInclude Include="Math\Rect.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

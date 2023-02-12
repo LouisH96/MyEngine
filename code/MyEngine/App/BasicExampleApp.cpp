@@ -17,6 +17,10 @@
 #include "../Game/Camera/Camera.h"
 #include "../Game/Camera/CameraController.h"
 #include "App/Wrappers/Dx/InputLayout.h"
+#include "DataStructures/Array.h"
+#include "Generation/Shapes.h"
+#include "Math/Cube.h"
+#include "Math/Float3.h"
 #include "Wrappers/Dx/ConstantBuffer.h"
 
 void MyEngine::App::BasicExampleApp::Run()
@@ -24,6 +28,8 @@ void MyEngine::App::BasicExampleApp::Run()
 	using namespace Wrappers::Win32;
 	using namespace Wrappers::Dx;
 	using namespace Dx;
+	using namespace Ds;
+	using namespace Math;
 
 	//APP
 	Resources::Init();
@@ -41,16 +47,21 @@ void MyEngine::App::BasicExampleApp::Run()
 	{
 		DirectX::XMFLOAT4X4 cameraMatrix;
 	};
-	const Vertex vertexBuffer[] = {
-	   {{0.0f,  0.5f,  0.0f}, {1,0,0}}, // point at top
-	   {{0.5f, -0.5f,  0.0f}, {0,1,0}}, // point at bottom-right
-	  {{-0.5f, -0.5f,  0.0f}, {0,0,1}}, // point at bottom-left
-
-		{{0.0f, -0.5f, -1.0f}, {1,0,0}},
-		{{-0.5f, -0.5f, 0.0f}, {0,1,0}},
-		{{0.5f, -0.5f, 0.0f}, {0,0,1}}
-	};
-	constexpr int indexBuffer[]{ 3,0,1,3,2,0 };
+	//cube
+	Array<Float3> cubePositions{};
+	Array<Float3> cubeNormals{};
+	Array<int> cubeIndices{};
+	const Cube cube{ {0,0,0},1.f };
+	Generation::Shapes::GenerateCubeBuffers(cube, cubePositions, cubeNormals, cubeIndices);
+	Array<Vertex> cubeVertices{ cubePositions.GetSize() };
+	for (int i = 0; i < cubeVertices.GetSize(); i++)
+	{
+		DirectX::XMFLOAT3 color;
+		if (i / 8 == 0) color = { 1,0,0 };
+		else if (i / 8 == 1) color = { 0,1,0 };
+		else color = { 0,0,1 };
+		cubeVertices[i] = { {cubePositions[i].x, cubePositions[i].y, cubePositions[i].z }, color };
+	}
 	const InputLayout::Element meshElements[]
 	{
 		{"POSITION", InputLayout::ElementType::Float3},
@@ -59,12 +70,11 @@ void MyEngine::App::BasicExampleApp::Run()
 	const InputLayout inputLayout{ gpu, meshElements, ARRAYSIZE(meshElements) };
 
 	Shader<Vertex>& shader = *new Shader<Vertex>(gpu, Resources::GetGlobalShaderPath(L"shader.hlsl"));
-	Mesh<Vertex>& mesh = *new Mesh<Vertex>(gpu, vertexBuffer, 6, indexBuffer, 6);
+	Mesh<Vertex>& mesh = *new Mesh<Vertex>(gpu, cubeVertices.GetData(), cubeVertices.GetSize(), cubeIndices.GetData(), cubeIndices.GetSize());
 	const ConstantBuffer<CameraMatrixCBuffer> constantBuffer{ gpu };
 
 	//GAME
 	Game::Camera::Camera& camera = *new Game::Camera::Camera(window.AskClientSize_WinApi());
-	camera.Move({ 0,0,-1 });
 	Painter<Vertex>& painter = *new Painter<Vertex>();
 
 	//RENDER-PIPELINE

@@ -27,6 +27,11 @@
     <ClCompile Include="App\Wrappers\Dx\InputLayout.cpp" />
     <ClCompile Include="App\Wrappers\Dx\BlendState.cpp" />
     <ClCompile Include="App\Wrappers\Dx\RasterizerState.cpp" />
+    <ClCompile Include="Generation\Shapes.cpp" />
+    <ClCompile Include="Math\Rect.cpp" />
+    <ClCompile Include="Math\Float2.cpp" />
+    <ClCompile Include="Math\Float3.cpp" />
+    <ClCompile Include="Math\Cube.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logging\Logger.h" />
@@ -63,6 +68,12 @@
     <ClInclude Include="App\Wrappers\Dx\ConstantBuffer.h" />
     <ClInclude Include="App\Wrappers\Dx\BlendState.h" />
     <ClInclude Include="App\Wrappers\Dx\RasterizerState.h" />
+    <ClInclude Include="Generation\Shapes.h" />
+    <ClInclude Include="Math\Rect.h" />
+    <ClInclude Include="Math\Float2.h" />
+    <ClInclude Include="Math\Float3.h" />
+    <ClInclude Include="Math\Cube.h" />
+    <ClInclude Include="DataStructures\Array.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
