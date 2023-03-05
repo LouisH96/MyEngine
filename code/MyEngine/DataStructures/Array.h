@@ -9,13 +9,15 @@ namespace MyEngine
 		{
 		public:
 			Array();
-			explicit Array(int size);
+			Array(int size);
 			Array(int size, const Data& initValue);
 			~Array();
 			Array(const Array& other);
 			Array(Array&& other) noexcept;
 			Array& operator=(const Array& other);
 			Array& operator=(Array&& other) noexcept;
+
+			void Add(const Array<Data>& other);
 
 			const Data& operator[](int idx) const;
 			Data& operator[](int idx);
@@ -94,6 +96,17 @@ namespace MyEngine
 		{
 			for (int i = 0; i < m_Size; i++)
 				m_pData[i] = other.m_pData[i];
+		}
+
+		template <typename Data>
+		void Array<Data>::Add(const Array<Data>& other)
+		{
+			Data* pNew = new Data[m_Size + other.m_Size];
+			for (int i = 0; i < m_Size; i++) pNew[i] = m_pData[i];
+			for (int i = 0; i < other.m_Size; i++) pNew[i + m_Size] = other.m_pData[i];
+			delete[] m_pData;
+			m_pData = pNew;
+			m_Size += other.m_Size;
 		}
 
 		template <typename Data>
