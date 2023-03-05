@@ -60,3 +60,22 @@ void Math::Float3::Scale(const Float3& r)
 	y *= r.y;
 	z *= r.z;
 }
+
+float Math::Float3::Length() const
+{
+	return sqrtf(x * x + y * y + z * z);
+}
+
+void Math::Float3::Normalize()
+{
+	const float scale = 1.f / Length();
+	x *= scale;
+	y *= scale;
+	z *= scale;
+}
+
+Math::Float3 Math::Float3::Normalized() const
+{
+	const float scale = 1.f / Length();
+	return { x * scale, y * scale, z * scale };
+}

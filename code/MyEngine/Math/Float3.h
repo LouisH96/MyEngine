@@ -44,6 +44,9 @@ namespace MyEngine
 
 			void Reverse();
 			void Scale(const Float3& r);
+			float Length() const;
+			void Normalize();
+			Float3 Normalized() const;
 
 			float x, y, z;
 			static constexpr int NR_AXIS = 3;
