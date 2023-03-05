@@ -2,6 +2,7 @@
 #include "Gpu.h"
 #include "Shader.h"
 #include "DxHelper.h"
+#include "DataStructures/Array.h"
 
 namespace MyEngine
 {
@@ -21,6 +22,7 @@ namespace MyEngine
 					Mesh& operator=(Mesh&& other) noexcept = delete;
 
 					explicit Mesh(Gpu& gpu, const Vertex* pVertices, int nrVertices, const int* pIndices, int nrIndices);
+					explicit Mesh(Gpu& gpu, const Ds::Array<Vertex>& vertices, const Ds::Array<int>& indices);
 					~Mesh();
 
 					void Activate() const;
@@ -59,6 +61,12 @@ namespace MyEngine
 						throw std::exception("Mesh::InitVertexBuffer");
 
 					DxHelper::CreateIndexBuffer(gpu.GetDevice(), m_pIndexBuffer, pIndices, nrIndices);
+				}
+
+				template <typename Vertex>
+				Mesh<Vertex>::Mesh(Gpu& gpu, const Ds::Array<Vertex>& vertices, const Ds::Array<int>& indices)
+					: Mesh<Vertex>(gpu, vertices.GetData(), vertices.GetSize(), indices.GetData(), indices.GetSize())
+				{
 				}
 
 				template <typename Vertex>
