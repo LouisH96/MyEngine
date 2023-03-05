@@ -91,9 +91,9 @@ void Generation::Shapes::GenerateSphereBuffers(const Sphere& sphere, int nrCols,
 	const Float3 bot = sphere.GetCenter() - Float3{ 0.f, sphere.GetRadius(), 0.f };
 	const Float3 top = sphere.GetCenter() + Float3{ 0.f, sphere.GetRadius(), 0.f };
 	positions[0] = bot;
-	normals[0] = { 0,1,0 };
+	normals[0] = { 0,-1,0 };
 	positions[positions.GetSize() - 1] = top;
-	normals[normals.GetSize() - 1] = { 0,-1,0 };
+	normals[normals.GetSize() - 1] = { 0,1,0 };
 
 	//middle points
 	for (int iRow = 0; iRow < nrMiddlePointRows; iRow++)
