@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Shapes.h"
 #include "DataStructures/Array.h"
+#include "Math/Constants.h"
 #include "Math/Cube.h"
 
 void Generation::Shapes::GenerateCubeBuffers(const Math::Cube& cube, Ds::Array<Math::Float3>& positions,
@@ -44,7 +45,7 @@ void Generation::Shapes::GenerateCubeBuffers(const Math::Cube& cube, Ds::Array<M
 		//normals
 		Float3 normal;
 		normal.Set(-1.f, (iAxis + 3) % Float3::NR_AXIS);
-		for(int iVertex = 0; iVertex < pointsPerSide; iVertex++)
+		for (int iVertex = 0; iVertex < pointsPerSide; iVertex++)
 		{
 			normals[idxFront + iVertex] = normal;
 			normals[idxBack + iVertex] = -normal;
@@ -71,4 +72,96 @@ void Generation::Shapes::GenerateCubeBuffers(const Math::Cube& cube, Ds::Array<M
 		indices[idxIndicesBack + 5] = idxBack + 2;
 	}
 
+}
+
+void Generation::Shapes::GenerateSphereBuffers(const Sphere& sphere, int nrCols, int nrRows, Array<Float3>& positions,
+	Array<Float3>& normals, Array<int>& indices)
+{
+	const float anglePerCol = Constants::PI / (static_cast<float>(nrCols) / 2);
+	const float anglePerRow = Constants::PI / static_cast<float>(nrRows);
+	const int nrMiddlePointRows = nrRows - 1;
+	const int nrMiddlePoints = nrMiddlePointRows * nrCols;
+	const int nrPoints = nrMiddlePoints + 2;
+
+	//---| Points |---
+	positions = Array<Float3>{ nrPoints };
+	normals = Array<Float3>(nrPoints);
+
+	//top & bot
+	const Float3 bot = sphere.GetCenter() - Float3{ 0.f, sphere.GetRadius(), 0.f };
+	const Float3 top = sphere.GetCenter() + Float3{ 0.f, sphere.GetRadius(), 0.f };
+	positions[0] = bot;
+	normals[0] = { 0,1,0 };
+	positions[positions.GetSize() - 1] = top;
+	normals[normals.GetSize() - 1] = { 0,-1,0 };
+
+	//middle points
+	for (int iRow = 0; iRow < nrMiddlePointRows; iRow++)
+	{
+		const float rowAngle = static_cast<float>(iRow + 1) * anglePerRow;
+		const float rowRadius = sinf(rowAngle) * sphere.GetRadius();
+		for (int iCol = 0; iCol < nrCols; iCol++)
+		{
+			const float colAngle = static_cast<float>(iCol) * anglePerCol;
+			const Float3 localPos = {
+				cosf(colAngle) * rowRadius,
+				-cosf(rowAngle) * sphere.GetRadius(),
+				sinf(colAngle) * rowRadius
+			};
+			positions[iRow * nrCols + iCol + 1] = sphere.GetCenter() + localPos;
+			normals[iRow * nrCols + iCol + 1] = localPos.Normalized();
+		}
+	}
+
+	//---| Indices |--
+	const int nrPoleTriangles = nrCols * 2;
+	const int nrMiddleRowTriangles = nrCols * 2 * (nrRows - 2);
+	const int nrTriangles = nrPoleTriangles + nrMiddleRowTriangles;
+	const int nrIndices = nrTriangles * 3;
+	indices = { nrIndices };
+
+	//bot pole
+	for (int i = 0; i < nrCols; i++)
+	{
+		const int idxLeft = i + 1;
+		int idxRight = i + 2;
+		if (idxRight > nrCols)
+			idxRight = 1;
+
+		indices[i * 3] = 0;
+		indices[i * 3 + 1] = idxLeft;
+		indices[i * 3 + 2] = idxRight;
+	}
+	//top pole
+	for (int i = 0; i < nrCols; i++)
+	{
+		const int leftIdx = positions.GetSize() - 2 - i;
+		int rightIdx = positions.GetSize() - 3 - i;
+		if (i == nrCols - 1)
+			rightIdx = positions.GetSize() - 2;
+
+		indices[nrIndices - 1 - (i * 3)] = positions.GetSize() - 1;
+		indices[nrIndices - 2 - (i * 3)] = leftIdx;
+		indices[nrIndices - 3 - (i * 3)] = rightIdx;
+	}
+	//middle triangles
+	for (int iRow = 1; iRow < nrRows - 1; iRow++)
+	{
+		for (int iCol = 0; iCol < nrCols; iCol++)
+		{
+			const int leftBottom = (iRow - 1) * nrCols + iCol + 1;
+			const int rightBottom = iCol < nrCols - 1 ? leftBottom + 1 : leftBottom - (nrCols - 1);
+			const int leftTop = leftBottom + nrCols;
+			const int rightTop = rightBottom + nrCols;
+
+			int* pIndex = &indices[(nrCols + ((iRow - 1) * nrCols + iCol) * 2)*3];
+			*pIndex++ = leftBottom;
+			*pIndex++ = leftTop;
+			*pIndex++ = rightTop;
+
+			*pIndex++ = leftBottom;
+			*pIndex++ = rightTop;
+			*pIndex = rightBottom;
+		}
+	}
 }
