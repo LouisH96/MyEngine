@@ -17,6 +17,7 @@ namespace MyEngine
 			Cube& operator=(const Cube& other) = default;
 			Cube& operator=(Cube&& other) noexcept = default;
 
+			Float3& GetOrigin() { return m_Origin; }
 			const Float3& GetOrigin() const { return m_Origin; }
 			const Float3& GetSize() const { return m_Size; }
 			float GetWidth() const { return m_Size.x; }
