@@ -5,6 +5,8 @@
 #include <locale>
 #include <iomanip>
 #include <sstream>
+
+#include "Math/Float3.h"
 #include "Math/Int2.h"
 
 std::string MyEngine::Logging::Logger::GetLogLine(const std::string& logMessage)
@@ -54,6 +56,19 @@ void MyEngine::Logging::Logger::PrintXYZ(const float* x)
 	Print(ToStringXYZ(x));
 }
 
+void Logger::PrintXYZ(const Math::Float3& vector)
+{
+	Print(ToStringXYZ(vector));
+}
+
+void Logger::PrintXYZ(const std::string& prefix, const Math::Float3& vector)
+{
+	std::stringstream ss;
+	ss << prefix;
+	ss << ToStringXYZ(vector);
+	Print(ss.str());
+}
+
 void Logger::PrintXY(const Math::Int2& vector)
 {
 	Print(ToStringXY(vector));
@@ -89,6 +104,11 @@ std::string Logger::ToStringXY(const Math::Int2& vector)
 std::string MyEngine::Logging::Logger::ToStringXYZ(const float* x)
 {
 	return ToString(x[0], x[1], x[2]);
+}
+
+std::string Logger::ToStringXYZ(const Math::Float3& vector)
+{
+	return ToString(vector.x, vector.y, vector.z);
 }
 
 std::string MyEngine::Logging::Logger::ToString(float x, float y, float z)

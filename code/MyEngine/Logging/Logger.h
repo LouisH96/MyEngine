@@ -6,6 +6,7 @@ namespace MyEngine
 {
 	namespace Math
 	{
+		struct Float3;
 		union Int2;
 	}
 }
@@ -25,6 +26,8 @@ namespace MyEngine
 			static void Print(const DirectX::XMFLOAT3& vector);
 			static void PrintXYZ(const DirectX::XMVECTOR& vector);
 			static void PrintXYZ(const float* x);
+			static void PrintXYZ(const Math::Float3& vector);
+			static void PrintXYZ(const std::string& prefix, const Math::Float3& vector);
 			static void PrintXY(const Math::Int2& vector);
 			static void PrintXY(const std::string& prefix, const Math::Int2& vector);
 
@@ -34,6 +37,7 @@ namespace MyEngine
 			static std::string ToString(const DirectX::XMFLOAT3& vector);
 			static std::string ToStringXYZ(const DirectX::XMVECTOR& vector);
 			static std::string ToStringXYZ(const float* x);
+			static std::string ToStringXYZ(const Math::Float3& vector);
 			static std::string ToStringXY(const Math::Int2& vector);
 
 			template <typename T>
