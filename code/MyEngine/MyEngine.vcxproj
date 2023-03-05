@@ -45,6 +45,7 @@
     <ClCompile Include="App\Wrappers\Dx\RasterizerState.cpp" />
     <ClCompile Include="Generation\Shapes.cpp" />
     <ClCompile Include="Math\Rect.cpp" />
+    <ClCompile Include="Math\Sphere.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\BasicExampleApp.h" />
@@ -87,6 +88,7 @@
     <ClInclude Include="App\Wrappers\Dx\RasterizerState.h" />
     <ClInclude Include="Generation\Shapes.h" />
     <ClInclude Include="Math\Rect.h" />
+    <ClInclude Include="Math\Sphere.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

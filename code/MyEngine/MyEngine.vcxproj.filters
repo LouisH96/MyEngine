@@ -32,6 +32,7 @@
     <ClCompile Include="Math\Float2.cpp" />
     <ClCompile Include="Math\Float3.cpp" />
     <ClCompile Include="Math\Cube.cpp" />
+    <ClCompile Include="Math\Sphere.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logging\Logger.h" />
@@ -74,6 +75,7 @@
     <ClInclude Include="Math\Float3.h" />
     <ClInclude Include="Math\Cube.h" />
     <ClInclude Include="DataStructures\Array.h" />
+    <ClInclude Include="Math\Sphere.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
