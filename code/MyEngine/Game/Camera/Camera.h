@@ -1,6 +1,8 @@
 #pragma once
 #include <DirectXMath.h>
 
+#include "Math/Float3.h"
+
 namespace MyEngine
 {
 	namespace Game
@@ -26,6 +28,7 @@ namespace MyEngine
 				void OnWindowResized(DirectX::XMINT2 newSize);
 				void SetFieldOfView(float angle);
 				DirectX::XMFLOAT3 GetPosition() const;
+				Math::Float3 GetPositionFloat3() const;
 
 			private:
 				DirectX::XMFLOAT4X4 m_ViewProjMatrix{};
