@@ -13,7 +13,7 @@ namespace MyEngine
 
 namespace MyEngine
 {
-	namespace Logging
+	namespace Debug
 	{
 		class Logger
 		{

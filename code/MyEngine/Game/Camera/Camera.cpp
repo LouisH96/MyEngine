@@ -2,7 +2,6 @@
 #include "Camera.h"
 
 #include <cmath>
-#include "../../Logging/Logger.h"
 #include "../../Math/Constants.h"
 
 using namespace MyEngine::Math;

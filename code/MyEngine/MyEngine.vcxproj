@@ -30,7 +30,7 @@
     <ClCompile Include="App\Wrappers\Win32\Keyboard_MsgListener.cpp" />
     <ClCompile Include="App\Wrappers\Dx\InputLayout.cpp" />
     <ClCompile Include="Math\Int2.cpp" />
-    <ClCompile Include="Logging\Logger.cpp" />
+    <ClCompile Include="Debug\Logger.cpp" />
     <ClCompile Include="App\Wrappers\Win32\Window.cpp" />
     <ClCompile Include="App\Resources.cpp" />
     <ClCompile Include="App\Wrappers\Win32\Mouse.cpp" />
@@ -75,7 +75,7 @@
     <ClInclude Include="App\Wrappers\Win32\Keyboard_MsgListener.h" />
     <ClInclude Include="App\Wrappers\Dx\InputLayout.h" />
     <ClInclude Include="Math\Int2.h" />
-    <ClInclude Include="Logging\Logger.h" />
+    <ClInclude Include="Debug\Logger.h" />
     <ClInclude Include="App\Wrappers\Win32\Window.h" />
     <ClInclude Include="App\Time.h" />
     <ClInclude Include="App\Resources.h" />

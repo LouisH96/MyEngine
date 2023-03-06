@@ -3,9 +3,9 @@
 #include <iostream>
 
 #include "Game/GameGlobals.h"
-#include "Logging/Logger.h"
+#include "Debug/Logger.h"
 #include "DataStructures/Array.h"
 
 using namespace MyEngine;
-using namespace Logging;
+using namespace Debug;
 using namespace Ds;

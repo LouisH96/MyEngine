@@ -11,7 +11,6 @@
 #include "App/Wrappers/Dx/Mesh.h"
 #include "App/Wrappers/Dx/Shader.h"
 #include "App/Wrappers/Dx/Painter.h"
-#include "../Logging/Logger.h"
 #include "App/Wrappers/Win32/Window.h"
 
 #include "../Game/Camera/Camera.h"
