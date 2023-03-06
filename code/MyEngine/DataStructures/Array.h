@@ -18,6 +18,7 @@ namespace MyEngine
 			Array& operator=(Array&& other) noexcept;
 
 			void Add(const Array<Data>& other);
+			void Add(const Data& data);
 
 			const Data& operator[](int idx) const;
 			Data& operator[](int idx);
@@ -107,6 +108,18 @@ namespace MyEngine
 			delete[] m_pData;
 			m_pData = pNew;
 			m_Size += other.m_Size;
+		}
+
+		template <typename Data>
+		void Array<Data>::Add(const Data& data)
+		{
+			Data* pNew = new Data[m_Size + 1];
+			for (int i = 0; i < m_Size; i++)
+				pNew[i] = m_pData[i];
+			pNew[m_Size] = data;
+			m_Size++;
+			delete[] m_pData;
+			m_pData = pNew;
 		}
 
 		template <typename Data>
