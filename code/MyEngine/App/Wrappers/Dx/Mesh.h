@@ -21,15 +21,15 @@ namespace MyEngine
 					Mesh& operator=(const Mesh& other) = delete;
 					Mesh& operator=(Mesh&& other) noexcept = delete;
 
-					explicit Mesh(Gpu& gpu, const Vertex* pVertices, int nrVertices, const int* pIndices, int nrIndices);
-					explicit Mesh(Gpu& gpu, const Ds::Array<Vertex>& vertices, const Ds::Array<int>& indices);
+					explicit Mesh(const Gpu& gpu, const Vertex* pVertices, int nrVertices, const int* pIndices, int nrIndices);
+					explicit Mesh(const Gpu& gpu, const Ds::Array<Vertex>& vertices, const Ds::Array<int>& indices);
 					~Mesh();
 
 					void Activate() const;
 					void Draw() const;
 
 				private:
-					Gpu& m_Gpu;
+					const Gpu& m_Gpu;
 
 					ID3D11Buffer* m_pVertexBuffer{};
 					ID3D11Buffer* m_pIndexBuffer{};
@@ -40,7 +40,7 @@ namespace MyEngine
 				};
 
 				template <typename Vertex>
-				Mesh<Vertex>::Mesh(Gpu& gpu, const Vertex* pVertices, int nrVertices, const int* pIndices,
+				Mesh<Vertex>::Mesh(const Gpu& gpu, const Vertex* pVertices, int nrVertices, const int* pIndices,
 					int nrIndices)
 					: m_Gpu(gpu)
 					, m_VertexCount(nrVertices)
@@ -64,7 +64,7 @@ namespace MyEngine
 				}
 
 				template <typename Vertex>
-				Mesh<Vertex>::Mesh(Gpu& gpu, const Ds::Array<Vertex>& vertices, const Ds::Array<int>& indices)
+				Mesh<Vertex>::Mesh(const Gpu& gpu, const Ds::Array<Vertex>& vertices, const Ds::Array<int>& indices)
 					: Mesh<Vertex>(gpu, vertices.GetData(), vertices.GetSize(), indices.GetData(), indices.GetSize())
 				{
 				}
