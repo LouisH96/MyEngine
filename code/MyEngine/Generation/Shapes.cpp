@@ -141,8 +141,8 @@ void Generation::Shapes::GenerateSphereBuffers(const Sphere& sphere, int nrCols,
 			rightIdx = positions.GetSize() - 2;
 
 		indices[nrIndices - 1 - (i * 3)] = positions.GetSize() - 1;
-		indices[nrIndices - 2 - (i * 3)] = leftIdx;
-		indices[nrIndices - 3 - (i * 3)] = rightIdx;
+		indices[nrIndices - 2 - (i * 3)] = rightIdx;
+		indices[nrIndices - 3 - (i * 3)] = leftIdx;
 	}
 	//middle triangles
 	for (int iRow = 1; iRow < nrRows - 1; iRow++)
