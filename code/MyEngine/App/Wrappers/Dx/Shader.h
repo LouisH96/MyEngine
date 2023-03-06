@@ -21,13 +21,13 @@ namespace MyEngine
 					Shader& operator=(const Shader& other) = delete;
 					Shader& operator=(Shader&& other) noexcept = delete;
 
-					explicit Shader(Gpu& gpu, const std::wstring& fullPath);
+					explicit Shader(const Gpu& gpu, const std::wstring& fullPath);
 					~Shader();
 
 					void Activate() const;
 
 				private:
-					Gpu& m_Gpu;
+					const Gpu& m_Gpu;
 
 					ID3D11VertexShader* m_pVertexShader{};
 					ID3D11PixelShader* m_pPixelShader{};
@@ -36,7 +36,7 @@ namespace MyEngine
 				};
 
 				template <typename Vertex>
-				Shader<Vertex>::Shader(Gpu& gpu, const std::wstring& fullPath)
+				Shader<Vertex>::Shader(const Gpu& gpu, const std::wstring& fullPath)
 					: m_Gpu(gpu)
 				{
 					InitShaders(fullPath);
