@@ -6,9 +6,17 @@
 Dx::RasterizerState::RasterizerState(const App::Wrappers::Dx::Gpu& gpu, bool isWireframe)
 {
 	D3D11_RASTERIZER_DESC desc{};
-	desc.FillMode = isWireframe ?
-		D3D11_FILL_WIREFRAME : D3D11_FILL_SOLID;
-	desc.CullMode = D3D11_CULL_NONE;
+	if(isWireframe)
+	{
+		desc.FillMode = D3D11_FILL_WIREFRAME;
+		desc.CullMode = D3D11_CULL_NONE;
+		desc.DepthBias = -50;
+	}
+	else
+	{
+		desc.FillMode = D3D11_FILL_SOLID;
+		desc.CullMode = D3D11_CULL_BACK;
+	}
 	desc.DepthClipEnable = true;
 
 	const HRESULT result = gpu.GetDevice().CreateRasterizerState(&desc, &m_pState);
