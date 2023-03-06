@@ -46,6 +46,7 @@
     <ClCompile Include="Generation\Shapes.cpp" />
     <ClCompile Include="Math\Rect.cpp" />
     <ClCompile Include="Math\Sphere.cpp" />
+    <ClCompile Include="Debug\WireframeRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\BasicExampleApp.h" />
@@ -89,6 +90,7 @@
     <ClInclude Include="Generation\Shapes.h" />
     <ClInclude Include="Math\Rect.h" />
     <ClInclude Include="Math\Sphere.h" />
+    <ClInclude Include="Debug\WireframeRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
