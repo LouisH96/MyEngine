@@ -22,6 +22,7 @@ namespace MyEngine
 
 			void ActivateVs(const App::Wrappers::Dx::Gpu& gpu, int index = 0) const;
 			void ActivatePs(const App::Wrappers::Dx::Gpu& gpu, int index = 0) const;
+			void Activate(const App::Wrappers::Dx::Gpu& gpu, int index = 0) const;
 			void Update(const App::Wrappers::Dx::Gpu& gpu, const Data& newData) const;
 
 		private:
@@ -55,6 +56,13 @@ namespace MyEngine
 		template <typename Data>
 		void ConstantBuffer<Data>::ActivatePs(const App::Wrappers::Dx::Gpu& gpu, int index) const
 		{
+			gpu.GetContext().PSSetConstantBuffers(index, 1, &m_pBuffer);
+		}
+
+		template <typename Data>
+		void ConstantBuffer<Data>::Activate(const App::Wrappers::Dx::Gpu& gpu, int index) const
+		{
+			gpu.GetContext().VSSetConstantBuffers(index, 1, &m_pBuffer);
 			gpu.GetContext().PSSetConstantBuffers(index, 1, &m_pBuffer);
 		}
 
