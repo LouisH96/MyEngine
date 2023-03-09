@@ -4,6 +4,8 @@
 #include <fstream>
 #include <sstream>
 
+#include "JsonString.h"
+
 Io::Json::JsonObject::JsonObject(std::ifstream& stream)
 {
 	const char first = stream.get();
@@ -27,6 +29,26 @@ Io::Json::JsonObject::~JsonObject()
 {
 	for (auto it = m_Properties.begin(); it != m_Properties.end(); ++it)
 		delete it->second;
+}
+
+const Io::Json::JsonElement& Io::Json::JsonObject::GetElementProp(const std::string& propertyName) const
+{
+	return *m_Properties.at(propertyName);
+}
+
+const Io::Json::JsonObject& Io::Json::JsonObject::GetObjectProp(const std::string& propertyName) const
+{
+	return m_Properties.at(propertyName)->AsObject();
+}
+
+const Io::Json::JsonArray& Io::Json::JsonObject::GetArrayProp(const std::string& propertyName) const
+{
+	return m_Properties.at(propertyName)->AsArray();
+}
+
+const std::string& Io::Json::JsonObject::GetStringProp(const std::string& propertyName) const
+{
+	return m_Properties.at(propertyName)->AsString().Get();
 }
 
 std::string Io::Json::JsonObject::ToString() const

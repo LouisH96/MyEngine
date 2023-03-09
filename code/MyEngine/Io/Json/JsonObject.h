@@ -19,8 +19,13 @@ namespace MyEngine
 				JsonObject& operator=(const JsonObject& other) = delete;
 				JsonObject& operator=(JsonObject&& other) noexcept = delete;
 
-				std::string ToString() const override;
 				const std::map<std::string, JsonElement*>& GetProperties() const { return m_Properties; }
+				const JsonElement& GetElementProp(const std::string& propertyName) const;
+				const JsonObject& GetObjectProp(const std::string& propertyName) const;
+				const JsonArray& GetArrayProp(const std::string& propertyName) const;
+				const std::string& GetStringProp(const std::string& propertyName) const;
+
+				std::string ToString() const override;
 				static bool DetectType(char c);
 			private:
 				std::map<std::string, JsonElement*> m_Properties{};
