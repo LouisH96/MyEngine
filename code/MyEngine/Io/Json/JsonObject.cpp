@@ -61,8 +61,8 @@ std::string Io::Json::JsonObject::ToString() const
 	const auto last = std::prev(m_Properties.cend());
 	for (auto it = m_Properties.cbegin(); it != m_Properties.cend(); ++it)
 	{
-		ss << "\t";
-		ss << it->first << " : ";
+		ss << "\t\"";
+		ss << it->first << "\" : ";
 		ss << it->second->ToString();
 		if (it != last)
 			ss << ',';
