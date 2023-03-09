@@ -40,6 +40,7 @@
     <ClCompile Include="Io\Json\JsonString.cpp" />
     <ClCompile Include="Io\Json\JsonNumber.cpp" />
     <ClCompile Include="Io\Json\JsonNull.cpp" />
+    <ClCompile Include="Math\Double2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -91,6 +92,8 @@
     <ClInclude Include="Io\Json\JsonString.h" />
     <ClInclude Include="Io\Json\JsonNumber.h" />
     <ClInclude Include="Io\Json\JsonNull.h" />
+    <ClInclude Include="Math\Double2.h" />
+    <ClInclude Include="Math\Value2.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
