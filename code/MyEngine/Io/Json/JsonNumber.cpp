@@ -6,9 +6,9 @@
 Io::Json::JsonNumber::JsonNumber(std::ifstream& file)
 	: m_Number(0)
 {
-	float isNeg = 1.f;
+	double isNeg = 1;
 	bool atDecimal = false;
-	float decimal = 0.f;
+	double decimal = 0;
 	char c;
 	while (file.get(c))
 	{

@@ -13,10 +13,11 @@ namespace MyEngine
 				JsonNumber(std::ifstream& file);
 				std::string ToString() const override;
 
-				float Get() const { return m_Number; }
+				double Get() const { return m_Number; }
+				float GetFloat() const { return static_cast<float>(m_Number); }
 				static bool DetectType(char c);
 			private:
-				float m_Number;
+				double m_Number;
 			};
 		}
 	}
