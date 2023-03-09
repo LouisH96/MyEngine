@@ -34,6 +34,12 @@
     <ClCompile Include="Math\Cube.cpp" />
     <ClCompile Include="Math\Sphere.cpp" />
     <ClCompile Include="Debug\WireframeRenderer.cpp" />
+    <ClCompile Include="Io\Json\JsonElement.cpp" />
+    <ClCompile Include="Io\Json\JsonObject.cpp" />
+    <ClCompile Include="Io\Json\JsonArray.cpp" />
+    <ClCompile Include="Io\Json\JsonString.cpp" />
+    <ClCompile Include="Io\Json\JsonNumber.cpp" />
+    <ClCompile Include="Io\Json\JsonNull.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -78,6 +84,13 @@
     <ClInclude Include="DataStructures\Array.h" />
     <ClInclude Include="Math\Sphere.h" />
     <ClInclude Include="Debug\WireframeRenderer.h" />
+    <ClInclude Include="Io\Json\JsonElement.h" />
+    <ClInclude Include="Io\Json\ElementType.h" />
+    <ClInclude Include="Io\Json\JsonObject.h" />
+    <ClInclude Include="Io\Json\JsonArray.h" />
+    <ClInclude Include="Io\Json\JsonString.h" />
+    <ClInclude Include="Io\Json\JsonNumber.h" />
+    <ClInclude Include="Io\Json\JsonNull.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
