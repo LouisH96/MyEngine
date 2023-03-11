@@ -94,6 +94,8 @@
     <ClInclude Include="Io\Json\JsonNull.h" />
     <ClInclude Include="Math\Double2.h" />
     <ClInclude Include="Math\Value2.h" />
+    <ClInclude Include="DataStructures\DsUtils.h" />
+    <ClInclude Include="Math\Geometry\PointUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

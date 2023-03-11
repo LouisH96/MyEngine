@@ -67,6 +67,7 @@
     <ClInclude Include="App\Wrappers\Dx\ConstantBuffer.h" />
     <ClInclude Include="App\Wrappers\Dx\BlendState.h" />
     <ClInclude Include="DataStructures\Array.h" />
+    <ClInclude Include="DataStructures\DsUtils.h" />
     <ClInclude Include="Math\Double2.h" />
     <ClInclude Include="Io\Json\ElementType.h" />
     <ClInclude Include="Io\Json\JsonElement.h" />
@@ -89,6 +90,7 @@
     <ClInclude Include="App\Wrappers\Win32\InputTypes.h" />
     <ClInclude Include="App\Wrappers\Win32\Keyboard_MsgListener.h" />
     <ClInclude Include="App\Wrappers\Dx\InputLayout.h" />
+    <ClInclude Include="Math\Geometry\PointUtils.h" />
     <ClInclude Include="Math\Int2.h" />
     <ClInclude Include="Debug\Logger.h" />
     <ClInclude Include="App\Wrappers\Win32\Window.h" />
