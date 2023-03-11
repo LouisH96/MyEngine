@@ -52,7 +52,6 @@ namespace MyEngine
 				template <typename Vertex>
 				void Shader<Vertex>::Activate() const
 				{
-					m_Gpu.GetContext().IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 					m_Gpu.GetContext().VSSetShader(m_pVertexShader, nullptr, 0);
 					m_Gpu.GetContext().PSSetShader(m_pPixelShader, nullptr, 0);
 				}
