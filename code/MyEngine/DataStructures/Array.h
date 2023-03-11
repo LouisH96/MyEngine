@@ -25,6 +25,8 @@ namespace MyEngine
 			int GetSize() const { return m_Size; }
 			Data* GetData() const { return m_pData; }
 
+			void DeleteAll() const;
+
 		private:
 			Data* m_pData;
 			int m_Size;
@@ -132,6 +134,13 @@ namespace MyEngine
 		Data& Array<Data>::operator[](int idx)
 		{
 			return m_pData[idx];
+		}
+
+		template <typename Data>
+		void Array<Data>::DeleteAll() const
+		{
+			for (int i = 0; i < m_Size; i++)
+				delete m_pData[i];
 		}
 	}
 }
