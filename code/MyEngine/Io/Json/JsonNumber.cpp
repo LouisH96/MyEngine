@@ -7,7 +7,6 @@ Io::Json::JsonNumber::JsonNumber(std::ifstream& file)
 	: m_Number(0)
 {
 	double isNeg = 1;
-	bool atDecimal = false;
 	double decimal = 0;
 	char c;
 	while (file.get(c))
@@ -15,15 +14,15 @@ Io::Json::JsonNumber::JsonNumber(std::ifstream& file)
 		if (c == '-')
 			isNeg = -1;
 		else if (c == '.')
-			atDecimal = true;
+			decimal = 10;
 		else if (c == 'f')
 			break;
 		else if (c >= '0' && c <= '9')
 		{
-			if (atDecimal)
+			if (decimal > 0)
 			{
+				m_Number += (c - '0') / decimal;
 				decimal *= 10;
-				decimal += c - '0';
 			}
 			else
 			{
