@@ -16,6 +16,7 @@ namespace MyEngine
 				double Get() const { return m_Number; }
 				float GetFloat() const { return static_cast<float>(m_Number); }
 				static bool DetectType(char c);
+				static double Read(std::ifstream& stream);
 			private:
 				double m_Number;
 			};
