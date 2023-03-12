@@ -34,6 +34,7 @@ namespace MyEngine
 					~Mesh();
 
 					void Activate() const;
+					void ActivateNotindexed() const;
 					void Draw() const;
 					void DrawNotIndexed() const;
 
@@ -73,7 +74,8 @@ namespace MyEngine
 					if (FAILED(hr))
 						throw std::exception("Mesh::InitVertexBuffer");
 
-					DxHelper::CreateIndexBuffer(gpu.GetDevice(), m_pIndexBuffer, pIndices, nrIndices);
+					if (nrIndices > 0)
+						DxHelper::CreateIndexBuffer(gpu.GetDevice(), m_pIndexBuffer, pIndices, nrIndices);
 				}
 
 				template <typename Vertex>
@@ -91,7 +93,8 @@ namespace MyEngine
 				template <typename Vertex>
 				Mesh<Vertex>::~Mesh()
 				{
-					SAFE_RELEASE(m_pIndexBuffer);
+					if (m_IndexCount > 0)
+						SAFE_RELEASE(m_pIndexBuffer);
 					SAFE_RELEASE(m_pVertexBuffer);
 				}
 
@@ -105,6 +108,17 @@ namespace MyEngine
 						&m_VertexStride,
 						&m_VertexOffset);
 					m_Gpu.GetContext().IASetIndexBuffer(m_pIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+					m_Gpu.GetContext().IASetPrimitiveTopology(m_Topology);
+				}
+
+				template <typename Vertex>
+				void Mesh<Vertex>::ActivateNotindexed() const
+				{
+					m_Gpu.GetContext().IASetVertexBuffers(
+						0, 1,
+						&m_pVertexBuffer,
+						&m_VertexStride,
+						&m_VertexOffset);
 					m_Gpu.GetContext().IASetPrimitiveTopology(m_Topology);
 				}
 
@@ -123,7 +137,7 @@ namespace MyEngine
 				template <typename Vertex>
 				D3D11_PRIMITIVE_TOPOLOGY Mesh<Vertex>::ToDxTopology(Topology topology)
 				{
-					switch(topology)
+					switch (topology)
 					{
 					case Topology::TriangleList: return D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 					case Topology::LineStrip: return D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP;
