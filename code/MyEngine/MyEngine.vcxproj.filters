@@ -41,6 +41,8 @@
     <ClCompile Include="Io\Json\JsonNumber.cpp" />
     <ClCompile Include="Io\Json\JsonNull.cpp" />
     <ClCompile Include="Math\Double2.cpp" />
+    <ClCompile Include="Debug\Timing\Counter.cpp" />
+    <ClCompile Include="App\Time.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -96,6 +98,7 @@
     <ClInclude Include="Math\Value2.h" />
     <ClInclude Include="DataStructures\DsUtils.h" />
     <ClInclude Include="Math\Geometry\PointUtils.h" />
+    <ClInclude Include="Debug\Timing\Counter.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
