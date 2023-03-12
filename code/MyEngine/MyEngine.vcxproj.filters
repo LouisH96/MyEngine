@@ -43,6 +43,7 @@
     <ClCompile Include="Math\Double2.cpp" />
     <ClCompile Include="Debug\Timing\Counter.cpp" />
     <ClCompile Include="App\Time.cpp" />
+    <ClCompile Include="Io\Json\Streaming\JsonStreaming.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -99,6 +100,7 @@
     <ClInclude Include="DataStructures\DsUtils.h" />
     <ClInclude Include="Math\Geometry\PointUtils.h" />
     <ClInclude Include="Debug\Timing\Counter.h" />
+    <ClInclude Include="Io\Json\Streaming\JsonStreaming.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

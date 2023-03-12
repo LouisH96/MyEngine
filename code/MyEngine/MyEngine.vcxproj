@@ -18,6 +18,7 @@
     <ClCompile Include="App\Wrappers\Dx\Gpu.cpp" />
     <ClCompile Include="App\Wrappers\Dx\Canvas.cpp" />
     <ClCompile Include="App\Wrappers\Dx\BlendState.cpp" />
+    <ClCompile Include="Io\Json\Streaming\JsonStreaming.cpp" />
     <ClCompile Include="Math\Double2.cpp" />
     <ClCompile Include="Io\Json\JsonElement.cpp" />
     <ClCompile Include="Io\Json\JsonObject.cpp" />
@@ -70,6 +71,7 @@
     <ClInclude Include="App\Wrappers\Dx\BlendState.h" />
     <ClInclude Include="DataStructures\Array.h" />
     <ClInclude Include="DataStructures\DsUtils.h" />
+    <ClInclude Include="Io\Json\Streaming\JsonStreaming.h" />
     <ClInclude Include="Math\Double2.h" />
     <ClInclude Include="Io\Json\ElementType.h" />
     <ClInclude Include="Io\Json\JsonElement.h" />
