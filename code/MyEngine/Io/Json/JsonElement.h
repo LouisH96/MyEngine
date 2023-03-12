@@ -27,6 +27,7 @@ namespace MyEngine
 
 				static ElementType FindElementType(std::ifstream& stream);
 				static JsonElement* ReadElement(std::ifstream& stream);
+				static std::string TypeToString(ElementType type);
 			};
 		}
 	}

@@ -62,3 +62,19 @@ Io::Json::JsonElement* Io::Json::JsonElement::ReadElement(std::ifstream& stream)
 		return nullptr;
 	}
 }
+
+std::string Io::Json::JsonElement::TypeToString(ElementType type)
+{
+	switch(type)
+	{
+	case ElementType::Object: return "Object";
+	case ElementType::Array: return "Array";
+	case ElementType::String: return "String";
+	case ElementType::Number: return "Number";
+	case ElementType::Null: return "Null";
+	case ElementType::Unknown: return "Unknown";
+	default: 
+		Logger::PrintError("Unknown ElementType");
+		return "";
+	}
+}
