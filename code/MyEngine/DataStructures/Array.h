@@ -11,6 +11,8 @@ namespace MyEngine
 			Array();
 			Array(int size);
 			Array(int size, const Data& initValue);
+			Array(unsigned size);
+			Array(unsigned size, const Data& initValue);
 			~Array();
 			Array(const Array& other);
 			Array(Array&& other) noexcept;
@@ -79,6 +81,22 @@ namespace MyEngine
 
 		template <typename Data>
 		Array<Data>::Array(int size, const Data& initValue)
+			: m_pData(new Data[size])
+			, m_Size(size)
+		{
+			for (int i = 0; i < m_Size; i++)
+				m_pData[i] = initValue;
+		}
+
+		template<typename Data>
+		inline Array<Data>::Array(unsigned size)
+			: m_pData(new Data[size])
+			, m_Size(size)
+		{
+		}
+
+		template<typename Data>
+		inline Array<Data>::Array(unsigned size, const Data& initValue)
 			: m_pData(new Data[size])
 			, m_Size(size)
 		{

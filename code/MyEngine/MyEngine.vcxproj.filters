@@ -44,6 +44,14 @@
     <ClCompile Include="Debug\Timing\Counter.cpp" />
     <ClCompile Include="App\Time.cpp" />
     <ClCompile Include="Io\Json\Streaming\JsonStreaming.cpp" />
+    <ClCompile Include="Io\Fbx\FbxReader.cpp" />
+    <ClCompile Include="Io\Binary\Bini.cpp" />
+    <ClCompile Include="Io\Fbx\FbxObject.cpp" />
+    <ClCompile Include="Io\Fbx\FbxProperty.cpp" />
+    <ClCompile Include="Io\Fbx\Properties\FbxPropPrimitive.cpp" />
+    <ClCompile Include="Io\Fbx\Properties\FbxPropArray.cpp" />
+    <ClCompile Include="Io\Fbx\Properties\FbxPropString.cpp" />
+    <ClCompile Include="Io\Fbx\Properties\FbxPropRaw.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -101,6 +109,14 @@
     <ClInclude Include="Math\Geometry\PointUtils.h" />
     <ClInclude Include="Debug\Timing\Counter.h" />
     <ClInclude Include="Io\Json\Streaming\JsonStreaming.h" />
+    <ClInclude Include="Io\Fbx\FbxReader.h" />
+    <ClInclude Include="Io\Binary\Bini.h" />
+    <ClInclude Include="Io\Fbx\FbxObject.h" />
+    <ClInclude Include="Io\Fbx\FbxProperty.h" />
+    <ClInclude Include="Io\Fbx\Properties\FbxPropPrimitive.h" />
+    <ClInclude Include="Io\Fbx\Properties\FbxPropArray.h" />
+    <ClInclude Include="Io\Fbx\Properties\FbxPropString.h" />
+    <ClInclude Include="Io\Fbx\Properties\FbxPropRaw.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
