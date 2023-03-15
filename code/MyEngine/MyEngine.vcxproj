@@ -18,8 +18,6 @@
     <ClCompile Include="App\Wrappers\Dx\Gpu.cpp" />
     <ClCompile Include="App\Wrappers\Dx\Canvas.cpp" />
     <ClCompile Include="App\Wrappers\Dx\BlendState.cpp" />
-    <ClCompile Include="Io\Fbx\Properties\FbxPropArray.cpp" />
-    <ClCompile Include="Io\Fbx\Properties\FbxPropPrimitive.cpp" />
     <ClCompile Include="Io\Fbx\Properties\FbxPropRaw.cpp" />
     <ClCompile Include="Io\Fbx\Properties\FbxPropString.cpp" />
     <ClCompile Include="Io\Fbx\FbxProperty.cpp" />

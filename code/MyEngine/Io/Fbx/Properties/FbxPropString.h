@@ -13,7 +13,7 @@ namespace MyEngine
 			public:
 				FbxPropString(std::istream& stream);
 
-				void Print(int nrTabs) override;
+				void Print(int nrTabs) const override;
 				static std::string Read(std::istream& stream);
 			private:
 				const std::string m_String;

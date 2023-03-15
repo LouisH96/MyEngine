@@ -18,9 +18,10 @@ namespace MyEngine
 			public:
 				FbxPropArray(std::istream& stream);
 
-				void Print(int nrTabs) override;
+				void Print(int nrTabs) const override;
 			private:
 				Array<T> m_Values;
+				bool m_IsCompressed;
 			};
 			template<typename T>
 			inline FbxPropArray<T>::FbxPropArray(std::istream& stream)
@@ -31,19 +32,24 @@ namespace MyEngine
 
 				if (encoding == 1)
 				{
+					m_IsCompressed = true;
 					stream.ignore(compressedLength);
-					std::cout << "compressed\n";
 					return;
 				}
+				m_IsCompressed = false;
 				m_Values = { nrElements };
 				for (int i = 0; i < nrElements; i++)
 					m_Values[i] = FbxPropPrimitive<T>::Read(stream);
 			}
 			template<typename T>
-			inline void FbxPropArray<T>::Print(int nrTabs)
+			inline void FbxPropArray<T>::Print(int nrTabs) const
 			{
 				BeginPrint(nrTabs);
-				std::cout << "[" << FbxPropPrimitive<T>::TypeToString() << "] " << "array(" << m_Values.GetSize() << ")\n";
+				std::cout << "[" << FbxPropPrimitive<T>::TypeToString() << "] ";
+				if (m_IsCompressed)
+					std::cout << "compressed array\n";
+				else
+					std::cout << "array(" << m_Values.GetSize() << ")\n";
 			}
 		}
 	}

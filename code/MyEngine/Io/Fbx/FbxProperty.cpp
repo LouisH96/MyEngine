@@ -32,7 +32,7 @@ MyEngine::Io::Fbx::FbxProperty* MyEngine::Io::Fbx::FbxProperty::Read(std::istrea
 	}
 }
 
-void MyEngine::Io::Fbx::FbxProperty::BeginPrint(int nrTabs)
+void MyEngine::Io::Fbx::FbxProperty::BeginPrint(int nrTabs) const
 {
 	for (int i = 0; i < nrTabs; i++)
 		std::cout << '\t';

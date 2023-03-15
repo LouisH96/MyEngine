@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "FbxReader.h"
 #include <Io\Fbx\FbxObject.h>
+#include <Io\Binary\Bini.h>
 
 //https://code.blender.org/2013/08/fbx-binary-file-format-specification/
 
@@ -11,68 +12,27 @@ Io::Fbx::FbxReader::FbxReader(const std::wstring& path)
 	m_Stream.seekg(0, std::ios_base::end);
 	const auto end = m_Stream.tellg();
 	m_Stream.seekg(0, std::ios_base::beg);
-
 	ReadHeader();
+	m_pRoot = new FbxObject(m_Stream, true);
+}
 
-	bool stop = false;
-	std::vector< FbxObject*> objects{};
-	while (!stop)
-	{
-		auto pObject = new FbxObject(m_Stream);
-		objects.push_back(pObject);
-		const auto cur = m_Stream.tellg();
-		if (pObject->GetEnd() == 0)
-			stop = true;
-		pObject->Print();
-	}
-
-	for(auto pObject : objects)
-		delete pObject;
-
-	std::cout << "finished reading header\n";
+Io::Fbx::FbxReader::~FbxReader()
+{
+	delete m_pRoot;
 }
 
 void Io::Fbx::FbxReader::ReadHeader()
 {
+	using namespace Binary;
+
 	//file type
-	constexpr auto fileTypeSize = 21 + 1;
-	char fileType[fileTypeSize];
-	m_Stream.get(fileType, fileTypeSize);
+	const std::string fileType{ Bini::String(m_Stream, 21) };
 
 	//mystery bytes
-	constexpr auto mysteryBytesSize = 2 + 1;
-	char mysteryBytes[mysteryBytesSize];
-	m_Stream.get(mysteryBytes, mysteryBytesSize);
+	const uint16_t mystery{ Bini::Uint16(m_Stream) };
 
 	//version number
-	const unsigned versionNumber{ ReadUnsignedInt() };
-}
-
-void Io::Fbx::FbxReader::ReadNode()
-{
-	const auto endOffset{ ReadUnsignedInt() };
-	if (endOffset == 0)
-	{
-		m_AtEnd = true;
-		return;
-	}
-	const auto numProperties{ ReadUnsignedInt() };
-	const auto propertyListLen{ ReadUnsignedInt() };
-	const int8_t nameLength{ static_cast<int8_t>(m_Stream.get()) };
-	char* pName = new char[nameLength + 1];
-	m_Stream.get(pName, nameLength + 1);
-	const std::string name{ pName };
-	delete[] pName;
-	std::cout << "(" << name << ") ";
-	std::cout << "nrProp: " << numProperties;
-	std::cout << ", propLength: " << propertyListLen;
-	std::cout << std::endl;
-
-	if (numProperties == 0)
-		ReadNode();
-	else
-
-		m_Stream.seekg(endOffset, std::ios_base::beg);
+	const unsigned versionNumber{ Bini::Uint32(m_Stream) };
 }
 
 unsigned Io::Fbx::FbxReader::ReadUnsignedInt()

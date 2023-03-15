@@ -13,7 +13,7 @@ namespace MyEngine
 			public:
 				FbxPropRaw(std::istream& stream);
 
-				void Print(int nrTabs) override;
+				void Print(int nrTabs) const override;
 			private:
 			};
 		}

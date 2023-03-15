@@ -48,8 +48,6 @@
     <ClCompile Include="Io\Binary\Bini.cpp" />
     <ClCompile Include="Io\Fbx\FbxObject.cpp" />
     <ClCompile Include="Io\Fbx\FbxProperty.cpp" />
-    <ClCompile Include="Io\Fbx\Properties\FbxPropPrimitive.cpp" />
-    <ClCompile Include="Io\Fbx\Properties\FbxPropArray.cpp" />
     <ClCompile Include="Io\Fbx\Properties\FbxPropString.cpp" />
     <ClCompile Include="Io\Fbx\Properties\FbxPropRaw.cpp" />
   </ItemGroup>

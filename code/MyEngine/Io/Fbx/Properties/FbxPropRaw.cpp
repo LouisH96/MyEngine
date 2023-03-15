@@ -6,12 +6,11 @@ using namespace Io::Binary;
 
 MyEngine::Io::Fbx::FbxPropRaw::FbxPropRaw(std::istream& stream)
 {
-	std::cout << "Raw\n";
 	const unsigned size{ Bini::Uint32(stream) };
 	stream.ignore(size);
 }
 
-void MyEngine::Io::Fbx::FbxPropRaw::Print(int nrTabs)
+void MyEngine::Io::Fbx::FbxPropRaw::Print(int nrTabs) const
 {
 	BeginPrint(nrTabs);
 	std::cout << "raw\n";

@@ -11,12 +11,14 @@ namespace MyEngine
 			class FbxObject
 			{
 			public:
-				FbxObject(std::istream& stream);
+				FbxObject(std::istream& stream, bool isRoot = false);
 				~FbxObject();
 
 				std::streampos GetEnd() const { return m_End; }
 
-				void Print(int nrTabs = 0);
+				void Print(int nrTabs = 0) const;
+				FbxObject* GetChild(const std::string& name) const;
+				const std::string& GetName() const { return m_Name; }
 
 			private:
 				std::string m_Name;

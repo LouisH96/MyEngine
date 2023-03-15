@@ -8,17 +8,21 @@ namespace MyEngine
 	{
 		namespace Fbx
 		{
+			class FbxObject;
+
 			class FbxReader
 			{
 			public:
 				FbxReader(const std::wstring& path);
+				~FbxReader();
+
+				const FbxObject& GetRoot() const { return *m_pRoot; }
 
 			private:
 				std::ifstream m_Stream;
-				bool m_AtEnd{ false };
+				FbxObject* m_pRoot{};
 
 				void ReadHeader();
-				void ReadNode();
 
 				unsigned int ReadUnsignedInt();
 
