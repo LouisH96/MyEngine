@@ -6,17 +6,28 @@ MyEngine::Io::Binary::Bini::Bini(std::istream& stream)
 {
 }
 
-unsigned int MyEngine::Io::Binary::Bini::Uint32()
+unsigned int MyEngine::Io::Binary::Bini::Uint32() const
 {
 	return Uint32(m_Stream);
 }
 
-uint8_t MyEngine::Io::Binary::Bini::Uint8()
+uint16_t Io::Binary::Bini::Uint16() const
+{
+	return Uint16(m_Stream);
+}
+
+uint16_t Io::Binary::Bini::Uint16(std::istream& stream)
+{
+	return static_cast<unsigned char>(stream.get())
+		| static_cast<unsigned char>(stream.get()) << 8;
+}
+
+uint8_t MyEngine::Io::Binary::Bini::Uint8() const
 {
 	return Uint8(m_Stream);
 }
 
-std::string MyEngine::Io::Binary::Bini::String(int size)
+std::string MyEngine::Io::Binary::Bini::String(int size) const
 {
 	return String(m_Stream, size);
 }
