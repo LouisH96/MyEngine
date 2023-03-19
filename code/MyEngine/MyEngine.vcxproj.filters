@@ -50,6 +50,8 @@
     <ClCompile Include="Io\Fbx\FbxProperty.cpp" />
     <ClCompile Include="Io\Fbx\Properties\FbxPropString.cpp" />
     <ClCompile Include="Io\Fbx\Properties\FbxPropRaw.cpp" />
+    <ClCompile Include="Io\Zlib\ZlibDecompress.cpp" />
+    <ClCompile Include="Io\Binary\BitStream.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -115,6 +117,8 @@
     <ClInclude Include="Io\Fbx\Properties\FbxPropArray.h" />
     <ClInclude Include="Io\Fbx\Properties\FbxPropString.h" />
     <ClInclude Include="Io\Fbx\Properties\FbxPropRaw.h" />
+    <ClInclude Include="Io\Zlib\ZlibDecompress.h" />
+    <ClInclude Include="Io\Binary\BitStream.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

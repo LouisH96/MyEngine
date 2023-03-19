@@ -18,6 +18,7 @@
     <ClCompile Include="App\Wrappers\Dx\Gpu.cpp" />
     <ClCompile Include="App\Wrappers\Dx\Canvas.cpp" />
     <ClCompile Include="App\Wrappers\Dx\BlendState.cpp" />
+    <ClCompile Include="Io\Binary\BitStream.cpp" />
     <ClCompile Include="Io\Fbx\Properties\FbxPropRaw.cpp" />
     <ClCompile Include="Io\Fbx\Properties\FbxPropString.cpp" />
     <ClCompile Include="Io\Fbx\FbxProperty.cpp" />
@@ -63,6 +64,7 @@
     <ClCompile Include="Math\Sphere.cpp" />
     <ClCompile Include="Debug\WireframeRenderer.cpp" />
     <ClCompile Include="Debug\Timing\Counter.cpp" />
+    <ClCompile Include="Io\Zlib\ZlibDecompress.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\BasicExampleApp.h" />
@@ -75,6 +77,7 @@
     <ClInclude Include="App\Wrappers\Win32\IExtraWinProc.h" />
     <ClInclude Include="App\Wrappers\Dx\ConstantBuffer.h" />
     <ClInclude Include="App\Wrappers\Dx\BlendState.h" />
+    <ClInclude Include="Io\Binary\BitStream.h" />
     <ClInclude Include="Io\Fbx\Properties\FbxPropArray.h" />
     <ClInclude Include="Io\Fbx\Properties\FbxPropPrimitive.h" />
     <ClInclude Include="Io\Fbx\Properties\FbxPropRaw.h" />
@@ -128,6 +131,7 @@
     <ClInclude Include="Debug\WireframeRenderer.h" />
     <ClInclude Include="Math\Value2.h" />
     <ClInclude Include="Debug\Timing\Counter.h" />
+    <ClInclude Include="Io\Zlib\ZlibDecompress.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
