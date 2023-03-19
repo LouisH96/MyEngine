@@ -5,7 +5,7 @@
 
 #include "Io/Binary/DeflateDecompress.h"
 
-void Io::Zlib::ZlibDecompress::Unzip(std::istream& stream)
+std::vector<uint8_t> Io::Zlib::ZlibDecompress::Unzip(std::istream& stream)
 {
 	//https://www.rfc-editor.org/rfc/rfc1950
 	//CMF
@@ -15,12 +15,12 @@ void Io::Zlib::ZlibDecompress::Unzip(std::istream& stream)
 	if (compressionMethod != 8)
 	{
 		Logger::PrintError("CompressionMethod is not DEFLATE");
-		return;
+		return{};
 	}
 	if (compressionInfo != 7)
 	{
 		Logger::PrintError("CompressionInfo does not indicate a 32K window");
-		return;
+		return{};
 	}
 	//FLG
 	const unsigned char flag = stream.get();
@@ -30,9 +30,9 @@ void Io::Zlib::ZlibDecompress::Unzip(std::istream& stream)
 	if ((cmf * 256 + flag) % 31 != 0)
 	{
 		Logger::PrintError("FlagCheck (/31) failed");
-		return;
+		return{};
 	}
 
 	//DEFLATE
-	Binary::DeflateDecompress{ stream };
+	return Binary::DeflateDecompress::Decompress(stream);
 }

@@ -28,6 +28,7 @@
     <ClCompile Include="Io\Binary\Bini.cpp" />
     <ClCompile Include="Io\Fbx\FbxReader.cpp" />
     <ClCompile Include="Io\Json\Streaming\JsonStreaming.cpp" />
+    <ClCompile Include="Io\Zlib\ZlibDecompress.cpp" />
     <ClCompile Include="Math\Double2.cpp" />
     <ClCompile Include="Io\Json\JsonElement.cpp" />
     <ClCompile Include="Io\Json\JsonObject.cpp" />
@@ -66,7 +67,6 @@
     <ClCompile Include="Math\Sphere.cpp" />
     <ClCompile Include="Debug\WireframeRenderer.cpp" />
     <ClCompile Include="Debug\Timing\Counter.cpp" />
-    <ClCompile Include="Io\Zlib\ZlibDecompress.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\BasicExampleApp.h" />

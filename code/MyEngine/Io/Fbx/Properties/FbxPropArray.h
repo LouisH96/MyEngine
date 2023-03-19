@@ -47,10 +47,7 @@ namespace MyEngine
 			{
 				BeginPrint(nrTabs);
 				std::cout << "[" << FbxPropPrimitive<T>::TypeToString() << "] ";
-				if (m_IsCompressed)
-					std::cout << "compressed array\n";
-				else
-					std::cout << "array(" << m_Values.GetSize() << ")\n";
+				Logger::Print("", m_Values);
 			}
 
 			template <typename T>
@@ -69,13 +66,28 @@ namespace MyEngine
 				//std::string myInput = Zlib::ZlibDecompress::GetInternetExampleInput();
 				//std::string myInput = Binary::DeflateDecompress::GetSalsaTestInput();
 				//std::string myInput = Binary::DeflateDecompress::GetLongDutchSentence2Test();
-				std::string myInput = Binary::DeflateDecompress::GetBlueTest();
-				std::istringstream myInputStream(myInput);
+				//std::string myInput = Binary::DeflateDecompress::GetBlueTest();
+				//std::istringstream myInputStream(myInput);
 
 				//Zlib::ZlibDecompress::Unzip(myInputStream);
-				Binary::DeflateDecompress{ myInputStream };
+				//Binary::DeflateDecompress{ myInputStream };
 
-				//Zlib::ZlibDecompress::Unzip(stream);
+				const std::vector<uint8_t> data = Zlib::ZlibDecompress::Unzip(stream);
+
+				m_Values = Array<T>(static_cast<int>(data.size() / sizeof(T)));
+				for (int iDataByte = 0; iDataByte < data.size(); iDataByte += sizeof(T))
+				{
+					const int elementIdx = iDataByte / sizeof(T);
+					T value{};
+					uint8_t* pValue = reinterpret_cast<uint8_t*>(&value) ;
+					for (int iElementByte = 0; iElementByte < sizeof(T); iElementByte++)
+					{
+						*pValue = data[iDataByte];
+						pValue += 1;
+					}
+					m_Values[elementIdx] = value;
+				}
+
 				stream.seekg(end);
 			}
 		}

@@ -3,6 +3,8 @@
 #include <sstream>
 #include <string>
 #include <bitset>
+#include <vector>
+
 #include "DataStructures/Array.h"
 
 namespace MyEngine
@@ -52,6 +54,9 @@ namespace MyEngine
 			template<typename T>
 			static void PrintBinary(const std::string& description, const Ds::Array<T>& array);
 
+			template<typename T>
+			static void Print(const std::string& description, const std::vector<T>& vector);
+
 		};
 
 		template <typename T>
@@ -77,6 +82,16 @@ namespace MyEngine
 			ss << description << "[" << array.GetSize() << "]\n";
 			for (int i = 0; i < array.GetSize(); i++)
 				ss << " [" << i << "] " << std::bitset<8 * sizeof(T)>(array[i]) << std::endl;
+			Print(ss.str());
+		}
+
+		template <typename T>
+		void Logger::Print(const std::string& description, const std::vector<T>& vector)
+		{
+			std::stringstream ss{};
+			ss << description << "[" << vector.GetSize() << "]\n";
+			for (int i = 0; i < vector.GetSize(); i++)
+				ss << " [" << i << "] " << std::to_string(vector[i]) << std::endl;
 			Print(ss.str());
 		}
 	}

@@ -50,10 +50,10 @@
     <ClCompile Include="Io\Fbx\FbxProperty.cpp" />
     <ClCompile Include="Io\Fbx\Properties\FbxPropString.cpp" />
     <ClCompile Include="Io\Fbx\Properties\FbxPropRaw.cpp" />
-    <ClCompile Include="Io\Zlib\ZlibDecompress.cpp" />
     <ClCompile Include="Io\Binary\BitStream.cpp" />
     <ClCompile Include="Io\Binary\DeflateDecompress.cpp" />
     <ClCompile Include="Io\Binary\Huffman.cpp" />
+    <ClCompile Include="Io\Zlib\ZlibDecompress.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />

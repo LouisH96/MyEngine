@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 
 
 namespace MyEngine
@@ -12,7 +13,7 @@ namespace MyEngine
 			public:
 				ZlibDecompress() = delete;
 
-				static void Unzip(std::istream& stream);
+				static std::vector<uint8_t> Unzip(std::istream& stream);
 			};
 		}
 	}

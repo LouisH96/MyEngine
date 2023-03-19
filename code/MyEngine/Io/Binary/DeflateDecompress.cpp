@@ -10,6 +10,12 @@
 
 using namespace Io::Binary;
 
+std::vector<uint8_t> DeflateDecompress::Decompress(std::istream& stream)
+{
+	DeflateDecompress c{ stream };
+	return c.m_Output;
+}
+
 DeflateDecompress::DeflateDecompress(std::istream& stream)
 	: m_Input(stream)
 	, m_BitStream(stream)
@@ -17,7 +23,10 @@ DeflateDecompress::DeflateDecompress(std::istream& stream)
 {
 	const uint8_t isEnd = m_BitStream.ReadBits(1);
 	if (!isEnd)
+	{
 		Logger::PrintError("Multiple blocks not supported yet");
+		return;
+	}
 	const uint8_t bType = m_BitStream.ReadBits(1) + (m_BitStream.ReadBits(1) << 1);
 
 	switch (bType)
@@ -28,9 +37,6 @@ DeflateDecompress::DeflateDecompress(std::istream& stream)
 	case 3: Logger::PrintError("Block-type was 3 which shouldn't be used"); return;
 	default: Logger::PrintError("Unknown block-type (BTYPE) of " + std::to_string(bType)); return;
 	}
-
-	for (int i = 0; i < m_Output.size(); i++)
-		std::cout << m_Output[i];
 	//std::cout << "0x" << std::hex << static_cast<int>(m_Output[i]) << std::endl;
 }
 
@@ -110,7 +116,7 @@ uint16_t DeflateDecompress::ReadDistance(uint8_t code, bool flipped)
 	const uint8_t base = code - 2;
 	const uint8_t nrExtraBits = base / 2;
 	const uint8_t modulo = base % 2;
-	const uint16_t extraBitsValue = flipped ? m_BitStream.ReadBitsFlipped<uint16_t>(nrExtraBits) :  m_BitStream.ReadBits<uint16_t>(nrExtraBits);
+	const uint16_t extraBitsValue = flipped ? m_BitStream.ReadBitsFlipped<uint16_t>(nrExtraBits) : m_BitStream.ReadBits<uint16_t>(nrExtraBits);
 	uint16_t distance = (1 << nrExtraBits - 1) - 1 << 2;
 	distance += modulo << nrExtraBits;
 	distance += 5;
@@ -126,15 +132,15 @@ void DeflateDecompress::HandleDynamicBlock()
 
 	Array<uint8_t> clSymbolCodeLengths{ 19 };
 	ReadClCodeLengths(hClen, clSymbolCodeLengths);
-	Array<uint8_t> clSymbolCodes = Huffman<uint8_t>::GetCodesFromCodeLengths(clSymbolCodeLengths);
+	Array<uint16_t> clSymbolCodes = Huffman<uint16_t>::GetCodesFromCodeLengths(clSymbolCodeLengths);
 
 	Array<uint8_t> llCodeLengths{ 286, 0 };
 	GetCodeLengths(llCodeLengths, clSymbolCodes, clSymbolCodeLengths, hLit + 257);
 	Array<uint8_t> dCodeLengths{ 32,0 };
 	GetCodeLengths(dCodeLengths, clSymbolCodes, clSymbolCodeLengths, hDist + 1);
 
-	const Array<uint8_t> llCodes = Huffman<uint8_t>::GetCodesFromCodeLengths(llCodeLengths);
-	const Array<uint8_t> dCodes = Huffman<uint8_t>::GetCodesFromCodeLengths(dCodeLengths);
+	const Array<uint16_t> llCodes = Huffman<uint16_t>::GetCodesFromCodeLengths(llCodeLengths);
+	const Array<uint16_t> dCodes = Huffman<uint16_t>::GetCodesFromCodeLengths(dCodeLengths);
 
 	ReadDynamicBlockData(llCodes, llCodeLengths, dCodes, dCodeLengths);
 }
@@ -168,7 +174,7 @@ void DeflateDecompress::ReadClCodeLengths(uint8_t hcLen, Array<uint8_t>& lengths
 	}
 }
 
-void DeflateDecompress::GetCodeLengths(Array<uint8_t>& output, const Array<uint8_t>& clSymbols, const Array<uint8_t>& clSymbolsLengths,
+void DeflateDecompress::GetCodeLengths(Array<uint8_t>& output, const Array<uint16_t>& clSymbols, const Array<uint8_t>& clSymbolsLengths,
 	uint16_t amount)
 {
 	for (int iCodeLength = 0; iCodeLength < amount; iCodeLength++)
@@ -206,7 +212,7 @@ void DeflateDecompress::GetCodeLengths(Array<uint8_t>& output, const Array<uint8
 	}
 }
 
-uint8_t DeflateDecompress::GetNextClSymbol(const Array<uint8_t>& clSymbolCodes,
+uint8_t DeflateDecompress::GetNextClSymbol(const Array<uint16_t>& clSymbolCodes,
 	const Array<uint8_t>& clSymbolCodeLengths)
 {
 	uint8_t previousLength = 0;
@@ -239,29 +245,35 @@ uint8_t DeflateDecompress::GetNextClSymbol(const Array<uint8_t>& clSymbolCodes,
 	}
 }
 
-void DeflateDecompress::CopyToOutput(Array<uint8_t>& output, uint8_t startIdx, uint8_t value, uint8_t amount)
+void DeflateDecompress::CopyToOutput(Array<uint8_t>& output, uint32_t startIdx, uint8_t value, uint8_t amount)
 {
 	for (int i = startIdx; i < startIdx + amount; i++)
 		output[i] = value;
 }
 
-void DeflateDecompress::ReadDynamicBlockData(const Array<uint8_t>& llCodes, const Array<uint8_t>& llCodeLengths,
-	const Array<uint8_t>& dCodes, const Array<uint8_t>& dCodeLengths)
+void DeflateDecompress::CopyToOutput(Array<uint16_t>& output, uint32_t startIdx, uint16_t value, uint8_t amount)
+{
+	for (int i = startIdx; i < startIdx + amount; i++)
+		output[i] = value;
+}
+
+void DeflateDecompress::ReadDynamicBlockData(const Array<uint16_t>& llCodes, const Array<uint8_t>& llCodeLengths,
+	const Array<uint16_t>& dCodes, const Array<uint8_t>& dCodeLengths)
 {
 	while (true)
 	{
 		const uint16_t next = GetNextCl(llCodes, llCodeLengths);
-		if(next <=255)
+		if (next <= 255)
 		{
 			m_Output.push_back(next);
 			continue;
 		}
-		if (next ==256)
+		if (next == 256)
 			return;
-		if(next <= 285)
+		if (next <= 285)
 		{
 			const uint16_t length = ReadLength(next, true);
-			const uint8_t distanceCode = GetNextCl(dCodes, dCodeLengths);
+			const uint16_t distanceCode = GetNextCl(dCodes, dCodeLengths);
 			const uint16_t distance = ReadDistance(distanceCode, true);
 
 			std::vector<uint8_t> newChars{};
@@ -281,7 +293,7 @@ void DeflateDecompress::ReadDynamicBlockData(const Array<uint8_t>& llCodes, cons
 	}
 }
 
-uint16_t DeflateDecompress::GetNextCl(const Array<uint8_t>& allCodes, const Array<uint8_t>& allCodeLengths)
+uint16_t DeflateDecompress::GetNextCl(const Array<uint16_t>& codes, const Array<uint8_t>& codeLengths)
 {
 	uint8_t previousLength = 0;
 	uint16_t readValue = 0;
@@ -290,9 +302,9 @@ uint16_t DeflateDecompress::GetNextCl(const Array<uint8_t>& allCodes, const Arra
 	{
 		//find shortest
 		uint8_t shortest = static_cast<uint8_t>(255);
-		for (int i = 0; i < allCodeLengths.GetSize(); i++)
-			if (allCodeLengths[i] > previousLength && allCodeLengths[i] < shortest)
-				shortest = allCodeLengths[i];
+		for (int i = 0; i < codeLengths.GetSize(); i++)
+			if (codeLengths[i] > previousLength && codeLengths[i] < shortest)
+				shortest = codeLengths[i];
 		if (shortest == 255)
 		{
 			Logger::PrintError("No shorter code found");
@@ -301,12 +313,12 @@ uint16_t DeflateDecompress::GetNextCl(const Array<uint8_t>& allCodes, const Arra
 
 		//try find valid clSymbolCode)
 		readValue <<= shortest - previousLength;
-		readValue |= m_BitStream.ReadBits(shortest - previousLength);
+		readValue |= m_BitStream.ReadBits<uint16_t>(shortest - previousLength);
 
-		for (int i = 0; i < allCodeLengths.GetSize(); i++)
+		for (int i = 0; i < codeLengths.GetSize(); i++)
 		{
-			if (allCodeLengths[i] == shortest &&
-				allCodes[i] == readValue)
+			if (codeLengths[i] == shortest &&
+				codes[i] == readValue)
 				return i;
 		}
 		previousLength = shortest;
