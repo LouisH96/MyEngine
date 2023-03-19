@@ -2,9 +2,7 @@
 #include "ZlibDecompress.h"
 
 #include <sstream>
-#include <vector>
 
-#include "Io/Binary/BitStream.h"
 #include "Io/Binary/Deflate.h"
 
 void Io::Zlib::ZlibDecompress::Unzip(std::istream& stream)
