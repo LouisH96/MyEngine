@@ -7,8 +7,6 @@
 
 using namespace Io::Binary;
 
-
-
 DeflateDecompress::DeflateDecompress(std::istream& stream)
 	: m_Input(stream)
 	, m_BitStream(stream)
@@ -17,16 +15,23 @@ DeflateDecompress::DeflateDecompress(std::istream& stream)
 	const uint8_t isEnd = m_BitStream.ReadBits(1);
 	const uint8_t bType = m_BitStream.ReadBits(1) + (m_BitStream.ReadBits(1) << 1);
 
-	if (bType == 0)
+	switch (bType)
 	{
-		Logger::PrintError("Block has no compression, which is not supported yet");
-		return;
+	case 1: HandleFixedBlock(); break;
+	case 2: HandleDynamicBlock(); break;
+	case 0: Logger::PrintError("Block has no compression, which is not supported yet"); return;
+	case 3: Logger::PrintError("Block-type was 3 which shouldn't be used"); return;
+	default: Logger::PrintError("Unknown block-type (BTYPE) of " + std::to_string(bType)); return;
 	}
-	if (bType == 2)
-	{
-		Logger::PrintError("Block has dynamic Huffman codes, which is not supported yet");
-		return;
-	}
+
+	for (int i = 0; i < m_Output.size(); i++)
+		std::cout << m_Output[i];
+	//std::cout << "0x" << std::hex << static_cast<int>(m_Output[i]) << std::endl;
+}
+
+
+void DeflateDecompress::HandleFixedBlock()
+{
 	while (true)
 	{
 		const uint8_t next7 = m_BitStream.ReadBits(7);
@@ -56,12 +61,7 @@ DeflateDecompress::DeflateDecompress(std::istream& stream)
 		const uint16_t next9 = next8 << 1 | m_BitStream.ReadBits(1);
 		m_Output.push_back(next9 - 0b1'1001'0000 + 144);
 	}
-
-	for (int i = 0; i < m_Output.size(); i++)
-		std::cout << m_Output[i];
-	//std::cout << "0x" << std::hex << static_cast<int>(m_Output[i]) << std::endl;
 }
-
 
 void DeflateDecompress::HandleLengthDistancePair(uint16_t lengthCode)
 {
@@ -111,6 +111,10 @@ uint16_t DeflateDecompress::ReadDistance(uint8_t code)
 	distance += 5;
 	distance += extraBitsValue;
 	return distance;
+}
+
+void DeflateDecompress::HandleDynamicBlock()
+{
 }
 
 void DeflateDecompress::PrintFixedLengthTable()
