@@ -18,6 +18,7 @@ namespace MyEngine
 
 				void Print(int nrTabs = 0) const;
 				FbxObject* GetChild(const std::string& name) const;
+				FbxProperty* GetProperty(int idx) const;
 				const std::string& GetName() const { return m_Name; }
 
 			private:

@@ -63,6 +63,11 @@ MyEngine::Io::Fbx::FbxObject* MyEngine::Io::Fbx::FbxObject::GetChild(const std::
 	return nullptr;
 }
 
+Io::Fbx::FbxProperty* Io::Fbx::FbxObject::GetProperty(int idx) const
+{
+	return m_Properties[idx];
+}
+
 void MyEngine::Io::Fbx::FbxObject::ReadNode(std::istream& stream)
 {
 	Bini read{ stream };
