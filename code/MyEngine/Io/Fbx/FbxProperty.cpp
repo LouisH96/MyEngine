@@ -32,6 +32,21 @@ MyEngine::Io::Fbx::FbxProperty* MyEngine::Io::Fbx::FbxProperty::Read(std::istrea
 	}
 }
 
+const Io::Fbx::FbxPropRaw& Io::Fbx::FbxProperty::AsRaw() const
+{
+	return *reinterpret_cast<const FbxPropRaw*>(this);
+}
+
+const Io::Fbx::FbxPropString& Io::Fbx::FbxProperty::AsStringProp() const
+{
+	return *reinterpret_cast<const FbxPropString*>(this);
+}
+
+const std::string& Io::Fbx::FbxProperty::AsString() const
+{
+	return reinterpret_cast<const FbxPropString*>(this)->GetValue();
+}
+
 void MyEngine::Io::Fbx::FbxProperty::BeginPrint(int nrTabs) const
 {
 	for (int i = 0; i < nrTabs; i++)
