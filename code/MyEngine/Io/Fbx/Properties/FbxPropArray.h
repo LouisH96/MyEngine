@@ -22,6 +22,7 @@ namespace MyEngine
 			public:
 				FbxPropArray(std::istream& stream);
 
+				const Array<T>& GetValues() const { return m_Values; }
 				void Print(int nrTabs) const override;
 			private:
 				Array<T> m_Values;
@@ -79,10 +80,10 @@ namespace MyEngine
 				{
 					const int elementIdx = iDataByte / sizeof(T);
 					T value{};
-					uint8_t* pValue = reinterpret_cast<uint8_t*>(&value) ;
+					uint8_t* pValue = reinterpret_cast<uint8_t*>(&value);
 					for (int iElementByte = 0; iElementByte < sizeof(T); iElementByte++)
 					{
-						*pValue = data[iDataByte];
+						*pValue = data[iDataByte + iElementByte];
 						pValue += 1;
 					}
 					m_Values[elementIdx] = value;
