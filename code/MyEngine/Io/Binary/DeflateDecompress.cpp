@@ -1,17 +1,21 @@
 #include "pch.h"
-#include "Deflate.h"
+#include "DeflateDecompress.h"
 
 #include <vector>
 
 #include "BitStream.h"
 
-void Io::Binary::Deflate::Decompress(std::istream& stream)
+using namespace Io::Binary;
+
+
+
+DeflateDecompress::DeflateDecompress(std::istream& stream)
+	: m_Input(stream)
+	, m_BitStream(stream)
+	, m_Output()
 {
-	using namespace Io::Binary;
-	std::vector<uint8_t> output{};
-	BitStream bitStream{ stream };
-	const uint8_t isEnd = bitStream.ReadBits(1);
-	const uint8_t bType = bitStream.ReadBits(1) + (bitStream.ReadBits(1) << 1);
+	const uint8_t isEnd = m_BitStream.ReadBits(1);
+	const uint8_t bType = m_BitStream.ReadBits(1) + (m_BitStream.ReadBits(1) << 1);
 
 	if (bType == 0)
 	{
@@ -23,68 +27,61 @@ void Io::Binary::Deflate::Decompress(std::istream& stream)
 		Logger::PrintError("Block has dynamic Huffman codes, which is not supported yet");
 		return;
 	}
-
 	while (true)
 	{
-		const uint8_t next7 = bitStream.ReadBits(7);
+		const uint8_t next7 = m_BitStream.ReadBits(7);
 		if (next7 <= 0b001'0111)
 		{
+			//end of block
 			if (next7 == 0)
 				break;
-			const uint16_t lengthCode = next7 + 256;
-			const uint16_t length = ReadLength(lengthCode, bitStream);
-			const uint8_t distanceCode = bitStream.ReadBits(5);
-			const uint16_t distance = ReadDistance(distanceCode, bitStream);
-
-			std::vector<uint8_t> newChars{};
-			const int begin = output.size() - distance;
-			const int end = begin + length;
-			for (int i = begin; i < end; i++)
-			{
-				int outputIdx = begin + ((i - begin) % (output.size() - begin));
-				newChars.push_back(output[outputIdx]);
-			}
-			for (int i = 0; i < newChars.size(); i++)
-				output.push_back(newChars[i]);
+			//length-distance
+			HandleLengthDistancePair(next7 + 256);
 			continue;
 		}
-		const uint8_t next8 = next7 << 1 | bitStream.ReadBits(1);
+		const uint8_t next8 = next7 << 1 | m_BitStream.ReadBits(1);
 		if (next8 <= 0b1011'1111)
 		{
-			const char c = next8 - 0b0011'0000;
-			output.push_back(c);
+			//literal
+			m_Output.push_back(next8 - 0b0011'0000);
 			continue;
 		}
 		if (next8 <= 0b1100'0111)
 		{
-			const uint16_t lengthCode = next8 + 256;
-			const uint16_t length = ReadLength(lengthCode, bitStream);
-			const uint8_t distanceCode = bitStream.ReadBits(5);
-			const uint16_t distance = ReadDistance(distanceCode, bitStream);
-
-			std::vector<uint8_t> newChars{};
-			const int begin = output.size() - distance;
-			const int end = begin + length;
-			for (int i = begin; i < end; i++)
-			{
-				int outputIdx = begin + ((i - begin) % (output.size() - begin));
-				newChars.push_back(output[outputIdx]);
-			}
-			for (int i = 0; i < newChars.size(); i++)
-				output.push_back(newChars[i]);
+			//length-distance
+			HandleLengthDistancePair(next8 + 256);
 			continue;
 		}
-		const uint16_t next9 = next8 << 1 | bitStream.ReadBits(1);
-		const uint8_t c = next9 - 0b1'1001'0000 + 144;
-		output.push_back(c);
+		//literal
+		const uint16_t next9 = next8 << 1 | m_BitStream.ReadBits(1);
+		m_Output.push_back(next9 - 0b1'1001'0000 + 144);
 	}
 
-	for (int i = 0; i < output.size(); i++)
-		std::cout << output[i];
-	//std::cout << "0x" << std::hex << static_cast<int>(output[i]) << std::endl;
+	for (int i = 0; i < m_Output.size(); i++)
+		std::cout << m_Output[i];
+	//std::cout << "0x" << std::hex << static_cast<int>(m_Output[i]) << std::endl;
 }
 
-uint16_t Io::Binary::Deflate::ReadLength(uint16_t code, Binary::BitStream& stream)
+
+void DeflateDecompress::HandleLengthDistancePair(uint16_t lengthCode)
+{
+	const uint16_t length = ReadLength(lengthCode);
+	const uint8_t distanceCode = m_BitStream.ReadBits(5);
+	const uint16_t distance = ReadDistance(distanceCode);
+
+	std::vector<uint8_t> newChars{};
+	const int begin = m_Output.size() - distance;
+	const int end = begin + length;
+	for (int i = begin; i < end; i++)
+	{
+		const int outputIdx = begin + ((i - begin) % (m_Output.size() - begin));
+		newChars.push_back(m_Output[outputIdx]);
+	}
+	for (int i = 0; i < newChars.size(); i++)
+		m_Output.push_back(newChars[i]);
+}
+
+uint16_t DeflateDecompress::ReadLength(uint16_t code)
 {
 	if (code <= 264)
 		return code - 257 + 3;
@@ -93,7 +90,7 @@ uint16_t Io::Binary::Deflate::ReadLength(uint16_t code, Binary::BitStream& strea
 	const uint8_t base = code - 261;
 	const uint8_t nrExtraBits = base / 4;
 	const uint8_t modulo = base % 4;
-	const uint8_t extraBitsValue = stream.ReadBits(nrExtraBits);
+	const uint8_t extraBitsValue = m_BitStream.ReadBits(nrExtraBits);
 	uint16_t length = (1 << nrExtraBits) - 1 << 2;
 	length += (1 << nrExtraBits) * modulo;
 	length += 7;
@@ -101,14 +98,14 @@ uint16_t Io::Binary::Deflate::ReadLength(uint16_t code, Binary::BitStream& strea
 	return length;
 }
 
-uint16_t Io::Binary::Deflate::ReadDistance(uint8_t code, Binary::BitStream& stream)
+uint16_t DeflateDecompress::ReadDistance(uint8_t code)
 {
 	if (code <= 3)
 		return code + 1;
 	const uint8_t base = code - 2;
 	const uint8_t nrExtraBits = base / 2;
 	const uint8_t modulo = base % 2;
-	const uint16_t extraBitsValue = stream.ReadBits<uint16_t>(nrExtraBits);
+	const uint16_t extraBitsValue = m_BitStream.ReadBits<uint16_t>(nrExtraBits);
 	uint16_t distance = (1 << nrExtraBits - 1) - 1 << 2;
 	distance += modulo << nrExtraBits;
 	distance += 5;
@@ -116,7 +113,7 @@ uint16_t Io::Binary::Deflate::ReadDistance(uint8_t code, Binary::BitStream& stre
 	return distance;
 }
 
-void Io::Binary::Deflate::PrintFixedLengthTable()
+void DeflateDecompress::PrintFixedLengthTable()
 {
 	std::cout << "---| Length Table |---\n";
 	for (int i = 257; i <= 285; i++)
@@ -144,7 +141,7 @@ void Io::Binary::Deflate::PrintFixedLengthTable()
 	}
 }
 
-void Io::Binary::Deflate::PrintFixedDistanceTable()
+void DeflateDecompress::PrintFixedDistanceTable()
 {
 	std::cout << "---| Distance Table |---\n";
 	for (int i = 0; i <= 29; i++)
@@ -167,7 +164,7 @@ void Io::Binary::Deflate::PrintFixedDistanceTable()
 	}
 }
 
-std::string Io::Binary::Deflate::GetMyTest1Input()
+std::string DeflateDecompress::GetMyTest1Input()
 {
 	constexpr uint8_t input[]
 	{
@@ -181,7 +178,7 @@ std::string Io::Binary::Deflate::GetMyTest1Input()
 	return string;
 }
 
-std::string Io::Binary::Deflate::GetInternetExampleInput()
+std::string DeflateDecompress::GetInternetExampleInput()
 {
 	constexpr uint8_t input[]
 	{
@@ -198,7 +195,7 @@ std::string Io::Binary::Deflate::GetInternetExampleInput()
 	return string;
 }
 
-std::string Io::Binary::Deflate::GetSalsaTestInput()
+std::string DeflateDecompress::GetSalsaTestInput()
 {
 	uint8_t input[]
 	{
@@ -212,7 +209,7 @@ std::string Io::Binary::Deflate::GetSalsaTestInput()
 	return string;
 }
 
-std::string Io::Binary::Deflate::GetLongDutchSentenceTest()
+std::string DeflateDecompress::GetLongDutchSentenceTest()
 {
 	uint8_t input[]
 	{
@@ -228,7 +225,7 @@ std::string Io::Binary::Deflate::GetLongDutchSentenceTest()
 	return string;
 }
 
-bool Io::Binary::Deflate::ValidateInternetExampleOutput(const std::string& output)
+bool DeflateDecompress::ValidateInternetExampleOutput(const std::string& m_Output)
 {
 	constexpr uint8_t desiredOutput[]
 	{
@@ -246,25 +243,25 @@ bool Io::Binary::Deflate::ValidateInternetExampleOutput(const std::string& outpu
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x39, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x29, 0x40
 	};
 	constexpr int inputSize = sizeof(desiredOutput);
-	if (inputSize != output.size())
+	if (inputSize != m_Output.size())
 		return false;
 	for (int i = 0; i < inputSize; i++)
-		if (output[i] != desiredOutput[i])
+		if (m_Output[i] != desiredOutput[i])
 			return false;
 	return true;
 }
 
-bool Io::Binary::Deflate::ValidateMyTest1Output(const std::string& output)
+bool DeflateDecompress::ValidateMyTest1Output(const std::string& m_Output)
 {
-	constexpr uint8_t desiredOutput[]
+	constexpr uint8_t desired[]
 	{
 		0x76, 0x111, 0x117 ,0x105, 0x115 ,0x32, 0x72 ,0x101 ,0x114, 0x109, 0x97 ,0x110
 	};
-	constexpr int inputSize = sizeof(desiredOutput);
-	if (inputSize != output.size())
+	constexpr int inputSize = sizeof(desired);
+	if (inputSize != m_Output.size())
 		return false;
 	for (int i = 0; i < inputSize; i++)
-		if (output[i] != desiredOutput[i])
+		if (m_Output[i] != desired[i])
 			return false;
 	return true;
 }

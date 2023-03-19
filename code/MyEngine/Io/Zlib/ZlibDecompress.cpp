@@ -3,7 +3,7 @@
 
 #include <sstream>
 
-#include "Io/Binary/Deflate.h"
+#include "Io/Binary/DeflateDecompress.h"
 
 void Io::Zlib::ZlibDecompress::Unzip(std::istream& stream)
 {
@@ -34,5 +34,5 @@ void Io::Zlib::ZlibDecompress::Unzip(std::istream& stream)
 	}
 
 	//DEFLATE
-	Binary::Deflate::Decompress(stream);
+	Binary::DeflateDecompress{ stream };
 }

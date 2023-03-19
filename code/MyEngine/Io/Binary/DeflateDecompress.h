@@ -1,4 +1,7 @@
 #pragma once
+#include <vector>
+
+#include "BitStream.h"
 
 namespace MyEngine
 {
@@ -8,16 +11,19 @@ namespace MyEngine
 		{
 			class BitStream;
 
-			class Deflate
+			class DeflateDecompress
 			{
 			public:
-				Deflate() = delete;
-
-				static void Decompress(std::istream& stream);
+				explicit DeflateDecompress(std::istream& stream);
 
 			private:
-				static uint16_t ReadLength(uint16_t code, Binary::BitStream& stream);
-				static uint16_t ReadDistance(uint8_t code, Binary::BitStream& stream);
+				std::istream& m_Input;
+				BitStream m_BitStream;
+				std::vector<uint8_t> m_Output;
+				
+				void HandleLengthDistancePair(uint16_t lengthCode);
+				uint16_t ReadLength(uint16_t code);
+				uint16_t ReadDistance(uint8_t code);
 
 				static void PrintFixedLengthTable();
 				static void PrintFixedDistanceTable();
