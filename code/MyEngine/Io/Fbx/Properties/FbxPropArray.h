@@ -67,13 +67,15 @@ namespace MyEngine
 				const unsigned end = static_cast<unsigned>(stream.tellg()) + byteLength;
 
 				//std::string myInput = Zlib::ZlibDecompress::GetInternetExampleInput();
-				std::string myInput = Binary::DeflateDecompress::GetSalsaTestInput();
+				//std::string myInput = Binary::DeflateDecompress::GetSalsaTestInput();
+				//std::string myInput = Binary::DeflateDecompress::GetLongDutchSentence2Test();
+				std::string myInput = Binary::DeflateDecompress::GetBlueTest();
 				std::istringstream myInputStream(myInput);
 
-				//Zlib::ZlibDecompress::Unzip{ myInputStream };
+				//Zlib::ZlibDecompress::Unzip(myInputStream);
 				Binary::DeflateDecompress{ myInputStream };
 
-				//Zlib::ZlibDecompress decompress{ stream };
+				//Zlib::ZlibDecompress::Unzip(stream);
 				stream.seekg(end);
 			}
 		}

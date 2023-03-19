@@ -53,6 +53,7 @@
     <ClCompile Include="Io\Zlib\ZlibDecompress.cpp" />
     <ClCompile Include="Io\Binary\BitStream.cpp" />
     <ClCompile Include="Io\Binary\DeflateDecompress.cpp" />
+    <ClCompile Include="Io\Binary\Huffman.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -121,6 +122,8 @@
     <ClInclude Include="Io\Zlib\ZlibDecompress.h" />
     <ClInclude Include="Io\Binary\BitStream.h" />
     <ClInclude Include="Io\Binary\DeflateDecompress.h" />
+    <ClInclude Include="Io\Binary\Huffman.h" />
+    <ClInclude Include="DataStructures\Algorithms.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

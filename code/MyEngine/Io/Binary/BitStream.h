@@ -13,6 +13,8 @@ namespace MyEngine
 
 				template<typename T = uint8_t>
 				T ReadBits(uint8_t nrBits);
+				template<typename T = uint8_t>
+				T ReadBitsFlipped(uint8_t nrBits);
 
 			private:
 				std::istream& m_Stream;
@@ -30,6 +32,33 @@ namespace MyEngine
 				}
 				T result = 0;
 				for (int iBit = nrBits - 1; iBit >= 0; iBit--)
+				{
+					result += (m_CurrByte & 1) << iBit;
+
+					if (m_CurrBitOffset == 7)
+					{
+						m_CurrBitOffset = 0;
+						m_CurrByte = m_Stream.get();
+					}
+					else
+					{
+						m_CurrBitOffset++;
+						m_CurrByte >>= 1;
+					}
+				}
+				return result;
+			}
+
+			template <typename T>
+			T BitStream::ReadBitsFlipped(uint8_t nrBits)
+			{
+				if (nrBits > sizeof(T) * 8)
+				{
+					Logger::PrintError("NrBits is too big for this return type");
+					return 0;
+				}
+				T result = 0;
+				for(int iBit = 0; iBit < nrBits; iBit++)
 				{
 					result += (m_CurrByte & 1) << iBit;
 

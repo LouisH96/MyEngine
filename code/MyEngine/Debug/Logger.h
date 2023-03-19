@@ -1,6 +1,9 @@
 #pragma once
 #include <DirectXMath.h>
+#include <sstream>
 #include <string>
+#include <bitset>
+#include "DataStructures/Array.h"
 
 namespace MyEngine
 {
@@ -42,12 +45,39 @@ namespace MyEngine
 
 			template <typename T>
 			static void ToStringPrint(const T& value);
+
+			template<typename T>
+			static void Print(const std::string& description, const Ds::Array<T>& array);
+
+			template<typename T>
+			static void PrintBinary(const std::string& description, const Ds::Array<T>& array);
+
 		};
 
 		template <typename T>
 		void Logger::ToStringPrint(const T& value)
 		{
 			Print(std::to_string(value));
+		}
+
+		template <typename T>
+		void Logger::Print(const std::string& description, const Ds::Array<T>& array)
+		{
+			std::stringstream ss{};
+			ss << description << "[" << array.GetSize() << "]\n";
+			for (int i = 0; i < array.GetSize(); i++)
+				ss << " [" << i << "] " << std::to_string(array[i]) << std::endl;
+			Print(ss.str());
+		}
+
+		template <typename T>
+		void Logger::PrintBinary(const std::string& description, const Ds::Array<T>& array)
+		{
+			std::stringstream ss{};
+			ss << description << "[" << array.GetSize() << "]\n";
+			for (int i = 0; i < array.GetSize(); i++)
+				ss << " [" << i << "] " << std::bitset<8 * sizeof(T)>(array[i]) << std::endl;
+			Print(ss.str());
 		}
 	}
 }
