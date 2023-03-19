@@ -52,6 +52,7 @@
     <ClCompile Include="Io\Fbx\Properties\FbxPropRaw.cpp" />
     <ClCompile Include="Io\Zlib\ZlibDecompress.cpp" />
     <ClCompile Include="Io\Binary\BitStream.cpp" />
+    <ClCompile Include="Io\Binary\Deflate.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -119,6 +120,7 @@
     <ClInclude Include="Io\Fbx\Properties\FbxPropRaw.h" />
     <ClInclude Include="Io\Zlib\ZlibDecompress.h" />
     <ClInclude Include="Io\Binary\BitStream.h" />
+    <ClInclude Include="Io\Binary\Deflate.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

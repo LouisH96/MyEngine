@@ -5,6 +5,7 @@
 #include <Io/Fbx/FbxProperty.h>
 #include <Io/Fbx/Properties/FbxPropPrimitive.h>
 #include <Io/Zlib/ZlibDecompress.h>
+#include <Io/Binary/Deflate.h>
 
 using namespace Io::Binary;
 
@@ -66,11 +67,11 @@ namespace MyEngine
 				const unsigned end = static_cast<unsigned>(stream.tellg()) + byteLength;
 
 				//std::string myInput = Zlib::ZlibDecompress::GetInternetExampleInput();
-				std::string myInput = Zlib::ZlibDecompress::GetSalsaTestInput();
+				std::string myInput = Binary::Deflate::GetSalsaTestInput();
 				std::istringstream myInputStream(myInput);
 
 				//Zlib::ZlibDecompress::Unzip{ myInputStream };
-				Zlib::ZlibDecompress::Deflate(myInputStream);
+				Binary::Deflate::Decompress(myInputStream);
 
 				//Zlib::ZlibDecompress decompress{ stream };
 				stream.seekg(end);
