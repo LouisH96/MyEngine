@@ -1,4 +1,5 @@
 #pragma once
+//#define ARRAY_DEBUG
 
 namespace MyEngine
 {
@@ -32,6 +33,9 @@ namespace MyEngine
 		private:
 			Data* m_pData;
 			int m_Size;
+
+			void DoBoundsCheck(int idx) const;
+			void PrintOutOfBounds(int idx) const;
 		};
 
 		template <typename Data>
@@ -43,8 +47,8 @@ namespace MyEngine
 
 		template <typename Data>
 		Array<Data>::Array(Array&& other) noexcept
-			: m_pData{other.m_pData}
-			, m_Size{other.m_Size}
+			: m_pData{ other.m_pData }
+			, m_Size{ other.m_Size }
 		{
 			other.m_pData = nullptr;
 			other.m_Size = 0;
@@ -107,7 +111,8 @@ namespace MyEngine
 		template <typename Data>
 		Array<Data>::~Array()
 		{
-			delete[] m_pData;
+			if (m_pData)
+				delete[] m_pData;
 		}
 
 		template <typename Data>
@@ -145,12 +150,18 @@ namespace MyEngine
 		template <typename Data>
 		const Data& Array<Data>::operator[](int idx) const
 		{
+#ifdef ARRAY_DEBUG
+			DoBoundsCheck(idx);
+#endif
 			return m_pData[idx];
 		}
 
 		template <typename Data>
 		Data& Array<Data>::operator[](int idx)
 		{
+#ifdef ARRAY_DEBUG
+			DoBoundsCheck(idx);
+#endif
 			return m_pData[idx];
 		}
 
@@ -159,6 +170,20 @@ namespace MyEngine
 		{
 			for (int i = 0; i < m_Size; i++)
 				delete m_pData[i];
+		}
+
+		template <typename Data>
+		void Array<Data>::DoBoundsCheck(int idx) const
+		{
+			if (idx < 0 || idx >= m_Size)
+				PrintOutOfBounds(idx);
+		}
+
+		template <typename Data>
+		void Array<Data>::PrintOutOfBounds(int idx) const
+		{
+			std::cout << "ArrayIdx " << idx
+				<< " out of bounds[0-" << m_Size - 1 << "]\n";
 		}
 	}
 }
