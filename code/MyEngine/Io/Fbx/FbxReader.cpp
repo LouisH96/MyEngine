@@ -9,6 +9,12 @@
 Io::Fbx::FbxReader::FbxReader(const std::wstring& path)
 	: m_Stream{ path, std::ifstream::binary }
 {
+	if(!m_Stream.is_open())
+	{
+		Logger::PrintError("Could not open Fbx file");
+		return;
+	}
+
 	m_Stream.seekg(0, std::ios_base::end);
 	const auto end = m_Stream.tellg();
 	m_Stream.seekg(0, std::ios_base::beg);
