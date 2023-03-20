@@ -31,7 +31,6 @@ void MyEngine::App::BasicExampleApp::Run()
 	using namespace Math;
 
 	//APP
-	Resources::Init();
 	Window& window = *new Window(L"Window");
 	Gpu& gpu = *GpuCreator::Create(window);
 	Canvas& canvas = *gpu.MakeCanvas();

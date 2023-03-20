@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Framework.h"
 
+#include "Resources.h"
+
 #define _CRTDBG_MAP_ALLOC
 #define _LEAK_TO_CONSOLE
 
@@ -13,6 +15,7 @@ MyEngine::App::Framework::Framework()
 	_CrtSetReportFile(_CRT_WARN, _CRTDBG_FILE_STDOUT);
 #endif
 #endif
+	Resources::Init();
 }
 
 MyEngine::App::Framework::~Framework()
