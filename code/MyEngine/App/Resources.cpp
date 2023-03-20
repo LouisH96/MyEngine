@@ -17,6 +17,11 @@ void MyEngine::App::Resources::Init()
 
 	if (nrArgs >= 2)
 		m_LocalResourcesPath = args[1];
+	else
+	{
+		Logger::PrintError("Local resources path should be defined in args");
+		return;
+	}
 
 	LocalFree(args);
 
