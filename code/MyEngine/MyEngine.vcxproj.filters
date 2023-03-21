@@ -55,6 +55,7 @@
     <ClCompile Include="Io\Binary\Huffman.cpp" />
     <ClCompile Include="Io\Zlib\ZlibDecompress.cpp" />
     <ClCompile Include="Rendering\Renderers\BasicRenderer.cpp" />
+    <ClCompile Include="Generation\MeshUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -126,6 +127,7 @@
     <ClInclude Include="Io\Binary\Huffman.h" />
     <ClInclude Include="DataStructures\Algorithms.h" />
     <ClInclude Include="Rendering\Renderers\BasicRenderer.h" />
+    <ClInclude Include="Generation\MeshUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
