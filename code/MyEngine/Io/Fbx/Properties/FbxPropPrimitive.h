@@ -15,7 +15,7 @@ namespace MyEngine
 				FbxPropPrimitive(std::istream& s);
 
 				T GetValue() const { return m_Value; }
-				void Print(int nrTabs) const override;
+				void Print(bool compact, int nrTabs) const override;
 				static T Read(std::istream& stream);
 				static std::string TypeToString();
 			private:
@@ -28,7 +28,7 @@ namespace MyEngine
 			{
 			}
 			template<typename T>
-			inline void FbxPropPrimitive<T>::Print(int nrTabs) const
+			inline void FbxPropPrimitive<T>::Print(bool compact, int nrTabs) const
 			{
 				BeginPrint(nrTabs);
 				std::cout << "[" << TypeToString() << "] " <<  std::to_string(m_Value) << std::endl;

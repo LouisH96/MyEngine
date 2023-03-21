@@ -17,7 +17,7 @@ namespace MyEngine
 				FbxProperty() = default;
 				virtual ~FbxProperty() = default;
 
-				virtual void Print(int nrTabs) const = 0;
+				virtual void Print(bool compact = false, int nrTabs = 0) const = 0;
 				static FbxProperty* Read(std::istream& stream);
 
 				const FbxPropRaw& AsRaw() const;

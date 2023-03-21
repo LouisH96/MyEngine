@@ -41,17 +41,17 @@ MyEngine::Io::Fbx::FbxObject::~FbxObject()
 		delete pProp;
 }
 
-void MyEngine::Io::Fbx::FbxObject::Print(int nrTabs) const
+void MyEngine::Io::Fbx::FbxObject::Print(bool compact, int nrTabs) const
 {
 	for (int i = 0; i < nrTabs; i++)
 		std::cout << '\t';
 	std::cout << m_Name << std::endl;
 	for (int i = 0; i < m_Properties.size(); i++)
-		m_Properties[i]->Print(nrTabs);
+		m_Properties[i]->Print(compact, nrTabs);
 	if (m_Name == "Root")
 		nrTabs--;
 	for (int i = 0; i < m_Children.size(); i++)
-		m_Children[i]->Print(nrTabs + 1);
+		m_Children[i]->Print(compact, nrTabs + 1);
 }
 
 MyEngine::Io::Fbx::FbxObject* MyEngine::Io::Fbx::FbxObject::GetChild(const std::string& name) const

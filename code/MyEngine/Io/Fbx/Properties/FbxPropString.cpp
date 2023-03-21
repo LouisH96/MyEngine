@@ -9,7 +9,7 @@ MyEngine::Io::Fbx::FbxPropString::FbxPropString(std::istream& stream)
 {
 }
 
-void MyEngine::Io::Fbx::FbxPropString::Print(int nrTabs) const
+void MyEngine::Io::Fbx::FbxPropString::Print(bool compact, int nrTabs) const
 {
     BeginPrint(nrTabs);
     std::cout << "[string] " << m_String << std::endl;

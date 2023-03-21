@@ -10,7 +10,7 @@ MyEngine::Io::Fbx::FbxPropRaw::FbxPropRaw(std::istream& stream)
 	stream.ignore(size);
 }
 
-void MyEngine::Io::Fbx::FbxPropRaw::Print(int nrTabs) const
+void MyEngine::Io::Fbx::FbxPropRaw::Print(bool compact, int nrTabs) const
 {
 	BeginPrint(nrTabs);
 	std::cout << "raw\n";
