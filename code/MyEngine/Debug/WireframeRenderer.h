@@ -73,7 +73,7 @@ namespace MyEngine
 			Dx::InputLayout* m_pInputLayout{};
 			App::Wrappers::Dx::Shader* m_pShader{};
 			Dx::ConstantBuffer<ConstantBuffer>* m_pConstantBuffer{};
-			Array<App::Wrappers::Dx::Mesh<WireframeVertex>*> m_Meshes{};
+			Array<App::Wrappers::Dx::Mesh*> m_Meshes{};
 			//---| Operations |---
 			void InitRenderStates(const App::Wrappers::Dx::Gpu& gpu);
 		};

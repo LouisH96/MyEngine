@@ -57,6 +57,7 @@
     <ClCompile Include="Rendering\Renderers\BasicRenderer.cpp" />
     <ClCompile Include="Generation\MeshUtils.cpp" />
     <ClCompile Include="App\Wrappers\Dx\Shader.cpp" />
+    <ClCompile Include="App\Wrappers\Dx\Mesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />

@@ -59,5 +59,5 @@ void Rendering::BasicRenderer::AddMesh(const Array<Math::Float3>& points, const 
 
 void Rendering::BasicRenderer::AddMesh(const Array<MeshVertex>& vertices, const Array<int>& indices)
 {
-	m_Meshes.Add(new Mesh<MeshVertex>( m_Gpu, vertices, indices));
+	m_Meshes.Add(Mesh::Create<MeshVertex>( m_Gpu, vertices, indices));
 }

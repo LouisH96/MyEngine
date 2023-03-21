@@ -79,7 +79,7 @@ namespace MyEngine
 			App::Wrappers::Dx::Shader m_Shader;
 			Dx::InputLayout m_InputLayout;
 			Dx::ConstantBuffer<CBuffer> m_ConstantBuffer;
-			Array<App::Wrappers::Dx::Mesh<MeshVertex>*> m_Meshes{};
+			Array<App::Wrappers::Dx::Mesh*> m_Meshes{};
 		};
 	}
 }

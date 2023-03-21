@@ -38,7 +38,7 @@ void Debug::WireframeRenderer::AddMesh(const Gpu& gpu,
 void Debug::WireframeRenderer::AddMesh(const Gpu& gpu,
 	const Array<WireframeVertex>& vertices, const Array<int>& indices)
 {
-	Mesh<WireframeVertex>* pMesh = new Mesh<WireframeVertex>(gpu, vertices, indices);
+	Mesh* pMesh = Mesh::Create<WireframeVertex>(gpu, vertices, indices);
 	m_Meshes.Add(pMesh);
 }
 

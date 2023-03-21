@@ -68,7 +68,7 @@ void MyEngine::App::BasicExampleApp::Run()
 	const InputLayout inputLayout{ gpu, meshElements, ARRAYSIZE(meshElements) };
 
 	Shader& shader = *new Shader(gpu, Resources::GetGlobalShaderPath(L"shader.hlsl"));
-	Mesh<Vertex>& mesh = *new Mesh<Vertex>(gpu, cubeVertices.GetData(), cubeVertices.GetSize(), cubeIndices.GetData(), cubeIndices.GetSize());
+	Mesh& mesh = *Mesh::Create<Vertex>(gpu, cubeVertices, cubeIndices);
 	const ConstantBuffer<CameraMatrixCBuffer> constantBuffer{ gpu };
 
 	//GAME
