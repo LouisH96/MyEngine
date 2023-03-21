@@ -66,7 +66,7 @@ void Debug::WireframeRenderer::InitRenderStates(const Gpu& gpu)
 {
 	m_pBlendState = new Dx::BlendState(gpu);
 	m_pRasterizerState = new Dx::RasterizerState(gpu, true);
-	m_pShader = new Shader<WireframeVertex>(gpu, App::Resources::GetGlobalShaderPath(L"wireframe.hlsl"));
+	m_pShader = new Shader(gpu, App::Resources::GetGlobalShaderPath(L"wireframe.hlsl"));
 	m_pConstantBuffer = new Dx::ConstantBuffer<ConstantBuffer> (gpu);
 	const Dx::InputLayout::Element elements[]
 	{

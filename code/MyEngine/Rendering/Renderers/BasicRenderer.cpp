@@ -22,7 +22,7 @@ Rendering::BasicRenderer::BasicRenderer(Gpu& gpu, Game::Camera::Camera& camera)
 	, m_Camera(camera)
 	, m_BlendState{ gpu }
 	, m_RasterizerState{ gpu }
-	, m_Shader(gpu, Resources::GetGlobalShaderPath(L"lambert.hlsl"))
+	, m_Shader(gpu, Resources::GetGlobalShaderPath(L"lambertCamDir.hlsl"))
 	, m_InputLayout(m_Gpu, ELEMENTS, ARRAYSIZE(ELEMENTS))
 	, m_ConstantBuffer(gpu)
 {

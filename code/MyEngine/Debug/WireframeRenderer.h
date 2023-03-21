@@ -19,7 +19,7 @@ namespace MyEngine
 			namespace Dx
 			{
 				class Gpu;
-				template<typename T> class Shader;
+				class Shader;
 			}
 		}
 	}
@@ -71,7 +71,7 @@ namespace MyEngine
 			Dx::BlendState* m_pBlendState{};
 			Dx::RasterizerState* m_pRasterizerState{};
 			Dx::InputLayout* m_pInputLayout{};
-			App::Wrappers::Dx::Shader<WireframeVertex>* m_pShader{};
+			App::Wrappers::Dx::Shader* m_pShader{};
 			Dx::ConstantBuffer<ConstantBuffer>* m_pConstantBuffer{};
 			Array<App::Wrappers::Dx::Mesh<WireframeVertex>*> m_Meshes{};
 			//---| Operations |---

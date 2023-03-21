@@ -76,7 +76,7 @@ namespace MyEngine
 
 			//---| Mesh/Shader Specific |---
 			static const Dx::InputLayout::Element ELEMENTS[];
-			App::Wrappers::Dx::Shader<MeshVertex> m_Shader;
+			App::Wrappers::Dx::Shader m_Shader;
 			Dx::InputLayout m_InputLayout;
 			Dx::ConstantBuffer<CBuffer> m_ConstantBuffer;
 			Array<App::Wrappers::Dx::Mesh<MeshVertex>*> m_Meshes{};

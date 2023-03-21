@@ -20,7 +20,6 @@ namespace MyEngine
 		{
 			namespace Dx
 			{
-				template<typename Vertex>
 				class Shader;
 				template<typename Vertex>
 				class Mesh;
@@ -29,14 +28,14 @@ namespace MyEngine
 				class Painter
 				{
 				public:
-					void SetShader(Shader<Vertex>& shader);
+					void SetShader(Shader& shader);
 					void SetMesh(Mesh<Vertex>& mesh);
 					void SetCamera(Game::Camera::Camera& camera);
 					
 					void Paint() const;
 
 				private:
-					Shader<Vertex>* m_pShader{};
+					Shader* m_pShader{};
 					Mesh<Vertex>* m_pMesh{};
 					Game::Camera::Camera* m_pCamera{};
 
@@ -44,7 +43,7 @@ namespace MyEngine
 				};
 
 				template <typename Vertex>
-				void Painter<Vertex>::SetShader(Shader<Vertex>& shader)
+				void Painter<Vertex>::SetShader(Shader& shader)
 				{
 					m_pShader = &shader;
 					m_pShader->Activate();

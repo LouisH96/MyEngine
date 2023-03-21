@@ -1,8 +1,6 @@
 #pragma once
 #include <d3d11.h>
-#include <d3dcompiler.h>
 #include "Gpu.h"
-#include "DxHelper.h"
 
 namespace MyEngine
 {
@@ -12,7 +10,6 @@ namespace MyEngine
 		{
 			namespace Dx
 			{
-				template<typename Vertex>
 				class Shader
 				{
 				public:
@@ -35,33 +32,6 @@ namespace MyEngine
 					void InitShaders(const std::wstring& fullPath);
 				};
 
-				template <typename Vertex>
-				Shader<Vertex>::Shader(const Gpu& gpu, const std::wstring& fullPath)
-					: m_Gpu(gpu)
-				{
-					InitShaders(fullPath);
-				}
-
-				template <typename Vertex>
-				Shader<Vertex>::~Shader()
-				{
-					SAFE_RELEASE(m_pPixelShader);
-					SAFE_RELEASE(m_pVertexShader);
-				}
-
-				template <typename Vertex>
-				void Shader<Vertex>::Activate() const
-				{
-					m_Gpu.GetContext().VSSetShader(m_pVertexShader, nullptr, 0);
-					m_Gpu.GetContext().PSSetShader(m_pPixelShader, nullptr, 0);
-				}
-
-				template <typename Vertex>
-				void Shader<Vertex>::InitShaders(const std::wstring& fullPath)
-				{
-					DxHelper::CreateVertexShader(m_Gpu.GetDevice(), fullPath, "vs_main", m_pVertexShader);
-					DxHelper::CreatePixelShader(m_Gpu.GetDevice(), fullPath, "ps_main", m_pPixelShader);
-				}
 			}
 		}
 	}
