@@ -79,3 +79,13 @@ Math::Float3 Math::Float3::Normalized() const
 	const float scale = 1.f / Length();
 	return { x * scale, y * scale, z * scale };
 }
+
+Math::Float3 Math::Float3::Cross(const Float3& other) const
+{
+	return
+	{
+		y * other.z - z * other.y,
+		z * other.x - x * other.z,
+		x * other.y - y * other.x
+	};
+}

@@ -48,6 +48,8 @@ namespace MyEngine
 			void Normalize();
 			Float3 Normalized() const;
 
+			Float3 Cross(const Float3& other) const;
+
 			float x, y, z;
 			static constexpr int NR_AXIS = 3;
 		};
