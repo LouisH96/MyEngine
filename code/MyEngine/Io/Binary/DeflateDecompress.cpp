@@ -6,7 +6,7 @@
 
 #include "BitStream.h"
 
-//use 'backreference' word instead of lengthDistancePair
+//#define DEFLATE_DECOMPRESS_DEBUG
 
 using namespace Io::Binary;
 
@@ -21,23 +21,21 @@ DeflateDecompress::DeflateDecompress(std::istream& stream)
 	, m_BitStream(stream)
 	, m_Output()
 {
-	const uint8_t isEnd = m_BitStream.ReadBits(1);
-	if (!isEnd)
+	uint8_t isEnd = 0;
+	while (isEnd == 0)
 	{
-		Logger::PrintError("Multiple blocks not supported yet");
-		return;
-	}
-	const uint8_t bType = m_BitStream.ReadBits(1) + (m_BitStream.ReadBits(1) << 1);
+		isEnd = m_BitStream.ReadBits(1);
+		const uint8_t bType = m_BitStream.ReadBits(1) + (m_BitStream.ReadBits(1) << 1);
 
-	switch (bType)
-	{
-	case 1: HandleFixedBlock(); break;
-	case 2: HandleDynamicBlock(); break;
-	case 0: Logger::PrintError("Block has no compression, which is not supported yet"); return;
-	case 3: Logger::PrintError("Block-type was 3 which shouldn't be used"); return;
-	default: Logger::PrintError("Unknown block-type (BTYPE) of " + std::to_string(bType)); return;
+		switch (bType)
+		{
+		case 1: HandleFixedBlock(); break;
+		case 2: HandleDynamicBlock(); break;
+		case 0: Logger::PrintError("Block has no compression, which is not supported yet"); return;
+		case 3: Logger::PrintError("Block-type was 3 which shouldn't be used"); return;
+		default: Logger::PrintError("Unknown block-type (BTYPE) of " + std::to_string(bType)); return;
+		}
 	}
-	//std::cout << "0x" << std::hex << static_cast<int>(m_Output[i]) << std::endl;
 }
 
 
@@ -65,7 +63,7 @@ void DeflateDecompress::HandleFixedBlock()
 		if (next8 <= 0b1100'0111)
 		{
 			//length-distance
-			HandleLengthDistancePair(next8 + 256);
+			HandleLengthDistancePair(next8 - 0b1100'0000 + 280);
 			continue;
 		}
 		//literal
@@ -76,9 +74,17 @@ void DeflateDecompress::HandleFixedBlock()
 
 void DeflateDecompress::HandleLengthDistancePair(uint16_t lengthCode)
 {
-	const uint16_t length = ReadLength(lengthCode);
+#ifdef DEFLATE_DECOMPRESS_DEBUG
+	if(lengthCode < 257 || lengthCode >285)
+	{
+		Logger::PrintError("length-code(" + std::to_string(lengthCode) + ") should be [257-285]");
+		throw 0;
+	}
+#endif
+
+	const uint16_t length = ReadLength(lengthCode, true);
 	const uint8_t distanceCode = m_BitStream.ReadBits(5);
-	const uint16_t distance = ReadDistance(distanceCode);
+	const uint16_t distance = ReadDistance(distanceCode, true);
 
 	std::vector<uint8_t> newChars{};
 	const int begin = m_Output.size() - distance;

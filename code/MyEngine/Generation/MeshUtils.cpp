@@ -12,26 +12,22 @@ void Generation::MeshUtils::MakePointAndNormalBuffersFromFbxIndices(const Array<
 
 	for (int iIndex = 0; iIndex < indices.GetSize();)
 	{
-		const int index0 = indices[iIndex ++];
-		const int index1 = indices[iIndex ++ ];
-		const int index2 = indices[iIndex ++];
+		const int index0 = indices[iIndex++];
+		int index1 = indices[iIndex++];
+		int index2 = indices[iIndex++];
 
 		outputVector.push_back(points[index0]);
 		outputVector.push_back(points[index1]);
-		if (index2 < 0)
-		{
-			outputVector.push_back(points[-index2 - 1]);
-		}
-		else
+
+		while(index2 >= 0)
 		{
 			outputVector.push_back(points[index2]);
-			const int index3{ indices[iIndex ++] };
-			if(index3 >= 0)
-				Logger::PrintError("Expected index3 to be negative");
+			index1 = index2;
+			index2 = indices[iIndex++];
 			outputVector.push_back(points[index0]);
-			outputVector.push_back(points[index2]);
-			outputVector.push_back(points[-index3 - 1]);
+			outputVector.push_back(points[index1]);
 		}
+		outputVector.push_back(points[-index2 - 1]);
 	}
 	outputPoints = Ds::DsUtils::ToArray(outputVector);
 
