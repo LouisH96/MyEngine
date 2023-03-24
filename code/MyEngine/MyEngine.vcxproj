@@ -21,6 +21,7 @@
     <ClCompile Include="App\Wrappers\Dx\Mesh.cpp" />
     <ClCompile Include="App\Wrappers\Dx\Shader.cpp" />
     <ClCompile Include="Generation\MeshUtils.cpp" />
+    <ClCompile Include="Rendering\Renderers\RendererFactory.cpp" />
     <ClCompile Include="Rendering\Renderers\BasicRenderer.cpp" />
     <ClCompile Include="Io\Binary\Huffman.cpp" />
     <ClCompile Include="Io\Binary\DeflateDecompress.cpp" />
@@ -69,7 +70,6 @@
     <ClCompile Include="Generation\Shapes.cpp" />
     <ClCompile Include="Math\Rect.cpp" />
     <ClCompile Include="Math\Sphere.cpp" />
-    <ClCompile Include="Debug\WireframeRenderer.cpp" />
     <ClCompile Include="Debug\Timing\Counter.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -84,6 +84,7 @@
     <ClInclude Include="App\Wrappers\Dx\ConstantBuffer.h" />
     <ClInclude Include="App\Wrappers\Dx\BlendState.h" />
     <ClInclude Include="Generation\MeshUtils.h" />
+    <ClInclude Include="Rendering\Renderers\RendererFactory.h" />
     <ClInclude Include="Rendering\Renderers\BasicRenderer.h" />
     <ClInclude Include="DataStructures\Algorithms.h" />
     <ClInclude Include="Io\Binary\Huffman.h" />
@@ -139,7 +140,6 @@
     <ClInclude Include="Generation\Shapes.h" />
     <ClInclude Include="Math\Rect.h" />
     <ClInclude Include="Math\Sphere.h" />
-    <ClInclude Include="Debug\WireframeRenderer.h" />
     <ClInclude Include="Math\Value2.h" />
     <ClInclude Include="Debug\Timing\Counter.h" />
     <ClInclude Include="Io\Zlib\ZlibDecompress.h" />

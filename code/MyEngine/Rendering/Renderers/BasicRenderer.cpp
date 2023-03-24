@@ -10,54 +10,27 @@ using namespace Wrappers;
 using namespace Wrappers::Dx;
 using namespace MyEngine::Dx;
 
-const InputLayout::Element Rendering::BasicRenderer::ELEMENTS[] =
+
+const InputLayout::Element Rendering::V_PosCol::ELEMENTS[] =
+{
+	{"POSITION", InputLayout::ElementType::Float3},
+	{"COLOR", InputLayout::ElementType::Float3},
+};
+
+const InputLayout::Element Rendering::V_PosColNorm::ELEMENTS[] =
 {
 	{"POSITION", InputLayout::ElementType::Float3},
 	{"COLOR", InputLayout::ElementType::Float3},
 	{"NORMAL", InputLayout::ElementType::Float3}
 };
 
-Rendering::BasicRenderer::BasicRenderer(Gpu& gpu, Game::Camera::Camera& camera)
-	: m_Gpu(gpu)
-	, m_Camera(camera)
-	, m_BlendState{ gpu }
-	, m_RasterizerState{ gpu }
-	, m_Shader(gpu, Resources::GetGlobalShaderPath(L"lambertCamDir.hlsl"))
-	, m_InputLayout(m_Gpu, ELEMENTS, ARRAYSIZE(ELEMENTS))
-	, m_ConstantBuffer(gpu)
+Rendering::CB_CamMat::CB_CamMat(const Game::Camera::Camera& cam)
+	: CameraMatrix(cam.GetViewProjMatrix())
 {
 }
 
-Rendering::BasicRenderer::~BasicRenderer()
+MyEngine::Rendering::CB_CamMatPos::CB_CamMatPos(const Game::Camera::Camera& cam)
+	: CameraMatrix(cam.GetViewProjMatrix())
+	, CameraPos(cam.GetPositionFloat3())
 {
-	m_Meshes.DeleteAll();
-}
-
-void Rendering::BasicRenderer::Render()
-{
-	m_ConstantBuffer.Update(m_Gpu, { m_Camera.GetViewProjMatrix(), m_Camera.GetPositionFloat3(),0 });
-	m_ConstantBuffer.Activate(m_Gpu);
-	m_RasterizerState.Activate(m_Gpu);
-	m_InputLayout.Activate(m_Gpu);
-	m_BlendState.Activate(m_Gpu);
-	m_Shader.Activate();
-	for (int i = 0; i < m_Meshes.GetSize(); i++)
-	{
-		m_Meshes[i]->Activate();
-		m_Meshes[i]->DrawNotIndexed();
-	}
-}
-
-void Rendering::BasicRenderer::AddMesh(const Array<Math::Float3>& points, const Array<Math::Float3>& normals,
-	const Math::Float3& color, const Array<int>& indices)
-{
-	Array<MeshVertex> vertices{ points.GetSize() };
-	for (int i = 0; i < points.GetSize(); i++)
-		vertices[i] = { points[i], color, normals[i]};
-	AddMesh(vertices, indices);
-}
-
-void Rendering::BasicRenderer::AddMesh(const Array<MeshVertex>& vertices, const Array<int>& indices)
-{
-	m_Meshes.Add(Mesh::Create<MeshVertex>( m_Gpu, vertices, indices));
 }
