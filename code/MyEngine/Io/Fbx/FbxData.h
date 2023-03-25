@@ -19,6 +19,7 @@ namespace MyEngine
 				const Array<Math::Float3>& GetPoints() const { return m_Points; }
 				const Array<Math::Float3>& GetNormals() const { return m_Normals; }
 				const Array<int>& GetIndices() const { return m_Indices; }
+				const Array<Math::Float2>& GetUvs() const { return m_Uvs; }
 
 			private:
 				Array<Math::Float3> m_Points{};

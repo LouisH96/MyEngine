@@ -6,6 +6,8 @@
 #include "App/Wrappers/Dx/InputLayout.h"
 #include "App/Wrappers/Dx/Mesh.h"
 #include "App/Wrappers/Dx/RasterizerState.h"
+#include <App/Wrappers/Dx/SamplerState.h>
+#include <App/Wrappers/Dx/Texture.h>
 
 namespace MyEngine
 {
@@ -57,7 +59,7 @@ namespace MyEngine
 			using CamDataRefType = CamData;
 
 			//---| Construction |---
-			TextureRenderer(App::Wrappers::Dx::Gpu& gpu, Game::Camera::Camera& camera, const std::wstring& shaderPath, bool isWireframe = false);
+			TextureRenderer(App::Wrappers::Dx::Gpu& gpu, Game::Camera::Camera& camera, const std::wstring& shaderPath, const std::wstring& texturePath);
 			~TextureRenderer();
 
 			//---| Rule of Five |---
@@ -78,6 +80,8 @@ namespace MyEngine
 			Game::Camera::Camera& m_Camera;
 			Dx::BlendState m_BlendState;
 			Dx::RasterizerState m_RasterizerState;
+			Dx::SamplerState m_Sampler;
+			Dx::Texture m_Texture;
 
 			//---| Mesh/Shader Specific |---
 			static const Dx::InputLayout::Element ELEMENTS[];
@@ -89,14 +93,16 @@ namespace MyEngine
 
 		template <typename Vertex, typename CamData>
 		TextureRenderer<Vertex, CamData>::TextureRenderer(App::Wrappers::Dx::Gpu& gpu, Game::Camera::Camera& camera,
-			const std::wstring& shaderPath, bool isWireframe)
+			const std::wstring& shaderPath, const std::wstring& texturePath)
 			: m_Gpu(gpu)
 			, m_Camera(camera)
 			, m_BlendState(gpu)
-			, m_RasterizerState(gpu, isWireframe)
+			, m_RasterizerState(gpu)
 			, m_Shader(gpu, shaderPath)
 			, m_InputLayout(gpu, Vertex::ELEMENTS, Vertex::NR_ELEMENTS)
 			, m_ConstantBuffer(gpu)
+			, m_Sampler(gpu)
+			, m_Texture(gpu, texturePath)
 		{
 		}
 
@@ -109,6 +115,8 @@ namespace MyEngine
 		template <typename Vertex, typename CamData>
 		void TextureRenderer<Vertex, CamData>::Render()
 		{
+			m_Sampler.ActivatePs(m_Gpu);
+			m_Texture.ActivatePs(m_Gpu);
 			m_ConstantBuffer.Update(m_Gpu, { m_Camera });
 			m_ConstantBuffer.Activate(m_Gpu);
 			m_RasterizerState.Activate(m_Gpu);

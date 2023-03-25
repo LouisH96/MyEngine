@@ -19,8 +19,6 @@ Io::Fbx::FbxData::FbxData(FbxReader&& reader)
 	FbxObject& objects{ *reader.GetRoot().GetChild("Objects") };
 	FbxObject& geometry{ *objects.GetChild("Geometry") };
 
-	geometry.Print();
-
 	//POINTS
 	const FbxObject& verticesObject{ *geometry.GetChild("Vertices") };
 	const Array<double>& coordArray{ verticesObject.GetProperty(0)->AsArray<double>().GetValues() };
@@ -61,33 +59,37 @@ Io::Fbx::FbxData::FbxData(FbxReader&& reader)
 void Io::Fbx::FbxData::MakeTriangleList()
 {
 	std::vector<Float3> positions{};
+	std::vector<Float3> normals{};
 	std::vector<Float2> uvs{};
 	positions.reserve(m_Indices.GetSize());
 	uvs.reserve(m_Indices.GetSize());
 
-	for (int iIndex = 0; iIndex < m_Indices.GetSize();)
+	int index0 = 0;
+	int index1 = 1;
+	int index2 = 2;
+	while (index2 < m_Indices.GetSize())
 	{
-		const int index0 = m_Indices[iIndex++];
-		int index1 = m_Indices[iIndex++];
-		int index2 = m_Indices[iIndex++];
-		positions.push_back(m_Points[index0]);
-		positions.push_back(m_Points[index1]);
 		uvs.push_back(m_Uvs[index0]);
 		uvs.push_back(m_Uvs[index1]);
+		uvs.push_back(m_Uvs[index2]);
+		const int pointIdx0 = m_Indices[index0];
+		const int pointIdx1 = m_Indices[index1];
+		positions.push_back(m_Points[pointIdx0]);
+		positions.push_back(m_Points[pointIdx1]);
 
-		while (index2 >= 0)
+		int pointIdx2 = m_Indices[index2];
+		if (pointIdx2 >= 0)
 		{
-			positions.push_back(m_Points[index2]);
-			uvs.push_back(m_Uvs[index2]);
+			positions.push_back(m_Points[pointIdx2]);
 			index1 = index2;
-			index2 = m_Indices[iIndex++];
-			positions.push_back(m_Points[index0]);
-			positions.push_back(m_Points[index1]);
-			uvs.push_back(m_Uvs[index0]);
-			uvs.push_back(m_Uvs[index1]);
+			index2++;
+			continue;
 		}
-		positions.push_back(m_Points[-index2 - 1]);
-		uvs.push_back(m_Uvs[-index2 - 1]);
+		pointIdx2 = -pointIdx2 - 1;
+		positions.push_back(m_Points[pointIdx2]);
+		index0 = index2 + 1;
+		index1 = index0 + 1;
+		index2 += 3;
 	}
 
 	m_Points = DsUtils::ToArray(positions);
@@ -123,6 +125,6 @@ void Io::Fbx::FbxData::LoadUvs(FbxObject& geometry)
 		const double x = uvValues[index * 2];
 		const double y = uvValues[index * 2 + 1];
 		m_Uvs[i] = { static_cast<float>(x),
-			static_cast<float>(y) };
+			static_cast<float>(1 - y) };
 	}
 }

@@ -61,6 +61,8 @@
     <ClCompile Include="Io\Fbx\FbxData.cpp" />
     <ClCompile Include="Rendering\Renderers\TextureRenderer.cpp" />
     <ClCompile Include="Rendering\Renderers\ConstantBufferTypes.cpp" />
+    <ClCompile Include="App\Wrappers\Dx\SamplerState.cpp" />
+    <ClCompile Include="App\Wrappers\Dx\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -136,6 +138,8 @@
     <ClInclude Include="Io\Fbx\FbxData.h" />
     <ClInclude Include="Rendering\Renderers\TextureRenderer.h" />
     <ClInclude Include="Rendering\Renderers\ConstantBufferTypes.h" />
+    <ClInclude Include="App\Wrappers\Dx\SamplerState.h" />
+    <ClInclude Include="App\Wrappers\Dx\Texture.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

@@ -74,6 +74,8 @@
     <ClCompile Include="Math\Sphere.cpp" />
     <ClCompile Include="Debug\Timing\Counter.cpp" />
     <ClCompile Include="Rendering\Renderers\TextureRenderer.cpp" />
+    <ClCompile Include="App\Wrappers\Dx\SamplerState.cpp" />
+    <ClCompile Include="App\Wrappers\Dx\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\BasicExampleApp.h" />
@@ -149,6 +151,8 @@
     <ClInclude Include="Debug\Timing\Counter.h" />
     <ClInclude Include="Io\Zlib\ZlibDecompress.h" />
     <ClInclude Include="Rendering\Renderers\TextureRenderer.h" />
+    <ClInclude Include="App\Wrappers\Dx\SamplerState.h" />
+    <ClInclude Include="App\Wrappers\Dx\Texture.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
