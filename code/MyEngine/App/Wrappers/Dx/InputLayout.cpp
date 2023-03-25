@@ -82,7 +82,9 @@ DXGI_FORMAT MyEngine::Dx::InputLayout::ToDxFormat(ElementType type)
 	{
 	case ElementType::Float3: return DXGI_FORMAT_R32G32B32_FLOAT;
 	case ElementType::Float2: return DXGI_FORMAT_R32G32_FLOAT;
-	default: return DXGI_FORMAT_UNKNOWN;
+	default:
+		Logger::PrintError("ElementType not supported");
+		return DXGI_FORMAT_UNKNOWN;
 	}
 }
 
@@ -107,6 +109,8 @@ std::string MyEngine::Dx::InputLayout::ToTypeString(ElementType type)
 	{
 	case ElementType::Float3: return "float3";
 	case ElementType::Float2: return "float2";
-	default: return "";
+	default:
+		Logger::PrintError("ElementType not supported");
+		return "";
 	}
 }
