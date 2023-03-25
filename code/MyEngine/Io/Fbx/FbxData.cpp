@@ -19,6 +19,8 @@ Io::Fbx::FbxData::FbxData(FbxReader&& reader)
 	FbxObject& objects{ *reader.GetRoot().GetChild("Objects") };
 	FbxObject& geometry{ *objects.GetChild("Geometry") };
 
+	geometry.Print();
+
 	//POINTS
 	const FbxObject& verticesObject{ *geometry.GetChild("Vertices") };
 	const Array<double>& coordArray{ verticesObject.GetProperty(0)->AsArray<double>().GetValues() };
@@ -43,6 +45,10 @@ Io::Fbx::FbxData::FbxData(FbxReader&& reader)
 			static_cast<float>(*pNormalsDouble++),
 			static_cast<float>(*pNormalsDouble++) };
 	}
+
+	//UVS
+	LoadUvs(geometry);
+
 
 	//INDICES
 	FbxObject& indicesObject{ *geometry.GetChild("PolygonVertexIndex") };
@@ -93,5 +99,22 @@ void Io::Fbx::FbxData::MakeTriangleList()
 		m_Normals[i + 0] = normal;
 		m_Normals[i + 1] = normal;
 		m_Normals[i + 2] = normal;
+	}
+}
+
+void Io::Fbx::FbxData::LoadUvs(FbxObject& geometry)
+{
+	const FbxObject& layerElementUvObject{ *geometry.GetChild("LayerElementUV") };
+	const Array<double>& uvValues{ layerElementUvObject.GetChild("UV")->GetProperty(0)->AsArray<double>().GetValues() };
+	const Array<int>& uvIndices{ layerElementUvObject.GetChild("UVIndex")->GetProperty(0)->AsArray<int>().GetValues() };
+	m_Uvs = { uvIndices.GetSize() };
+
+	for (int i = 0; i < uvIndices.GetSize(); i++)
+	{
+		const int index = uvIndices[i];
+		const double x = uvValues[index * 2];
+		const double y = uvValues[index * 2 + 1];
+		m_Uvs[i] = { static_cast<float>(x),
+			static_cast<float>(y) };
 	}
 }

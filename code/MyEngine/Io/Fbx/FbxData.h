@@ -1,4 +1,5 @@
 #pragma once
+#include "Math/Float2.h"
 
 namespace MyEngine
 {
@@ -6,6 +7,7 @@ namespace MyEngine
 	{
 		namespace Fbx
 		{
+			class FbxObject;
 			class FbxReader;
 
 			class FbxData
@@ -21,9 +23,12 @@ namespace MyEngine
 			private:
 				Array<Math::Float3> m_Points{};
 				Array<Math::Float3> m_Normals{};
+				Array<Math::Float2> m_Uvs{};
 				Array<int> m_Indices{};
 
 				void MakeTriangleList();
+
+				void LoadUvs(FbxObject& geometry);
 			};
 		}
 	}
