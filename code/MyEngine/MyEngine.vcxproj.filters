@@ -59,6 +59,8 @@
     <ClCompile Include="App\Wrappers\Dx\Mesh.cpp" />
     <ClCompile Include="Rendering\Renderers\RendererFactory.cpp" />
     <ClCompile Include="Io\Fbx\FbxData.cpp" />
+    <ClCompile Include="Rendering\Renderers\TextureRenderer.cpp" />
+    <ClCompile Include="Rendering\Renderers\ConstantBufferTypes.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -132,6 +134,8 @@
     <ClInclude Include="Generation\MeshUtils.h" />
     <ClInclude Include="Rendering\Renderers\RendererFactory.h" />
     <ClInclude Include="Io\Fbx\FbxData.h" />
+    <ClInclude Include="Rendering\Renderers\TextureRenderer.h" />
+    <ClInclude Include="Rendering\Renderers\ConstantBufferTypes.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

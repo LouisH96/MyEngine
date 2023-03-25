@@ -1,11 +1,11 @@
 #pragma once
-#include "App/Resources.h"
 #include "App/Wrappers/Dx/BlendState.h"
 #include "App/Wrappers/Dx/ConstantBuffer.h"
+#include "Math/Float2.h"
+#include "Math/Float3.h"
 #include "App/Wrappers/Dx/InputLayout.h"
 #include "App/Wrappers/Dx/Mesh.h"
 #include "App/Wrappers/Dx/RasterizerState.h"
-#include "Math/Float3.h"
 
 namespace MyEngine
 {
@@ -26,47 +26,45 @@ namespace MyEngine
 			class Camera;
 		}
 	}
-}
 
-namespace MyEngine
-{
 	namespace Rendering
 	{
 		//---| Types |---
-		struct V_PosCol
+		struct V_PosUv
 		{
 			Math::Float3 Pos{};
-			Math::Float3 Color{};
-			
+			Math::Float2 Uv{};
+
 			static const Dx::InputLayout::Element ELEMENTS[];
 			static constexpr int NR_ELEMENTS = 2;
 		};
-		struct V_PosColNorm
+		struct V_PosNorUv
 		{
 			Math::Float3 Pos{};
-			Math::Float3 Color{};
 			Math::Float3 Normal{};
+			Math::Float2 Uv{};
 
 			static const Dx::InputLayout::Element ELEMENTS[];
 			static constexpr int NR_ELEMENTS = 3;
 		};
 
+		//---| Class |---
 		template<typename Vertex, typename CamData>
-		class BasicRenderer
+		class TextureRenderer
 		{
 		public:
 			using VertexType = Vertex;
 			using CamDataRefType = CamData;
 
 			//---| Construction |---
-			BasicRenderer(App::Wrappers::Dx::Gpu& gpu, Game::Camera::Camera& camera, const std::wstring& shaderPath, bool isWireframe = false);
-			~BasicRenderer();
+			TextureRenderer(App::Wrappers::Dx::Gpu& gpu, Game::Camera::Camera& camera, const std::wstring& shaderPath, bool isWireframe = false);
+			~TextureRenderer();
 
 			//---| Rule of Five |---
-			BasicRenderer(const BasicRenderer& other) = delete;
-			BasicRenderer(BasicRenderer&& other) noexcept = delete;
-			BasicRenderer& operator=(const BasicRenderer& other) = delete;
-			BasicRenderer& operator=(BasicRenderer&& other) noexcept = delete;
+			TextureRenderer(const TextureRenderer& other) = delete;
+			TextureRenderer(TextureRenderer&& other) noexcept = delete;
+			TextureRenderer& operator=(const TextureRenderer& other) = delete;
+			TextureRenderer& operator=(TextureRenderer&& other) noexcept = delete;
 
 			//---| Loop |---
 			void Render();
@@ -90,7 +88,7 @@ namespace MyEngine
 		};
 
 		template <typename Vertex, typename CamData>
-		BasicRenderer<Vertex, CamData>::BasicRenderer(App::Wrappers::Dx::Gpu& gpu, Game::Camera::Camera& camera,
+		TextureRenderer<Vertex, CamData>::TextureRenderer(App::Wrappers::Dx::Gpu& gpu, Game::Camera::Camera& camera,
 			const std::wstring& shaderPath, bool isWireframe)
 			: m_Gpu(gpu)
 			, m_Camera(camera)
@@ -103,15 +101,15 @@ namespace MyEngine
 		}
 
 		template <typename Vertex, typename CamData>
-		BasicRenderer<Vertex, CamData>::~BasicRenderer()
+		TextureRenderer<Vertex, CamData>::~TextureRenderer()
 		{
 			m_Meshes.DeleteAll();
 		}
 
 		template <typename Vertex, typename CamData>
-		void BasicRenderer<Vertex, CamData>::Render()
+		void TextureRenderer<Vertex, CamData>::Render()
 		{
-			m_ConstantBuffer.Update(m_Gpu, {m_Camera});
+			m_ConstantBuffer.Update(m_Gpu, { m_Camera });
 			m_ConstantBuffer.Activate(m_Gpu);
 			m_RasterizerState.Activate(m_Gpu);
 			m_InputLayout.Activate(m_Gpu);
@@ -125,10 +123,9 @@ namespace MyEngine
 		}
 
 		template <typename Vertex, typename CamData>
-		void BasicRenderer<Vertex, CamData>::AddMesh(const Array<Vertex>& vertices, const Array<int>& indices)
+		void TextureRenderer<Vertex, CamData>::AddMesh(const Array<Vertex>& vertices, const Array<int>& indices)
 		{
 			m_Meshes.Add(App::Wrappers::Dx::Mesh::Create<Vertex>(m_Gpu, vertices, indices));
 		}
 	}
 }
-

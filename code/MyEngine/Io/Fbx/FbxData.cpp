@@ -49,7 +49,6 @@ Io::Fbx::FbxData::FbxData(FbxReader&& reader)
 	//UVS
 	LoadUvs(geometry);
 
-
 	//INDICES
 	FbxObject& indicesObject{ *geometry.GetChild("PolygonVertexIndex") };
 	Array<int>& indices{ indicesObject.GetProperty(0)->AsArray<int>().GetValues() };
@@ -62,7 +61,9 @@ Io::Fbx::FbxData::FbxData(FbxReader&& reader)
 void Io::Fbx::FbxData::MakeTriangleList()
 {
 	std::vector<Float3> positions{};
+	std::vector<Float2> uvs{};
 	positions.reserve(m_Indices.GetSize());
+	uvs.reserve(m_Indices.GetSize());
 
 	for (int iIndex = 0; iIndex < m_Indices.GetSize();)
 	{
@@ -71,19 +72,26 @@ void Io::Fbx::FbxData::MakeTriangleList()
 		int index2 = m_Indices[iIndex++];
 		positions.push_back(m_Points[index0]);
 		positions.push_back(m_Points[index1]);
+		uvs.push_back(m_Uvs[index0]);
+		uvs.push_back(m_Uvs[index1]);
 
 		while (index2 >= 0)
 		{
 			positions.push_back(m_Points[index2]);
+			uvs.push_back(m_Uvs[index2]);
 			index1 = index2;
 			index2 = m_Indices[iIndex++];
 			positions.push_back(m_Points[index0]);
 			positions.push_back(m_Points[index1]);
+			uvs.push_back(m_Uvs[index0]);
+			uvs.push_back(m_Uvs[index1]);
 		}
 		positions.push_back(m_Points[-index2 - 1]);
+		uvs.push_back(m_Uvs[-index2 - 1]);
 	}
 
 	m_Points = DsUtils::ToArray(positions);
+	m_Uvs = DsUtils::ToArray(uvs);
 	m_Indices = { 0 };
 
 	//create normals
