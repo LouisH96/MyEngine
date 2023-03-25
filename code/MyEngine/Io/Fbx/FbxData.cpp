@@ -1,0 +1,97 @@
+#include "pch.h"
+#include "FbxData.h"
+
+#include "FbxObject.h"
+#include "FbxReader.h"
+#include "Properties/FbxPropArray.h"
+#include <Math/Float3.h>
+
+#include "DataStructures/DsUtils.h"
+
+using namespace Math;
+
+Io::Fbx::FbxData::FbxData(const std::wstring& fbxPath)
+	: FbxData(FbxReader{ fbxPath })
+{}
+
+Io::Fbx::FbxData::FbxData(FbxReader&& reader)
+{
+	FbxObject& objects{ *reader.GetRoot().GetChild("Objects") };
+	FbxObject& geometry{ *objects.GetChild("Geometry") };
+
+	//POINTS
+	const FbxObject& verticesObject{ *geometry.GetChild("Vertices") };
+	const Array<double>& coordArray{ verticesObject.GetProperty(0)->AsArray<double>().GetValues() };
+	m_Points = { coordArray.GetSize() / 3 };
+	const double* pCoord = &coordArray[0];
+	for (int i = 0; i < m_Points.GetSize(); i++)
+		m_Points[i] = {
+			static_cast<float>(*pCoord++),
+			static_cast<float>(*pCoord++),
+			static_cast<float>(*pCoord++) };
+
+	//NORMALS
+	const FbxObject& layerElementNormalObject{ *geometry.GetChild("LayerElementNormal") };
+	const FbxObject& normalsObject{ *layerElementNormalObject.GetChild("Normals") };
+	const Array<double>& normalDoublesArray{ normalsObject.GetProperty(0)->AsArray<double>().GetValues() };
+	m_Normals = { coordArray.GetSize() / 3 };
+	const double* pNormalsDouble = &normalDoublesArray[0];
+	for (int i = 0; i < m_Normals.GetSize(); i++)
+	{
+		m_Normals[i] = {
+			static_cast<float>(*pNormalsDouble++),
+			static_cast<float>(*pNormalsDouble++),
+			static_cast<float>(*pNormalsDouble++) };
+	}
+
+	//INDICES
+	FbxObject& indicesObject{ *geometry.GetChild("PolygonVertexIndex") };
+	Array<int>& indices{ indicesObject.GetProperty(0)->AsArray<int>().GetValues() };
+	m_Indices = std::move(indices);
+
+	//MAKE TRIANGLE LIST
+	MakeTriangleList();
+}
+
+void Io::Fbx::FbxData::MakeTriangleList()
+{
+	std::vector<Float3> positions{};
+	positions.reserve(m_Indices.GetSize());
+
+	for (int iIndex = 0; iIndex < m_Indices.GetSize();)
+	{
+		const int index0 = m_Indices[iIndex++];
+		int index1 = m_Indices[iIndex++];
+		int index2 = m_Indices[iIndex++];
+		positions.push_back(m_Points[index0]);
+		positions.push_back(m_Points[index1]);
+
+		while (index2 >= 0)
+		{
+			positions.push_back(m_Points[index2]);
+			index1 = index2;
+			index2 = m_Indices[iIndex++];
+			positions.push_back(m_Points[index0]);
+			positions.push_back(m_Points[index1]);
+		}
+		positions.push_back(m_Points[-index2 - 1]);
+	}
+
+	m_Points = DsUtils::ToArray(positions);
+	m_Indices = { 0 };
+
+	//create normals
+	m_Normals = { m_Points.GetSize() };
+	for (int i = 0; i < m_Points.GetSize(); i += 3)
+	{
+		const Float3& point0{ m_Points[i + 0] };
+		const Float3& point1{ m_Points[i + 1] };
+		const Float3& point2{ m_Points[i + 2] };
+		const Float3 edge1{ point1 - point0 };
+		const Float3 edge2{ point2 - point0 };
+		const Float3 normal{ edge1.Cross(edge2).Normalized() };
+		m_Normals[i + 0] = normal;
+		m_Normals[i + 1] = normal;
+		m_Normals[i + 2] = normal;
+	}
+}

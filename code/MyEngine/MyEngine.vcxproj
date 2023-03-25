@@ -20,6 +20,7 @@
     <ClCompile Include="App\Wrappers\Dx\BlendState.cpp" />
     <ClCompile Include="App\Wrappers\Dx\Mesh.cpp" />
     <ClCompile Include="App\Wrappers\Dx\Shader.cpp" />
+    <ClCompile Include="Io\Fbx\FbxData.cpp" />
     <ClCompile Include="Generation\MeshUtils.cpp" />
     <ClCompile Include="Rendering\Renderers\RendererFactory.cpp" />
     <ClCompile Include="Rendering\Renderers\BasicRenderer.cpp" />
@@ -83,6 +84,7 @@
     <ClInclude Include="App\Wrappers\Win32\IExtraWinProc.h" />
     <ClInclude Include="App\Wrappers\Dx\ConstantBuffer.h" />
     <ClInclude Include="App\Wrappers\Dx\BlendState.h" />
+    <ClInclude Include="Io\Fbx\FbxData.h" />
     <ClInclude Include="Generation\MeshUtils.h" />
     <ClInclude Include="Rendering\Renderers\RendererFactory.h" />
     <ClInclude Include="Rendering\Renderers\BasicRenderer.h" />

@@ -58,6 +58,7 @@
     <ClCompile Include="App\Wrappers\Dx\Shader.cpp" />
     <ClCompile Include="App\Wrappers\Dx\Mesh.cpp" />
     <ClCompile Include="Rendering\Renderers\RendererFactory.cpp" />
+    <ClCompile Include="Io\Fbx\FbxData.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -130,6 +131,7 @@
     <ClInclude Include="Rendering\Renderers\BasicRenderer.h" />
     <ClInclude Include="Generation\MeshUtils.h" />
     <ClInclude Include="Rendering\Renderers\RendererFactory.h" />
+    <ClInclude Include="Io\Fbx\FbxData.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
