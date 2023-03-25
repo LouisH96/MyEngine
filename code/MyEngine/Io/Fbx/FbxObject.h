@@ -16,7 +16,7 @@ namespace MyEngine
 
 				std::streampos GetEnd() const { return m_End; }
 
-				void Print(bool compact = false, int nrTabs = 0) const;
+				void Print(bool compact = true, int nrTabs = 0) const;
 				const FbxObject* GetChild(const std::string& name) const;
 				const FbxProperty* GetProperty(int idx) const;
 				FbxObject* GetChild(const std::string& name);
