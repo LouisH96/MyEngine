@@ -17,6 +17,7 @@ namespace MyEngine
 				~FbxReader();
 
 				const FbxObject& GetRoot() const { return *m_pRoot; }
+				FbxObject& GetRoot() { return *m_pRoot; }
 
 			private:
 				std::ifstream m_Stream;

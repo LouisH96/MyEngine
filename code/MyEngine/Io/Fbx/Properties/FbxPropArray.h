@@ -23,6 +23,8 @@ namespace MyEngine
 				FbxPropArray(std::istream& stream);
 
 				const Array<T>& GetValues() const { return m_Values; }
+				Array<T>& GetValues() { return m_Values; }
+
 				void Print(bool compact, int nrTabs) const override;
 			private:
 				Array<T> m_Values;

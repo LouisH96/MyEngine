@@ -15,9 +15,10 @@ namespace MyEngine
 
 				void Print(bool compact, int nrTabs) const override;
 				const std::string& GetValue() const { return m_String; }
+				std::string& GetValue() { return m_String; }
 				static std::string Read(std::istream& stream);
 			private:
-				const std::string m_String;
+				std::string m_String;
 			};
 		}
 	}

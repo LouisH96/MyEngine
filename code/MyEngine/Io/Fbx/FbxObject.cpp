@@ -54,7 +54,7 @@ void MyEngine::Io::Fbx::FbxObject::Print(bool compact, int nrTabs) const
 		m_Children[i]->Print(compact, nrTabs + 1);
 }
 
-MyEngine::Io::Fbx::FbxObject* MyEngine::Io::Fbx::FbxObject::GetChild(const std::string& name) const
+const MyEngine::Io::Fbx::FbxObject* MyEngine::Io::Fbx::FbxObject::GetChild(const std::string& name) const
 {
 	for (int i = 0; i < m_Children.size(); i++)
 		if (m_Children[i]->GetName() == name)
@@ -63,7 +63,21 @@ MyEngine::Io::Fbx::FbxObject* MyEngine::Io::Fbx::FbxObject::GetChild(const std::
 	return nullptr;
 }
 
-Io::Fbx::FbxProperty* Io::Fbx::FbxObject::GetProperty(int idx) const
+const Io::Fbx::FbxProperty* Io::Fbx::FbxObject::GetProperty(int idx) const
+{
+	return m_Properties[idx];
+}
+
+Io::Fbx::FbxObject* Io::Fbx::FbxObject::GetChild(const std::string& name)
+{
+	for (int i = 0; i < m_Children.size(); i++)
+		if (m_Children[i]->GetName() == name)
+			return m_Children[i];
+	Logger::PrintError("FbxChild with name " + name + " not found");
+	return nullptr;
+}
+
+Io::Fbx::FbxProperty* Io::Fbx::FbxObject::GetProperty(int idx)
 {
 	return m_Properties[idx];
 }
