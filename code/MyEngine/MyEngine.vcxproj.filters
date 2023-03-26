@@ -63,6 +63,7 @@
     <ClCompile Include="Rendering\Renderers\ConstantBufferTypes.cpp" />
     <ClCompile Include="App\Wrappers\Dx\SamplerState.cpp" />
     <ClCompile Include="App\Wrappers\Dx\Texture.cpp" />
+    <ClCompile Include="Math\Geometry\PointUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />

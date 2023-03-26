@@ -20,6 +20,7 @@
     <ClCompile Include="App\Wrappers\Dx\BlendState.cpp" />
     <ClCompile Include="App\Wrappers\Dx\Mesh.cpp" />
     <ClCompile Include="App\Wrappers\Dx\Shader.cpp" />
+    <ClCompile Include="Math\Geometry\PointUtils.cpp" />
     <ClCompile Include="Rendering\Renderers\ConstantBufferTypes.cpp" />
     <ClCompile Include="Io\Fbx\FbxData.cpp" />
     <ClCompile Include="Generation\MeshUtils.cpp" />

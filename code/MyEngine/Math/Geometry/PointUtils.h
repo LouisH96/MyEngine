@@ -3,6 +3,7 @@
 #include <limits>
 #include <DataStructures/Array.h>
 #include "Math/Value2.h"
+#include <Math/Float3.h>
 
 #undef min;
 #undef max;
@@ -24,6 +25,8 @@ namespace MyEngine
 
 				template<typename T>
 				static void Scale(Ds::Array<Value2<T>>& points, T scale);
+
+				static void Translate(Ds::Array<Float3>& points, const Float3& translation);
 			};
 
 			//---| Definitions |---
