@@ -64,6 +64,7 @@
     <ClCompile Include="Math\Geometry\PointUtils.cpp" />
     <ClCompile Include="Debug\DebugRenderer.cpp" />
     <ClCompile Include="Rendering\Renderers\VertexTypes.cpp" />
+    <ClCompile Include="Io\Fbx\FbxModel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -143,6 +144,7 @@
     <ClInclude Include="App\Wrappers\Dx\Texture.h" />
     <ClInclude Include="Debug\DebugRenderer.h" />
     <ClInclude Include="Rendering\Renderers\VertexTypes.h" />
+    <ClInclude Include="Io\Fbx\FbxModel.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

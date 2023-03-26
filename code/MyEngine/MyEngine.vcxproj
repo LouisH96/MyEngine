@@ -21,6 +21,7 @@
     <ClCompile Include="App\Wrappers\Dx\Mesh.cpp" />
     <ClCompile Include="App\Wrappers\Dx\Shader.cpp" />
     <ClCompile Include="Debug\DebugRenderer.cpp" />
+    <ClCompile Include="Io\Fbx\FbxModel.cpp" />
     <ClCompile Include="Math\Geometry\PointUtils.cpp" />
     <ClCompile Include="Rendering\Renderers\ConstantBufferTypes.cpp" />
     <ClCompile Include="Io\Fbx\FbxData.cpp" />
@@ -90,6 +91,7 @@
     <ClInclude Include="App\Wrappers\Dx\ConstantBuffer.h" />
     <ClInclude Include="App\Wrappers\Dx\BlendState.h" />
     <ClInclude Include="Debug\DebugRenderer.h" />
+    <ClInclude Include="Io\Fbx\FbxModel.h" />
     <ClInclude Include="Rendering\Renderers\ConstantBufferTypes.h" />
     <ClInclude Include="Io\Fbx\FbxData.h" />
     <ClInclude Include="Generation\MeshUtils.h" />

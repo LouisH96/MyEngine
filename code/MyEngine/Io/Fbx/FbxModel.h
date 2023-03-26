@@ -7,14 +7,13 @@ namespace MyEngine
 	{
 		namespace Fbx
 		{
-			class FbxObject;
-			class FbxReader;
+			class FbxData;
 
-			class FbxData
+			class FbxModel
 			{
 			public:
-				FbxData(const std::wstring& fbxPath);
-				FbxData(FbxReader&& reader);
+				FbxModel(const std::wstring& path);
+				~FbxModel() = default;
 
 				const Array<Math::Float3>& GetPoints() const { return m_Points; }
 				const Array<Math::Float3>& GetNormals() const { return m_Normals; }
@@ -32,10 +31,7 @@ namespace MyEngine
 				Array<Math::Float2> m_Uvs{};
 				Array<int> m_Indices{};
 
-				void LoadPoints(FbxObject& geometry);
-				void LoadNormals(FbxObject& geometry);
-				void LoadIndices(FbxObject& geometry);
-				void LoadUvs(FbxObject& geometry);
+				void MakeTriangleList();
 			};
 		}
 	}
