@@ -6,6 +6,11 @@ MyEngine::Io::Binary::Bini::Bini(std::istream& stream)
 {
 }
 
+uint64_t Io::Binary::Bini::Uint64() const
+{
+	return Uint64(m_Stream);
+}
+
 unsigned int MyEngine::Io::Binary::Bini::Uint32() const
 {
 	return Uint32(m_Stream);
@@ -31,6 +36,19 @@ uint8_t MyEngine::Io::Binary::Bini::Uint8() const
 std::string MyEngine::Io::Binary::Bini::String(int size) const
 {
 	return String(m_Stream, size);
+}
+
+uint64_t Io::Binary::Bini::Uint64(std::istream& stream)
+{
+	uint64_t result = static_cast<unsigned char>(stream.get());
+	reinterpret_cast<uint8_t*>(&result)[1] = static_cast<unsigned char>(stream.get());
+	reinterpret_cast<uint8_t*>(&result)[2] = static_cast<unsigned char>(stream.get());
+	reinterpret_cast<uint8_t*>(&result)[3] = static_cast<unsigned char>(stream.get());
+	reinterpret_cast<uint8_t*>(&result)[4] = static_cast<unsigned char>(stream.get());
+	reinterpret_cast<uint8_t*>(&result)[5] = static_cast<unsigned char>(stream.get());
+	reinterpret_cast<uint8_t*>(&result)[6] = static_cast<unsigned char>(stream.get());
+	reinterpret_cast<uint8_t*>(&result)[7] = static_cast<unsigned char>(stream.get());
+	return result;
 }
 
 unsigned int MyEngine::Io::Binary::Bini::Uint32(std::istream& stream)
