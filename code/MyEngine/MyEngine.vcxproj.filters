@@ -53,17 +53,17 @@
     <ClCompile Include="Io\Binary\DeflateDecompress.cpp" />
     <ClCompile Include="Io\Binary\Huffman.cpp" />
     <ClCompile Include="Io\Zlib\ZlibDecompress.cpp" />
-    <ClCompile Include="Rendering\Renderers\BasicRenderer.cpp" />
     <ClCompile Include="Generation\MeshUtils.cpp" />
     <ClCompile Include="App\Wrappers\Dx\Shader.cpp" />
     <ClCompile Include="App\Wrappers\Dx\Mesh.cpp" />
     <ClCompile Include="Rendering\Renderers\RendererFactory.cpp" />
     <ClCompile Include="Io\Fbx\FbxData.cpp" />
-    <ClCompile Include="Rendering\Renderers\TextureRenderer.cpp" />
     <ClCompile Include="Rendering\Renderers\ConstantBufferTypes.cpp" />
     <ClCompile Include="App\Wrappers\Dx\SamplerState.cpp" />
     <ClCompile Include="App\Wrappers\Dx\Texture.cpp" />
     <ClCompile Include="Math\Geometry\PointUtils.cpp" />
+    <ClCompile Include="Debug\DebugRenderer.cpp" />
+    <ClCompile Include="Rendering\Renderers\VertexTypes.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -141,6 +141,8 @@
     <ClInclude Include="Rendering\Renderers\ConstantBufferTypes.h" />
     <ClInclude Include="App\Wrappers\Dx\SamplerState.h" />
     <ClInclude Include="App\Wrappers\Dx\Texture.h" />
+    <ClInclude Include="Debug\DebugRenderer.h" />
+    <ClInclude Include="Rendering\Renderers\VertexTypes.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

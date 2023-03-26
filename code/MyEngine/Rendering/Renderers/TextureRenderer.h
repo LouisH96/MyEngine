@@ -31,25 +31,6 @@ namespace MyEngine
 
 	namespace Rendering
 	{
-		//---| Types |---
-		struct V_PosUv
-		{
-			Math::Float3 Pos{};
-			Math::Float2 Uv{};
-
-			static const Dx::InputLayout::Element ELEMENTS[];
-			static constexpr int NR_ELEMENTS = 2;
-		};
-		struct V_PosNorUv
-		{
-			Math::Float3 Pos{};
-			Math::Float3 Normal{};
-			Math::Float2 Uv{};
-
-			static const Dx::InputLayout::Element ELEMENTS[];
-			static constexpr int NR_ELEMENTS = 3;
-		};
-
 		//---| Class |---
 		template<typename Vertex, typename CamData>
 		class TextureRenderer

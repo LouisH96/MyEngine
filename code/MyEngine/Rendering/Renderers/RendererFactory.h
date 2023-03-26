@@ -2,6 +2,7 @@
 #include "BasicRenderer.h"
 #include "ConstantBufferTypes.h"
 #include "TextureRenderer.h"
+#include "VertexTypes.h"
 
 namespace MyEngine
 {

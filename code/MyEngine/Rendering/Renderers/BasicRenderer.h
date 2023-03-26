@@ -32,25 +32,6 @@ namespace MyEngine
 {
 	namespace Rendering
 	{
-		//---| Types |---
-		struct V_PosCol
-		{
-			Math::Float3 Pos{};
-			Math::Float3 Color{};
-			
-			static const Dx::InputLayout::Element ELEMENTS[];
-			static constexpr int NR_ELEMENTS = 2;
-		};
-		struct V_PosColNorm
-		{
-			Math::Float3 Pos{};
-			Math::Float3 Color{};
-			Math::Float3 Normal{};
-
-			static const Dx::InputLayout::Element ELEMENTS[];
-			static constexpr int NR_ELEMENTS = 3;
-		};
-
 		template<typename Vertex, typename CamData>
 		class BasicRenderer
 		{

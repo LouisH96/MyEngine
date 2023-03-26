@@ -20,12 +20,12 @@
     <ClCompile Include="App\Wrappers\Dx\BlendState.cpp" />
     <ClCompile Include="App\Wrappers\Dx\Mesh.cpp" />
     <ClCompile Include="App\Wrappers\Dx\Shader.cpp" />
+    <ClCompile Include="Debug\DebugRenderer.cpp" />
     <ClCompile Include="Math\Geometry\PointUtils.cpp" />
     <ClCompile Include="Rendering\Renderers\ConstantBufferTypes.cpp" />
     <ClCompile Include="Io\Fbx\FbxData.cpp" />
     <ClCompile Include="Generation\MeshUtils.cpp" />
     <ClCompile Include="Rendering\Renderers\RendererFactory.cpp" />
-    <ClCompile Include="Rendering\Renderers\BasicRenderer.cpp" />
     <ClCompile Include="Io\Binary\Huffman.cpp" />
     <ClCompile Include="Io\Binary\DeflateDecompress.cpp" />
     <ClCompile Include="Io\Binary\BitStream.cpp" />
@@ -74,9 +74,9 @@
     <ClCompile Include="Math\Rect.cpp" />
     <ClCompile Include="Math\Sphere.cpp" />
     <ClCompile Include="Debug\Timing\Counter.cpp" />
-    <ClCompile Include="Rendering\Renderers\TextureRenderer.cpp" />
     <ClCompile Include="App\Wrappers\Dx\SamplerState.cpp" />
     <ClCompile Include="App\Wrappers\Dx\Texture.cpp" />
+    <ClCompile Include="Rendering\Renderers\VertexTypes.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\BasicExampleApp.h" />
@@ -89,6 +89,7 @@
     <ClInclude Include="App\Wrappers\Win32\IExtraWinProc.h" />
     <ClInclude Include="App\Wrappers\Dx\ConstantBuffer.h" />
     <ClInclude Include="App\Wrappers\Dx\BlendState.h" />
+    <ClInclude Include="Debug\DebugRenderer.h" />
     <ClInclude Include="Rendering\Renderers\ConstantBufferTypes.h" />
     <ClInclude Include="Io\Fbx\FbxData.h" />
     <ClInclude Include="Generation\MeshUtils.h" />
@@ -154,6 +155,7 @@
     <ClInclude Include="Rendering\Renderers\TextureRenderer.h" />
     <ClInclude Include="App\Wrappers\Dx\SamplerState.h" />
     <ClInclude Include="App\Wrappers\Dx\Texture.h" />
+    <ClInclude Include="Rendering\Renderers\VertexTypes.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
