@@ -37,7 +37,6 @@ namespace MyEngine
 			inline T FbxPropPrimitive<T>::Read(std::istream& stream)
 			{
 				unsigned char c[sizeof(T)];
-				//for (int i = sizeof(T)-1; i >=0; i--)
 				for (int i = 0; i < sizeof(T); i++)
 					c[i] = static_cast<unsigned char>(stream.get());
 				return T{ *reinterpret_cast<T*>(&c[0]) };
