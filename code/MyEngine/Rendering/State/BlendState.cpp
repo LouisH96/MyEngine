@@ -2,9 +2,9 @@
 #include "BlendState.h"
 
 #include <d3d11.h>
-#include "Gpu.h"
+#include "../Gpu.h"
 
-Dx::BlendState::BlendState(const App::Wrappers::Dx::Gpu& gpu)
+Rendering::BlendState::BlendState(const Rendering::Gpu& gpu)
 {
 	D3D11_BLEND_DESC desc{};
 	desc.RenderTarget[0].BlendEnable = true;
@@ -18,12 +18,12 @@ Dx::BlendState::BlendState(const App::Wrappers::Dx::Gpu& gpu)
 	gpu.GetDevice().CreateBlendState(&desc, &m_pBlendState);
 }
 
-Dx::BlendState::~BlendState()
+Rendering::BlendState::~BlendState()
 {
 	m_pBlendState->Release();
 }
 
-void Dx::BlendState::Activate(const App::Wrappers::Dx::Gpu& gpu) const
+void Rendering::BlendState::Activate(const Rendering::Gpu& gpu) const
 {
 	gpu.GetContext().OMSetBlendState(m_pBlendState, nullptr, 0xffffffff);
 }

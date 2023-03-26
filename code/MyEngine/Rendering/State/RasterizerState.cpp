@@ -1,9 +1,9 @@
 #include "pch.h"
 #include "RasterizerState.h"
 
-#include "App/Wrappers/Dx/Gpu.h"
+#include "../Gpu.h"
 
-Dx::RasterizerState::RasterizerState(const App::Wrappers::Dx::Gpu& gpu, bool isWireframe)
+Rendering::RasterizerState::RasterizerState(const Gpu& gpu, bool isWireframe)
 {
 	D3D11_RASTERIZER_DESC desc{};
 	if(isWireframe)
@@ -24,12 +24,12 @@ Dx::RasterizerState::RasterizerState(const App::Wrappers::Dx::Gpu& gpu, bool isW
 		Logger::PrintError("RasterizerState");
 }
 
-Dx::RasterizerState::~RasterizerState()
+Rendering::RasterizerState::~RasterizerState()
 {
 	m_pState->Release();
 }
 
-void Dx::RasterizerState::Activate(const MyEngine::App::Wrappers::Dx::Gpu& gpu) const
+void Rendering::RasterizerState::Activate(const Gpu& gpu) const
 {
 	gpu.GetContext().RSSetState(m_pState);
 }

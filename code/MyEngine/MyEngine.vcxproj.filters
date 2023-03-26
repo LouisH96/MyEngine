@@ -2,11 +2,10 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="Debug\Logger.cpp" />
-    <ClCompile Include="App\Wrappers\Dx\DxHelper.cpp" />
+    <ClCompile Include="Rendering\Dx\DxHelper.cpp" />
     <ClCompile Include="App\Wrappers\Win32\Window.cpp" />
     <ClCompile Include="App\BasicExampleApp.cpp" />
     <ClCompile Include="App\FpsControl.cpp" />
-    <ClCompile Include="App\Wrappers\Dx\GpuCreator.cpp" />
     <ClCompile Include="App\Resources.cpp" />
     <ClCompile Include="Game\Camera\Camera.cpp" />
     <ClCompile Include="Game\Camera\CameraController.cpp" />
@@ -18,15 +17,15 @@
     <ClCompile Include="App\Wrappers\Win32\InputTypes.cpp" />
     <ClCompile Include="App\Wrappers\Win32\Keyboard_MsgListener.cpp" />
     <ClCompile Include="App\Framework.cpp" />
-    <ClCompile Include="App\Wrappers\Dx\Canvas.cpp" />
-    <ClCompile Include="App\Wrappers\Dx\Gpu.cpp" />
+    <ClCompile Include="Rendering\Canvas.cpp" />
+    <ClCompile Include="Rendering\Gpu.cpp" />
     <ClCompile Include="App\Wrappers\Win32\Renderer2D.cpp" />
     <ClCompile Include="App\Wrappers\Dx\RendererD2D.cpp" />
     <ClCompile Include="Math\Int2.cpp" />
     <ClCompile Include="App\Wrappers\Win32\Mouse.cpp" />
-    <ClCompile Include="App\Wrappers\Dx\InputLayout.cpp" />
-    <ClCompile Include="App\Wrappers\Dx\BlendState.cpp" />
-    <ClCompile Include="App\Wrappers\Dx\RasterizerState.cpp" />
+    <ClCompile Include="Rendering\State\InputLayout.cpp" />
+    <ClCompile Include="Rendering\State\BlendState.cpp" />
+    <ClCompile Include="Rendering\State\RasterizerState.cpp" />
     <ClCompile Include="Generation\Shapes.cpp" />
     <ClCompile Include="Math\Rect.cpp" />
     <ClCompile Include="Math\Float2.cpp" />
@@ -54,13 +53,13 @@
     <ClCompile Include="Io\Binary\Huffman.cpp" />
     <ClCompile Include="Io\Zlib\ZlibDecompress.cpp" />
     <ClCompile Include="Generation\MeshUtils.cpp" />
-    <ClCompile Include="App\Wrappers\Dx\Shader.cpp" />
-    <ClCompile Include="App\Wrappers\Dx\Mesh.cpp" />
+    <ClCompile Include="Rendering\State\Shader.cpp" />
+    <ClCompile Include="Rendering\State\Mesh.cpp" />
     <ClCompile Include="Rendering\Renderers\RendererFactory.cpp" />
     <ClCompile Include="Io\Fbx\FbxData.cpp" />
     <ClCompile Include="Rendering\Renderers\ConstantBufferTypes.cpp" />
-    <ClCompile Include="App\Wrappers\Dx\SamplerState.cpp" />
-    <ClCompile Include="App\Wrappers\Dx\Texture.cpp" />
+    <ClCompile Include="Rendering\State\SamplerState.cpp" />
+    <ClCompile Include="Rendering\State\Texture.cpp" />
     <ClCompile Include="Math\Geometry\PointUtils.cpp" />
     <ClCompile Include="Debug\DebugRenderer.cpp" />
     <ClCompile Include="Rendering\Renderers\VertexTypes.cpp" />
@@ -68,12 +67,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
-    <ClInclude Include="App\Wrappers\Dx\DxHelper.h" />
+    <ClInclude Include="Rendering\Dx\DxHelper.h" />
     <ClInclude Include="App\Wrappers\Win32\Window.h" />
     <ClInclude Include="App\BasicExampleApp.h" />
     <ClInclude Include="App\FpsControl.h" />
     <ClInclude Include="App\Time.h" />
-    <ClInclude Include="App\Wrappers\Dx\GpuCreator.h" />
     <ClInclude Include="App\Resources.h" />
     <ClInclude Include="Game\Camera\Camera.h" />
     <ClInclude Include="Game\Camera\CameraController.h" />
@@ -87,20 +85,20 @@
     <ClInclude Include="App\Wrappers\Win32\InputTypes.h" />
     <ClInclude Include="App\Wrappers\Win32\Keyboard_MsgListener.h" />
     <ClInclude Include="App\Framework.h" />
-    <ClInclude Include="App\Wrappers\Dx\Canvas.h" />
-    <ClInclude Include="App\Wrappers\Dx\Gpu.h" />
-    <ClInclude Include="App\Wrappers\Dx\Mesh.h" />
+    <ClInclude Include="Rendering\Canvas.h" />
+    <ClInclude Include="Rendering\Gpu.h" />
+    <ClInclude Include="Rendering\State\Mesh.h" />
     <ClInclude Include="App\Wrappers\Dx\Painter.h" />
-    <ClInclude Include="App\Wrappers\Dx\Shader.h" />
+    <ClInclude Include="Rendering\State\Shader.h" />
     <ClInclude Include="App\Wrappers\Win32\IExtraWinProc.h" />
     <ClInclude Include="App\Wrappers\Win32\Renderer2D.h" />
     <ClInclude Include="App\Wrappers\Dx\RendererD2D.h" />
     <ClInclude Include="Math\Int2.h" />
     <ClInclude Include="App\Wrappers\Win32\Mouse.h" />
-    <ClInclude Include="App\Wrappers\Dx\InputLayout.h" />
-    <ClInclude Include="App\Wrappers\Dx\ConstantBuffer.h" />
-    <ClInclude Include="App\Wrappers\Dx\BlendState.h" />
-    <ClInclude Include="App\Wrappers\Dx\RasterizerState.h" />
+    <ClInclude Include="Rendering\State\InputLayout.h" />
+    <ClInclude Include="Rendering\State\ConstantBuffer.h" />
+    <ClInclude Include="Rendering\State\BlendState.h" />
+    <ClInclude Include="Rendering\State\RasterizerState.h" />
     <ClInclude Include="Generation\Shapes.h" />
     <ClInclude Include="Math\Rect.h" />
     <ClInclude Include="Math\Float2.h" />
@@ -140,8 +138,8 @@
     <ClInclude Include="Io\Fbx\FbxData.h" />
     <ClInclude Include="Rendering\Renderers\TextureRenderer.h" />
     <ClInclude Include="Rendering\Renderers\ConstantBufferTypes.h" />
-    <ClInclude Include="App\Wrappers\Dx\SamplerState.h" />
-    <ClInclude Include="App\Wrappers\Dx\Texture.h" />
+    <ClInclude Include="Rendering\State\SamplerState.h" />
+    <ClInclude Include="Rendering\State\Texture.h" />
     <ClInclude Include="Debug\DebugRenderer.h" />
     <ClInclude Include="Rendering\Renderers\VertexTypes.h" />
     <ClInclude Include="Io\Fbx\FbxModel.h" />

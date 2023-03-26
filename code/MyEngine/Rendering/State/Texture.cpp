@@ -5,7 +5,7 @@
 #include "Shader.h"
 #include <dxgi.h>
 
-Dx::Texture::Texture(const App::Wrappers::Dx::Gpu& gpu, const std::wstring& path)
+Rendering::Texture::Texture(const Gpu& gpu, const std::wstring& path)
 {
 	//https://www.braynzarsoft.net/viewtutorial/q16390-directx-12-textures-from-file
 	static IWICImagingFactory* wicFactory;
@@ -170,28 +170,28 @@ Dx::Texture::Texture(const App::Wrappers::Dx::Gpu& gpu, const std::wstring& path
 	delete[] pImageData;
 }
 
-Dx::Texture::~Texture()
+Rendering::Texture::~Texture()
 {
 	m_pShaderResourceView->Release();
 }
 
-void Dx::Texture::ActivateVs(const App::Wrappers::Dx::Gpu& gpu) const
+void Rendering::Texture::ActivateVs(const Gpu& gpu) const
 {
 	gpu.GetContext().VSSetShaderResources(0, 1, &m_pShaderResourceView);
 }
 
-void Dx::Texture::ActivatePs(const App::Wrappers::Dx::Gpu& gpu) const
+void Rendering::Texture::ActivatePs(const Gpu& gpu) const
 {
 	gpu.GetContext().PSSetShaderResources(0, 1, &m_pShaderResourceView);
 }
 
-void Dx::Texture::Activate(const App::Wrappers::Dx::Gpu& gpu) const
+void Rendering::Texture::Activate(const Gpu& gpu) const
 {
 	gpu.GetContext().PSSetShaderResources(0, 1, &m_pShaderResourceView);
 	gpu.GetContext().VSSetShaderResources(0, 1, &m_pShaderResourceView);
 }
 
-DXGI_FORMAT Dx::Texture::GetDXGIFormatFromWICFormat(WICPixelFormatGUID& wicFormatGuid)
+DXGI_FORMAT Rendering::Texture::GetDXGIFormatFromWICFormat(WICPixelFormatGUID& wicFormatGuid)
 {
 	if (wicFormatGuid == GUID_WICPixelFormat128bppRGBAFloat) return DXGI_FORMAT_R32G32B32A32_FLOAT;
 	if (wicFormatGuid == GUID_WICPixelFormat64bppRGBAHalf) return DXGI_FORMAT_R16G16B16A16_FLOAT;
@@ -211,7 +211,7 @@ DXGI_FORMAT Dx::Texture::GetDXGIFormatFromWICFormat(WICPixelFormatGUID& wicForma
 	return DXGI_FORMAT_UNKNOWN;
 }
 
-WICPixelFormatGUID Dx::Texture::GetConvertToWICFormat(WICPixelFormatGUID& wicFormatGUID)
+WICPixelFormatGUID Rendering::Texture::GetConvertToWICFormat(WICPixelFormatGUID& wicFormatGUID)
 {
 	if (wicFormatGUID == GUID_WICPixelFormatBlackWhite) return GUID_WICPixelFormat8bppGray;
 	if (wicFormatGUID == GUID_WICPixelFormat1bppIndexed) return GUID_WICPixelFormat32bppRGBA;
@@ -257,7 +257,7 @@ WICPixelFormatGUID Dx::Texture::GetConvertToWICFormat(WICPixelFormatGUID& wicFor
 	return GUID_WICPixelFormatDontCare;
 }
 
-int Dx::Texture::GetDXGIFormatBitsPerPixel(DXGI_FORMAT& dxgiFormat)
+int Rendering::Texture::GetDXGIFormatBitsPerPixel(DXGI_FORMAT& dxgiFormat)
 {
 	if (dxgiFormat == DXGI_FORMAT_R32G32B32A32_FLOAT) return 128;
 	if (dxgiFormat == DXGI_FORMAT_R16G16B16A16_FLOAT) return 64;

@@ -2,14 +2,14 @@
 #include "DebugRenderer.h"
 
 #include "App/Resources.h"
-#include "App/Wrappers/Dx/Mesh.h"
+#include <Rendering/State/Mesh.h>
 #include "Math/Sphere.h"
 #include "Rendering/Renderers/VertexTypes.h"
 #include <Generation/Shapes.h>
 
 DebugRenderer* DebugRenderer::m_pStatic = nullptr;
 
-void DebugRenderer::Init(App::Wrappers::Dx::Gpu& gpu, Game::Camera::Camera& camera)
+void DebugRenderer::Init(Rendering::Gpu& gpu, Game::Camera::Camera& camera)
 {
 	m_pStatic = new DebugRenderer(gpu, camera);
 }
@@ -34,7 +34,7 @@ void DebugRenderer::AddSpheres(const Array<Float3>& positions, const Float3& col
 	m_pStatic->Class_AddSpheres(positions, color, radius);
 }
 
-DebugRenderer::DebugRenderer(App::Wrappers::Dx::Gpu& gpu, Game::Camera::Camera& camera)
+DebugRenderer::DebugRenderer(Rendering::Gpu& gpu, Game::Camera::Camera& camera)
 	: m_Gpu(gpu)
 	, m_Camera(camera)
 	, m_BlendState(gpu)
@@ -67,7 +67,6 @@ void DebugRenderer::Class_Render()
 
 void DebugRenderer::Class_AddSphere(const Float3& position, const Float3& color, float radius)
 {
-	using namespace App::Wrappers::Dx;
 	const Sphere sphere{ position, radius };
 	Array<Float3> positions{};
 	Array<Float3> normals{};
@@ -76,7 +75,7 @@ void DebugRenderer::Class_AddSphere(const Float3& position, const Float3& color,
 	Array<Vertex> vertices{ positions.GetSize() };
 	for (int i = 0; i < positions.GetSize(); i++)
 		vertices[i] = Vertex{ positions[i], color, normals[i] };
-	m_Meshes.Add(Mesh::Create<Vertex>(m_Gpu, vertices, indices));
+	m_Meshes.Add(Rendering::Mesh::Create<Vertex>(m_Gpu, vertices, indices));
 }
 
 void DebugRenderer::Class_AddSpheres(const Array<Float3>& positions, const Float3& color,  float radius)

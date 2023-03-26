@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "RendererD2D.h"
 
-#include "DxHelper.h"
+#include <Rendering/Dx/DxHelper.h>
 #include "App/Wrappers/Win32/Window.h"
 
 MyEngine::App::Wrappers::Dx::RendererD2D::RendererD2D(Win32::Window& window, D2D1::ColorF clearColor)

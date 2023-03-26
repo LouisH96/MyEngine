@@ -4,7 +4,7 @@
 #include <d3d11.h>
 #include <d3dcompiler.h>
 
-void MyEngine::App::Wrappers::Dx::DxHelper::CreateVertexShader(ID3D11Device& device, const std::wstring& path, const std::string& functionName,
+void MyEngine::Rendering::Dx::DxHelper::CreateVertexShader(ID3D11Device& device, const std::wstring& path, const std::string& functionName,
 	ID3D11VertexShader*& pVertexShader)
 {
 	ID3D10Blob* pBlob{};
@@ -20,7 +20,7 @@ void MyEngine::App::Wrappers::Dx::DxHelper::CreateVertexShader(ID3D11Device& dev
 		throw std::exception("DxHelper::CreateVertexShader - Error");
 }
 
-void MyEngine::App::Wrappers::Dx::DxHelper::CreatePixelShader(ID3D11Device& device, const std::wstring& path, const std::string& functionName,
+void MyEngine::Rendering::Dx::DxHelper::CreatePixelShader(ID3D11Device& device, const std::wstring& path, const std::string& functionName,
 	ID3D11PixelShader*& pVertexShader)
 {
 	ID3D10Blob* pBlob{};
@@ -36,7 +36,7 @@ void MyEngine::App::Wrappers::Dx::DxHelper::CreatePixelShader(ID3D11Device& devi
 		throw std::exception("DxHelper::CreatePixelShader - Error");
 }
 
-void MyEngine::App::Wrappers::Dx::DxHelper::CreateComputeShader(ID3D11Device& device, const std::wstring& path, const std::string& functionName,
+void MyEngine::Rendering::Dx::DxHelper::CreateComputeShader(ID3D11Device& device, const std::wstring& path, const std::string& functionName,
 	ID3D11ComputeShader*& pShader)
 {
 	ID3D10Blob* pBlob{};
@@ -52,7 +52,7 @@ void MyEngine::App::Wrappers::Dx::DxHelper::CreateComputeShader(ID3D11Device& de
 		throw std::exception("DxHelper::CreateComputeShader - Error");
 }
 
-void MyEngine::App::Wrappers::Dx::DxHelper::CompileFromFile(const std::wstring& path, const std::string& functionName, ID3DBlob*& pBlob)
+void MyEngine::Rendering::Dx::DxHelper::CompileFromFile(const std::wstring& path, const std::string& functionName, ID3DBlob*& pBlob)
 {
 	UINT flags = D3DCOMPILE_ENABLE_STRICTNESS;
 #if defined( DEBUG ) || defined( _DEBUG )
@@ -94,7 +94,7 @@ void MyEngine::App::Wrappers::Dx::DxHelper::CompileFromFile(const std::wstring& 
 	}
 }
 
-void MyEngine::App::Wrappers::Dx::DxHelper::CreateVertexBufferView(ID3D11Device& device, ID3D11Buffer*& pVertexBuffer,
+void MyEngine::Rendering::Dx::DxHelper::CreateVertexBufferView(ID3D11Device& device, ID3D11Buffer*& pVertexBuffer,
 	ID3D11UnorderedAccessView*& pView)
 {
 	D3D11_BUFFER_DESC descBuf = {};
@@ -111,7 +111,7 @@ void MyEngine::App::Wrappers::Dx::DxHelper::CreateVertexBufferView(ID3D11Device&
 	device.CreateUnorderedAccessView(pVertexBuffer, &uavDesc, &pView);
 }
 
-void MyEngine::App::Wrappers::Dx::DxHelper::CreateIndexBuffer(ID3D11Device& device, ID3D11Buffer*& pIndexBuffer,
+void MyEngine::Rendering::Dx::DxHelper::CreateIndexBuffer(ID3D11Device& device, ID3D11Buffer*& pIndexBuffer,
 	const int* pInitIndices, int nrInitIndices)
 {
 	D3D11_BUFFER_DESC desc{};

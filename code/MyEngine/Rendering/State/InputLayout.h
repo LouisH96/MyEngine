@@ -4,22 +4,10 @@
 
 namespace MyEngine
 {
-	namespace App
+	namespace Rendering
 	{
-		namespace Wrappers
-		{
-			namespace Dx
-			{
-				class Gpu;
-			}
-		}
-	}
-}
+		class Gpu;
 
-namespace MyEngine
-{
-	namespace Dx
-	{
 		class InputLayout
 		{
 		public:
@@ -33,14 +21,14 @@ namespace MyEngine
 				const ElementType Type{};
 			};
 
-			InputLayout(const App::Wrappers::Dx::Gpu& gpu, const Element* pElements, int nrElements);
+			InputLayout(const Gpu& gpu, const Element* pElements, int nrElements);
 			~InputLayout();
 			InputLayout(const InputLayout& other) = delete;
 			InputLayout(InputLayout&& other) noexcept = delete;
 			InputLayout& operator=(const InputLayout& other) = delete;
 			InputLayout& operator=(InputLayout&& other) noexcept = delete;
 
-			void Activate(const App::Wrappers::Dx::Gpu& gpu) const;
+			void Activate(const Gpu& gpu) const;
 
 		private:
 			ID3D11InputLayout* m_pInputLayout{};

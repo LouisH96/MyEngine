@@ -4,10 +4,10 @@
 #include <d3dcompiler.h>
 #include <sstream>
 
-#include "DxHelper.h"
-#include "Gpu.h"
+#include "../Dx/DxHelper.h"
+#include "../Gpu.h"
 
-MyEngine::Dx::InputLayout::InputLayout(const App::Wrappers::Dx::Gpu& gpu, const Element* pElements, int nrElements)
+Rendering::InputLayout::InputLayout(const Gpu& gpu, const Element* pElements, int nrElements)
 {
 	//CREATE INPUT_ELEMENT_DESC
 	D3D11_INPUT_ELEMENT_DESC* pDxElements = new D3D11_INPUT_ELEMENT_DESC[nrElements];
@@ -66,17 +66,17 @@ MyEngine::Dx::InputLayout::InputLayout(const App::Wrappers::Dx::Gpu& gpu, const 
 	delete[] pDxElements;
 }
 
-MyEngine::Dx::InputLayout::~InputLayout()
+Rendering::InputLayout::~InputLayout()
 {
 	SAFE_RELEASE(m_pInputLayout);
 }
 
-void MyEngine::Dx::InputLayout::Activate(const App::Wrappers::Dx::Gpu& gpu) const
+void Rendering::InputLayout::Activate(const Gpu& gpu) const
 {
 	gpu.GetContext().IASetInputLayout(m_pInputLayout);
 }
 
-DXGI_FORMAT MyEngine::Dx::InputLayout::ToDxFormat(ElementType type)
+DXGI_FORMAT Rendering::InputLayout::ToDxFormat(ElementType type)
 {
 	switch(type)
 	{
@@ -88,7 +88,7 @@ DXGI_FORMAT MyEngine::Dx::InputLayout::ToDxFormat(ElementType type)
 	}
 }
 
-std::string MyEngine::Dx::InputLayout::CreateDummyShaderString(const Element* pElements, int nrElements)
+std::string Rendering::InputLayout::CreateDummyShaderString(const Element* pElements, int nrElements)
 {
 	std::stringstream ss;
 	ss << "struct Vertex{\n";
@@ -103,7 +103,7 @@ std::string MyEngine::Dx::InputLayout::CreateDummyShaderString(const Element* pE
 	return ss.str();
 }
 
-std::string MyEngine::Dx::InputLayout::ToTypeString(ElementType type)
+std::string Rendering::InputLayout::ToTypeString(ElementType type)
 {
 	switch (type)
 	{

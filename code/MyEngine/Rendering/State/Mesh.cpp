@@ -1,10 +1,10 @@
 #include "pch.h"
 #include "Mesh.h"
 
-using namespace App::Wrappers::Dx;
+using namespace Rendering;
 
-App::Wrappers::Dx::Mesh::Mesh(const Gpu& gpu, unsigned vertexStride, const void* pVertices, int nrVertices, const int* pIndices,
-	int nrIndices, Topology topology)
+Mesh::Mesh(const Gpu& gpu, unsigned vertexStride, const void* pVertices, int nrVertices, const int* pIndices,
+           int nrIndices, Topology topology)
 	: m_Gpu(gpu)
 	, m_VertexCount(nrVertices)
 	, m_VertexStride(vertexStride)
@@ -25,7 +25,7 @@ App::Wrappers::Dx::Mesh::Mesh(const Gpu& gpu, unsigned vertexStride, const void*
 		throw std::exception("Mesh::InitVertexBuffer");
 
 	if (nrIndices > 0)
-		DxHelper::CreateIndexBuffer(gpu.GetDevice(), m_pIndexBuffer, pIndices, nrIndices);
+		Dx::DxHelper::CreateIndexBuffer(gpu.GetDevice(), m_pIndexBuffer, pIndices, nrIndices);
 }
 
 Mesh::~Mesh()
@@ -47,7 +47,7 @@ void Mesh::Activate() const
 	m_Gpu.GetContext().IASetPrimitiveTopology(m_Topology);
 }
 
-void App::Wrappers::Dx::Mesh::ActivateUnindexed() const
+void Mesh::ActivateUnindexed() const
 {
 	m_Gpu.GetContext().IASetVertexBuffers(
 		0, 1,

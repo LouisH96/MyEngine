@@ -1,24 +1,13 @@
 #pragma once
 #include "App/Resources.h"
-#include "App/Wrappers/Dx/BlendState.h"
-#include "App/Wrappers/Dx/ConstantBuffer.h"
-#include "App/Wrappers/Dx/InputLayout.h"
-#include "App/Wrappers/Dx/Mesh.h"
-#include "App/Wrappers/Dx/RasterizerState.h"
-#include "Math/Float3.h"
+#include <Rendering/State/BlendState.h>
+#include <Rendering/State/ConstantBuffer.h>
+#include <Rendering/State/InputLayout.h>
+#include <Rendering/State/Mesh.h>
+#include <Rendering/State/RasterizerState.h>
 
 namespace MyEngine
 {
-	namespace App
-	{
-		namespace Wrappers
-		{
-			namespace Dx
-			{
-				class Gpu;
-			}
-		}
-	}
 	namespace Game
 	{
 		namespace Camera
@@ -40,7 +29,7 @@ namespace MyEngine
 			using CamDataRefType = CamData;
 
 			//---| Construction |---
-			BasicRenderer(App::Wrappers::Dx::Gpu& gpu, Game::Camera::Camera& camera, const std::wstring& shaderPath, bool isWireframe = false);
+			BasicRenderer(Gpu& gpu, Game::Camera::Camera& camera, const std::wstring& shaderPath, bool isWireframe = false);
 			~BasicRenderer();
 
 			//---| Rule of Five |---
@@ -57,21 +46,21 @@ namespace MyEngine
 
 		private:
 			//---| General |---
-			App::Wrappers::Dx::Gpu& m_Gpu;
+			Gpu& m_Gpu;
 			Game::Camera::Camera& m_Camera;
-			Dx::BlendState m_BlendState;
-			Dx::RasterizerState m_RasterizerState;
+			BlendState m_BlendState;
+			RasterizerState m_RasterizerState;
 
 			//---| Mesh/Shader Specific |---
-			static const Dx::InputLayout::Element ELEMENTS[];
-			App::Wrappers::Dx::Shader m_Shader;
-			Dx::InputLayout m_InputLayout;
-			Dx::ConstantBuffer<CamData> m_ConstantBuffer;
-			Array<App::Wrappers::Dx::Mesh*> m_Meshes{};
+			static const InputLayout::Element ELEMENTS[];
+			Shader m_Shader;
+			InputLayout m_InputLayout;
+			ConstantBuffer<CamData> m_ConstantBuffer;
+			Array<Mesh*> m_Meshes{};
 		};
 
 		template <typename Vertex, typename CamData>
-		BasicRenderer<Vertex, CamData>::BasicRenderer(App::Wrappers::Dx::Gpu& gpu, Game::Camera::Camera& camera,
+		BasicRenderer<Vertex, CamData>::BasicRenderer(Gpu& gpu, Game::Camera::Camera& camera,
 			const std::wstring& shaderPath, bool isWireframe)
 			: m_Gpu(gpu)
 			, m_Camera(camera)
@@ -108,7 +97,7 @@ namespace MyEngine
 		template <typename Vertex, typename CamData>
 		void BasicRenderer<Vertex, CamData>::AddMesh(const Array<Vertex>& vertices, const Array<int>& indices)
 		{
-			m_Meshes.Add(App::Wrappers::Dx::Mesh::Create<Vertex>(m_Gpu, vertices, indices));
+			m_Meshes.Add(Mesh::Create<Vertex>(m_Gpu, vertices, indices));
 		}
 	}
 }

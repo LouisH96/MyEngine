@@ -1,26 +1,15 @@
 #pragma once
-#include "App/Wrappers/Dx/BlendState.h"
-#include "App/Wrappers/Dx/ConstantBuffer.h"
-#include "App/Wrappers/Dx/InputLayout.h"
-#include "App/Wrappers/Dx/RasterizerState.h"
-#include "App/Wrappers/Dx/Shader.h"
+#include <Rendering/State/BlendState.h>
+#include <Rendering/State/ConstantBuffer.h>
+#include <Rendering/State/InputLayout.h>
+#include <Rendering/State/RasterizerState.h>
+#include <Rendering/State/Shader.h>
 #include <Rendering/Renderers/ConstantBufferTypes.h>
 #include <Rendering/Renderers/VertexTypes.h>
 
 namespace MyEngine
 {
 	//---| Forward Includes |---
-	namespace App
-	{
-		namespace Wrappers
-		{
-			namespace Dx
-			{
-				class Mesh;
-				class Gpu;
-			}
-		}
-	}
 	namespace Game
 	{
 		namespace Camera
@@ -28,14 +17,20 @@ namespace MyEngine
 			class Camera;
 		}
 	}
+	namespace Rendering
+	{
+		class Mesh;
+		class Gpu;
+	}
 
 	//---| Class |---
 	namespace Debug
 	{
+
 		class DebugRenderer
 		{
 		public:
-			static void Init(App::Wrappers::Dx::Gpu& gpu, Game::Camera::Camera& camera);
+			static void Init(Rendering::Gpu& gpu, Game::Camera::Camera& camera);
 			static void Release();
 			static void Render();
 
@@ -47,22 +42,22 @@ namespace MyEngine
 
 			//---| General |---
 			static DebugRenderer* m_pStatic;
-			App::Wrappers::Dx::Gpu& m_Gpu;
+			Rendering::Gpu& m_Gpu;
 			Game::Camera::Camera& m_Camera;
 
 			//---| RenderState |---
-			Dx::BlendState m_BlendState;
-			Dx::RasterizerState m_RasterizerState;
-			Dx::InputLayout m_InputLayout;
-			Dx::ConstantBuffer<Rendering::CB_CamMatPos> m_ConstantBuffer;
-			App::Wrappers::Dx::Shader m_Shader;
-			static const Dx::InputLayout::Element ELEMENTS[];
+			Rendering::BlendState m_BlendState;
+			Rendering::RasterizerState m_RasterizerState;
+			Rendering::InputLayout m_InputLayout;
+			Rendering::ConstantBuffer<Rendering::CB_CamMatPos> m_ConstantBuffer;
+			Rendering::Shader m_Shader;
+			static const Rendering::InputLayout::Element ELEMENTS[];
 
 			//---| Mesh |---
-			Array<App::Wrappers::Dx::Mesh*> m_Meshes{};
+			Array<Rendering::Mesh*> m_Meshes{};
 
 			//---| Init |---
-			DebugRenderer(App::Wrappers::Dx::Gpu& gpu, Game::Camera::Camera& camera);
+			DebugRenderer(Rendering::Gpu& gpu, Game::Camera::Camera& camera);
 			~DebugRenderer();
 
 			//---| Rule of Five |---

@@ -7,32 +7,32 @@
 #include <exception>
 
 #include "Canvas.h"
-#include "DxHelper.h"
+#include "Dx/DxHelper.h"
 #include "App/Wrappers/Win32/Window.h"
 
-MyEngine::App::Wrappers::Dx::Gpu::Gpu(App::Wrappers::Win32::Window& window)
+Rendering::Gpu::Gpu(App::Wrappers::Win32::Window& window)
 	: m_Window{ window }
 {
 	Init();
 }
 
-MyEngine::App::Wrappers::Dx::Gpu::~Gpu()
+Rendering::Gpu::~Gpu()
 {
 	Release();
 }
 
-void MyEngine::App::Wrappers::Dx::Gpu::Release()
+void Rendering::Gpu::Release()
 {
 	SAFE_RELEASE(m_pContext);
 	SAFE_RELEASE(m_pDevice);
 }
 
-MyEngine::App::Wrappers::Dx::Canvas* MyEngine::App::Wrappers::Dx::Gpu::MakeCanvas()
+Rendering::Canvas* Rendering::Gpu::MakeCanvas()
 {
 	return new Canvas(*this, m_Window);
 }
 
-void MyEngine::App::Wrappers::Dx::Gpu::Init()
+void Rendering::Gpu::Init()
 {
 	UINT createDeviceFlags = 0;
 #if defined(_DEBUG)

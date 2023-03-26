@@ -1,26 +1,16 @@
 #pragma once
-#include "App/Wrappers/Dx/BlendState.h"
-#include "App/Wrappers/Dx/ConstantBuffer.h"
+#include "Rendering/State/BlendState.h"
+#include "Rendering/State/ConstantBuffer.h"
+#include "Rendering/State/InputLayout.h"
+#include "Rendering/State/Mesh.h"
+#include "Rendering/State/RasterizerState.h"
+#include <Rendering/State/SamplerState.h>
+#include <Rendering/State/Texture.h>
 #include "Math/Float2.h"
 #include "Math/Float3.h"
-#include "App/Wrappers/Dx/InputLayout.h"
-#include "App/Wrappers/Dx/Mesh.h"
-#include "App/Wrappers/Dx/RasterizerState.h"
-#include <App/Wrappers/Dx/SamplerState.h>
-#include <App/Wrappers/Dx/Texture.h>
 
 namespace MyEngine
 {
-	namespace App
-	{
-		namespace Wrappers
-		{
-			namespace Dx
-			{
-				class Gpu;
-			}
-		}
-	}
 	namespace Game
 	{
 		namespace Camera
@@ -40,7 +30,7 @@ namespace MyEngine
 			using CamDataRefType = CamData;
 
 			//---| Construction |---
-			TextureRenderer(App::Wrappers::Dx::Gpu& gpu, Game::Camera::Camera& camera, const std::wstring& shaderPath);
+			TextureRenderer(Gpu& gpu, Game::Camera::Camera& camera, const std::wstring& shaderPath);
 			~TextureRenderer();
 
 			//---| Rule of Five |---
@@ -59,36 +49,36 @@ namespace MyEngine
 			//---| Types |---
 			struct MeshData
 			{
-				App::Wrappers::Dx::Mesh* pMesh;
-				Dx::Texture* pTexture;
+				Mesh* pMesh;
+				Texture* pTexture;
 			};
 
 			//---| General |---
-			App::Wrappers::Dx::Gpu& m_Gpu;
+			Gpu& m_Gpu;
 			Game::Camera::Camera& m_Camera;
-			Dx::BlendState m_BlendState;
-			Dx::RasterizerState m_RasterizerState;
-			Dx::SamplerState m_Sampler;
+			BlendState m_BlendState;
+			RasterizerState m_RasterizerState;
+			SamplerState m_Sampler;
 
 			//---| Mesh/Shader Specific |---
-			static const Dx::InputLayout::Element ELEMENTS[];
-			App::Wrappers::Dx::Shader m_Shader;
-			Dx::InputLayout m_InputLayout;
-			Dx::ConstantBuffer<CamData> m_ConstantBuffer;
+			static const InputLayout::Element ELEMENTS[];
+			Shader m_Shader;
+			InputLayout m_InputLayout;
+			ConstantBuffer<CamData> m_ConstantBuffer;
 			Array<MeshData> m_Meshes{};
 		};
 
 		template <typename Vertex, typename CamData>
-		TextureRenderer<Vertex, CamData>::TextureRenderer(App::Wrappers::Dx::Gpu& gpu, Game::Camera::Camera& camera,
+		TextureRenderer<Vertex, CamData>::TextureRenderer(Gpu& gpu, Game::Camera::Camera& camera,
 			const std::wstring& shaderPath)
 			: m_Gpu(gpu)
 			, m_Camera(camera)
 			, m_BlendState(gpu)
 			, m_RasterizerState(gpu)
+			, m_Sampler(gpu)
 			, m_Shader(gpu, shaderPath)
 			, m_InputLayout(gpu, Vertex::ELEMENTS, Vertex::NR_ELEMENTS)
 			, m_ConstantBuffer(gpu)
-			, m_Sampler(gpu)
 		{
 		}
 
@@ -123,8 +113,6 @@ namespace MyEngine
 		template <typename Vertex, typename CamData>
 		void TextureRenderer<Vertex, CamData>::AddMesh(const Array<Vertex>& vertices, const Array<int>& indices, const std::wstring& texturePath)
 		{
-			using namespace App::Wrappers::Dx;
-			using namespace MyEngine::Dx;
 			Mesh* pMesh = Mesh::Create<Vertex>(m_Gpu, vertices, indices);
 			Texture* pTexture = new Texture(m_Gpu, texturePath);
 			m_Meshes.Add({pMesh, pTexture});

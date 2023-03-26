@@ -5,34 +5,34 @@
 
 #include "FpsControl.h"
 #include "Resources.h"
-#include "App/Wrappers/Dx/GpuCreator.h"
-#include "App/Wrappers/Dx/Canvas.h"
-#include "App/Wrappers/Dx/Gpu.h"
-#include "App/Wrappers/Dx/Mesh.h"
-#include "App/Wrappers/Dx/Shader.h"
 #include "App/Wrappers/Dx/Painter.h"
 #include "App/Wrappers/Win32/Window.h"
 
 #include "../Game/Camera/Camera.h"
 #include "../Game/Camera/CameraController.h"
-#include "App/Wrappers/Dx/InputLayout.h"
 #include "DataStructures/Array.h"
 #include "Generation/Shapes.h"
 #include "Math/Cube.h"
 #include "Math/Float3.h"
-#include "Wrappers/Dx/ConstantBuffer.h"
+#include "Rendering/Canvas.h"
+#include "Rendering/State/ConstantBuffer.h"
+#include "Rendering/State/InputLayout.h"
+#include <Rendering/State/Shader.h>
+#include <Rendering/State/Mesh.h>
+#include <Rendering/Gpu.h>
 
-void MyEngine::App::BasicExampleApp::Run()
+using namespace Rendering;
+
+void App::BasicExampleApp::Run()
 {
 	using namespace Wrappers::Win32;
 	using namespace Wrappers::Dx;
-	using namespace Dx;
 	using namespace Ds;
 	using namespace Math;
 
 	//APP
 	Window& window = *new Window(L"Window");
-	Gpu& gpu = *GpuCreator::Create(window);
+	Gpu& gpu = *new Gpu(window);
 	Canvas& canvas = *gpu.MakeCanvas();
 
 	//MESH
@@ -67,8 +67,8 @@ void MyEngine::App::BasicExampleApp::Run()
 	};
 	const InputLayout inputLayout{ gpu, meshElements, ARRAYSIZE(meshElements) };
 
-	Shader& shader = *new Shader(gpu, Resources::GetGlobalShaderPath(L"shader.hlsl"));
-	Mesh& mesh = *Mesh::Create<Vertex>(gpu, cubeVertices, cubeIndices);
+	Rendering::Shader& shader = *new Rendering::Shader(gpu, Resources::GetGlobalShaderPath(L"shader.hlsl"));
+	Rendering::Mesh& mesh = *Rendering::Mesh::Create<Vertex>(gpu, cubeVertices, cubeIndices);
 	const ConstantBuffer<CameraMatrixCBuffer> constantBuffer{ gpu };
 
 	//GAME

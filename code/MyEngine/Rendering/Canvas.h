@@ -1,0 +1,68 @@
+#pragma once
+
+#include "Gpu.h"
+#include <DirectXMath.h>
+
+struct IDXGISwapChain1;
+struct IDXGIDevice2;
+struct IDXGIFactory2;
+
+namespace MyEngine
+{
+	namespace App
+	{
+		namespace Wrappers
+		{
+			namespace Win32
+			{
+				class Window;
+			}
+		}
+	}
+}
+
+namespace MyEngine
+{
+	namespace Rendering
+	{
+		class Gpu;
+
+		class Canvas
+		{
+		public:
+			Canvas(const Canvas& other) = delete;
+			Canvas(Canvas&& other) noexcept = delete;
+			Canvas& operator=(const Canvas& other) = delete;
+			Canvas& operator=(Canvas&& other) noexcept = delete;
+
+			Canvas(Gpu& gpu, App::Wrappers::Win32::Window& window);
+			~Canvas();
+
+			void BeginPaint() const;
+			void Present() const;
+
+			void OnWindowResized(DirectX::XMINT2 newSize);
+
+		private:
+			Gpu& m_Gpu;
+			IDXGISwapChain1* m_pSwapChain{};
+			ID3D11RenderTargetView* m_pMainRenderTargetView{};
+			D3D11_VIEWPORT m_ViewPort{};
+
+			ID3D11DepthStencilState* m_pDepthStencilState{};
+			ID3D11DepthStencilView* m_pDepthStencilView{};
+
+			void Clear() const;
+			void Activate() const;
+
+			void InitSwapChain(const App::Wrappers::Win32::Window& window);
+			void InitRenderTarget();
+			void InitDepthStencilState();
+			void InitDepthStencil(const DirectX::XMINT2& size);
+			void SetViewPort(DirectX::XMINT2 size);
+
+			void GetFactory2(IDXGIDevice2*& pDevice2, IDXGIAdapter*& pAdapter, IDXGIFactory2*& pFactory) const;//clean after use
+		};
+	}
+}
+
