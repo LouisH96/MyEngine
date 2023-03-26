@@ -4,7 +4,7 @@
 
 using namespace Io::Binary;
 
-MyEngine::Io::Fbx::FbxObject::FbxObject(std::istream& stream, bool isRoot)
+MyEngine::Io::Fbx::FbxObject::FbxObject(std::istream& stream, uint8_t version, bool isRoot)
 {
 	if (isRoot)
 	{
@@ -17,28 +17,36 @@ MyEngine::Io::Fbx::FbxObject::FbxObject(std::istream& stream, bool isRoot)
 		m_Name = "Root";
 	}
 	else
-		ReadNode(stream);
+		ReadNode(stream, version);
 
 	std::streampos cur = stream.tellg();
 	while (cur < m_End)
 	{
 		if (stream.peek() == '\0')
 		{
+			const uint8_t nrNullsAtEnd = version == 75 ? 25 : 13;
 			const auto tillEnd = m_End - cur;
-			if(tillEnd==13)
+			if(tillEnd== nrNullsAtEnd)
 			{
 				stream.seekg(m_End);
 				return;
 			}
-			if(isRoot && tillEnd == 174)
+			if(isRoot)
 			{
+				char chars[25];
+				stream.get(chars, nrNullsAtEnd);
+				stream.seekg(cur);
+				for (int i = 0; i < nrNullsAtEnd; i++)
+					if (chars[i] != '\0')
+						break;
+
 				stream.seekg(m_End);
 				return;
 			}
 
 		}
 
-		m_Children.push_back(new FbxObject(stream));
+		m_Children.push_back(new FbxObject(stream, version));
 		cur = stream.tellg();
 	}
 }
@@ -101,12 +109,21 @@ Io::Fbx::FbxProperty* Io::Fbx::FbxObject::GetProperty(int idx)
 	return m_Properties[idx];
 }
 
-void MyEngine::Io::Fbx::FbxObject::ReadNode(std::istream& stream)
+void MyEngine::Io::Fbx::FbxObject::ReadNode(std::istream& stream, uint8_t version)
 {
-	Bini read{ stream };
-	m_End = read.Uint32();
-	m_NrProps = read.Uint32();
-	m_PropLength = read.Uint32();
+	const Bini read{ stream };
+	if(version == 74)
+	{
+		m_End = read.Uint32();
+		m_NrProps = read.Uint32();
+		m_PropLength = read.Uint32();
+	}
+	else if(version == 75)
+	{
+		m_End = read.Uint64();
+		m_NrProps = read.Uint64();
+		m_PropLength = read.Uint64();
+	}
 	const uint8_t nameLength = read.Uint8();
 	m_Name = read.String(nameLength);
 	const int begin = stream.tellg();

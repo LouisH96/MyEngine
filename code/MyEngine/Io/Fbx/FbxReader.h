@@ -23,7 +23,7 @@ namespace MyEngine
 				std::ifstream m_Stream;
 				FbxObject* m_pRoot{};
 
-				void ReadHeader();
+				uint8_t ReadHeader();
 
 				unsigned int ReadUnsignedInt();
 

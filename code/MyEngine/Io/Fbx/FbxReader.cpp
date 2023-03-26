@@ -9,7 +9,7 @@
 Io::Fbx::FbxReader::FbxReader(const std::wstring& path)
 	: m_Stream{ path, std::ifstream::binary }
 {
-	if(!m_Stream.is_open())
+	if (!m_Stream.is_open())
 	{
 		Logger::PrintError("Could not open Fbx file");
 		return;
@@ -18,8 +18,8 @@ Io::Fbx::FbxReader::FbxReader(const std::wstring& path)
 	m_Stream.seekg(0, std::ios_base::end);
 	const auto end = m_Stream.tellg();
 	m_Stream.seekg(0, std::ios_base::beg);
-	ReadHeader();
-	m_pRoot = new FbxObject(m_Stream, true);
+	const uint8_t version = ReadHeader();
+	m_pRoot = new FbxObject(m_Stream, version, true);
 }
 
 Io::Fbx::FbxReader::~FbxReader()
@@ -27,7 +27,7 @@ Io::Fbx::FbxReader::~FbxReader()
 	delete m_pRoot;
 }
 
-void Io::Fbx::FbxReader::ReadHeader()
+uint8_t Io::Fbx::FbxReader::ReadHeader()
 {
 	using namespace Binary;
 
@@ -39,6 +39,12 @@ void Io::Fbx::FbxReader::ReadHeader()
 
 	//version number
 	const unsigned versionNumber{ Bini::Uint32(m_Stream) };
+	if (versionNumber == 7400)
+		return 74;
+	if (versionNumber == 7500)
+		return 75;
+	Logger::PrintError("FbxVersion " + std::to_string(versionNumber) + " not supported");
+	return 0;
 }
 
 unsigned Io::Fbx::FbxReader::ReadUnsignedInt()

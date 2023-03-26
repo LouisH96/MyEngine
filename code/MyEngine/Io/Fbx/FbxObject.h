@@ -11,7 +11,7 @@ namespace MyEngine
 			class FbxObject
 			{
 			public:
-				FbxObject(std::istream& stream, bool isRoot = false);
+				FbxObject(std::istream& stream, uint8_t version, bool isRoot = false);
 				~FbxObject();
 
 				std::streampos GetEnd() const { return m_End; }
@@ -32,10 +32,10 @@ namespace MyEngine
 				std::vector<FbxObject*> m_Children{};
 				std::vector<FbxProperty*> m_Properties{};
 
-				int m_NrProps{};
-				int m_PropLength{};
+				uint64_t m_NrProps{};
+				uint64_t m_PropLength{};
 
-				void ReadNode(std::istream& stream);
+				void ReadNode(std::istream& stream, uint8_t version);
 			};
 		}
 	}
