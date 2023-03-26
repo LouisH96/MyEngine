@@ -18,7 +18,10 @@ namespace MyEngine
 
 				void Print(bool compact = true, int nrTabs = 0) const;
 				const FbxObject* GetChild(const std::string& name) const;
+				const std::vector<FbxObject*>& GetChildren() const { return m_Children; }
+				std::vector<FbxObject*> GetChildren(const std::string& name) const;
 				const FbxProperty* GetProperty(int idx) const;
+				const std::vector<FbxProperty*>& GetProperties() const { return m_Properties; }
 				FbxObject* GetChild(const std::string& name);
 				FbxProperty* GetProperty(int idx);
 				const std::string& GetName() const { return m_Name; }

@@ -24,8 +24,18 @@ MyEngine::Io::Fbx::FbxObject::FbxObject(std::istream& stream, bool isRoot)
 	{
 		if (stream.peek() == '\0')
 		{
-			stream.seekg(m_End);
-			return;
+			const auto tillEnd = m_End - cur;
+			if(tillEnd==13)
+			{
+				stream.seekg(m_End);
+				return;
+			}
+			if(isRoot && tillEnd == 174)
+			{
+				stream.seekg(m_End);
+				return;
+			}
+
 		}
 
 		m_Children.push_back(new FbxObject(stream));
@@ -63,6 +73,15 @@ const MyEngine::Io::Fbx::FbxObject* MyEngine::Io::Fbx::FbxObject::GetChild(const
 	return nullptr;
 }
 
+std::vector<Io::Fbx::FbxObject*> Io::Fbx::FbxObject::GetChildren(const std::string& name) const
+{
+	std::vector<FbxObject*> result{};
+	for (int i = 0; i < m_Children.size(); i++)
+		if (m_Children[i]->GetName() == name)
+			result.push_back(m_Children[i]);
+	return result;
+}
+
 const Io::Fbx::FbxProperty* Io::Fbx::FbxObject::GetProperty(int idx) const
 {
 	return m_Properties[idx];
@@ -97,5 +116,6 @@ void MyEngine::Io::Fbx::FbxObject::ReadNode(std::istream& stream)
 		auto pProp = FbxProperty::Read(stream);
 		m_Properties.push_back(pProp);
 	}
-	stream.seekg(begin + m_PropLength, std::ios_base::beg);
+
+	//stream.seekg(begin + m_PropLength, std::ios_base::beg);
 }

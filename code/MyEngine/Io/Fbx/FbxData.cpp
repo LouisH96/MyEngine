@@ -7,6 +7,7 @@
 #include <Math/Float3.h>
 
 #include "DataStructures/DsUtils.h"
+#include "Debug/DebugRenderer.h"
 
 using namespace Math;
 
@@ -18,6 +19,31 @@ Io::Fbx::FbxData::FbxData(FbxReader&& reader)
 {
 	FbxObject& objects{ *reader.GetRoot().GetChild("Objects") };
 	FbxObject& geometry{ *objects.GetChild("Geometry") };
+
+	auto models = objects.GetChildren("Model");
+
+	for (int iModel = 0; iModel < models.size(); iModel++)
+	{
+		models[iModel]->Print();
+
+		auto* pProps70 = models[iModel]->GetChild("Properties70");
+		for (int iProp70 = 0; iProp70 < pProps70->GetChildren().size(); iProp70++)
+		{
+			auto* pProp70Child = pProps70->GetChildren()[iProp70];
+
+			auto propName = pProp70Child->GetProperty(0)->AsString();
+			if (propName != "Lcl Translation") continue;
+
+			const double x = pProp70Child->GetProperty(4)->AsPrimitive<double>().GetValue();
+			const double y = pProp70Child->GetProperty(5)->AsPrimitive<double>().GetValue();
+			const double z = pProp70Child->GetProperty(6)->AsPrimitive<double>().GetValue();
+
+			Debug::DebugRenderer::AddSphere(Float3{ static_cast<float>(x), static_cast<float>(y), static_cast<float>(z) }/100.f, { 1,0,0 }, .1f);
+
+			std::cout << "FOUND translation: " << x << ", " << y << ", " << z << std::endl;
+		}
+	}
+
 
 	//POINTS
 	const FbxObject& verticesObject{ *geometry.GetChild("Vertices") };
