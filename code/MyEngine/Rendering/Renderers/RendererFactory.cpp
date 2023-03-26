@@ -16,5 +16,5 @@ Rendering::RendererFactory::WireframeRenderer* Rendering::RendererFactory::Creat
 Rendering::RendererFactory::SimpleTexRenderer* Rendering::RendererFactory::CreateSimpleTexRenderer(
 	App::Wrappers::Dx::Gpu& gpu, Game::Camera::Camera& camera)
 {
-	return new SimpleTexRenderer(gpu, camera, App::Resources::GetGlobalShaderPath(L"lambertCamDir_texture.hlsl"), App::Resources::GetLocalResourcePath(L"Textures/FantasyRivals_Texture_01_A.png"));
+	return new SimpleTexRenderer(gpu, camera, App::Resources::GetGlobalShaderPath(L"lambertCamDir_texture.hlsl"));
 }

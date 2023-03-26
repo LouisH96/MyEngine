@@ -59,7 +59,7 @@ namespace MyEngine
 			using CamDataRefType = CamData;
 
 			//---| Construction |---
-			TextureRenderer(App::Wrappers::Dx::Gpu& gpu, Game::Camera::Camera& camera, const std::wstring& shaderPath, const std::wstring& texturePath);
+			TextureRenderer(App::Wrappers::Dx::Gpu& gpu, Game::Camera::Camera& camera, const std::wstring& shaderPath);
 			~TextureRenderer();
 
 			//---| Rule of Five |---
@@ -72,28 +72,34 @@ namespace MyEngine
 			void Render();
 
 			//---| Operations |---
-			void AddMesh(const Array<Vertex>& vertices, const Array<int>& indices);
+			void AddMesh(const Array<Vertex>& vertices, const Array<int>& indices, const std::wstring& texturePath);
 
 		private:
+			//---| Types |---
+			struct MeshData
+			{
+				App::Wrappers::Dx::Mesh* pMesh;
+				Dx::Texture* pTexture;
+			};
+
 			//---| General |---
 			App::Wrappers::Dx::Gpu& m_Gpu;
 			Game::Camera::Camera& m_Camera;
 			Dx::BlendState m_BlendState;
 			Dx::RasterizerState m_RasterizerState;
 			Dx::SamplerState m_Sampler;
-			Dx::Texture m_Texture;
 
 			//---| Mesh/Shader Specific |---
 			static const Dx::InputLayout::Element ELEMENTS[];
 			App::Wrappers::Dx::Shader m_Shader;
 			Dx::InputLayout m_InputLayout;
 			Dx::ConstantBuffer<CamData> m_ConstantBuffer;
-			Array<App::Wrappers::Dx::Mesh*> m_Meshes{};
+			Array<MeshData> m_Meshes{};
 		};
 
 		template <typename Vertex, typename CamData>
 		TextureRenderer<Vertex, CamData>::TextureRenderer(App::Wrappers::Dx::Gpu& gpu, Game::Camera::Camera& camera,
-			const std::wstring& shaderPath, const std::wstring& texturePath)
+			const std::wstring& shaderPath)
 			: m_Gpu(gpu)
 			, m_Camera(camera)
 			, m_BlendState(gpu)
@@ -102,21 +108,23 @@ namespace MyEngine
 			, m_InputLayout(gpu, Vertex::ELEMENTS, Vertex::NR_ELEMENTS)
 			, m_ConstantBuffer(gpu)
 			, m_Sampler(gpu)
-			, m_Texture(gpu, texturePath)
 		{
 		}
 
 		template <typename Vertex, typename CamData>
 		TextureRenderer<Vertex, CamData>::~TextureRenderer()
 		{
-			m_Meshes.DeleteAll();
+			for (int i = 0; i < m_Meshes.GetSize(); i++)
+			{
+				delete m_Meshes[i].pMesh;
+				delete m_Meshes[i].pTexture;
+			}
 		}
 
 		template <typename Vertex, typename CamData>
 		void TextureRenderer<Vertex, CamData>::Render()
 		{
 			m_Sampler.ActivatePs(m_Gpu);
-			m_Texture.ActivatePs(m_Gpu);
 			m_ConstantBuffer.Update(m_Gpu, { m_Camera });
 			m_ConstantBuffer.Activate(m_Gpu);
 			m_RasterizerState.Activate(m_Gpu);
@@ -125,15 +133,20 @@ namespace MyEngine
 			m_Shader.Activate();
 			for (int i = 0; i < m_Meshes.GetSize(); i++)
 			{
-				m_Meshes[i]->Activate();
-				m_Meshes[i]->DrawNotIndexed();
+				m_Meshes[i].pTexture->ActivatePs(m_Gpu);
+				m_Meshes[i].pMesh->Activate();
+				m_Meshes[i].pMesh->DrawNotIndexed();
 			}
 		}
 
 		template <typename Vertex, typename CamData>
-		void TextureRenderer<Vertex, CamData>::AddMesh(const Array<Vertex>& vertices, const Array<int>& indices)
+		void TextureRenderer<Vertex, CamData>::AddMesh(const Array<Vertex>& vertices, const Array<int>& indices, const std::wstring& texturePath)
 		{
-			m_Meshes.Add(App::Wrappers::Dx::Mesh::Create<Vertex>(m_Gpu, vertices, indices));
+			using namespace App::Wrappers::Dx;
+			using namespace MyEngine::Dx;
+			Mesh* pMesh = Mesh::Create<Vertex>(m_Gpu, vertices, indices);
+			Texture* pTexture = new Texture(m_Gpu, texturePath);
+			m_Meshes.Add({pMesh, pTexture});
 		}
 	}
 }
