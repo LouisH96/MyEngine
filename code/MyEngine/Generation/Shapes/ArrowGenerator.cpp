@@ -36,7 +36,7 @@ int Generation::ArrowGenerator::GetSectionLength(VertexSection section) const
 	case VertexSection::LineEnd: return m_NrSides;
 	case VertexSection::Head: return m_NrSides;
 	case VertexSection::HeadCap: return m_NrSides;
-	case VertexSection::Tip: return m_NrSides;
+	case VertexSection::Tip: return 1;
 	case VertexSection::Last:
 	default:
 		Logger::PrintError("Unknown ArrowGenerator-VertexSection");
@@ -129,19 +129,15 @@ void Generation::ArrowGenerator::Generate(Array<Math::Float3>& vertexPoints, Arr
 		vertexPoints[vertexIdx] = point;
 		vertexNormals[vertexIdx] = basicNormal;
 
-		//TIP
-		vertexIdx = i + GetSectionBegin(VertexSection::Tip);
-		point.x = m_LineLength + m_ArrowLength;
-		point.y = 0;
-		point.z = 0;
-		vertexPoints[vertexIdx] = point;
-		vertexNormals[vertexIdx] = Float3{0, -sinf((i+.5f)*angleStep), cosf((i+.5f)*angleStep)}.Normalized();
-
 		currentAngle += angleStep;
 	}
 
+	//TIP
+	int vertexIdx = GetSectionBegin(VertexSection::Tip);
+	vertexPoints[vertexIdx] = { m_LineLength + m_ArrowLength , 0, 0};
+	vertexNormals[vertexIdx] = { 0,0,0 };
+
 	//INDICES
-	int vertexIdx;
 	int indexIdx;
 
 	//LINE CAP
@@ -189,6 +185,6 @@ void Generation::ArrowGenerator::Generate(Array<Math::Float3>& vertexPoints, Arr
 		const int leftBotVertexIdx = i == m_NrSides - 1 ? vertexIdx : vertexIdx + i + 1;
 		indices[indexIdx + i * 3 + 0] = rightTopVertexIdx;
 		indices[indexIdx + i * 3 + 1] = leftBotVertexIdx;
-		indices[indexIdx + i * 3 + 2] = i == m_NrSides - 1 ? tipVertexIdx : tipVertexIdx + i;
+		indices[indexIdx + i * 3 + 2] = tipVertexIdx;
 	}
 }
