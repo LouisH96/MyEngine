@@ -182,12 +182,6 @@ void Generation::Shapes::GeneratePivotArrows(Array<Rendering::V_PosColNorm>& ver
 	vertices = { positions.GetSize() };
 	for (int i = 0; i < vertices.GetSize(); i++)
 		vertices[i] = V_PosColNorm{ positions[i], {1,0,0},normals[i] };
-
-	Logger::Print("indices", indices);
-
-	std::cout << "positions:\n";
-	for (int i = 0; i < positions.GetSize(); i++)
-		std::cout << "[" << std::to_string(i) << "] " << positions[i].x << ", " << positions[i].y << ", " << positions[i].z << std::endl;
 }
 
 Array<int> Generation::Shapes::GetIndicesToCapCircle(int nrPoints)
