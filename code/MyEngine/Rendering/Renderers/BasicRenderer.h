@@ -90,7 +90,7 @@ namespace MyEngine
 			for (int i = 0; i < m_Meshes.GetSize(); i++)
 			{
 				m_Meshes[i]->Activate();
-				m_Meshes[i]->DrawNotIndexed();
+				m_Meshes[i]->Draw();
 			}
 		}
 

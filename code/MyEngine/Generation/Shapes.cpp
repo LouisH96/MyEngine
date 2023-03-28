@@ -3,6 +3,7 @@
 #include "DataStructures/Array.h"
 #include "Math/Constants.h"
 #include "Math/Cube.h"
+#include <Generation/Shapes/ArrowGenerator.h>
 
 void Generation::Shapes::GenerateCubeBuffers(const Math::Cube& cube, Ds::Array<Math::Float3>& positions,
 	Ds::Array<Math::Float3>& normals, Ds::Array<int>& indices)
@@ -154,7 +155,7 @@ void Generation::Shapes::GenerateSphereBuffers(const Sphere& sphere, int nrCols,
 			const int leftTop = leftBottom + nrCols;
 			const int rightTop = rightBottom + nrCols;
 
-			int* pIndex = &indices[(nrCols + ((iRow - 1) * nrCols + iCol) * 2)*3];
+			int* pIndex = &indices[(nrCols + ((iRow - 1) * nrCols + iCol) * 2) * 3];
 			*pIndex++ = leftBottom;
 			*pIndex++ = leftTop;
 			*pIndex++ = rightTop;
@@ -164,4 +165,85 @@ void Generation::Shapes::GenerateSphereBuffers(const Sphere& sphere, int nrCols,
 			*pIndex = rightBottom;
 		}
 	}
+}
+
+void Generation::Shapes::GeneratePivotArrows(Array<Rendering::V_PosColNorm>& vertices, Array<int>& indices)
+{
+	using namespace Rendering;
+	constexpr float totalLength = 1.f;
+	constexpr float arrowLength = .2f;
+	constexpr float arrowRadius = .1f;
+	constexpr int nrArrowsTriangle = 8;
+	
+	Array<Float3> positions{};
+	Array<Float3> normals{};
+	const ArrowGenerator arrowGenerator{ nrArrowsTriangle, true, .8f, .05f, .2f, .1f };
+	arrowGenerator.Generate(positions, normals, indices);
+	vertices = { positions.GetSize() };
+	for (int i = 0; i < vertices.GetSize(); i++)
+		vertices[i] = V_PosColNorm{ positions[i], {1,0,0},normals[i] };
+
+	Logger::Print("indices", indices);
+
+	std::cout << "positions:\n";
+	for (int i = 0; i < positions.GetSize(); i++)
+		std::cout << "[" << std::to_string(i) << "] " << positions[i].x << ", " << positions[i].y << ", " << positions[i].z << std::endl;
+}
+
+Array<int> Generation::Shapes::GetIndicesToCapCircle(int nrPoints)
+{
+	if (nrPoints < 4)
+	{
+		Logger::PrintError("CapCircle function need at least 4 points");
+		return{};
+	}
+	if (nrPoints % 2 != 0)
+	{
+		Logger::PrintError("CapCircle function need even nr of points");
+		return{};
+	}
+
+	Array<int> indices{ (nrPoints - 2) * 3 };
+	constexpr int topIdx = 0;
+	const int botIdx = nrPoints / 2;
+	const int rightIdx = nrPoints / 4;
+	const int leftIdx = rightIdx + botIdx;
+
+	//LEFT CORNER
+	indices[indices.GetSize() - 3] = leftIdx - 1;
+	indices[indices.GetSize() - 2] = leftIdx;
+	indices[indices.GetSize() - 1] = leftIdx + 1;
+	//RIGHT CORNER
+	indices[indices.GetSize() - 6] = rightIdx - 1;
+	indices[indices.GetSize() - 5] = rightIdx;
+	indices[indices.GetSize() - 4] = rightIdx + 1;
+	//MIDDLE QUADS
+	for (int i = 0; i < rightIdx - 1; i++)
+	{
+		//RIGHT
+		const int rLeftTop = i;
+		const int rRightTop = i + 1;
+		const int rLeftBot = botIdx - i;
+		const int rRightBot = botIdx - i - 1;
+		const int idx = i * 4 * 3;
+		indices[idx + 0] = rLeftTop;
+		indices[idx + 1] = rRightTop;
+		indices[idx + 2] = rRightBot;
+		indices[idx + 3] = rLeftTop;
+		indices[idx + 4] = rRightBot;
+		indices[idx + 5] = rLeftBot;
+
+		//LEFT
+		const int lLeftTop = nrPoints - i - 1;
+		const int lRightTop = i == 0 ? 0 : nrPoints - i;
+		const int lLeftBot = botIdx + i + 1;
+		const int lRightBot = botIdx + i;
+		indices[idx + 6] = lLeftTop;
+		indices[idx + 7] = lRightTop;
+		indices[idx + 8] = lRightBot;
+		indices[idx + 9] = lLeftTop;
+		indices[idx + 10] = lRightBot;
+		indices[idx + 11] = lLeftBot;
+	}
+	return indices;
 }

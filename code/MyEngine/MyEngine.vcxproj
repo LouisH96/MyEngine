@@ -15,6 +15,7 @@
     <ClCompile Include="App\FpsControl.cpp" />
     <ClCompile Include="App\Framework.cpp" />
     <ClCompile Include="App\Time.cpp" />
+    <ClCompile Include="Generation\Shapes\ArrowGenerator.cpp" />
     <ClCompile Include="Rendering\Gpu.cpp" />
     <ClCompile Include="Rendering\Canvas.cpp" />
     <ClCompile Include="Rendering\State\BlendState.cpp" />
@@ -81,6 +82,7 @@
   <ItemGroup>
     <ClInclude Include="App\BasicExampleApp.h" />
     <ClInclude Include="App\Framework.h" />
+    <ClInclude Include="Generation\Shapes\ArrowGenerator.h" />
     <ClInclude Include="Rendering\State\Shader.h" />
     <ClInclude Include="App\Wrappers\Dx\Painter.h" />
     <ClInclude Include="Rendering\State\Mesh.h" />
