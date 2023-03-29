@@ -5,8 +5,7 @@ using namespace Rendering;
 
 Mesh::Mesh(const Gpu& gpu, unsigned vertexStride, const void* pVertices, int nrVertices, const int* pIndices,
            int nrIndices, Topology topology)
-	: m_Gpu(gpu)
-	, m_VertexCount(nrVertices)
+	:  m_VertexCount(nrVertices)
 	, m_VertexStride(vertexStride)
 	, m_VertexOffset(0)
 	, m_IndexCount(nrIndices)
@@ -20,7 +19,7 @@ Mesh::Mesh(const Gpu& gpu, unsigned vertexStride, const void* pVertices, int nrV
 	};
 
 	const D3D11_SUBRESOURCE_DATA srData{ pVertices,0,0 };
-	const HRESULT hr = m_Gpu.GetDevice().CreateBuffer(&vertexBufferDesc, &srData, &m_pVertexBuffer);
+	const HRESULT hr = gpu.GetDevice().CreateBuffer(&vertexBufferDesc, &srData, &m_pVertexBuffer);
 	if (FAILED(hr))
 		throw std::exception("Mesh::InitVertexBuffer");
 
@@ -35,36 +34,36 @@ Mesh::~Mesh()
 	SAFE_RELEASE(m_pVertexBuffer);
 }
 
-void Mesh::Activate() const
+void Mesh::Activate(const Gpu& gpu) const
 {
-	m_Gpu.GetContext().IASetVertexBuffers(
+	gpu.GetContext().IASetVertexBuffers(
 		0,
 		1,
 		&m_pVertexBuffer,
 		&m_VertexStride,
 		&m_VertexOffset);
-	m_Gpu.GetContext().IASetIndexBuffer(m_pIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
-	m_Gpu.GetContext().IASetPrimitiveTopology(m_Topology);
+	gpu.GetContext().IASetIndexBuffer(m_pIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+	gpu.GetContext().IASetPrimitiveTopology(m_Topology);
 }
 
-void Mesh::ActivateUnindexed() const
+void Mesh::ActivateUnindexed(const Gpu& gpu) const
 {
-	m_Gpu.GetContext().IASetVertexBuffers(
+	gpu.GetContext().IASetVertexBuffers(
 		0, 1,
 		&m_pVertexBuffer,
 		&m_VertexStride,
 		&m_VertexOffset);
-	m_Gpu.GetContext().IASetPrimitiveTopology(m_Topology);
+	gpu.GetContext().IASetPrimitiveTopology(m_Topology);
 }
 
-void Mesh::Draw() const
+void Mesh::Draw(const Gpu& gpu) const
 {
-	m_Gpu.GetContext().DrawIndexed(m_IndexCount, 0, 0);
+	gpu.GetContext().DrawIndexed(m_IndexCount, 0, 0);
 }
 
-void Mesh::DrawNotIndexed() const
+void Mesh::DrawNotIndexed(const Gpu& gpu) const
 {
-	m_Gpu.GetContext().Draw(m_VertexCount, m_VertexOffset);
+	gpu.GetContext().Draw(m_VertexCount, m_VertexOffset);
 }
 
 D3D11_PRIMITIVE_TOPOLOGY Mesh::ToDxTopology(Topology topology)

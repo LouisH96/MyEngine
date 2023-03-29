@@ -84,7 +84,6 @@
     <ClInclude Include="App\Framework.h" />
     <ClInclude Include="Generation\Shapes\ArrowGenerator.h" />
     <ClInclude Include="Rendering\State\Shader.h" />
-    <ClInclude Include="App\Wrappers\Dx\Painter.h" />
     <ClInclude Include="Rendering\State\Mesh.h" />
     <ClInclude Include="Rendering\Gpu.h" />
     <ClInclude Include="Rendering\Canvas.h" />

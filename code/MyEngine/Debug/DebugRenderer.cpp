@@ -60,8 +60,8 @@ void DebugRenderer::Class_Render()
 	m_Shader.Activate();
 	for (int i = 0; i < m_Meshes.GetSize(); i++)
 	{
-		m_Meshes[i]->Activate();
-		m_Meshes[i]->Draw();
+		m_Meshes[i]->Activate(m_Gpu);
+		m_Meshes[i]->Draw(m_Gpu);
 	}
 }
 

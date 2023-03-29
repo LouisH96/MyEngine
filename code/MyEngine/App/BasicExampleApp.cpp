@@ -5,7 +5,6 @@
 
 #include "FpsControl.h"
 #include "Resources.h"
-#include "App/Wrappers/Dx/Painter.h"
 #include "App/Wrappers/Win32/Window.h"
 
 #include "../Game/Camera/Camera.h"
@@ -26,7 +25,6 @@ using namespace Rendering;
 void App::BasicExampleApp::Run()
 {
 	using namespace Wrappers::Win32;
-	using namespace Wrappers::Dx;
 	using namespace Ds;
 	using namespace Math;
 
@@ -73,14 +71,12 @@ void App::BasicExampleApp::Run()
 
 	//GAME
 	Game::Camera::Camera& camera = *new Game::Camera::Camera(window.AskClientSize_WinApi());
-	Painter<Vertex>& painter = *new Painter<Vertex>();
 
 	//RENDER-PIPELINE
 	constantBuffer.ActivateVs(gpu);
 	inputLayout.Activate(gpu);
-	painter.SetShader(shader);
-	painter.SetMesh(mesh);
-	painter.SetCamera(camera);
+	shader.Activate();
+	mesh.Activate(gpu);
 
 	//input
 	Game::Camera::CameraController& cameraController = *new Game::Camera::CameraController(camera, window.GetKeyboard(), window.GetMouse());
@@ -111,7 +107,10 @@ void App::BasicExampleApp::Run()
 		//render
 		constantBuffer.Update(gpu, { camera.GetViewProjMatrix() });
 		canvas.BeginPaint();
-		painter.Paint();
+		shader.Activate();
+		mesh.Activate(gpu);
+		mesh.Draw(gpu);
+		camera.Update();
 		canvas.Present();
 	}
 
@@ -120,7 +119,6 @@ void App::BasicExampleApp::Run()
 	//input
 	delete& cameraController;
 
-	delete& painter;
 	delete& camera;
 	delete& mesh;
 	delete& shader;

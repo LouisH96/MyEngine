@@ -29,14 +29,12 @@ namespace MyEngine
 			static Mesh* Create(const Gpu& gpu, const Ds::Array<Vertex>& vertices, Topology topology = Topology::TriangleList);
 			~Mesh();
 
-			void Activate() const;
-			void ActivateUnindexed() const;
-			void Draw() const;
-			void DrawNotIndexed() const;
+			void Activate(const Gpu& gpu) const;
+			void ActivateUnindexed(const Gpu& gpu) const;
+			void Draw(const Gpu& gpu) const;
+			void DrawNotIndexed(const Gpu& gpu) const;
 
 		private:
-			const Gpu& m_Gpu;
-
 			ID3D11Buffer* m_pVertexBuffer{};
 			ID3D11Buffer* m_pIndexBuffer{};
 			unsigned int m_VertexCount{};
