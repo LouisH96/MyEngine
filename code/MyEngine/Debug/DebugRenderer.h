@@ -12,10 +12,7 @@ namespace MyEngine
 	//---| Forward Includes |---
 	namespace Game
 	{
-		namespace Camera
-		{
-			class Camera;
-		}
+		class Camera;
 	}
 	namespace Rendering
 	{
@@ -30,7 +27,7 @@ namespace MyEngine
 		class DebugRenderer
 		{
 		public:
-			static void Init(Rendering::Gpu& gpu, Game::Camera::Camera& camera);
+			static void Init(Rendering::Gpu& gpu, Game::Camera& camera);
 			static void Release();
 			static void Render();
 
@@ -43,7 +40,7 @@ namespace MyEngine
 			//---| General |---
 			static DebugRenderer* m_pStatic;
 			Rendering::Gpu& m_Gpu;
-			Game::Camera::Camera& m_Camera;
+			Game::Camera& m_Camera;
 
 			//---| RenderState |---
 			Rendering::BlendState m_BlendState;
@@ -57,7 +54,7 @@ namespace MyEngine
 			Array<Rendering::Mesh*> m_Meshes{};
 
 			//---| Init |---
-			DebugRenderer(Rendering::Gpu& gpu, Game::Camera::Camera& camera);
+			DebugRenderer(Rendering::Gpu& gpu, Game::Camera& camera);
 			~DebugRenderer();
 
 			//---| Rule of Five |---

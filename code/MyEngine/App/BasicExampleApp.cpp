@@ -70,7 +70,7 @@ void App::BasicExampleApp::Run()
 	const ConstantBuffer<CameraMatrixCBuffer> constantBuffer{ gpu };
 
 	//GAME
-	Game::Camera::Camera& camera = *new Game::Camera::Camera(window.AskClientSize_WinApi());
+	Game::Camera& camera = *new Game::Camera(window.AskClientSize_WinApi());
 
 	//RENDER-PIPELINE
 	constantBuffer.ActivateVs(gpu);
@@ -79,7 +79,7 @@ void App::BasicExampleApp::Run()
 	mesh.Activate(gpu);
 
 	//input
-	Game::Camera::CameraController& cameraController = *new Game::Camera::CameraController(camera, window.GetKeyboard(), window.GetMouse());
+	Game::CameraController& cameraController = *new Game::CameraController(camera, window.GetKeyboard(), window.GetMouse());
 	cameraController.SetScrollSpeed(.25f);
 
 	//fps 

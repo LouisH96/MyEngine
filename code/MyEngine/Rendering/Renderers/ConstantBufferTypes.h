@@ -6,10 +6,7 @@ namespace MyEngine
 {
 	namespace Game
 	{
-		namespace Camera
-		{
-			class Camera;
-		}
+		class Camera;
 	}
 }
 
@@ -22,7 +19,7 @@ namespace MyEngine
 			DirectX::XMFLOAT4X4 CameraMatrix;
 
 			CB_CamMat() = default;
-			CB_CamMat(const Game::Camera::Camera& cam);
+			CB_CamMat(const Game::Camera& cam);
 		};
 		struct CB_CamMatPos
 		{
@@ -31,7 +28,7 @@ namespace MyEngine
 			float padding = 0;
 
 			CB_CamMatPos() = default;
-			CB_CamMatPos(const Game::Camera::Camera& cam);
+			CB_CamMatPos(const Game::Camera& cam);
 		};
 	}
 }

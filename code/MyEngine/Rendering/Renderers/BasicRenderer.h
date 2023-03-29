@@ -1,5 +1,4 @@
 #pragma once
-#include "App/Resources.h"
 #include <Rendering/State/BlendState.h>
 #include <Rendering/State/ConstantBuffer.h>
 #include <Rendering/State/InputLayout.h>
@@ -10,10 +9,7 @@ namespace MyEngine
 {
 	namespace Game
 	{
-		namespace Camera
-		{
-			class Camera;
-		}
+		class Camera;
 	}
 }
 
@@ -29,7 +25,7 @@ namespace MyEngine
 			using CamDataRefType = CamData;
 
 			//---| Construction |---
-			BasicRenderer(Gpu& gpu, Game::Camera::Camera& camera, const std::wstring& shaderPath, bool isWireframe = false);
+			BasicRenderer(Gpu& gpu, Game::Camera& camera, const std::wstring& shaderPath, bool isWireframe = false);
 			~BasicRenderer();
 
 			//---| Rule of Five |---
@@ -47,7 +43,7 @@ namespace MyEngine
 		private:
 			//---| General |---
 			Gpu& m_Gpu;
-			Game::Camera::Camera& m_Camera;
+			Game::Camera& m_Camera;
 			BlendState m_BlendState;
 			RasterizerState m_RasterizerState;
 
@@ -60,7 +56,7 @@ namespace MyEngine
 		};
 
 		template <typename Vertex, typename CamData>
-		BasicRenderer<Vertex, CamData>::BasicRenderer(Gpu& gpu, Game::Camera::Camera& camera,
+		BasicRenderer<Vertex, CamData>::BasicRenderer(Gpu& gpu, Game::Camera& camera,
 			const std::wstring& shaderPath, bool isWireframe)
 			: m_Gpu(gpu)
 			, m_Camera(camera)
@@ -81,7 +77,7 @@ namespace MyEngine
 		template <typename Vertex, typename CamData>
 		void BasicRenderer<Vertex, CamData>::Render()
 		{
-			m_ConstantBuffer.Update(m_Gpu, {m_Camera});
+			m_ConstantBuffer.Update(m_Gpu, { m_Camera });
 			m_ConstantBuffer.Activate(m_Gpu);
 			m_RasterizerState.Activate(m_Gpu);
 			m_InputLayout.Activate(m_Gpu);

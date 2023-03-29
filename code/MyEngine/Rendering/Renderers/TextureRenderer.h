@@ -6,17 +6,12 @@
 #include "Rendering/State/RasterizerState.h"
 #include <Rendering/State/SamplerState.h>
 #include <Rendering/State/Texture.h>
-#include "Math/Float2.h"
-#include "Math/Float3.h"
 
 namespace MyEngine
 {
 	namespace Game
 	{
-		namespace Camera
-		{
-			class Camera;
-		}
+		class Camera;
 	}
 
 	namespace Rendering
@@ -30,7 +25,7 @@ namespace MyEngine
 			using CamDataRefType = CamData;
 
 			//---| Construction |---
-			TextureRenderer(Gpu& gpu, Game::Camera::Camera& camera, const std::wstring& shaderPath);
+			TextureRenderer(Gpu& gpu, Game::Camera& camera, const std::wstring& shaderPath);
 			~TextureRenderer();
 
 			//---| Rule of Five |---
@@ -55,7 +50,7 @@ namespace MyEngine
 
 			//---| General |---
 			Gpu& m_Gpu;
-			Game::Camera::Camera& m_Camera;
+			Game::Camera& m_Camera;
 			BlendState m_BlendState;
 			RasterizerState m_RasterizerState;
 			SamplerState m_Sampler;
@@ -69,7 +64,7 @@ namespace MyEngine
 		};
 
 		template <typename Vertex, typename CamData>
-		TextureRenderer<Vertex, CamData>::TextureRenderer(Gpu& gpu, Game::Camera::Camera& camera,
+		TextureRenderer<Vertex, CamData>::TextureRenderer(Gpu& gpu, Game::Camera& camera,
 			const std::wstring& shaderPath)
 			: m_Gpu(gpu)
 			, m_Camera(camera)
@@ -115,7 +110,7 @@ namespace MyEngine
 		{
 			Mesh* pMesh = Mesh::Create<Vertex>(m_Gpu, vertices, indices);
 			Texture* pTexture = new Texture(m_Gpu, texturePath);
-			m_Meshes.Add({pMesh, pTexture});
+			m_Meshes.Add({ pMesh, pTexture });
 		}
 	}
 }

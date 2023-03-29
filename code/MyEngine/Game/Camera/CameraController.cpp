@@ -1,19 +1,17 @@
 #include "pch.h"
 #include "CameraController.h"
 
-#include "Windows.h"
 #include <DirectXMath.h>
-#include <iostream>
-
+#include <App/Wrappers/Win32/Mouse.h>
+#include "Camera.h"
+#include "Windows.h"
 #include "Math/Constants.h"
 #include "Math/Int2.h"
-#include "Camera.h"
-#include <App/Wrappers/Win32/Mouse.h>
 
-using namespace MyEngine::App::Wrappers::Win32;
-using namespace MyEngine::Math;
+using namespace App::Wrappers::Win32;
+using namespace Math;
 
-MyEngine::Game::Camera::CameraController::CameraController(Camera& camera, const Keyboard& keyboard, const Mouse& mouse)
+Game::CameraController::CameraController(Camera& camera, const Keyboard& keyboard, const Mouse& mouse)
 	: m_Keyboard(keyboard)
 	, m_Mouse(mouse)
 	, m_Camera(camera)
@@ -21,7 +19,7 @@ MyEngine::Game::Camera::CameraController::CameraController(Camera& camera, const
 {
 }
 
-void MyEngine::Game::Camera::CameraController::Update()
+void Game::CameraController::Update()
 {
 	//TRANSLATION
 	DirectX::XMFLOAT3 translation{};
@@ -50,7 +48,7 @@ void MyEngine::Game::Camera::CameraController::Update()
 	m_Camera.Zoom(m_Mouse.GetScroll() * m_ScrollSpeed);
 }
 
-void MyEngine::Game::Camera::CameraController::KeyboardRotation() const
+void Game::CameraController::KeyboardRotation() const
 {
 	constexpr float maxPitchSpeed = 100.f; //degrees/sec
 	constexpr float maxYawSpeed = 100.f; //degrees/sec
@@ -62,7 +60,7 @@ void MyEngine::Game::Camera::CameraController::KeyboardRotation() const
 	m_Camera.Yaw(yaw);
 }
 
-void MyEngine::Game::Camera::CameraController::MouseRotation() const
+void Game::CameraController::MouseRotation() const
 {
 	constexpr float radiansPerPixel = Constants::PI / 10;
 	const Int2& mouseDelta = m_Mouse.GetMovement();

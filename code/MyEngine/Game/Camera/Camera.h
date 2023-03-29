@@ -1,51 +1,47 @@
 #pragma once
 #include <DirectXMath.h>
-
-#include "Math/Float3.h"
+#include <Math/Float3.h>
 
 namespace MyEngine
 {
 	namespace Game
 	{
-		namespace Camera
+		class Camera
 		{
-			class Camera
-			{
-			public:
-				explicit Camera(DirectX::XMINT2 size);
+		public:
+			explicit Camera(DirectX::XMINT2 size);
 
-				void Update();
+			void Update();
 
-				void Move(DirectX::XMFLOAT3 movement);
-				void MoveInDirection(DirectX::XMFLOAT3 movement);
+			void Move(DirectX::XMFLOAT3 movement);
+			void MoveInDirection(DirectX::XMFLOAT3 movement);
 
-				void Pitch(float addAngle);
-				void Yaw(float addAngle);
-				void Zoom(float addDistance);
+			void Pitch(float addAngle);
+			void Yaw(float addAngle);
+			void Zoom(float addDistance);
 
-				const DirectX::XMFLOAT4X4& GetViewProjMatrix() const { return m_ViewProjMatrix; }
-				float GetFocusPointDistance() const { return m_FocusPointDistance; }
-				void OnWindowResized(DirectX::XMINT2 newSize);
-				void SetFieldOfView(float angle);
-				DirectX::XMFLOAT3 GetPosition() const;
-				Math::Float3 GetPositionFloat3() const;
+			const DirectX::XMFLOAT4X4& GetViewProjMatrix() const { return m_ViewProjMatrix; }
+			float GetFocusPointDistance() const { return m_FocusPointDistance; }
+			void OnWindowResized(DirectX::XMINT2 newSize);
+			void SetFieldOfView(float angle);
+			DirectX::XMFLOAT3 GetPosition() const;
+			Math::Float3 GetPositionFloat3() const;
 
-			private:
-				DirectX::XMFLOAT4X4 m_ViewProjMatrix{};
-				DirectX::XMFLOAT4X4 m_World{ };
-				DirectX::XMFLOAT4X4 m_Proj{};
-				float m_FovValue{};
-				float m_InvAspectRatio{};
+		private:
+			DirectX::XMFLOAT4X4 m_ViewProjMatrix{};
+			DirectX::XMFLOAT4X4 m_World{ };
+			DirectX::XMFLOAT4X4 m_Proj{};
+			float m_FovValue{};
+			float m_InvAspectRatio{};
 
-				DirectX::XMFLOAT3 m_FocusPoint{ 0.f,0.f,0.f };
-				float m_FocusPointDistance{ 2.f };
-				float m_Yaw{};
-				float m_Pitch{};
+			DirectX::XMFLOAT3 m_FocusPoint{ 0.f,0.f,0.f };
+			float m_FocusPointDistance{ 2.f };
+			float m_Yaw{};
+			float m_Pitch{};
 
-				void UpdateWorldMatrix();
-				void UpdateProjMatrix();
-				void UpdateViewProjMatrix();
-			};
-		}
+			void UpdateWorldMatrix();
+			void UpdateProjMatrix();
+			void UpdateViewProjMatrix();
+		};
 	}
 }

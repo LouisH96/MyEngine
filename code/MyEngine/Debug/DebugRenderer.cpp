@@ -9,7 +9,7 @@
 
 DebugRenderer* DebugRenderer::m_pStatic = nullptr;
 
-void DebugRenderer::Init(Rendering::Gpu& gpu, Game::Camera::Camera& camera)
+void DebugRenderer::Init(Rendering::Gpu& gpu, Game::Camera& camera)
 {
 	m_pStatic = new DebugRenderer(gpu, camera);
 }
@@ -34,7 +34,7 @@ void DebugRenderer::AddSpheres(const Array<Float3>& positions, const Float3& col
 	m_pStatic->Class_AddSpheres(positions, color, radius);
 }
 
-DebugRenderer::DebugRenderer(Rendering::Gpu& gpu, Game::Camera::Camera& camera)
+DebugRenderer::DebugRenderer(Rendering::Gpu& gpu, Game::Camera& camera)
 	: m_Gpu(gpu)
 	, m_Camera(camera)
 	, m_BlendState(gpu)

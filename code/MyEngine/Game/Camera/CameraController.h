@@ -19,27 +19,24 @@ namespace MyEngine
 {
 	namespace Game
 	{
-		namespace Camera
+		class Camera;
+
+		class CameraController
 		{
-			class Camera;
+		public:
+			CameraController(Camera& camera, const App::Wrappers::Win32::Keyboard& keyboard, const App::Wrappers::Win32::Mouse& mouse);
+			void Update();
 
-			class CameraController
-			{
-			public:
-				CameraController(Camera& camera, const App::Wrappers::Win32::Keyboard& keyboard, const App::Wrappers::Win32::Mouse& mouse);
-				void Update();
+			void SetScrollSpeed(float scrollSpeed) { m_ScrollSpeed = -scrollSpeed; };
 
-				void SetScrollSpeed(float scrollSpeed) { m_ScrollSpeed = -scrollSpeed; };
+		private:
+			const App::Wrappers::Win32::Keyboard& m_Keyboard;
+			const App::Wrappers::Win32::Mouse& m_Mouse;
+			Camera& m_Camera;
+			float m_ScrollSpeed;
 
-			private:
-				const App::Wrappers::Win32::Keyboard& m_Keyboard;
-				const App::Wrappers::Win32::Mouse& m_Mouse;
-				Camera& m_Camera;
-				float m_ScrollSpeed;
-
-				void KeyboardRotation() const;
-				void MouseRotation() const;
-			};
-		}
+			void KeyboardRotation() const;
+			void MouseRotation() const;
+		};
 	}
 }
