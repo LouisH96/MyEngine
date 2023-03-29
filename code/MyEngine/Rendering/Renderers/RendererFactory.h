@@ -25,7 +25,7 @@ namespace MyEngine
 			using WireframeRenderer = BasicRenderer<V_PosCol, CB_CamMat>;
 			using SimpleTexRenderer = TextureRenderer<V_PosNorUv, CB_CamMatPos>;
 
-			static SimpleRenderer* CreateSimpleRenderer(Gpu& gpu, Game::Camera::Camera& camera);
+			static SimpleRenderer* CreateSimpleRenderer(Gpu& gpu, Game::Camera::Camera& camera, bool wireframe = false);
 			static WireframeRenderer* CreateWireframeRenderer(Gpu& gpu, Game::Camera::Camera& camera);
 			static SimpleTexRenderer* CreateSimpleTexRenderer(Gpu& gpu, Game::Camera::Camera& camera);
 

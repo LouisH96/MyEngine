@@ -2,9 +2,9 @@
 #include "RendererFactory.h"
 
 Rendering::RendererFactory::SimpleRenderer* Rendering::RendererFactory::CreateSimpleRenderer(Gpu& gpu,
-	Game::Camera::Camera& camera)
+	Game::Camera::Camera& camera, bool wireframe)
 {
-	return new SimpleRenderer(gpu, camera, App::Resources::GetGlobalShaderPath(L"lambertCamDir.hlsl"));
+	return new SimpleRenderer(gpu, camera, App::Resources::GetGlobalShaderPath(L"lambertCamDir.hlsl"), wireframe);
 }
 
 Rendering::RendererFactory::WireframeRenderer* Rendering::RendererFactory::CreateWireframeRenderer(

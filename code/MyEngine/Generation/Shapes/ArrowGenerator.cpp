@@ -6,6 +6,76 @@
 #include "Math/Float3.h"
 
 
+void Generation::ArrowGenerator::CreatePivotArrows(Array<Rendering::V_PosColNorm>& vertices, Array<int>& indices, int nrSides)
+{
+	using namespace Rendering;
+	constexpr float lineRadius = .05f;
+	ArrowGenerator arrowGenerator{ nrSides, false, .8f, lineRadius, .2f, .1f };
+
+	vertices = { arrowGenerator.GetNrVertices() * 2 };
+	indices = { arrowGenerator.GetNrIndices() * 2 };
+
+	//GET ARROW MODEL
+	Array<Math::Float3> positions{ };
+	Array<Math::Float3> normals{};
+	Array<int> tempIndices{};
+
+	arrowGenerator.Generate(positions, normals, tempIndices);
+
+	const int lineBeginIdx = arrowGenerator.GetSectionBegin(VertexSection::LineBegin);
+	const float angleStep = arrowGenerator.GetAngleStep();
+	for(int i = 0; i < nrSides; i++)
+	{
+		const float c = cosf(i * angleStep);
+		const float diff = c * lineRadius;
+		positions[i + lineBeginIdx].x += diff;
+	}
+
+	for (int i = 0; i < positions.GetSize(); i++)
+		vertices[i] = V_PosColNorm{ positions[i], {.8f,.1f,.1f}, normals[i] };
+	for (int i = 0; i < tempIndices.GetSize(); i++)
+		indices[i] = tempIndices[i];
+
+	int idx = positions.GetSize();
+
+	//rotate to Z
+	for(int i = 0; i < positions.GetSize(); i++)
+	{
+		const float oldPositionX = positions[i].x;
+		positions[i].x = positions[i].z;
+		positions[i].z = oldPositionX;
+		positions[i].y = -positions[i].y;
+		const float oldNormalX = normals[i].x;
+		normals[i].x = normals[i].z;
+		normals[i].z = oldNormalX;
+		normals[i].y = -normals[i].y;
+	}
+	
+	for (int i = 0; i < positions.GetSize(); i++)
+		vertices[i + idx] = V_PosColNorm{ positions[i], {.1f,.1f,.8f}, normals[i] };
+	for (int i = 0; i < arrowGenerator.GetNrIndices(); i++)
+		indices[i + arrowGenerator.GetNrIndices()] = tempIndices[i] + idx;
+
+	//rotate to Y
+	/*idx *= 2;
+	for(int i = 0; i < positions.GetSize(); i++)
+	{
+		const float oldPositionZ = positions[i].z;
+		positions[i].z = positions[i].y;
+		positions[i].y = oldPositionZ;
+		positions[i].x = -positions[i].x;
+		const float oldNormalZ = normals[i].z;
+		normals[i].z = normals[i].y;
+		normals[i].y = oldNormalZ;
+		normals[i].x = -normals[i].x;
+	}
+
+	for (int i = 0; i < positions.GetSize(); i++)
+		vertices[i + idx] = V_PosColNorm{ positions[i], {.1f,.8f,.1f} , normals[i] };
+	for (int i = 0; i < arrowGenerator.GetNrIndices(); i++)
+		indices[i + arrowGenerator.GetNrIndices() * 2] = tempIndices[i] + idx;*/
+}
+
 Generation::ArrowGenerator::ArrowGenerator(int nrSides, bool capLineEnd, float lineLength, float lineRadius,
 	float arrowLength, float arrowRadius)
 	: m_NrSides{ nrSides }
@@ -25,6 +95,11 @@ int Generation::ArrowGenerator::GetNrVertices() const
 int Generation::ArrowGenerator::GetNrTriangles() const
 {
 	return GetSectionBegin(TriangleSection::Last);
+}
+
+float Generation::ArrowGenerator::GetAngleStep() const
+{
+	return Math::Constants::PI / static_cast<float>(m_NrSides) * 2.f;
 }
 
 int Generation::ArrowGenerator::GetSectionLength(VertexSection section) const
@@ -88,8 +163,8 @@ void Generation::ArrowGenerator::Generate(Array<Math::Float3>& vertexPoints, Arr
 	float currentAngle = 0;
 	for (int i = 0; i < m_NrSides; i++)
 	{
-		const float cos = cosf(i*angleStep);
-		const float sin = sinf(i*angleStep);
+		const float cos = cosf(i * angleStep);
+		const float sin = sinf(i * angleStep);
 		const float arrowZ = cos * m_ArrowRadius;
 		const float arrowY = -sin * m_ArrowRadius;
 		const Float3 basicNormal{ Float3{0,-sin,cos}.Normalized() };
@@ -134,7 +209,7 @@ void Generation::ArrowGenerator::Generate(Array<Math::Float3>& vertexPoints, Arr
 
 	//TIP
 	int vertexIdx = GetSectionBegin(VertexSection::Tip);
-	vertexPoints[vertexIdx] = { m_LineLength + m_ArrowLength , 0, 0};
+	vertexPoints[vertexIdx] = { m_LineLength + m_ArrowLength , 0, 0 };
 	vertexNormals[vertexIdx] = { .1f,0,0 };
 
 	//INDICES
@@ -179,7 +254,7 @@ void Generation::ArrowGenerator::Generate(Array<Math::Float3>& vertexPoints, Arr
 	vertexIdx = GetSectionBegin(VertexSection::Head);
 	indexIdx = 3 * GetSectionBegin(TriangleSection::Head);
 	const int tipVertexIdx = GetSectionBegin(VertexSection::Tip);
-	for(int i = 0; i < m_NrSides; i++)
+	for (int i = 0; i < m_NrSides; i++)
 	{
 		const int rightTopVertexIdx = vertexIdx + i;
 		const int leftBotVertexIdx = i == m_NrSides - 1 ? vertexIdx : vertexIdx + i + 1;

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Rendering/Renderers/VertexTypes.h>
+
 namespace MyEngine
 {
 	namespace Generation
@@ -20,12 +22,18 @@ namespace MyEngine
 				LineCap, Line, HeadCap, Head, Last
 			};
 
+			//---| Static Functions |---
+			static void CreatePivotArrows(Array<Rendering::V_PosColNorm>& vertices, Array<int>& indices, int nrSides = 6);
+
+			//---| Class |---
 			ArrowGenerator(int nrSides, bool capLineEnd, float lineLength, float lineRadius, float arrowLength, float arrowRadius);
 
 			int GetNrSides() const { return m_NrSides; }
 			
 			int GetNrVertices() const;
 			int GetNrTriangles() const;
+			int GetNrIndices() const { return GetNrTriangles() * 3; };
+			float GetAngleStep() const;
 
 			int GetSectionLength(VertexSection section) const;
 			int GetSectionBegin(VertexSection section) const;
