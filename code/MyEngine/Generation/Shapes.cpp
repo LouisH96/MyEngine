@@ -173,11 +173,11 @@ void Generation::Shapes::GeneratePivotArrows(Array<Rendering::V_PosColNorm>& ver
 	constexpr float totalLength = 1.f;
 	constexpr float arrowLength = .2f;
 	constexpr float arrowRadius = .1f;
-	constexpr int nrArrowsTriangle = 8;
+	constexpr int nrArrowsTriangle = 6;
 	
 	Array<Float3> positions{};
 	Array<Float3> normals{};
-	const ArrowGenerator arrowGenerator{ nrArrowsTriangle, true, .8f, .05f, .2f, .1f };
+	const ArrowGenerator arrowGenerator{ nrArrowsTriangle, false, .8f, .05f, .2f, .1f };
 	arrowGenerator.Generate(positions, normals, indices);
 	vertices = { positions.GetSize() };
 	for (int i = 0; i < vertices.GetSize(); i++)

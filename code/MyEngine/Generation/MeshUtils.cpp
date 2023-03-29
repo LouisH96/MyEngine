@@ -5,16 +5,11 @@
 
 using namespace Math;
 
-void Generation::MeshUtils::GetIndicesToCapCircle(int nrPoints, Array<int>& indices, int arrayOffset, int valueOffset)
+void Generation::MeshUtils::CapCircle(int nrPoints, int arrayOffset, int valueOffset, Array<int>& indices)
 {
-	if (nrPoints < 4)
-	{
-		Logger::PrintError("CapCircle function need at least 4 points");
-		return;
-	}
 	if (nrPoints % 2 != 0)
 	{
-		Logger::PrintError("CapCircle function need even nr of points");
+		Logger::PrintError("NrPoints should be even");
 		return;
 	}
 	if (arrayOffset + GetNrTrianglesToCapCircle(nrPoints) * 3 >= indices.GetSize())
@@ -22,47 +17,39 @@ void Generation::MeshUtils::GetIndicesToCapCircle(int nrPoints, Array<int>& indi
 		Logger::PrintError("Indices-Array is not big enough for adding cap-circle indices");
 		return;
 	}
-	const int nrIndices = GetNrTrianglesToCapCircle(nrPoints)*3;
-	const int topIdx = 0 + valueOffset;
-	const int botIdx = nrPoints / 2 + valueOffset;
-	const int rightIdx = nrPoints / 4 + valueOffset;
-	const int leftIdx = nrPoints / 4 + botIdx;
+	const int half = nrPoints / 2;
 
-	//LEFT CORNER
-	indices[arrayOffset + nrIndices - 3] = leftIdx - 1;
-	indices[arrayOffset + nrIndices - 2] = leftIdx;
-	indices[arrayOffset + nrIndices - 1] = leftIdx + 1;
-	//RIGHT CORNER
-	indices[arrayOffset + nrIndices - 6] = rightIdx - 1;
-	indices[arrayOffset + nrIndices - 5] = rightIdx;
-	indices[arrayOffset + nrIndices - 4] = rightIdx + 1;
-	//MIDDLE QUADS
-	for (int i = 0; i < rightIdx - 1 - valueOffset; i++)
+	int iIndex = arrayOffset;
+	int iPoint = 0;
+	while (iPoint < nrPoints)
 	{
-		//RIGHT
-		const int rLeftTop = topIdx + i;
-		const int rRightTop = topIdx + i + 1;
-		const int rLeftBot = botIdx - i;
-		const int rRightBot = botIdx - i - 1;
-		const int idx = arrayOffset + i * 4 * 3;
-		indices[idx + 0] = rLeftTop;
-		indices[idx + 1] = rRightTop;
-		indices[idx + 2] = rRightBot;
-		indices[idx + 3] = rLeftTop;
-		indices[idx + 4] = rRightBot;
-		indices[idx + 5] = rLeftBot;
+		int opposite = half - iPoint;
+		if (opposite < 0)
+			opposite += nrPoints;
 
-		//LEFT
-		const int lLeftTop = topIdx + nrPoints - i - 1;
-		const int lRightTop = i == 0 ? topIdx : topIdx + nrPoints - i;
-		const int lLeftBot = botIdx + i + 1;
-		const int lRightBot = botIdx + i;
-		indices[idx + 6] = lLeftTop;
-		indices[idx + 7] = lRightTop;
-		indices[idx + 8] = lRightBot;
-		indices[idx + 9] = lLeftTop;
-		indices[idx + 10] = lRightBot;
-		indices[idx + 11] = lLeftBot;
+		const int next = iPoint == nrPoints - 1 ? 0 : iPoint + 1;
+
+		//corner?
+		if (opposite == next )
+		{
+			opposite++;
+			if (opposite == nrPoints)
+				opposite = 0;
+			indices[iIndex++] = iPoint + valueOffset;
+			indices[iIndex++] = next + valueOffset;
+			indices[iIndex++] = opposite + valueOffset;
+			iPoint = opposite;
+			if (iPoint == 0)
+				break;
+		}
+		else
+		{
+			indices[iIndex++] = iPoint++ + valueOffset;
+			indices[iIndex++] = next + valueOffset;
+			indices[iIndex++] = opposite + valueOffset;
+			if (next + 1 == opposite)
+				iPoint++;
+		}
 	}
 }
 

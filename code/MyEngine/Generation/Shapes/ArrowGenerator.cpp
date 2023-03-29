@@ -135,7 +135,7 @@ void Generation::ArrowGenerator::Generate(Array<Math::Float3>& vertexPoints, Arr
 	//TIP
 	int vertexIdx = GetSectionBegin(VertexSection::Tip);
 	vertexPoints[vertexIdx] = { m_LineLength + m_ArrowLength , 0, 0};
-	vertexNormals[vertexIdx] = { 0,0,0 };
+	vertexNormals[vertexIdx] = { .1f,0,0 };
 
 	//INDICES
 	int indexIdx;
@@ -145,7 +145,7 @@ void Generation::ArrowGenerator::Generate(Array<Math::Float3>& vertexPoints, Arr
 	{
 		vertexIdx = GetSectionBegin(VertexSection::LineCap);
 		indexIdx = 3 * GetSectionBegin(TriangleSection::LineCap);
-		MeshUtils::GetIndicesToCapCircle(m_NrSides, indices, indexIdx, vertexIdx);
+		MeshUtils::CapCircle(m_NrSides, indexIdx, vertexIdx, indices);
 	}
 
 	//LINE
@@ -173,7 +173,7 @@ void Generation::ArrowGenerator::Generate(Array<Math::Float3>& vertexPoints, Arr
 	//HEAD CAP
 	vertexIdx = GetSectionBegin(VertexSection::HeadCap);
 	indexIdx = 3 * GetSectionBegin(TriangleSection::HeadCap);
-	MeshUtils::GetIndicesToCapCircle(m_NrSides, indices, indexIdx, vertexIdx);
+	MeshUtils::CapCircle(m_NrSides, indexIdx, vertexIdx, indices);
 
 	//HEAD
 	vertexIdx = GetSectionBegin(VertexSection::Head);
