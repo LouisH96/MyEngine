@@ -140,6 +140,7 @@ LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, 
 		break;
 	case WM_KEYUP:
 		window.m_Keyboard.KeyUp(static_cast<char>(wParam));
+		break;
 	case WM_MOUSEMOVE:
 		window.m_Mouse.OnMove(lParam);
 		break;
