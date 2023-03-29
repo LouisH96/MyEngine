@@ -30,11 +30,11 @@ namespace MyEngine
 			~Mesh();
 
 			void Activate(const Gpu& gpu) const;
-			void ActivateUnindexed(const Gpu& gpu) const;
 			void Draw(const Gpu& gpu) const;
-			void DrawNotIndexed(const Gpu& gpu) const;
 
 		private:
+			typedef void (Mesh::* FpActivate)(const Gpu&) const;
+			typedef void (Mesh::* FpDraw)(const Gpu&) const;
 			ID3D11Buffer* m_pVertexBuffer{};
 			ID3D11Buffer* m_pIndexBuffer{};
 			unsigned int m_VertexCount{};
@@ -42,8 +42,19 @@ namespace MyEngine
 			unsigned int m_VertexOffset{};
 			unsigned int m_IndexCount{};
 			D3D11_PRIMITIVE_TOPOLOGY m_Topology{};
+			FpActivate m_fpActivate{};
+			FpDraw m_fpDraw{};
 
 			Mesh(const Gpu& gpu, unsigned vertexStride, const void* pVertices, int nrVertices, const int* pIndices, int nrIndices, Topology topology = Topology::TriangleList);
+			Mesh(const Gpu& gpu, unsigned vertexStride, const void* pVertices, int nrVertices, Topology topology = Topology::TriangleList);
+
+			void InitVertexBuffer(const Gpu& gpu, const void* pInitVertices);
+
+			void ActivateIndexed(const Gpu& gpu) const;
+			void ActivateUnindexed(const Gpu& gpu) const;
+			void DrawIndexed(const Gpu& gpu) const;
+			void DrawUnindexed(const Gpu& gpu) const;
+
 			static D3D11_PRIMITIVE_TOPOLOGY ToDxTopology(Topology topology);
 		};
 
@@ -57,7 +68,7 @@ namespace MyEngine
 		template <typename Vertex>
 		Mesh* Mesh::Create(const Gpu& gpu, const Ds::Array<Vertex>& vertices, Topology topology)
 		{
-			return new Mesh(gpu, sizeof(Vertex), vertices.GetData(), vertices.GetSize(), nullptr, 0, topology);
+			return new Mesh(gpu, sizeof(Vertex), vertices.GetData(), vertices.GetSize(), topology);
 		}
 	}
 }

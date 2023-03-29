@@ -39,6 +39,7 @@ namespace MyEngine
 
 			//---| Operations |---
 			void AddMesh(const Array<Vertex>& vertices, const Array<int>& indices, const std::wstring& texturePath);
+			void AddMesh(const Array<Vertex>& vertices, const std::wstring& texturePath);
 
 		private:
 			//---| Types |---
@@ -100,8 +101,8 @@ namespace MyEngine
 			for (int i = 0; i < m_Meshes.GetSize(); i++)
 			{
 				m_Meshes[i].pTexture->ActivatePs(m_Gpu);
-				m_Meshes[i].pMesh->Activate();
-				m_Meshes[i].pMesh->DrawNotIndexed();
+				m_Meshes[i].pMesh->Activate(m_Gpu);
+				m_Meshes[i].pMesh->Draw(m_Gpu);
 			}
 		}
 
@@ -109,6 +110,14 @@ namespace MyEngine
 		void TextureRenderer<Vertex, CamData>::AddMesh(const Array<Vertex>& vertices, const Array<int>& indices, const std::wstring& texturePath)
 		{
 			Mesh* pMesh = Mesh::Create<Vertex>(m_Gpu, vertices, indices);
+			Texture* pTexture = new Texture(m_Gpu, texturePath);
+			m_Meshes.Add({ pMesh, pTexture });
+		}
+
+		template <typename Vertex, typename CamData>
+		void TextureRenderer<Vertex, CamData>::AddMesh(const Array<Vertex>& vertices, const std::wstring& texturePath)
+		{
+			Mesh* pMesh = Mesh::Create<Vertex>(m_Gpu, vertices);
 			Texture* pTexture = new Texture(m_Gpu, texturePath);
 			m_Meshes.Add({ pMesh, pTexture });
 		}

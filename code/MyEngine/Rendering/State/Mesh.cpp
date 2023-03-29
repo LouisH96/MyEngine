@@ -4,27 +4,42 @@
 using namespace Rendering;
 
 Mesh::Mesh(const Gpu& gpu, unsigned vertexStride, const void* pVertices, int nrVertices, const int* pIndices,
-           int nrIndices, Topology topology)
-	:  m_VertexCount(nrVertices)
+	int nrIndices, Topology topology)
+	: m_VertexCount(nrVertices)
 	, m_VertexStride(vertexStride)
-	, m_VertexOffset(0)
 	, m_IndexCount(nrIndices)
 	, m_Topology(ToDxTopology(topology))
+	, m_fpActivate(&Mesh::ActivateIndexed)
+	, m_fpDraw(&Mesh::DrawIndexed)
+{
+	InitVertexBuffer(gpu, pVertices);
+	Dx::DxHelper::CreateIndexBuffer(gpu.GetDevice(), m_pIndexBuffer, pIndices, nrIndices);
+}
+
+Mesh::Mesh(const Gpu& gpu, unsigned vertexStride, const void* pVertices, int nrVertices, Topology topology)
+	: m_VertexCount(nrVertices)
+	, m_VertexStride(vertexStride)
+	, m_IndexCount(0)
+	, m_Topology(ToDxTopology(topology))
+	, m_fpActivate(&Mesh::ActivateUnindexed)
+	, m_fpDraw(&Mesh::DrawUnindexed)
+{
+	InitVertexBuffer(gpu, pVertices);
+}
+
+void Mesh::InitVertexBuffer(const Gpu& gpu, const void* pInitVertices)
 {
 	const D3D11_BUFFER_DESC vertexBufferDesc
 	{
-		static_cast<unsigned int>(vertexStride) * m_VertexCount,
+		m_VertexStride * m_VertexCount,
 		D3D11_USAGE_DEFAULT, D3D11_BIND_VERTEX_BUFFER,
-		0, 0, vertexStride
+		0, 0, m_VertexStride
 	};
 
-	const D3D11_SUBRESOURCE_DATA srData{ pVertices,0,0 };
+	const D3D11_SUBRESOURCE_DATA srData{ pInitVertices,0,0 };
 	const HRESULT hr = gpu.GetDevice().CreateBuffer(&vertexBufferDesc, &srData, &m_pVertexBuffer);
 	if (FAILED(hr))
 		throw std::exception("Mesh::InitVertexBuffer");
-
-	if (nrIndices > 0)
-		Dx::DxHelper::CreateIndexBuffer(gpu.GetDevice(), m_pIndexBuffer, pIndices, nrIndices);
 }
 
 Mesh::~Mesh()
@@ -36,9 +51,19 @@ Mesh::~Mesh()
 
 void Mesh::Activate(const Gpu& gpu) const
 {
+	(this->*m_fpActivate)(gpu);
+}
+
+void Mesh::Draw(const Gpu& gpu) const
+{
+	(this->*m_fpDraw)(gpu);
+}
+
+
+void Mesh::ActivateIndexed(const Gpu& gpu) const
+{
 	gpu.GetContext().IASetVertexBuffers(
-		0,
-		1,
+		0, 1,
 		&m_pVertexBuffer,
 		&m_VertexStride,
 		&m_VertexOffset);
@@ -56,12 +81,12 @@ void Mesh::ActivateUnindexed(const Gpu& gpu) const
 	gpu.GetContext().IASetPrimitiveTopology(m_Topology);
 }
 
-void Mesh::Draw(const Gpu& gpu) const
+void Mesh::DrawIndexed(const Gpu& gpu) const
 {
 	gpu.GetContext().DrawIndexed(m_IndexCount, 0, 0);
 }
 
-void Mesh::DrawNotIndexed(const Gpu& gpu) const
+void Mesh::DrawUnindexed(const Gpu& gpu) const
 {
 	gpu.GetContext().Draw(m_VertexCount, m_VertexOffset);
 }
