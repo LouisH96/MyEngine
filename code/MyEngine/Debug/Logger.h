@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "DataStructures/Array.h"
+#include "ToString.h"
 
 namespace MyEngine
 {
@@ -57,6 +58,9 @@ namespace MyEngine
 			template<typename T>
 			static void Print(const std::string& description, const std::vector<T>& vector);
 
+			template<typename T>
+			static void Print(const std::string& description, const T& value);
+
 		};
 
 		template <typename T>
@@ -92,6 +96,14 @@ namespace MyEngine
 			ss << description << "[" << vector.GetSize() << "]\n";
 			for (int i = 0; i < vector.GetSize(); i++)
 				ss << " [" << i << "] " << std::to_string(vector[i]) << std::endl;
+			Print(ss.str());
+		}
+
+		template <typename T>
+		void Logger::Print(const std::string& description, const T& value)
+		{
+			std::stringstream ss{};
+			ss << description << ": " << ToString::Convert(value) << std::endl;
 			Print(ss.str());
 		}
 	}

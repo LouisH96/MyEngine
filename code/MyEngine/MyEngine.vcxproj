@@ -78,6 +78,7 @@
     <ClCompile Include="Rendering\State\SamplerState.cpp" />
     <ClCompile Include="Rendering\State\Texture.cpp" />
     <ClCompile Include="Rendering\Renderers\VertexTypes.cpp" />
+    <ClCompile Include="ToString.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\BasicExampleApp.h" />
@@ -157,6 +158,7 @@
     <ClInclude Include="Rendering\State\SamplerState.h" />
     <ClInclude Include="Rendering\State\Texture.h" />
     <ClInclude Include="Rendering\Renderers\VertexTypes.h" />
+    <ClInclude Include="ToString.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

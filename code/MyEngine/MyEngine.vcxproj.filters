@@ -65,6 +65,7 @@
     <ClCompile Include="Rendering\Renderers\VertexTypes.cpp" />
     <ClCompile Include="Io\Fbx\FbxModel.cpp" />
     <ClCompile Include="Generation\Shapes\ArrowGenerator.cpp" />
+    <ClCompile Include="ToString.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -144,6 +145,7 @@
     <ClInclude Include="Rendering\Renderers\VertexTypes.h" />
     <ClInclude Include="Io\Fbx\FbxModel.h" />
     <ClInclude Include="Generation\Shapes\ArrowGenerator.h" />
+    <ClInclude Include="ToString.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
