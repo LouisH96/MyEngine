@@ -4,8 +4,8 @@
 #include <Rendering/State/InputLayout.h>
 #include <Rendering/State/RasterizerState.h>
 #include <Rendering/State/Shader.h>
-#include <Rendering/Renderers/ConstantBufferTypes.h>
-#include <Rendering/Renderers/VertexTypes.h>
+#include <Rendering/Structs/ConstantBufferTypes.h>
+#include <Rendering/Structs/VertexTypes.h>
 
 namespace MyEngine
 {

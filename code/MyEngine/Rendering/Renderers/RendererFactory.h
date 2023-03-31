@@ -1,8 +1,8 @@
 #pragma once
 #include "BasicRenderer.h"
-#include "ConstantBufferTypes.h"
+	#include <Rendering/Structs/VertexTypes.h>
+	#include <Rendering/Structs/ConstantBufferTypes.h>
 #include "TextureRenderer.h"
-#include "VertexTypes.h"
 
 namespace MyEngine
 {

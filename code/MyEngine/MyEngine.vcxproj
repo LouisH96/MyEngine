@@ -24,7 +24,7 @@
     <ClCompile Include="Debug\DebugRenderer.cpp" />
     <ClCompile Include="Io\Fbx\FbxModel.cpp" />
     <ClCompile Include="Math\Geometry\PointUtils.cpp" />
-    <ClCompile Include="Rendering\Renderers\ConstantBufferTypes.cpp" />
+    <ClCompile Include="Rendering\Structs\ConstantBufferTypes.cpp" />
     <ClCompile Include="Io\Fbx\FbxData.cpp" />
     <ClCompile Include="Generation\MeshUtils.cpp" />
     <ClCompile Include="Rendering\Renderers\RendererFactory.cpp" />
@@ -77,7 +77,7 @@
     <ClCompile Include="Debug\Timing\Counter.cpp" />
     <ClCompile Include="Rendering\State\SamplerState.cpp" />
     <ClCompile Include="Rendering\State\Texture.cpp" />
-    <ClCompile Include="Rendering\Renderers\VertexTypes.cpp" />
+    <ClCompile Include="Rendering\Structs\VertexTypes.cpp" />
     <ClCompile Include="ToString.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -93,7 +93,7 @@
     <ClInclude Include="Rendering\State\BlendState.h" />
     <ClInclude Include="Debug\DebugRenderer.h" />
     <ClInclude Include="Io\Fbx\FbxModel.h" />
-    <ClInclude Include="Rendering\Renderers\ConstantBufferTypes.h" />
+    <ClInclude Include="Rendering\Structs\ConstantBufferTypes.h" />
     <ClInclude Include="Io\Fbx\FbxData.h" />
     <ClInclude Include="Generation\MeshUtils.h" />
     <ClInclude Include="Rendering\Renderers\RendererFactory.h" />
@@ -157,7 +157,7 @@
     <ClInclude Include="Rendering\Renderers\TextureRenderer.h" />
     <ClInclude Include="Rendering\State\SamplerState.h" />
     <ClInclude Include="Rendering\State\Texture.h" />
-    <ClInclude Include="Rendering\Renderers\VertexTypes.h" />
+    <ClInclude Include="Rendering\Structs\VertexTypes.h" />
     <ClInclude Include="ToString.h" />
   </ItemGroup>
   <ItemGroup>

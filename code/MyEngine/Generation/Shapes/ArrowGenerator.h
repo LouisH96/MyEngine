@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Rendering/Renderers/VertexTypes.h>
+#include <Rendering/Structs/VertexTypes.h>
 
 namespace MyEngine
 {
