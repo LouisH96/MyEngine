@@ -19,11 +19,11 @@ namespace MyEngine
 		{
 		public:
 			using SimpleRenderer = BasicRenderer<V_PosColNorm, CB_CamMatPos>;
-			using WireframeRenderer = BasicRenderer<V_PosCol, CB_CamMat>;
+			using UnlitRenderer = BasicRenderer<V_PosCol, CB_CamMat>;
 			using SimpleTexRenderer = TextureRenderer<V_PosNorUv, CB_CamMatPos>;
 
 			static SimpleRenderer* CreateSimpleRenderer(Gpu& gpu, Game::Camera& camera, bool wireframe = false);
-			static WireframeRenderer* CreateWireframeRenderer(Gpu& gpu, Game::Camera& camera);
+			static UnlitRenderer* CreateUnlitRenderer(Gpu& gpu, Game::Camera& camera, bool wireframe = true);
 			static SimpleTexRenderer* CreateSimpleTexRenderer(Gpu& gpu, Game::Camera& camera);
 
 			template<typename T>
@@ -37,9 +37,9 @@ namespace MyEngine
 		}
 
 		template <>
-		inline RendererFactory::WireframeRenderer* RendererFactory::Create(Gpu& gpu, Game::Camera& camera)
+		inline RendererFactory::UnlitRenderer* RendererFactory::Create(Gpu& gpu, Game::Camera& camera)
 		{
-			return CreateWireframeRenderer(gpu, camera);
+			return CreateUnlitRenderer(gpu, camera);
 		}
 
 		template <>

@@ -9,10 +9,10 @@ Rendering::RendererFactory::SimpleRenderer* Rendering::RendererFactory::CreateSi
 	return new SimpleRenderer(gpu, camera, App::Resources::GetGlobalShaderPath(L"lambertCamDir.hlsl"), wireframe);
 }
 
-Rendering::RendererFactory::WireframeRenderer* Rendering::RendererFactory::CreateWireframeRenderer(
-	Gpu& gpu, Game::Camera& camera)
+Rendering::RendererFactory::UnlitRenderer* Rendering::RendererFactory::CreateUnlitRenderer(
+	Gpu& gpu, Game::Camera& camera, bool wireframe)
 {
-	return new WireframeRenderer(gpu, camera, App::Resources::GetGlobalShaderPath(L"shader.hlsl"), true);
+	return new UnlitRenderer(gpu, camera, App::Resources::GetGlobalShaderPath(L"posCol.hlsl"), wireframe);
 }
 
 Rendering::RendererFactory::SimpleTexRenderer* Rendering::RendererFactory::CreateSimpleTexRenderer(
