@@ -15,7 +15,13 @@
     <ClCompile Include="App\FpsControl.cpp" />
     <ClCompile Include="App\Framework.cpp" />
     <ClCompile Include="App\Time.cpp" />
+    <ClCompile Include="Io\Ttf\GlyfTable.cpp" />
+    <ClCompile Include="Io\Ttf\HeadTable.cpp" />
+    <ClCompile Include="Io\Ttf\CMapTable.cpp" />
+    <ClCompile Include="Io\Binary\BigBinReader.cpp" />
     <ClCompile Include="Generation\Shapes\ArrowGenerator.cpp" />
+    <ClCompile Include="Io\Ttf\OffsetSubTable.cpp" />
+    <ClCompile Include="Io\Ttf\LocaTable.cpp" />
     <ClCompile Include="Rendering\Gpu.cpp" />
     <ClCompile Include="Rendering\Canvas.cpp" />
     <ClCompile Include="Rendering\State\BlendState.cpp" />
@@ -78,12 +84,20 @@
     <ClCompile Include="Rendering\State\SamplerState.cpp" />
     <ClCompile Include="Rendering\State\Texture.cpp" />
     <ClCompile Include="Rendering\Structs\VertexTypes.cpp" />
+    <ClCompile Include="Io\Ttf\TableDirectory.cpp" />
     <ClCompile Include="ToString.cpp" />
+    <ClCompile Include="Io\Ttf\TtfReader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\BasicExampleApp.h" />
     <ClInclude Include="App\Framework.h" />
+    <ClInclude Include="Io\Ttf\GlyfTable.h" />
+    <ClInclude Include="Io\Ttf\HeadTable.h" />
+    <ClInclude Include="Io\Ttf\CMapTable.h" />
+    <ClInclude Include="Io\Binary\BigBinReader.h" />
     <ClInclude Include="Generation\Shapes\ArrowGenerator.h" />
+    <ClInclude Include="Io\Ttf\OffsetSubTable.h" />
+    <ClInclude Include="Io\Ttf\LocaTable.h" />
     <ClInclude Include="Rendering\State\Shader.h" />
     <ClInclude Include="Rendering\State\Mesh.h" />
     <ClInclude Include="Rendering\Gpu.h" />
@@ -158,7 +172,10 @@
     <ClInclude Include="Rendering\State\SamplerState.h" />
     <ClInclude Include="Rendering\State\Texture.h" />
     <ClInclude Include="Rendering\Structs\VertexTypes.h" />
+    <ClInclude Include="Io\Ttf\TableDirectory.h" />
     <ClInclude Include="ToString.h" />
+    <ClInclude Include="Io\Ttf\TtfReader.h" />
+    <ClInclude Include="Io\Ttf\TtfPoint.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

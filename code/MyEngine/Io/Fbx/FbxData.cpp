@@ -20,7 +20,7 @@ Io::Fbx::FbxData::FbxData(FbxReader&& reader)
 
 	for(int i = 0; i < geometries.size(); i++)
 	{
-		geometries[i]->Print();
+		//geometries[i]->Print();
 		Geometry geomStruct{};
 		LoadPoints(*geometries[i], geomStruct);
 		LoadNormals(*geometries[i], geomStruct);

@@ -66,6 +66,14 @@
     <ClCompile Include="Io\Fbx\FbxModel.cpp" />
     <ClCompile Include="Generation\Shapes\ArrowGenerator.cpp" />
     <ClCompile Include="ToString.cpp" />
+    <ClCompile Include="Io\Ttf\TtfReader.cpp" />
+    <ClCompile Include="Io\Binary\BigBinReader.cpp" />
+    <ClCompile Include="Io\Ttf\OffsetSubTable.cpp" />
+    <ClCompile Include="Io\Ttf\TableDirectory.cpp" />
+    <ClCompile Include="Io\Ttf\CMapTable.cpp" />
+    <ClCompile Include="Io\Ttf\HeadTable.cpp" />
+    <ClCompile Include="Io\Ttf\LocaTable.cpp" />
+    <ClCompile Include="Io\Ttf\GlyfTable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -146,6 +154,15 @@
     <ClInclude Include="Io\Fbx\FbxModel.h" />
     <ClInclude Include="Generation\Shapes\ArrowGenerator.h" />
     <ClInclude Include="ToString.h" />
+    <ClInclude Include="Io\Ttf\TtfReader.h" />
+    <ClInclude Include="Io\Binary\BigBinReader.h" />
+    <ClInclude Include="Io\Ttf\OffsetSubTable.h" />
+    <ClInclude Include="Io\Ttf\TableDirectory.h" />
+    <ClInclude Include="Io\Ttf\CMapTable.h" />
+    <ClInclude Include="Io\Ttf\HeadTable.h" />
+    <ClInclude Include="Io\Ttf\LocaTable.h" />
+    <ClInclude Include="Io\Ttf\GlyfTable.h" />
+    <ClInclude Include="Io\Ttf\TtfPoint.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
