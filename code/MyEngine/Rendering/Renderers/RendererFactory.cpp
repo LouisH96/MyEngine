@@ -12,7 +12,7 @@ Rendering::RendererFactory::SimpleRenderer* Rendering::RendererFactory::CreateSi
 Rendering::RendererFactory::UnlitRenderer* Rendering::RendererFactory::CreateUnlitRenderer(
 	Gpu& gpu, Game::Camera& camera, bool wireframe)
 {
-	return new UnlitRenderer(gpu, camera, App::Resources::GetGlobalShaderPath(L"posCol.hlsl"), wireframe);
+	return new UnlitRenderer(gpu, camera, App::Resources::GetGlobalShaderPath(L"unlit.hlsl"), wireframe);
 }
 
 Rendering::RendererFactory::SimpleTexRenderer* Rendering::RendererFactory::CreateSimpleTexRenderer(
