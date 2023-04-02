@@ -11,7 +11,7 @@ namespace MyEngine
 			struct TtfPoint
 			{
 				Math::Value2<int16_t> position{};
-				bool isControlPoint{};
+				bool isOnCurve{};
 			};
 		}
 	}

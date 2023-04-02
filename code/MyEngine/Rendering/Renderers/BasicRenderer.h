@@ -39,6 +39,7 @@ namespace MyEngine
 
 			//---| Operations |---
 			void AddMesh(const Array<Vertex>& vertices, const Array<int>& indices);
+			void AddMesh(Mesh* pMesh);
 
 		private:
 			//---| General |---
@@ -94,6 +95,12 @@ namespace MyEngine
 		void BasicRenderer<Vertex, CamData>::AddMesh(const Array<Vertex>& vertices, const Array<int>& indices)
 		{
 			m_Meshes.Add(Mesh::Create<Vertex>(m_Gpu, vertices, indices));
+		}
+
+		template <typename Vertex, typename CamData>
+		void BasicRenderer<Vertex, CamData>::AddMesh(Mesh* pMesh)
+		{
+			m_Meshes.Add(pMesh);
 		}
 	}
 }

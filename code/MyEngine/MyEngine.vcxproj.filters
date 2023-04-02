@@ -28,7 +28,6 @@
     <ClCompile Include="Rendering\State\RasterizerState.cpp" />
     <ClCompile Include="Generation\Shapes.cpp" />
     <ClCompile Include="Math\Rect.cpp" />
-    <ClCompile Include="Math\Float2.cpp" />
     <ClCompile Include="Math\Float3.cpp" />
     <ClCompile Include="Math\Cube.cpp" />
     <ClCompile Include="Math\Sphere.cpp" />
@@ -65,7 +64,7 @@
     <ClCompile Include="Rendering\Structs\VertexTypes.cpp" />
     <ClCompile Include="Io\Fbx\FbxModel.cpp" />
     <ClCompile Include="Generation\Shapes\ArrowGenerator.cpp" />
-    <ClCompile Include="ToString.cpp" />
+    <ClCompile Include="Debug\ToString.cpp" />
     <ClCompile Include="Io\Ttf\TtfReader.cpp" />
     <ClCompile Include="Io\Binary\BigBinReader.cpp" />
     <ClCompile Include="Io\Ttf\OffsetSubTable.cpp" />
@@ -74,6 +73,7 @@
     <ClCompile Include="Io\Ttf\HeadTable.cpp" />
     <ClCompile Include="Io\Ttf\LocaTable.cpp" />
     <ClCompile Include="Io\Ttf\GlyfTable.cpp" />
+    <ClCompile Include="Io\Ttf\ContourOperations.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -153,7 +153,7 @@
     <ClInclude Include="Rendering\Structs\VertexTypes.h" />
     <ClInclude Include="Io\Fbx\FbxModel.h" />
     <ClInclude Include="Generation\Shapes\ArrowGenerator.h" />
-    <ClInclude Include="ToString.h" />
+    <ClInclude Include="Debug\ToString.h" />
     <ClInclude Include="Io\Ttf\TtfReader.h" />
     <ClInclude Include="Io\Binary\BigBinReader.h" />
     <ClInclude Include="Io\Ttf\OffsetSubTable.h" />
@@ -163,6 +163,7 @@
     <ClInclude Include="Io\Ttf\LocaTable.h" />
     <ClInclude Include="Io\Ttf\GlyfTable.h" />
     <ClInclude Include="Io\Ttf\TtfPoint.h" />
+    <ClInclude Include="Io\Ttf\ContourOperations.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

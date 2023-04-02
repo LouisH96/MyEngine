@@ -18,7 +18,7 @@ namespace MyEngine
 		{
 		public:
 			explicit TtfReader(std::istream& stream);
-			Array<Ttf::TtfPoint> GetPoints(unsigned char c) const;
+			Array<Array<Ttf::TtfPoint>> GetPoints(unsigned char c) const;
 
 		private:
 			//---| Members |---

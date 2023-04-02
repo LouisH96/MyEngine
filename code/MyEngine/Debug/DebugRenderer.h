@@ -6,6 +6,7 @@
 #include <Rendering/State/Shader.h>
 #include <Rendering/Structs/ConstantBufferTypes.h>
 #include <Rendering/Structs/VertexTypes.h>
+#include <Rendering/Renderers/RendererFactory.h>
 
 namespace MyEngine
 {
@@ -34,8 +35,12 @@ namespace MyEngine
 			static void AddSphere(const Math::Float3& position, const Math::Float3& color, float radius);
 			static void AddSpheres(const Array<Math::Float3>& positions, const Math::Float3& color, float radius);
 
+			static void AddLine(const Array<Math::Float3>& points, const Math::Float3& color);
+
 		private:
 			using Vertex = Rendering::V_PosColNorm;
+			using LineRenderer = Rendering::RendererFactory::UnlitRenderer;
+			using LineVertex = LineRenderer::VertexType;
 
 			//---| General |---
 			static DebugRenderer* m_pStatic;
@@ -49,6 +54,7 @@ namespace MyEngine
 			Rendering::ConstantBuffer<Rendering::CB_CamMatPos> m_ConstantBuffer;
 			Rendering::Shader m_Shader;
 			static const Rendering::InputLayout::Element ELEMENTS[];
+			LineRenderer* m_pLineRenderer{};
 
 			//---| Mesh |---
 			Array<Rendering::Mesh*> m_Meshes{};
@@ -69,6 +75,7 @@ namespace MyEngine
 			//---| Operations |---
 			void Class_AddSphere(const Math::Float3& position, const Math::Float3& color, float radius);
 			void Class_AddSpheres(const Array<Math::Float3>& positions, const Math::Float3& color, float radius);
+			void Class_AddLine(const Array<Math::Float3>& points, const Math::Float3& color) const;
 		};
 	}
 }

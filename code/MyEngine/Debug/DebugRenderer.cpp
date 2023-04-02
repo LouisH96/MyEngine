@@ -34,6 +34,11 @@ void DebugRenderer::AddSpheres(const Array<Float3>& positions, const Float3& col
 	m_pStatic->Class_AddSpheres(positions, color, radius);
 }
 
+void DebugRenderer::AddLine(const Array<Math::Float3>& points, const Math::Float3& color)
+{
+	m_pStatic->Class_AddLine(points, color);
+}
+
 DebugRenderer::DebugRenderer(Rendering::Gpu& gpu, Game::Camera& camera)
 	: m_Gpu(gpu)
 	, m_Camera(camera)
@@ -42,12 +47,14 @@ DebugRenderer::DebugRenderer(Rendering::Gpu& gpu, Game::Camera& camera)
 	, m_InputLayout(gpu, Vertex::ELEMENTS, Vertex::NR_ELEMENTS)
 	, m_ConstantBuffer(gpu)
 	, m_Shader(gpu, App::Resources::GetGlobalShaderPath(L"lambertCamDir.hlsl"))
+	, m_pLineRenderer(Rendering::RendererFactory::CreateUnlitRenderer(gpu, camera))
 {
 }
 
 DebugRenderer::~DebugRenderer()
 {
 	m_Meshes.DeleteAll();
+	delete m_pLineRenderer;
 }
 
 void DebugRenderer::Class_Render()
@@ -63,6 +70,7 @@ void DebugRenderer::Class_Render()
 		m_Meshes[i]->Activate(m_Gpu);
 		m_Meshes[i]->Draw(m_Gpu);
 	}
+	m_pLineRenderer->Render();
 }
 
 void DebugRenderer::Class_AddSphere(const Float3& position, const Float3& color, float radius)
@@ -78,9 +86,17 @@ void DebugRenderer::Class_AddSphere(const Float3& position, const Float3& color,
 	m_Meshes.Add(Rendering::Mesh::Create<Vertex>(m_Gpu, vertices, indices));
 }
 
-void DebugRenderer::Class_AddSpheres(const Array<Float3>& positions, const Float3& color,  float radius)
+void DebugRenderer::Class_AddSpheres(const Array<Float3>& positions, const Float3& color, float radius)
 {
 	//todo: all these spheres should be 1 mesh
 	for (int i = 0; i < positions.GetSize(); i++)
 		Class_AddSphere(positions[i], color, radius);
+}
+
+void DebugRenderer::Class_AddLine(const Array<Math::Float3>& points, const Math::Float3& color) const
+{
+	Array<LineVertex> vertices{ points.GetSize() };
+	for (int i = 0; i < points.GetSize(); i++)
+		vertices[i] = { points[i], color };
+	m_pLineRenderer->AddMesh(Rendering::Mesh::Create(m_Gpu, vertices, Rendering::Topology::LineStrip));
 }

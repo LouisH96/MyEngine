@@ -9,7 +9,7 @@ void Io::Ttf::GlyfTable::Read(const Bin::BigBinReader& reader)
 	m_Begin = reader.GetPos();
 }
 
-Array<Io::Ttf::TtfPoint> Io::Ttf::GlyfTable::GetContour(const Bin::BigBinReader& reader, uint32_t glyphOffset) const
+Array<Array<Io::Ttf::TtfPoint>> Io::Ttf::GlyfTable::GetContours(const Bin::BigBinReader& reader, uint32_t glyphOffset) const
 {
 	reader.SetPos(m_Begin + glyphOffset);
 	SimpleOutline outline{};
@@ -51,36 +51,58 @@ Array<Io::Ttf::TtfPoint> Io::Ttf::GlyfTable::GetContour(const Bin::BigBinReader&
 	}
 
 	//xCoord
-	Array<TtfPoint> points = { allFlags.GetSize() };
+	Array<Array<TtfPoint>> contours = { outline.nrOfContours };
+
 	int16_t prevX = 0;
-	for (int i = 0; i < points.GetSize(); i++)
+	int iFlag = 0;
+	for (int iContour = 0; iContour < outline.nrOfContours; iContour++)
 	{
-		const SimpleOutline::Flags flag{ allFlags[i] };
-		const uint8_t xFlags{ static_cast<uint8_t>((flag.xShort << 1) + flag.xShortPos) };
-		switch (xFlags)
+		const int contourBegin = iContour == 0 ? 0 : endPtsOfContours[iContour - 1] + 1;
+		const int contourEnd = endPtsOfContours[iContour];
+		Array<TtfPoint>& points{ contours[iContour] };
+		points = { contourEnd - contourBegin + 2 };
+
+		for (int i = 0; i <= contourEnd - contourBegin; i++)
 		{
-		case 1: points[i].position.x = prevX; break;
-		case 2: points[i].position.x = prevX - reader.Uint8(); break;
-		case 3: points[i].position.x = prevX + reader.Uint8(); break;
-		case 0: points[i].position.x = prevX + reader.Int16(); break;
+			const SimpleOutline::Flags flag{ allFlags[iFlag++] };
+			const uint8_t xFlags{ static_cast<uint8_t>((flag.xShort << 1) + flag.xShortPos) };
+			switch (xFlags)
+			{
+			case 0: points[i].position.x = prevX + reader.Int16(); break;
+			case 1: points[i].position.x = prevX; break;
+			case 2: points[i].position.x = prevX - reader.Uint8(); break;
+			case 3: points[i].position.x = prevX + reader.Uint8(); break;
+			}
+			prevX = points[i].position.x;
+			points[i].isOnCurve = flag.onCurve;
 		}
-		prevX = points[i].position.x;
-		points[i].isControlPoint = !flag.onCurve;
+		points[points.GetSize() - 1].position.x = points[0].position.x;
+		points[points.GetSize() - 1].isOnCurve = true;
 	}
+
 	//yCoord
 	int16_t prevY = 0;
-	for (int i = 0; i < points.GetSize(); i++)
+	iFlag = 0;
+	for (int iContour = 0; iContour < outline.nrOfContours; iContour++)
 	{
-		const SimpleOutline::Flags flag{ allFlags[i] };
-		const uint8_t yFlags{ static_cast<uint8_t>((flag.yShort << 1) + flag.yShortPos) };
-		switch (yFlags)
+		const int contourBegin = iContour == 0 ? 0 : endPtsOfContours[iContour - 1] + 1;
+		const int contourEnd = endPtsOfContours[iContour];
+		Array<TtfPoint>& points{ contours[iContour] };
+
+		for (int i = 0; i <= contourEnd - contourBegin; i++)
 		{
-		case 0: points[i].position.y = prevY + reader.Int16(); break;
-		case 1: points[i].position.y = prevY; break;
-		case 2: points[i].position.y = prevY - reader.Uint8(); break;
-		case 3: points[i].position.y = prevY + reader.Uint8(); break;
+			const SimpleOutline::Flags flag{ allFlags[iFlag++] };
+			const uint8_t yFlags{ static_cast<uint8_t>((flag.yShort << 1) + flag.yShortPos) };
+			switch (yFlags)
+			{
+			case 0: points[i].position.y = prevY + reader.Int16(); break;
+			case 1: points[i].position.y = prevY; break;
+			case 2: points[i].position.y = prevY - reader.Uint8(); break;
+			case 3: points[i].position.y = prevY + reader.Uint8(); break;
+			}
+			prevY = points[i].position.y;
 		}
-		prevY = points[i].position.y;
+		points[points.GetSize() - 1].position.y = points[0].position.y;
 	}
-	return points;
+	return contours;
 }

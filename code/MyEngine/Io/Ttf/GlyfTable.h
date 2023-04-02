@@ -16,7 +16,7 @@ namespace MyEngine
 			{
 			public:
 				void Read(const Bin::BigBinReader& reader);
-				Array<TtfPoint> GetContour(const Bin::BigBinReader& reader, uint32_t glyphOffset) const;
+				Array<Array<TtfPoint>> GetContours(const Bin::BigBinReader& reader, uint32_t glyphOffset) const;
 
 			private:
 				//---| Types |---

@@ -12,11 +12,11 @@ Io::TtfReader::TtfReader(std::istream& stream)
 	m_LocaTable.SetIsShortVersion(m_HeadTable.GetIndexToLocFormat() == 0);
 }
 
-Array<Io::Ttf::TtfPoint> Io::TtfReader::GetPoints(unsigned char c) const
+Array<Array<Io::Ttf::TtfPoint>> Io::TtfReader::GetPoints(unsigned char c) const
 {
 	const uint32_t aGlyphIndex = m_CMapTable.GetGlyphIndex(c);
 	const uint32_t aGlyphOffset = m_LocaTable.GetGlyphOffset(m_Reader, aGlyphIndex);
-	return m_GlyfTable.GetContour(m_Reader, aGlyphOffset);
+	return m_GlyfTable.GetContours(m_Reader, aGlyphOffset);
 }
 
 void Io::TtfReader::ReadTableDirectories()

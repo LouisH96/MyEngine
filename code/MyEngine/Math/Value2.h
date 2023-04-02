@@ -16,6 +16,15 @@ namespace MyEngine
 			Value2& operator=(const Value2& other) = default;
 			Value2& operator=(Value2&& other) noexcept = default;
 
+			template<typename O>
+			Value2(const Value2<O>& other);
+			template<typename O>
+			Value2(Value2<O>&& other) noexcept;
+			template<typename O>
+			Value2& operator=(const Value2<O>& other);
+			template<typename O>
+			Value2& operator=(Value2<O>&& other) noexcept;
+
 			Value2 operator+(const Value2& r) const;
 			Value2 operator-(const Value2& r) const;
 			Value2 operator+(const T& r) const;
@@ -44,6 +53,30 @@ namespace MyEngine
 		template <typename T> Value2<T>::Value2() : x{ 0 }, y{ 0 } {}
 		template <typename T> Value2<T>::Value2(T x, T y) : x{ x }, y{ y } {}
 		template <typename T> Value2<T>::Value2(T both) : x{ both }, y{ both } {}
+
+		template <typename T> template <typename O>
+		Value2<T>::Value2(const Value2<O>& other) : x{static_cast<T>(other.x)} , y{static_cast<T>(other.y)} {}
+		template <typename T> template <typename O>
+		Value2<T>::Value2(Value2<O>&& other) noexcept : x{ static_cast<T>(other.x) }, y{ static_cast<T>(other.y) } {}
+
+		template <typename T>
+		template <typename O>
+		Value2<T>& Value2<T>::operator=(const Value2<O>& other)
+		{
+			x = static_cast<T>(other.x);
+			y = static_cast<T>(other.y);
+			return *this;
+		}
+
+		template <typename T>
+		template <typename O>
+		Value2<T>& Value2<T>::operator=(Value2<O>&& other) noexcept
+		{
+			x = static_cast<T>(other.x);
+			y = static_cast<T>(other.y);
+			return *this;
+		}
+
 		template <typename T> Value2<T> Value2<T>::operator+(const Value2& r) const { return { x + r.x, y + r.y }; }
 		template <typename T> Value2<T> Value2<T>::operator-(const Value2& r) const { return { x - r.x, y - r.y }; }
 		template <typename T> Value2<T> Value2<T>::operator+(const T& r) const { return { x + r, y + r }; }

@@ -14,6 +14,9 @@ namespace MyEngine
 
 			template<typename T>
 			static std::string Convert(const Math::Value2<T>& value);
+
+			template<typename T>
+			static std::string Convert(const Ds::Array<T>& value);
 		};
 
 		template <>
@@ -40,6 +43,19 @@ namespace MyEngine
 			ss << "[";
 			ss << value.x << ", ";
 			ss << value.y << ']';
+			return ss.str();
+		}
+
+		template <typename T>
+		std::string ToString::Convert(const Ds::Array<T>& value)
+		{
+			std::stringstream ss{};
+			ss << "Array[" << value.GetSize() << "]\n";
+			for(int i = 0; i < value.GetSize(); i++)
+			{
+				ss << "[" << i << "] ";
+				ss << Convert(value[i]) << std::endl;
+			}
 			return ss.str();
 		}
 	}

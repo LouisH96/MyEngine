@@ -61,6 +61,8 @@ namespace MyEngine
 			template<typename T>
 			static void Print(const std::string& description, const T& value);
 
+			template<typename T>
+			static void PrintToString(const std::string& description, const T& value);
 		};
 
 		template <typename T>
@@ -101,6 +103,14 @@ namespace MyEngine
 
 		template <typename T>
 		void Logger::Print(const std::string& description, const T& value)
+		{
+			std::stringstream ss{};
+			ss << description << ": " << ToString::Convert(value) << std::endl;
+			Print(ss.str());
+		}
+
+		template <typename T>
+		void Logger::PrintToString(const std::string& description, const T& value)
 		{
 			std::stringstream ss{};
 			ss << description << ": " << ToString::Convert(value) << std::endl;
