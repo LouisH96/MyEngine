@@ -14,6 +14,12 @@ const Rendering::InputLayout::Element Rendering::V_PosColNorm::ELEMENTS[] =
 	{"NORMAL", InputLayout::ElementType::Float3}
 };
 
+const Rendering::InputLayout::Element Rendering::V_PosUv::ELEMENTS[] =
+{
+	{"POSITION", InputLayout::ElementType::Float3},
+	{"TEXCOORD", InputLayout::ElementType::Float2}
+};
+
 const Rendering::InputLayout::Element Rendering::V_PosNorUv::ELEMENTS[] =
 {
 	{"POSITION", InputLayout::ElementType::Float3},

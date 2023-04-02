@@ -55,7 +55,7 @@ Rendering::Texture::Texture(const Gpu& gpu, const std::wstring& path)
 	DXGI_FORMAT dxgiFormat = GetDXGIFormatFromWICFormat(pixelFormat);
 
 	// if the format of the image is not a supported dxgi format, try to convert it
-	if(dxgiFormat==DXGI_FORMAT_UNKNOWN)
+	if (dxgiFormat == DXGI_FORMAT_UNKNOWN)
 	{
 		//get a dxgi compatible wic format from the current image format
 		WICPixelFormatGUID convertToPixelFormat = GetConvertToWICFormat(pixelFormat);
@@ -72,7 +72,7 @@ Rendering::Texture::Texture(const Gpu& gpu, const std::wstring& path)
 
 		//create the format converter
 		hr = wicFactory->CreateFormatConverter(&pWicConverter);
-		if(FAILED(hr))
+		if (FAILED(hr))
 		{
 			Logger::PrintError("Failed creating format converter");
 			return;
@@ -81,7 +81,7 @@ Rendering::Texture::Texture(const Gpu& gpu, const std::wstring& path)
 		//make sure we can convert to the dxgi compatible format
 		BOOL canConvert = false;
 		hr = pWicConverter->CanConvert(pixelFormat, convertToPixelFormat, &canConvert);
-		if(FAILED(hr) || !canConvert)
+		if (FAILED(hr) || !canConvert)
 		{
 			Logger::PrintError("Cannot convert");
 			return;
@@ -89,7 +89,7 @@ Rendering::Texture::Texture(const Gpu& gpu, const std::wstring& path)
 
 		//do the conversion (wicConverter will contain the converted image)
 		hr = pWicConverter->Initialize(pWicFrame, convertToPixelFormat, WICBitmapDitherTypeErrorDiffusion, 0, 0, WICBitmapPaletteTypeCustom);
-		if(FAILED(hr))
+		if (FAILED(hr))
 		{
 			Logger::PrintError("Failed initializing wicConverter");
 			return;
@@ -106,11 +106,11 @@ Rendering::Texture::Texture(const Gpu& gpu, const std::wstring& path)
 	uint8_t* pImageData = new uint8_t[imageSize];
 
 	//copy (decoded) raw image data into the newly allocated memory (imageData)
-	if(imageConverted)
+	if (imageConverted)
 	{
 		//if image format needed to be converted, the wic converter will contain the converted image
 		hr = pWicConverter->CopyPixels(nullptr, bytesPerRow, imageSize, pImageData);
-		if(FAILED(hr))
+		if (FAILED(hr))
 		{
 			Logger::PrintError("Failed copying pixels from converter");
 			return;
@@ -120,7 +120,7 @@ Rendering::Texture::Texture(const Gpu& gpu, const std::wstring& path)
 	{
 		//no need to convert, just copy data from wic frame
 		hr = pWicFrame->CopyPixels(nullptr, bytesPerRow, imageSize, pImageData);
-		if(FAILED(hr))
+		if (FAILED(hr))
 		{
 			Logger::PrintError("Failed copying pixels from frame");
 			return;
@@ -148,7 +148,7 @@ Rendering::Texture::Texture(const Gpu& gpu, const std::wstring& path)
 
 	ID3D11Texture2D* pTexture{};
 	hr = gpu.GetDevice().CreateTexture2D(&desc, &initData, &pTexture);
-	if(FAILED(hr))
+	if (FAILED(hr))
 	{
 		Logger::PrintError("Failed creating Texture2D");
 		return;
@@ -158,9 +158,65 @@ Rendering::Texture::Texture(const Gpu& gpu, const std::wstring& path)
 	srvDesc.Format = desc.Format;
 	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = 1;
-	
+
 	gpu.GetDevice().CreateShaderResourceView(pTexture, &srvDesc, &m_pShaderResourceView);
-	if(FAILED(hr))
+	if (FAILED(hr))
+	{
+		Logger::PrintError("Failed to create shaderResource");
+		return;
+	}
+
+	pTexture->Release();
+	delete[] pImageData;
+}
+
+Rendering::Texture::Texture(const Gpu& gpu)
+{
+	D3D11_TEXTURE2D_DESC desc{};
+	desc.Width = 64;
+	desc.Height = 64;
+	desc.MipLevels = 1;
+	desc.ArraySize = 1;
+	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	desc.SampleDesc.Count = 1;
+	desc.SampleDesc.Quality = 0;
+	desc.Usage = D3D11_USAGE_IMMUTABLE;
+	desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+	desc.CPUAccessFlags = 0;
+	desc.MiscFlags = 0;
+
+	//bytes
+	float* pImageData = new float[desc.Width * desc.Height];
+	for (int iRow = 0; iRow < desc.Height; iRow++)
+		for (int iCol = 0; iCol < desc.Width; iCol++)
+		{
+			float color{};
+			reinterpret_cast<uint8_t*>(&color)[0] = 100;
+			reinterpret_cast<uint8_t*>(&color)[1] = 200;
+			reinterpret_cast<uint8_t*>(&color)[2] = 100;
+			reinterpret_cast<uint8_t*>(&color)[3] = 255;
+			pImageData[iRow * desc.Width + iCol] = color;
+		}
+
+	D3D11_SUBRESOURCE_DATA initData{};
+	initData.SysMemPitch = 4 * desc.Width;
+	initData.pSysMem = pImageData;
+
+	ID3D11Texture2D* pTexture{};
+	HRESULT hr = gpu.GetDevice().CreateTexture2D(&desc, &initData, &pTexture);
+	if (FAILED(hr))
+	{
+		Logger::PrintError("Failed creating Texture2D");
+		return;
+	}
+
+	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+	srvDesc.Format = desc.Format;
+	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	srvDesc.Texture2D.MipLevels = 1;
+
+	gpu.GetDevice().CreateShaderResourceView(pTexture, &srvDesc, &m_pShaderResourceView);
+	if (FAILED(hr))
 	{
 		Logger::PrintError("Failed to create shaderResource");
 		return;

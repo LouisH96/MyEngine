@@ -13,6 +13,7 @@ namespace MyEngine
 		{
 		public:
 			Texture(const Gpu& gpu, const std::wstring& path);
+			explicit Texture(const Gpu& gpu);
 			~Texture();
 			Texture(const Texture& other) = delete;
 			Texture(Texture&& other) noexcept = delete;

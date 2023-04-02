@@ -87,6 +87,7 @@
     <ClCompile Include="Io\Ttf\TableDirectory.cpp" />
     <ClCompile Include="Debug\ToString.cpp" />
     <ClCompile Include="Io\Ttf\TtfReader.cpp" />
+    <ClCompile Include="Rendering\Renderers\TextRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\BasicExampleApp.h" />
@@ -177,6 +178,7 @@
     <ClInclude Include="Debug\ToString.h" />
     <ClInclude Include="Io\Ttf\TtfReader.h" />
     <ClInclude Include="Io\Ttf\TtfPoint.h" />
+    <ClInclude Include="Rendering\Renderers\TextRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

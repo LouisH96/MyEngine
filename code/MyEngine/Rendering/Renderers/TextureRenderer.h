@@ -40,6 +40,7 @@ namespace MyEngine
 			//---| Operations |---
 			void AddMesh(const Array<Vertex>& vertices, const Array<int>& indices, const std::wstring& texturePath);
 			void AddMesh(const Array<Vertex>& vertices, const std::wstring& texturePath);
+			void AddMesh(Mesh* pMesh, Texture* pTexture);
 
 		private:
 			//---| Types |---
@@ -119,6 +120,12 @@ namespace MyEngine
 		{
 			Mesh* pMesh = Mesh::Create<Vertex>(m_Gpu, vertices);
 			Texture* pTexture = new Texture(m_Gpu, texturePath);
+			m_Meshes.Add({ pMesh, pTexture });
+		}
+
+		template <typename Vertex, typename CamData>
+		void TextureRenderer<Vertex, CamData>::AddMesh(Mesh* pMesh, Texture* pTexture)
+		{
 			m_Meshes.Add({ pMesh, pTexture });
 		}
 	}
