@@ -1,6 +1,8 @@
 #pragma once
 
 #include <DataStructures/Array.h>
+#undef max
+#undef min
 
 namespace MyEngine
 {
@@ -13,6 +15,9 @@ namespace MyEngine
 
 			template<typename T>
 			static T GetBiggest(const Ds::Array<T>& array);
+
+			template<typename T>
+			static void GetMinAndMax(const Array<T>& array, T& min, T& max);
 		};
 
 		template <typename T>
@@ -23,6 +28,18 @@ namespace MyEngine
 				if (a[i] > biggest)
 					biggest = a[i];
 			return biggest;
+		}
+
+		template <typename T>
+		void Algorithms::GetMinAndMax(const Array<T>& array, T& min, T& max)
+		{
+			min = std::numeric_limits<T>::max();
+			max = std::numeric_limits<T>::min();
+			for (int i = 0; i < array.GetSize(); i++)
+			{
+				if (array[i] < min) min = array[i];
+				if (array[i] > max) max = array[i];
+			}
 		}
 	}
 }
