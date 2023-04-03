@@ -75,6 +75,7 @@
     <ClCompile Include="Io\Ttf\GlyfTable.cpp" />
     <ClCompile Include="Io\Ttf\ContourOperations.cpp" />
     <ClCompile Include="Rendering\Renderers\TextRenderer.cpp" />
+    <ClCompile Include="Image.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -166,6 +167,7 @@
     <ClInclude Include="Io\Ttf\TtfPoint.h" />
     <ClInclude Include="Io\Ttf\ContourOperations.h" />
     <ClInclude Include="Rendering\Renderers\TextRenderer.h" />
+    <ClInclude Include="Image.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

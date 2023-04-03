@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "ContourOperations.h"
 
+#include "Image.h"
+#include "TtfReader.h"
+#include "DataStructures/Algorithms.h"
 #include "DataStructures/DsUtils.h"
 
 bool Io::Ttf::ContourOperations::Segment::IsLinear() const
@@ -175,6 +178,23 @@ Array<Io::Ttf::ContourOperations::Segment> Io::Ttf::ContourOperations::ToSegment
 	return segments;
 }
 
+Array<float> Io::Ttf::ContourOperations::GetIntersectionsX(const Array<Array<Segment>>& contours, float height)
+{
+	std::vector<float> intersections{};
+	for (int iContour = 0; iContour < contours.GetSize(); iContour++)
+	{
+		const Array<Segment>& segments{ contours[iContour] };
+		for (int iSegment = 0; iSegment < segments.GetSize(); iSegment++)
+		{
+			if (segments[iSegment].IsLinear())
+				AddIntersectionsLinear(segments[iSegment], height, intersections);
+			else
+				AddIntersectionsCurve(segments[iSegment], height, intersections);
+		}
+	}
+	return DsUtils::ToArray(intersections);
+}
+
 Array<float> Io::Ttf::ContourOperations::GetIntersectionsX(const Array<Segment>& segments, float height)
 {
 	std::vector<float> intersections{};
@@ -186,6 +206,53 @@ Array<float> Io::Ttf::ContourOperations::GetIntersectionsX(const Array<Segment>&
 			AddIntersectionsCurve(segments[i], height, intersections);
 	}
 	return DsUtils::ToArray(intersections);
+}
+
+Rendering::Image* Io::Ttf::ContourOperations::MakeImage(const TtfReader& reader, char character, int imageWidth,
+	int imageHeight)
+{
+	const Array<Array<TtfPoint>> contourPoints{ reader.GetPoints(character) };
+	Array<Array<Segment>> contourSegments{ ToSegments(contourPoints) };
+
+	//scale
+	for (int iContour = 0; iContour < contourSegments.GetSize(); iContour++)
+	{
+		Array<Segment>& contour{ contourSegments[iContour] };
+		for (int iSegment = 0; iSegment < contour.GetSize(); iSegment++)
+		{
+			Segment& segment = contour[iSegment];
+			segment.p0 /= 1422.f;
+			segment.p2 /= 1422.f;
+			if (!segment.IsLinear())
+				segment.p1 /= 1422.f;
+		}
+	}
+
+	//rasterization
+	Rendering::Image* pImage = new Rendering::Image(imageWidth, imageHeight);
+	Rasterize(contourSegments, *pImage);
+	return pImage;
+}
+
+//temp: contour-segment should have 0-1 scale
+void Io::Ttf::ContourOperations::Rasterize(const Array<Array<Segment>>& contourSegments, Rendering::Image& image)
+{
+	const float yStep{ 1.f / (image.GetHeight() - 1) };
+	for (int iRow = 0; iRow < image.GetHeight(); iRow++)
+	{
+		const float y{ 1.f - ((iRow + .5f) * yStep) };
+		Array<float> intersections = GetIntersectionsX(contourSegments, y);
+		if (intersections.GetSize() < 2) continue;
+		Algorithms::SortSmallToBig(intersections);
+
+		for (int iSection = 0; iSection < intersections.GetSize() - 1; iSection += 2)
+		{
+			const int beginCol{ static_cast<int>(roundf(intersections[iSection] * image.GetWidth())) };
+			const int endCol{ static_cast<int>(roundf(intersections[iSection + 1] * image.GetWidth())) };
+			for (int iCol = beginCol; iCol <= endCol; iCol++)
+				image.SetColor(iCol, iRow, 255, 0, 0, 255);
+		}
+	}
 }
 
 Math::Float2 Io::Ttf::ContourOperations::CalculatePoint(const Math::Float2& p0, const Math::Float2& p1,

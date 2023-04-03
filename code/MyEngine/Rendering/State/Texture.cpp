@@ -5,6 +5,8 @@
 #include "Shader.h"
 #include <dxgi.h>
 
+#include "Image.h"
+
 Rendering::Texture::Texture(const Gpu& gpu, const std::wstring& path)
 {
 	//https://www.braynzarsoft.net/viewtutorial/q16390-directx-12-textures-from-file
@@ -170,11 +172,11 @@ Rendering::Texture::Texture(const Gpu& gpu, const std::wstring& path)
 	delete[] pImageData;
 }
 
-Rendering::Texture::Texture(const Gpu& gpu)
+Rendering::Texture::Texture(const Gpu& gpu, Image&& image)
 {
 	D3D11_TEXTURE2D_DESC desc{};
-	desc.Width = 64;
-	desc.Height = 64;
+	desc.Width = image.GetWidth();
+	desc.Height = image.GetHeight();
 	desc.MipLevels = 1;
 	desc.ArraySize = 1;
 	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -185,22 +187,9 @@ Rendering::Texture::Texture(const Gpu& gpu)
 	desc.CPUAccessFlags = 0;
 	desc.MiscFlags = 0;
 
-	//bytes
-	float* pImageData = new float[desc.Width * desc.Height];
-	for (int iRow = 0; iRow < desc.Height; iRow++)
-		for (int iCol = 0; iCol < desc.Width; iCol++)
-		{
-			float color{};
-			reinterpret_cast<uint8_t*>(&color)[0] = 100;
-			reinterpret_cast<uint8_t*>(&color)[1] = 200;
-			reinterpret_cast<uint8_t*>(&color)[2] = 100;
-			reinterpret_cast<uint8_t*>(&color)[3] = 255;
-			pImageData[iRow * desc.Width + iCol] = color;
-		}
-
 	D3D11_SUBRESOURCE_DATA initData{};
-	initData.SysMemPitch = 4 * desc.Width;
-	initData.pSysMem = pImageData;
+	initData.SysMemPitch = image.GetBytesPerRow();
+	initData.pSysMem = image.GetData();
 
 	ID3D11Texture2D* pTexture{};
 	HRESULT hr = gpu.GetDevice().CreateTexture2D(&desc, &initData, &pTexture);
@@ -215,7 +204,7 @@ Rendering::Texture::Texture(const Gpu& gpu)
 	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = 1;
 
-	gpu.GetDevice().CreateShaderResourceView(pTexture, &srvDesc, &m_pShaderResourceView);
+	hr = gpu.GetDevice().CreateShaderResourceView(pTexture, &srvDesc, &m_pShaderResourceView);
 	if (FAILED(hr))
 	{
 		Logger::PrintError("Failed to create shaderResource");
@@ -223,7 +212,6 @@ Rendering::Texture::Texture(const Gpu& gpu)
 	}
 
 	pTexture->Release();
-	delete[] pImageData;
 }
 
 Rendering::Texture::~Texture()

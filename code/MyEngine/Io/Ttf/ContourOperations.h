@@ -6,6 +6,22 @@ namespace MyEngine
 {
 	namespace Io
 	{
+		class TtfReader;
+	}
+}
+
+namespace MyEngine
+{
+	namespace Rendering
+	{
+		class Image;
+	}
+}
+
+namespace MyEngine
+{
+	namespace Io
+	{
 		namespace Ttf
 		{
 			class ContourOperations
@@ -28,7 +44,11 @@ namespace MyEngine
 				static Array<Array<Segment>> ToSegments(const Array<Array<TtfPoint>>& contourPoints);
 				static Array<Segment> ToSegments(const Array<TtfPoint>& contourPoints);
 
+				static Array<float> GetIntersectionsX(const Array<Array<Segment>>& contours, float height);
 				static Array<float> GetIntersectionsX(const Array<Segment>& segments, float height);
+
+				static Rendering::Image* MakeImage(const Io::TtfReader& reader, char character, int imageWidth, int imageHeight);
+				static void Rasterize(const Array<Array<Segment>>& contourSegments, Rendering::Image& image);
 
 			private:
 				static Math::Float2 CalculatePoint(const Math::Float2& p0, const Math::Float2& p1, const Math::Float2& p2, float alpha);

@@ -34,6 +34,11 @@ void DebugRenderer::AddSpheres(const Array<Float3>& positions, const Float3& col
 	m_pStatic->Class_AddSpheres(positions, color, radius);
 }
 
+void DebugRenderer::AddLine(const Math::Float3& begin, const Math::Float3& end, const Math::Float3& color)
+{
+	m_pStatic->Class_AddLine(begin, end, color);
+}
+
 void DebugRenderer::AddLine(const Array<Math::Float3>& points, const Math::Float3& color)
 {
 	m_pStatic->Class_AddLine(points, color);
@@ -91,6 +96,14 @@ void DebugRenderer::Class_AddSpheres(const Array<Float3>& positions, const Float
 	//todo: all these spheres should be 1 mesh
 	for (int i = 0; i < positions.GetSize(); i++)
 		Class_AddSphere(positions[i], color, radius);
+}
+
+void DebugRenderer::Class_AddLine(const Math::Float3& begin, const Math::Float3& end, const Math::Float3& color) const
+{
+	Array<LineVertex> vertices{ 2 };
+	vertices[0] = { begin, color };
+	vertices[1] = { end, color };
+	m_pLineRenderer->AddMesh(Rendering::Mesh::Create(m_Gpu, vertices, Rendering::Topology::LineStrip));
 }
 
 void DebugRenderer::Class_AddLine(const Array<Math::Float3>& points, const Math::Float3& color) const

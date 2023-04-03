@@ -35,6 +35,7 @@ namespace MyEngine
 			static void AddSphere(const Math::Float3& position, const Math::Float3& color, float radius);
 			static void AddSpheres(const Array<Math::Float3>& positions, const Math::Float3& color, float radius);
 
+			static void AddLine(const Math::Float3& begin, const Math::Float3& end, const Math::Float3& color);
 			static void AddLine(const Array<Math::Float3>& points, const Math::Float3& color);
 
 		private:
@@ -75,6 +76,7 @@ namespace MyEngine
 			//---| Operations |---
 			void Class_AddSphere(const Math::Float3& position, const Math::Float3& color, float radius);
 			void Class_AddSpheres(const Array<Math::Float3>& positions, const Math::Float3& color, float radius);
+			void Class_AddLine(const Math::Float3& begin, const Math::Float3& end, const Math::Float3& color) const;
 			void Class_AddLine(const Array<Math::Float3>& points, const Math::Float3& color) const;
 		};
 	}

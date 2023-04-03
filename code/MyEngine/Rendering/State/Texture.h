@@ -8,12 +8,13 @@ namespace MyEngine
 {
 	namespace Rendering
 	{
+		class Image;
 		class Gpu;
 		class Texture
 		{
 		public:
 			Texture(const Gpu& gpu, const std::wstring& path);
-			explicit Texture(const Gpu& gpu);
+			Texture(const Gpu& gpu, Image&& image);
 			~Texture();
 			Texture(const Texture& other) = delete;
 			Texture(Texture&& other) noexcept = delete;
@@ -25,7 +26,7 @@ namespace MyEngine
 			void Activate(const Gpu& gpu) const;
 
 		private:
-			ID3D11ShaderResourceView* m_pShaderResourceView;
+			ID3D11ShaderResourceView* m_pShaderResourceView{};
 
 			static DXGI_FORMAT GetDXGIFormatFromWICFormat(WICPixelFormatGUID& wicFormatGuid);
 			static WICPixelFormatGUID GetConvertToWICFormat(WICPixelFormatGUID& wicFormatGUID);
