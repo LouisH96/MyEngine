@@ -36,6 +36,14 @@ namespace MyEngine
 
 					bool IsLinear() const;
 				};
+				struct Intersection
+				{
+					float distance;
+					bool isClockwise;
+
+					bool operator<(const Intersection& other) const;
+					bool operator>(const Intersection& other) const;
+				};
 
 				//---| Operations |---
 				static Array<Math::Float2> ToPoints(const Array<TtfPoint>& contourPoints, int nrPointsPerSegment = 10);
@@ -44,8 +52,8 @@ namespace MyEngine
 				static Array<Array<Segment>> ToSegments(const Array<Array<TtfPoint>>& contourPoints);
 				static Array<Segment> ToSegments(const Array<TtfPoint>& contourPoints);
 
-				static Array<float> GetIntersectionsX(const Array<Array<Segment>>& contours, float height);
-				static Array<float> GetIntersectionsX(const Array<Segment>& segments, float height);
+				static Array<Intersection> GetIntersectionsX(const Array<Array<Segment>>& contours, float height);
+				static Array<Intersection> GetIntersectionsX(const Array<Segment>& segments, float height);
 
 				static Rendering::Image* MakeImage(const Io::TtfReader& reader, char character, int imageWidth, int imageHeight);
 				static void Rasterize(const Array<Array<Segment>>& contourSegments, Rendering::Image& image);
@@ -54,8 +62,8 @@ namespace MyEngine
 				static Math::Float2 CalculatePoint(const Math::Float2& p0, const Math::Float2& p1, const Math::Float2& p2, float alpha);
 				static Math::Float2 CalculatePoint(const Segment& segment, float alpha);
 
-				static void AddIntersectionsCurve(const Segment& curve, float height, std::vector<float>& intersections);
-				static void AddIntersectionsLinear(const Segment& linear, float height, std::vector<float>& intersections);
+				static void AddIntersectionsCurve(const Segment& curve, float height, std::vector<Intersection>& intersections);
+				static void AddIntersectionsLinear(const Segment& linear, float height, std::vector<Intersection>& intersections);
 			};
 		}
 	}

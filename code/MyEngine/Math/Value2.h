@@ -46,6 +46,7 @@ namespace MyEngine
 			T Length() const;
 			void Normalize();
 			Value2<T> Normalized() const;
+			float Cross(const Value2<T>& o);
 
 			T x, y;
 		};
@@ -137,6 +138,12 @@ namespace MyEngine
 		{
 			const T scale{ static_cast<T>(1) / Length() };
 			return{ x * scale, y * scale };
+		}
+
+		template <typename T>
+		float Value2<T>::Cross(const Value2<T>& o)
+		{
+			return (x * o.y) - (y * o.x);
 		}
 	}
 }

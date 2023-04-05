@@ -172,11 +172,11 @@ Rendering::Texture::Texture(const Gpu& gpu, const std::wstring& path)
 	delete[] pImageData;
 }
 
-Rendering::Texture::Texture(const Gpu& gpu, Image&& image)
+Rendering::Texture::Texture(const Gpu& gpu, Image* pImage)
 {
 	D3D11_TEXTURE2D_DESC desc{};
-	desc.Width = image.GetWidth();
-	desc.Height = image.GetHeight();
+	desc.Width = pImage->GetWidth();
+	desc.Height = pImage->GetHeight();
 	desc.MipLevels = 1;
 	desc.ArraySize = 1;
 	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -188,8 +188,8 @@ Rendering::Texture::Texture(const Gpu& gpu, Image&& image)
 	desc.MiscFlags = 0;
 
 	D3D11_SUBRESOURCE_DATA initData{};
-	initData.SysMemPitch = image.GetBytesPerRow();
-	initData.pSysMem = image.GetData();
+	initData.SysMemPitch = pImage->GetBytesPerRow();
+	initData.pSysMem = pImage->GetData();
 
 	ID3D11Texture2D* pTexture{};
 	HRESULT hr = gpu.GetDevice().CreateTexture2D(&desc, &initData, &pTexture);

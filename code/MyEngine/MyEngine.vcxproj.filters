@@ -76,6 +76,9 @@
     <ClCompile Include="Io\Ttf\ContourOperations.cpp" />
     <ClCompile Include="Rendering\Renderers\TextRenderer.cpp" />
     <ClCompile Include="Image.cpp" />
+    <ClCompile Include="Io\Ttf\Glyph.cpp" />
+    <ClCompile Include="Io\Ttf\Contour.cpp" />
+    <ClCompile Include="Io\Ttf\Segment.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -168,6 +171,9 @@
     <ClInclude Include="Io\Ttf\ContourOperations.h" />
     <ClInclude Include="Rendering\Renderers\TextRenderer.h" />
     <ClInclude Include="Image.h" />
+    <ClInclude Include="Io\Ttf\Glyph.h" />
+    <ClInclude Include="Io\Ttf\Contour.h" />
+    <ClInclude Include="Io\Ttf\Segment.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

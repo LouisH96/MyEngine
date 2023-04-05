@@ -24,8 +24,8 @@ Rendering::TextRenderer::TextRenderer(Gpu& gpu, Game::Camera& camera)
 	auto path = App::Resources::GetGlobalResourcePath(L"Fonts\\Envy Code R.ttf");
 	std::ifstream stream{ path, std::ios::binary };
 	Io::TtfReader r{ stream };
-	Image* pImage = Io::Ttf::ContourOperations::MakeImage(r, 'A', 64 * 2, 64 * 2);
-	Texture* pTexture = new Texture(gpu, std::move(*pImage));
+	Image* pImage = Io::Ttf::ContourOperations::MakeImage(r, '6', 64 , 64 );
+	Texture* pTexture = new Texture(gpu, pImage);
 	delete pImage;
 
 	m_pTextureRenderer->AddMesh(pMesh, pTexture);
