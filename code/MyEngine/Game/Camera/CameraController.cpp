@@ -16,6 +16,7 @@ Game::CameraController::CameraController(Camera& camera, const Keyboard& keyboar
 	, m_Mouse(mouse)
 	, m_Camera(camera)
 	, m_ScrollSpeed(-1.f)
+	, m_HorizontalSpeed(1.f)
 {
 }
 
@@ -28,9 +29,8 @@ void Game::CameraController::Update()
 	translation.z = static_cast<float>(m_Keyboard.IsDown('Z') - m_Keyboard.IsDown('S'));
 
 	//multiply with speed
-	constexpr float maxHorSpeed = 1;
 	constexpr float maxVerSpeed = 1;
-	float horSpeed = maxHorSpeed * DELTA_TIME;
+	float horSpeed = m_HorizontalSpeed * DELTA_TIME;
 	if (translation.x != 0 && translation.z != 0) horSpeed *= Constants::DIVSQR2;
 
 	translation.x *= horSpeed;

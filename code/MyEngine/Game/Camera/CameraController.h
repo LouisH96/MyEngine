@@ -28,12 +28,14 @@ namespace MyEngine
 			void Update();
 
 			void SetScrollSpeed(float scrollSpeed) { m_ScrollSpeed = -scrollSpeed; };
+			void SetHorizontalSpeed(float speed) { m_HorizontalSpeed = speed; } //default: 1
 
 		private:
 			const App::Wrappers::Win32::Keyboard& m_Keyboard;
 			const App::Wrappers::Win32::Mouse& m_Mouse;
 			Camera& m_Camera;
 			float m_ScrollSpeed;
+			float m_HorizontalSpeed;
 
 			void KeyboardRotation() const;
 			void MouseRotation() const;
