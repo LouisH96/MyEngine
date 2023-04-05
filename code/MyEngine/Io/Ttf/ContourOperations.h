@@ -46,6 +46,9 @@ namespace MyEngine
 				};
 
 				//---| Operations |---
+				static void GetBounds(const Array<Array<TtfPoint>>& points, Math::Value2<int16_t>& min, Math::Value2<int16_t>& max);
+				static void GetBounds(const Array<TtfPoint>& points, Math::Value2<int16_t>& min, Math::Value2<int16_t>& max, bool initMinMax = true);
+
 				static Array<Math::Float2> ToPoints(const Array<TtfPoint>& contourPoints, int nrPointsPerSegment = 10);
 				static Array<Math::Float2> ToPoints(const Segment& segment, int nrPoints = 10);
 				static Array<Math::Float2> ToPoints(const Array<Segment>& segments, int nrPointsForCurve = 10);

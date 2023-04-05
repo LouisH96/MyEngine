@@ -7,6 +7,9 @@
 #include "DataStructures/DsUtils.h"
 #include <Debug/DebugRenderer.h>
 
+#undef max;
+#undef min;
+
 bool Io::Ttf::ContourOperations::Segment::IsLinear() const
 {
 	return p1.x == INFINITY || p1.y == INFINITY;
@@ -21,6 +24,34 @@ bool Io::Ttf::ContourOperations::Intersection::operator>(const Intersection& oth
 {
 	return distance > other.distance;
 }
+
+void Io::Ttf::ContourOperations::GetBounds(const Array<Array<TtfPoint>>& points, Math::Value2<int16_t>& min,
+	Math::Value2<int16_t>& max)
+{
+	GetBounds(points[0], min, max, true);
+	for (int i = 1; i < points.GetSize(); i++)
+		GetBounds(points[i], min, max, false);
+}
+
+void Io::Ttf::ContourOperations::GetBounds(const Array<TtfPoint>& points, Math::Value2<int16_t>& min,
+	Math::Value2<int16_t>& max, bool initMinMax)
+{
+	if (initMinMax)
+	{
+		min.x = std::numeric_limits<int16_t>::max();
+		min.y = min.x;
+		max.x = std::numeric_limits<int16_t>::min();
+		max.y = max.x;
+	}
+	for (int i = 0; i < points.GetSize(); i++)
+	{
+		if (points[i].position.x < min.x)min.x = points[i].position.x;
+		if (points[i].position.x > max.x)max.x = points[i].position.x;
+		if (points[i].position.y < min.y)min.y = points[i].position.y;
+		if (points[i].position.y > max.y)max.y = points[i].position.y;
+	}
+}
+
 
 Array<Math::Float2> Io::Ttf::ContourOperations::ToPoints(const Array<TtfPoint>& contourPoints, int nrPointsPerSegment)
 {
