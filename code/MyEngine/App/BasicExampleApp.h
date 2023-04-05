@@ -5,13 +5,13 @@ namespace MyEngine
 {
 	namespace App
 	{
-	class BasicExampleApp
-	{
-	public:
-		void Run();
+		class BasicExampleApp
+		{
+		public:
+			void Run();
 
-	private:
-		Framework m_Framework{};
-	};
+		private:
+			Framework m_Framework{};
+		};
 	}
 }
