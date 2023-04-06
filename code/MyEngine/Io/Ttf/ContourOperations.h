@@ -39,7 +39,7 @@ namespace MyEngine
 				struct Intersection
 				{
 					float distance;
-					bool isClockwise;
+					bool rightIsInside;
 
 					bool operator<(const Intersection& other) const;
 					bool operator>(const Intersection& other) const;

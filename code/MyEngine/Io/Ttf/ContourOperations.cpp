@@ -311,7 +311,7 @@ void Io::Ttf::ContourOperations::Rasterize(const Array<Array<Segment>>& contourS
 					image.SetColor(iCol, iRow, 255, 0, 0, 255);
 			}
 			lastCol = newCol;
-			windingCounter += intersections[iIntersection].isClockwise ? 1 : -1;
+			windingCounter += intersections[iIntersection].rightIsInside ? 1 : -1;
 		}
 	}
 }
@@ -346,16 +346,16 @@ void Io::Ttf::ContourOperations::AddIntersectionsCurve(const Segment& curve, flo
 	const float sqrt{ sqrtf(-a * c + a * height + b * b - 2 * b * height + c * height) };
 	const float result1{ (sqrt + a - b) / divisor };
 	const float result2{ -(sqrt - a + b) / divisor };
-	const bool isClockwise{ (curve.p2 - curve.p0).Cross(curve.p1 - curve.p0) > 0 };
+	//const bool isClockwise{ (curve.p2 - curve.p0).Cross(curve.p1 - curve.p0) > 0 };
 	if (result1 >= 0 && result1 <= 1)
 	{
 		const Math::Float2 point{ CalculatePoint(curve, result1) };
-		intersections.push_back({ point.x, isClockwise });
+		intersections.push_back({ point.x, true });
 	}
 	if (result2 >= 0 && result2 <= 1)
 	{
 		const Math::Float2 point{ CalculatePoint(curve, result2) };
-		intersections.push_back({ point.x, isClockwise });
+		intersections.push_back({ point.x, false });
 	}
 }
 
@@ -369,6 +369,6 @@ void Io::Ttf::ContourOperations::AddIntersectionsLinear(const Segment& linear, f
 	if (result >= 0 && result <= 1)
 	{
 		const Math::Float2 point{ linear.p0 + (linear.p2 - linear.p0) * result };
-		intersections.push_back({ point.x, linear.p2.y < linear.p0.y });
+		intersections.push_back({ point.x, linear.p2.y > linear.p0.y });
 	}
 }
