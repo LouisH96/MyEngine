@@ -25,6 +25,10 @@ namespace MyEngine
 
 			const Data& operator[](int idx) const;
 			Data& operator[](int idx);
+			Data& Last();
+			Data& First();
+			const Data& Last() const;
+			const Data& First() const;
 			int GetSize() const { return m_Size; }
 			Data* GetData() const { return m_pData; }
 
@@ -163,6 +167,30 @@ namespace MyEngine
 			DoBoundsCheck(idx);
 #endif
 			return m_pData[idx];
+		}
+
+		template <typename Data>
+		Data& Array<Data>::Last()
+		{
+			return m_pData[m_Size-1];
+		}
+
+		template <typename Data>
+		Data& Array<Data>::First()
+		{
+			return m_pData[0];
+		}
+
+		template <typename Data>
+		const Data& Array<Data>::Last() const
+		{
+			return m_pData[m_Size - 1];
+		}
+
+		template <typename Data>
+		const Data& Array<Data>::First() const
+		{
+			return m_pData[0];
 		}
 
 		template <typename Data>
