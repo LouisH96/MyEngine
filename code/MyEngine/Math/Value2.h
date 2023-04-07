@@ -37,6 +37,7 @@ namespace MyEngine
 			void operator-=(const T& r);
 			void operator*=(const T& r);
 			void operator/=(const T& r);
+			Value2 operator-() const;
 
 			T Get(int i) const;
 			void Set(T v, int i);
@@ -90,6 +91,12 @@ namespace MyEngine
 		template <typename T> void Value2<T>::operator-=(const T& r) { x -= r; y -= r; }
 		template <typename T> void Value2<T>::operator*=(const T& r) { x *= r; y *= r; }
 		template <typename T> void Value2<T>::operator/=(const T& r) { x /= r; y /= r; }
+
+		template <typename T>
+		Value2<T> Value2<T>::operator-() const
+		{
+			return{ -x, -y };
+		}
 
 		template <typename T>
 		T Value2<T>::Get(int i) const
