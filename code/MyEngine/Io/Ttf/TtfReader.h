@@ -5,6 +5,7 @@
 #include "TtfPoint.h"
 #include "CMapTable.h"
 #include "GlyfTable.h"
+#include "Glyph.h"
 #include "HeadTable.h"
 #include "LocaTable.h"
 #include "OffsetSubTable.h"
@@ -19,6 +20,7 @@ namespace MyEngine
 		public:
 			explicit TtfReader(std::istream& stream);
 			Array<Array<Ttf::TtfPoint>> GetPoints(unsigned char c) const;
+			Ttf::Glyph GetGlyph(char character) const;
 
 		private:
 			//---| Members |---

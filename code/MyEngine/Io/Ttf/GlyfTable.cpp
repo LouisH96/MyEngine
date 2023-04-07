@@ -11,6 +11,22 @@ void Io::Ttf::GlyfTable::Read(const Bin::BigBinReader& reader)
 
 Array<Array<Io::Ttf::TtfPoint>> Io::Ttf::GlyfTable::GetContours(const Bin::BigBinReader& reader, uint32_t glyphOffset) const
 {
+	int16_t minX, minY, maxX, maxY;
+	return GetContours(reader, glyphOffset, minX, maxX, minY, maxY);
+}
+
+Io::Ttf::Glyph Io::Ttf::GlyfTable::GetGlyph(const Bin::BigBinReader& reader, uint32_t glyphOffset) const
+{
+	int16_t minX, minY, maxX, maxY;
+	const Array<Array<TtfPoint>> points{ GetContours(reader, glyphOffset, minX, maxX, minY, maxY) };
+	const Math::Double2 minBounds{ static_cast<double>(minX), static_cast<double>(minY) };
+	const Math::Double2 maxBounds{ static_cast<double>(maxX), static_cast<double>(maxY) };
+	return Glyph{ points, minBounds, maxBounds };
+}
+
+Array<Array<Io::Ttf::TtfPoint>> Io::Ttf::GlyfTable::GetContours(const Bin::BigBinReader& reader, uint32_t glyphOffset,
+                                                                int16_t& minX, int16_t& maxX, int16_t& minY, int16_t& maxY) const
+{
 	reader.SetPos(m_Begin + glyphOffset);
 	SimpleOutline outline{};
 	reader.Read(outline.nrOfContours);
@@ -18,6 +34,10 @@ Array<Array<Io::Ttf::TtfPoint>> Io::Ttf::GlyfTable::GetContours(const Bin::BigBi
 	reader.Read(outline.yMin);
 	reader.Read(outline.xMax);
 	reader.Read(outline.yMax);
+	minX = outline.xMin;
+	minY = outline.yMin;
+	maxX = outline.xMax;
+	maxY = outline.yMax;
 	if (outline.nrOfContours < 0)
 	{
 		Logger::PrintError("CompoundGlyph not supported");

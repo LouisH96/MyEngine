@@ -1,4 +1,5 @@
 #pragma once
+#include "Glyph.h"
 #include "TtfPoint.h"
 
 namespace MyEngine
@@ -17,6 +18,7 @@ namespace MyEngine
 			public:
 				void Read(const Bin::BigBinReader& reader);
 				Array<Array<TtfPoint>> GetContours(const Bin::BigBinReader& reader, uint32_t glyphOffset) const;
+				Glyph GetGlyph(const Bin::BigBinReader& reader, uint32_t glyphOffset) const;
 
 			private:
 				//---| Types |---
@@ -48,6 +50,9 @@ namespace MyEngine
 
 				//---| Members |---
 				uint32_t m_Begin{};
+
+				Array<Array<TtfPoint>> GetContours(const Bin::BigBinReader& reader, uint32_t glyphOffset, int16_t& minX, int16_t& maxX, int16_t& minY, int16_t& maxY) const;
+
 			};
 		}
 	}

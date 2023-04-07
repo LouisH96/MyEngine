@@ -19,6 +19,13 @@ Array<Array<Io::Ttf::TtfPoint>> Io::TtfReader::GetPoints(unsigned char c) const
 	return m_GlyfTable.GetContours(m_Reader, aGlyphOffset);
 }
 
+Io::Ttf::Glyph Io::TtfReader::GetGlyph(char character) const
+{
+	const uint32_t glyphIndex = m_CMapTable.GetGlyphIndex(character);
+	const uint32_t glyphOffset = m_LocaTable.GetGlyphOffset(m_Reader, glyphIndex);
+	return m_GlyfTable.GetGlyph(m_Reader, glyphOffset);
+}
+
 void Io::TtfReader::ReadTableDirectories()
 {
 	m_TableDirectories = { m_OffsetSubTable.GetNrTables() };
