@@ -23,6 +23,8 @@ void Io::Ttf::Contour::Scale(double scale)
 
 void Io::Ttf::Contour::AddIntersections(std::vector<Intersection>& intersections, double height) const
 {
+	//segment 14
+
 	for (int i = 0; i < m_Segments.GetSize(); i++)
 		m_Segments[i].AddIntersectionPoints(intersections, height);
 }
@@ -48,12 +50,40 @@ void Io::Ttf::Contour::DebugDraw(const Math::Float3& color, const Math::Float3& 
 			iPoint += pointsPerCurve - 1;
 		}
 	}
-	//points.Last() = points.First();
 
 	Array<Math::Float3> drawPoints{ points.GetSize() };
 	for (int i = 0; i < drawPoints.GetSize(); i++)
 		drawPoints[i] = Math::Float3{ static_cast<float>(points[i].x) + offset.x, static_cast<float>(points[i].y) + offset.y, offset.z };
 	DebugRenderer::AddLine(drawPoints, color);
+}
+
+void Io::Ttf::Contour::DebugDrawSegments(const Math::Float3& offset, int pointsPerCurve) const
+{
+	using namespace Math;
+	const Math::Float3 color1{ 0,0,0 };
+	const Math::Float3 color2{ 1,1,1 };
+
+	const Float3 firstPoint{ static_cast<float>(m_Segments[0].GetBegin().x) + offset.x, static_cast<float>(m_Segments[0].GetBegin().y) + offset.y, offset.z };
+	DebugRenderer::AddSphere(firstPoint, color1, 0.01f);
+	for (int iSegment = 0; iSegment < m_Segments.GetSize(); iSegment++)
+	{
+		const Segment& segment{ m_Segments[iSegment] };
+		if (segment.IsLinear())
+		{
+			const Float3 begin{ static_cast<float>(segment.GetBegin().x) + offset.x, static_cast<float>(segment.GetBegin().y) + offset.y, offset.z };
+			const Float3 end{ static_cast<float>(segment.GetEnd().x) + offset.x, static_cast<float>(segment.GetEnd().y) + offset.y, offset.z };
+			DebugRenderer::AddLine(begin, end, iSegment % 2 == 0 ? color1 : color2);
+		}
+		else
+		{
+			Array<Double2> points{ pointsPerCurve };
+			segment.AddCurvePoints(points, 0, pointsPerCurve);
+			Array<Float3> drawPoints{ points.GetSize() };
+			for (int iPoint = 0; iPoint < drawPoints.GetSize(); iPoint++)
+				drawPoints[iPoint] = { static_cast<float>(points[iPoint].x) + offset.x, static_cast<float>(points[iPoint].y) + offset.y, offset.z };
+			DebugRenderer::AddLine(drawPoints, iSegment % 2 == 0 ? color1 : color2);
+		}
+	}
 }
 
 void Io::Ttf::Contour::DebugPrint()
