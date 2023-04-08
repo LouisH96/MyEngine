@@ -4,7 +4,7 @@
 using namespace Rendering;
 
 Mesh::Mesh(const Gpu& gpu, unsigned vertexStride, const void* pVertices, int nrVertices, const int* pIndices,
-	int nrIndices, Topology topology)
+	int nrIndices, Topology topology, bool immutable)
 	: m_VertexCount(nrVertices)
 	, m_VertexStride(vertexStride)
 	, m_IndexCount(nrIndices)
@@ -12,11 +12,11 @@ Mesh::Mesh(const Gpu& gpu, unsigned vertexStride, const void* pVertices, int nrV
 	, m_fpActivate(&Mesh::ActivateIndexed)
 	, m_fpDraw(&Mesh::DrawIndexed)
 {
-	InitVertexBuffer(gpu, pVertices);
+	InitVertexBuffer(gpu, pVertices, immutable);
 	Dx::DxHelper::CreateIndexBuffer(gpu.GetDevice(), m_pIndexBuffer, pIndices, nrIndices);
 }
 
-Mesh::Mesh(const Gpu& gpu, unsigned vertexStride, const void* pVertices, int nrVertices, Topology topology)
+Mesh::Mesh(const Gpu& gpu, unsigned vertexStride, const void* pVertices, int nrVertices, Topology topology, bool immutable)
 	: m_VertexCount(nrVertices)
 	, m_VertexStride(vertexStride)
 	, m_IndexCount(0)
@@ -24,16 +24,18 @@ Mesh::Mesh(const Gpu& gpu, unsigned vertexStride, const void* pVertices, int nrV
 	, m_fpActivate(&Mesh::ActivateUnindexed)
 	, m_fpDraw(&Mesh::DrawUnindexed)
 {
-	InitVertexBuffer(gpu, pVertices);
+	InitVertexBuffer(gpu, pVertices, immutable);
 }
 
-void Mesh::InitVertexBuffer(const Gpu& gpu, const void* pInitVertices)
+void Mesh::InitVertexBuffer(const Gpu& gpu, const void* pInitVertices, bool immutable)
 {
 	const D3D11_BUFFER_DESC vertexBufferDesc
 	{
 		m_VertexStride * m_VertexCount,
-		D3D11_USAGE_DEFAULT, D3D11_BIND_VERTEX_BUFFER,
-		0, 0, m_VertexStride
+		immutable ? D3D11_USAGE_IMMUTABLE : D3D11_USAGE_DYNAMIC,
+		D3D11_BIND_VERTEX_BUFFER,
+		immutable ? 0 : D3D11_CPU_ACCESS_WRITE,
+		0, m_VertexStride
 	};
 
 	const D3D11_SUBRESOURCE_DATA srData{ pInitVertices,0,0 };
@@ -58,7 +60,6 @@ void Mesh::Draw(const Gpu& gpu) const
 {
 	(this->*m_fpDraw)(gpu);
 }
-
 
 void Mesh::ActivateIndexed(const Gpu& gpu) const
 {

@@ -54,13 +54,12 @@ void Io::Ttf::FontRasterizer::DrawIntersections(const Math::Float3& offset, cons
 	}
 }
 
-Rendering::Image* Io::Ttf::FontRasterizer::MakeImage() const
+Rendering::Image* Io::Ttf::FontRasterizer::MakeImage(const Math::Float3& fillColor) const
 {
 	using namespace Rendering;
 	constexpr float fillAlpha{ 1.0f };
-	constexpr float emptyAlpha{ .5f };
+	constexpr float emptyAlpha{ .0f };
 	const Math::Float3 emptyColor{ 1,1,1 };
-	const Math::Float3 fillColor{ 0,0,0 };
 	const Math::Double2 glyphSize{ m_Glyph.GetSize() };
 	Image* pImage = new Image(m_NrCols, m_NrRows);
 	std::vector<Intersection> intersections{};

@@ -38,7 +38,7 @@ void Rendering::TextRenderer::AddCharacterXy(const Math::Float3& offset, const M
 	vertices[4] = { {right,bot,z},{1,1} };
 	vertices[5] = { {left,bot,z},{0,1} };
 	Mesh* pMesh = Mesh::Create(m_Gpu, vertices);
-	Image* pImage = rasterizer.MakeImage();
+	Image* pImage = rasterizer.MakeImage({});
 	Texture* pTexture = new Texture(m_Gpu, pImage);
 	delete pImage;
 	m_pTextureRenderer->AddMesh(pMesh, pTexture);

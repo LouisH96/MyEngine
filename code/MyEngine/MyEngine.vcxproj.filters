@@ -80,6 +80,7 @@
     <ClCompile Include="Io\Ttf\Segment.cpp" />
     <ClCompile Include="Io\Ttf\FontRasterizer.cpp" />
     <ClCompile Include="Io\Ttf\Intersection.cpp" />
+    <ClCompile Include="Rendering\FpsDisplay.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -179,6 +180,7 @@
     <ClInclude Include="Math\Double3.h" />
     <ClInclude Include="Io\Ttf\FontRasterizer.h" />
     <ClInclude Include="Io\Ttf\Intersection.h" />
+    <ClInclude Include="Rendering\FpsDisplay.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

@@ -24,10 +24,13 @@ namespace MyEngine
 			Mesh& operator=(Mesh&& other) noexcept = delete;
 
 			template<typename Vertex>
-			static Mesh* Create(const Gpu& gpu, const Ds::Array<Vertex>& vertices, const Ds::Array<int>& indices, Topology topology = Topology::TriangleList);
+			static Mesh* Create(const Gpu& gpu, const Ds::Array<Vertex>& vertices, const Ds::Array<int>& indices, Topology topology = Topology::TriangleList, bool immutable = true);
 			template<typename Vertex>
-			static Mesh* Create(const Gpu& gpu, const Ds::Array<Vertex>& vertices, Topology topology = Topology::TriangleList);
+			static Mesh* Create(const Gpu& gpu, const Ds::Array<Vertex>& vertices, Topology topology = Topology::TriangleList, bool immutable = true);
 			~Mesh();
+
+			template<typename T>
+			void Update(const Gpu& gpu, const Array<T>& data);
 
 			void Activate(const Gpu& gpu) const;
 			void Draw(const Gpu& gpu) const;
@@ -45,10 +48,10 @@ namespace MyEngine
 			FpActivate m_fpActivate{};
 			FpDraw m_fpDraw{};
 
-			Mesh(const Gpu& gpu, unsigned vertexStride, const void* pVertices, int nrVertices, const int* pIndices, int nrIndices, Topology topology = Topology::TriangleList);
-			Mesh(const Gpu& gpu, unsigned vertexStride, const void* pVertices, int nrVertices, Topology topology = Topology::TriangleList);
+			Mesh(const Gpu& gpu, unsigned vertexStride, const void* pVertices, int nrVertices, const int* pIndices, int nrIndices, Topology topology = Topology::TriangleList, bool immutable = false);
+			Mesh(const Gpu& gpu, unsigned vertexStride, const void* pVertices, int nrVertices, Topology topology = Topology::TriangleList, bool immutable = false);
 
-			void InitVertexBuffer(const Gpu& gpu, const void* pInitVertices);
+			void InitVertexBuffer(const Gpu& gpu, const void* pInitVertices, bool immutable);
 
 			void ActivateIndexed(const Gpu& gpu) const;
 			void ActivateUnindexed(const Gpu& gpu) const;
@@ -60,15 +63,24 @@ namespace MyEngine
 
 		template <typename Vertex>
 		Mesh* Mesh::Create(const Gpu& gpu, const Ds::Array<Vertex>& vertices, const Ds::Array<int>& indices,
-			Topology topology)
+			Topology topology, bool immutable)
 		{
-			return new Mesh(gpu, sizeof(Vertex), vertices.GetData(), vertices.GetSize(), indices.GetData(), indices.GetSize(), topology);
+			return new Mesh(gpu, sizeof(Vertex), vertices.GetData(), vertices.GetSize(), indices.GetData(), indices.GetSize(), topology, immutable);
 		}
 
 		template <typename Vertex>
-		Mesh* Mesh::Create(const Gpu& gpu, const Ds::Array<Vertex>& vertices, Topology topology)
+		Mesh* Mesh::Create(const Gpu& gpu, const Ds::Array<Vertex>& vertices, Topology topology, bool immutable)
 		{
-			return new Mesh(gpu, sizeof(Vertex), vertices.GetData(), vertices.GetSize(), topology);
+			return new Mesh(gpu, sizeof(Vertex), vertices.GetData(), vertices.GetSize(), topology, immutable);
+		}
+
+		template <typename T>
+		void Mesh::Update(const Gpu& gpu, const Array<T>& data)
+		{
+			D3D11_MAPPED_SUBRESOURCE mappedResource{};
+			gpu.GetContext().Map(m_pVertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+			memcpy(mappedResource.pData, data.GetData(), sizeof(T)*data.GetSize() );
+			gpu.GetContext().Unmap(m_pVertexBuffer, 0);
 		}
 	}
 }

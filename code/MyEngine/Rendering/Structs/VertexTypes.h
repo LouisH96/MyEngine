@@ -7,6 +7,14 @@ namespace MyEngine
 {
 	namespace Rendering
 	{
+		struct V_Pos2Uv
+		{
+			Math::Float2 pos;
+			Math::Float2 uv;
+
+			static const InputLayout::Element ELEMENTS[];
+			static constexpr int NR_ELEMENTS = 2;
+		};
 		struct V_PosCol
 		{
 			Math::Float3 Pos{};
