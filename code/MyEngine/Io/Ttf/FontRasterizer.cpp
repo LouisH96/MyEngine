@@ -66,7 +66,7 @@ Rendering::Image* Io::Ttf::FontRasterizer::MakeImage() const
 		m_Glyph.AddIntersections(intersections, height);
 		if (intersections.empty())
 		{
-			pImage->SetRowColor(imgRow, emptyColor);
+			pImage->SetRowColor(imgRow, emptyColor, 0);
 			continue;
 		}
 
@@ -76,7 +76,7 @@ Rendering::Image* Io::Ttf::FontRasterizer::MakeImage() const
 		bool inGlyph = false;
 		for (int iCol = 0; iCol < m_NrCols; iCol++)
 		{
-			pImage->SetColor(iCol, imgRow, inGlyph ? fillColor : emptyColor);
+			pImage->SetColor(iCol, imgRow, inGlyph ? fillColor : emptyColor, inGlyph ? 1 : 0);
 			while (iCol >= nextIntersectionX)
 			{
 				if (nextIntersectionIdx < intersections.size() - 1)
@@ -85,7 +85,7 @@ Rendering::Image* Io::Ttf::FontRasterizer::MakeImage() const
 					nextIntersectionIdx++;
 					nextIntersectionX = static_cast<int>(intersections[nextIntersectionIdx].distance * m_NrCols);
 					if (inGlyph)
-						pImage->SetColor(iCol, imgRow, inGlyph ? fillColor : emptyColor);
+						pImage->SetColor(iCol, imgRow, inGlyph ? fillColor : emptyColor, inGlyph ? 1 : 0);
 				}
 				else
 				{
