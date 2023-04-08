@@ -78,6 +78,7 @@
     <ClCompile Include="Io\Ttf\Glyph.cpp" />
     <ClCompile Include="Io\Ttf\Contour.cpp" />
     <ClCompile Include="Io\Ttf\Segment.cpp" />
+    <ClCompile Include="Io\Ttf\FontRasterizer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -175,6 +176,7 @@
     <ClInclude Include="Io\Ttf\Segment.h" />
     <ClInclude Include="Math\Value3.h" />
     <ClInclude Include="Math\Double3.h" />
+    <ClInclude Include="Io\Ttf\FontRasterizer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

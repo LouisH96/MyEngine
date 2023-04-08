@@ -15,6 +15,7 @@
     <ClCompile Include="App\FpsControl.cpp" />
     <ClCompile Include="App\Framework.cpp" />
     <ClCompile Include="App\Time.cpp" />
+    <ClCompile Include="Io\Ttf\FontRasterizer.cpp" />
     <ClCompile Include="Io\Ttf\Contour.cpp" />
     <ClCompile Include="Io\Ttf\Glyph.cpp" />
     <ClCompile Include="Image.cpp" />
@@ -95,6 +96,7 @@
   <ItemGroup>
     <ClInclude Include="App\BasicExampleApp.h" />
     <ClInclude Include="App\Framework.h" />
+    <ClInclude Include="Io\Ttf\FontRasterizer.h" />
     <ClInclude Include="Math\Double3.h" />
     <ClInclude Include="Io\Ttf\Contour.h" />
     <ClInclude Include="Io\Ttf\Glyph.h" />
