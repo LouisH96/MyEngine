@@ -49,7 +49,7 @@ void Io::Ttf::Segment::AddIntersectionPoints(std::vector<Intersection>& intersec
 
 void Io::Ttf::Segment::DebugPrint() const
 {
-	if(IsLinear())
+	if (IsLinear())
 	{
 		std::cout << "LinearSegment: \n";
 		std::cout << "\t Begin: " << ToString::Convert(m_Begin) << std::endl;
@@ -79,20 +79,30 @@ void Io::Ttf::Segment::AddIntersectionPointsCurve(std::vector<Intersection>& int
 {
 	//https://www.wolframalpha.com/input?i=solve+t%2C+y+%3D+a+*+%281-t%29%5E2+%2B+b+*+2+*%281-t%29*t+%2B+c+*+t%5E2
 	const double a{ m_Begin.y };
-	const double b{m_ControlPoint.y };
+	const double b{ m_ControlPoint.y };
 	const double c{ m_End.y };
+	if (abs(a - (2 * b - c)) <= 0.001 && b != c)
+	{
+		const double result{ -(-2 * b + c + height) / (2 * (b - c)) };
+		if (result >= 0 && result <= 1)
+		{
+			const Math::Float2 point{ CalculatePoint(result) };
+			intersections.push_back({ point.x, m_End.y > m_Begin.y });
+		}
+	}
+
 	const double divisor{ a - 2 * b + c };
 	if (divisor == 0)
 		return;
-	const double sqrt{ sqrtf(-a * c + a * height + b * b - 2 * b * height + c * height) };
-	const double result1{ (sqrt + a - b) / divisor };
-	const double result2{ -(sqrt - a + b) / divisor };
-	if (result1 >= 0 && result1 <= 1)
+	const double root{ sqrt(-a * c + a * height + b * b - 2 * b * height + c * height) };
+	const double result1{ (root + a - b) / divisor };
+	const double result2{ -(root - a + b) / divisor };
+	if (result1 > 0 && result1 < 1)
 	{
 		const Math::Float2 point{ CalculatePoint(result1) };
 		intersections.push_back({ point.x, true });
 	}
-	if (result2 >= 0 && result2 <= 1)
+	if (result2 > 0 && result2 < 1)
 	{
 		const Math::Float2 point{ CalculatePoint(result2) };
 		intersections.push_back({ point.x, false });
