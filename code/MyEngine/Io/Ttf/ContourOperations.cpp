@@ -10,16 +10,6 @@
 #undef max;
 #undef min;
 
-bool Io::Ttf::ContourOperations::Intersection::operator<(const Intersection& other) const
-{
-	return distance < other.distance;
-}
-
-bool Io::Ttf::ContourOperations::Intersection::operator>(const Intersection& other) const
-{
-	return distance > other.distance;
-}
-
 void Io::Ttf::ContourOperations::GetBounds(const Array<Array<TtfPoint>>& points, Math::Value2<int16_t>& min,
 	Math::Value2<int16_t>& max)
 {
@@ -215,7 +205,7 @@ Array<Io::Ttf::Segment> Io::Ttf::ContourOperations::ToSegments(const Array<TtfPo
 	return segments;
 }
 
-Array<Io::Ttf::ContourOperations::Intersection> Io::Ttf::ContourOperations::GetIntersectionsX(const Glyph& glyph, float height)
+Array<Io::Ttf::Intersection> Io::Ttf::ContourOperations::GetIntersectionsX(const Glyph& glyph, float height)
 {
 	std::vector<Intersection> intersections{};
 	for (int iContour = 0; iContour < glyph.GetContours().GetSize(); iContour++)
@@ -232,7 +222,7 @@ Array<Io::Ttf::ContourOperations::Intersection> Io::Ttf::ContourOperations::GetI
 	return DsUtils::ToArray(intersections);
 }
 
-Array<Io::Ttf::ContourOperations::Intersection> Io::Ttf::ContourOperations::GetIntersectionsX(const Contour& contour, float height)
+Array<Io::Ttf::Intersection> Io::Ttf::ContourOperations::GetIntersectionsX(const Contour& contour, float height)
 {
 	std::vector<Intersection> intersections{};
 	for (int i = 0; i < contour.GetSegments().GetSize(); i++)

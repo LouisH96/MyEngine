@@ -39,6 +39,12 @@ void Io::Ttf::Glyph::Normalize()
 	Scale(scale);
 }
 
+void Io::Ttf::Glyph::AddIntersections(std::vector<Intersection>& intersections, double height) const
+{
+	for (int i = 0; i < m_Contours.GetSize(); i++)
+		m_Contours[i].AddIntersections(intersections, height);
+}
+
 void Io::Ttf::Glyph::DebugDraw(const Math::Float3& color, const Math::Float3& offset, int pointsPerCurve) const
 {
 	for (int i = 0; i < m_Contours.GetSize(); i++)

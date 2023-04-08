@@ -4,10 +4,14 @@
 #include "Io/Ttf/Glyph.h"
 #include <Debug/DebugRenderer.h>
 
-Io::Ttf::FontRasterizer::FontRasterizer(const Glyph& glyph)
-	: m_Glyph{ glyph }
-{
+#include "Intersection.h"
 
+Io::Ttf::FontRasterizer::FontRasterizer(Glyph& glyph, int nrCols, int nrRows)
+	: m_Glyph{ glyph }
+	, m_NrCols{ nrCols }
+	, m_NrRows{ nrRows }
+{
+	glyph.Normalize();
 }
 
 void Io::Ttf::FontRasterizer::DrawBounds(const Math::Float3& color, const Math::Float3& offset) const
@@ -15,7 +19,30 @@ void Io::Ttf::FontRasterizer::DrawBounds(const Math::Float3& color, const Math::
 	DebugRenderer::AddRect(m_Glyph.GetMinBounds(), m_Glyph.GetMaxBounds(), offset, color);
 }
 
-void Io::Ttf::FontRasterizer::DrawGrid(const Math::Float3& offset, const Math::Float2& bounds, int nrCols, int nrRows, const Math::Float3& color) const
+void Io::Ttf::FontRasterizer::DrawGrid(const Math::Float3& offset, const Math::Float3& color) const
 {
-	DebugRenderer::AddGridXy(offset, bounds, nrCols, nrRows, color);
+	DebugRenderer::AddGridXy(offset, { 1,1 }, m_NrCols, m_NrRows, color);
+}
+
+void Io::Ttf::FontRasterizer::DrawIntersections(const Math::Float3& offset) const
+{
+	const double yStep = 1.0 / (m_NrRows - 1);
+	const double halfRowHeight = 1.0 / (m_NrRows * 2);
+	std::vector<Intersection> intersections{};
+
+	for (int iScanLine = 0; iScanLine < m_NrRows; iScanLine++)
+	{
+		intersections.clear();
+		const double height = (static_cast<double>(iScanLine)+0.5) / static_cast<double>(m_NrRows);
+		m_Glyph.AddIntersections(intersections, height);
+
+		for (int iIntersection = 0; iIntersection < intersections.size(); iIntersection++)
+		{
+			const Intersection& intersection{ intersections[iIntersection] };
+			const Math::Float3 color{ intersection.rightIsInside ? Math::Float3{0,1,0} : Math::Float3{1,0,0} };
+			const Math::Float3 position{ intersection.distance + offset.x, static_cast<float>(height) + offset.y, offset.z };
+
+			DebugRenderer::AddSphere(position, color, 0.02f);
+		}
+	}
 }

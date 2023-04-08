@@ -21,6 +21,12 @@ void Io::Ttf::Contour::Scale(double scale)
 		m_Segments[i].Scale(scale);
 }
 
+void Io::Ttf::Contour::AddIntersections(std::vector<Intersection>& intersections, double height) const
+{
+	for (int i = 0; i < m_Segments.GetSize(); i++)
+		m_Segments[i].AddIntersectionPoints(intersections, height);
+}
+
 void Io::Ttf::Contour::DebugDraw(const Math::Float3& color, const Math::Float3& offset, int pointsPerCurve) const
 {
 	int nrPoints = 1;

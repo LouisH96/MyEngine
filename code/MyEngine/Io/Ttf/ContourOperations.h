@@ -1,4 +1,5 @@
 #pragma once
+#include "Intersection.h"
 #include "Segment.h"
 #include "TtfPoint.h"
 #include "Math/Float2.h"
@@ -31,16 +32,6 @@ namespace MyEngine
 			class ContourOperations
 			{
 			public:
-				//---| Types |---
-				struct Intersection
-				{
-					float distance;
-					bool rightIsInside;
-
-					bool operator<(const Intersection& other) const;
-					bool operator>(const Intersection& other) const;
-				};
-
 				//---| Operations |---
 				static void GetBounds(const Array<Array<TtfPoint>>& points, Math::Value2<int16_t>& min, Math::Value2<int16_t>& max);
 				static void GetBounds(const Array<TtfPoint>& points, Math::Value2<int16_t>& min, Math::Value2<int16_t>& max, bool initMinMax = true);

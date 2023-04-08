@@ -26,6 +26,8 @@ namespace MyEngine
 				void Translate(const Math::Double2& translation);
 				void Scale(double scale);
 
+				void AddIntersections(std::vector<Intersection>& intersections, double height) const;
+
 				void DebugDraw(const Math::Float3& color, const Math::Float3& offset, int pointsPerCurve) const;
 				void DebugPrint();
 
