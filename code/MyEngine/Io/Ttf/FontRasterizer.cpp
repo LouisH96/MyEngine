@@ -4,7 +4,11 @@
 #include "Io/Ttf/Glyph.h"
 #include <Debug/DebugRenderer.h>
 
+#include "Image.h"
 #include "Intersection.h"
+
+#undef min;
+#undef max;
 
 Io::Ttf::FontRasterizer::FontRasterizer(Glyph& glyph, int nrCols, int nrRows)
 	: m_Glyph{ glyph }
@@ -26,14 +30,12 @@ void Io::Ttf::FontRasterizer::DrawGrid(const Math::Float3& offset, const Math::F
 
 void Io::Ttf::FontRasterizer::DrawIntersections(const Math::Float3& offset) const
 {
-	const double yStep = 1.0 / (m_NrRows - 1);
-	const double halfRowHeight = 1.0 / (m_NrRows * 2);
 	std::vector<Intersection> intersections{};
 
 	for (int iScanLine = 0; iScanLine < m_NrRows; iScanLine++)
 	{
 		intersections.clear();
-		const double height = (static_cast<double>(iScanLine)+0.5) / static_cast<double>(m_NrRows);
+		const double height = (static_cast<double>(iScanLine) + 0.5) / static_cast<double>(m_NrRows);
 		m_Glyph.AddIntersections(intersections, height);
 
 		for (int iIntersection = 0; iIntersection < intersections.size(); iIntersection++)
@@ -42,7 +44,57 @@ void Io::Ttf::FontRasterizer::DrawIntersections(const Math::Float3& offset) cons
 			const Math::Float3 color{ intersection.rightIsInside ? Math::Float3{0,1,0} : Math::Float3{1,0,0} };
 			const Math::Float3 position{ intersection.distance + offset.x, static_cast<float>(height) + offset.y, offset.z };
 
-			DebugRenderer::AddSphere(position, color, 0.02f);
+			DebugRenderer::AddSphere(position, color, 0.005f);
 		}
 	}
+}
+
+Rendering::Image* Io::Ttf::FontRasterizer::MakeImage() const
+{
+	using namespace Rendering;
+	const Math::Float3 emptyColor{ 1,1,1 };
+	const Math::Float3 fillColor{ 0,0,0 };
+	Image* pImage = new Image(m_NrCols, m_NrRows);
+	std::vector<Intersection> intersections{};
+	for (int iScanLine = 0; iScanLine < m_NrRows; iScanLine++)
+	{
+		const int imgRow{ m_NrRows - 1 - iScanLine };
+
+		//intersections
+		intersections.clear();
+		const double height = (static_cast<double>(iScanLine) + 0.5) / static_cast<double>(m_NrRows);
+		m_Glyph.AddIntersections(intersections, height);
+		if (intersections.empty())
+		{
+			pImage->SetRowColor(imgRow, emptyColor);
+			continue;
+		}
+
+		//draw
+		int nextIntersectionIdx = 0;
+		int nextIntersectionX = static_cast<int>(intersections[0].distance * m_NrCols);
+		bool inGlyph = false;
+		for (int iCol = 0; iCol < m_NrCols; iCol++)
+		{
+			pImage->SetColor(iCol, imgRow, inGlyph ? fillColor : emptyColor);
+			while (iCol >= nextIntersectionX)
+			{
+				if (nextIntersectionIdx < intersections.size() - 1)
+				{
+					inGlyph = intersections[nextIntersectionIdx].rightIsInside;
+					nextIntersectionIdx++;
+					nextIntersectionX = static_cast<int>(intersections[nextIntersectionIdx].distance * m_NrCols);
+					if (inGlyph)
+						pImage->SetColor(iCol, imgRow, inGlyph ? fillColor : emptyColor);
+				}
+				else
+				{
+					nextIntersectionIdx = std::numeric_limits<int>::max();
+					nextIntersectionX = nextIntersectionIdx;
+					inGlyph = false;
+				}
+			}
+		}
+	}
+	return pImage;
 }

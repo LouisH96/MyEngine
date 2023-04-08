@@ -3,6 +3,14 @@
 
 namespace MyEngine
 {
+	namespace Rendering
+	{
+		class Image;
+	}
+}
+
+namespace MyEngine
+{
 	namespace Io
 	{
 		namespace Ttf
@@ -17,6 +25,7 @@ namespace MyEngine
 				void DrawBounds(const Math::Float3& color, const Math::Float3& offset) const;
 				void DrawGrid(const Math::Float3& offset, const Math::Float3& color) const;
 				void DrawIntersections(const Math::Float3& offset) const;
+				Rendering::Image* MakeImage() const;
 
 			private:
 				Glyph& m_Glyph;
