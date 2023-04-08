@@ -44,6 +44,88 @@ void DebugRenderer::AddLine(const Array<Math::Float3>& points, const Math::Float
 	m_pStatic->Class_AddLine(points, color);
 }
 
+void DebugRenderer::AddRect(const Math::Float3& leftTop, const Math::Float3& rightTop, const Math::Float3& rightBot,
+	const Math::Float3& leftBot, const Math::Float3& color)
+{
+	m_pStatic->Class_AddRect(leftTop, rightTop, rightBot, leftBot, color);
+}
+
+void DebugRenderer::AddGridXy(const Math::Float3& offset, const Math::Float2& bounds, int nrCols, int nrRows,
+	const Math::Float3& color)
+{
+	const float bot{ offset.y };
+	const float top{ bot + bounds.y };
+	const float left{ offset.x };
+	const float right{ left + bounds.x };
+	const float colWidth{ bounds.x / nrCols };
+	const float rowHeight{ bounds.y / nrRows };
+
+	Array<LineVertex> vertices{ 4 + (nrCols + nrRows) * 2 };
+	int iVertex = 0;
+	LineVertex vertex{ {left, bot, offset.z}, color };
+
+	//VERTICAL
+	vertices[iVertex++] = vertex; //first left-bot
+	for (int i = 0; i < nrCols;)
+	{
+		if (i % 2 == 0) //left-top & right-top
+		{
+			//left-top
+			vertex.Pos.y = top;
+			vertices[iVertex++] = vertex;
+			//right-top
+			vertex.Pos.x = left + ++i * colWidth;
+			vertices[iVertex++] = vertex;
+		}
+		else //left-bot & right-bot
+		{
+			//left-bot
+			vertex.Pos.y = bot;
+			vertices[iVertex++] = vertex;
+			//right-bot
+			vertex.Pos.x = left + ++i * colWidth;
+			vertices[iVertex++] = vertex;
+		}
+	}
+	if (nrCols % 2 == 0) //right-top
+		vertex.Pos.y = top;
+	else
+		vertex.Pos.y = bot; //right-bot
+	vertices[iVertex++] = vertex;
+
+	//HORIZONTAL
+	vertex.Pos.x = right;
+	vertex.Pos.y = bot;
+	vertices[iVertex++] = vertex; //first right-bot
+	for (int i = 0; i < nrRows;)
+	{
+		if (i % 2 == 0) //left-bot & left-top
+		{
+			//bot-left
+			vertex.Pos.x = left;
+			vertices[iVertex++] = vertex;
+			//top-left
+			vertex.Pos.y = bot + ++i * rowHeight;
+			vertices[iVertex++] = vertex;
+		}
+		else //right-bot & right-top
+		{
+			//right-bot
+			vertex.Pos.x = right;
+			vertices[iVertex++] = vertex;
+			//right-top
+			vertex.Pos.y = bot + ++i * rowHeight;
+			vertices[iVertex++] = vertex;
+		}
+	}
+	if (nrRows % 2 == 0)
+		vertex.Pos.x = left;
+	else
+		vertex.Pos.x = right;
+	vertices[iVertex] = vertex;
+	m_pStatic->m_pLineRenderer->AddMesh(Rendering::Mesh::Create(m_pStatic->m_Gpu, vertices, Rendering::Topology::LineStrip));
+}
+
 DebugRenderer::DebugRenderer(Rendering::Gpu& gpu, Game::Camera& camera)
 	: m_Gpu(gpu)
 	, m_Camera(camera)
@@ -111,5 +193,15 @@ void DebugRenderer::Class_AddLine(const Array<Math::Float3>& points, const Math:
 	Array<LineVertex> vertices{ points.GetSize() };
 	for (int i = 0; i < points.GetSize(); i++)
 		vertices[i] = { points[i], color };
+	m_pLineRenderer->AddMesh(Rendering::Mesh::Create(m_Gpu, vertices, Rendering::Topology::LineStrip));
+}
+
+void DebugRenderer::Class_AddRect(const Math::Float3& leftTop, const Math::Float3& rightTop,
+	const Math::Float3& rightBot, const Math::Float3& leftBot, const Math::Float3& color) const
+{
+	Array<LineVertex> vertices{ 5 };
+	vertices[0] = { leftTop, color }; vertices[1] = { rightTop, color };
+	vertices[2] = { rightBot, color }; vertices[3] = { leftBot, color };
+	vertices[4] = vertices[0];
 	m_pLineRenderer->AddMesh(Rendering::Mesh::Create(m_Gpu, vertices, Rendering::Topology::LineStrip));
 }
