@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "Glyph.h"
 
+#include "DataStructures/Algorithms.h"
+#include <algorithm>
+
 Io::Ttf::Glyph::Glyph(const Array<Array<TtfPoint>>& ttfPoints, const Math::Double2& minBounds, const Math::Double2& maxBounds)
 	: m_Contours{ ttfPoints.GetSize() }
 	, m_MinBounds(minBounds)
@@ -43,12 +46,19 @@ void Io::Ttf::Glyph::AddIntersections(std::vector<Intersection>& intersections, 
 {
 	for (int i = 0; i < m_Contours.GetSize(); i++)
 		m_Contours[i].AddIntersections(intersections, height);
+	std::sort(intersections.begin(), intersections.end());
 }
 
 void Io::Ttf::Glyph::DebugDraw(const Math::Float3& color, const Math::Float3& offset, int pointsPerCurve) const
 {
 	for (int i = 0; i < m_Contours.GetSize(); i++)
 		m_Contours[i].DebugDraw(color, offset, pointsPerCurve);
+}
+
+void Io::Ttf::Glyph::DebugDrawSegments(const Math::Float3& offset, int pointsPerCurve) const
+{
+	for (int i = 0; i < m_Contours.GetSize(); i++)
+		m_Contours[i].DebugDrawSegments(offset, pointsPerCurve);
 }
 
 void Io::Ttf::Glyph::DebugPrint()

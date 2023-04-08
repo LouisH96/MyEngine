@@ -1,6 +1,7 @@
 #pragma once
 #include "Contour.h"
 #include "Math/Double2.h"
+#include "Intersection.h"
 
 namespace MyEngine
 {
@@ -31,6 +32,7 @@ namespace MyEngine
 				void AddIntersections(std::vector<Intersection>& intersections, double height) const;
 
 				void DebugDraw(const Math::Float3& color, const Math::Float3& offset, int pointsPerCurve) const;
+				void DebugDrawSegments(const Math::Float3& offset, int pointsPerCurve) const;
 				void DebugPrint();
 
 			private:
