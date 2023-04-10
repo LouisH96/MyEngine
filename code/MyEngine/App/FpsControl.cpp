@@ -4,40 +4,56 @@
 #include <cmath>
 #include <thread>
 
-MyEngine::App::FpsControl::FpsControl(float desiredFps)
-	: m_DesiredInterval{ static_cast<int>(std::roundf(Time::SEC_TO_CLOCK_UNIT / desiredFps)) }
-	, m_DesiredIntervalSec(1.f / desiredFps)
-	, m_DesiredNextFrame{ static_cast<Time::Duration>(0) }
-	, m_EndCurrentSecond{ static_cast<Time::Duration>(0) }
+#include "Rendering/FpsDisplay.h"
+
+MyEngine::App::FpsControl::FpsControl(float desiredFps, Rendering::FpsDisplay* pDisplay)
+	: m_pDisplay(pDisplay)
+	, m_DesiredInterval{ static_cast<int>(std::roundf(Time::SEC_TO_CLOCK_UNIT / desiredFps)) }
 {
+	const Time::TimePoint now{ Time::Clock::now() };
+	m_BeginPrevFrame = now;
+	m_BeginPrevUpdate = now;
+	m_EndCurrentSecond = now + Time::SEC_DURATION;
+	m_DurationLastFrame = m_DesiredInterval.count() * Time::SEC_TO_CLOCK_UNIT;
 }
 
 void MyEngine::App::FpsControl::Wait()
 {
-	const Time::TimePoint now = Time::Clock::now();
+	const Time::TimePoint now{ Time::Clock::now() };
+	const Time::Duration updateDuration{ now - m_BeginPrevUpdate };
+	const Time::TimePoint newUpdateBegin{ now + m_DesiredInterval - updateDuration };
 
-	//Find upcoming and next frame point
-	Time::TimePoint upcomingFrame = m_DesiredNextFrame;
-	m_DesiredNextFrame += m_DesiredInterval;
-	if (now > upcomingFrame)
+	if (now > m_EndCurrentSecond)
 	{
-		m_DurationLastFrameSec = static_cast<float>((m_DesiredInterval + (now - upcomingFrame)).count()) * Time::CLOCK_UNIT_TO_SEC;
-		upcomingFrame = now;
-		if (now > m_DesiredNextFrame)
-			m_DesiredNextFrame = now + m_DesiredInterval;
-	}
-	else
-		m_DurationLastFrameSec = m_DesiredIntervalSec;
-
-	//Count frame in current second
-	if (upcomingFrame <= m_EndCurrentSecond)
-		m_NrFramesThisSec++;
-	else
-	{
-		m_NrFramesLastSec = m_NrFramesThisSec;
+		if (m_pDisplay)
+			m_pDisplay->SetFps(m_NrFramesThisSec);
 		m_NrFramesThisSec = 1;
-		m_EndCurrentSecond = upcomingFrame + Time::SEC_DURATION;
+		m_EndCurrentSecond = now + Time::SEC_DURATION;
 	}
+	else
+		m_NrFramesThisSec++;
 
-	std::this_thread::sleep_until(upcomingFrame);
+	m_DurationLastFrame = (now - m_BeginPrevFrame).count() * Time::CLOCK_UNIT_TO_SEC;
+	m_BeginPrevFrame = now;
+	m_BeginPrevUpdate = newUpdateBegin;
+	std::this_thread::sleep_until(newUpdateBegin);
+}
+
+void App::FpsControl::NoWait()
+{
+	const Time::TimePoint now{ Time::Clock::now() };
+
+	if (now > m_EndCurrentSecond)
+	{
+		if (m_pDisplay)
+			m_pDisplay->SetFps(m_NrFramesThisSec);
+		m_NrFramesThisSec = 1;
+		m_EndCurrentSecond = now + Time::SEC_DURATION;
+	}
+	else
+		m_NrFramesThisSec++;
+
+	m_DurationLastFrame = (now - m_BeginPrevFrame).count() * Time::CLOCK_UNIT_TO_SEC;
+	m_BeginPrevFrame = now;
+	m_BeginPrevUpdate = now;
 }
