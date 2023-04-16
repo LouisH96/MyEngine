@@ -7,7 +7,10 @@ namespace MyEngine
 	{
 		namespace Fbx
 		{
-			class FbxData;
+			namespace Wrapping
+			{
+				class FbxData;
+			}
 
 			class FbxClass
 			{
@@ -23,10 +26,10 @@ namespace MyEngine
 
 				//---| Class |---
 				FbxClass(const std::wstring& path);
-				~FbxClass() = default; FbxClass(const FbxClass & other) = default;
-				FbxClass(FbxClass && other) noexcept = default;
-				FbxClass& operator=(const FbxClass & other) = default;
-				FbxClass& operator=(FbxClass && other) noexcept = default;
+				~FbxClass() = default; FbxClass(const FbxClass& other) = default;
+				FbxClass(FbxClass&& other) noexcept = default;
+				FbxClass& operator=(const FbxClass& other) = default;
+				FbxClass& operator=(FbxClass&& other) noexcept = default;
 
 				const Geometry& GetGeometry(int idx) const { return m_Geometries[idx]; }
 				Geometry& GetGeometry(int idx) { return m_Geometries[idx]; }

@@ -1,5 +1,5 @@
 #pragma once
-#include "Math/Float2.h"
+#include "Geometry.h"
 
 namespace MyEngine
 {
@@ -18,15 +18,6 @@ namespace MyEngine
 				class FbxData
 				{
 				public:
-					//---| Types |---
-					struct Geometry
-					{
-						Array<Math::Float3> Points{};
-						Array<Math::Float3> Normals{};
-						Array<Math::Float2> Uvs{};
-						Array<int> Indices{};
-					};
-
 					FbxData(const std::wstring& fbxPath);
 					FbxData(Reading::FbxReader&& reader);
 
@@ -37,11 +28,6 @@ namespace MyEngine
 
 				private:
 					Array<Geometry> m_Geometries{};
-
-					static void LoadPoints(Reading::FbxObject& fbxGeometry, Geometry& geometryStruct);
-					static void LoadNormals(Reading::FbxObject& geometry, Geometry& geometryStruct);
-					static void LoadIndices(Reading::FbxObject& geometry, Geometry& geometryStruct);
-					static void LoadUvs(Reading::FbxObject& geometry, Geometry& geometryStruct);
 				};
 			}
 		}

@@ -14,12 +14,12 @@ Io::Fbx::FbxClass::FbxClass(const std::wstring& path)
 	m_Geometries = { data.GetGeometries().GetSize() };
 	for(int i = 0; i < data.GetGeometries().GetSize(); i++)
 	{
-		Wrapping::FbxData::Geometry& dataGeometry = data.GetGeometries()[i];
+		Wrapping::Geometry& dataGeometry = data.GetGeometries()[i];
 		Geometry& modelGeometry = m_Geometries[i];
-		modelGeometry.Indices = std::move(dataGeometry.Indices);
-		modelGeometry.Normals = std::move(dataGeometry.Normals);
-		modelGeometry.Points = std::move(dataGeometry.Points);
-		modelGeometry.Uvs = std::move(dataGeometry.Uvs);
+		modelGeometry.Indices = std::move(dataGeometry.GetIndices());
+		modelGeometry.Normals = std::move(dataGeometry.GetNormals());
+		modelGeometry.Points = std::move(dataGeometry.GetPoints());
+		modelGeometry.Uvs = std::move(dataGeometry.GetUvs());
 		MakeTriangleList(modelGeometry);
 	}
 }

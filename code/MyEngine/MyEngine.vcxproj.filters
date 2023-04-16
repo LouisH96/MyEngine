@@ -81,6 +81,7 @@
     <ClCompile Include="Io\Ttf\FontRasterizer.cpp" />
     <ClCompile Include="Io\Ttf\Intersection.cpp" />
     <ClCompile Include="Rendering\FpsDisplay.cpp" />
+    <ClCompile Include="Io\Fbx\Wrapping\Geometry.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -181,6 +182,7 @@
     <ClInclude Include="Io\Ttf\FontRasterizer.h" />
     <ClInclude Include="Io\Ttf\Intersection.h" />
     <ClInclude Include="Rendering\FpsDisplay.h" />
+    <ClInclude Include="Io\Fbx\Wrapping\Geometry.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
