@@ -15,7 +15,9 @@
     <ClCompile Include="App\FpsControl.cpp" />
     <ClCompile Include="App\Framework.cpp" />
     <ClCompile Include="App\Time.cpp" />
+    <ClCompile Include="Io\Fbx\Reading\Properties70.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\Geometry.cpp" />
+    <ClCompile Include="Io\Fbx\Wrapping\Model.cpp" />
     <ClCompile Include="Rendering\FpsDisplay.cpp" />
     <ClCompile Include="Io\Ttf\Intersection.cpp" />
     <ClCompile Include="Io\Ttf\FontRasterizer.cpp" />
@@ -99,7 +101,9 @@
   <ItemGroup>
     <ClInclude Include="App\BasicExampleApp.h" />
     <ClInclude Include="App\Framework.h" />
+    <ClInclude Include="Io\Fbx\Reading\Properties70.h" />
     <ClInclude Include="Io\Fbx\Wrapping\Geometry.h" />
+    <ClInclude Include="Io\Fbx\Wrapping\Model.h" />
     <ClInclude Include="Rendering\FpsDisplay.h" />
     <ClInclude Include="Io\Ttf\Intersection.h" />
     <ClInclude Include="Io\Ttf\FontRasterizer.h" />

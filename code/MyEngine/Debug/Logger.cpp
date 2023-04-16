@@ -90,6 +90,14 @@ void Debug::Logger::PrintError(const std::string& message)
 	Print(ss.str());
 }
 
+void Logger::PrintWarning(const std::string& message)
+{
+	std::stringstream ss;
+	ss << "[Warning] ";
+	ss << message;
+	Print(ss.str());
+}
+
 std::string Debug::Logger::ToStringXY(const Math::Int2& vector)
 {
 	std::stringstream ss{};

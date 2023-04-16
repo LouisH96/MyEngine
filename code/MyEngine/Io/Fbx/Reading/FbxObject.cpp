@@ -81,6 +81,11 @@ const Io::Fbx::Reading::FbxObject* Io::Fbx::Reading::FbxObject::GetChild(const s
 	return nullptr;
 }
 
+const Io::Fbx::Reading::FbxObject& Io::Fbx::Reading::FbxObject::GetChild(int idx) const
+{
+	return *m_Children[idx];
+}
+
 std::vector<Io::Fbx::Reading::FbxObject*> Io::Fbx::Reading::FbxObject::GetChildren(const std::string& name) const
 {
 	std::vector<FbxObject*> result{};
@@ -102,6 +107,11 @@ Io::Fbx::Reading::FbxObject* Io::Fbx::Reading::FbxObject::GetChild(const std::st
 			return m_Children[i];
 	Logger::PrintError("FbxChild with name " + name + " not found");
 	return nullptr;
+}
+
+Io::Fbx::Reading::FbxObject& Io::Fbx::Reading::FbxObject::GetChild(int idx)
+{
+	return *m_Children[idx];
 }
 
 Io::Fbx::Reading::FbxProperty* Io::Fbx::Reading::FbxObject::GetProperty(int idx)

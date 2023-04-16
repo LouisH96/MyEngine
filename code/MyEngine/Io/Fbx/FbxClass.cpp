@@ -2,6 +2,7 @@
 #include "FbxClass.h"
 
 #include "Wrapping/FbxData.h"
+#include "Wrapping/Model.h"
 #include "DataStructures/DsUtils.h"
 #include <Math/Float3.h>
 
@@ -10,9 +11,9 @@ using namespace Io::Fbx::Wrapping;
 
 Io::Fbx::FbxClass::FbxClass(const std::wstring& path)
 {
-	Wrapping::FbxData data{ path };
+	FbxData data{ path };
 	m_Geometries = { data.GetGeometries().GetSize() };
-	for(int i = 0; i < data.GetGeometries().GetSize(); i++)
+	for(int i = 0; i < m_Geometries.GetSize(); i++)
 	{
 		Wrapping::Geometry& dataGeometry = data.GetGeometries()[i];
 		Geometry& modelGeometry = m_Geometries[i];
@@ -20,8 +21,17 @@ Io::Fbx::FbxClass::FbxClass(const std::wstring& path)
 		modelGeometry.Normals = std::move(dataGeometry.GetNormals());
 		modelGeometry.Points = std::move(dataGeometry.GetPoints());
 		modelGeometry.Uvs = std::move(dataGeometry.GetUvs());
-		MakeTriangleList(modelGeometry);
 	}
+	for(int iGeometry = 0; iGeometry < data.GetModels().GetSize(); iGeometry++)
+	{
+		const Float3& rotationOffset{ data.GetModel(iGeometry).GetRotationOffset() };
+		const Float3& rotationPivot{ data.GetModel(iGeometry).GetRotationPivot() };
+		Array<Float3>& points{ m_Geometries[iGeometry].Points };
+		for (int iPoint = 0; iPoint < points.GetSize(); iPoint++)
+			points[iPoint] +=  rotationOffset;
+	}
+	for (int i = 0; i < m_Geometries.GetSize(); i++)
+		MakeTriangleList(m_Geometries[i]);
 }
 
 void Io::Fbx::FbxClass::MakeTriangleList(Geometry& geomStruct)
