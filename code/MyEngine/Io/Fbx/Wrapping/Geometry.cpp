@@ -20,7 +20,7 @@ void Io::Fbx::Wrapping::Geometry::LoadPoints(const Reading::FbxObject& geometryO
 	const double* pCoord = &coordArray[0];
 	for (int i = 0; i < m_Points.GetSize(); i++)
 		m_Points[i] = {
-			static_cast<float>(*pCoord++),
+			-static_cast<float>(*pCoord++),
 			static_cast<float>(*pCoord++),
 			static_cast<float>(*pCoord++) };
 }

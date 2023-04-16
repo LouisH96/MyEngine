@@ -1,47 +1,10 @@
 #pragma once
+#include "Value3.h"
 
 namespace MyEngine
 {
 	namespace Math
 	{
-		struct Float3
-		{
-			Float3();
-			Float3(float x, float y, float z);
-			explicit Float3(float all);
-			~Float3() = default;
-			Float3(const Float3& other) = default;
-			Float3(Float3&& other) noexcept = default;
-			Float3& operator=(const Float3& other) = default;
-			Float3& operator=(Float3&& other) noexcept = default;
-
-			Float3 operator+(const Float3& r) const;
-			Float3 operator-(const Float3& r) const;
-			Float3 operator+(const float& r) const;
-			Float3 operator-(const float& r) const;
-			Float3 operator*(const float& r) const;
-			Float3 operator/(const float& r) const;
-			void operator+=(const Float3& r);
-			void operator-=(const Float3& r);
-			void operator+=(const float& r);
-			void operator-=(const float& r);
-			void operator*=(const float& r);
-			void operator/=(const float& r);
-			Float3 operator-() const;
-
-			float Get(int i) const;
-			void Set(float f, int i);
-
-			void Reverse();
-			void Scale(const Float3& r);
-			float Length() const;
-			void Normalize();
-			Float3 Normalized() const;
-
-			Float3 Cross(const Float3& other) const;
-
-			float x, y, z;
-			static constexpr int NR_AXIS = 3;
-		};
+		using Float3 = Value3<float>;
 	}
 }

@@ -20,5 +20,5 @@ Io::Fbx::Wrapping::Model::Model(Reading::FbxObject& modelObject)
 	m_ScalingMax = properties.GetFloat3("ScalingMax");
 	m_DefaultAttributeIndex = properties.GetInt("DefaultAttributeIndex");
 	m_LclRotation = properties.GetFloat3("Lcl Rotation", {});
-	m_CurrentUvSet = properties.GetString("currentUVSet");
+	m_CurrentUvSet = properties.GetString("currentUVSet", "");
 }

@@ -4,9 +4,10 @@
 #include "Generation/MeshUtils.h"
 #include "Math/Constants.h"
 #include "Math/Float3.h"
+#include "Math/Geometry/PointUtils.h"
 
 
-void Generation::ArrowGenerator::CreatePivotArrows(Array<Rendering::V_PosColNorm>& vertices, Array<int>& indices, int nrSides)
+void Generation::ArrowGenerator::CreatePivotArrows(Array<Rendering::V_PosColNorm>& vertices, Array<int>& indices, int nrSides, const Math::Float3& origin, float scale)
 {
 	using namespace Rendering;
 	constexpr float lineRadius = .05f;
@@ -32,7 +33,7 @@ void Generation::ArrowGenerator::CreatePivotArrows(Array<Rendering::V_PosColNorm
 	}
 
 	for (int i = 0; i < positions.GetSize(); i++)
-		vertices[i] = V_PosColNorm{ positions[i], {.8f,.1f,.1f}, normals[i] };
+		vertices[i] = V_PosColNorm{ positions[i] * scale + origin, {.8f,.1f,.1f}, normals[i] };
 	for (int i = 0; i < tempIndices.GetSize(); i++)
 		indices[i] = tempIndices[i];
 
@@ -52,7 +53,7 @@ void Generation::ArrowGenerator::CreatePivotArrows(Array<Rendering::V_PosColNorm
 	}
 	
 	for (int i = 0; i < positions.GetSize(); i++)
-		vertices[i + idx] = V_PosColNorm{ positions[i], {.1f,.1f,.8f}, normals[i] };
+		vertices[i + idx] = V_PosColNorm{ positions[i] * scale + origin, {.1f,.1f,.8f}, normals[i] };
 	for (int i = 0; i < arrowGenerator.GetNrIndices(); i++)
 		indices[i + arrowGenerator.GetNrIndices()] = tempIndices[i] + idx;
 

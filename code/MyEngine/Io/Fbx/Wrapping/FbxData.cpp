@@ -14,8 +14,6 @@ Io::Fbx::Wrapping::FbxData::FbxData(Reading::FbxReader&& reader)
 {
 	const Reading::FbxObject& objects{ *reader.GetRoot().GetChild("Objects") };
 
-	reader.GetRoot().Print();
-
 	//Geometry
 	const std::vector<Reading::FbxObject*> geometries{ objects.GetChildren("Geometry") };
 	m_Geometries = { static_cast<int>(geometries.size()) };

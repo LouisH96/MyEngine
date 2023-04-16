@@ -11,7 +11,6 @@ namespace MyEngine
 	}
 	namespace Math
 	{
-		struct Float3;
 		class Cube;
 	}
 }

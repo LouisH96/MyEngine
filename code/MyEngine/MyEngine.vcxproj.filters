@@ -28,7 +28,6 @@
     <ClCompile Include="Rendering\State\RasterizerState.cpp" />
     <ClCompile Include="Generation\Shapes.cpp" />
     <ClCompile Include="Math\Rect.cpp" />
-    <ClCompile Include="Math\Float3.cpp" />
     <ClCompile Include="Math\Cube.cpp" />
     <ClCompile Include="Math\Sphere.cpp" />
     <ClCompile Include="Io\Json\JsonElement.cpp" />

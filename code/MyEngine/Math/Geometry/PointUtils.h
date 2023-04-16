@@ -4,6 +4,7 @@
 #include <DataStructures/Array.h>
 #include "Math/Value2.h"
 #include <Math/Float3.h>
+#include "Math/Value3.h"
 
 #undef min;
 #undef max;
@@ -23,10 +24,10 @@ namespace MyEngine
 				template<typename T>
 				static void Center2DPoints(Ds::Array<Value2<T>>& points);
 
-				template<typename T>
-				static void Scale(Ds::Array<Value2<T>>& points, T scale);
+				template<typename T> static void Scale(Ds::Array<Value2<T>>& points, T scale);
+				template<typename T> static void Scale(Ds::Array<Value3<T>>& points, T scale);
 
-				static void Translate(Ds::Array<Float3>& points, const Float3& translation);
+				template<typename T> static void Translate(Ds::Array<Value3<T>>& points, const Value3<T>& translation);
 			};
 
 			//---| Definitions |---
@@ -63,6 +64,20 @@ namespace MyEngine
 			{
 				for (int i = 0; i < points.GetSize(); i++)
 					points[i] *= scale;
+			}
+
+			template <typename T>
+			void PointUtils::Scale(Ds::Array<Value3<T>>& points, T scale)
+			{
+				for (int i = 0; i < points.GetSize(); i++)
+					points[i] *= scale;
+			}
+
+			template <typename T>
+			void PointUtils::Translate(Ds::Array<Value3<T>>& points, const Value3<T>& translation)
+			{
+				for (int i = 0; i < points.GetSize(); i++)
+					points[i] += translation;
 			}
 		}
 	}

@@ -23,7 +23,7 @@ namespace MyEngine
 			};
 
 			//---| Static Functions |---
-			static void CreatePivotArrows(Array<Rendering::V_PosColNorm>& vertices, Array<int>& indices, int nrSides = 6);
+			static void CreatePivotArrows(Array<Rendering::V_PosColNorm>& vertices, Array<int>& indices, int nrSides = 6, const Math::Float3& origin = {}, float scale = 1);
 
 			//---| Class |---
 			ArrowGenerator(int nrSides, bool capLineEnd, float lineLength, float lineRadius, float arrowLength, float arrowRadius);

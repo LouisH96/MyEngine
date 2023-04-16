@@ -12,7 +12,6 @@ namespace MyEngine
 {
 	namespace Math
 	{
-		struct Float3;
 		union Int2;
 	}
 }

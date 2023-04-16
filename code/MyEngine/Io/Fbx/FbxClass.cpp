@@ -47,13 +47,14 @@ void Io::Fbx::FbxClass::MakeTriangleList(Geometry& geomStruct)
 	int index2 = 2;
 	while (index2 < geomStruct.Indices.GetSize())
 	{
-		uvs.push_back(geomStruct.Uvs[index0]);
+		//fbx to right-hand side, this program lhs
 		uvs.push_back(geomStruct.Uvs[index1]);
+		uvs.push_back(geomStruct.Uvs[index0]);
 		uvs.push_back(geomStruct.Uvs[index2]);
 		const int pointIdx0 = geomStruct.Indices[index0];
 		const int pointIdx1 = geomStruct.Indices[index1];
-		positions.push_back(geomStruct.Points[pointIdx0]);
 		positions.push_back(geomStruct.Points[pointIdx1]);
+		positions.push_back(geomStruct.Points[pointIdx0]);
 
 		int pointIdx2 = geomStruct.Indices[index2];
 		if (pointIdx2 >= 0)
