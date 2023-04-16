@@ -1,14 +1,14 @@
 #include "pch.h"
 #include "FbxProperty.h"
 #include <Io/Binary/Bini.h>
-#include <Io\Fbx\Properties\FbxPropPrimitive.h>
-#include <Io\Fbx\Properties\FbxPropArray.h>
-#include <Io\Fbx\Properties\FbxPropString.h>
-#include <Io\Fbx\Properties\FbxPropRaw.h>
+#include <Io/Fbx/Reading/Properties/FbxPropPrimitive.h>
+#include <Io/Fbx/Reading/Properties/FbxPropArray.h>
+#include <Io/Fbx/Reading/Properties/FbxPropString.h>
+#include <Io/Fbx/Reading/Properties/FbxPropRaw.h>
 
 using namespace Io::Binary;
 
-MyEngine::Io::Fbx::FbxProperty* MyEngine::Io::Fbx::FbxProperty::Read(std::istream& stream)
+MyEngine::Io::Fbx::Reading::FbxProperty* MyEngine::Io::Fbx::Reading::FbxProperty::Read(std::istream& stream)
 {
 	const char c = stream.get();
 	switch (c)
@@ -32,37 +32,37 @@ MyEngine::Io::Fbx::FbxProperty* MyEngine::Io::Fbx::FbxProperty::Read(std::istrea
 	}
 }
 
-const Io::Fbx::FbxPropRaw& Io::Fbx::FbxProperty::AsRaw() const
+const Io::Fbx::Reading::FbxPropRaw& Io::Fbx::Reading::FbxProperty::AsRaw() const
 {
 	return *reinterpret_cast<const FbxPropRaw*>(this);
 }
 
-const Io::Fbx::FbxPropString& Io::Fbx::FbxProperty::AsStringProp() const
+const Io::Fbx::Reading::FbxPropString& Io::Fbx::Reading::FbxProperty::AsStringProp() const
 {
 	return *reinterpret_cast<const FbxPropString*>(this);
 }
 
-const std::string& Io::Fbx::FbxProperty::AsString() const
+const std::string& Io::Fbx::Reading::FbxProperty::AsString() const
 {
 	return reinterpret_cast<const FbxPropString*>(this)->GetValue();
 }
 
-Io::Fbx::FbxPropRaw& Io::Fbx::FbxProperty::AsRaw()
+Io::Fbx::Reading::FbxPropRaw& Io::Fbx::Reading::FbxProperty::AsRaw()
 {
 	return *reinterpret_cast<FbxPropRaw*>(this);
 }
 
-Io::Fbx::FbxPropString& Io::Fbx::FbxProperty::AsStringProp()
+Io::Fbx::Reading::FbxPropString& Io::Fbx::Reading::FbxProperty::AsStringProp()
 {
 	return *reinterpret_cast<FbxPropString*>(this);
 }
 
-std::string& Io::Fbx::FbxProperty::AsString()
+std::string& Io::Fbx::Reading::FbxProperty::AsString()
 {
 	return reinterpret_cast<FbxPropString*>(this)->GetValue();
 }
 
-void MyEngine::Io::Fbx::FbxProperty::BeginPrint(int nrTabs) const
+void MyEngine::Io::Fbx::Reading::FbxProperty::BeginPrint(int nrTabs) const
 {
 	for (int i = 0; i < nrTabs; i++)
 		std::cout << '\t';

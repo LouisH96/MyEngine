@@ -1,12 +1,11 @@
 #include "pch.h"
 #include "FbxReader.h"
-#include <Io\Fbx\FbxObject.h>
-#include <Io\Binary\Bini.h>
+#include <Io/Fbx/Reading/FbxObject.h>
+#include <Io/Binary/Bini.h>
 
 //https://code.blender.org/2013/08/fbx-binary-file-format-specification/
 
-
-Io::Fbx::FbxReader::FbxReader(const std::wstring& path)
+Io::Fbx::Reading::FbxReader::FbxReader(const std::wstring& path)
 	: m_Stream{ path, std::ifstream::binary }
 {
 	if (!m_Stream.is_open())
@@ -22,12 +21,12 @@ Io::Fbx::FbxReader::FbxReader(const std::wstring& path)
 	m_pRoot = new FbxObject(m_Stream, version, true);
 }
 
-Io::Fbx::FbxReader::~FbxReader()
+Io::Fbx::Reading::FbxReader::~FbxReader()
 {
 	delete m_pRoot;
 }
 
-uint8_t Io::Fbx::FbxReader::ReadHeader()
+uint8_t Io::Fbx::Reading::FbxReader::ReadHeader()
 {
 	using namespace Binary;
 
@@ -47,7 +46,7 @@ uint8_t Io::Fbx::FbxReader::ReadHeader()
 	return 0;
 }
 
-unsigned Io::Fbx::FbxReader::ReadUnsignedInt()
+unsigned Io::Fbx::Reading::FbxReader::ReadUnsignedInt()
 {
 	return static_cast<unsigned char>(m_Stream.get())
 		| static_cast<unsigned char>(m_Stream.get()) << 8
@@ -55,7 +54,7 @@ unsigned Io::Fbx::FbxReader::ReadUnsignedInt()
 		| static_cast<unsigned char>(m_Stream.get()) << 8 * 3;
 }
 
-unsigned Io::Fbx::FbxReader::ToUnsignedInt(const char* pBytes)
+unsigned Io::Fbx::Reading::FbxReader::ToUnsignedInt(const char* pBytes)
 {
 	return static_cast<unsigned char>(pBytes[3]) << 8 * 3
 		| static_cast<unsigned char>(pBytes[2]) << 8 * 2

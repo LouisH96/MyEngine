@@ -4,18 +4,18 @@
 
 using namespace Io::Binary;
 
-MyEngine::Io::Fbx::FbxPropString::FbxPropString(std::istream& stream)
+MyEngine::Io::Fbx::Reading:: FbxPropString::FbxPropString(std::istream& stream)
     : m_String(Read(stream))
 {
 }
 
-void MyEngine::Io::Fbx::FbxPropString::Print(bool compact, int nrTabs) const
+void MyEngine::Io::Fbx::Reading::FbxPropString::Print(bool compact, int nrTabs) const
 {
     BeginPrint(nrTabs);
     std::cout << "[string] " << m_String << std::endl;
 }
 
-std::string MyEngine::Io::Fbx::FbxPropString::Read(std::istream& stream)
+std::string MyEngine::Io::Fbx::Reading::FbxPropString::Read(std::istream& stream)
 {
     const unsigned size{ Bini::Uint32(stream) };
     std::string string( size, ' ' );

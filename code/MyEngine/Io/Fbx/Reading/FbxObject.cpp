@@ -1,10 +1,10 @@
 #include "pch.h"
 #include "FbxObject.h"
-#include <Io\Binary\Bini.h>
+#include <Io/Binary/Bini.h>
 
 using namespace Io::Binary;
 
-MyEngine::Io::Fbx::FbxObject::FbxObject(std::istream& stream, uint8_t version, bool isRoot)
+Io::Fbx::Reading::FbxObject::FbxObject(std::istream& stream, uint8_t version, bool isRoot)
 {
 	if (isRoot)
 	{
@@ -51,7 +51,7 @@ MyEngine::Io::Fbx::FbxObject::FbxObject(std::istream& stream, uint8_t version, b
 	}
 }
 
-MyEngine::Io::Fbx::FbxObject::~FbxObject()
+Io::Fbx::Reading::FbxObject::~FbxObject()
 {
 	for (auto pObject : m_Children)
 		delete pObject;
@@ -59,7 +59,7 @@ MyEngine::Io::Fbx::FbxObject::~FbxObject()
 		delete pProp;
 }
 
-void MyEngine::Io::Fbx::FbxObject::Print(bool compact, int nrTabs) const
+void Io::Fbx::Reading::FbxObject::Print(bool compact, int nrTabs) const
 {
 	for (int i = 0; i < nrTabs; i++)
 		std::cout << '\t';
@@ -72,7 +72,7 @@ void MyEngine::Io::Fbx::FbxObject::Print(bool compact, int nrTabs) const
 		m_Children[i]->Print(compact, nrTabs + 1);
 }
 
-const MyEngine::Io::Fbx::FbxObject* MyEngine::Io::Fbx::FbxObject::GetChild(const std::string& name) const
+const Io::Fbx::Reading::FbxObject* Io::Fbx::Reading::FbxObject::GetChild(const std::string& name) const
 {
 	for (int i = 0; i < m_Children.size(); i++)
 		if (m_Children[i]->GetName() == name)
@@ -81,7 +81,7 @@ const MyEngine::Io::Fbx::FbxObject* MyEngine::Io::Fbx::FbxObject::GetChild(const
 	return nullptr;
 }
 
-std::vector<Io::Fbx::FbxObject*> Io::Fbx::FbxObject::GetChildren(const std::string& name) const
+std::vector<Io::Fbx::Reading::FbxObject*> Io::Fbx::Reading::FbxObject::GetChildren(const std::string& name) const
 {
 	std::vector<FbxObject*> result{};
 	for (int i = 0; i < m_Children.size(); i++)
@@ -90,12 +90,12 @@ std::vector<Io::Fbx::FbxObject*> Io::Fbx::FbxObject::GetChildren(const std::stri
 	return result;
 }
 
-const Io::Fbx::FbxProperty* Io::Fbx::FbxObject::GetProperty(int idx) const
+const Io::Fbx::Reading::FbxProperty* Io::Fbx::Reading::FbxObject::GetProperty(int idx) const
 {
 	return m_Properties[idx];
 }
 
-Io::Fbx::FbxObject* Io::Fbx::FbxObject::GetChild(const std::string& name)
+Io::Fbx::Reading::FbxObject* Io::Fbx::Reading::FbxObject::GetChild(const std::string& name)
 {
 	for (int i = 0; i < m_Children.size(); i++)
 		if (m_Children[i]->GetName() == name)
@@ -104,12 +104,12 @@ Io::Fbx::FbxObject* Io::Fbx::FbxObject::GetChild(const std::string& name)
 	return nullptr;
 }
 
-Io::Fbx::FbxProperty* Io::Fbx::FbxObject::GetProperty(int idx)
+Io::Fbx::Reading::FbxProperty* Io::Fbx::Reading::FbxObject::GetProperty(int idx)
 {
 	return m_Properties[idx];
 }
 
-void MyEngine::Io::Fbx::FbxObject::ReadNode(std::istream& stream, uint8_t version)
+void Io::Fbx::Reading::FbxObject::ReadNode(std::istream& stream, uint8_t version)
 {
 	const Bini read{ stream };
 	if(version == 74)

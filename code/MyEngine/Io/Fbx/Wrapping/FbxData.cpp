@@ -3,20 +3,20 @@
 
 #include <Debug/DebugRenderer.h>
 #include <Math/Float3.h>
-#include "FbxObject.h"
-#include "FbxReader.h"
-#include "Properties/FbxPropArray.h"
+#include "../Reading/FbxObject.h"
+#include "../Reading/FbxReader.h"
+#include "../Reading/Properties/FbxPropArray.h"
 
 using namespace Math;
 
-Io::Fbx::FbxData::FbxData(const std::wstring& fbxPath)
-	: FbxData(FbxReader{ fbxPath })
+Io::Fbx::Wrapping::FbxData::FbxData(const std::wstring& fbxPath)
+	: FbxData(Fbx::Reading::FbxReader{ fbxPath })
 {}
 
-Io::Fbx::FbxData::FbxData(FbxReader&& reader)
+Io::Fbx::Wrapping::FbxData::FbxData(Reading::FbxReader&& reader)
 {
-	FbxObject& objects{ *reader.GetRoot().GetChild("Objects") };
-	std::vector<FbxObject*> geometries{ objects.GetChildren("Geometry") };
+	Reading::FbxObject& objects{ *reader.GetRoot().GetChild("Objects") };
+	std::vector<Reading::FbxObject*> geometries{ objects.GetChildren("Geometry") };
 
 	for(int i = 0; i < geometries.size(); i++)
 	{
@@ -57,9 +57,9 @@ Io::Fbx::FbxData::FbxData(FbxReader&& reader)
 	//}
 }
 
-void Io::Fbx::FbxData::LoadPoints(FbxObject& fbxGeometry, Geometry& geometryStruct)
+void Io::Fbx::Wrapping::FbxData::LoadPoints(Reading::FbxObject& fbxGeometry, Geometry& geometryStruct)
 {
-	const FbxObject& verticesObject{ *fbxGeometry.GetChild("Vertices") };
+	const Reading::FbxObject& verticesObject{ *fbxGeometry.GetChild("Vertices") };
 	const Array<double>& coordArray{ verticesObject.GetProperty(0)->AsArray<double>().GetValues() };
 	geometryStruct.Points = { coordArray.GetSize() / 3 };
 	const double* pCoord = &coordArray[0];
@@ -70,10 +70,10 @@ void Io::Fbx::FbxData::LoadPoints(FbxObject& fbxGeometry, Geometry& geometryStru
 			static_cast<float>(*pCoord++) };
 }
 
-void Io::Fbx::FbxData::LoadNormals(FbxObject& geometry, Geometry& geometryStruct)
+void Io::Fbx::Wrapping::FbxData::LoadNormals(Reading::FbxObject& geometry, Geometry& geometryStruct)
 {
-	const FbxObject& layerElementNormalObject{ *geometry.GetChild("LayerElementNormal") };
-	const FbxObject& normalsObject{ *layerElementNormalObject.GetChild("Normals") };
+	const Reading::FbxObject& layerElementNormalObject{ *geometry.GetChild("LayerElementNormal") };
+	const Reading::FbxObject& normalsObject{ *layerElementNormalObject.GetChild("Normals") };
 	const Array<double>& normalDoublesArray{ normalsObject.GetProperty(0)->AsArray<double>().GetValues() };
 	geometryStruct.Normals = { normalDoublesArray.GetSize() / 3 };
 	const double* pNormalsDouble = &normalDoublesArray[0];
@@ -86,16 +86,16 @@ void Io::Fbx::FbxData::LoadNormals(FbxObject& geometry, Geometry& geometryStruct
 	}
 }
 
-void Io::Fbx::FbxData::LoadIndices(FbxObject& geometry, Geometry& geometryStruct)
+void Io::Fbx::Wrapping::FbxData::LoadIndices(Reading::FbxObject& geometry, Geometry& geometryStruct)
 {
-	FbxObject& indicesObject{ *geometry.GetChild("PolygonVertexIndex") };
+	Reading::FbxObject& indicesObject{ *geometry.GetChild("PolygonVertexIndex") };
 	Array<int>& indices{ indicesObject.GetProperty(0)->AsArray<int>().GetValues() };
 	geometryStruct.Indices = std::move(indices);
 }
 
-void Io::Fbx::FbxData::LoadUvs(FbxObject& geometry, Geometry& geometryStruct)
+void Io::Fbx::Wrapping::FbxData::LoadUvs(Reading::FbxObject& geometry, Geometry& geometryStruct)
 {
-	const FbxObject& layerElementUvObject{ *geometry.GetChild("LayerElementUV") };
+	const Reading::FbxObject& layerElementUvObject{ *geometry.GetChild("LayerElementUV") };
 	const Array<double>& uvValues{ layerElementUvObject.GetChild("UV")->GetProperty(0)->AsArray<double>().GetValues() };
 	const Array<int>& uvIndices{ layerElementUvObject.GetChild("UVIndex")->GetProperty(0)->AsArray<int>().GetValues() };
 	geometryStruct.Uvs = { uvIndices.GetSize() };

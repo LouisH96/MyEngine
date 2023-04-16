@@ -1,19 +1,20 @@
 #include "pch.h"
-#include "FbxModel.h"
+#include "FbxClass.h"
 
-#include "FbxData.h"
+#include "Wrapping/FbxData.h"
 #include "DataStructures/DsUtils.h"
 #include <Math/Float3.h>
 
 using namespace Math;
+using namespace Io::Fbx::Wrapping;
 
-Io::Fbx::FbxModel::FbxModel(const std::wstring& path)
+Io::Fbx::FbxClass::FbxClass(const std::wstring& path)
 {
-	FbxData data{ path };
+	Wrapping::FbxData data{ path };
 	m_Geometries = { data.GetGeometries().GetSize() };
 	for(int i = 0; i < data.GetGeometries().GetSize(); i++)
 	{
-		FbxData::Geometry& dataGeometry = data.GetGeometries()[i];
+		Wrapping::FbxData::Geometry& dataGeometry = data.GetGeometries()[i];
 		Geometry& modelGeometry = m_Geometries[i];
 		modelGeometry.Indices = std::move(dataGeometry.Indices);
 		modelGeometry.Normals = std::move(dataGeometry.Normals);
@@ -23,7 +24,7 @@ Io::Fbx::FbxModel::FbxModel(const std::wstring& path)
 	}
 }
 
-void Io::Fbx::FbxModel::MakeTriangleList(Geometry& geomStruct)
+void Io::Fbx::FbxClass::MakeTriangleList(Geometry& geomStruct)
 {
 	std::vector<Float3> positions{};
 	std::vector<Float3> normals{};
