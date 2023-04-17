@@ -1,11 +1,11 @@
 #include "pch.h"
 #include "DebugRenderer.h"
 
-#include "App/Resources.h"
-#include <Rendering/State/Mesh.h>
-#include "Math/Sphere.h"
-#include "Rendering/Structs/VertexTypes.h"
+#include <Framework/Resources.h>
 #include <Generation/Shapes.h>
+#include <Rendering/State/Mesh.h>
+#include <Math/Sphere.h>
+#include <Rendering/Structs/VertexTypes.h>
 
 DebugRenderer* DebugRenderer::m_pStatic = nullptr;
 
@@ -133,7 +133,7 @@ DebugRenderer::DebugRenderer(Rendering::Gpu& gpu, Game::Camera& camera)
 	, m_RasterizerState(gpu)
 	, m_InputLayout(gpu, Vertex::ELEMENTS, Vertex::NR_ELEMENTS)
 	, m_ConstantBuffer(gpu)
-	, m_Shader(gpu, App::Resources::GetGlobalShaderPath(L"lambertCamDir.hlsl"))
+	, m_Shader(gpu, Framework::Resources::GetGlobalShaderPath(L"lambertCamDir.hlsl"))
 	, m_pLineRenderer(Rendering::RendererFactory::CreateUnlitRenderer(gpu, camera))
 {
 }

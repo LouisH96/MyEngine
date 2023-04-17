@@ -1,12 +1,12 @@
 #include "pch.h"
-#include "Framework.h"
+#include "BasicFramework.h"
 
 #include "Resources.h"
 
 #define _CRTDBG_MAP_ALLOC
 #define _LEAK_TO_CONSOLE
 
-MyEngine::App::Framework::Framework()
+MyEngine::App::BasicFramework::BasicFramework()
 {
 #if defined(DEBUG) | defined(_DEBUG)
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
@@ -15,9 +15,9 @@ MyEngine::App::Framework::Framework()
 	_CrtSetReportFile(_CRT_WARN, _CRTDBG_FILE_STDOUT);
 #endif
 #endif
-	Resources::Init();
+	Framework::Resources::Init();
 }
 
-MyEngine::App::Framework::~Framework()
+MyEngine::App::BasicFramework::~BasicFramework()
 {
 }

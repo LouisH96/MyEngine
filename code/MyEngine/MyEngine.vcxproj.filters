@@ -6,7 +6,7 @@
     <ClCompile Include="App\Wrappers\Win32\Window.cpp" />
     <ClCompile Include="App\BasicExampleApp.cpp" />
     <ClCompile Include="App\FpsControl.cpp" />
-    <ClCompile Include="App\Resources.cpp" />
+    <ClCompile Include="Framework\Resources.cpp" />
     <ClCompile Include="Game\Camera\Camera.cpp" />
     <ClCompile Include="Game\Camera\CameraController.cpp" />
     <ClCompile Include="pch.cpp" />
@@ -16,7 +16,7 @@
     <ClCompile Include="App\Wrappers\Win32\Keyboard_StateReader.cpp" />
     <ClCompile Include="App\Wrappers\Win32\InputTypes.cpp" />
     <ClCompile Include="App\Wrappers\Win32\Keyboard_MsgListener.cpp" />
-    <ClCompile Include="App\Framework.cpp" />
+    <ClCompile Include="Framework\BasicFramework.cpp" />
     <ClCompile Include="Rendering\Canvas.cpp" />
     <ClCompile Include="Rendering\Gpu.cpp" />
     <ClCompile Include="App\Wrappers\Win32\Renderer2D.cpp" />
@@ -92,7 +92,7 @@
     <ClInclude Include="App\BasicExampleApp.h" />
     <ClInclude Include="App\FpsControl.h" />
     <ClInclude Include="App\Time.h" />
-    <ClInclude Include="App\Resources.h" />
+    <ClInclude Include="Framework\Resources.h" />
     <ClInclude Include="Game\Camera\Camera.h" />
     <ClInclude Include="Game\Camera\CameraController.h" />
     <ClInclude Include="Math\Constants.h" />
@@ -104,7 +104,7 @@
     <ClInclude Include="App\Wrappers\Win32\Keyboard_.h" />
     <ClInclude Include="App\Wrappers\Win32\InputTypes.h" />
     <ClInclude Include="App\Wrappers\Win32\Keyboard_MsgListener.h" />
-    <ClInclude Include="App\Framework.h" />
+    <ClInclude Include="Framework\BasicFramework.h" />
     <ClInclude Include="Rendering\Canvas.h" />
     <ClInclude Include="Rendering\Gpu.h" />
     <ClInclude Include="Rendering\State\Mesh.h" />

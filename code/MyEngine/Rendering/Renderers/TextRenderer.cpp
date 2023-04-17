@@ -3,15 +3,14 @@
 
 #include <fstream>
 
-#include "Image.h"
-#include "App/Resources.h"
+#include "Framework/Resources.h"
 #include "Io/Ttf/ContourOperations.h"
 #include "Io/Ttf/FontRasterizer.h"
 #include "Io/Ttf/TtfReader.h"
 
 Rendering::TextRenderer::TextRenderer(Gpu& gpu, Game::Camera& camera)
 	: m_pTextureRenderer(
-		new TextureRenderer<V_PosUv, CB_CamMat>(gpu, camera, App::Resources::GetGlobalShaderPath(L"unlitTexture.hlsl")))
+		new TextureRenderer<V_PosUv, CB_CamMat>(gpu, camera, Framework::Resources::GetGlobalShaderPath(L"unlitTexture.hlsl")))
 	, m_Gpu(gpu)
 {
 }

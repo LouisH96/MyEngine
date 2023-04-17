@@ -4,11 +4,11 @@ namespace MyEngine
 {
 	namespace App
 	{
-		class Framework
+		class BasicFramework
 		{
 		public:
-			Framework();
-			~Framework();
+			BasicFramework();
+			~BasicFramework();
 		};
 	}
 }

@@ -3,13 +3,13 @@
 
 #include <fstream>
 
-#include "App/Resources.h"
 #include "Io/Ttf/Glyph.h"
 #include "Io/Ttf/TtfReader.h"
 #include <Rendering/Structs/VertexTypes.h>
 
 #include "Image.h"
 #include "App/Wrappers/Win32/Window.h"
+#include "Framework/Resources.h"
 #include "Io/Ttf/FontRasterizer.h"
 #include "State/Mesh.h"
 #include "State/Texture.h"
@@ -23,11 +23,11 @@ Rendering::FpsDisplay::FpsDisplay(Rendering::Gpu& gpu, Rendering::Canvas& canvas
 	, m_BlendState{ gpu }
 	, m_RasterizerState(gpu)
 	, m_Sampler(gpu)
-	, m_Shader(gpu, App::Resources::GetGlobalShaderPath(L"screenSpace.hlsl"))
+	, m_Shader(gpu, Framework::Resources::GetGlobalShaderPath(L"screenSpace.hlsl"))
 	, m_InputLayout(gpu, V_Pos2Uv::ELEMENTS, V_Pos2Uv::NR_ELEMENTS)
 	, m_Vertices{ 6 }
 {
-	const std::wstring fontPath = App::Resources::GetGlobalResourcePath(L"Fonts\\ShortBaby.ttf");
+	const std::wstring fontPath = Framework::Resources::GetGlobalResourcePath(L"Fonts\\ShortBaby.ttf");
 	std::ifstream stream{ fontPath, std::ios::binary };
 	const Io::TtfReader reader{ stream };
 	const Io::Ttf::Glyph glyphs[NR_NUMBERS]

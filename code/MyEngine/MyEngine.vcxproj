@@ -13,7 +13,7 @@
   <ItemGroup>
     <ClCompile Include="App\BasicExampleApp.cpp" />
     <ClCompile Include="App\FpsControl.cpp" />
-    <ClCompile Include="App\Framework.cpp" />
+    <ClCompile Include="Framework\BasicFramework.cpp" />
     <ClCompile Include="App\Time.cpp" />
     <ClCompile Include="Shapes\Capsule.cpp" />
     <ClCompile Include="Io\Fbx\Reading\Properties70.cpp" />
@@ -74,7 +74,7 @@
     <ClCompile Include="Math\Int2.cpp" />
     <ClCompile Include="Debug\Logger.cpp" />
     <ClCompile Include="App\Wrappers\Win32\Window.cpp" />
-    <ClCompile Include="App\Resources.cpp" />
+    <ClCompile Include="Framework\Resources.cpp" />
     <ClCompile Include="App\Wrappers\Win32\Mouse.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -100,7 +100,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\BasicExampleApp.h" />
-    <ClInclude Include="App\Framework.h" />
+    <ClInclude Include="Framework\BasicFramework.h" />
     <ClInclude Include="Shapes\Capsule.h" />
     <ClInclude Include="Io\Fbx\Reading\Properties70.h" />
     <ClInclude Include="Io\Fbx\Wrapping\Geometry.h" />
@@ -176,7 +176,7 @@
     <ClInclude Include="Debug\Logger.h" />
     <ClInclude Include="App\Wrappers\Win32\Window.h" />
     <ClInclude Include="App\Time.h" />
-    <ClInclude Include="App\Resources.h" />
+    <ClInclude Include="Framework\Resources.h" />
     <ClInclude Include="Math\Constants.h" />
     <ClInclude Include="App\Wrappers\Win32\Mouse.h" />
     <ClInclude Include="pch.h" />

@@ -3,7 +3,7 @@
 
 namespace MyEngine
 {
-	namespace App
+	namespace Framework
 	{
 		class Resources
 		{

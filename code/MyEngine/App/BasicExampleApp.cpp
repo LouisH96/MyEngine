@@ -2,13 +2,14 @@
 #include "BasicExampleApp.h"
 
 #include <iostream>
-
+#include <Framework/Resources.h>
+#include <Rendering/Gpu.h>
+#include <Rendering/State/Mesh.h>
+#include <Rendering/State/Shader.h>
 #include "FpsControl.h"
-#include "Resources.h"
-#include "App/Wrappers/Win32/Window.h"
-
 #include "../Game/Camera/Camera.h"
 #include "../Game/Camera/CameraController.h"
+#include "App/Wrappers/Win32/Window.h"
 #include "DataStructures/Array.h"
 #include "Generation/Shapes.h"
 #include "Math/Cube.h"
@@ -16,9 +17,6 @@
 #include "Rendering/Canvas.h"
 #include "Rendering/State/ConstantBuffer.h"
 #include "Rendering/State/InputLayout.h"
-#include <Rendering/State/Shader.h>
-#include <Rendering/State/Mesh.h>
-#include <Rendering/Gpu.h>
 
 using namespace Rendering;
 
@@ -65,7 +63,7 @@ void App::BasicExampleApp::Run()
 	};
 	const InputLayout inputLayout{ gpu, meshElements, ARRAYSIZE(meshElements) };
 
-	Rendering::Shader& shader = *new Rendering::Shader(gpu, Resources::GetGlobalShaderPath(L"unlit.hlsl"));
+	Rendering::Shader& shader = *new Rendering::Shader(gpu, Framework::Resources::GetGlobalShaderPath(L"unlit.hlsl"));
 	Rendering::Mesh& mesh = *Rendering::Mesh::Create<Vertex>(gpu, cubeVertices, cubeIndices);
 	const ConstantBuffer<CameraMatrixCBuffer> constantBuffer{ gpu };
 
