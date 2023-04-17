@@ -83,6 +83,7 @@
     <ClCompile Include="Io\Fbx\Wrapping\Geometry.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\Model.cpp" />
     <ClCompile Include="Io\Fbx\Reading\Properties70.cpp" />
+    <ClCompile Include="Shapes\Capsule.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -186,6 +187,7 @@
     <ClInclude Include="Io\Fbx\Wrapping\Geometry.h" />
     <ClInclude Include="Io\Fbx\Wrapping\Model.h" />
     <ClInclude Include="Io\Fbx\Reading\Properties70.h" />
+    <ClInclude Include="Shapes\Capsule.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

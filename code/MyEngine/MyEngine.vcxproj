@@ -15,6 +15,7 @@
     <ClCompile Include="App\FpsControl.cpp" />
     <ClCompile Include="App\Framework.cpp" />
     <ClCompile Include="App\Time.cpp" />
+    <ClCompile Include="Shapes\Capsule.cpp" />
     <ClCompile Include="Io\Fbx\Reading\Properties70.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\Geometry.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\Model.cpp" />
@@ -100,6 +101,7 @@
   <ItemGroup>
     <ClInclude Include="App\BasicExampleApp.h" />
     <ClInclude Include="App\Framework.h" />
+    <ClInclude Include="Shapes\Capsule.h" />
     <ClInclude Include="Io\Fbx\Reading\Properties70.h" />
     <ClInclude Include="Io\Fbx\Wrapping\Geometry.h" />
     <ClInclude Include="Io\Fbx\Wrapping\Model.h" />
