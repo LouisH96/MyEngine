@@ -11,7 +11,7 @@ namespace MyEngine
 			void Run();
 
 		private:
-			BasicFramework m_Framework{};
+			Framework::BasicFramework m_Framework{};
 		};
 	}
 }

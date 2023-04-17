@@ -6,7 +6,7 @@
 #define _CRTDBG_MAP_ALLOC
 #define _LEAK_TO_CONSOLE
 
-MyEngine::App::BasicFramework::BasicFramework()
+Framework::BasicFramework::BasicFramework()
 {
 #if defined(DEBUG) | defined(_DEBUG)
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
@@ -15,9 +15,9 @@ MyEngine::App::BasicFramework::BasicFramework()
 	_CrtSetReportFile(_CRT_WARN, _CRTDBG_FILE_STDOUT);
 #endif
 #endif
-	Framework::Resources::Init();
+	Resources::Init();
 }
 
-MyEngine::App::BasicFramework::~BasicFramework()
+Framework::BasicFramework::~BasicFramework()
 {
 }
