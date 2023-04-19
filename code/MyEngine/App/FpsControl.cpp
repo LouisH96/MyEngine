@@ -57,3 +57,8 @@ void App::FpsControl::NoWait()
 	m_BeginPrevFrame = now;
 	m_BeginPrevUpdate = now;
 }
+
+void App::FpsControl::SetFpsDisplay(Rendering::FpsDisplay& display)
+{
+	m_pDisplay = &display;
+}

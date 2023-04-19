@@ -29,6 +29,7 @@ namespace MyEngine
 			void Wait(); //Frame should be build after this wait
 			void NoWait();
 			float GetDurationLastFrame() const { return m_DurationLastFrame; }
+			void SetFpsDisplay(Rendering::FpsDisplay& display);
 
 		private:
 			Rendering::FpsDisplay* m_pDisplay;
