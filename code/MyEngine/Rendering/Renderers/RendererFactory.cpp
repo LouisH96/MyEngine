@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "RendererFactory.h"
-#include <Framework\Resources.cpp>
+#include <Framework/Resources.h>
 
 
 Rendering::RendererFactory::SimpleRenderer* Rendering::RendererFactory::CreateSimpleRenderer(Gpu& gpu,
