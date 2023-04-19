@@ -188,6 +188,7 @@
     <ClInclude Include="Io\Fbx\Wrapping\Model.h" />
     <ClInclude Include="Io\Fbx\Reading\Properties70.h" />
     <ClInclude Include="Shapes\Capsule.h" />
+    <ClInclude Include="Framework\BasicAppFrame.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
