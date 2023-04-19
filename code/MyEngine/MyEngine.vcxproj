@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="App\BasicExampleApp.cpp" />
     <ClCompile Include="App\FpsControl.cpp" />
+    <ClCompile Include="Io\Ascii\AsciiWriter.cpp" />
     <ClCompile Include="Framework\BasicFramework.cpp" />
     <ClCompile Include="App\Time.cpp" />
     <ClCompile Include="Shapes\Capsule.cpp" />
@@ -100,6 +101,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\BasicExampleApp.h" />
+    <ClInclude Include="Io\Ascii\AsciiWriter.h" />
     <ClInclude Include="Framework\BasicAppFrame.h" />
     <ClInclude Include="Framework\BasicFramework.h" />
     <ClInclude Include="Shapes\Capsule.h" />
