@@ -17,26 +17,28 @@ Game::CameraController::CameraController(Camera& camera, const Keyboard& keyboar
 	, m_Camera(camera)
 	, m_ScrollSpeed(-1.f)
 	, m_HorizontalSpeed(1.f)
+	, m_VerticalSpeed{ 1.f }
 {
 }
 
-void Game::CameraController::Update()
+void Game::CameraController::Update() const
 {
 	//TRANSLATION
-	DirectX::XMFLOAT3 translation{};
-	translation.x = static_cast<float>(m_Keyboard.IsDown('D') - m_Keyboard.IsDown('Q'));
-	translation.y = static_cast<float>(m_Keyboard.IsDown('E') - m_Keyboard.IsDown('A'));
-	translation.z = static_cast<float>(m_Keyboard.IsDown('Z') - m_Keyboard.IsDown('S'));
-
-	//multiply with speed
-	constexpr float maxVerSpeed = 1;
+	const float maxVerSpeed = m_VerticalSpeed * DELTA_TIME;
 	float horSpeed = m_HorizontalSpeed * DELTA_TIME;
-	if (translation.x != 0 && translation.z != 0) horSpeed *= Constants::DIVSQR2;
+	if (maxVerSpeed != 0 || horSpeed != 0)
+	{
+		DirectX::XMFLOAT3 translation;
+		translation.x = static_cast<float>(m_Keyboard.IsDown('D') - m_Keyboard.IsDown('Q'));
+		translation.y = static_cast<float>(m_Keyboard.IsDown('E') - m_Keyboard.IsDown('A')) * maxVerSpeed;
+		translation.z = static_cast<float>(m_Keyboard.IsDown('Z') - m_Keyboard.IsDown('S'));
 
-	translation.x *= horSpeed;
-	translation.z *= horSpeed;
-	translation.y *= maxVerSpeed * DELTA_TIME;
-	m_Camera.Move(translation);
+		//multiply with speed
+		if (translation.x != 0 && translation.z != 0) horSpeed *= Constants::DIVSQR2;
+		translation.x *= horSpeed;
+		translation.z *= horSpeed;
+		m_Camera.Move(translation);
+	}
 
 	//ROTATION
 	if (m_Mouse.IsRightBtnDown())

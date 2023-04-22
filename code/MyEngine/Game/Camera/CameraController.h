@@ -25,10 +25,11 @@ namespace MyEngine
 		{
 		public:
 			CameraController(Camera& camera, const App::Wrappers::Win32::Keyboard& keyboard, const App::Wrappers::Win32::Mouse& mouse);
-			void Update();
+			void Update() const;
 
 			void SetScrollSpeed(float scrollSpeed) { m_ScrollSpeed = -scrollSpeed; };
 			void SetHorizontalSpeed(float speed) { m_HorizontalSpeed = speed; } //default: 1
+			void SetVerticalSpeed(float speed) { m_VerticalSpeed = speed; }
 
 		private:
 			const App::Wrappers::Win32::Keyboard& m_Keyboard;
@@ -36,6 +37,7 @@ namespace MyEngine
 			Camera& m_Camera;
 			float m_ScrollSpeed;
 			float m_HorizontalSpeed;
+			float m_VerticalSpeed;
 
 			void KeyboardRotation() const;
 			void MouseRotation() const;
