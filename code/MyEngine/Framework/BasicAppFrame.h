@@ -58,7 +58,7 @@ namespace MyEngine
 			while (!window.IsDestroyed())
 			{
 				//FPS
-				fpsControl.Wait();
+				fpsControl.NoWait();
 				GameGlobals::SetDeltaTime(fpsControl.GetDurationLastFrame());
 
 				//WINDOW MESSAGES
