@@ -32,5 +32,12 @@ namespace MyEngine
 			explicit CB_CamMatPos(const Game::Camera& cam);
 			CB_CamMatPos(const Game::Camera& cam, const Game::Transform& transforms);
 		};
+		struct CB_ModelBuffer
+		{
+			DirectX::XMFLOAT4X4 ModelMatrix{};
+
+			CB_ModelBuffer();
+			explicit CB_ModelBuffer(const Game::Transform& transform);
+		};
 	}
 }

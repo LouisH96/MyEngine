@@ -57,7 +57,8 @@ namespace MyEngine
 			InputLayout m_InputLayout;
 			Shader m_Shader;
 
-			ConstantBuffer<CB_CamMatPos> m_ConstantBuffer;
+			ConstantBuffer<CB_CamMatPos> m_CameraConstantBuffer;
+			ConstantBuffer<CB_ModelBuffer> m_ModelConstantBuffer;
 			Array<DrawEntry> m_Entries;
 		};
 	}
