@@ -16,6 +16,7 @@
     <ClCompile Include="Io\Ascii\AsciiWriter.cpp" />
     <ClCompile Include="Framework\BasicFramework.cpp" />
     <ClCompile Include="App\Time.cpp" />
+    <ClCompile Include="Rendering\Renderers\R_LambertCam_Tex_Transform.cpp" />
     <ClCompile Include="Shapes\Capsule.cpp" />
     <ClCompile Include="Io\Fbx\Reading\Properties70.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\Geometry.cpp" />
@@ -98,12 +99,14 @@
     <ClCompile Include="Io\Ttf\TtfReader.cpp" />
     <ClCompile Include="Rendering\Renderers\TextRenderer.cpp" />
     <ClCompile Include="Io\Ttf\Segment.cpp" />
+    <ClCompile Include="Game\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\BasicExampleApp.h" />
     <ClInclude Include="Io\Ascii\AsciiWriter.h" />
     <ClInclude Include="Framework\BasicAppFrame.h" />
     <ClInclude Include="Framework\BasicFramework.h" />
+    <ClInclude Include="Rendering\Renderers\R_LambertCam_Tex_Transform.h" />
     <ClInclude Include="Shapes\Capsule.h" />
     <ClInclude Include="Io\Fbx\Reading\Properties70.h" />
     <ClInclude Include="Io\Fbx\Wrapping\Geometry.h" />
@@ -204,6 +207,7 @@
     <ClInclude Include="Io\Ttf\TtfPoint.h" />
     <ClInclude Include="Rendering\Renderers\TextRenderer.h" />
     <ClInclude Include="Io\Ttf\Segment.h" />
+    <ClInclude Include="Game\Transform.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

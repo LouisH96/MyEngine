@@ -78,7 +78,7 @@ namespace MyEngine
 		template <typename Vertex, typename CamData>
 		void BasicRenderer<Vertex, CamData>::Render()
 		{
-			m_ConstantBuffer.Update(m_Gpu, { m_Camera });
+			m_ConstantBuffer.Update(m_Gpu, CamData{ m_Camera });
 			m_ConstantBuffer.Activate(m_Gpu);
 			m_RasterizerState.Activate(m_Gpu);
 			m_InputLayout.Activate(m_Gpu);

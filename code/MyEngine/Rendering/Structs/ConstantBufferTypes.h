@@ -6,6 +6,7 @@ namespace MyEngine
 {
 	namespace Game
 	{
+		class Transform;
 		class Camera;
 	}
 }
@@ -28,7 +29,8 @@ namespace MyEngine
 			float padding = 0;
 
 			CB_CamMatPos() = default;
-			CB_CamMatPos(const Game::Camera& cam);
+			explicit CB_CamMatPos(const Game::Camera& cam);
+			CB_CamMatPos(const Game::Camera& cam, const Game::Transform& transforms);
 		};
 	}
 }

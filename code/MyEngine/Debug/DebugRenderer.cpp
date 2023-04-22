@@ -146,7 +146,7 @@ DebugRenderer::~DebugRenderer()
 
 void DebugRenderer::Class_Render()
 {
-	m_ConstantBuffer.Update(m_Gpu, { m_Camera });
+	m_ConstantBuffer.Update(m_Gpu, Rendering::CB_CamMatPos{ m_Camera });
 	m_ConstantBuffer.Activate(m_Gpu);
 	m_RasterizerState.Activate(m_Gpu);
 	m_InputLayout.Activate(m_Gpu);
