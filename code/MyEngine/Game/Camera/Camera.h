@@ -15,6 +15,7 @@ namespace MyEngine
 
 			void Move(DirectX::XMFLOAT3 movement);
 			void MoveInDirection(DirectX::XMFLOAT3 movement);
+			void SetFocusPoint(const Math::Float3& focus);
 
 			void Pitch(float addAngle);
 			void Yaw(float addAngle);

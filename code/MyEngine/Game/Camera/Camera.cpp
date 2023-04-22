@@ -48,6 +48,13 @@ void Game::Camera::MoveInDirection(DirectX::XMFLOAT3 movement)
 	XMStoreFloat3(&m_FocusPoint, xm_pos);
 }
 
+void Game::Camera::SetFocusPoint(const Math::Float3& focus)
+{
+	m_FocusPoint.x = focus.x;
+	m_FocusPoint.y = focus.y;
+	m_FocusPoint.z = focus.z;
+}
+
 void Game::Camera::Pitch(float addAngle)
 {
 	m_Pitch += addAngle;
