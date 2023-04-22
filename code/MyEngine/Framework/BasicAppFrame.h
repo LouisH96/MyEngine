@@ -71,9 +71,13 @@ namespace MyEngine
 
 				//INPUT
 				cameraController.Update();
+
+				//UPDATE
+				app.Update();
 				camera.Update();
 
-				app.Update();
+				//RENDER
+				app.Render();
 			}
 
 			//DELETE
