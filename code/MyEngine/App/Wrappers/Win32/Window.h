@@ -29,6 +29,8 @@ namespace MyEngine
 					};
 
 				public:
+					using Keyboard = Keyboard_MsgListener;
+
 					Window(const Window& other) = delete;
 					Window(Window&& other) noexcept = delete;
 					Window& operator=(const Window& other) = delete;
@@ -54,14 +56,14 @@ namespace MyEngine
 					void HandleMessages();
 
 					//input
-					const Keyboard_MsgListener& GetKeyboard() const { return m_Keyboard; }
+					const Keyboard& GetKeyboard() const { return m_Keyboard; }
 					const Mouse& GetMouse() const { return m_Mouse; }
 
 				private:
 					void Init(const std::wstring& title, const Options& options);
 					void Release();
 
-					Keyboard_MsgListener m_Keyboard{};
+					Keyboard m_Keyboard{};
 					Mouse m_Mouse{};
 					DirectX::XMINT2 m_ClientSize{ 1200,800 };
 					HWND m_WindowHandle{};
