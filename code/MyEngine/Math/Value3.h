@@ -40,6 +40,7 @@ namespace MyEngine
 			Value3 Normalized() const;
 
 			Value3 Cross(const Value3& other) const;
+			float Dot(const Value3& other) const;
 
 			T x, y, z;
 			static constexpr int NR_AXIS = 3;
@@ -125,6 +126,12 @@ namespace MyEngine
 				z * other.x - x * other.z,
 				x * other.y - y * other.x
 			};
+		}
+
+		template <typename T>
+		float Value3<T>::Dot(const Value3& other) const
+		{
+			return x * other.x + y * other.y + z * other.z;
 		}
 	}
 }

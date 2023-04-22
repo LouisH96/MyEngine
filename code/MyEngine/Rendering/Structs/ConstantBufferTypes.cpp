@@ -21,10 +21,16 @@ Rendering::CB_CamMatPos::CB_CamMatPos(const Game::Camera& cam, const Game::Trans
 	: CameraMatrix(cam.GetViewProjMatrix())
 	, CameraPos(cam.GetPositionFloat3())
 {
-
 	const XMMATRIX camMatrix{ XMLoadFloat4x4(&CameraMatrix) };
 	const XMMATRIX translation{ XMMatrixTranslation(transform.Position.x, transform.Position.y, transform.Position.z) };
-	XMStoreFloat4x4(&CameraMatrix, XMMatrixMultiply(translation, camMatrix));
+	const XMFLOAT4 quaternion{
+		transform.Rotation.GetReal().x,
+		transform.Rotation.GetReal().y,
+		transform.Rotation.GetReal().z,
+		transform.Rotation.GetComplex()
+	};
+	const XMMATRIX rotation{ XMMatrixRotationQuaternion(XMLoadFloat4(&quaternion)) };
+	XMStoreFloat4x4(&CameraMatrix, rotation * translation * camMatrix);
 }
 
 Rendering::CB_ModelBuffer::CB_ModelBuffer()
@@ -33,5 +39,16 @@ Rendering::CB_ModelBuffer::CB_ModelBuffer()
 
 Rendering::CB_ModelBuffer::CB_ModelBuffer(const Game::Transform& transform)
 {
-	XMStoreFloat4x4(&ModelMatrix, XMMatrixTranslation(transform.Position.x, transform.Position.y, transform.Position.z));
+	const XMMATRIX translation{ XMMatrixTranslation(transform.Position.x, transform.Position.y, transform.Position.z) };
+	const XMFLOAT4 quaternion{
+		transform.Rotation.GetReal().x,
+		transform.Rotation.GetReal().y,
+		transform.Rotation.GetReal().z,
+		transform.Rotation.GetComplex()
+	};
+	const XMMATRIX rotation{ XMMatrixRotationQuaternion(XMLoadFloat4(&quaternion)) };
+	const XMMATRIX model{ rotation * translation };
+
+	XMStoreFloat4x4(&ModelMatrix, model);
+	XMStoreFloat4x4(&InvTransposeModelMatrix, XMMatrixTranspose(XMMatrixInverse(nullptr, model)));
 }

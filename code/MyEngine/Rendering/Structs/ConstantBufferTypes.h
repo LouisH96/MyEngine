@@ -35,6 +35,7 @@ namespace MyEngine
 		struct CB_ModelBuffer
 		{
 			DirectX::XMFLOAT4X4 ModelMatrix{};
+			DirectX::XMFLOAT4X4 InvTransposeModelMatrix{};
 
 			CB_ModelBuffer();
 			explicit CB_ModelBuffer(const Game::Transform& transform);

@@ -87,6 +87,7 @@
     <ClCompile Include="Io\Ascii\AsciiWriter.cpp" />
     <ClCompile Include="Rendering\Renderers\R_LambertCam_Tex_Transform.cpp" />
     <ClCompile Include="Game\Transform.cpp" />
+    <ClCompile Include="Math\Quaternion.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -195,6 +196,7 @@
     <ClInclude Include="Io\Ascii\AsciiWriter.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertCam_Tex_Transform.h" />
     <ClInclude Include="Game\Transform.h" />
+    <ClInclude Include="Math\Quaternion.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

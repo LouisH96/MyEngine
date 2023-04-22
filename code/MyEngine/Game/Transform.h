@@ -1,4 +1,5 @@
 #pragma once
+#include "Math/Quaternion.h"
 
 namespace MyEngine
 {
@@ -8,6 +9,7 @@ namespace MyEngine
 		{
 		public:
 			Math::Float3 Position{};
+			Math::Quaternion Rotation{};
 		};
 	}
 }

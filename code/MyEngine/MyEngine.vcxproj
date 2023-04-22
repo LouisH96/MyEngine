@@ -16,6 +16,7 @@
     <ClCompile Include="Io\Ascii\AsciiWriter.cpp" />
     <ClCompile Include="Framework\BasicFramework.cpp" />
     <ClCompile Include="App\Time.cpp" />
+    <ClCompile Include="Math\Quaternion.cpp" />
     <ClCompile Include="Rendering\Renderers\R_LambertCam_Tex_Transform.cpp" />
     <ClCompile Include="Shapes\Capsule.cpp" />
     <ClCompile Include="Io\Fbx\Reading\Properties70.cpp" />
@@ -106,6 +107,7 @@
     <ClInclude Include="Io\Ascii\AsciiWriter.h" />
     <ClInclude Include="Framework\BasicAppFrame.h" />
     <ClInclude Include="Framework\BasicFramework.h" />
+    <ClInclude Include="Math\Quaternion.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertCam_Tex_Transform.h" />
     <ClInclude Include="Shapes\Capsule.h" />
     <ClInclude Include="Io\Fbx\Reading\Properties70.h" />
