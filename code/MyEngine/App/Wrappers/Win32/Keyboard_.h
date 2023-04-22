@@ -17,6 +17,7 @@ namespace MyEngine
 					bool IsDown(char c) const;
 
 					Math::Float2 GetWasdInput(float scale) const;
+					int GetInput(char positive, char negative) const;
 				};
 
 				template <class T>
@@ -33,6 +34,12 @@ namespace MyEngine
 					input.y = static_cast<float>(IsDown('Z') - IsDown('S')) * scale;
 					if (input.x != 0 && input.y != 0) input *= Math::Constants::DIVSQR2;
 					return input;
+				}
+
+				template <class T>
+				int Keyboard_<T>::GetInput(char positive, char negative) const
+				{
+					return IsDown(positive) - IsDown(negative);
 				}
 			}
 		}
