@@ -13,6 +13,16 @@ namespace MyEngine
 {
 	namespace Framework
 	{
+		struct AppServices
+		{
+			App::Wrappers::Win32::Window& Window;
+			Rendering::Gpu& Gpu;
+			Rendering::Canvas& Canvas;
+			App::FpsControl& FpsControl;
+			Game::Camera& Camera;
+			Game::CameraController& CameraController;
+		};
+
 		template<typename T>
 		class BasicAppFrame
 		{
@@ -42,18 +52,18 @@ namespace MyEngine
 			FpsControl fpsControl{ 200 };
 
 			//APP
-			T app{ window, gpu, canvas, camera, fpsControl };
+			T app{ {window, gpu, canvas, fpsControl, camera, cameraController} };
 
 			//LOOP
-			while(!window.IsDestroyed())
+			while (!window.IsDestroyed())
 			{
 				//FPS
-				fpsControl.NoWait();
+				fpsControl.Wait();
 				GameGlobals::SetDeltaTime(fpsControl.GetDurationLastFrame());
 
 				//WINDOW MESSAGES
 				window.HandleMessages();
-				if(window.IsResized())
+				if (window.IsResized())
 				{
 					canvas.OnWindowResized(window.GetClientSize());
 					camera.OnWindowResized(window.GetClientSize());
