@@ -29,6 +29,9 @@ namespace MyEngine
 			Quaternion operator*(const Quaternion& other) const;
 			void operator*=(const Quaternion& other);
 
+			Quaternion operator-() const;
+			void Inverse();
+
 			//---| Get |---
 			const Float3& GetReal() const { return m_Real; }
 			float GetComplex() const { return m_Complex; }

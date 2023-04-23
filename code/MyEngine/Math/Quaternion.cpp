@@ -32,6 +32,16 @@ void Math::Quaternion::operator*=(const Quaternion& other)
 	m_Complex = m_Complex * other.m_Complex - m_Real.Dot(other.m_Real);
 }
 
+Math::Quaternion Math::Quaternion::operator-() const
+{
+	return { -m_Real, m_Complex };
+}
+
+void Math::Quaternion::Inverse()
+{
+	m_Real = -m_Real;
+}
+
 void Math::Quaternion::Rotate(const Quaternion& rotation)
 {
 	*this *= rotation;
