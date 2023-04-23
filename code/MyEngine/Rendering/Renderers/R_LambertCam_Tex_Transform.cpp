@@ -12,7 +12,7 @@ Rendering::R_LambertCam_Tex_Transform::R_LambertCam_Tex_Transform(Gpu& gpu, Game
 	, m_RasterizerState{ gpu }
 	, m_Sampler{ gpu }
 	, m_InputLayout{ gpu, Vertex::ELEMENTS, Vertex::NR_ELEMENTS }
-	, m_Shader{ gpu, Framework::Resources::GetGlobalShaderPath(L"lambertCamDir_Texture.hlsl") }
+	, m_Shader{ gpu, Framework::Resources::GetGlobalShaderPath(L"LambertCam_Tex_Trans.hlsl") }
 	, m_CameraConstantBuffer{ gpu }
 	, m_ModelConstantBuffer{ gpu }
 	, m_Entries{ 0 }
