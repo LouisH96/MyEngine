@@ -21,10 +21,13 @@ namespace MyEngine
 			Quaternion& operator=(Quaternion&& other) noexcept = default;
 
 			//---| Operations |---
-			Quaternion operator*(const Quaternion& other) const;
-			void operator*=(const Quaternion& other);
+			void Rotate(const Quaternion& rotation);
+
 			Quaternion Normalized() const;
 			void Normalize();
+
+			Quaternion operator*(const Quaternion& other) const;
+			void operator*=(const Quaternion& other);
 
 			//---| Get |---
 			const Float3& GetReal() const { return m_Real; }

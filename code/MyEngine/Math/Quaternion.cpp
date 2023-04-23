@@ -32,6 +32,12 @@ void Math::Quaternion::operator*=(const Quaternion& other)
 	m_Complex = m_Complex * other.m_Complex - m_Real.Dot(other.m_Real);
 }
 
+void Math::Quaternion::Rotate(const Quaternion& rotation)
+{
+	*this *= rotation;
+	Normalize();
+}
+
 Math::Quaternion Math::Quaternion::Normalized() const
 {
 	const float invLength{ 1.f / GetLength() };
