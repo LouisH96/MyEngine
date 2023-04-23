@@ -55,6 +55,11 @@ bool MyEngine::App::Wrappers::Win32::Mouse::IsRightBtnReleased() const
 	return (m_State & (RIGHT_MASK | RIGHT_MASK << NR_BUTTONS)) == (RIGHT_MASK << NR_BUTTONS);
 }
 
+void App::Wrappers::Win32::Mouse::SetPos(Math::Int2 position)
+{
+	m_Pos = position;
+}
+
 void MyEngine::App::Wrappers::Win32::Mouse::PreChange()
 {
 	m_Movement = m_Pos; //temp store old position in m_Movement

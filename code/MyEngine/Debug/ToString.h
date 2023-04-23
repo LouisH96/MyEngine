@@ -1,5 +1,6 @@
 #pragma once
 #include "Math/Float3.h"
+#include "Math/Int2.h"
 #include "Math/Value2.h"
 
 namespace MyEngine
@@ -19,16 +20,20 @@ namespace MyEngine
 			static std::string Convert(const Ds::Array<T>& value);
 		};
 
-		template<typename T>
-		inline std::string ToString::Convert(const T& value)
-		{
-			return std::to_string(value);
-		}
-
 		template <>
 		inline std::string ToString::Convert(const int& value)
 		{
 			return std::to_string(value);
+		}
+
+		template<>
+		inline std::string ToString::Convert(const Math::Int2& value)
+		{
+			std::stringstream ss{};
+			ss << "[";
+			ss << value.x << ", ";
+			ss << value.y << ']';
+			return ss.str();
 		}
 
 		template<>
@@ -63,6 +68,12 @@ namespace MyEngine
 				ss << Convert(value[i]) << std::endl;
 			}
 			return ss.str();
+		}
+
+		template<typename T>
+		inline std::string ToString::Convert(const T& value)
+		{
+			return std::to_string(value);
 		}
 	}
 }

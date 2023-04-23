@@ -42,6 +42,8 @@ MyEngine::App::Wrappers::Win32::Window::~Window()
 
 void MyEngine::App::Wrappers::Win32::Window::Init(const std::wstring& title, const Options& options)
 {
+	m_CursorFpsMode = options.CursorFpsMode;
+
 	//Register window class
 	const std::wstring className = L"MyWindowClass";
 	// ReSharper disable once CppLocalVariableMayBeConst
@@ -92,6 +94,7 @@ void MyEngine::App::Wrappers::Win32::Window::Init(const std::wstring& title, con
 	);
 	SetWindowLongPtr(m_WindowHandle, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 	ShowWindow(m_WindowHandle, true);
+	ShowCursor(!m_CursorFpsMode);
 }
 
 void MyEngine::App::Wrappers::Win32::Window::Release()
@@ -111,6 +114,14 @@ void MyEngine::App::Wrappers::Win32::Window::HandleMessages()
 		DispatchMessage(&msg);
 
 	m_Mouse.PostChange();
+
+	if (m_CursorFpsMode && m_HasFocus)
+	{
+		tagPOINT pos{ m_ClientSize.x / 2,m_ClientSize.y / 2 };
+		m_Mouse.SetPos({ pos.x, pos.y });
+		ClientToScreen(m_WindowHandle, &pos);
+		SetCursorPos(pos.x, pos.y);
+	}
 }
 
 DirectX::XMINT2 MyEngine::App::Wrappers::Win32::Window::AskClientSize_WinApi() const
@@ -170,6 +181,12 @@ LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, 
 		break;
 	case WM_MOUSEWHEEL:
 		window.m_Mouse.OnScroll(static_cast<float>(GET_WHEEL_DELTA_WPARAM(wParam)) / 120.f);
+		break;
+	case WM_SETFOCUS:
+		window.m_HasFocus = true;
+		break;
+	case WM_KILLFOCUS:
+		window.m_HasFocus = false;
 		break;
 	default:;
 	}

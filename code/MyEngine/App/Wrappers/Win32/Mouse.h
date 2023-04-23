@@ -39,6 +39,7 @@ namespace MyEngine
 					bool IsRightBtnPressed() const;
 					bool IsRightBtnReleased() const;
 
+					void SetPos(Math::Int2 position);
 					const Math::Int2& GetPos() const { return m_Pos; }
 					const Math::Int2& GetMovement() const { return m_Movement; }
 					float GetScroll() const { return m_Scroll; }

@@ -7,6 +7,7 @@
 #include "App/FpsControl.h"
 #include "Rendering/Canvas.h"
 #include "Rendering/Gpu.h"
+#include <Game/Camera/Camera.h>
 
 namespace MyEngine
 {
@@ -16,11 +17,11 @@ namespace MyEngine
 		class Frame_NoCam
 		{
 		public:
-			static void Run(const std::wstring& windowName = L"Window");
+			static void Run(const std::wstring& windowName = L"Window", App::Wrappers::Win32::Window::Options options = {});
 		};
 
 		template <typename T>
-		void Frame_NoCam<T>::Run(const std::wstring& windowName)
+		void Frame_NoCam<T>::Run(const std::wstring& windowName, App::Wrappers::Win32::Window::Options options)
 		{
 			using namespace App;
 			using namespace Wrappers::Win32;
@@ -29,7 +30,7 @@ namespace MyEngine
 
 			//BASIC
 			BasicFramework framework{};
-			Window window{ windowName };
+			Window window{ windowName, options };
 			Gpu gpu{ window };
 			Canvas& canvas{ *gpu.MakeCanvas() };
 
@@ -37,7 +38,8 @@ namespace MyEngine
 			FpsControl fpsControl{ 200 };
 
 			//APP
-			T app{ CoreServices{window, gpu, canvas, fpsControl} };
+			Camera camera{ window.GetClientSize() };
+			T app{ CoreServices{window, gpu, canvas, camera, fpsControl} };
 
 			//LOOP
 			while (!window.IsDestroyed())

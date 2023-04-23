@@ -26,6 +26,7 @@ namespace MyEngine
 					{
 						bool FullRedrawOnScale{ false };
 						HBRUSH BackgroundBrush{ nullptr };
+						bool CursorFpsMode{ false };
 					};
 
 				public:
@@ -70,6 +71,8 @@ namespace MyEngine
 					IExtraWinProc* m_pExtraWinProc{};
 					bool m_IsDestroyed{ false };
 					bool m_IsResized{ false };
+					bool m_HasFocus{ true };
+					bool m_CursorFpsMode{ false };
 
 					friend LRESULT CALLBACK::win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam);
 					friend LRESULT CALLBACK::win32_window_proc_extra(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam);
