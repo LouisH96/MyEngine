@@ -90,7 +90,7 @@ void MyEngine::Rendering::Dx::DxHelper::CompileFromFile(const std::wstring& path
 		}
 		if (pBlob)
 			pBlob->Release();
-		throw std::exception{ error.c_str() };
+		Logger::PrintError(error.c_str());
 	}
 }
 
