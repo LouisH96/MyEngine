@@ -9,7 +9,7 @@
 
 DebugRenderer* DebugRenderer::m_pStatic = nullptr;
 
-void DebugRenderer::Init(Rendering::Gpu& gpu, Game::Camera& camera)
+void DebugRenderer::Init(Rendering::Gpu& gpu, Game::FocusPointCamera& camera)
 {
 	m_pStatic = new DebugRenderer(gpu, camera);
 }
@@ -126,7 +126,7 @@ void DebugRenderer::AddGridXy(const Math::Float3& offset, const Math::Float2& bo
 	m_pStatic->m_pLineRenderer->AddMesh(Rendering::Mesh::Create(m_pStatic->m_Gpu, vertices, Rendering::Topology::LineStrip));
 }
 
-DebugRenderer::DebugRenderer(Rendering::Gpu& gpu, Game::Camera& camera)
+DebugRenderer::DebugRenderer(Rendering::Gpu& gpu, Game::FocusPointCamera& camera)
 	: m_Gpu(gpu)
 	, m_Camera(camera)
 	, m_BlendState(gpu)

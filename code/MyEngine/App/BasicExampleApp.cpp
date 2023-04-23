@@ -7,7 +7,7 @@
 #include <Rendering/State/Mesh.h>
 #include <Rendering/State/Shader.h>
 #include "FpsControl.h"
-#include "../Game/Camera/Camera.h"
+#include "../Game/Camera/FocusPointCamera.h"
 #include "../Game/Camera/CameraController.h"
 #include "App/Wrappers/Win32/Window.h"
 #include "DataStructures/Array.h"
@@ -68,7 +68,7 @@ void App::BasicExampleApp::Run()
 	const ConstantBuffer<CameraMatrixCBuffer> constantBuffer{ gpu };
 
 	//GAME
-	Game::Camera& camera = *new Game::Camera(window.AskClientSize_WinApi());
+	Game::FocusPointCamera& camera = *new Game::FocusPointCamera(window.AskClientSize_WinApi());
 
 	//RENDER-PIPELINE
 	constantBuffer.ActivateVs(gpu);

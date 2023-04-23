@@ -8,7 +8,7 @@ namespace MyEngine
 {
 	namespace Game
 	{
-		class Camera;
+		class FocusPointCamera;
 	}
 
 	namespace Rendering
@@ -22,28 +22,28 @@ namespace MyEngine
 			using UnlitRenderer = BasicRenderer<V_PosCol, CB_CamMat>;
 			using SimpleTexRenderer = TextureRenderer<V_PosNorUv, CB_CamMatPos>;
 
-			static SimpleRenderer* CreateSimpleRenderer(Gpu& gpu, Game::Camera& camera, bool wireframe = false);
-			static UnlitRenderer* CreateUnlitRenderer(Gpu& gpu, Game::Camera& camera, bool wireframe = true);
-			static SimpleTexRenderer* CreateSimpleTexRenderer(Gpu& gpu, Game::Camera& camera);
+			static SimpleRenderer* CreateSimpleRenderer(Gpu& gpu, Game::FocusPointCamera& camera, bool wireframe = false);
+			static UnlitRenderer* CreateUnlitRenderer(Gpu& gpu, Game::FocusPointCamera& camera, bool wireframe = true);
+			static SimpleTexRenderer* CreateSimpleTexRenderer(Gpu& gpu, Game::FocusPointCamera& camera);
 
 			template<typename T>
-			static T* Create(Gpu& gpu, Game::Camera& camera);
+			static T* Create(Gpu& gpu, Game::FocusPointCamera& camera);
 		};
 
 		template <>
-		inline RendererFactory::SimpleRenderer* RendererFactory::Create(Gpu& gpu, Game::Camera& camera)
+		inline RendererFactory::SimpleRenderer* RendererFactory::Create(Gpu& gpu, Game::FocusPointCamera& camera)
 		{
 			return CreateSimpleRenderer(gpu, camera);
 		}
 
 		template <>
-		inline RendererFactory::UnlitRenderer* RendererFactory::Create(Gpu& gpu, Game::Camera& camera)
+		inline RendererFactory::UnlitRenderer* RendererFactory::Create(Gpu& gpu, Game::FocusPointCamera& camera)
 		{
 			return CreateUnlitRenderer(gpu, camera);
 		}
 
 		template <>
-		inline RendererFactory::SimpleTexRenderer* RendererFactory::Create(Gpu& gpu, Game::Camera& camera)
+		inline RendererFactory::SimpleTexRenderer* RendererFactory::Create(Gpu& gpu, Game::FocusPointCamera& camera)
 		{
 			return CreateSimpleTexRenderer(gpu, camera);
 		}

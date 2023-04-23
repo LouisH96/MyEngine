@@ -1,24 +1,24 @@
 #include "pch.h"
-#include "Camera.h"
+#include "FocusPointCamera.h"
 
 #include <cmath>
 #include <Math/Constants.h>
 
 using namespace Math;
 
-Game::Camera::Camera(DirectX::XMINT2 size)
+Game::FocusPointCamera::FocusPointCamera(DirectX::XMINT2 size)
 {
 	SetFieldOfView(90.f);
 	OnWindowResized(size);
 }
 
-void Game::Camera::Update()
+void Game::FocusPointCamera::Update()
 {
 	UpdateWorldMatrix();
 	UpdateViewProjMatrix();
 }
 
-void Game::Camera::Move(DirectX::XMFLOAT3 movement)
+void Game::FocusPointCamera::Move(DirectX::XMFLOAT3 movement)
 {
 	using namespace DirectX;
 
@@ -31,7 +31,7 @@ void Game::Camera::Move(DirectX::XMFLOAT3 movement)
 	m_FocusPoint.y += movement.y;
 }
 
-void Game::Camera::MoveInDirection(DirectX::XMFLOAT3 movement)
+void Game::FocusPointCamera::MoveInDirection(DirectX::XMFLOAT3 movement)
 {
 	using namespace DirectX;
 	XMVECTOR xm_pos{ XMLoadFloat3(&m_FocusPoint) };
@@ -48,52 +48,52 @@ void Game::Camera::MoveInDirection(DirectX::XMFLOAT3 movement)
 	XMStoreFloat3(&m_FocusPoint, xm_pos);
 }
 
-void Game::Camera::SetFocusPoint(const Math::Float3& focus)
+void Game::FocusPointCamera::SetFocusPoint(const Math::Float3& focus)
 {
 	m_FocusPoint.x = focus.x;
 	m_FocusPoint.y = focus.y;
 	m_FocusPoint.z = focus.z;
 }
 
-void Game::Camera::Pitch(float addAngle)
+void Game::FocusPointCamera::Pitch(float addAngle)
 {
 	m_Pitch += addAngle;
 }
 
-void Game::Camera::Yaw(float addAngle)
+void Game::FocusPointCamera::Yaw(float addAngle)
 {
 	m_Yaw += addAngle;
 }
 
-void Game::Camera::Zoom(float addDistance)
+void Game::FocusPointCamera::Zoom(float addDistance)
 {
 	m_FocusPointDistance += addDistance;
 }
 
-void Game::Camera::OnWindowResized(DirectX::XMINT2 newSize)
+void Game::FocusPointCamera::OnWindowResized(DirectX::XMINT2 newSize)
 {
 	m_InvAspectRatio = static_cast<float>(newSize.y) / static_cast<float>(newSize.x);
 	UpdateProjMatrix();
 }
 
-void Game::Camera::SetFieldOfView(float angle)
+void Game::FocusPointCamera::SetFieldOfView(float angle)
 {
 	using namespace DirectX;
 	m_FovValue = 1.f / tanf(XMConvertToRadians(angle / 2.f));
 	UpdateProjMatrix();
 }
 
-DirectX::XMFLOAT3 Game::Camera::GetPosition() const
+DirectX::XMFLOAT3 Game::FocusPointCamera::GetPosition() const
 {
 	return { m_World(3,0), m_World(3,1), m_World(3,2) };
 }
 
-Float3 Game::Camera::GetPositionFloat3() const
+Float3 Game::FocusPointCamera::GetPositionFloat3() const
 {
 	return { m_World(3,0), m_World(3,1), m_World(3,2) };
 }
 
-void Game::Camera::UpdateWorldMatrix()
+void Game::FocusPointCamera::UpdateWorldMatrix()
 {
 	const float pitchRad = m_Pitch * Constants::TO_RAD;
 	const float pitchCos = cosf(pitchRad);
@@ -127,7 +127,7 @@ void Game::Camera::UpdateWorldMatrix()
 	};
 }
 
-void Game::Camera::UpdateProjMatrix()
+void Game::FocusPointCamera::UpdateProjMatrix()
 {
 	constexpr float far = 50;
 	constexpr float near = .01f;
@@ -144,7 +144,7 @@ void Game::Camera::UpdateProjMatrix()
 	};
 }
 
-void Game::Camera::UpdateViewProjMatrix()
+void Game::FocusPointCamera::UpdateViewProjMatrix()
 {
 	using namespace DirectX;
 	const XMMATRIX xm_world = XMLoadFloat4x4(&m_World);

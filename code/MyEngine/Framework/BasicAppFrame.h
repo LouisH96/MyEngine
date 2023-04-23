@@ -4,7 +4,7 @@
 
 #include "BasicFramework.h"
 #include "App/FpsControl.h"
-#include "Game/Camera/Camera.h"
+#include "Game/Camera/FocusPointCamera.h"
 #include "Game/Camera/CameraController.h"
 #include "Rendering/Canvas.h"
 #include "Rendering/Gpu.h"
@@ -19,7 +19,7 @@ namespace MyEngine
 			Rendering::Gpu& Gpu;
 			Rendering::Canvas& Canvas;
 			App::FpsControl& FpsControl;
-			Game::Camera& Camera;
+			Game::FocusPointCamera& Camera;
 			Game::CameraController& CameraController;
 		};
 
@@ -45,7 +45,7 @@ namespace MyEngine
 			Canvas& canvas{ *gpu.MakeCanvas() };
 
 			//CAMERA
-			Camera camera{ window.AskClientSize_WinApi() };
+			FocusPointCamera camera{ window.AskClientSize_WinApi() };
 			CameraController cameraController{ camera, window.GetKeyboard(), window.GetMouse() };
 
 			//FPS

@@ -19,12 +19,12 @@ namespace MyEngine
 {
 	namespace Game
 	{
-		class Camera;
+		class FocusPointCamera;
 
 		class CameraController
 		{
 		public:
-			CameraController(Camera& camera, const App::Wrappers::Win32::Keyboard& keyboard, const App::Wrappers::Win32::Mouse& mouse);
+			CameraController(FocusPointCamera& camera, const App::Wrappers::Win32::Keyboard& keyboard, const App::Wrappers::Win32::Mouse& mouse);
 			void Update() const;
 
 			void SetScrollSpeed(float scrollSpeed) { m_ScrollSpeed = -scrollSpeed; };
@@ -34,7 +34,7 @@ namespace MyEngine
 		private:
 			const App::Wrappers::Win32::Keyboard& m_Keyboard;
 			const App::Wrappers::Win32::Mouse& m_Mouse;
-			Camera& m_Camera;
+			FocusPointCamera& m_Camera;
 			float m_ScrollSpeed;
 			float m_HorizontalSpeed;
 			float m_VerticalSpeed;

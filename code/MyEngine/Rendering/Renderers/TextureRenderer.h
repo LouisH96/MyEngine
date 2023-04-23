@@ -11,7 +11,7 @@ namespace MyEngine
 {
 	namespace Game
 	{
-		class Camera;
+		class FocusPointCamera;
 	}
 
 	namespace Rendering
@@ -25,7 +25,7 @@ namespace MyEngine
 			using CamDataRefType = CamData;
 
 			//---| Construction |---
-			TextureRenderer(Gpu& gpu, Game::Camera& camera, const std::wstring& shaderPath);
+			TextureRenderer(Gpu& gpu, Game::FocusPointCamera& camera, const std::wstring& shaderPath);
 			~TextureRenderer();
 
 			//---| Rule of Five |---
@@ -52,7 +52,7 @@ namespace MyEngine
 
 			//---| General |---
 			Gpu& m_Gpu;
-			Game::Camera& m_Camera;
+			Game::FocusPointCamera& m_Camera;
 			BlendState m_BlendState;
 			RasterizerState m_RasterizerState;
 			SamplerState m_Sampler;
@@ -66,7 +66,7 @@ namespace MyEngine
 		};
 
 		template <typename Vertex, typename CamData>
-		TextureRenderer<Vertex, CamData>::TextureRenderer(Gpu& gpu, Game::Camera& camera,
+		TextureRenderer<Vertex, CamData>::TextureRenderer(Gpu& gpu, Game::FocusPointCamera& camera,
 			const std::wstring& shaderPath)
 			: m_Gpu(gpu)
 			, m_Camera(camera)

@@ -2,22 +2,22 @@
 #include "ConstantBufferTypes.h"
 
 #include "Game/Transform.h"
-#include "Game/Camera/Camera.h"
+#include "Game/Camera/FocusPointCamera.h"
 
 using namespace DirectX;
 
-Rendering::CB_CamMat::CB_CamMat(const Game::Camera& cam)
+Rendering::CB_CamMat::CB_CamMat(const Game::FocusPointCamera& cam)
 	: CameraMatrix(cam.GetViewProjMatrix())
 {
 }
 
-Rendering::CB_CamMatPos::CB_CamMatPos(const Game::Camera& cam)
+Rendering::CB_CamMatPos::CB_CamMatPos(const Game::FocusPointCamera& cam)
 	: CameraMatrix(cam.GetViewProjMatrix())
 	, CameraPos(cam.GetPositionFloat3())
 {
 }
 
-Rendering::CB_CamMatPos::CB_CamMatPos(const Game::Camera& cam, const Game::Transform& transform)
+Rendering::CB_CamMatPos::CB_CamMatPos(const Game::FocusPointCamera& cam, const Game::Transform& transform)
 	: CameraMatrix(cam.GetViewProjMatrix())
 	, CameraPos(cam.GetPositionFloat3())
 {

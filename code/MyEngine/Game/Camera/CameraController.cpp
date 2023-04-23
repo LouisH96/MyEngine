@@ -3,7 +3,7 @@
 
 #include <DirectXMath.h>
 #include <App/Wrappers/Win32/Mouse.h>
-#include "Camera.h"
+#include "FocusPointCamera.h"
 #include "Windows.h"
 #include "Math/Constants.h"
 #include "Math/Int2.h"
@@ -11,7 +11,7 @@
 using namespace App::Wrappers::Win32;
 using namespace Math;
 
-Game::CameraController::CameraController(Camera& camera, const Keyboard& keyboard, const Mouse& mouse)
+Game::CameraController::CameraController(FocusPointCamera& camera, const Keyboard& keyboard, const Mouse& mouse)
 	: m_Keyboard(keyboard)
 	, m_Mouse(mouse)
 	, m_Camera(camera)

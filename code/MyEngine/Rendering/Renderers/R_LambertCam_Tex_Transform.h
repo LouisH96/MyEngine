@@ -13,7 +13,7 @@ namespace MyEngine
 	namespace Game
 	{
 		class Transform;
-		class Camera;
+		class FocusPointCamera;
 	}
 
 	namespace Rendering
@@ -26,7 +26,7 @@ namespace MyEngine
 		public:
 			using Vertex = V_PosNorUv;
 
-			R_LambertCam_Tex_Transform(Gpu& gpu, Game::Camera& camera);
+			R_LambertCam_Tex_Transform(Gpu& gpu, Game::FocusPointCamera& camera);
 			~R_LambertCam_Tex_Transform() = default;
 			R_LambertCam_Tex_Transform(const R_LambertCam_Tex_Transform& other) = delete;
 			R_LambertCam_Tex_Transform(R_LambertCam_Tex_Transform&& other) noexcept = delete;
@@ -49,7 +49,7 @@ namespace MyEngine
 			};
 
 			Gpu& m_Gpu;
-			Game::Camera& m_Camera;
+			Game::FocusPointCamera& m_Camera;
 
 			BlendState m_BlendState;
 			RasterizerState m_RasterizerState;

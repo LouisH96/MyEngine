@@ -6,10 +6,10 @@ namespace MyEngine
 {
 	namespace Game
 	{
-		class Camera
+		class FocusPointCamera
 		{
 		public:
-			explicit Camera(DirectX::XMINT2 size);
+			explicit FocusPointCamera(DirectX::XMINT2 size);
 
 			void Update();
 

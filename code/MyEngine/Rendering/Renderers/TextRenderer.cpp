@@ -8,7 +8,7 @@
 #include "Io/Ttf/FontRasterizer.h"
 #include "Io/Ttf/TtfReader.h"
 
-Rendering::TextRenderer::TextRenderer(Gpu& gpu, Game::Camera& camera)
+Rendering::TextRenderer::TextRenderer(Gpu& gpu, Game::FocusPointCamera& camera)
 	: m_pTextureRenderer(
 		new TextureRenderer<V_PosUv, CB_CamMat>(gpu, camera, Framework::Resources::GetGlobalShaderPath(L"unlitTexture.hlsl")))
 	, m_Gpu(gpu)

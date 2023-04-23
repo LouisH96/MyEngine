@@ -5,7 +5,7 @@
 #include "Rendering/State/Mesh.h"
 #include "Rendering/State/Texture.h"
 
-Rendering::R_LambertCam_Tex_Transform::R_LambertCam_Tex_Transform(Gpu& gpu, Game::Camera& camera)
+Rendering::R_LambertCam_Tex_Transform::R_LambertCam_Tex_Transform(Gpu& gpu, Game::FocusPointCamera& camera)
 	: m_Gpu(gpu)
 	, m_Camera(camera)
 	, m_BlendState{ gpu }
