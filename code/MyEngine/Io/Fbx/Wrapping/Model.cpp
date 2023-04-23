@@ -21,4 +21,7 @@ Io::Fbx::Wrapping::Model::Model(Reading::FbxObject& modelObject)
 	m_DefaultAttributeIndex = properties.GetInt("DefaultAttributeIndex");
 	m_LclRotation = properties.GetFloat3("Lcl Rotation", {});
 	m_CurrentUvSet = properties.GetString("currentUVSet", "");
+
+	m_RotationPivot.x = -m_RotationPivot.x;
+	m_RotationOffset.x = -m_RotationOffset.x;
 }

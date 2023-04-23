@@ -23,6 +23,8 @@ namespace MyEngine
 					Array<Math::Float3> Normals{};
 					Array<Math::Float2> Uvs{};
 					Array<int> Indices{};
+					Math::Float3 RotationPivot{};
+					Math::Float3 RotationOffset{};
 				};
 
 				//---| Class |---

@@ -13,23 +13,18 @@ Io::Fbx::FbxClass::FbxClass(const std::wstring& path)
 {
 	FbxData data{ path };
 	m_Geometries = { data.GetGeometries().GetSize() };
-	for(int i = 0; i < m_Geometries.GetSize(); i++)
+	for (int i = 0; i < m_Geometries.GetSize(); i++)
 	{
 		Wrapping::Geometry& dataGeometry = data.GetGeometries()[i];
+		Wrapping::Model& dataModel = data.GetModel(i);
 		Geometry& modelGeometry = m_Geometries[i];
 		modelGeometry.Indices = std::move(dataGeometry.GetIndices());
 		modelGeometry.Normals = std::move(dataGeometry.GetNormals());
 		modelGeometry.Points = std::move(dataGeometry.GetPoints());
 		modelGeometry.Uvs = std::move(dataGeometry.GetUvs());
-		modelGeometry.Name = std::move(data.GetModel(i).GetName());
-	}
-	for(int iGeometry = 0; iGeometry < data.GetModels().GetSize(); iGeometry++)
-	{
-		const Float3& rotationOffset{ data.GetModel(iGeometry).GetRotationOffset() };
-		const Float3& rotationPivot{ data.GetModel(iGeometry).GetRotationPivot() };
-		Array<Float3>& points{ m_Geometries[iGeometry].Points };
-		for (int iPoint = 0; iPoint < points.GetSize(); iPoint++)
-			points[iPoint] +=  rotationOffset;
+		modelGeometry.Name = std::move(dataModel.GetName());
+		modelGeometry.RotationOffset = dataModel.GetRotationOffset();
+		modelGeometry.RotationPivot = dataModel.GetRotationPivot();
 	}
 	for (int i = 0; i < m_Geometries.GetSize(); i++)
 		MakeTriangleList(m_Geometries[i]);
