@@ -56,7 +56,7 @@ void MyEngine::Rendering::Canvas::Present() const
 	m_pSwapChain->Present1(0, DXGI_PRESENT_DO_NOT_WAIT, &param);
 }
 
-void MyEngine::Rendering::Canvas::OnWindowResized(DirectX::XMINT2 newSize)
+void MyEngine::Rendering::Canvas::OnWindowResized(Math::Int2 newSize)
 {
 	SAFE_RELEASE(m_pDepthStencilView);
 	SAFE_RELEASE(m_pMainRenderTargetView);
@@ -68,7 +68,7 @@ void MyEngine::Rendering::Canvas::OnWindowResized(DirectX::XMINT2 newSize)
 
 void MyEngine::Rendering::Canvas::InitSwapChain(const App::Wrappers::Win32::Window& window)
 {
-	const DirectX::XMINT2 windowSize = window.GetClientSize();
+	const Math::Int2 windowSize = window.GetClientSize();
 	DXGI_SWAP_CHAIN_DESC1 desc{};
 	desc.BufferCount = 2;
 	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -133,7 +133,7 @@ void MyEngine::Rendering::Canvas::InitDepthStencilState()
 	m_Gpu.GetDevice().CreateDepthStencilState(&dsDesc, &m_pDepthStencilState);
 }
 
-void MyEngine::Rendering::Canvas::InitDepthStencil(const DirectX::XMINT2& size)
+void MyEngine::Rendering::Canvas::InitDepthStencil(const Math::Int2& size)
 {
 	//TEXTURE
 	ID3D11Texture2D* pTempTexture{};
@@ -171,7 +171,7 @@ void MyEngine::Rendering::Canvas::InitDepthStencil(const DirectX::XMINT2& size)
 	pTempTexture->Release();
 }
 
-void MyEngine::Rendering::Canvas::SetViewPort(DirectX::XMINT2 size)
+void MyEngine::Rendering::Canvas::SetViewPort(Math::Int2 size)
 {
 	m_ViewPort = {
 	  0.0f, 0.0f,

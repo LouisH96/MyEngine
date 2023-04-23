@@ -26,7 +26,7 @@ namespace MyEngine
 		public:
 			using Vertex = V_PosNorUv;
 
-			R_LambertCam_Tex_Transform(Gpu& gpu, Game::Camera& camera);
+			R_LambertCam_Tex_Transform(Gpu& gpu);
 			~R_LambertCam_Tex_Transform() = default;
 			R_LambertCam_Tex_Transform(const R_LambertCam_Tex_Transform& other) = delete;
 			R_LambertCam_Tex_Transform(R_LambertCam_Tex_Transform&& other) noexcept = delete;
@@ -34,7 +34,7 @@ namespace MyEngine
 			R_LambertCam_Tex_Transform& operator=(R_LambertCam_Tex_Transform&& other) noexcept = delete;
 
 			//---| Loop |---
-			void Render();
+			void Render(const Math::Float3& cameraPosition, const DirectX::XMMATRIX& viewProjection);
 
 			//---| Operations |---
 			void AddEntry(Mesh& mesh, Texture& texture, Game::Transform& transform);
@@ -49,7 +49,6 @@ namespace MyEngine
 			};
 
 			Gpu& m_Gpu;
-			Game::Camera& m_Camera;
 
 			BlendState m_BlendState;
 			RasterizerState m_RasterizerState;

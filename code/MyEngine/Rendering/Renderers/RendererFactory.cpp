@@ -3,20 +3,18 @@
 #include <Framework/Resources.h>
 
 
-Rendering::RendererFactory::SimpleRenderer* Rendering::RendererFactory::CreateSimpleRenderer(Gpu& gpu,
-                                                                                             Game::Camera& camera, bool wireframe)
+Rendering::RendererFactory::SimpleRenderer* Rendering::RendererFactory::CreateSimpleRenderer(Gpu& gpu, bool wireframe)
 {
-	return new SimpleRenderer(gpu, camera, Framework::Resources::GetGlobalShaderPath(L"lambertCamDir.hlsl"), wireframe);
+	return new SimpleRenderer(gpu, Framework::Resources::GetGlobalShaderPath(L"lambertCamDir.hlsl"), wireframe);
 }
 
 Rendering::RendererFactory::UnlitRenderer* Rendering::RendererFactory::CreateUnlitRenderer(
-	Gpu& gpu, Game::Camera& camera, bool wireframe)
+	Gpu& gpu, bool wireframe)
 {
-	return new UnlitRenderer(gpu, camera, Framework::Resources::GetGlobalShaderPath(L"unlit.hlsl"), wireframe);
+	return new UnlitRenderer(gpu, Framework::Resources::GetGlobalShaderPath(L"unlit.hlsl"), wireframe);
 }
 
-Rendering::RendererFactory::SimpleTexRenderer* Rendering::RendererFactory::CreateSimpleTexRenderer(
-	Gpu& gpu, Game::Camera& camera)
+Rendering::RendererFactory::SimpleTexRenderer* Rendering::RendererFactory::CreateSimpleTexRenderer(Gpu& gpu)
 {
-	return new SimpleTexRenderer(gpu, camera, Framework::Resources::GetGlobalShaderPath(L"LambertCam_Tex.hlsl"));
+	return new SimpleTexRenderer(gpu, Framework::Resources::GetGlobalShaderPath(L"LambertCam_Tex.hlsl"));
 }

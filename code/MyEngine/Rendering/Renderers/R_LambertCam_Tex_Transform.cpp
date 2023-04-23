@@ -5,9 +5,8 @@
 #include "Rendering/State/Mesh.h"
 #include "Rendering/State/Texture.h"
 
-Rendering::R_LambertCam_Tex_Transform::R_LambertCam_Tex_Transform(Gpu& gpu, Game::Camera& camera)
+Rendering::R_LambertCam_Tex_Transform::R_LambertCam_Tex_Transform(Gpu& gpu)
 	: m_Gpu(gpu)
-	, m_Camera(camera)
 	, m_BlendState{ gpu }
 	, m_RasterizerState{ gpu }
 	, m_Sampler{ gpu }
@@ -19,7 +18,7 @@ Rendering::R_LambertCam_Tex_Transform::R_LambertCam_Tex_Transform(Gpu& gpu, Game
 {
 }
 
-void Rendering::R_LambertCam_Tex_Transform::Render()
+void Rendering::R_LambertCam_Tex_Transform::Render(const Math::Float3& cameraPosition, const DirectX::XMMATRIX& viewProjection)
 {
 	m_Sampler.ActivatePs(m_Gpu);
 	m_RasterizerState.Activate(m_Gpu);
@@ -28,7 +27,7 @@ void Rendering::R_LambertCam_Tex_Transform::Render()
 	m_Shader.Activate();
 	for (int i = 0; i < m_Entries.GetSize(); i++)
 	{
-		m_CameraConstantBuffer.Update(m_Gpu, CB_CamMatPos{ m_Camera, *m_Entries[i].pTransform });
+		m_CameraConstantBuffer.Update(m_Gpu, CB_CamMatPos{ cameraPosition, viewProjection, *m_Entries[i].pTransform });
 		m_CameraConstantBuffer.Activate(m_Gpu);
 		m_ModelConstantBuffer.Update(m_Gpu, CB_ModelBuffer{ *m_Entries[i].pTransform });
 		m_ModelConstantBuffer.Activate(m_Gpu, 1);

@@ -7,8 +7,7 @@
     <ClCompile Include="App\BasicExampleApp.cpp" />
     <ClCompile Include="App\FpsControl.cpp" />
     <ClCompile Include="Framework\Resources.cpp" />
-    <ClCompile Include="Game\Camera\FocusPointCamera.cpp" />
-    <ClCompile Include="Game\Camera\CameraController.cpp" />
+    <ClCompile Include="Game\Camera\FocusPointCameraController.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Game\GameGlobals.cpp" />
     <ClCompile Include="Math\RectInt.cpp" />
@@ -99,8 +98,7 @@
     <ClInclude Include="App\FpsControl.h" />
     <ClInclude Include="App\Time.h" />
     <ClInclude Include="Framework\Resources.h" />
-    <ClInclude Include="Game\Camera\FocusPointCamera.h" />
-    <ClInclude Include="Game\Camera\CameraController.h" />
+    <ClInclude Include="Game\Camera\FocusPointCameraController.h" />
     <ClInclude Include="Math\Constants.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Game\GameGlobals.h" />

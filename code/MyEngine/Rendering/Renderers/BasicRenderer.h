@@ -25,7 +25,7 @@ namespace MyEngine
 			using CamDataRefType = CamData;
 
 			//---| Construction |---
-			BasicRenderer(Gpu& gpu, Game::Camera& camera, const std::wstring& shaderPath, bool isWireframe = false);
+			BasicRenderer(Gpu& gpu, const std::wstring& shaderPath, bool isWireframe = false);
 			~BasicRenderer();
 
 			//---| Rule of Five |---
@@ -35,7 +35,7 @@ namespace MyEngine
 			BasicRenderer& operator=(BasicRenderer&& other) noexcept = delete;
 
 			//---| Loop |---
-			void Render();
+			void Render(const Math::Float3& cameraPosition, const DirectX::XMMATRIX& viewProjection);
 
 			//---| Operations |---
 			void AddMesh(const Array<Vertex>& vertices, const Array<int>& indices);
@@ -44,7 +44,6 @@ namespace MyEngine
 		private:
 			//---| General |---
 			Gpu& m_Gpu;
-			Game::Camera& m_Camera;
 			BlendState m_BlendState;
 			RasterizerState m_RasterizerState;
 
@@ -57,10 +56,9 @@ namespace MyEngine
 		};
 
 		template <typename Vertex, typename CamData>
-		BasicRenderer<Vertex, CamData>::BasicRenderer(Gpu& gpu, Game::Camera& camera,
+		BasicRenderer<Vertex, CamData>::BasicRenderer(Gpu& gpu,
 			const std::wstring& shaderPath, bool isWireframe)
 			: m_Gpu(gpu)
-			, m_Camera(camera)
 			, m_BlendState(gpu)
 			, m_RasterizerState(gpu, isWireframe)
 			, m_Shader(gpu, shaderPath)
@@ -76,9 +74,9 @@ namespace MyEngine
 		}
 
 		template <typename Vertex, typename CamData>
-		void BasicRenderer<Vertex, CamData>::Render()
+		void BasicRenderer<Vertex, CamData>::Render(const Math::Float3& cameraPosition, const DirectX::XMMATRIX& viewProjection)
 		{
-			m_ConstantBuffer.Update(m_Gpu, CamData{ m_Camera });
+			m_ConstantBuffer.Update(m_Gpu, CamData{ cameraPosition, viewProjection });
 			m_ConstantBuffer.Activate(m_Gpu);
 			m_RasterizerState.Activate(m_Gpu);
 			m_InputLayout.Activate(m_Gpu);

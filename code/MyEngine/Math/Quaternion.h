@@ -22,6 +22,7 @@ namespace MyEngine
 
 			//---| Operations |---
 			void Rotate(const Quaternion& rotation);
+			void Rotate(const Float3& axis, float radians);
 
 			Quaternion Normalized() const;
 			void Normalize();

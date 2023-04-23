@@ -9,9 +9,9 @@
 #include "Io/Ttf/FontRasterizer.h"
 #include "Io/Ttf/TtfReader.h"
 
-Rendering::TextRenderer::TextRenderer(Gpu& gpu, Game::Camera& camera)
+Rendering::TextRenderer::TextRenderer(Gpu& gpu)
 	: m_pTextureRenderer(
-		new TextureRenderer<V_PosUv, CB_CamMat>(gpu, camera, Framework::Resources::GetGlobalShaderPath(L"unlitTexture.hlsl")))
+		new TextureRenderer<V_PosUv, CB_CamMat>(gpu, Framework::Resources::GetGlobalShaderPath(L"unlitTexture.hlsl")))
 	, m_Gpu(gpu)
 {
 }
@@ -44,7 +44,7 @@ void Rendering::TextRenderer::AddCharacterXy(const Math::Float3& offset, const M
 	m_pTextureRenderer->AddMesh(pMesh, pTexture);
 }
 
-void Rendering::TextRenderer::Render() const
+void Rendering::TextRenderer::Render(const Math::Float3& cameraPosition, const DirectX::XMMATRIX& viewProjection) const
 {
-	m_pTextureRenderer->Render();
+	m_pTextureRenderer->Render(cameraPosition, viewProjection);
 }

@@ -25,7 +25,7 @@ namespace MyEngine
 					IExtraWinProc() = default;
 					virtual ~IExtraWinProc() = default;
 					
-					virtual void OnResize(const DirectX::XMINT2& newSize) {}
+					virtual void OnResize(Math::Int2 newSize) {}
 					virtual void OnPaint() {}
 					virtual void OnKeyUp(char c) {}
 					virtual void OnKeyDown(char c) {}

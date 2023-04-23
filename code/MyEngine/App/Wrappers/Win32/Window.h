@@ -45,7 +45,7 @@ namespace MyEngine
 					//window
 					bool IsDestroyed() const { return m_IsDestroyed; }
 					bool IsResized() const { return m_IsResized; }
-					DirectX::XMINT2 GetClientSize() const { return m_ClientSize; };
+					Math::Int2 GetClientSize() const { return m_ClientSize; };
 					int GetClientWidth() const { return m_ClientSize.x; }
 					int GetClientHeight() const { return m_ClientSize.y; }
 					DirectX::XMINT2 AskClientSize_WinApi() const;
@@ -65,7 +65,7 @@ namespace MyEngine
 
 					Keyboard m_Keyboard{};
 					Mouse m_Mouse{};
-					DirectX::XMINT2 m_ClientSize{ 1200,800 };
+					Math::Int2 m_ClientSize{ 1200,800 };
 					HWND m_WindowHandle{};
 					IExtraWinProc* m_pExtraWinProc{};
 					bool m_IsDestroyed{ false };

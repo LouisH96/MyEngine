@@ -34,9 +34,9 @@ namespace MyEngine
 			DebugRenderer& operator=(const DebugRenderer& other) = delete;
 			DebugRenderer& operator=(DebugRenderer&& other) noexcept = delete;
 
-			static void Init(Rendering::Gpu& gpu, Game::Camera& camera);
+			static void Init(Rendering::Gpu& gpu);
 			static void Release();
-			static void Render();
+			static void Render(const Math::Float3& cameraPosition, const DirectX::XMMATRIX& viewProjection);
 
 			static void AddSphere(const Math::Float3& position, const Math::Float3& color, float radius);
 			static void AddSpheres(const Array<Math::Float3>& positions, const Math::Float3& color, float radius);
@@ -57,7 +57,6 @@ namespace MyEngine
 			//---| General |---
 			static DebugRenderer* m_pStatic;
 			Rendering::Gpu& m_Gpu;
-			Game::Camera& m_Camera;
 
 			//---| RenderState |---
 			Rendering::BlendState m_BlendState;
@@ -72,11 +71,11 @@ namespace MyEngine
 			Array<Rendering::Mesh*> m_Meshes{};
 
 			//---| Init |---
-			DebugRenderer(Rendering::Gpu& gpu, Game::Camera& camera);
+			DebugRenderer(Rendering::Gpu& gpu);
 			~DebugRenderer();
 
 			//---| Loop |---
-			void Class_Render();
+			void Class_Render(const Math::Float3& cameraPosition, const DirectX::XMMATRIX& viewProjection);
 
 			//---| Operations |---
 			void Class_AddSphere(const Math::Float3& position, const Math::Float3& color, float radius);

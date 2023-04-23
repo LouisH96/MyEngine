@@ -5,7 +5,7 @@
 #include "BasicFramework.h"
 #include "App/FpsControl.h"
 #include "Game/Camera/FocusPointCamera.h"
-#include "Game/Camera/CameraController.h"
+#include "Game/Camera/FocusPointCameraController.h"
 #include "Rendering/Canvas.h"
 #include "Rendering/Gpu.h"
 
@@ -20,7 +20,7 @@ namespace MyEngine
 			Rendering::Canvas& Canvas;
 			App::FpsControl& FpsControl;
 			Game::FocusPointCamera& Camera;
-			Game::CameraController& CameraController;
+			Game::FocusPointCameraController& CameraController;
 		};
 
 		template<typename T>
@@ -46,7 +46,7 @@ namespace MyEngine
 
 			//CAMERA
 			FocusPointCamera camera{ window.AskClientSize_WinApi() };
-			CameraController cameraController{ camera, window.GetKeyboard(), window.GetMouse() };
+			FocusPointCameraController cameraController{ camera, window.GetKeyboard(), window.GetMouse() };
 
 			//FPS
 			FpsControl fpsControl{ 200 };

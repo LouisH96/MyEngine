@@ -9,9 +9,9 @@
 
 DebugRenderer* DebugRenderer::m_pStatic = nullptr;
 
-void DebugRenderer::Init(Rendering::Gpu& gpu, Game::Camera& camera)
+void DebugRenderer::Init(Rendering::Gpu& gpu)
 {
-	m_pStatic = new DebugRenderer(gpu, camera);
+	m_pStatic = new DebugRenderer(gpu);
 }
 
 void DebugRenderer::Release()
@@ -19,9 +19,9 @@ void DebugRenderer::Release()
 	delete m_pStatic;
 }
 
-void DebugRenderer::Render()
+void DebugRenderer::Render(const Math::Float3& cameraPosition, const DirectX::XMMATRIX& viewProjection)
 {
-	m_pStatic->Class_Render();
+	m_pStatic->Class_Render(cameraPosition, viewProjection);
 }
 
 void DebugRenderer::AddSphere(const Float3& position, const Float3& color, float radius)
@@ -126,15 +126,14 @@ void DebugRenderer::AddGridXy(const Math::Float3& offset, const Math::Float2& bo
 	m_pStatic->m_pLineRenderer->AddMesh(Rendering::Mesh::Create(m_pStatic->m_Gpu, vertices, Rendering::Topology::LineStrip));
 }
 
-DebugRenderer::DebugRenderer(Rendering::Gpu& gpu, Game::Camera& camera)
+DebugRenderer::DebugRenderer(Rendering::Gpu& gpu)
 	: m_Gpu(gpu)
-	, m_Camera(camera)
 	, m_BlendState(gpu)
 	, m_RasterizerState(gpu)
 	, m_InputLayout(gpu, Vertex::ELEMENTS, Vertex::NR_ELEMENTS)
 	, m_ConstantBuffer(gpu)
 	, m_Shader(gpu, Framework::Resources::GetGlobalShaderPath(L"lambertCamDir.hlsl"))
-	, m_pLineRenderer(Rendering::RendererFactory::CreateUnlitRenderer(gpu, camera))
+	, m_pLineRenderer(Rendering::RendererFactory::CreateUnlitRenderer(gpu))
 {
 }
 
@@ -144,9 +143,9 @@ DebugRenderer::~DebugRenderer()
 	delete m_pLineRenderer;
 }
 
-void DebugRenderer::Class_Render()
+void DebugRenderer::Class_Render(const Math::Float3& cameraPosition, const DirectX::XMMATRIX& viewProjection)
 {
-	m_ConstantBuffer.Update(m_Gpu, Rendering::CB_CamMatPos{ m_Camera });
+	m_ConstantBuffer.Update(m_Gpu, Rendering::CB_CamMatPos{ cameraPosition, viewProjection });
 	m_ConstantBuffer.Activate(m_Gpu);
 	m_RasterizerState.Activate(m_Gpu);
 	m_InputLayout.Activate(m_Gpu);
@@ -157,7 +156,7 @@ void DebugRenderer::Class_Render()
 		m_Meshes[i]->Activate(m_Gpu);
 		m_Meshes[i]->Draw(m_Gpu);
 	}
-	m_pLineRenderer->Render();
+	m_pLineRenderer->Render(cameraPosition, viewProjection);
 }
 
 void DebugRenderer::Class_AddSphere(const Float3& position, const Float3& color, float radius)

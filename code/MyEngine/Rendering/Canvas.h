@@ -41,7 +41,7 @@ namespace MyEngine
 			void BeginPaint() const;
 			void Present() const;
 
-			void OnWindowResized(DirectX::XMINT2 newSize);
+			void OnWindowResized(Math::Int2 newSize);
 
 		private:
 			Gpu& m_Gpu;
@@ -58,8 +58,8 @@ namespace MyEngine
 			void InitSwapChain(const App::Wrappers::Win32::Window& window);
 			void InitRenderTarget();
 			void InitDepthStencilState();
-			void InitDepthStencil(const DirectX::XMINT2& size);
-			void SetViewPort(DirectX::XMINT2 size);
+			void InitDepthStencil(const Math::Int2& size);
+			void SetViewPort(Math::Int2 size);
 
 			void GetFactory2(IDXGIDevice2*& pDevice2, IDXGIAdapter*& pAdapter, IDXGIFactory2*& pFactory) const;//clean after use
 		};

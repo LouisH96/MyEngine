@@ -68,8 +68,7 @@
     <ClCompile Include="Io\Json\JsonNumber.cpp" />
     <ClCompile Include="Io\Json\JsonNull.cpp" />
     <ClCompile Include="Math\Cube.cpp" />
-    <ClCompile Include="Game\Camera\CameraController.cpp" />
-    <ClCompile Include="Game\Camera\FocusPointCamera.cpp" />
+    <ClCompile Include="Game\Camera\FocusPointCameraController.cpp" />
     <ClCompile Include="Game\GameGlobals.cpp" />
     <ClCompile Include="Rendering\Dx\DxHelper.cpp" />
     <ClCompile Include="App\Wrappers\Win32\Keyboard_StateReader.cpp" />
@@ -175,8 +174,7 @@
     <ClInclude Include="Math\Float3.h" />
     <ClInclude Include="Math\Float2.h" />
     <ClInclude Include="Game\GameGlobals.h" />
-    <ClInclude Include="Game\Camera\CameraController.h" />
-    <ClInclude Include="Game\Camera\FocusPointCamera.h" />
+    <ClInclude Include="Game\Camera\FocusPointCameraController.h" />
     <ClInclude Include="App\FpsControl.h" />
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
     <ClInclude Include="App\Wrappers\Win32\Keyboard_StateReader.h" />

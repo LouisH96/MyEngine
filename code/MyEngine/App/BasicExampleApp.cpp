@@ -7,16 +7,17 @@
 #include <Rendering/State/Mesh.h>
 #include <Rendering/State/Shader.h>
 #include "FpsControl.h"
-#include "../Game/Camera/FocusPointCamera.h"
-#include "../Game/Camera/CameraController.h"
+#include "../Game/Camera/FocusPointCameraController.h"
 #include "App/Wrappers/Win32/Window.h"
 #include "DataStructures/Array.h"
+#include "Game/Camera/Camera.h"
 #include "Generation/Shapes.h"
 #include "Math/Cube.h"
 #include "Math/Float3.h"
 #include "Rendering/Canvas.h"
 #include "Rendering/State/ConstantBuffer.h"
 #include "Rendering/State/InputLayout.h"
+#include <Rendering/Structs/ConstantBufferTypes.h>
 
 using namespace Rendering;
 
@@ -36,10 +37,6 @@ void App::BasicExampleApp::Run()
 	{
 		DirectX::XMFLOAT3 pos{};
 		DirectX::XMFLOAT3 col{};
-	};
-	struct CameraMatrixCBuffer
-	{
-		DirectX::XMFLOAT4X4 cameraMatrix;
 	};
 	//cube
 	Array<Float3> cubePositions{};
@@ -63,12 +60,12 @@ void App::BasicExampleApp::Run()
 	};
 	const InputLayout inputLayout{ gpu, meshElements, ARRAYSIZE(meshElements) };
 
-	Rendering::Shader& shader = *new Rendering::Shader(gpu, Framework::Resources::GetGlobalShaderPath(L"unlit.hlsl"));
-	Rendering::Mesh& mesh = *Rendering::Mesh::Create<Vertex>(gpu, cubeVertices, cubeIndices);
-	const ConstantBuffer<CameraMatrixCBuffer> constantBuffer{ gpu };
+	Shader& shader = *new Shader(gpu, Framework::Resources::GetGlobalShaderPath(L"unlit.hlsl"));
+	Mesh& mesh = *Mesh::Create<Vertex>(gpu, cubeVertices, cubeIndices);
+	const ConstantBuffer<CB_CamMat> constantBuffer{ gpu };
 
 	//GAME
-	Game::FocusPointCamera& camera = *new Game::FocusPointCamera(window.AskClientSize_WinApi());
+	Game::Camera& camera = *new Game::Camera(window.GetClientSize());
 
 	//RENDER-PIPELINE
 	constantBuffer.ActivateVs(gpu);
@@ -77,7 +74,7 @@ void App::BasicExampleApp::Run()
 	mesh.Activate(gpu);
 
 	//input
-	Game::CameraController& cameraController = *new Game::CameraController(camera, window.GetKeyboard(), window.GetMouse());
+	Game::FocusPointCameraController& cameraController = *new Game::FocusPointCameraController(camera, window.GetKeyboard(), window.GetMouse());
 	cameraController.SetScrollSpeed(.25f);
 
 	//fps 
@@ -100,15 +97,13 @@ void App::BasicExampleApp::Run()
 
 		//input
 		cameraController.Update();
-		camera.Update();
 
 		//render
-		constantBuffer.Update(gpu, { camera.GetViewProjMatrix() });
+		constantBuffer.Update(gpu, CB_CamMat{ cameraController.GetViewProjectionMatrix() });
 		canvas.BeginPaint();
 		shader.Activate();
 		mesh.Activate(gpu);
 		mesh.Draw(gpu);
-		camera.Update();
 		canvas.Present();
 	}
 

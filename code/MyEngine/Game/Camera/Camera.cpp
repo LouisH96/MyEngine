@@ -11,20 +11,6 @@ Game::Camera::Camera(Math::Int2 windowSize, float fov, float near, float far)
 	OnWindowResized(windowSize);
 }
 
-DirectX::XMFLOAT4X4 Game::Camera::GetViewProjectionMatrix() const
-{
-	using namespace DirectX;
-	const XMMATRIX rotation{ XMMatrixRotationQuaternion(XMLoadFloat4(reinterpret_cast<const XMFLOAT4*>(&m_Transform.Rotation.GetReal().x))) };
-	const XMMATRIX translation{ XMMatrixTranslationFromVector(XMLoadFloat3(reinterpret_cast<const XMFLOAT3*>(&m_Transform.Position))) };
-	const XMMATRIX world{ translation * rotation };
-	const XMMATRIX projection{ XMLoadFloat4x4(&m_ProjectionMatrix) };
-	const XMMATRIX view{ XMMatrixInverse(nullptr, world) };
-	const XMMATRIX viewProjection{ view * projection };
-	XMFLOAT4X4 result;
-	XMStoreFloat4x4(&result, viewProjection);
-	return result;
-}
-
 void Game::Camera::OnWindowResized(Math::Int2 windowSize)
 {
 	m_InvAspectRatio = static_cast<float>(windowSize.y) / static_cast<float>(windowSize.x);
@@ -37,9 +23,9 @@ void Game::Camera::SetFieldOfView(float angle)
 	UpdateProjectionMatrix();
 }
 
-void Game::Camera::SetPosition(const Math::Float3& position)
+const DirectX::XMMATRIX& Game::Camera::GetXmProjectionMatrix() const
 {
-	m_Transform.Position = position;
+	return DirectX::XMLoadFloat4x4(&m_ProjectionMatrix);
 }
 
 void Game::Camera::UpdateProjectionMatrix()

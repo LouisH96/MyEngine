@@ -48,6 +48,11 @@ void Math::Quaternion::Rotate(const Quaternion& rotation)
 	Normalize();
 }
 
+void Math::Quaternion::Rotate(const Float3& axis, float radians)
+{
+	Rotate(FromAxis(axis, radians));
+}
+
 Math::Quaternion Math::Quaternion::Normalized() const
 {
 	const float invLength{ 1.f / GetLength() };
