@@ -122,7 +122,7 @@ Io::Fbx::Reading::FbxProperty* Io::Fbx::Reading::FbxObject::GetProperty(int idx)
 void Io::Fbx::Reading::FbxObject::ReadNode(std::istream& stream, uint8_t version)
 {
 	const Bini read{ stream };
-	if(version == 74)
+	if(version == 74 || version == 73)
 	{
 		m_End = read.Uint32();
 		m_NrProps = read.Uint32();
