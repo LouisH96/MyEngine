@@ -4,7 +4,6 @@
 
 #include "BasicFramework.h"
 #include "App/FpsControl.h"
-#include "Game/Camera/FocusPointCamera.h"
 #include "Game/Camera/FocusPointCameraController.h"
 #include "Rendering/Canvas.h"
 #include "Rendering/Gpu.h"
@@ -19,7 +18,6 @@ namespace MyEngine
 			Rendering::Gpu& Gpu;
 			Rendering::Canvas& Canvas;
 			App::FpsControl& FpsControl;
-			Game::FocusPointCamera& Camera;
 			Game::FocusPointCameraController& CameraController;
 		};
 

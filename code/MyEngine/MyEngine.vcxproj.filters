@@ -89,6 +89,7 @@
     <ClCompile Include="Math\Quaternion.cpp" />
     <ClCompile Include="Game\Camera\Camera.cpp" />
     <ClCompile Include="Framework\CoreServices.cpp" />
+    <ClCompile Include="Game\Camera\FpsCameraController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -201,6 +202,7 @@
     <ClInclude Include="Game\Camera\Camera.h" />
     <ClInclude Include="Framework\Frame_NoCam.h" />
     <ClInclude Include="Framework\CoreServices.h" />
+    <ClInclude Include="Game\Camera\FpsCameraController.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

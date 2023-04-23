@@ -1,4 +1,5 @@
 #pragma once
+#include "Value2.h"
 
 namespace MyEngine
 {
