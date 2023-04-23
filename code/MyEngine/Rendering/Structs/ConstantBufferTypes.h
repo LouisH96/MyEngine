@@ -6,6 +6,7 @@ namespace MyEngine
 {
 	namespace Game
 	{
+		class Camera;
 		class Transform;
 		class FocusPointCamera;
 	}
@@ -21,6 +22,7 @@ namespace MyEngine
 
 			CB_CamMat() = default;
 			CB_CamMat(const Game::FocusPointCamera& cam);
+			CB_CamMat(const Game::Camera& cam);
 		};
 		struct CB_CamMatPos
 		{
@@ -31,13 +33,15 @@ namespace MyEngine
 			CB_CamMatPos() = default;
 			explicit CB_CamMatPos(const Game::FocusPointCamera& cam);
 			CB_CamMatPos(const Game::FocusPointCamera& cam, const Game::Transform& transforms);
+			explicit CB_CamMatPos(const Game::Camera& cam);
+			CB_CamMatPos(const Game::Camera& cam, const Game::Transform& transforms);
 		};
 		struct CB_ModelBuffer
 		{
 			DirectX::XMFLOAT4X4 ModelMatrix{};
 			DirectX::XMFLOAT4X4 InvTransposeModelMatrix{};
 
-			CB_ModelBuffer();
+			CB_ModelBuffer() = default;
 			explicit CB_ModelBuffer(const Game::Transform& transform);
 		};
 	}

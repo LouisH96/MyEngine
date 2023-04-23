@@ -10,6 +10,8 @@ namespace MyEngine
 		public:
 			Math::Float3 Position{};
 			Math::Quaternion Rotation{};
+
+			DirectX::XMMATRIX AsMatrix() const;
 		};
 	}
 }

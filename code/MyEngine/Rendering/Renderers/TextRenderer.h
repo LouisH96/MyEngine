@@ -25,7 +25,7 @@ namespace MyEngine
 		class TextRenderer
 		{
 		public:
-			TextRenderer(Gpu& gpu, Game::FocusPointCamera& camera);
+			TextRenderer(Gpu& gpu, Game::Camera& camera);
 			~TextRenderer();
 
 			void AddCharacterXy(const Math::Float3& offset, const Math::Float2& size, const Io::Ttf::FontRasterizer& rasterizer) const;

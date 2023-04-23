@@ -2,6 +2,7 @@
 #include "ConstantBufferTypes.h"
 
 #include "Game/Transform.h"
+#include "Game/Camera/Camera.h"
 #include "Game/Camera/FocusPointCamera.h"
 
 using namespace DirectX;
@@ -9,6 +10,26 @@ using namespace DirectX;
 Rendering::CB_CamMat::CB_CamMat(const Game::FocusPointCamera& cam)
 	: CameraMatrix(cam.GetViewProjMatrix())
 {
+}
+
+Rendering::CB_CamMat::CB_CamMat(const Game::Camera& cam)
+	: CameraMatrix{ cam.GetViewProjectionMatrix() }
+{
+}
+
+Rendering::CB_CamMatPos::CB_CamMatPos(const Game::Camera& cam)
+	: CameraMatrix{ cam.GetViewProjectionMatrix() }
+	, CameraPos{ cam.GetTransform().Position }
+{
+}
+
+Rendering::CB_CamMatPos::CB_CamMatPos(const Game::Camera& cam, const Game::Transform& transforms)
+	: CameraMatrix{ cam.GetViewProjectionMatrix() }
+	, CameraPos{ cam.GetTransform().Position }
+{
+	XMMATRIX xmMatrix{ transforms.AsMatrix() };
+	xmMatrix *= XMLoadFloat4x4(&CameraMatrix);
+	XMStoreFloat4x4(&CameraMatrix, xmMatrix);
 }
 
 Rendering::CB_CamMatPos::CB_CamMatPos(const Game::FocusPointCamera& cam)
@@ -31,10 +52,6 @@ Rendering::CB_CamMatPos::CB_CamMatPos(const Game::FocusPointCamera& cam, const G
 	};
 	const XMMATRIX rotation{ XMMatrixRotationQuaternion(XMLoadFloat4(&quaternion)) };
 	XMStoreFloat4x4(&CameraMatrix, rotation * translation * camMatrix);
-}
-
-Rendering::CB_ModelBuffer::CB_ModelBuffer()
-{
 }
 
 Rendering::CB_ModelBuffer::CB_ModelBuffer(const Game::Transform& transform)

@@ -88,6 +88,8 @@
     <ClCompile Include="Rendering\Renderers\R_LambertCam_Tex_Transform.cpp" />
     <ClCompile Include="Game\Transform.cpp" />
     <ClCompile Include="Math\Quaternion.cpp" />
+    <ClCompile Include="Game\Camera\Camera.cpp" />
+    <ClCompile Include="Framework\CoreServices.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -197,6 +199,10 @@
     <ClInclude Include="Rendering\Renderers\R_LambertCam_Tex_Transform.h" />
     <ClInclude Include="Game\Transform.h" />
     <ClInclude Include="Math\Quaternion.h" />
+    <ClInclude Include="Math\Value4.h" />
+    <ClInclude Include="Game\Camera\Camera.h" />
+    <ClInclude Include="Framework\Frame_NoCam.h" />
+    <ClInclude Include="Framework\CoreServices.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

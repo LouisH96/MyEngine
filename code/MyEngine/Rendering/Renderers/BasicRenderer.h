@@ -9,7 +9,7 @@ namespace MyEngine
 {
 	namespace Game
 	{
-		class FocusPointCamera;
+		class Camera;
 	}
 }
 
@@ -25,7 +25,7 @@ namespace MyEngine
 			using CamDataRefType = CamData;
 
 			//---| Construction |---
-			BasicRenderer(Gpu& gpu, Game::FocusPointCamera& camera, const std::wstring& shaderPath, bool isWireframe = false);
+			BasicRenderer(Gpu& gpu, Game::Camera& camera, const std::wstring& shaderPath, bool isWireframe = false);
 			~BasicRenderer();
 
 			//---| Rule of Five |---
@@ -44,7 +44,7 @@ namespace MyEngine
 		private:
 			//---| General |---
 			Gpu& m_Gpu;
-			Game::FocusPointCamera& m_Camera;
+			Game::Camera& m_Camera;
 			BlendState m_BlendState;
 			RasterizerState m_RasterizerState;
 
@@ -57,7 +57,7 @@ namespace MyEngine
 		};
 
 		template <typename Vertex, typename CamData>
-		BasicRenderer<Vertex, CamData>::BasicRenderer(Gpu& gpu, Game::FocusPointCamera& camera,
+		BasicRenderer<Vertex, CamData>::BasicRenderer(Gpu& gpu, Game::Camera& camera,
 			const std::wstring& shaderPath, bool isWireframe)
 			: m_Gpu(gpu)
 			, m_Camera(camera)

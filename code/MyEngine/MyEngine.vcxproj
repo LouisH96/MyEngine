@@ -13,6 +13,8 @@
   <ItemGroup>
     <ClCompile Include="App\BasicExampleApp.cpp" />
     <ClCompile Include="App\FpsControl.cpp" />
+    <ClCompile Include="Framework\CoreServices.cpp" />
+    <ClCompile Include="Game\Camera\Camera.cpp" />
     <ClCompile Include="Io\Ascii\AsciiWriter.cpp" />
     <ClCompile Include="Framework\BasicFramework.cpp" />
     <ClCompile Include="App\Time.cpp" />
@@ -104,6 +106,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\BasicExampleApp.h" />
+    <ClInclude Include="Framework\CoreServices.h" />
+    <ClInclude Include="Framework\Frame_NoCam.h" />
+    <ClInclude Include="Game\Camera\Camera.h" />
     <ClInclude Include="Io\Ascii\AsciiWriter.h" />
     <ClInclude Include="Framework\BasicAppFrame.h" />
     <ClInclude Include="Framework\BasicFramework.h" />
@@ -210,6 +215,7 @@
     <ClInclude Include="Rendering\Renderers\TextRenderer.h" />
     <ClInclude Include="Io\Ttf\Segment.h" />
     <ClInclude Include="Game\Transform.h" />
+    <ClInclude Include="Math\Value4.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
