@@ -19,6 +19,12 @@ namespace MyEngine
 			static std::string Convert(const Ds::Array<T>& value);
 		};
 
+		template<typename T>
+		inline std::string ToString::Convert(const T& value)
+		{
+			return std::to_string(value);
+		}
+
 		template <>
 		inline std::string ToString::Convert(const int& value)
 		{
