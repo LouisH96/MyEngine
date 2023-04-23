@@ -18,6 +18,7 @@ namespace MyEngine
 				//---| Types |---
 				struct Geometry
 				{
+					std::string Name{};
 					Array<Math::Float3> Points{};
 					Array<Math::Float3> Normals{};
 					Array<Math::Float2> Uvs{};

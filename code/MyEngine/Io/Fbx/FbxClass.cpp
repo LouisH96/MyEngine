@@ -21,6 +21,7 @@ Io::Fbx::FbxClass::FbxClass(const std::wstring& path)
 		modelGeometry.Normals = std::move(dataGeometry.GetNormals());
 		modelGeometry.Points = std::move(dataGeometry.GetPoints());
 		modelGeometry.Uvs = std::move(dataGeometry.GetUvs());
+		modelGeometry.Name = std::move(data.GetModel(i).GetName());
 	}
 	for(int iGeometry = 0; iGeometry < data.GetModels().GetSize(); iGeometry++)
 	{

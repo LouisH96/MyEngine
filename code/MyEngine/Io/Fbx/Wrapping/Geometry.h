@@ -30,6 +30,7 @@ namespace MyEngine
 					const Array<int>& GetIndices() const { return m_Indices; }
 
 				private:
+					std::string m_Name{};
 					Array<Math::Float3> m_Points{};
 					Array<Math::Float3> m_Normals{};
 					Array<Math::Float2> m_Uvs{};

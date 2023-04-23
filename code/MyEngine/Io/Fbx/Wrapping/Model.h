@@ -20,8 +20,11 @@ namespace MyEngine
 					Model() = default;
 					Model(Reading::FbxObject& modelObject);
 
+					const std::string& GetName() const { return m_Name; }
 					const Math::Float3& GetRotationOffset() const { return m_RotationOffset; }
 					const Math::Float3& GetRotationPivot() const { return m_RotationPivot; }
+
+					std::string& GetName() { return m_Name; }
 
 				private:
 					int64_t m_Id{};
