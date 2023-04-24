@@ -15,7 +15,9 @@ namespace MyEngine
 				const App::Wrappers::Win32::Mouse& mouse);
 			void Update();
 
+			DirectX::XMMATRIX GetProjectionMatrix() const;
 			DirectX::XMMATRIX GetWorldMatrix() const;
+			DirectX::XMMATRIX GetViewMatrix() const;
 			DirectX::XMMATRIX GetViewProjectionMatrix() const;
 			Math::Float3 GetCameraPosition() const;
 

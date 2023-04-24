@@ -26,6 +26,11 @@ void Game::FpsCameraController::Update()
 		m_Pitch = -90;
 }
 
+DirectX::XMMATRIX Game::FpsCameraController::GetProjectionMatrix() const
+{
+	return m_Camera.GetXmProjectionMatrix();
+}
+
 DirectX::XMMATRIX Game::FpsCameraController::GetWorldMatrix() const
 {
 	const float pitchRad = m_Pitch * Math::Constants::TO_RAD;
@@ -54,6 +59,11 @@ DirectX::XMMATRIX Game::FpsCameraController::GetWorldMatrix() const
 		zx,zy,zz,0,
 		m_Position.x, m_Position.y, m_Position.z, 1
 	};
+}
+
+DirectX::XMMATRIX Game::FpsCameraController::GetViewMatrix() const
+{
+	return XMMatrixInverse(nullptr, GetWorldMatrix());
 }
 
 DirectX::XMMATRIX Game::FpsCameraController::GetViewProjectionMatrix() const
