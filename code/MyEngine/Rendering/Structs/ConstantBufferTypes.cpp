@@ -45,3 +45,8 @@ Rendering::CB_ModelBuffer::CB_ModelBuffer(const Game::Transform& transform)
 	XMStoreFloat4x4(&ModelMatrix, world);
 	XMStoreFloat4x4(&InvTransposeModelMatrix, XMMatrixTranspose(XMMatrixInverse(nullptr, world)));
 }
+
+Rendering::CB_ModelBuffer::CB_ModelBuffer(const DirectX::XMMATRIX& transposeInverse)
+{
+	XMStoreFloat4x4(&InvTransposeModelMatrix, transposeInverse);
+}
