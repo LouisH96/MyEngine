@@ -1,9 +1,26 @@
 #include "pch.h"
 #include "Transform.h"
 
+using namespace DirectX;
+
+Game::Transform::Transform(const DirectX::XMMATRIX& matrix)
+{
+	*this = { matrix };
+}
+
+Game::Transform& Game::Transform::operator=(const DirectX::XMMATRIX& matrix)
+{
+	XMVECTOR scale;
+	XMVECTOR xmQuaternion;
+	XMVECTOR xmTranslation;
+	XMMatrixDecompose(&scale, &xmQuaternion, &xmTranslation, matrix);
+	Rotation = { xmQuaternion };
+	XMStoreFloat3(reinterpret_cast<XMFLOAT3*>(&Position.x), xmTranslation);
+	return *this;
+}
+
 DirectX::XMMATRIX Game::Transform::AsMatrix() const
 {
-	using namespace DirectX;
 	const XMMATRIX rotation{ XMMatrixRotationQuaternion(XMLoadFloat4(reinterpret_cast<const XMFLOAT4*>(&Rotation.GetReal().x))) };
 	const XMMATRIX translation{ XMMatrixTranslationFromVector(XMLoadFloat3(reinterpret_cast<const XMFLOAT3*>(&Position))) };
 	return translation * rotation;

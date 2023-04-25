@@ -9,12 +9,14 @@ namespace MyEngine
 		{
 			Value3();
 			Value3(T x, T y, T z);
+			Value3(const DirectX::XMVECTOR& vector);
 			explicit Value3(T all);
 			~Value3() = default;
 			Value3(const Value3& other) = default;
 			Value3(Value3&& other) noexcept = default;
 			Value3& operator=(const Value3& other) = default;
 			Value3& operator=(Value3&& other) noexcept = default;
+			Value3& operator=(const DirectX::XMVECTOR& vector);
 
 			Value3 operator+(const Value3& r) const;
 			Value3 operator-(const Value3& r) const;
@@ -48,6 +50,20 @@ namespace MyEngine
 
 		template <typename T> Value3<T>::Value3() : x{ 0 }, y{ 0 }, z{ 0 } {}
 		template <typename T> Value3<T>::Value3(T x, T y, T z) : x{ x }, y{ y }, z{ z } {}
+
+		template <typename T>
+		Value3<T>::Value3(const DirectX::XMVECTOR& vector)
+		{
+			XMStoreFloat3(reinterpret_cast<DirectX::XMFLOAT3*>(&x), vector);
+		}
+
+		template <typename T>
+		Value3<T>& Value3<T>::operator=(const DirectX::XMVECTOR& vector)
+		{
+			XMStoreFloat3(reinterpret_cast<DirectX::XMFLOAT3*>(&x), vector);
+			return *this;
+		}
+
 		template <typename T> Value3<T>::Value3(T all) : x{ all }, y{ all }, z{ all } {}
 		template <typename T> Value3<T> Value3<T>::operator+(const Value3& r) const { return { x + r.x, y + r.y, z + r.z }; }
 		template <typename T> Value3<T> Value3<T>::operator-(const Value3& r) const { return { x - r.x, y - r.y, z - r.z }; }
