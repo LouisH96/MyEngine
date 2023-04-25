@@ -35,8 +35,8 @@ void Game::FocusPointCameraController::Update()
 		KeyboardRotation();
 
 	//TRANSLATION
-	const float maxVerSpeed = m_VerticalSpeed * DELTA_TIME;
-	float horSpeed = m_HorizontalSpeed * DELTA_TIME;
+	const float maxVerSpeed = m_VerticalSpeed * Globals::DeltaTime;
+	float horSpeed = m_HorizontalSpeed * Globals::DeltaTime;
 	if (maxVerSpeed != 0 || horSpeed != 0)
 	{
 		Float3 translation;
@@ -155,8 +155,8 @@ void Game::FocusPointCameraController::KeyboardRotation()
 {
 	constexpr float maxPitchSpeed = 100.f; //degrees/sec
 	constexpr float maxYawSpeed = 100.f; //degrees/sec
-	const float pitchSpeed = maxPitchSpeed * DELTA_TIME;
-	const float yawSpeed = maxYawSpeed * DELTA_TIME;
+	const float pitchSpeed = maxPitchSpeed * Globals::DeltaTime;
+	const float yawSpeed = maxYawSpeed * Globals::DeltaTime;
 	const float pitch = static_cast<float>(m_Keyboard.IsDown(VK_UP) - m_Keyboard.IsDown(VK_DOWN)) * pitchSpeed;
 	const float yaw = static_cast<float>(m_Keyboard.IsDown(VK_LEFT) - m_Keyboard.IsDown(VK_RIGHT)) * yawSpeed;
 	m_Yaw += yaw;

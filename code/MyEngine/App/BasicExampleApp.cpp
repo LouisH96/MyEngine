@@ -85,7 +85,7 @@ void App::BasicExampleApp::Run()
 	{
 		//fps
 		fpsControl.Wait();
-		Game::GameGlobals::SetDeltaTime(fpsControl.GetDurationLastFrame());
+		Globals::DeltaTime = fpsControl.GetDurationLastFrame();
 
 		//window-msg's
 		window.HandleMessages();

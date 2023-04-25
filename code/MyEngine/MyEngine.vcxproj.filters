@@ -9,7 +9,7 @@
     <ClCompile Include="Framework\Resources.cpp" />
     <ClCompile Include="Game\Camera\FocusPointCameraController.cpp" />
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="Game\GameGlobals.cpp" />
+    <ClCompile Include="Game\Globals.cpp" />
     <ClCompile Include="Math\RectInt.cpp" />
     <ClCompile Include="App\Wrappers\Win32\Screen.cpp" />
     <ClCompile Include="App\Wrappers\Win32\Keyboard_StateReader.cpp" />
@@ -102,7 +102,7 @@
     <ClInclude Include="Game\Camera\FocusPointCameraController.h" />
     <ClInclude Include="Math\Constants.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Game\GameGlobals.h" />
+    <ClInclude Include="Game\Globals.h" />
     <ClInclude Include="Math\RectInt.h" />
     <ClInclude Include="App\Wrappers\Win32\Screen.h" />
     <ClInclude Include="App\Wrappers\Win32\Keyboard_StateReader.h" />

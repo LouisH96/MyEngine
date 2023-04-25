@@ -33,6 +33,8 @@ namespace MyEngine
 			Window window{ windowName, options };
 			Gpu gpu{ window };
 			Canvas& canvas{ *gpu.MakeCanvas() };
+			Globals::pKeyboard = &window.GetKeyboard();
+			Globals::pMouse = &window.GetMouse();
 
 			//FPS
 			FpsControl fpsControl{ 200 };
@@ -46,7 +48,7 @@ namespace MyEngine
 			{
 				//FPS
 				fpsControl.NoWait();
-				GameGlobals::SetDeltaTime(fpsControl.GetDurationLastFrame());
+				Globals::DeltaTime = fpsControl.GetDurationLastFrame();
 
 				//WINDOW MESSAGES
 				window.HandleMessages();

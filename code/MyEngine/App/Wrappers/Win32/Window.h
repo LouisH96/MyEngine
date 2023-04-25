@@ -45,6 +45,7 @@ namespace MyEngine
 
 					//window
 					bool IsDestroyed() const { return m_IsDestroyed; }
+					void SetIsDestroyed() { m_IsDestroyed = true; }
 					bool IsResized() const { return m_IsResized; }
 					Math::Int2 GetClientSize() const { return m_ClientSize; };
 					int GetClientWidth() const { return m_ClientSize.x; }
