@@ -38,6 +38,7 @@ namespace MyEngine
 
 			//---| Operations |---
 			void AddEntry(Mesh& mesh, Texture& texture, Game::Transform& transform);
+			void AddEntry(Mesh& mesh, Texture& texture, DirectX::XMMATRIX& matrix);
 
 		private:
 			//---| Types |---
@@ -46,6 +47,12 @@ namespace MyEngine
 				Mesh* pMesh;
 				Texture* pTexture;
 				Game::Transform* pTransform;
+			};
+			struct DrawEntryMatrix
+			{
+				Mesh* pMesh;
+				Texture* pTexture;
+				DirectX::XMMATRIX* pMatrix;
 			};
 
 			Gpu& m_Gpu;
@@ -59,6 +66,7 @@ namespace MyEngine
 			ConstantBuffer<CB_CamMatPos> m_CameraConstantBuffer;
 			ConstantBuffer<CB_ModelBuffer> m_ModelConstantBuffer;
 			Array<DrawEntry> m_Entries;
+			Array<DrawEntryMatrix> m_EntriesMatrix;
 		};
 	}
 }
