@@ -78,3 +78,17 @@ Math::Float3 Game::FpsCameraController::GetCameraPosition() const
 {
 	return m_Position;
 }
+
+void Game::FpsCameraController::MoveRelative(const Math::Float3& movement)
+{
+	const float yawRad = m_Yaw * Math::Constants::TO_RAD;
+	const float yawCos = cosf(yawRad);
+	const float yawSin = sinf(yawRad);
+	constexpr float xy = 0;
+	const float xx = yawCos;
+	const float xz = yawSin;
+
+	m_Position += Math::Float3{ xx,xy,xz } *movement.x;
+	m_Position += Math::Float3{ -xz,xy,xx } *movement.z;
+	m_Position.y += movement.y;
+}
