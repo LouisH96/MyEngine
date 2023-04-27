@@ -3,6 +3,12 @@
 
 using namespace DirectX;
 
+Game::Transform::Transform(const Math::Float3& position, const Math::Quaternion& rotation)
+	: Position{ position }
+	, Rotation{ rotation }
+{
+}
+
 Game::Transform::Transform(const DirectX::XMMATRIX& matrix)
 {
 	*this = { matrix };

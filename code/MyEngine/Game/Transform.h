@@ -9,6 +9,7 @@ namespace MyEngine
 		{
 		public:
 			Transform() = default;
+			Transform(const Math::Float3& position, const Math::Quaternion& rotation);
 			Transform(const DirectX::XMMATRIX& matrix);
 			Transform& operator=(const DirectX::XMMATRIX& matrix);
 
