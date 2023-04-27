@@ -4,6 +4,7 @@
 
 #include "BasicFramework.h"
 #include "App/FpsControl.h"
+#include "Game/Camera/Camera.h"
 #include "Game/Camera/FocusPointCameraController.h"
 #include "Rendering/Canvas.h"
 #include "Rendering/Gpu.h"
@@ -43,7 +44,7 @@ namespace MyEngine
 			Canvas& canvas{ *gpu.MakeCanvas() };
 
 			//CAMERA
-			FocusPointCamera camera{ window.AskClientSize_WinApi() };
+			Camera camera{ window.GetClientSize() };
 			FocusPointCameraController cameraController{ camera, window.GetKeyboard(), window.GetMouse() };
 
 			//FPS
@@ -57,7 +58,7 @@ namespace MyEngine
 			{
 				//FPS
 				fpsControl.NoWait();
-				Globals::SetDeltaTime(fpsControl.GetDurationLastFrame());
+				Globals::DeltaTime = fpsControl.GetDurationLastFrame();
 
 				//WINDOW MESSAGES
 				window.HandleMessages();
@@ -72,7 +73,6 @@ namespace MyEngine
 
 				//UPDATE
 				app.Update();
-				camera.Update();
 
 				//RENDER
 				app.Render();
