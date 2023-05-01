@@ -51,7 +51,7 @@ namespace MyEngine
 			FpsControl fpsControl{ 200 };
 
 			//APP
-			T app{ {window, gpu, canvas, fpsControl, camera, cameraController} };
+			T app{ AppServices{window, gpu, canvas, fpsControl, cameraController} };
 
 			//LOOP
 			while (!window.IsDestroyed())

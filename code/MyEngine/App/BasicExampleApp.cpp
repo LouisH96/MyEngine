@@ -99,7 +99,7 @@ void App::BasicExampleApp::Run()
 		cameraController.Update();
 
 		//render
-		constantBuffer.Update(gpu, CB_CamMat{ cameraController.GetViewProjectionMatrix() });
+		constantBuffer.Update(gpu, CB_CamMat{ cameraController.GetXmViewProjectionMatrix() });
 		canvas.BeginPaint();
 		shader.Activate();
 		mesh.Activate(gpu);

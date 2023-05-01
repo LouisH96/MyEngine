@@ -6,8 +6,8 @@
 using namespace DirectX;
 
 Rendering::CB_CamMat::CB_CamMat(const DirectX::XMMATRIX& viewProjection)
+	: CameraMatrix{ viewProjection }
 {
-	XMStoreFloat4x4(&CameraMatrix, viewProjection);
 }
 
 Rendering::CB_CamMat::CB_CamMat(const DirectX::XMFLOAT4X4& viewProjection)
@@ -16,8 +16,19 @@ Rendering::CB_CamMat::CB_CamMat(const DirectX::XMFLOAT4X4& viewProjection)
 }
 
 Rendering::CB_CamMat::CB_CamMat(const Math::Float3& position, const DirectX::XMMATRIX& viewProjection)
+	: CameraMatrix{viewProjection}
 {
-	XMStoreFloat4x4(&CameraMatrix, viewProjection);
+}
+
+Rendering::CB_CamMat::CB_CamMat(const Math::Float3& position, const Math::Float4X4& viewProjection)
+	: CameraMatrix{ viewProjection }
+{
+}
+
+Rendering::CB_CamMatPos::CB_CamMatPos(const Math::Float3& position, const Math::Float4X4& matrix)
+	: CameraMatrix{ matrix }
+	, CameraPos{ position }
+{
 }
 
 Rendering::CB_CamMatPos::CB_CamMatPos(const Math::Float3& position, const DirectX::XMFLOAT4X4& matrix)
@@ -27,16 +38,16 @@ Rendering::CB_CamMatPos::CB_CamMatPos(const Math::Float3& position, const Direct
 }
 
 Rendering::CB_CamMatPos::CB_CamMatPos(const Math::Float3& position, const DirectX::XMMATRIX& matrix)
-	: CameraPos{ position }
+	: CameraMatrix{matrix}
+	, CameraPos{ position }
 {
-	XMStoreFloat4x4(&CameraMatrix, matrix);
 }
 
 Rendering::CB_CamMatPos::CB_CamMatPos(const Math::Float3& position, const DirectX::XMMATRIX& viewProjection,
 	const Game::Transform& transform)
-	: CameraPos{ position }
+	: CameraMatrix{ transform.AsMatrix() * viewProjection }
+	, CameraPos{ position }
 {
-	XMStoreFloat4x4(&CameraMatrix, transform.AsMatrix() * viewProjection);
 }
 
 Rendering::CB_ModelBuffer::CB_ModelBuffer(const Game::Transform& transform)

@@ -7,6 +7,7 @@
 #include "Camera.h"
 #include "Windows.h"
 #include "Math/Constants.h"
+#include "Math/Float4.h"
 #include "Math/Int2.h"
 
 using namespace App::Wrappers::Win32;
@@ -122,12 +123,46 @@ DirectX::XMFLOAT4X4 Game::FocusPointCameraController::GetWorldMatrix() const
 	};
 }
 
-DirectX::XMMATRIX Game::FocusPointCameraController::GetViewProjectionMatrix() const
+Math::Float4X4 Game::FocusPointCameraController::GetViewMatrix() const
+{
+	using namespace Math;
+	const float pitchRad = m_Pitch * Constants::TO_RAD;
+	const float pitchCos = cosf(pitchRad);
+	const float pitchSin = sinf(pitchRad);
+
+	const float yawRad = m_Yaw * Constants::TO_RAD;
+	const float yawCos = cosf(yawRad);
+	const float yawSin = sinf(yawRad);
+
+	const Float3 camX{ yawCos, 0, yawSin };
+	const Float3 camY{ -yawSin * pitchSin, pitchCos, yawCos * pitchSin };
+	const Float3 camZ{ -yawSin * pitchCos, -pitchSin, yawCos * pitchCos };
+	const Float3 invCameraPos{ camZ * m_Distance - m_FocusPoint };
+
+	return {
+		{camX,invCameraPos.Dot(camX)},
+		{camY,invCameraPos.Dot(camY)},
+		{camZ,invCameraPos.Dot(camZ)},
+		{0,0,0,1}
+	};
+}
+
+Math::Float4X4 Game::FocusPointCameraController::GetProjectionMatrix() const
+{
+	return m_Camera.GetProjectionMatrix();
+}
+
+Math::Float4X4 Game::FocusPointCameraController::GetViewProjectionMatrix() const
+{
+	return GetViewMatrix() * m_Camera.GetProjectionMatrix();
+}
+
+DirectX::XMMATRIX Game::FocusPointCameraController::GetXmViewProjectionMatrix() const
 {
 	using namespace DirectX;
 	XMFLOAT4X4 matrix{ GetWorldMatrix() };
 	const XMMATRIX view{ XMMatrixInverse(nullptr, XMLoadFloat4x4(&matrix)) };
-	matrix = m_Camera.GetProjectionMatrix();
+	matrix = m_Camera.GetDxProjectionMatrix();
 	const XMMATRIX projection{ XMLoadFloat4x4(&matrix) };
 	return view * projection;
 }

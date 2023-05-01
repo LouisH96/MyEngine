@@ -1,5 +1,6 @@
 #pragma once
 #include "App/Wrappers/Win32/InputTypes.h"
+#include "Math/Float4X4.h"
 
 namespace MyEngine
 {
@@ -37,7 +38,10 @@ namespace MyEngine
 			void SetVerticalSpeed(float speed) { m_VerticalSpeed = speed; }
 
 			DirectX::XMFLOAT4X4 GetWorldMatrix() const;
-			DirectX::XMMATRIX GetViewProjectionMatrix() const;
+			Math::Float4X4 GetViewMatrix() const;
+			Math::Float4X4 GetProjectionMatrix() const;
+			Math::Float4X4 GetViewProjectionMatrix() const;
+			DirectX::XMMATRIX GetXmViewProjectionMatrix() const;
 			Math::Float3 GetCameraPosition() const;
 
 		private:

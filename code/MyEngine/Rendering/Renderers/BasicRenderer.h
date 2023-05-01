@@ -5,6 +5,8 @@
 #include <Rendering/State/Mesh.h>
 #include <Rendering/State/RasterizerState.h>
 
+#include "Math/Float4X4.h"
+
 namespace MyEngine
 {
 	namespace Game
@@ -36,6 +38,7 @@ namespace MyEngine
 
 			//---| Loop |---
 			void Render(const Math::Float3& cameraPosition, const DirectX::XMMATRIX& viewProjection);
+			void Render(const Math::Float3& cameraPosition, const Math::Float4X4& viewProjection);
 
 			//---| Operations |---
 			void AddMesh(const Array<Vertex>& vertices, const Array<int>& indices);
@@ -75,6 +78,23 @@ namespace MyEngine
 
 		template <typename Vertex, typename CamData>
 		void BasicRenderer<Vertex, CamData>::Render(const Math::Float3& cameraPosition, const DirectX::XMMATRIX& viewProjection)
+		{
+			m_ConstantBuffer.Update(m_Gpu, CamData{ cameraPosition, viewProjection });
+			m_ConstantBuffer.Activate(m_Gpu);
+			m_RasterizerState.Activate(m_Gpu);
+			m_InputLayout.Activate(m_Gpu);
+			m_BlendState.Activate(m_Gpu);
+			m_Shader.Activate();
+			for (int i = 0; i < m_Meshes.GetSize(); i++)
+			{
+				m_Meshes[i]->Activate(m_Gpu);
+				m_Meshes[i]->Draw(m_Gpu);
+			}
+		}
+
+		template <typename Vertex, typename CamData>
+		void BasicRenderer<Vertex, CamData>::Render(const Math::Float3& cameraPosition,
+			const Math::Float4X4& viewProjection)
 		{
 			m_ConstantBuffer.Update(m_Gpu, CamData{ cameraPosition, viewProjection });
 			m_ConstantBuffer.Activate(m_Gpu);

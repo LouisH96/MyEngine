@@ -2,6 +2,8 @@
 #include "Math/Float3.h"
 #include <DirectXMath.h>
 
+#include "Math/Float4X4.h"
+
 namespace MyEngine
 {
 	namespace Game
@@ -18,21 +20,23 @@ namespace MyEngine
 	{
 		struct CB_CamMat
 		{
-			DirectX::XMFLOAT4X4 CameraMatrix{};
+			Math::Float4X4 CameraMatrix{};
 
 			CB_CamMat() = default;
 			explicit CB_CamMat(const DirectX::XMMATRIX& viewProjection);
 			explicit CB_CamMat(const DirectX::XMFLOAT4X4& viewProjection);
-			explicit CB_CamMat(const Math::Float3& position ,const DirectX::XMMATRIX& viewProjection);
+			explicit CB_CamMat(const Math::Float3& position, const DirectX::XMMATRIX& viewProjection);
+			explicit CB_CamMat(const Math::Float3& position ,const Math::Float4X4& viewProjection);
 		};
 		struct CB_CamMatPos
 		{
-			DirectX::XMFLOAT4X4 CameraMatrix{};
+			Math::Float4X4 CameraMatrix{};
 			Math::Float3 CameraPos;
 			float padding = 0;
 
 			explicit CB_CamMatPos(const Math::Float3& position, const DirectX::XMFLOAT4X4& matrix);
 			explicit CB_CamMatPos(const Math::Float3& position, const DirectX::XMMATRIX& matrix);
+			explicit CB_CamMatPos(const Math::Float3& position, const Math::Float4X4& matrix);
 			explicit CB_CamMatPos(const Math::Float3& position, const DirectX::XMMATRIX& viewProjection, const Game::Transform& transform);
 		};
 		struct CB_ModelBuffer
