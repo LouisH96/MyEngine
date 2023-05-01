@@ -44,7 +44,7 @@ void Rendering::TextRenderer::AddCharacterXy(const Math::Float3& offset, const M
 	m_pTextureRenderer->AddMesh(pMesh, pTexture);
 }
 
-void Rendering::TextRenderer::Render(const Math::Float3& cameraPosition, const DirectX::XMMATRIX& viewProjection) const
+void Rendering::TextRenderer::Render(const Math::Float3& cameraPosition, const Math::Float4X4& viewProjection) const
 {
 	m_pTextureRenderer->Render(cameraPosition, viewProjection);
 }

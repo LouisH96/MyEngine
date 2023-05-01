@@ -29,7 +29,7 @@ namespace MyEngine
 			~TextRenderer();
 
 			void AddCharacterXy(const Math::Float3& offset, const Math::Float2& size, const Io::Ttf::FontRasterizer& rasterizer) const;
-			void Render(const Math::Float3& cameraPosition, const DirectX::XMMATRIX& viewProjection) const;
+			void Render(const Math::Float3& cameraPosition, const Math::Float4X4& viewProjection) const;
 
 		private:
 			TextureRenderer<V_PosUv, CB_CamMat>* m_pTextureRenderer;
