@@ -79,6 +79,17 @@ Math::Float3 Game::FpsCameraController::GetCameraPosition() const
 	return m_Position;
 }
 
+Game::Transform Game::FpsCameraController::GetTransform() const
+{
+	const float pitchRad = m_Pitch * Math::Constants::TO_RAD;
+	const float yawRad = m_Yaw * Math::Constants::TO_RAD;
+
+	return Transform{
+		m_Position,
+			Math::Quaternion::FromAxis({0,1,0},-yawRad) * Math::Quaternion::FromAxis({1,0,0},pitchRad)
+	};
+}
+
 void Game::FpsCameraController::MoveRelative(const Math::Float3& movement)
 {
 	const float yawRad = m_Yaw * Math::Constants::TO_RAD;

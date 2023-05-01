@@ -1,5 +1,6 @@
 #pragma once
 #include "App/Wrappers/Win32/Window.h"
+#include "Game/Transform.h"
 
 namespace MyEngine
 {
@@ -20,6 +21,7 @@ namespace MyEngine
 			DirectX::XMMATRIX GetViewMatrix() const;
 			DirectX::XMMATRIX GetViewProjectionMatrix() const;
 			Math::Float3 GetCameraPosition() const;
+			Game::Transform GetTransform() const;
 
 			void SetLookAroundSpeed(Math::Float2 speed) { m_LookAroundSpeed = speed; }
 			void SetPosition(const Math::Float3& position) { m_Position = position; }
