@@ -203,6 +203,9 @@
     <ClInclude Include="Framework\Frame_NoCam.h" />
     <ClInclude Include="Framework\CoreServices.h" />
     <ClInclude Include="Game\Camera\FpsCameraController.h" />
+    <ClInclude Include="Math\Matrix4x4.h" />
+    <ClInclude Include="Math\Float4X4.h" />
+    <ClInclude Include="Math\Float4.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

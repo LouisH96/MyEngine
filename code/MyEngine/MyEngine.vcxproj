@@ -113,7 +113,10 @@
     <ClInclude Include="Io\Ascii\AsciiWriter.h" />
     <ClInclude Include="Framework\BasicAppFrame.h" />
     <ClInclude Include="Framework\BasicFramework.h" />
+    <ClInclude Include="Math\Float4.h" />
+    <ClInclude Include="Math\Float4X4.h" />
     <ClInclude Include="Math\Quaternion.h" />
+    <ClInclude Include="Math\Matrix4x4.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertCam_Tex_Transform.h" />
     <ClInclude Include="Shapes\Capsule.h" />
     <ClInclude Include="Io\Fbx\Reading\Properties70.h" />

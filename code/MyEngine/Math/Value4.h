@@ -36,6 +36,8 @@ namespace MyEngine
 			void operator*=(const T& r);
 			void operator/=(const T& r);
 			Value4 operator-() const;
+			T& operator[](int idx);
+			T operator[](int idx) const;
 
 			T Get(int i) const;
 			void Set(T f, int i);
@@ -65,6 +67,19 @@ namespace MyEngine
 		template <typename T> void Value4<T>::operator*=(const T& r) { x *= r; y *= r; z *= r; w *= r; }
 		template <typename T> void Value4<T>::operator/=(const T& r) { x /= r; y /= r; z /= r; w /= r; }
 		template <typename T> Value4<T> Value4<T>::operator-() const { return{ -x, -y, -z, -w }; }
+
+		template <typename T>
+		T& Value4<T>::operator[](int idx)
+		{
+			return reinterpret_cast<T*>(&x)[idx];
+		}
+
+		template <typename T>
+		T Value4<T>::operator[](int idx) const
+		{
+			return reinterpret_cast<const T*>(&x)[idx];
+		}
+
 		template <typename T> T Value4<T>::Get(int i) const { return *(&x + i); }
 		template <typename T> void Value4<T>::Set(T f, int i) { *(&x + i) = f; }
 		template <typename T> void Value4<T>::Inverse() { x = -x; y = -y; z = -z; w = -w; }
