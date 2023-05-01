@@ -19,7 +19,7 @@ void DebugRenderer::Release()
 	delete m_pStatic;
 }
 
-void DebugRenderer::Render(const Math::Float3& cameraPosition, const DirectX::XMMATRIX& viewProjection)
+void DebugRenderer::Render(const Math::Float3& cameraPosition, const Math::Float4X4& viewProjection)
 {
 	m_pStatic->Class_Render(cameraPosition, viewProjection);
 }
@@ -143,7 +143,7 @@ DebugRenderer::~DebugRenderer()
 	delete m_pLineRenderer;
 }
 
-void DebugRenderer::Class_Render(const Math::Float3& cameraPosition, const DirectX::XMMATRIX& viewProjection)
+void DebugRenderer::Class_Render(const Math::Float3& cameraPosition, const Math::Float4X4& viewProjection)
 {
 	m_ConstantBuffer.Update(m_Gpu, Rendering::CB_CamMatPos{ cameraPosition, viewProjection });
 	m_ConstantBuffer.Activate(m_Gpu);

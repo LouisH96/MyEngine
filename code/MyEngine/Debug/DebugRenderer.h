@@ -36,7 +36,7 @@ namespace MyEngine
 
 			static void Init(Rendering::Gpu& gpu);
 			static void Release();
-			static void Render(const Math::Float3& cameraPosition, const DirectX::XMMATRIX& viewProjection);
+			static void Render(const Math::Float3& cameraPosition, const Math::Float4X4& viewProjection);
 
 			static void AddSphere(const Math::Float3& position, const Math::Float3& color, float radius);
 			static void AddSpheres(const Array<Math::Float3>& positions, const Math::Float3& color, float radius);
@@ -75,7 +75,7 @@ namespace MyEngine
 			~DebugRenderer();
 
 			//---| Loop |---
-			void Class_Render(const Math::Float3& cameraPosition, const DirectX::XMMATRIX& viewProjection);
+			void Class_Render(const Math::Float3& cameraPosition, const Math::Float4X4& viewProjection);
 
 			//---| Operations |---
 			void Class_AddSphere(const Math::Float3& position, const Math::Float3& color, float radius);
