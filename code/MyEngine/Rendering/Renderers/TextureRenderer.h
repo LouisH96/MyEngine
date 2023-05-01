@@ -35,7 +35,7 @@ namespace MyEngine
 			TextureRenderer& operator=(TextureRenderer&& other) noexcept = delete;
 
 			//---| Loop |---
-			void Render(const Math::Float3& cameraPosition, const DirectX::XMMATRIX& viewProjection);
+			void Render(const Math::Float3& cameraPosition, const Math::Float4X4& viewProjection);
 
 			//---| Operations |---
 			void AddMesh(const Array<Vertex>& vertices, const Array<int>& indices, const std::wstring& texturePath);
@@ -87,7 +87,8 @@ namespace MyEngine
 		}
 
 		template <typename Vertex, typename CamData>
-		void TextureRenderer<Vertex, CamData>::Render(const Math::Float3& cameraPosition, const DirectX::XMMATRIX& viewProjection)
+		void TextureRenderer<Vertex, CamData>::Render(const Math::Float3& cameraPosition,
+			const Math::Float4X4& viewProjection)
 		{
 			m_Sampler.ActivatePs(m_Gpu);
 			m_ConstantBuffer.Update(m_Gpu, CamData{ cameraPosition, viewProjection });
