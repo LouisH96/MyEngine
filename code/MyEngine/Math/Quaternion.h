@@ -13,6 +13,7 @@ namespace MyEngine
 			Quaternion(const Float3& real, float complex);
 			~Quaternion() = default;
 			static Quaternion FromAxis(const Float3& rotationAxis, float rotation);
+			static Quaternion FromForward(const Float3& forward);
 
 			//---| Rule of five |---
 			Quaternion(const Quaternion& other) = default;
@@ -27,6 +28,8 @@ namespace MyEngine
 			//---| Operations |---
 			void Rotate(const Quaternion& rotation);
 			void Rotate(const Float3& axis, float radians);
+			void RotatePoint(Float3& point) const;
+			Float3 GetRotatedPoint(const Float3& point) const;
 
 			Quaternion Normalized() const;
 			void Normalize();

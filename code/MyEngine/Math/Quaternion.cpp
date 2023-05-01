@@ -20,6 +20,13 @@ Math::Quaternion Math::Quaternion::FromAxis(const Float3& rotationAxis, float ro
 	return Quaternion{ rotationAxis * sinHalf, cosHalf };
 }
 
+Math::Quaternion Math::Quaternion::FromForward(const Float3& forward)
+{
+	const Float3 axis{ Float3{0,0,1}.Cross(forward).Normalized() };
+	const float cos{ Float3{0,0,1}.Dot(forward) };
+	return FromAxis(axis, acos(cos));
+}
+
 Math::Quaternion Math::Quaternion::operator*(const Quaternion& other) const
 {
 	return { {
@@ -63,6 +70,16 @@ void Math::Quaternion::Rotate(const Float3& axis, float radians)
 	Rotate(FromAxis(axis, radians));
 }
 
+void Math::Quaternion::RotatePoint(Float3& point) const
+{
+	point = (*this * Quaternion{ point, 0 } *-*this).GetReal();
+}
+
+Math::Float3 Math::Quaternion::GetRotatedPoint(const Float3& point) const
+{
+	return (*this * Quaternion{ point, 0 } *-*this).GetReal();
+}
+
 Math::Quaternion Math::Quaternion::Normalized() const
 {
 	const float invLength{ 1.f / GetLength() };
@@ -79,7 +96,7 @@ void Math::Quaternion::Normalize()
 Math::Float3 Math::Quaternion::GetForward() const
 {
 	return{
-		2 * (m_Real.x * m_Real.z+ m_Complex * m_Real.y),
+		2 * (m_Real.x * m_Real.z + m_Complex * m_Real.y),
 		2 * (m_Real.y * m_Real.z - m_Complex * m_Real.x),
 		1 - 2 * (m_Real.x * m_Real.x + m_Real.y * m_Real.y) };
 }
