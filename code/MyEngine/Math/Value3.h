@@ -37,6 +37,7 @@ namespace MyEngine
 
 			void Reverse();
 			void Scale(const Value3& r);
+			Value3 Scaled(const Value3& scale) const;
 			T Length() const;
 			void Normalize();
 			Value3 Normalized() const;
@@ -109,6 +110,12 @@ namespace MyEngine
 			x *= r.x;
 			y *= r.y;
 			z *= r.z;
+		}
+
+		template <typename T>
+		Value3<T> Value3<T>::Scaled(const Value3& scale) const
+		{
+			return { x * scale.x, y * scale.y, z * scale.z };
 		}
 
 		template <typename T>
