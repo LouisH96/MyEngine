@@ -34,11 +34,10 @@ namespace MyEngine
 			R_LambertCam_Tex_Transform& operator=(R_LambertCam_Tex_Transform&& other) noexcept = delete;
 
 			//---| Loop |---
-			void Render(const Math::Float3& cameraPosition, const DirectX::XMMATRIX& viewProjection);
+			void Render(const Math::Float3& cameraPosition, const Math::Float4X4& viewProjection);
 
 			//---| Operations |---
 			void AddEntry(Mesh& mesh, Texture& texture, Game::Transform& transform);
-			void AddEntry(Mesh& mesh, Texture& texture, DirectX::XMMATRIX& matrix);
 
 		private:
 			//---| Types |---
@@ -52,7 +51,7 @@ namespace MyEngine
 			{
 				Mesh* pMesh;
 				Texture* pTexture;
-				DirectX::XMMATRIX* pMatrix;
+				Math::Float4X4* pMatrix;
 			};
 
 			Gpu& m_Gpu;
@@ -66,7 +65,6 @@ namespace MyEngine
 			ConstantBuffer<CB_CamMatPos> m_CameraConstantBuffer;
 			ConstantBuffer<CB_ModelBuffer> m_ModelConstantBuffer;
 			Array<DrawEntry> m_Entries;
-			Array<DrawEntryMatrix> m_EntriesMatrix;
 		};
 	}
 }

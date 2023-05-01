@@ -25,9 +25,16 @@ Game::Transform& Game::Transform::operator=(const DirectX::XMMATRIX& matrix)
 	return *this;
 }
 
-DirectX::XMMATRIX Game::Transform::AsMatrix() const
+Math::Float4X4 Game::Transform::AsMatrix() const
 {
 	const XMMATRIX rotation{ XMMatrixRotationQuaternion(XMLoadFloat4(reinterpret_cast<const XMFLOAT4*>(&Rotation.GetReal().x))) };
 	const XMMATRIX translation{ XMMatrixTranslationFromVector(XMLoadFloat3(reinterpret_cast<const XMFLOAT3*>(&Position))) };
 	return rotation * translation;
+}
+
+Math::Float4X4 Game::Transform::GetTransposeInverse() const
+{
+	const XMMATRIX rotation{ XMMatrixRotationQuaternion(XMLoadFloat4(reinterpret_cast<const XMFLOAT4*>(&Rotation.GetReal().x))) };
+	const XMMATRIX translation{ XMMatrixTranslationFromVector(XMLoadFloat3(reinterpret_cast<const XMFLOAT3*>(&Position))) };
+	return XMMatrixTranspose(XMMatrixInverse(nullptr, rotation * translation));
 }

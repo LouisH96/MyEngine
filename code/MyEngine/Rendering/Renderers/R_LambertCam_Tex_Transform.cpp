@@ -18,7 +18,7 @@ Rendering::R_LambertCam_Tex_Transform::R_LambertCam_Tex_Transform(Gpu& gpu)
 {
 }
 
-void Rendering::R_LambertCam_Tex_Transform::Render(const Math::Float3& cameraPosition, const DirectX::XMMATRIX& viewProjection)
+void Rendering::R_LambertCam_Tex_Transform::Render(const Math::Float3& cameraPosition, const Math::Float4X4& viewProjection)
 {
 	using namespace DirectX;
 	m_Sampler.ActivatePs(m_Gpu);
@@ -36,24 +36,9 @@ void Rendering::R_LambertCam_Tex_Transform::Render(const Math::Float3& cameraPos
 		m_Entries[i].pMesh->Activate(m_Gpu);
 		m_Entries[i].pMesh->Draw(m_Gpu);
 	}
-	for (int i = 0; i < m_EntriesMatrix.GetSize(); i++)
-	{
-		m_CameraConstantBuffer.Update(m_Gpu, CB_CamMatPos{ cameraPosition, *m_EntriesMatrix[i].pMatrix * viewProjection });
-		m_CameraConstantBuffer.Activate(m_Gpu);
-		m_ModelConstantBuffer.Update(m_Gpu, CB_ModelBuffer{ *m_EntriesMatrix[i].pMatrix, XMMatrixTranspose(XMMatrixInverse(nullptr, *m_EntriesMatrix[i].pMatrix)) });
-		m_ModelConstantBuffer.Activate(m_Gpu, 1);
-		m_EntriesMatrix[i].pTexture->ActivatePs(m_Gpu);
-		m_EntriesMatrix[i].pMesh->Activate(m_Gpu);
-		m_EntriesMatrix[i].pMesh->Draw(m_Gpu);
-	}
 }
 
 void Rendering::R_LambertCam_Tex_Transform::AddEntry(Mesh& mesh, Texture& texture, Game::Transform& transform)
 {
 	m_Entries.Add(DrawEntry{ &mesh, &texture, &transform });
-}
-
-void Rendering::R_LambertCam_Tex_Transform::AddEntry(Mesh& mesh, Texture& texture, DirectX::XMMATRIX& matrix)
-{
-	m_EntriesMatrix.Add(DrawEntryMatrix{ &mesh, &texture, &matrix });
 }

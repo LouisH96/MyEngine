@@ -61,6 +61,8 @@ namespace MyEngine
 			Matrix4X4 operator*(const Matrix4X4& r) const;
 			Matrix4X4& operator*=(const Matrix4X4& r);
 
+			Matrix4X4 GetTranspose() const;
+
 		private:
 			Value4<T> m_Cols[4];
 		};
@@ -74,14 +76,24 @@ namespace MyEngine
 
 		template <typename T>
 		Matrix4X4<T>::Matrix4X4(const DirectX::XMMATRIX& matrix)
+			: m_Cols{
+				{matrix.r[0].m128_f32[0], matrix.r[1].m128_f32[0], matrix.r[2].m128_f32[0], matrix.r[3].m128_f32[0]},
+				{matrix.r[0].m128_f32[1], matrix.r[1].m128_f32[1], matrix.r[2].m128_f32[1], matrix.r[3].m128_f32[1]},
+				{matrix.r[0].m128_f32[2], matrix.r[1].m128_f32[2], matrix.r[2].m128_f32[2], matrix.r[3].m128_f32[2]},
+				{matrix.r[0].m128_f32[3], matrix.r[1].m128_f32[3], matrix.r[2].m128_f32[3], matrix.r[3].m128_f32[3]},
+			}
 		{
-			Logger::PrintError("Not implemented");
 		}
 
 		template <typename T>
 		Matrix4X4<T>::Matrix4X4(const DirectX::XMFLOAT4X4& matrix)
+			: m_Cols{
+				{matrix._11 ,matrix._21, matrix._31, matrix._41},
+				{matrix._12 ,matrix._22, matrix._32, matrix._42},
+				{matrix._13 ,matrix._23, matrix._33, matrix._43},
+				{matrix._14 ,matrix._24, matrix._34, matrix._44},
+			}
 		{
-			Logger::PrintError("Not implemented");
 		}
 
 		template <typename T>
@@ -300,6 +312,17 @@ namespace MyEngine
 			m_Cols[0].w = rows[3].Dot(r.GetCol0()); m_Cols[1].w = rows[3].Dot(r.GetCol1());
 			m_Cols[2].w = rows[3].Dot(r.GetCol2()); m_Cols[3].w = rows[3].Dot(r.GetCol3());
 			return *this;
+		}
+
+		template <typename T>
+		Matrix4X4<T> Matrix4X4<T>::GetTranspose() const
+		{
+			return {
+				{m_Cols[0].x, m_Cols[1].x, m_Cols[2].x, m_Cols[3].x },
+				{m_Cols[0].y, m_Cols[1].y, m_Cols[2].y, m_Cols[3].y },
+				{m_Cols[0].z, m_Cols[1].z, m_Cols[2].z, m_Cols[3].z },
+				{m_Cols[0].w, m_Cols[1].w, m_Cols[2].w, m_Cols[3].w },
+			};
 		}
 
 		template <typename T>

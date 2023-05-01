@@ -1,4 +1,5 @@
 #pragma once
+#include "Math/Float4X4.h"
 #include "Math/Quaternion.h"
 
 namespace MyEngine
@@ -16,7 +17,8 @@ namespace MyEngine
 			Math::Float3 Position{};
 			Math::Quaternion Rotation{};
 
-			DirectX::XMMATRIX AsMatrix() const;
+			Math::Float4X4 AsMatrix() const;
+			Math::Float4X4 GetTransposeInverse() const;
 		};
 	}
 }

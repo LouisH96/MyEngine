@@ -38,15 +38,15 @@ namespace MyEngine
 			explicit CB_CamMatPos(const Math::Float3& position, const DirectX::XMMATRIX& matrix);
 			explicit CB_CamMatPos(const Math::Float3& position, const Math::Float4X4& matrix);
 			explicit CB_CamMatPos(const Math::Float3& position, const DirectX::XMMATRIX& viewProjection, const Game::Transform& transform);
+			explicit CB_CamMatPos(const Math::Float3& position, const Math::Float4X4& viewProjection, const Game::Transform& transform);
 		};
 		struct CB_ModelBuffer
 		{
-			DirectX::XMFLOAT4X4 ModelMatrix{};
-			DirectX::XMFLOAT4X4 InvTransposeModelMatrix{};
+			Math::Float4X4 ModelMatrix{};
+			Math::Float4X4 InvTransposeModelMatrix{};
 
 			CB_ModelBuffer() = default;
 			explicit CB_ModelBuffer(const Game::Transform& transform);
-			explicit CB_ModelBuffer(const DirectX::XMMATRIX& world, const DirectX::XMMATRIX& transposeInverse);
 		};
 	}
 }

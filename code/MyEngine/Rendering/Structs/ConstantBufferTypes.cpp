@@ -50,15 +50,16 @@ Rendering::CB_CamMatPos::CB_CamMatPos(const Math::Float3& position, const Direct
 {
 }
 
-Rendering::CB_ModelBuffer::CB_ModelBuffer(const Game::Transform& transform)
+Rendering::CB_CamMatPos::CB_CamMatPos(const Math::Float3& position, const Math::Float4X4& viewProjection,
+	const Game::Transform& transform)
+
+	: CameraMatrix{transform.AsMatrix() * viewProjection}
+	, CameraPos{position}
 {
-	const XMMATRIX world{ transform.AsMatrix() };
-	XMStoreFloat4x4(&ModelMatrix, world);
-	XMStoreFloat4x4(&InvTransposeModelMatrix, XMMatrixTranspose(XMMatrixInverse(nullptr, world)));
 }
 
-Rendering::CB_ModelBuffer::CB_ModelBuffer(const DirectX::XMMATRIX& world, const DirectX::XMMATRIX& transposeInverse)
+Rendering::CB_ModelBuffer::CB_ModelBuffer(const Game::Transform& transform)
+	: ModelMatrix{transform.AsMatrix()}
+	, InvTransposeModelMatrix{transform.GetTransposeInverse()}
 {
-	XMStoreFloat4x4(&ModelMatrix, world);
-	XMStoreFloat4x4(&InvTransposeModelMatrix, transposeInverse);
 }
