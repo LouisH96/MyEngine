@@ -21,6 +21,8 @@
     <ClCompile Include="App\Time.cpp" />
     <ClCompile Include="Math\Quaternion.cpp" />
     <ClCompile Include="Rendering\Renderers\R_LambertCam_Tex_Transform.cpp" />
+    <ClCompile Include="Rendering\Renderers\R_LambertCam_Tex.cpp" />
+    <ClCompile Include="Rendering\Renderers\R_LambertLight_Tex.cpp" />
     <ClCompile Include="Shapes\Capsule.cpp" />
     <ClCompile Include="Io\Fbx\Reading\Properties70.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\Geometry.cpp" />
@@ -118,6 +120,8 @@
     <ClInclude Include="Math\Quaternion.h" />
     <ClInclude Include="Math\Matrix4x4.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertCam_Tex_Transform.h" />
+    <ClInclude Include="Rendering\Renderers\R_LambertCam_Tex.h" />
+    <ClInclude Include="Rendering\Renderers\R_LambertLight_Tex.h" />
     <ClInclude Include="Shapes\Capsule.h" />
     <ClInclude Include="Io\Fbx\Reading\Properties70.h" />
     <ClInclude Include="Io\Fbx\Wrapping\Geometry.h" />
