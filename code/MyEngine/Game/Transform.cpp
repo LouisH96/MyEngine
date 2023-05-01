@@ -38,3 +38,17 @@ Math::Float4X4 Game::Transform::GetTransposeInverse() const
 	const XMMATRIX translation{ XMMatrixTranslationFromVector(XMLoadFloat3(reinterpret_cast<const XMFLOAT3*>(&Position))) };
 	return XMMatrixTranspose(XMMatrixInverse(nullptr, rotation * translation));
 }
+
+void Game::Transform::MakeChildOf(const Game::Transform& parent)
+{
+	Position += Rotation.GetRotatedPoint( parent.Position);
+	Rotation = parent.Rotation * Rotation;
+}
+
+Game::Transform Game::Transform::MakeChildTransform(const Transform& childLocal) const
+{
+	return Transform{
+		Position + Rotation.GetRotatedPoint(childLocal.Position),
+		Rotation * childLocal.Rotation
+	};
+}

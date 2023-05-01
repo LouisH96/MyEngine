@@ -19,6 +19,9 @@ namespace MyEngine
 
 			Math::Float4X4 AsMatrix() const;
 			Math::Float4X4 GetTransposeInverse() const;
+
+			void MakeChildOf(const Transform& parent);
+			Transform MakeChildTransform(const Transform& childLocal) const;
 		};
 	}
 }
