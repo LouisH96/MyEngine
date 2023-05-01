@@ -128,7 +128,7 @@ void Io::Fbx::Reading::FbxObject::ReadNode(std::istream& stream, uint8_t version
 		m_NrProps = read.Uint32();
 		m_PropLength = read.Uint32();
 	}
-	else if(version == 75)
+	else if(version >= 75)
 	{
 		m_End = read.Uint64();
 		m_NrProps = read.Uint64();

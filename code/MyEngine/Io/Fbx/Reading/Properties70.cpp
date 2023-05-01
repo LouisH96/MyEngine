@@ -93,7 +93,8 @@ std::string Io::Fbx::Reading::Properties70::GetString(const std::string& name, c
 const Io::Fbx::Reading::FbxObject* Io::Fbx::Reading::Properties70::GetPropertyOptional(const std::string& name) const
 {
 	for (int i = 0; i < m_Object.GetChildren().size(); i++)
-		if (m_Object.GetChildren()[i]->GetProperty(0)->AsString() == name)
+		if (m_Object.GetChildren()[i]->GetProperties().size() > 0 //check is needed only for version 7700
+			&& m_Object.GetChildren()[i]->GetProperty(0)->AsString() == name)
 			return m_Object.GetChildren()[i];
 	return nullptr;
 }

@@ -41,6 +41,7 @@ uint8_t Io::Fbx::Reading::FbxReader::ReadHeader()
 	if (versionNumber == 7300) return 73;
 	if (versionNumber == 7400) return 74;
 	if (versionNumber == 7500) return 75;
+	if (versionNumber == 7700) return 77;
 	Logger::PrintError("FbxVersion " + std::to_string(versionNumber) + " not supported");
 	return 0;
 }
