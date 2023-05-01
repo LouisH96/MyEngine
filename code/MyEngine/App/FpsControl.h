@@ -29,6 +29,7 @@ namespace MyEngine
 			void Wait(); //Frame should be build after this wait
 			void NoWait();
 			float GetDurationLastFrame() const { return m_DurationLastFrame; }
+			uint16_t GetNrFramesPrevSec() const { return m_NrFramesPrevSec; }
 			void SetFpsDisplay(Rendering::FpsDisplay& display);
 
 		private:
@@ -40,6 +41,7 @@ namespace MyEngine
 
 			Time::TimePoint m_EndCurrentSecond;
 			uint16_t m_NrFramesThisSec{ 0 };
+			uint16_t m_NrFramesPrevSec{};
 			float m_DurationLastFrame;
 		};
 	}

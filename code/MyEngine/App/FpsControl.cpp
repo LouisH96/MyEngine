@@ -26,7 +26,10 @@ void MyEngine::App::FpsControl::Wait()
 	if (now > m_EndCurrentSecond)
 	{
 		if (m_pDisplay)
+		{
+			m_NrFramesPrevSec = m_NrFramesThisSec;
 			m_pDisplay->SetFps(m_NrFramesThisSec);
+		}
 		m_NrFramesThisSec = 1;
 		m_EndCurrentSecond = now + Time::SEC_DURATION;
 	}
@@ -46,7 +49,10 @@ void App::FpsControl::NoWait()
 	if (now > m_EndCurrentSecond)
 	{
 		if (m_pDisplay)
+		{
+			m_NrFramesPrevSec = m_NrFramesThisSec;
 			m_pDisplay->SetFps(m_NrFramesThisSec);
+		}
 		m_NrFramesThisSec = 1;
 		m_EndCurrentSecond = now + Time::SEC_DURATION;
 	}
