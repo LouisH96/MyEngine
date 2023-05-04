@@ -60,7 +60,7 @@
     <ClCompile Include="Io\Fbx\Reading\Properties\FbxPropString.cpp" />
     <ClCompile Include="Io\Fbx\Reading\FbxProperty.cpp" />
     <ClCompile Include="Io\Fbx\Reading\FbxObject.cpp" />
-    <ClCompile Include="Io\Binary\Bini.cpp" />
+    <ClCompile Include="Io\Binary\LittleEndianReader.cpp" />
     <ClCompile Include="Io\Fbx\Reading\FbxReader.cpp" />
     <ClCompile Include="Io\Json\Streaming\JsonStreaming.cpp" />
     <ClCompile Include="Io\Zlib\ZlibDecompress.cpp" />
@@ -166,7 +166,7 @@
     <ClInclude Include="Io\Fbx\Reading\Properties\FbxPropString.h" />
     <ClInclude Include="Io\Fbx\Reading\FbxProperty.h" />
     <ClInclude Include="Io\Fbx\Reading\FbxObject.h" />
-    <ClInclude Include="Io\Binary\Bini.h" />
+    <ClInclude Include="Io\Binary\LittleEndianReader.h" />
     <ClInclude Include="DataStructures\Array.h" />
     <ClInclude Include="DataStructures\DsUtils.h" />
     <ClInclude Include="Io\Fbx\Reading\FbxReader.h" />

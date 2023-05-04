@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "FbxObject.h"
-#include <Io/Binary/Bini.h>
+#include <Io/Binary/LittleEndianReader.h>
 
 using namespace Io::Binary;
 
@@ -121,7 +121,7 @@ Io::Fbx::Reading::FbxProperty* Io::Fbx::Reading::FbxObject::GetProperty(int idx)
 
 void Io::Fbx::Reading::FbxObject::ReadNode(std::istream& stream, uint8_t version)
 {
-	const Bini read{ stream };
+	const LittleEndianReader read{ stream };
 	if(version == 74 || version == 73)
 	{
 		m_End = read.Uint32();

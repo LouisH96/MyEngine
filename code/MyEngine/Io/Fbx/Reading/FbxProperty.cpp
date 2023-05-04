@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "FbxProperty.h"
-#include <Io/Binary/Bini.h>
+#include <Io/Binary/LittleEndianReader.h>
 #include <Io/Fbx/Reading/Properties/FbxPropPrimitive.h>
 #include <Io/Fbx/Reading/Properties/FbxPropArray.h>
 #include <Io/Fbx/Reading/Properties/FbxPropString.h>

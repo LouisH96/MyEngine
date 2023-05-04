@@ -6,10 +6,10 @@ namespace MyEngine
 	{
 		namespace Binary
 		{
-			class Bini
+			class LittleEndianReader
 			{
 			public:
-				Bini(std::istream& stream);
+				explicit LittleEndianReader(std::istream& stream);
 
 				uint64_t Uint64() const;
 				unsigned int Uint32() const;

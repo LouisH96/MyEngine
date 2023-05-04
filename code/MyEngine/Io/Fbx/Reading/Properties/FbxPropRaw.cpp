@@ -1,12 +1,12 @@
 #include "pch.h"
 #include "FbxPropRaw.h"
-#include <Io/Binary/Bini.h>
+#include <Io/Binary/LittleEndianReader.h>
 
 using namespace Io::Binary;
 
 MyEngine::Io::Fbx::Reading::FbxPropRaw::FbxPropRaw(std::istream& stream)
 {
-	const unsigned size{ Bini::Uint32(stream) };
+	const unsigned size{ LittleEndianReader::Uint32(stream) };
 	stream.ignore(size);
 }
 

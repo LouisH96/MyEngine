@@ -39,7 +39,7 @@
     <ClCompile Include="App\Time.cpp" />
     <ClCompile Include="Io\Json\Streaming\JsonStreaming.cpp" />
     <ClCompile Include="Io\Fbx\Reading\FbxReader.cpp" />
-    <ClCompile Include="Io\Binary\Bini.cpp" />
+    <ClCompile Include="Io\Binary\LittleEndianReader.cpp" />
     <ClCompile Include="Io\Fbx\Reading\FbxObject.cpp" />
     <ClCompile Include="Io\Fbx\Reading\FbxProperty.cpp" />
     <ClCompile Include="Io\Fbx\Reading\Properties\FbxPropString.cpp" />
@@ -146,7 +146,7 @@
     <ClInclude Include="Debug\Timing\Counter.h" />
     <ClInclude Include="Io\Json\Streaming\JsonStreaming.h" />
     <ClInclude Include="Io\Fbx\Reading\FbxReader.h" />
-    <ClInclude Include="Io\Binary\Bini.h" />
+    <ClInclude Include="Io\Binary\LittleEndianReader.h" />
     <ClInclude Include="Io\Fbx\Reading\FbxObject.h" />
     <ClInclude Include="Io\Fbx\Reading\FbxProperty.h" />
     <ClInclude Include="Io\Fbx\Reading\Properties\FbxPropPrimitive.h" />

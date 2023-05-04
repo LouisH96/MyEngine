@@ -1,44 +1,44 @@
 #include "pch.h"
-#include "Bini.h"
+#include "LittleEndianReader.h"
 
-MyEngine::Io::Binary::Bini::Bini(std::istream& stream)
+MyEngine::Io::Binary::LittleEndianReader::LittleEndianReader(std::istream& stream)
 	: m_Stream(stream)
 {
 }
 
-uint64_t Io::Binary::Bini::Uint64() const
+uint64_t Io::Binary::LittleEndianReader::Uint64() const
 {
 	return Uint64(m_Stream);
 }
 
-unsigned int MyEngine::Io::Binary::Bini::Uint32() const
+unsigned int MyEngine::Io::Binary::LittleEndianReader::Uint32() const
 {
 	return Uint32(m_Stream);
 }
 
-uint16_t Io::Binary::Bini::Uint16() const
+uint16_t Io::Binary::LittleEndianReader::Uint16() const
 {
 	return Uint16(m_Stream);
 }
 
-uint16_t Io::Binary::Bini::Uint16(std::istream& stream)
+uint16_t Io::Binary::LittleEndianReader::Uint16(std::istream& stream)
 {
 	uint16_t result = static_cast<unsigned char>(stream.get());
 	reinterpret_cast<uint8_t*>(&result)[1] = static_cast<unsigned char>(stream.get());
 	return result;
 }
 
-uint8_t MyEngine::Io::Binary::Bini::Uint8() const
+uint8_t MyEngine::Io::Binary::LittleEndianReader::Uint8() const
 {
 	return Uint8(m_Stream);
 }
 
-std::string MyEngine::Io::Binary::Bini::String(int size) const
+std::string MyEngine::Io::Binary::LittleEndianReader::String(int size) const
 {
 	return String(m_Stream, size);
 }
 
-uint64_t Io::Binary::Bini::Uint64(std::istream& stream)
+uint64_t Io::Binary::LittleEndianReader::Uint64(std::istream& stream)
 {
 	uint64_t result = static_cast<unsigned char>(stream.get());
 	reinterpret_cast<uint8_t*>(&result)[1] = static_cast<unsigned char>(stream.get());
@@ -51,7 +51,7 @@ uint64_t Io::Binary::Bini::Uint64(std::istream& stream)
 	return result;
 }
 
-unsigned int MyEngine::Io::Binary::Bini::Uint32(std::istream& stream)
+unsigned int MyEngine::Io::Binary::LittleEndianReader::Uint32(std::istream& stream)
 {
 	unsigned int result = static_cast<unsigned char>(stream.get());
 	reinterpret_cast<uint8_t*>(&result)[1] = static_cast<unsigned char>(stream.get());
@@ -60,12 +60,12 @@ unsigned int MyEngine::Io::Binary::Bini::Uint32(std::istream& stream)
 	return result;
 }
 
-uint8_t MyEngine::Io::Binary::Bini::Uint8(std::istream& stream)
+uint8_t MyEngine::Io::Binary::LittleEndianReader::Uint8(std::istream& stream)
 {
 	return static_cast<unsigned char>(stream.get());
 }
 
-std::string MyEngine::Io::Binary::Bini::String(std::istream& stream, int size)
+std::string MyEngine::Io::Binary::LittleEndianReader::String(std::istream& stream, int size)
 {
 	std::string string(size, ' ');
 	stream.read(&string[0], size);

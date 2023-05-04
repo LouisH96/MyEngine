@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "FbxReader.h"
 #include <Io/Fbx/Reading/FbxObject.h>
-#include <Io/Binary/Bini.h>
+#include <Io/Binary/LittleEndianReader.h>
 
 //https://code.blender.org/2013/08/fbx-binary-file-format-specification/
 
@@ -31,13 +31,13 @@ uint8_t Io::Fbx::Reading::FbxReader::ReadHeader()
 	using namespace Binary;
 
 	//file type
-	const std::string fileType{ Bini::String(m_Stream, 21) };
+	const std::string fileType{ LittleEndianReader::String(m_Stream, 21) };
 
 	//mystery bytes
-	const uint16_t mystery{ Bini::Uint16(m_Stream) };
+	const uint16_t mystery{ LittleEndianReader::Uint16(m_Stream) };
 
 	//version number
-	const unsigned versionNumber{ Bini::Uint32(m_Stream) };
+	const unsigned versionNumber{ LittleEndianReader::Uint32(m_Stream) };
 	if (versionNumber == 7300) return 73;
 	if (versionNumber == 7400) return 74;
 	if (versionNumber == 7500) return 75;

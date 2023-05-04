@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "FbxPropString.h"
-#include <Io\Binary\Bini.h>
+#include <Io\Binary\LittleEndianReader.h>
 
 using namespace Io::Binary;
 
@@ -17,7 +17,7 @@ void MyEngine::Io::Fbx::Reading::FbxPropString::Print(bool compact, int nrTabs) 
 
 std::string MyEngine::Io::Fbx::Reading::FbxPropString::Read(std::istream& stream)
 {
-    const unsigned size{ Bini::Uint32(stream) };
+    const unsigned size{ LittleEndianReader::Uint32(stream) };
     std::string string( size, ' ' );
     stream.read(&string[0], size);
     return string;

@@ -1,7 +1,7 @@
 #pragma once
 #include <fstream>
 #include <sstream>
-#include <Io/Binary/Bini.h>
+#include <Io/Binary/LittleEndianReader.h>
 #include <Io/Fbx/Reading/FbxProperty.h>
 #include <Io/Fbx/Reading/Properties/FbxPropPrimitive.h>
 #include <Io/Zlib/ZlibDecompress.h>
@@ -37,9 +37,9 @@ namespace MyEngine
 				template<typename T>
 				inline FbxPropArray<T>::FbxPropArray(std::istream& stream)
 				{
-					const unsigned nrElements = Bini::Uint32(stream);
-					const unsigned encoding = Bini::Uint32(stream);
-					const unsigned compressedLength = Bini::Uint32(stream);
+					const unsigned nrElements = LittleEndianReader::Uint32(stream);
+					const unsigned encoding = LittleEndianReader::Uint32(stream);
+					const unsigned compressedLength = LittleEndianReader::Uint32(stream);
 					m_IsCompressed = encoding == 1;
 					if (m_IsCompressed)
 						HandleCompressed(stream, compressedLength);
