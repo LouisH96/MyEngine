@@ -5,12 +5,9 @@ namespace MyEngine
 {
 	namespace App
 	{
-		namespace Wrappers
+		namespace Win32
 		{
-			namespace Win32
-			{
-				class Window;
-			}
+			class Window;
 		}
 	}
 }

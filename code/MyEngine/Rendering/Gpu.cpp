@@ -8,9 +8,9 @@
 
 #include "Canvas.h"
 #include "Dx/DxHelper.h"
-#include "App/Wrappers/Win32/Window.h"
+#include "App/Win32/Window.h"
 
-Rendering::Gpu::Gpu(App::Wrappers::Win32::Window& window)
+Rendering::Gpu::Gpu(App::Win32::Window& window)
 	: m_Window{ window }
 {
 	Init();

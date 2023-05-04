@@ -11,12 +11,9 @@ namespace MyEngine
 {
 	namespace App
 	{
-		namespace Wrappers
+		namespace Win32
 		{
-			namespace Win32
-			{
-				class Window;
-			}
+			class Window;
 		}
 	}
 }
@@ -35,7 +32,7 @@ namespace MyEngine
 			Canvas& operator=(const Canvas& other) = delete;
 			Canvas& operator=(Canvas&& other) noexcept = delete;
 
-			Canvas(Gpu& gpu, App::Wrappers::Win32::Window& window);
+			Canvas(Gpu& gpu, App::Win32::Window& window);
 			~Canvas();
 
 			void BeginPaint() const;
@@ -55,7 +52,7 @@ namespace MyEngine
 			void Clear() const;
 			void Activate() const;
 
-			void InitSwapChain(const App::Wrappers::Win32::Window& window);
+			void InitSwapChain(const App::Win32::Window& window);
 			void InitRenderTarget();
 			void InitDepthStencilState();
 			void InitDepthStencil(const Math::Int2& size);

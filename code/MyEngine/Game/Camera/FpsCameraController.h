@@ -1,5 +1,5 @@
 #pragma once
-#include "App/Wrappers/Win32/Window.h"
+#include "App/Win32/Window.h"
 #include "Game/Transform.h"
 
 namespace MyEngine
@@ -12,8 +12,8 @@ namespace MyEngine
 		{
 		public:
 			FpsCameraController(const Camera& camera,
-				const App::Wrappers::Win32::Window::Keyboard& keyboard,
-				const App::Wrappers::Win32::Mouse& mouse);
+				const App::Win32::Window::Keyboard& keyboard,
+				const App::Win32::Mouse& mouse);
 			void Update();
 
 			DirectX::XMMATRIX GetProjectionMatrix() const;
@@ -28,8 +28,8 @@ namespace MyEngine
 			void MoveRelative(const Math::Float3& movement);
 
 		private:
-			const App::Wrappers::Win32::Window::Keyboard& m_Keyboard;
-			const App::Wrappers::Win32::Mouse& m_Mouse;
+			const App::Win32::Window::Keyboard& m_Keyboard;
+			const App::Win32::Mouse& m_Mouse;
 			const Camera& m_Camera;
 			Math::Float3 m_Position;
 			Math::Float2 m_LookAroundSpeed;

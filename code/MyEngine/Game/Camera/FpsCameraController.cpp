@@ -4,8 +4,8 @@
 #include "Camera.h"
 
 Game::FpsCameraController::FpsCameraController(const Camera& camera,
-	const App::Wrappers::Win32::Window::Keyboard& keyboard,
-	const App::Wrappers::Win32::Mouse& mouse)
+	const App::Win32::Window::Keyboard& keyboard,
+	const App::Win32::Mouse& mouse)
 	: m_Keyboard{ keyboard }
 	, m_Mouse{ mouse }
 	, m_Camera{ camera }

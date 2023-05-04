@@ -1,6 +1,6 @@
 #pragma once
 
-#include <App/Wrappers/Win32/Window.h>
+#include <App/Win32/Window.h>
 
 #include "BasicFramework.h"
 #include "App/FpsControl.h"
@@ -15,7 +15,7 @@ namespace MyEngine
 	{
 		struct AppServices
 		{
-			App::Wrappers::Win32::Window& Window;
+			App::Win32::Window& Window;
 			Rendering::Gpu& Gpu;
 			Rendering::Canvas& Canvas;
 			App::FpsControl& FpsControl;
@@ -33,7 +33,7 @@ namespace MyEngine
 		void BasicAppFrame<T>::Run(const std::wstring& windowName)
 		{
 			using namespace App;
-			using namespace Wrappers::Win32;
+			using namespace Win32;
 			using namespace Rendering;
 			using namespace Game;
 

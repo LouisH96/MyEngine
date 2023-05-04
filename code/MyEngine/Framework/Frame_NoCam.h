@@ -1,6 +1,6 @@
 #pragma once
 
-#include <App/Wrappers/Win32/Window.h>
+#include <App/Win32/Window.h>
 
 #include "BasicFramework.h"
 #include "CoreServices.h"
@@ -17,14 +17,14 @@ namespace MyEngine
 		class Frame_NoCam
 		{
 		public:
-			static void Run(const std::wstring& windowName = L"Window", App::Wrappers::Win32::Window::Options options = {});
+			static void Run(const std::wstring& windowName = L"Window", App::Win32::Window::Options options = {});
 		};
 
 		template <typename T>
-		void Frame_NoCam<T>::Run(const std::wstring& windowName, App::Wrappers::Win32::Window::Options options)
+		void Frame_NoCam<T>::Run(const std::wstring& windowName, App::Win32::Window::Options options)
 		{
 			using namespace App;
-			using namespace Wrappers::Win32;
+			using namespace Win32;
 			using namespace Rendering;
 			using namespace Game;
 

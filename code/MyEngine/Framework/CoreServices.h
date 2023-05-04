@@ -11,12 +11,9 @@ namespace MyEngine
 	namespace App
 	{
 		class FpsControl;
-		namespace Wrappers
+		namespace Win32
 		{
-			namespace Win32
-			{
-				class Window;
-			}
+			class Window;
 		}
 	}
 	namespace Rendering
@@ -32,19 +29,19 @@ namespace MyEngine
 		class CoreServices
 		{
 		public:
-			CoreServices(App::Wrappers::Win32::Window& window,
+			CoreServices(App::Win32::Window& window,
 				Rendering::Gpu& gpu, Rendering::Canvas& canvas,
 				Game::Camera& camera,
 				App::FpsControl& fpsControl);
 
-			App::Wrappers::Win32::Window& GetWindow() const { return m_Window; }
+			App::Win32::Window& GetWindow() const { return m_Window; }
 			Rendering::Gpu& GetGpu() const { return m_Gpu; }
 			Rendering::Canvas& GetCanvas() const { return m_Canvas; }
 			App::FpsControl& GetFpsControl() const { return m_FpsControl; }
 			Game::Camera& GetCamera() const { return m_Camera; }
 
 		private:
-			App::Wrappers::Win32::Window& m_Window;
+			App::Win32::Window& m_Window;
 			Rendering::Gpu& m_Gpu;
 			Rendering::Canvas& m_Canvas;
 			App::FpsControl& m_FpsControl;

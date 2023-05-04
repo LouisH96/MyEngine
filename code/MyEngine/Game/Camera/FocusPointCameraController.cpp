@@ -2,7 +2,7 @@
 #include "FocusPointCameraController.h"
 
 #include <DirectXMath.h>
-#include <App/Wrappers/Win32/Mouse.h>
+#include <App/Win32/Mouse.h>
 
 #include "Camera.h"
 #include "Windows.h"
@@ -10,7 +10,7 @@
 #include "Math/Float4.h"
 #include "Math/Int2.h"
 
-using namespace App::Wrappers::Win32;
+using namespace App::Win32;
 using namespace Math;
 
 Game::FocusPointCameraController::FocusPointCameraController(Camera& camera, const Keyboard& keyboard, const Mouse& mouse)

@@ -24,7 +24,7 @@ namespace MyEngine
 		class FpsDisplay
 		{
 		public:
-			FpsDisplay(Gpu& gpu, Canvas& canvas, App::Wrappers::Win32::Window& window);
+			FpsDisplay(Gpu& gpu, Canvas& canvas, App::Win32::Window& window);
 			~FpsDisplay();
 			
 			void Render();

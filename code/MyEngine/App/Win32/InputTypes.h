@@ -6,12 +6,9 @@ namespace MyEngine
 {
 	namespace App
 	{
-		namespace Wrappers
+		namespace Win32
 		{
-			namespace Win32
-			{
-				typedef Keyboard_<Keyboard_MsgListener> Keyboard;
-			}
+			typedef Keyboard_<Keyboard_MsgListener> Keyboard;
 		}
 	}
 }

@@ -6,12 +6,9 @@ namespace MyEngine
 {
 	namespace App
 	{
-		namespace Wrappers
+		namespace Win32
 		{
-			namespace Win32
-			{
-				class Window;
-			}
+			class Window;
 		}
 	}
 }
@@ -30,7 +27,7 @@ namespace MyEngine
 			Gpu& operator=(const Gpu& other) = delete;
 			Gpu& operator=(Gpu&& other) noexcept = delete;
 
-			explicit Gpu(App::Wrappers::Win32::Window& window);
+			explicit Gpu(App::Win32::Window& window);
 			~Gpu();
 
 			void Release();
@@ -49,7 +46,7 @@ namespace MyEngine
 
 			ID3D11Device* m_pDevice{};
 			ID3D11DeviceContext* m_pContext{};
-			App::Wrappers::Win32::Window& m_Window;
+			App::Win32::Window& m_Window;
 
 			void Init();
 		};

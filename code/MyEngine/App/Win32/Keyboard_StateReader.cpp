@@ -3,7 +3,7 @@
 #include "Keyboard_StateReader.h"
 #include <iostream>
 
-void MyEngine::App::Wrappers::Win32::Keyboard_StateReader::Update()
+void MyEngine::App::Win32::Keyboard_StateReader::Update()
 {
 	unsigned char keys[NR_KEYS];
 	GetKeyboardState(keys);
@@ -11,14 +11,14 @@ void MyEngine::App::Wrappers::Win32::Keyboard_StateReader::Update()
 	Pack(keys, m_Keys);
 }
 
-bool MyEngine::App::Wrappers::Win32::Keyboard_StateReader::IsDown_(unsigned char c) const
+bool MyEngine::App::Win32::Keyboard_StateReader::IsDown_(unsigned char c) const
 {
 	const int iPack = c / PACK_SIZE;
 	const int iBit = c % PACK_SIZE;
 	return m_Keys[iPack] & (1 << iBit);
 }
 
-void MyEngine::App::Wrappers::Win32::Keyboard_StateReader::Pack(const unsigned char* pSource, unsigned char* pDest)
+void MyEngine::App::Win32::Keyboard_StateReader::Pack(const unsigned char* pSource, unsigned char* pDest)
 {
 	//source is array of char's per keyboard key
 	//the highest bit in the source bits is whether the key is up/down (0/1)

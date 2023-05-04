@@ -1,5 +1,5 @@
 #pragma once
-#include "App/Wrappers/Win32/InputTypes.h"
+#include "App/Win32/InputTypes.h"
 #include "Math/Float4X4.h"
 
 namespace MyEngine
@@ -24,7 +24,7 @@ namespace MyEngine
 		class FocusPointCameraController
 		{
 		public:
-			FocusPointCameraController(Camera& camera, const App::Wrappers::Win32::Keyboard& keyboard, const App::Wrappers::Win32::Mouse& mouse);
+			FocusPointCameraController(Camera& camera, const App::Win32::Keyboard& keyboard, const App::Win32::Mouse& mouse);
 			void Update();
 
 			void SetFocusPoint(const Math::Float3& position);
@@ -45,8 +45,8 @@ namespace MyEngine
 			Math::Float3 GetCameraPosition() const;
 
 		private:
-			const App::Wrappers::Win32::Keyboard& m_Keyboard;
-			const App::Wrappers::Win32::Mouse& m_Mouse;
+			const App::Win32::Keyboard& m_Keyboard;
+			const App::Win32::Mouse& m_Mouse;
 			Camera& m_Camera;
 			float m_ScrollSpeed;
 			float m_HorizontalSpeed;

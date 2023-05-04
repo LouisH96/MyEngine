@@ -8,7 +8,7 @@
 #include <Rendering/Structs/VertexTypes.h>
 
 #include "Image.h"
-#include "App/Wrappers/Win32/Window.h"
+#include "App/Win32/Window.h"
 #include "Framework/Resources.h"
 #include "Io/Ttf/FontRasterizer.h"
 #include "State/Mesh.h"
@@ -17,7 +17,7 @@
 #undef min;
 #undef max;
 
-Rendering::FpsDisplay::FpsDisplay(Rendering::Gpu& gpu, Rendering::Canvas& canvas, App::Wrappers::Win32::Window& window)
+Rendering::FpsDisplay::FpsDisplay(Rendering::Gpu& gpu, Rendering::Canvas& canvas, App::Win32::Window& window)
 	: m_Gpu(gpu)
 	, m_Canvas(canvas)
 	, m_BlendState{ gpu }

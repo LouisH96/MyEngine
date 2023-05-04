@@ -1,6 +1,6 @@
 #pragma once
-#include "App/Wrappers/Win32/Keyboard_MsgListener.h"
-#include "App/Wrappers/Win32/Mouse.h"
+#include "App/Win32/Keyboard_MsgListener.h"
+#include "App/Win32/Mouse.h"
 
 namespace MyEngine
 {
@@ -8,7 +8,7 @@ namespace MyEngine
 	{
 	public:
 		static float DeltaTime;
-		static const App::Wrappers::Win32::Keyboard_MsgListener* pKeyboard;
-		static const App::Wrappers::Win32::Mouse* pMouse;
+		static const App::Win32::Keyboard_MsgListener* pKeyboard;
+		static const App::Win32::Mouse* pMouse;
 	};
 }

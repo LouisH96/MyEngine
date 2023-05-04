@@ -7,19 +7,19 @@
 #include <Rendering/Canvas.h>
 #include "Math/Int2.h"
 
-MyEngine::App::Wrappers::Win32::Window::Window(const std::wstring& title, Options options)
+MyEngine::App::Win32::Window::Window(const std::wstring& title, Options options)
 	: m_pExtraWinProc{ nullptr }
 {
 	Init(title, options);
 }
 
-MyEngine::App::Wrappers::Win32::Window::Window(const std::wstring& title, IExtraWinProc& extraWinProc, Options options)
+MyEngine::App::Win32::Window::Window(const std::wstring& title, IExtraWinProc& extraWinProc, Options options)
 	: m_pExtraWinProc{ &extraWinProc }
 {
 	Init(title, options);
 }
 
-MyEngine::App::Wrappers::Win32::Window::Window(const std::wstring& title, const Math::Int2& clientSize,
+MyEngine::App::Win32::Window::Window(const std::wstring& title, const Math::Int2& clientSize,
 	Options options)
 	: m_ClientSize(clientSize.x, clientSize.y)
 	, m_pExtraWinProc{ nullptr }
@@ -27,7 +27,7 @@ MyEngine::App::Wrappers::Win32::Window::Window(const std::wstring& title, const 
 	Init(title, options);
 }
 
-MyEngine::App::Wrappers::Win32::Window::Window(const std::wstring& title, const Math::Int2& clientSize,
+MyEngine::App::Win32::Window::Window(const std::wstring& title, const Math::Int2& clientSize,
 	IExtraWinProc& extraWinProc, Options options)
 	: m_ClientSize(clientSize.x, clientSize.y)
 	, m_pExtraWinProc{ &extraWinProc }
@@ -35,12 +35,12 @@ MyEngine::App::Wrappers::Win32::Window::Window(const std::wstring& title, const 
 	Init(title, options);
 }
 
-MyEngine::App::Wrappers::Win32::Window::~Window()
+MyEngine::App::Win32::Window::~Window()
 {
 	Release();
 }
 
-void MyEngine::App::Wrappers::Win32::Window::Init(const std::wstring& title, const Options& options)
+void MyEngine::App::Win32::Window::Init(const std::wstring& title, const Options& options)
 {
 	m_CursorFpsMode = options.CursorFpsMode;
 
@@ -97,13 +97,13 @@ void MyEngine::App::Wrappers::Win32::Window::Init(const std::wstring& title, con
 	ShowCursor(!m_CursorFpsMode);
 }
 
-void MyEngine::App::Wrappers::Win32::Window::Release()
+void MyEngine::App::Win32::Window::Release()
 {
 	//todo: check if and how you could quit the app from here, and not from a quit msg on the queue
 	//simply PostMessage with wm_quit would work probably, but normally this shouldn't be closed like this
 }
 
-void MyEngine::App::Wrappers::Win32::Window::HandleMessages()
+void MyEngine::App::Win32::Window::HandleMessages()
 {
 	m_IsResized = false;
 	m_Mouse.PreChange();
@@ -124,7 +124,7 @@ void MyEngine::App::Wrappers::Win32::Window::HandleMessages()
 	}
 }
 
-DirectX::XMINT2 MyEngine::App::Wrappers::Win32::Window::AskClientSize_WinApi() const
+DirectX::XMINT2 MyEngine::App::Win32::Window::AskClientSize_WinApi() const
 {
 	RECT rect{};
 	GetClientRect(m_WindowHandle, &rect);
@@ -133,7 +133,7 @@ DirectX::XMINT2 MyEngine::App::Wrappers::Win32::Window::AskClientSize_WinApi() c
 
 LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	MyEngine::App::Wrappers::Win32::Window& window = *reinterpret_cast<MyEngine::App::Wrappers::Win32::Window*>(GetWindowLongPtr(windowHandle, GWLP_USERDATA));
+	MyEngine::App::Win32::Window& window = *reinterpret_cast<MyEngine::App::Win32::Window*>(GetWindowLongPtr(windowHandle, GWLP_USERDATA));
 
 	switch (uMsg)
 	{
@@ -195,7 +195,7 @@ LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, 
 
 LRESULT CALLBACK win32_window_proc_extra(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	using namespace MyEngine::App::Wrappers::Win32;
+	using namespace MyEngine::App::Win32;
 	const Window& window = *reinterpret_cast<Window*>(GetWindowLongPtr(windowHandle, GWLP_USERDATA));
 
 	switch (uMsg)

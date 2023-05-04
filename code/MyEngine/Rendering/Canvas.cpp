@@ -4,10 +4,10 @@
 #include <dxgi1_2.h>
 
 #include "Dx/DxHelper.h"
-#include "App/Wrappers/Win32/Window.h"
+#include "App/Win32/Window.h"
 #include "Gpu.h"
 
-MyEngine::Rendering::Canvas::Canvas(Gpu& gpu, App::Wrappers::Win32::Window& window)
+MyEngine::Rendering::Canvas::Canvas(Gpu& gpu, App::Win32::Window& window)
 	: m_Gpu{ gpu }
 {
 	InitSwapChain(window);
@@ -66,7 +66,7 @@ void MyEngine::Rendering::Canvas::OnWindowResized(Math::Int2 newSize)
 	SetViewPort(newSize);
 }
 
-void MyEngine::Rendering::Canvas::InitSwapChain(const App::Wrappers::Win32::Window& window)
+void MyEngine::Rendering::Canvas::InitSwapChain(const App::Win32::Window& window)
 {
 	const Math::Int2 windowSize = window.GetClientSize();
 	DXGI_SWAP_CHAIN_DESC1 desc{};

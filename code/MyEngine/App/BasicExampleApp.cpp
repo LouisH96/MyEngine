@@ -8,7 +8,7 @@
 #include <Rendering/State/Shader.h>
 #include "FpsControl.h"
 #include "../Game/Camera/FocusPointCameraController.h"
-#include "App/Wrappers/Win32/Window.h"
+#include "App/Win32/Window.h"
 #include "DataStructures/Array.h"
 #include "Game/Camera/Camera.h"
 #include "Generation/Shapes.h"
@@ -18,6 +18,7 @@
 #include "Rendering/State/ConstantBuffer.h"
 #include "Rendering/State/InputLayout.h"
 #include <Rendering/Structs/ConstantBufferTypes.h>
+#include <App/Win32/Window.h>
 
 using namespace Rendering;
 
@@ -28,7 +29,7 @@ void App::BasicExampleApp::Run()
 	using namespace Math;
 
 	//APP
-	Window& window = *new Window(L"Window");
+	Win32::Window& window = *new Win32::Window(L"Window");
 	Gpu& gpu = *new Gpu(window);
 	Canvas& canvas = *gpu.MakeCanvas();
 
