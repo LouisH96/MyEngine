@@ -32,7 +32,7 @@
     <ClCompile Include="Io\Ttf\FontRasterizer.cpp" />
     <ClCompile Include="Io\Ttf\Contour.cpp" />
     <ClCompile Include="Io\Ttf\Glyph.cpp" />
-    <ClCompile Include="Image.cpp" />
+    <ClCompile Include="Rendering\Image.cpp" />
     <ClCompile Include="Io\Ttf\ContourOperations.cpp" />
     <ClCompile Include="Io\Ttf\GlyfTable.cpp" />
     <ClCompile Include="Io\Ttf\HeadTable.cpp" />
@@ -132,7 +132,7 @@
     <ClInclude Include="Math\Double3.h" />
     <ClInclude Include="Io\Ttf\Contour.h" />
     <ClInclude Include="Io\Ttf\Glyph.h" />
-    <ClInclude Include="Image.h" />
+    <ClInclude Include="Rendering\Image.h" />
     <ClInclude Include="Io\Ttf\ContourOperations.h" />
     <ClInclude Include="Io\Ttf\GlyfTable.h" />
     <ClInclude Include="Io\Ttf\HeadTable.h" />

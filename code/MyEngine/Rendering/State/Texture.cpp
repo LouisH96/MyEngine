@@ -4,8 +4,7 @@
 #include <wincodec.h>
 #include "Shader.h"
 #include <dxgi.h>
-
-#include "Image.h"
+#include <Rendering/Image.h>
 
 Rendering::Texture::Texture(const Gpu& gpu, const std::wstring& path)
 {

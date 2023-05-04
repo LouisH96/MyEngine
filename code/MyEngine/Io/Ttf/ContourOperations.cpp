@@ -1,11 +1,11 @@
 #include "pch.h"
 #include "ContourOperations.h"
 
-#include "Image.h"
+#include <Debug/DebugRenderer.h>
+#include <Rendering/Image.h>
 #include "TtfReader.h"
 #include "DataStructures/Algorithms.h"
 #include "DataStructures/DsUtils.h"
-#include <Debug/DebugRenderer.h>
 
 #undef max;
 #undef min;

@@ -1,11 +1,10 @@
 #include "pch.h"
 #include "FontRasterizer.h"
 
-#include "Io/Ttf/Glyph.h"
 #include <Debug/DebugRenderer.h>
-
-#include "Image.h"
+#include <Rendering/Image.h>
 #include "Intersection.h"
+#include "Io/Ttf/Glyph.h"
 
 #undef min;
 #undef max;

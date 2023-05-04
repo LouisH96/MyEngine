@@ -2,8 +2,6 @@
 #include "TextRenderer.h"
 
 #include <fstream>
-
-#include "Image.h"
 #include "Framework/Resources.h"
 #include "Io/Ttf/ContourOperations.h"
 #include "Io/Ttf/FontRasterizer.h"
