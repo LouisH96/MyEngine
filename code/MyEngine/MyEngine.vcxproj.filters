@@ -86,10 +86,10 @@
     <ClCompile Include="Game\Transform.cpp" />
     <ClCompile Include="Math\Quaternion.cpp" />
     <ClCompile Include="Game\Camera\Camera.cpp" />
-    <ClCompile Include="Framework\CoreServices.cpp" />
     <ClCompile Include="Game\Camera\FpsCameraController.cpp" />
     <ClCompile Include="Rendering\Renderers\R_LambertCam_Tex.cpp" />
     <ClCompile Include="Rendering\Renderers\R_LambertLight_Tex.cpp" />
+    <ClCompile Include="Framework\CoreServices.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -200,7 +200,7 @@
     <ClInclude Include="Math\Quaternion.h" />
     <ClInclude Include="Math\Vector4.h" />
     <ClInclude Include="Game\Camera\Camera.h" />
-    <ClInclude Include="Framework\Frame_NoCam.h" />
+    <ClInclude Include="Framework\Frame_NoCamContr.h" />
     <ClInclude Include="Framework\CoreServices.h" />
     <ClInclude Include="Game\Camera\FpsCameraController.h" />
     <ClInclude Include="Math\Matrix4x4.h" />

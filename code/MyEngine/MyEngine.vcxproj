@@ -13,8 +13,8 @@
   <ItemGroup>
     <ClCompile Include="App\BasicExampleApp.cpp" />
     <ClCompile Include="App\FpsControl.cpp" />
-    <ClCompile Include="Game\Camera\FpsCameraController.cpp" />
     <ClCompile Include="Framework\CoreServices.cpp" />
+    <ClCompile Include="Game\Camera\FpsCameraController.cpp" />
     <ClCompile Include="Game\Camera\Camera.cpp" />
     <ClCompile Include="Io\Ascii\AsciiWriter.cpp" />
     <ClCompile Include="Framework\BasicFramework.cpp" />
@@ -108,7 +108,7 @@
     <ClInclude Include="App\BasicExampleApp.h" />
     <ClInclude Include="Game\Camera\FpsCameraController.h" />
     <ClInclude Include="Framework\CoreServices.h" />
-    <ClInclude Include="Framework\Frame_NoCam.h" />
+    <ClInclude Include="Framework\Frame_NoCamContr.h" />
     <ClInclude Include="Game\Camera\Camera.h" />
     <ClInclude Include="Io\Ascii\AsciiWriter.h" />
     <ClInclude Include="Framework\BasicAppFrame.h" />

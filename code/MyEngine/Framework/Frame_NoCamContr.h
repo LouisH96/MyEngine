@@ -14,14 +14,14 @@ namespace MyEngine
 	namespace Framework
 	{
 		template <typename T>
-		class Frame_NoCam
+		class Frame_NoCamContr
 		{
 		public:
 			static void Run(const std::wstring& windowName = L"Window", App::Win32::Window::Options options = {});
 		};
 
 		template <typename T>
-		void Frame_NoCam<T>::Run(const std::wstring& windowName, App::Win32::Window::Options options)
+		void Frame_NoCamContr<T>::Run(const std::wstring& windowName, App::Win32::Window::Options options)
 		{
 			using namespace App;
 			using namespace Win32;
