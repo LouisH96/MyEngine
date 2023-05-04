@@ -2,7 +2,7 @@
 #include "GlyfTable.h"
 
 #include <Io/Binary/BigBinReader.h>
-#include <Math/Value2.h>
+#include <Math/Vector2.h>
 
 void Io::Ttf::GlyfTable::Read(const Bin::BigBinReader& reader)
 {

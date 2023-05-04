@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Math/Value2.h>
+#include <Math/Vector2.h>
 
 namespace MyEngine
 {
@@ -10,7 +10,7 @@ namespace MyEngine
 		{
 			struct TtfPoint
 			{
-				Math::Value2<int16_t> position{};
+				Math::Vector2<int16_t> position{};
 				bool isOnCurve{};
 			};
 		}

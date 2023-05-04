@@ -1,10 +1,10 @@
 #pragma once
-#include "Value2.h"
+#include "Vector2.h"
 
 namespace MyEngine
 {
 	namespace Math
 	{
-		using Float2 = Value2<float>;
+		using Float2 = Vector2<float>;
 	}
 }

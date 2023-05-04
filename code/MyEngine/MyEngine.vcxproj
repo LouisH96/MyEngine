@@ -141,7 +141,7 @@
     <ClInclude Include="Generation\Shapes\ArrowGenerator.h" />
     <ClInclude Include="Io\Ttf\OffsetSubTable.h" />
     <ClInclude Include="Io\Ttf\LocaTable.h" />
-    <ClInclude Include="Math\Value3.h" />
+    <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="Rendering\State\Shader.h" />
     <ClInclude Include="Rendering\State\Mesh.h" />
     <ClInclude Include="Rendering\Gpu.h" />
@@ -208,7 +208,7 @@
     <ClInclude Include="Generation\Shapes.h" />
     <ClInclude Include="Math\Rect.h" />
     <ClInclude Include="Math\Sphere.h" />
-    <ClInclude Include="Math\Value2.h" />
+    <ClInclude Include="Math\Vector2.h" />
     <ClInclude Include="Debug\Timing\Counter.h" />
     <ClInclude Include="Io\Zlib\ZlibDecompress.h" />
     <ClInclude Include="Rendering\Renderers\TextureRenderer.h" />
@@ -222,7 +222,7 @@
     <ClInclude Include="Rendering\Renderers\TextRenderer.h" />
     <ClInclude Include="Io\Ttf\Segment.h" />
     <ClInclude Include="Game\Transform.h" />
-    <ClInclude Include="Math\Value4.h" />
+    <ClInclude Include="Math\Vector4.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

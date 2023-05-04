@@ -1,7 +1,7 @@
 #pragma once
 #include "Math/Float3.h"
 #include "Math/Int2.h"
-#include "Math/Value2.h"
+#include "Math/Vector2.h"
 
 namespace MyEngine
 {
@@ -14,7 +14,7 @@ namespace MyEngine
 			static std::string Convert(const T& value);
 
 			template<typename T>
-			static std::string Convert(const Math::Value2<T>& value);
+			static std::string Convert(const Math::Vector2<T>& value);
 
 			template<typename T>
 			static std::string Convert(const Ds::Array<T>& value);
@@ -48,7 +48,7 @@ namespace MyEngine
 		}
 
 		template <typename T>
-		std::string ToString::Convert(const Math::Value2<T>& value)
+		std::string ToString::Convert(const Math::Vector2<T>& value)
 		{
 			std::stringstream ss{};
 			ss << "[";

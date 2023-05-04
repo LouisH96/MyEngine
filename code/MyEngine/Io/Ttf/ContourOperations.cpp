@@ -10,16 +10,16 @@
 #undef max;
 #undef min;
 
-void Io::Ttf::ContourOperations::GetBounds(const Array<Array<TtfPoint>>& points, Math::Value2<int16_t>& min,
-	Math::Value2<int16_t>& max)
+void Io::Ttf::ContourOperations::GetBounds(const Array<Array<TtfPoint>>& points, Math::Vector2<int16_t>& min,
+	Math::Vector2<int16_t>& max)
 {
 	GetBounds(points[0], min, max, true);
 	for (int i = 1; i < points.GetSize(); i++)
 		GetBounds(points[i], min, max, false);
 }
 
-void Io::Ttf::ContourOperations::GetBounds(const Array<TtfPoint>& points, Math::Value2<int16_t>& min,
-	Math::Value2<int16_t>& max, bool initMinMax)
+void Io::Ttf::ContourOperations::GetBounds(const Array<TtfPoint>& points, Math::Vector2<int16_t>& min,
+	Math::Vector2<int16_t>& max, bool initMinMax)
 {
 	if (initMinMax)
 	{

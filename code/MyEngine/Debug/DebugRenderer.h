@@ -45,7 +45,7 @@ namespace MyEngine
 			static void AddLine(const Array<Math::Float3>& points, const Math::Float3& color);
 
 			static void AddRect(const Math::Float3& leftTop, const Math::Float3& rightTop, const Math::Float3& rightBot, const Math::Float3& leftBot, const Math::Float3& color);;
-			template<typename T> static void AddRect(const Math::Value2<T>& min, const Math::Value2<T>& max, const Math::Float3& offset, const Math::Float3& color);
+			template<typename T> static void AddRect(const Math::Vector2<T>& min, const Math::Vector2<T>& max, const Math::Float3& offset, const Math::Float3& color);
 
 			static void AddGridXy(const Math::Float3& offset, const Math::Float2& bounds, int nrCols, int nrRows, const Math::Float3& color);
 
@@ -83,17 +83,17 @@ namespace MyEngine
 			void Class_AddLine(const Math::Float3& begin, const Math::Float3& end, const Math::Float3& color) const;
 			void Class_AddLine(const Array<Math::Float3>& points, const Math::Float3& color) const;
 			void Class_AddRect(const Math::Float3& leftTop, const Math::Float3& rightTop, const Math::Float3& rightBot, const Math::Float3& leftBot, const Math::Float3& color) const;
-			template<typename T> void Class_AddRect(const Math::Value2<T>& min, const Math::Value2<T>& max, const Math::Float3& offset, const Math::Float3& color);
+			template<typename T> void Class_AddRect(const Math::Vector2<T>& min, const Math::Vector2<T>& max, const Math::Float3& offset, const Math::Float3& color);
 		};
 
 		template <typename T>
-		void DebugRenderer::AddRect(const Math::Value2<T>& min, const Math::Value2<T>& max, const Math::Float3& offset, const Math::Float3& color)
+		void DebugRenderer::AddRect(const Math::Vector2<T>& min, const Math::Vector2<T>& max, const Math::Float3& offset, const Math::Float3& color)
 		{
 			m_pStatic->Class_AddRect(min, max, offset, color);
 		}
 
 		template <typename T>
-		void DebugRenderer::Class_AddRect(const Math::Value2<T>& min, const Math::Value2<T>& max, const Math::Float3& offset,
+		void DebugRenderer::Class_AddRect(const Math::Vector2<T>& min, const Math::Vector2<T>& max, const Math::Float3& offset,
 			const Math::Float3& color)
 		{
 			using namespace Math;

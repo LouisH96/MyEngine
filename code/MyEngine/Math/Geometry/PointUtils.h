@@ -2,9 +2,9 @@
 
 #include <limits>
 #include <DataStructures/Array.h>
-#include "Math/Value2.h"
+#include "Math/Vector2.h"
 #include <Math/Float3.h>
-#include "Math/Value3.h"
+#include "Math/Vector3.h"
 
 #undef min;
 #undef max;
@@ -19,21 +19,21 @@ namespace MyEngine
 			{
 			public:
 				template<typename T>
-				static void GetBounds2DPoints(const Ds::Array<Value2<T>>& points, Value2<T>& min, Value2<T>& max);
+				static void GetBounds2DPoints(const Ds::Array<Vector2<T>>& points, Vector2<T>& min, Vector2<T>& max);
 
 				template<typename T>
-				static void Center2DPoints(Ds::Array<Value2<T>>& points);
+				static void Center2DPoints(Ds::Array<Vector2<T>>& points);
 
-				template<typename T> static void Scale(Ds::Array<Value2<T>>& points, T scale);
-				template<typename T> static void Scale(Ds::Array<Value3<T>>& points, T scale);
+				template<typename T> static void Scale(Ds::Array<Vector2<T>>& points, T scale);
+				template<typename T> static void Scale(Ds::Array<Vector3<T>>& points, T scale);
 
-				template<typename T> static void Translate(Ds::Array<Value3<T>>& points, const Value3<T>& translation);
+				template<typename T> static void Translate(Ds::Array<Vector3<T>>& points, const Vector3<T>& translation);
 			};
 
 			//---| Definitions |---
 
 			template <typename T>
-			void PointUtils::GetBounds2DPoints(const Ds::Array<Value2<T>>& points, Value2<T>& min, Value2<T>& max)
+			void PointUtils::GetBounds2DPoints(const Ds::Array<Vector2<T>>& points, Vector2<T>& min, Vector2<T>& max)
 			{
 				min.x = std::numeric_limits<T>::max();
 				min.y = min.x;
@@ -50,31 +50,31 @@ namespace MyEngine
 			}
 
 			template <typename T>
-			void PointUtils::Center2DPoints(Ds::Array<Value2<T>>& points)
+			void PointUtils::Center2DPoints(Ds::Array<Vector2<T>>& points)
 			{
-				Value2<T> min, max;
+				Vector2<T> min, max;
 				GetBounds2DPoints(points, min, max);
-				const Value2<T> center{ (min + max) / static_cast<T>(2) };
+				const Vector2<T> center{ (min + max) / static_cast<T>(2) };
 				for (int i = 0; i < points.GetSize(); i++)
 					points[i] -= center;
 			}
 
 			template<typename T>
-			void PointUtils::Scale(Ds::Array<Value2<T>>& points, T scale)
+			void PointUtils::Scale(Ds::Array<Vector2<T>>& points, T scale)
 			{
 				for (int i = 0; i < points.GetSize(); i++)
 					points[i] *= scale;
 			}
 
 			template <typename T>
-			void PointUtils::Scale(Ds::Array<Value3<T>>& points, T scale)
+			void PointUtils::Scale(Ds::Array<Vector3<T>>& points, T scale)
 			{
 				for (int i = 0; i < points.GetSize(); i++)
 					points[i] *= scale;
 			}
 
 			template <typename T>
-			void PointUtils::Translate(Ds::Array<Value3<T>>& points, const Value3<T>& translation)
+			void PointUtils::Translate(Ds::Array<Vector3<T>>& points, const Vector3<T>& translation)
 			{
 				for (int i = 0; i < points.GetSize(); i++)
 					points[i] += translation;
