@@ -20,7 +20,6 @@
     <ClCompile Include="Rendering\Gpu.cpp" />
     <ClCompile Include="App\Wrappers\Win32\Renderer2D.cpp" />
     <ClCompile Include="App\Wrappers\Dx\RendererD2D.cpp" />
-    <ClCompile Include="Math\Int2.cpp" />
     <ClCompile Include="App\Wrappers\Win32\Mouse.cpp" />
     <ClCompile Include="Rendering\State\InputLayout.cpp" />
     <ClCompile Include="Rendering\State\BlendState.cpp" />

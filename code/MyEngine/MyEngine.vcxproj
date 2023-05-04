@@ -78,7 +78,6 @@
     <ClCompile Include="App\Wrappers\Win32\InputTypes.cpp" />
     <ClCompile Include="App\Wrappers\Win32\Keyboard_MsgListener.cpp" />
     <ClCompile Include="Rendering\State\InputLayout.cpp" />
-    <ClCompile Include="Math\Int2.cpp" />
     <ClCompile Include="Debug\Logger.cpp" />
     <ClCompile Include="App\Wrappers\Win32\Window.cpp" />
     <ClCompile Include="Framework\Resources.cpp" />

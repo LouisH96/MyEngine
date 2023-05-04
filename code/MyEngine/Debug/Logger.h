@@ -10,14 +10,6 @@
 
 namespace MyEngine
 {
-	namespace Math
-	{
-		union Int2;
-	}
-}
-
-namespace MyEngine
-{
 	namespace Debug
 	{
 		class Logger
