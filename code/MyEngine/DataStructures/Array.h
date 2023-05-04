@@ -22,6 +22,7 @@ namespace MyEngine
 
 			void Add(const Array<Data>& other);
 			void Add(const Data& data);
+			void IncreaseSizeTo(int newSize);
 
 			const Data& operator[](int idx) const;
 			Data& operator[](int idx);
@@ -147,6 +148,17 @@ namespace MyEngine
 				pNew[i] = m_pData[i];
 			pNew[m_Size] = data;
 			m_Size++;
+			delete[] m_pData;
+			m_pData = pNew;
+		}
+
+		template <typename Data>
+		void Array<Data>::IncreaseSizeTo(int newSize)
+		{
+			Data* pNew = new Data[newSize];
+			for (int i = 0; i < m_Size; i++)
+				pNew = std::move(m_pData[i]);
+			m_Size = newSize;
 			delete[] m_pData;
 			m_pData = pNew;
 		}
