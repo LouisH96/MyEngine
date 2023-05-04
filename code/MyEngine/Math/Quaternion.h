@@ -1,6 +1,8 @@
 #pragma once
 #include <Math/Float3.h>
 
+#include "Float4.h"
+
 namespace MyEngine
 {
 	namespace Math
@@ -41,18 +43,14 @@ namespace MyEngine
 			void Inverse();
 
 			//---| Get |---
-			const Float3& GetReal() const { return m_Real; }
-			float GetComplex() const { return m_Complex; }
-
 			Float3 GetRight() const;
 			Float3 GetUp() const;
 			Float3 GetForward() const;
-
 			float GetLength() const;
 
-		private:
-			Float3 m_Real;
-			float m_Complex;
+			//---| Data |---
+			Float3 Xyz;
+			float W;
 		};
 	}
 }

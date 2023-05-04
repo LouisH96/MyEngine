@@ -2,14 +2,14 @@
 #include "Quaternion.h"
 
 Math::Quaternion::Quaternion()
-	: m_Real{ 0, 0, 0 }
-	, m_Complex{ 1 }
+	: Xyz{ 0, 0, 0 }
+	, W{ 1 }
 {
 }
 
 Math::Quaternion::Quaternion(const Float3& real, float complex)
-	: m_Real{ real }
-	, m_Complex{ complex }
+	: Xyz{ real }
+	, W{ complex }
 {
 }
 
@@ -30,33 +30,33 @@ Math::Quaternion Math::Quaternion::FromForward(const Float3& forward)
 Math::Quaternion Math::Quaternion::operator*(const Quaternion& other) const
 {
 	return { {
-			m_Real.Cross(other.m_Real) + other.m_Real * m_Complex + m_Real * other.m_Complex
-		}, m_Complex * other.m_Complex - m_Real.Dot(other.m_Real) };
+			Xyz.Cross(other.Xyz) + other.Xyz * W + Xyz * other.W
+		}, W * other.W - Xyz.Dot(other.Xyz) };
 }
 void Math::Quaternion::operator*=(const Quaternion& other)
 {
-	m_Real = m_Real.Cross(other.m_Real) + other.m_Real * m_Complex + m_Real * other.m_Complex;
-	m_Complex = m_Complex * other.m_Complex - m_Real.Dot(other.m_Real);
+	Xyz = Xyz.Cross(other.Xyz) + other.Xyz * W + Xyz * other.W;
+	W = W * other.W - Xyz.Dot(other.Xyz);
 }
 
 Math::Quaternion Math::Quaternion::operator-() const
 {
-	return { -m_Real, m_Complex };
+	return { -Xyz, W };
 }
 
 void Math::Quaternion::Inverse()
 {
-	m_Real = -m_Real;
+	Xyz = -Xyz;
 }
 
 Math::Quaternion::Quaternion(const DirectX::XMVECTOR& vector)
 {
-	XMStoreFloat4(reinterpret_cast<DirectX::XMFLOAT4*>(&m_Real.x), vector);
+	XMStoreFloat4(reinterpret_cast<DirectX::XMFLOAT4*>(&Xyz.x), vector);
 }
 
 void Math::Quaternion::operator=(const DirectX::XMVECTOR& vector)
 {
-	XMStoreFloat4(reinterpret_cast<DirectX::XMFLOAT4*>(&m_Real.x), vector);
+	XMStoreFloat4(reinterpret_cast<DirectX::XMFLOAT4*>(&Xyz.x), vector);
 }
 
 void Math::Quaternion::Rotate(const Quaternion& rotation)
@@ -72,53 +72,53 @@ void Math::Quaternion::Rotate(const Float3& axis, float radians)
 
 void Math::Quaternion::RotatePoint(Float3& point) const
 {
-	point = (*this * Quaternion{ point, 0 } *-*this).GetReal();
+	point = (*this * Quaternion{ point, 0 } *-*this).Xyz;
 }
 
 Math::Float3 Math::Quaternion::GetRotatedPoint(const Float3& point) const
 {
-	return (*this * Quaternion{ point, 0 } *-*this).GetReal();
+	return (*this * Quaternion{ point, 0 } *-*this).Xyz;
 }
 
 Math::Quaternion Math::Quaternion::Normalized() const
 {
 	const float invLength{ 1.f / GetLength() };
-	return { m_Real * invLength, m_Complex * invLength };
+	return { Xyz * invLength, W * invLength };
 }
 
 void Math::Quaternion::Normalize()
 {
 	const float invLength{ 1.f / GetLength() };
-	m_Real *= invLength;
-	m_Complex *= invLength;
+	Xyz *= invLength;
+	W *= invLength;
 }
 
 Math::Float3 Math::Quaternion::GetForward() const
 {
 	return{
-		2 * (m_Real.x * m_Real.z + m_Complex * m_Real.y),
-		2 * (m_Real.y * m_Real.z - m_Complex * m_Real.x),
-		1 - 2 * (m_Real.x * m_Real.x + m_Real.y * m_Real.y) };
+		2 * (Xyz.x * Xyz.z + W * Xyz.y),
+		2 * (Xyz.y * Xyz.z - W * Xyz.x),
+		1 - 2 * (Xyz.x * Xyz.x + Xyz.y * Xyz.y) };
 }
 
 float Math::Quaternion::GetLength() const
 {
-	return sqrtf(m_Real.x * m_Real.x + m_Real.y * m_Real.y + m_Real.z * m_Real.z + m_Complex * m_Complex);
+	return sqrtf(Xyz.x * Xyz.x + Xyz.y * Xyz.y + Xyz.z * Xyz.z + W * W);
 }
 
 Math::Float3 Math::Quaternion::GetUp() const
 {
 	return{
-		2 * (m_Real.x * m_Real.y - m_Complex * m_Real.z),
-		1 - 2 * (m_Real.x * m_Real.x + m_Real.z * m_Real.z),
-		2 * (m_Real.y * m_Real.z + m_Complex * m_Real.x) };
+		2 * (Xyz.x * Xyz.y - W * Xyz.z),
+		1 - 2 * (Xyz.x * Xyz.x + Xyz.z * Xyz.z),
+		2 * (Xyz.y * Xyz.z + W * Xyz.x) };
 }
 
 Math::Float3 Math::Quaternion::GetRight() const
 {
 	return{
-		(1 - 2 * (m_Real.y * m_Real.y + m_Real.z * m_Real.z)),
-		2 * (m_Real.x * m_Real.y + m_Complex * m_Real.z),
-		2 * (m_Real.x * m_Real.z - m_Complex * m_Real.y) };
+		(1 - 2 * (Xyz.y * Xyz.y + Xyz.z * Xyz.z)),
+		2 * (Xyz.x * Xyz.y + W * Xyz.z),
+		2 * (Xyz.x * Xyz.z - W * Xyz.y) };
 }
 

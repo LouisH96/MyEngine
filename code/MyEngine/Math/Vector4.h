@@ -48,6 +48,9 @@ namespace MyEngine
 			T Dot(const Vector4& other) const;
 			void Normalize();
 			Vector4 Normalized() const;
+
+			//---| Cast |---
+			Vector3<T> Xyz() const;
 		};
 
 		template <typename T> Vector4<T>::Vector4() : x{ 0 }, y{ 0 }, z{ 0 }, w{ 0 } {}
@@ -100,6 +103,12 @@ namespace MyEngine
 		{
 			const T invLength{ static_cast<T>(1) / Length() };
 			return this * invLength;
+		}
+
+		template <typename T>
+		Vector3<T> Vector4<T>::Xyz() const
+		{
+			return{ x,y,z };
 		}
 	}
 }
