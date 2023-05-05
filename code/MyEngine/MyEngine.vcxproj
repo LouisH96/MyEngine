@@ -291,9 +291,8 @@
       <AdditionalDependencies>d3d11.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y /d "$(OutDir)*.lib" "$(GlobalOutputFolder)lib\$(Configuration)\$(Platform)\"
-rd /s /q "$(GlobalOutputFolder)include"
-xcopy /y /d /s "$(ProjectDir)*.h" "$(GlobalOutputFolder)include\"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -320,9 +319,8 @@ xcopy /y /d /s "$(ProjectDir)*.h" "$(GlobalOutputFolder)include\"</Command>
       <AdditionalDependencies>d3d11.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y /d "$(OutDir)*.lib" "$(GlobalOutputFolder)lib\$(Configuration)\$(Platform)\"
-rd /s /q "$(GlobalOutputFolder)include"
-xcopy /y /d /s "$(ProjectDir)*.h" "$(GlobalOutputFolder)include\"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
