@@ -23,6 +23,7 @@
     <ClCompile Include="Rendering\Renderers\R_LambertCam_Tex_Transform.cpp" />
     <ClCompile Include="Rendering\Renderers\R_LambertCam_Tex.cpp" />
     <ClCompile Include="Rendering\Renderers\R_LambertLight_Tex.cpp" />
+    <ClCompile Include="Rendering\Renderers\R_LambertLight_Col.cpp" />
     <ClCompile Include="Shapes\Capsule.cpp" />
     <ClCompile Include="Io\Fbx\Reading\Properties70.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\Geometry.cpp" />
@@ -106,6 +107,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\BasicExampleApp.h" />
+    <ClInclude Include="DataStructures\GridArray.h" />
     <ClInclude Include="Game\Camera\FpsCameraController.h" />
     <ClInclude Include="Framework\CoreServices.h" />
     <ClInclude Include="Framework\Frame_NoCamContr.h" />
@@ -120,6 +122,7 @@
     <ClInclude Include="Rendering\Renderers\R_LambertCam_Tex_Transform.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertCam_Tex.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertLight_Tex.h" />
+    <ClInclude Include="Rendering\Renderers\R_LambertLight_Col.h" />
     <ClInclude Include="Shapes\Capsule.h" />
     <ClInclude Include="Io\Fbx\Reading\Properties70.h" />
     <ClInclude Include="Io\Fbx\Wrapping\Geometry.h" />

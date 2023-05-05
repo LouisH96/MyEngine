@@ -20,6 +20,13 @@ const Rendering::InputLayout::Element Rendering::V_PosColNorm::ELEMENTS[] =
 	{"NORMAL", InputLayout::ElementType::Float3}
 };
 
+const Rendering::InputLayout::Element Rendering::V_PosNorCol::ELEMENTS[] =
+{
+	{"POSITION", InputLayout::ElementType::Float3},
+	{"NORMAL", InputLayout::ElementType::Float3},
+	{"COLOR", InputLayout::ElementType::Float3}
+};
+
 const Rendering::InputLayout::Element Rendering::V_PosUv::ELEMENTS[] =
 {
 	{"POSITION", InputLayout::ElementType::Float3},

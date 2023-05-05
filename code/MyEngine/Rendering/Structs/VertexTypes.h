@@ -32,6 +32,15 @@ namespace MyEngine
 			static const InputLayout::Element ELEMENTS[];
 			static constexpr int NR_ELEMENTS = 3;
 		};
+		struct V_PosNorCol
+		{
+			Math::Float3 Pos{};
+			Math::Float3 Normal{};
+			Math::Float3 Color{};
+
+			static const InputLayout::Element ELEMENTS[];
+			static constexpr int NR_ELEMENTS = 3;
+		};
 		struct V_PosUv
 		{
 			Math::Float3 Pos{};
