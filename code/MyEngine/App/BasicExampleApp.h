@@ -1,5 +1,5 @@
 #pragma once
-#include "Framework/BasicFramework.h"
+#include "Framework/CppFramework.h"
 
 namespace MyEngine
 {
@@ -11,7 +11,7 @@ namespace MyEngine
 			void Run();
 
 		private:
-			Framework::BasicFramework m_Framework{};
+			Framework::CppFramework m_Framework{};
 		};
 	}
 }

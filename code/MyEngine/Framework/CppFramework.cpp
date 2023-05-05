@@ -1,12 +1,12 @@
 #include "pch.h"
-#include "BasicFramework.h"
+#include "CppFramework.h"
 
 #include "Resources.h"
 
 #define _CRTDBG_MAP_ALLOC
 #define _LEAK_TO_CONSOLE
 
-Framework::BasicFramework::BasicFramework()
+Framework::CppFramework::CppFramework()
 {
 #if defined(DEBUG) | defined(_DEBUG)
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
@@ -18,6 +18,6 @@ Framework::BasicFramework::BasicFramework()
 	Resources::Init();
 }
 
-Framework::BasicFramework::~BasicFramework()
+Framework::CppFramework::~CppFramework()
 {
 }

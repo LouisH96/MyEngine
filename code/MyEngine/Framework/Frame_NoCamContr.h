@@ -2,7 +2,7 @@
 
 #include <App/Win32/Window.h>
 
-#include "BasicFramework.h"
+#include "CppFramework.h"
 #include "CoreServices.h"
 #include "App/FpsControl.h"
 #include "Rendering/Canvas.h"
@@ -29,7 +29,7 @@ namespace MyEngine
 			using namespace Game;
 
 			//BASIC
-			BasicFramework framework{};
+			CppFramework framework{};
 			Window window{ windowName, options };
 			Gpu gpu{ window };
 			Canvas& canvas{ *gpu.MakeCanvas() };

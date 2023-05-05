@@ -17,7 +17,7 @@
     <ClCompile Include="Game\Camera\FpsCameraController.cpp" />
     <ClCompile Include="Game\Camera\Camera.cpp" />
     <ClCompile Include="Io\Ascii\AsciiWriter.cpp" />
-    <ClCompile Include="Framework\BasicFramework.cpp" />
+    <ClCompile Include="Framework\CppFramework.cpp" />
     <ClCompile Include="App\Time.cpp" />
     <ClCompile Include="Math\Quaternion.cpp" />
     <ClCompile Include="Rendering\Renderers\R_LambertCam_Tex_Transform.cpp" />
@@ -112,7 +112,7 @@
     <ClInclude Include="Game\Camera\Camera.h" />
     <ClInclude Include="Io\Ascii\AsciiWriter.h" />
     <ClInclude Include="Framework\BasicAppFrame.h" />
-    <ClInclude Include="Framework\BasicFramework.h" />
+    <ClInclude Include="Framework\CppFramework.h" />
     <ClInclude Include="Math\Float4.h" />
     <ClInclude Include="Math\Float4X4.h" />
     <ClInclude Include="Math\Quaternion.h" />

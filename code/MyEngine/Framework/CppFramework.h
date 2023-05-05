@@ -4,11 +4,11 @@ namespace MyEngine
 {
 	namespace Framework
 	{
-		class BasicFramework
+		class CppFramework
 		{
 		public:
-			BasicFramework();
-			~BasicFramework();
+			CppFramework();
+			~CppFramework();
 		};
 	}
 }

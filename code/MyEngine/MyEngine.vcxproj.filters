@@ -14,7 +14,7 @@
     <ClCompile Include="App\Win32\Screen.cpp" />
     <ClCompile Include="App\Win32\Keyboard_StateReader.cpp" />
     <ClCompile Include="App\Win32\Keyboard_MsgListener.cpp" />
-    <ClCompile Include="Framework\BasicFramework.cpp" />
+    <ClCompile Include="Framework\CppFramework.cpp" />
     <ClCompile Include="Rendering\Canvas.cpp" />
     <ClCompile Include="Rendering\Gpu.cpp" />
     <ClCompile Include="App\Win32\Renderer2D.cpp" />
@@ -109,7 +109,7 @@
     <ClInclude Include="App\Win32\Keyboard_.h" />
     <ClInclude Include="App\Win32\InputTypes.h" />
     <ClInclude Include="App\Win32\Keyboard_MsgListener.h" />
-    <ClInclude Include="Framework\BasicFramework.h" />
+    <ClInclude Include="Framework\CppFramework.h" />
     <ClInclude Include="Rendering\Canvas.h" />
     <ClInclude Include="Rendering\Gpu.h" />
     <ClInclude Include="Rendering\State\Mesh.h" />
