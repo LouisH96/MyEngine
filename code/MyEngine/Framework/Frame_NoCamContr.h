@@ -41,7 +41,7 @@ namespace MyEngine
 
 			//APP
 			Camera camera{ window.GetClientSize() };
-			T app{ CoreServices{window, gpu, canvas, camera, fpsControl} };
+			T app{ CoreServices{window, gpu, canvas, fpsControl, camera} };
 
 			//LOOP
 			while (!window.IsDestroyed())
