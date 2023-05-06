@@ -29,7 +29,7 @@ namespace MyEngine
 
 			//---| Operations |---
 			void Rotate(const Quaternion& rotation);
-			void Rotate(const Float3& axis, float radians);
+			void RotateBy(const Float3& axis, float radians);
 			void RotatePoint(Float3& point) const;
 			Float3 GetRotatedPoint(const Float3& point) const;
 
