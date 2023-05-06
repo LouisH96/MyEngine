@@ -91,6 +91,7 @@
     <ClCompile Include="Rendering\Renderers\R_LambertLight_Tex.cpp" />
     <ClCompile Include="Framework\CoreServices.cpp" />
     <ClCompile Include="Rendering\Renderers\R_LambertLight_Col.cpp" />
+    <ClCompile Include="Physics\CollisionDetection.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -211,6 +212,7 @@
     <ClInclude Include="Rendering\Renderers\R_LambertLight_Tex.h" />
     <ClInclude Include="DataStructures\GridArray.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertLight_Col.h" />
+    <ClInclude Include="Physics\CollisionDetection.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

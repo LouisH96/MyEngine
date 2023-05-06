@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="App\BasicExampleApp.cpp" />
     <ClCompile Include="App\FpsControl.cpp" />
+    <ClCompile Include="Physics\CollisionDetection.cpp" />
     <ClCompile Include="Framework\CoreServices.cpp" />
     <ClCompile Include="Game\Camera\FpsCameraController.cpp" />
     <ClCompile Include="Game\Camera\Camera.cpp" />
@@ -107,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\BasicExampleApp.h" />
+    <ClInclude Include="Physics\CollisionDetection.h" />
     <ClInclude Include="DataStructures\GridArray.h" />
     <ClInclude Include="Game\Camera\FpsCameraController.h" />
     <ClInclude Include="Framework\CoreServices.h" />
