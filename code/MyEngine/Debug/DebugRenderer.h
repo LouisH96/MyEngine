@@ -44,6 +44,8 @@ namespace MyEngine
 			static void AddLine(const Math::Float3& begin, const Math::Float3& end, const Math::Float3& color);
 			static void AddLine(const Array<Math::Float3>& points, const Math::Float3& color);
 
+			static void AddRay(const Math::Float3& origin, const Math::Float3& displacement, const Math::Float3& color);
+
 			static void AddRect(const Math::Float3& leftTop, const Math::Float3& rightTop, const Math::Float3& rightBot, const Math::Float3& leftBot, const Math::Float3& color);;
 			template<typename T> static void AddRect(const Math::Vector2<T>& min, const Math::Vector2<T>& max, const Math::Float3& offset, const Math::Float3& color);
 

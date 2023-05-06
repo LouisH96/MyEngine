@@ -44,8 +44,16 @@ void DebugRenderer::AddLine(const Array<Math::Float3>& points, const Math::Float
 	m_pStatic->Class_AddLine(points, color);
 }
 
+void DebugRenderer::AddRay(const Math::Float3& origin, const Math::Float3& displacement, const Math::Float3& color)
+{
+	Array<LineVertex> vertices{ 2 };
+	vertices[0] = { origin, color };
+	vertices[1] = { origin + displacement, color };
+	m_pStatic->m_pLineRenderer->AddMesh(Rendering::Mesh::Create(m_pStatic->m_Gpu, vertices, Rendering::Topology::LineStrip));
+}
+
 void DebugRenderer::AddRect(const Math::Float3& leftTop, const Math::Float3& rightTop, const Math::Float3& rightBot,
-	const Math::Float3& leftBot, const Math::Float3& color)
+                            const Math::Float3& leftBot, const Math::Float3& color)
 {
 	m_pStatic->Class_AddRect(leftTop, rightTop, rightBot, leftBot, color);
 }
