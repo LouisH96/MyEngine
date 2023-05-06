@@ -25,6 +25,7 @@ namespace MyEngine
 
 			void SetLookAroundSpeed(Math::Float2 speed) { m_LookAroundSpeed = speed; }
 			void SetPosition(const Math::Float3& position) { m_Position = position; }
+			void SetPositionY(float y) { m_Position.y = y; }
 			void MoveRelative(const Math::Float3& movement);
 
 		private:
