@@ -9,7 +9,7 @@ namespace MyEngine
 		class Camera
 		{
 		public:
-			explicit Camera(Math::Int2 windowSize, float fov = 90, float near = .01f, float far = 50);
+			explicit Camera(Math::Int2 windowSize, float fov = 90, float near = .01f, float far = 200);
 
 			void OnWindowResized(Math::Int2 windowSize);
 			void SetFieldOfView(float angle);
