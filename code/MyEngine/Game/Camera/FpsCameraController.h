@@ -26,7 +26,10 @@ namespace MyEngine
 			void SetLookAroundSpeed(Math::Float2 speed) { m_LookAroundSpeed = speed; }
 			void SetPosition(const Math::Float3& position) { m_Position = position; }
 			void SetPositionY(float y) { m_Position.y = y; }
+			void SetPositionXz(const Math::Float2& position);;
 			void MoveRelative(const Math::Float3& movement);
+			Math::Float2 GetXzForward() const;
+			Math::Float3 GetXzForward3() const;
 
 		private:
 			const App::Win32::Window::Keyboard& m_Keyboard;

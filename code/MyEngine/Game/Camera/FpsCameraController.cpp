@@ -90,6 +90,12 @@ Game::Transform Game::FpsCameraController::GetTransform() const
 	};
 }
 
+void Game::FpsCameraController::SetPositionXz(const Math::Float2& position)
+{
+	m_Position.x = position.x;
+	m_Position.z = position.y;
+}
+
 void Game::FpsCameraController::MoveRelative(const Math::Float3& movement)
 {
 	const float yawRad = m_Yaw * Math::Constants::TO_RAD;
@@ -102,4 +108,16 @@ void Game::FpsCameraController::MoveRelative(const Math::Float3& movement)
 	m_Position += Math::Float3{ xx,xy,xz } *movement.x;
 	m_Position += Math::Float3{ -xz,xy,xx } *movement.z;
 	m_Position.y += movement.y;
+}
+
+Math::Float2 Game::FpsCameraController::GetXzForward() const
+{
+	const float yawRad = m_Yaw * Math::Constants::TO_RAD;
+	return { sinf(yawRad), cosf(yawRad) };
+}
+
+Math::Float3 Game::FpsCameraController::GetXzForward3() const
+{
+	const float yawRad = m_Yaw * Math::Constants::TO_RAD;
+	return { sinf(yawRad), 0, cosf(yawRad) };
 }
