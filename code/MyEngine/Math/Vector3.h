@@ -47,6 +47,8 @@ namespace MyEngine
 			Vector3 Cross(const Vector3& other) const;
 			float Dot(const Vector3& other) const;
 
+			static Vector3 RgbNormalize(const T& r, const T& g, const T& b);
+
 			T x, y, z;
 			static constexpr int NR_AXIS = 3;
 		};
@@ -175,6 +177,13 @@ namespace MyEngine
 		float Vector3<T>::Dot(const Vector3& other) const
 		{
 			return x * other.x + y * other.y + z * other.z;
+		}
+
+		template <typename T>
+		Vector3<T> Vector3<T>::RgbNormalize(const T& r, const T& g, const T& b)
+		{
+			const T scale{ 1 / static_cast<T>(255) };
+			return { r * scale, g * scale , b* scale};
 		}
 	}
 }
