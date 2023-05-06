@@ -35,6 +35,8 @@ namespace MyEngine
 			T Get(int i) const;
 			void Set(T f, int i);
 
+			Vector2<T> Xz() const;
+
 			void Reverse();
 			void Scale(const Vector3& r);
 			Vector3 Scaled(const Vector3& scale) const;
@@ -48,6 +50,7 @@ namespace MyEngine
 			float Dot(const Vector3& other) const;
 
 			static Vector3 RgbNormalize(const T& r, const T& g, const T& b);
+			static Vector3 FromXz(const Math::Vector2<T>& xz);
 
 			T x, y, z;
 			static constexpr int NR_AXIS = 3;
@@ -98,6 +101,12 @@ namespace MyEngine
 			if (i == 0) x = f;
 			else if (i == 1) y = f;
 			else z = f;
+		}
+
+		template <typename T>
+		Vector2<T> Vector3<T>::Xz() const
+		{
+			return { x, z };
 		}
 
 		template <typename T>
@@ -184,6 +193,12 @@ namespace MyEngine
 		{
 			const T scale{ 1 / static_cast<T>(255) };
 			return { r * scale, g * scale , b* scale};
+		}
+
+		template <typename T>
+		Vector3<T> Vector3<T>::FromXz(const Math::Vector2<T>& xz)
+		{
+			return { xz.x, 0, xz.z };
 		}
 	}
 }
