@@ -198,7 +198,7 @@ namespace MyEngine
 		template <typename T>
 		Vector3<T> Vector3<T>::FromXz(const Math::Vector2<T>& xz)
 		{
-			return { xz.x, 0, xz.z };
+			return { xz.x, 0, xz.y };
 		}
 	}
 }
