@@ -39,6 +39,11 @@ Math::Float4X4 Game::Transform::GetTransposeInverse() const
 	return XMMatrixTranspose(XMMatrixInverse(nullptr, rotation * translation));
 }
 
+void Game::Transform::LookAt(const Math::Float3& target)
+{
+	Rotation = Math::Quaternion::FromForward((target - Position).Normalized());
+}
+
 void Game::Transform::MakeChildOf(const Game::Transform& parent)
 {
 	Position += Rotation.GetRotatedPoint( parent.Position);
