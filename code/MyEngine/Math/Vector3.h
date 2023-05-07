@@ -41,6 +41,7 @@ namespace MyEngine
 			void Scale(const Vector3& r);
 			Vector3 Scaled(const Vector3& scale) const;
 			T Length() const;
+			T LengthSq() const;
 			void Normalize();
 			Vector3 Normalized() const;
 			void Normalize(float& length);
@@ -48,6 +49,9 @@ namespace MyEngine
 
 			Vector3 Cross(const Vector3& other) const;
 			float Dot(const Vector3& other) const;
+
+			void LimitLength(T maxLength);
+			Vector3 LimitedLength(T maxLength) const;
 
 			static Vector3 RgbNormalize(const T& r, const T& g, const T& b);
 			static Vector3 FromXz(const Math::Vector2<T>& xz);
@@ -138,6 +142,12 @@ namespace MyEngine
 		}
 
 		template <typename T>
+		T Vector3<T>::LengthSq() const
+		{
+			return x * x + y * y + z * z;
+		}
+
+		template <typename T>
 		void Vector3<T>::Normalize()
 		{
 			const float scale = 1.f / Length();
@@ -186,6 +196,30 @@ namespace MyEngine
 		float Vector3<T>::Dot(const Vector3& other) const
 		{
 			return x * other.x + y * other.y + z * other.z;
+		}
+
+		template <typename T>
+		void Vector3<T>::LimitLength(T maxLength)
+		{
+			T value{ LengthSq() };
+			if (value <= maxLength * maxLength) return;
+			value = maxLength / sqrt(value);
+			x *= value;
+			y *= value;
+			z *= value;
+		}
+
+		template <typename T>
+		Vector3<T> Vector3<T>::LimitedLength(T maxLength) const
+		{
+			T value{ LengthSq() };
+			if (value <= maxLength * maxLength) return *this;
+			value = maxLength / sqrt(value);
+			return{
+				x * value,
+				y * value,
+				z * value
+			};
 		}
 
 		template <typename T>

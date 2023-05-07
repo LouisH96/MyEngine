@@ -45,6 +45,7 @@ namespace MyEngine
 			void Reverse();
 			void Scale(const Vector2<T>& r);
 			T Length() const;
+			T LengthSq() const;
 			void Normalize();
 			Vector2<T> Normalized() const;
 			float Cross(const Vector2<T>& o);
@@ -130,6 +131,12 @@ namespace MyEngine
 		T Vector2<T>::Length() const
 		{
 			return sqrt(x * x + y * y);
+		}
+
+		template <typename T>
+		T Vector2<T>::LengthSq() const
+		{
+			return x * x + y * y;
 		}
 
 		template <typename T>
