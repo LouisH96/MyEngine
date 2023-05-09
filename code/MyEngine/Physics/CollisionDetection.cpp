@@ -3,8 +3,33 @@
 
 using namespace Math;
 
+bool Physics::CollisionDetection::Detect(const Math::Float3& from, const Math::Float3& to,
+	const Array<Math::Float3>& vertices, const Array<Math::Float3>& triangleNormals, Collision& collision)
+{
+	float rayLength;
+	const Float3 ray{ (to - from).Normalized(rayLength) };
+
+	for (int iVertex = 0, iTriangle = 0; iVertex < vertices.GetSize(); iVertex += 3, iTriangle++)
+	{
+		const Float3& v0{ vertices[iVertex + 0] };
+		const Float3& normal{ triangleNormals[iTriangle] };
+
+		const float time{ GetTime(v0, normal, from, ray) };
+		if (time < 0 || time > rayLength) continue;
+
+		const Float3& v1{ vertices[iVertex + 1] };
+		const Float3& v2{ vertices[iVertex + 2] };
+
+		const Float3 hitPoint{ from + ray * time };
+		if (!IsPlanePointInTriangle(hitPoint, v0, v1, v2, normal)) continue;
+		collision.position = hitPoint;
+		return true;
+	}
+	return false;
+}
+
 bool Physics::CollisionDetection::Detect(const Float3& from, const Float3& to,
-	const Array<Float3>& vertices, const Array<Float3>& normals, const Array<int>& indices, Collision& collision)
+	const Array<Float3>& vertices, const Array<Float3>& triangleNormals, const Array<int>& indices, Collision& collision)
 {
 	float rayLength;
 	const Float3 ray{ (to - from).Normalized(rayLength) };
@@ -13,15 +38,13 @@ bool Physics::CollisionDetection::Detect(const Float3& from, const Float3& to,
 	for (int iIndex = 2; iIndex < indices.GetSize(); iIndex += 3, iTriangle++)
 	{
 		const Float3& v0{ vertices[indices[iIndex - 2]] };
+		const Float3& normal{ triangleNormals[iTriangle] };
+
+		const float time{ GetTime(v0, normal, from, ray) };
+		if (time < 0 || time > rayLength) continue;
+
 		const Float3& v1{ vertices[indices[iIndex - 1]] };
 		const Float3& v2{ vertices[indices[iIndex]] };
-		const Float3& normal{ normals[iTriangle] };
-
-		const Float3 planeToOrigin{ from - v0 };
-		const float heightDiff{ planeToOrigin.Dot(normal) };
-		const float angle{ -ray.Dot(normal) }; //cos
-		const float time{ heightDiff / angle };
-		if (time < 0 || time > rayLength) continue;
 
 		const Float3 hitPoint{ from + ray * time };
 		if (!IsPlanePointInTriangle(hitPoint, v0, v1, v2, normal)) continue;
@@ -50,4 +73,14 @@ bool Physics::CollisionDetection::IsPlanePointInTriangle(const Float3& point,
 	if (cross12.Dot(triangleNormal) < 0) return false;
 
 	return true;
+}
+
+float Physics::CollisionDetection::GetTime(
+	const Math::Float3& v0, const Math::Float3& normal,
+	const Math::Float3& rayOrigin, const Math::Float3& rayDir)
+{
+	const Float3 planeToOrigin{ rayOrigin - v0 };
+	const float heightDiff{ planeToOrigin.Dot(normal) };
+	const float angle{ -rayDir.Dot(normal) }; //cos
+	return heightDiff / angle;
 }
