@@ -12,3 +12,4 @@
 using namespace MyEngine;
 using namespace Debug;
 using namespace Ds;
+using namespace Math;
