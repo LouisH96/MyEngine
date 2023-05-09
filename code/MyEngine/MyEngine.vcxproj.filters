@@ -217,4 +217,7 @@
   <ItemGroup>
     <None Include="PropertySheet.props" />
   </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="myNatvis.natvis" />
+  </ItemGroup>
 </Project>

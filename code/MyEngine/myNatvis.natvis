@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+
+	<Type Name="MyEngine::Ds::Array&lt;*&gt;">
+		<DisplayString>{{ size={m_Size} }}</DisplayString>
+		<Expand>
+			<ArrayItems>
+				<Size>m_Size</Size>
+				<ValuePointer>m_pData</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+
+</AutoVisualizer>

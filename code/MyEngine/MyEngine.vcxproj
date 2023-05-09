@@ -230,6 +230,9 @@
   <ItemGroup>
     <None Include="PropertySheet.props" />
   </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="myNatvis.natvis" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
