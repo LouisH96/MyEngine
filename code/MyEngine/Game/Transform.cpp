@@ -44,16 +44,39 @@ void Game::Transform::LookAt(const Math::Float3& target)
 	Rotation = Math::Quaternion::FromForward((target - Position).Normalized());
 }
 
-void Game::Transform::MakeChildOf(const Game::Transform& parent)
+Math::Float3 Game::Transform::WorldToLocal(const Math::Float3& worldPoint) const
 {
-	Position += Rotation.GetRotatedPoint( parent.Position);
-	Rotation = parent.Rotation * Rotation;
+	Math::Float3 local{ worldPoint - Position };
+	(-Rotation).RotatePoint(local);
+	return local;
 }
 
-Game::Transform Game::Transform::MakeChildTransform(const Transform& childLocal) const
+void Game::Transform::SetRelativeTo(const Game::Transform& parent)
 {
-	return Transform{
-		Position + Rotation.GetRotatedPoint(childLocal.Position),
-		Rotation * childLocal.Rotation
+	Position = (-parent.Rotation).GetRotatedPoint(Position - parent.Position);;
+	Rotation = (-parent.Rotation * Rotation).Normalized();
+}
+
+Game::Transform Game::Transform::GetRelativeTo(const Transform& parent) const
+{
+	return{
+		(-parent.Rotation).GetRotatedPoint(Position - parent.Position),
+		(-parent.Rotation * Rotation).Normalized()
+	};
+}
+
+Game::Transform Game::Transform::WorldToLocal(const Transform& world, const Transform& parent)
+{
+	return{
+		   (-parent.Rotation).GetRotatedPoint(world.Position - parent.Position),
+		   (-parent.Rotation * world.Rotation).Normalized()
+	};
+}
+
+Game::Transform Game::Transform::LocalToWorld(const Transform& local, const Transform& parent)
+{
+	return{
+		parent.Rotation.GetRotatedPoint(local.Position) + parent.Position,
+		(parent.Rotation * local.Rotation).Normalized()
 	};
 }

@@ -22,8 +22,13 @@ namespace MyEngine
 
 			void LookAt(const Math::Float3& target);
 
-			void MakeChildOf(const Transform& parent);
-			Transform MakeChildTransform(const Transform& childLocal) const;
+			Math::Float3 WorldToLocal(const Math::Float3& worldPoint) const;
+
+			void SetRelativeTo(const Transform& parent);
+			Transform GetRelativeTo(const Transform& parent) const;
+
+			static Transform WorldToLocal(const Transform& world, const Transform& parent);
+			static Transform LocalToWorld(const Transform& local, const Transform& parent);
 		};
 	}
 }
