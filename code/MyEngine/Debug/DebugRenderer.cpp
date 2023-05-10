@@ -4,7 +4,6 @@
 #include <Framework/Resources.h>
 #include <Generation/Shapes.h>
 #include <Rendering/State/Mesh.h>
-#include <Math/Sphere.h>
 #include <Rendering/Structs/VertexTypes.h>
 
 DebugRenderer* DebugRenderer::m_pStatic = nullptr;
