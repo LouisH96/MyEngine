@@ -38,6 +38,8 @@ namespace MyEngine
 
 			//---| Operations |---
 			void AddEntry(Mesh& mesh, Texture& texture, Game::Transform& transform);
+			void Remove(const Game::Transform& transform);
+			void Replace(const Game::Transform& old, Game::Transform& with);
 
 		private:
 			//---| Types |---
