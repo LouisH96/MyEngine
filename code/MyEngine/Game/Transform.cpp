@@ -51,6 +51,11 @@ Math::Float3 Game::Transform::WorldToLocal(const Math::Float3& worldPoint) const
 	return local;
 }
 
+Float3 Game::Transform::LocalToWorld(const Float3& localPoint) const
+{
+	return Rotation.GetRotatedPoint(localPoint) + Position;
+}
+
 void Game::Transform::SetRelativeTo(const Game::Transform& parent)
 {
 	Position = (-parent.Rotation).GetRotatedPoint(Position - parent.Position);;
