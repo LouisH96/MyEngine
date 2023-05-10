@@ -13,6 +13,9 @@ namespace MyEngine
 			static constexpr float TO_RAD = PI / 180.f;
 			static constexpr float SQR2 = 1.4142135623730950488016887242097f;
 			static constexpr float DIVSQR2 = 1.f / SQR2;
+
+			static constexpr float FLOAT_MAX = std::numeric_limits<float>::max();
+			static constexpr float FLOAT_INVALID = std::numeric_limits<float>::infinity();
 		};
 	}
 }
