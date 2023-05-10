@@ -26,7 +26,7 @@
     <ClCompile Include="Generation\Shapes.cpp" />
     <ClCompile Include="Math\Rect.cpp" />
     <ClCompile Include="Math\Cube.cpp" />
-    <ClCompile Include="Math\Sphere.cpp" />
+    <ClCompile Include="Shapes\Sphere.cpp" />
     <ClCompile Include="Io\Json\JsonElement.cpp" />
     <ClCompile Include="Io\Json\JsonObject.cpp" />
     <ClCompile Include="Io\Json\JsonArray.cpp" />
@@ -131,7 +131,7 @@
     <ClInclude Include="Math\Float3.h" />
     <ClInclude Include="Math\Cube.h" />
     <ClInclude Include="DataStructures\Array.h" />
-    <ClInclude Include="Math\Sphere.h" />
+    <ClInclude Include="Shapes\Sphere.h" />
     <ClInclude Include="Io\Json\JsonElement.h" />
     <ClInclude Include="Io\Json\ElementType.h" />
     <ClInclude Include="Io\Json\JsonObject.h" />

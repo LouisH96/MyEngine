@@ -1,9 +1,12 @@
 #pragma once
-#include "Math/Sphere.h"
 #include <Rendering/Structs/VertexTypes.h>
 
 namespace MyEngine
 {
+	namespace Shapes
+	{
+		class Sphere;
+	}
 	namespace Ds
 	{
 		template<typename>
@@ -26,11 +29,9 @@ namespace MyEngine
 		{
 		public:
 			static void GenerateCubeBuffers(const Cube& cube, Array<Float3>& positions, Array<Float3>& normals, Array<int>& indices);
-			static void GenerateSphereBuffers(const Sphere& sphere, int nrCols, int nrRows, Array<Float3>& positions, Array<Float3>& normals, Array<int>& indices);
+			static void GenerateSphereBuffers(const MyEngine::Shapes::Sphere& sphere, int nrCols, int nrRows, Array<Float3>& positions, Array<Float3>& normals, Array<int>& indices);
 			static void GeneratePivotArrows(Array<Rendering::V_PosColNorm>& vertices, Array<int>& indices);
 			static Array<int> GetIndicesToCapCircle(int nrPoints);
-		private:
-
 		};
 	}
 }

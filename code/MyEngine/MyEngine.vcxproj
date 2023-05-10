@@ -94,7 +94,7 @@
     <ClCompile Include="Rendering\State\RasterizerState.cpp" />
     <ClCompile Include="Generation\Shapes.cpp" />
     <ClCompile Include="Math\Rect.cpp" />
-    <ClCompile Include="Math\Sphere.cpp" />
+    <ClCompile Include="Shapes\Sphere.cpp" />
     <ClCompile Include="Debug\Timing\Counter.cpp" />
     <ClCompile Include="Rendering\State\SamplerState.cpp" />
     <ClCompile Include="Rendering\State\Texture.cpp" />
@@ -210,7 +210,7 @@
     <ClInclude Include="Rendering\State\RasterizerState.h" />
     <ClInclude Include="Generation\Shapes.h" />
     <ClInclude Include="Math\Rect.h" />
-    <ClInclude Include="Math\Sphere.h" />
+    <ClInclude Include="Shapes\Sphere.h" />
     <ClInclude Include="Math\Vector2.h" />
     <ClInclude Include="Debug\Timing\Counter.h" />
     <ClInclude Include="Io\Zlib\ZlibDecompress.h" />

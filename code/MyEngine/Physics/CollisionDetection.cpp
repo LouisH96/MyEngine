@@ -54,6 +54,29 @@ bool Physics::CollisionDetection::Detect(const Float3& from, const Float3& to,
 	return false;
 }
 
+bool Physics::CollisionDetection::Detect(
+	const Sphere& sphere,
+	const Array<Float3>& vertices, const Array<Float3>& triangleNormals, const Array<int>& indices,
+	Float3& overlap)
+{
+	for (int iIndex = 2, iTriangle = 0; iIndex < indices.GetSize(); iIndex += 3, iTriangle++)
+	{
+		const Float3& v2{ vertices[indices[iIndex]] };
+		const Float3& normal{ triangleNormals[iTriangle] };
+
+		const Float3 sphereToVertex{ v2 - sphere.GetCenter() };
+		const float heightDiff{ sphereToVertex.Dot(normal) };
+		if (abs(heightDiff) > sphere.GetRadius()) continue;
+
+		const Float3& v0{ vertices[indices[iIndex - 2]] };
+		const Float3& v1{ vertices[indices[iIndex - 1]] };
+		if (!IsPlanePointInTriangle(sphere.GetCenter(), v0, v1, v2, normal)) continue;
+		overlap = normal * -(sphere.GetRadius() + heightDiff);
+		return true;
+	}
+	return false;
+}
+
 bool Physics::CollisionDetection::IsPlanePointInTriangle(const Float3& point,
 	const Float3& v0, const Float3& v1, const Float3& v2,
 	const Float3& triangleNormal)

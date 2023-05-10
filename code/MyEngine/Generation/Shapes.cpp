@@ -1,12 +1,14 @@
 #include "pch.h"
 #include "Shapes.h"
+
+#include <Generation/Shapes/ArrowGenerator.h>
 #include "DataStructures/Array.h"
 #include "Math/Constants.h"
 #include "Math/Cube.h"
-#include <Generation/Shapes/ArrowGenerator.h>
+#include "Shapes/Sphere.h"
 
 void Generation::Shapes::GenerateCubeBuffers(const Math::Cube& cube, Ds::Array<Math::Float3>& positions,
-	Ds::Array<Math::Float3>& normals, Ds::Array<int>& indices)
+                                             Ds::Array<Math::Float3>& normals, Ds::Array<int>& indices)
 {
 	using namespace Math;
 	constexpr int trianglesPerSide = 2;
@@ -75,7 +77,7 @@ void Generation::Shapes::GenerateCubeBuffers(const Math::Cube& cube, Ds::Array<M
 
 }
 
-void Generation::Shapes::GenerateSphereBuffers(const Sphere& sphere, int nrCols, int nrRows, Array<Float3>& positions,
+void Generation::Shapes::GenerateSphereBuffers(const MyEngine::Shapes::Sphere& sphere, int nrCols, int nrRows, Array<Float3>& positions,
 	Array<Float3>& normals, Array<int>& indices)
 {
 	const float anglePerCol = Constants::PI / (static_cast<float>(nrCols) / 2);

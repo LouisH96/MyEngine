@@ -20,6 +20,11 @@ namespace MyEngine
 				const Array<Math::Float3>& vertices, const Array<Math::Float3>& triangleNormals, const Array<int>& indices,
 				Collision& collision);
 
+			static bool Detect(
+				const Sphere& sphere,
+				const Array<Float3>& vertices, const Array<Float3>& triangleNormals, const Array<int>& indices,
+				Float3& overlap);
+
 		private:
 			static bool IsPlanePointInTriangle(const Math::Float3& point,
 				const Math::Float3& v0, const Math::Float3& v1, const Math::Float3& v2,
