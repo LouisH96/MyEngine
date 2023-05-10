@@ -24,6 +24,9 @@ namespace MyEngine
 			void Add(const Data& data);
 			void IncreaseSizeTo(int newSize);
 
+			void Remove(const Data& value);
+			void RemoveAt(int idx);
+
 			const Data& operator[](int idx) const;
 			Data& operator[](int idx);
 			Data& Last();
@@ -164,6 +167,37 @@ namespace MyEngine
 		}
 
 		template <typename Data>
+		void Array<Data>::Remove(const Data& value)
+		{
+			Data* pNew = new Data[--m_Size];
+			for (int i = 0; i < m_Size; i++)
+			{
+				if (m_pData[i] == value)
+				{
+					while (i <= m_Size)
+						pNew[i] = m_pData[++i];
+					break;
+				}
+				pNew[i] = m_pData[i];
+			}
+			delete[] m_pData;
+			m_pData = pNew;
+		}
+
+		template <typename Data>
+		void Array<Data>::RemoveAt(int idx)
+		{
+			Data* pNew = new Data[--m_Size];
+			int oldIdx = 0;
+			while (oldIdx < idx)
+				pNew[oldIdx] = m_pData[oldIdx++];
+			for (int newIdx = oldIdx++; newIdx < m_Size;)
+				pNew[newIdx++] = m_pData[oldIdx++];
+			delete[] m_pData;
+			m_pData = pNew;
+		}
+
+		template <typename Data>
 		const Data& Array<Data>::operator[](int idx) const
 		{
 #ifdef ARRAY_DEBUG
@@ -184,7 +218,7 @@ namespace MyEngine
 		template <typename Data>
 		Data& Array<Data>::Last()
 		{
-			return m_pData[m_Size-1];
+			return m_pData[m_Size - 1];
 		}
 
 		template <typename Data>
