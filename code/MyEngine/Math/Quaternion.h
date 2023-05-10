@@ -28,7 +28,7 @@ namespace MyEngine
 			void operator=(const DirectX::XMVECTOR& vector);
 
 			//---| Operations |---
-			void Rotate(const Quaternion& rotation);
+			void RotateBy(const Quaternion& rotation);
 			void RotateBy(const Float3& axis, float radians);
 			void RotatePoint(Float3& point) const;
 			Float3 GetRotatedPoint(const Float3& point) const;

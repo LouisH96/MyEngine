@@ -59,15 +59,15 @@ void Math::Quaternion::operator=(const DirectX::XMVECTOR& vector)
 	XMStoreFloat4(reinterpret_cast<DirectX::XMFLOAT4*>(&Xyz.x), vector);
 }
 
-void Math::Quaternion::Rotate(const Quaternion& rotation)
+void Math::Quaternion::RotateBy(const Quaternion& rotation)
 {
-	*this *= rotation;
+	*this = rotation * *this;
 	Normalize();
 }
 
 void Math::Quaternion::RotateBy(const Float3& axis, float radians)
 {
-	Rotate(FromAxis(axis, radians));
+	RotateBy(FromAxis(axis, radians));
 }
 
 void Math::Quaternion::RotatePoint(Float3& point) const
