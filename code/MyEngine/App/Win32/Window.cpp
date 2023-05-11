@@ -42,7 +42,10 @@ MyEngine::App::Win32::Window::~Window()
 
 void MyEngine::App::Win32::Window::Init(const std::wstring& title, const Options& options)
 {
+	//options
 	m_CursorFpsMode = options.CursorFpsMode;
+	if (options.ClientSize.x > 0) m_ClientSize.x = options.ClientSize.x;
+	if (options.ClientSize.y > 0) m_ClientSize.y = options.ClientSize.y;
 
 	//Register window class
 	const std::wstring className = L"MyWindowClass";

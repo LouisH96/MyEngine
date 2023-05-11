@@ -25,6 +25,7 @@ namespace MyEngine
 					bool FullRedrawOnScale{ false };
 					HBRUSH BackgroundBrush{ nullptr };
 					bool CursorFpsMode{ false };
+					Int2 ClientSize{ -1,-1 };
 				};
 
 			public:
