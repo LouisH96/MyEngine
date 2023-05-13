@@ -28,6 +28,16 @@ Io::Fbx::FbxClass::FbxClass(const std::wstring& path)
 	}
 	for (int i = 0; i < m_Geometries.GetSize(); i++)
 		MakeTriangleList(m_Geometries[i]);
+
+	const Array<Model> limbNodes{ data.GetModelsOfType("LimbNode") };
+	m_LimbNodes = { limbNodes.GetSize() };
+	for(int i = 0; i < limbNodes.GetSize(); i++)
+	{
+		const Model& dataLimbNode{ limbNodes[i] };
+		LimbNode& classLimbNode{ m_LimbNodes[i] };
+		classLimbNode.Name = dataLimbNode.GetName();
+		classLimbNode.Position = dataLimbNode.GetLclTranslation();
+	}
 }
 
 void Io::Fbx::FbxClass::MakeTriangleList(Geometry& geomStruct)

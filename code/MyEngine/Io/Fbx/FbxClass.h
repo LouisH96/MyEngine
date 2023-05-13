@@ -19,12 +19,17 @@ namespace MyEngine
 				struct Geometry
 				{
 					std::string Name{};
-					Array<Math::Float3> Points{};
-					Array<Math::Float3> Normals{};
-					Array<Math::Float2> Uvs{};
+					Array<Float3> Points{};
+					Array<Float3> Normals{};
+					Array<Float2> Uvs{};
 					Array<int> Indices{};
-					Math::Float3 RotationPivot{};
-					Math::Float3 RotationOffset{};
+					Float3 RotationPivot{};
+					Float3 RotationOffset{};
+				};
+				struct LimbNode
+				{
+					std::string Name{};
+					Float3 Position{};
 				};
 
 				//---| Class |---
@@ -39,8 +44,11 @@ namespace MyEngine
 				const Array<Geometry>& GetGeometries() const { return m_Geometries; }
 				Array<Geometry>& GetGeometries() { return m_Geometries; }
 
+				const Array<LimbNode>& GetLimbNodes() const { return m_LimbNodes; }
+
 			private:
 				Array<Geometry> m_Geometries{};
+				Array<LimbNode> m_LimbNodes{};
 
 				static void MakeTriangleList(Geometry& geomStruct);
 			};

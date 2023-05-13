@@ -1,6 +1,7 @@
 #pragma once
 #include "Geometry.h"
 #include "Model.h"
+#include "Pose.h"
 
 namespace MyEngine
 {
@@ -30,10 +31,16 @@ namespace MyEngine
 					const Array<Model>& GetModels(int idx) const { return m_Models; }
 					Model& GetModel(int idx) { return m_Models[idx]; }
 					Array<Model>& GetModels() { return m_Models; }
+					Pose& GetBindPose() { return m_BindPose; }
+
+					Array<Model> GetModelsOfType(const std::string& typeName) const;
+
+					Model* FindModel(const int64_t& id);
 
 				private:
 					Array<Geometry> m_Geometries{};
 					Array<Model> m_Models{};
+					Pose m_BindPose{};
 				};
 			}
 		}

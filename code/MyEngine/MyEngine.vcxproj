@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="App\BasicExampleApp.cpp" />
     <ClCompile Include="App\FpsControl.cpp" />
+    <ClCompile Include="Io\Fbx\Wrapping\Connection.cpp" />
     <ClCompile Include="Physics\CollisionDetection.cpp" />
     <ClCompile Include="Framework\CoreServices.cpp" />
     <ClCompile Include="Game\Camera\FpsCameraController.cpp" />
@@ -21,6 +22,7 @@
     <ClCompile Include="Framework\CppFramework.cpp" />
     <ClCompile Include="App\Time.cpp" />
     <ClCompile Include="Math\Quaternion.cpp" />
+    <ClCompile Include="Io\Fbx\Wrapping\Pose.cpp" />
     <ClCompile Include="Rendering\Renderers\R_LambertCam_Tex_Transform.cpp" />
     <ClCompile Include="Rendering\Renderers\R_LambertCam_Tex.cpp" />
     <ClCompile Include="Rendering\Renderers\R_LambertLight_Tex.cpp" />
@@ -108,6 +110,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\BasicExampleApp.h" />
+    <ClInclude Include="Io\Fbx\Wrapping\Connection.h" />
+    <ClInclude Include="Math\Double4x4.h" />
     <ClInclude Include="Physics\CollisionDetection.h" />
     <ClInclude Include="DataStructures\GridArray.h" />
     <ClInclude Include="Game\Camera\FpsCameraController.h" />
@@ -121,6 +125,7 @@
     <ClInclude Include="Math\Float4X4.h" />
     <ClInclude Include="Math\Quaternion.h" />
     <ClInclude Include="Math\Matrix4x4.h" />
+    <ClInclude Include="Io\Fbx\Wrapping\Pose.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertCam_Tex_Transform.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertCam_Tex.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertLight_Tex.h" />
