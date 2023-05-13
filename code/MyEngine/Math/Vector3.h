@@ -9,14 +9,12 @@ namespace MyEngine
 		{
 			Vector3();
 			Vector3(T x, T y, T z);
-			Vector3(const DirectX::XMVECTOR& vector);
 			explicit Vector3(T all);
 			~Vector3() = default;
 			Vector3(const Vector3& other) = default;
 			Vector3(Vector3&& other) noexcept = default;
 			Vector3& operator=(const Vector3& other) = default;
 			Vector3& operator=(Vector3&& other) noexcept = default;
-			Vector3& operator=(const DirectX::XMVECTOR& vector);
 
 			Vector3 operator+(const Vector3& r) const;
 			Vector3 operator-(const Vector3& r) const;
@@ -55,6 +53,7 @@ namespace MyEngine
 
 			static Vector3 RgbNormalize(const T& r, const T& g, const T& b);
 			static Vector3 FromXz(const Math::Vector2<T>& xz);
+			static Vector3 FromDxVector(const DirectX::XMVECTOR& vector);
 
 			T x, y, z;
 			static constexpr int NR_AXIS = 3;
@@ -62,19 +61,6 @@ namespace MyEngine
 
 		template <typename T> Vector3<T>::Vector3() : x{ 0 }, y{ 0 }, z{ 0 } {}
 		template <typename T> Vector3<T>::Vector3(T x, T y, T z) : x{ x }, y{ y }, z{ z } {}
-
-		template <typename T>
-		Vector3<T>::Vector3(const DirectX::XMVECTOR& vector)
-		{
-			XMStoreFloat3(reinterpret_cast<DirectX::XMFLOAT3*>(&x), vector);
-		}
-
-		template <typename T>
-		Vector3<T>& Vector3<T>::operator=(const DirectX::XMVECTOR& vector)
-		{
-			XMStoreFloat3(reinterpret_cast<DirectX::XMFLOAT3*>(&x), vector);
-			return *this;
-		}
 
 		template <typename T> Vector3<T>::Vector3(T all) : x{ all }, y{ all }, z{ all } {}
 		template <typename T> Vector3<T> Vector3<T>::operator+(const Vector3& r) const { return { x + r.x, y + r.y, z + r.z }; }
@@ -233,6 +219,14 @@ namespace MyEngine
 		Vector3<T> Vector3<T>::FromXz(const Math::Vector2<T>& xz)
 		{
 			return { xz.x, 0, xz.y };
+		}
+
+		template <typename T>
+		Vector3<T> Vector3<T>::FromDxVector(const DirectX::XMVECTOR& vector)
+		{
+			Vector3 v{};
+			XMStoreFloat3(reinterpret_cast<DirectX::XMFLOAT3*>(&v.x), vector);
+			return v;
 		}
 	}
 }
