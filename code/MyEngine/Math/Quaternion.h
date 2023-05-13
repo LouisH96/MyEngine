@@ -1,6 +1,7 @@
 #pragma once
 #include <Math/Float3.h>
 
+#include "Double4x4.h"
 #include "Float4.h"
 
 namespace MyEngine
@@ -13,9 +14,11 @@ namespace MyEngine
 			//---| Constructor / Destructor |---
 			Quaternion();
 			Quaternion(const Float3& real, float complex);
+			explicit Quaternion(const Double4X4& matrix);
 			~Quaternion() = default;
 			static Quaternion FromAxis(const Float3& rotationAxis, float rotation);
 			static Quaternion FromForward(const Float3& forward);
+			static Quaternion FromEulerDegrees(const Float3& eulers);
 
 			//---| Rule of five |---
 			Quaternion(const Quaternion& other) = default;
