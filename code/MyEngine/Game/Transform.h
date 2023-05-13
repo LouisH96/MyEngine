@@ -1,4 +1,5 @@
 #pragma once
+#include "Math/Double4x4.h"
 #include "Math/Float4X4.h"
 #include "Math/Quaternion.h"
 
@@ -12,6 +13,7 @@ namespace MyEngine
 			Transform() = default;
 			Transform(const Float3& position, const Quaternion& rotation);
 			Transform(const DirectX::XMMATRIX& matrix);
+			explicit Transform(const Double4X4& matrix);
 			Transform& operator=(const DirectX::XMMATRIX& matrix);
 
 			Float3 Position{};

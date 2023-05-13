@@ -14,6 +14,16 @@ Game::Transform::Transform(const DirectX::XMMATRIX& matrix)
 	*this = { matrix };
 }
 
+Game::Transform::Transform(const Double4X4& matrix)
+{
+	Position = Float3{
+		static_cast<float>(matrix[0].w),
+		static_cast<float>(matrix[1].w),
+		static_cast<float>(matrix[2].w)
+	};
+	Rotation = Quaternion{ matrix };
+}
+
 Game::Transform& Game::Transform::operator=(const DirectX::XMMATRIX& matrix)
 {
 	XMVECTOR scale;
