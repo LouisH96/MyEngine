@@ -29,9 +29,8 @@ Io::Fbx::Wrapping::Model::Model(Reading::FbxObject& modelObject)
 	m_RotationOffset.x = -m_RotationOffset.x;
 
 	//LH & Y-UP & X-RIGHT
-	m_LclTranslation.z = -m_LclTranslation.z;
-	m_PreRotation.x = -m_PreRotation.x;
-	m_PreRotation.y = -m_PreRotation.y;
+	m_LclTranslation.x = -m_LclTranslation.x;
+	m_PreRotation = -m_PreRotation;
 }
 
 void Io::Fbx::Wrapping::Model::SetBindPose(const Pose::Node& pose)
