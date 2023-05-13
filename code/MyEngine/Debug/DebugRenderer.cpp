@@ -172,7 +172,7 @@ void DebugRenderer::Class_AddSphere(const Float3& position, const Float3& color,
 	Array<Float3> positions{};
 	Array<Float3> normals{};
 	Array<int> indices{};
-	Generation::Shapes::GenerateSphereBuffers(sphere, 5, 5, positions, normals, indices);
+	Generation::Shapes::GenerateSphereBuffers(sphere, 10, 10, positions, normals, indices);
 	Array<Vertex> vertices{ positions.GetSize() };
 	for (int i = 0; i < positions.GetSize(); i++)
 		vertices[i] = Vertex{ positions[i], color, normals[i] };
