@@ -29,7 +29,7 @@ namespace MyEngine
 					Geometry& GetGeometry(int idx) { return m_Geometries[idx]; }
 					Array<Geometry>& GetGeometries() { return m_Geometries; }
 					const Model& GetModel(int idx) const { return m_Models[idx]; }
-					const Array<Model>& GetModels(int idx) const { return m_Models; }
+					const Array<Model>& GetModels() const { return m_Models; }
 					Model& GetModel(int idx) { return m_Models[idx]; }
 					Array<Model>& GetModels() { return m_Models; }
 					Pose& GetBindPose() { return m_BindPose; }
