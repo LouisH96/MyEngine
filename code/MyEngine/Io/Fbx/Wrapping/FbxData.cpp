@@ -27,6 +27,7 @@ Io::Fbx::Wrapping::FbxData::FbxData(Reading::FbxReader&& reader)
 	ReadAnimationLayers(objects);
 	ReadAnimationCurveNodes(objects);
 	ReadAnimationCurves(objects);
+	MakeLinks();
 	TempDisplayLimbNodes();
 }
 
@@ -95,27 +96,7 @@ void Io::Fbx::Wrapping::FbxData::ReadConnections(const Reading::FbxObject& conne
 	const std::vector<Reading::FbxObject*> readerConnections{ connectionsObject.GetChildren() };
 	m_Connections = { readerConnections.size() };
 	for (int i = 0; i < readerConnections.size(); i++)
-	{
 		m_Connections[i] = Connection{ *readerConnections[i] };
-
-		Connection connection{ *readerConnections[i] };
-		Model* pModel{ FindModel(connection.Id) };
-		if (!pModel)
-			continue;
-		if (connection.ParentId != 0)
-		{
-			Model* pParentModel{ FindModel(connection.ParentId) };
-			if (!pParentModel)
-				continue;
-			if (pParentModel == pModel)
-			{
-				Logger::PrintError("Parent is same as child");
-				continue;
-			}
-			connection.pParent = pParentModel;
-		}
-		pModel->AddConnection(connection);
-	}
 }
 
 void Io::Fbx::Wrapping::FbxData::ReadAnimationStack(const Reading::FbxObject& objectsObject)
@@ -157,6 +138,8 @@ void Io::Fbx::Wrapping::FbxData::MakeLinks()
 	for (int i = 0; i < m_Connections.GetSize(); i++)
 	{
 		Connection& connection{ m_Connections[i] };
+
+		std::cout << i << ": " << connection.Relation << ", " << connection.Property << std::endl;
 		Model* pModel{ FindModel(connection.Id) };
 		if (!pModel)
 			continue;
