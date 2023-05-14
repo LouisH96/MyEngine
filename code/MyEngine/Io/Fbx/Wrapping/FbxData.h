@@ -41,8 +41,14 @@ namespace MyEngine
 					Array<AnimationCurveNode>& GetAnimationCurveNodes() { return m_AnimationCurveNodes; }
 
 					Array<Model> GetModelsOfType(const std::string& typeName) const;
+					Array<Model> GetLimbNodes() const;
+					const Model* GetRootLimbNode() const;
 
 					Model* FindModel(const int64_t& id);
+					const Model* FindModel(const int64_t& id) const;
+
+					Array<const Model*> GetChildren(const Model& model) const;
+					Array<const Model*> GetChildren(const int64_t& id) const;
 
 				private:
 					Array<Geometry> m_Geometries{};

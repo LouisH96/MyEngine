@@ -44,12 +44,66 @@ Array<Io::Fbx::Wrapping::Model> Io::Fbx::Wrapping::FbxData::GetModelsOfType(cons
 	return models;
 }
 
+Array<Io::Fbx::Wrapping::Model> Io::Fbx::Wrapping::FbxData::GetLimbNodes() const
+{
+	return GetModelsOfType("LimbNode");
+}
+
+const Io::Fbx::Wrapping::Model* Io::Fbx::Wrapping::FbxData::GetRootLimbNode() const
+{
+	for (int iModel = 0; iModel < m_Models.GetSize(); iModel++)
+	{
+		const Model& model{ m_Models[iModel] };
+		if (model.GetTypeName() != "LimbNode") continue;
+
+		//find root connection
+		for (int iConnection = 0; iConnection < m_Connections.GetSize(); iConnection++)
+		{
+			const Connection& connection{ m_Connections[iConnection] };
+			if (connection.Id != model.GetId()) continue;
+
+			const Model* pParent{ FindModel(connection.ParentId) };
+			if (pParent->GetTypeName() == "Null")
+				return &model;
+		}
+	}
+	return nullptr;
+}
+
 Io::Fbx::Wrapping::Model* Io::Fbx::Wrapping::FbxData::FindModel(const int64_t& id)
 {
 	for (int i = 0; i < m_Models.GetSize(); i++)
 		if (m_Models[i].GetId() == id)
 			return &m_Models[i];
 	return nullptr;
+}
+
+const Io::Fbx::Wrapping::Model* Io::Fbx::Wrapping::FbxData::FindModel(const int64_t& id) const
+{
+	for (int i = 0; i < m_Models.GetSize(); i++)
+		if (m_Models[i].GetId() == id)
+			return &m_Models[i];
+	return nullptr;
+}
+
+Array<const Io::Fbx::Wrapping::Model*> Io::Fbx::Wrapping::FbxData::GetChildren(const Model& model) const
+{
+	return GetChildren(model.GetId());
+}
+
+Array<const Io::Fbx::Wrapping::Model*> Io::Fbx::Wrapping::FbxData::GetChildren(const int64_t& id) const
+{
+	Array<const Model*> children{ 0 };
+	for (int i = 0; i < m_Connections.GetSize(); i++)
+	{
+		const Connection& connection{ m_Connections[i] };
+		if (connection.ParentId != id) continue;
+		if (connection.Relation != "OO") continue;
+		const Model* pChild{ FindModel(connection.Id) };
+		if (pChild)
+			children.Add(pChild);
+	}
+	return children;
 }
 
 void Io::Fbx::Wrapping::FbxData::ReadGeometry(const Reading::FbxObject& objectsObject)
