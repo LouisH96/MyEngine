@@ -99,21 +99,20 @@ Io::Fbx::Wrapping::FbxData::FbxData(Reading::FbxReader&& reader)
 		Game::Transform transform{};
 		while (pModel)
 		{
-			const Game::Transform preRotation{ {}, Quaternion::FromEulerDegrees(pModel->GetPreRotation()) };
-			const Game::Transform translation{ pModel->GetLclTranslation() , {} };
+			const Float3 translation{ pModel->GetLclTranslation()  };
+			const Quaternion preRotation{ Quaternion::FromEulerDegrees(pModel->GetPreRotation()) };
 
 			const Float3& postEulers{ pModel->GetPostRotation() };
-			const Game::Transform postRotationX{ {}, Quaternion::FromEulerDegrees({postEulers.x, 0, 0}) };
-			const Game::Transform postRotationY{ {}, Quaternion::FromEulerDegrees({0, postEulers.y, 0}) };
-			const Game::Transform postRotationZ{ {}, Quaternion::FromEulerDegrees({0, 0, postEulers.z}) };
-			Game::Transform postRotation{};
-			postRotation = Game::Transform::LocalToWorld(postRotationX, postRotation);
-			postRotation = Game::Transform::LocalToWorld(postRotationY, postRotation);
-			postRotation = Game::Transform::LocalToWorld(postRotationZ, postRotation);
-			const Game::Transform rotation{ Game::Transform::LocalToWorld(postRotation, preRotation) };
+			const Quaternion postRotationX{ Quaternion::FromEulerDegrees({postEulers.x, 0, 0}) };
+			const Quaternion postRotationY{ Quaternion::FromEulerDegrees({0, postEulers.y, 0}) };
+			const Quaternion postRotationZ{ Quaternion::FromEulerDegrees({0, 0, postEulers.z}) };
 
-			transform = Game::Transform::LocalToWorld(transform, rotation);
-			transform = Game::Transform::LocalToWorld(transform, translation);
+			Quaternion rotation{ postRotationZ };
+			rotation.RotateBy(postRotationY);
+			rotation.RotateBy(postRotationX);
+			rotation.RotateBy(preRotation);
+
+			transform = Game::Transform::LocalToWorld(transform, { translation, rotation });
 
 			const Connection& modelConnection{ pModel->GetConnections()[0] };
 			pModel = modelConnection.pParent;
