@@ -95,6 +95,7 @@
     <ClCompile Include="Io\Fbx\Wrapping\Pose.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\Connection.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\AnimationStack.cpp" />
+    <ClCompile Include="Io\Fbx\Wrapping\AnimationLayer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -220,6 +221,7 @@
     <ClInclude Include="Math\Double4x4.h" />
     <ClInclude Include="Io\Fbx\Wrapping\Connection.h" />
     <ClInclude Include="Io\Fbx\Wrapping\AnimationStack.h" />
+    <ClInclude Include="Io\Fbx\Wrapping\AnimationLayer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

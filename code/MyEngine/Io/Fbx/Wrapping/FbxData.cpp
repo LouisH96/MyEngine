@@ -17,13 +17,14 @@ Io::Fbx::Wrapping::FbxData::FbxData(Reading::FbxReader&& reader)
 	const Reading::FbxObject& objects{ *reader.GetRoot().GetChild("Objects") };
 	const Reading::FbxObject& connections{ *reader.GetRoot().GetChild("Connections") };
 
-	//reader.GetRoot().Print();
+	reader.GetRoot().Print();
 
 	ReadGeometry(objects);
 	ReadModels(objects);
 	ReadPoses(objects);
 	ReadConnections(connections);
 	ReadAnimationStack(objects);
+	ReadAnimationLayers(objects);
 	TempDisplayLimbNodes();
 }
 
@@ -119,6 +120,15 @@ void Io::Fbx::Wrapping::FbxData::ReadAnimationStack(const Reading::FbxObject& ob
 		Logger::PrintWarning("Multiple animation-stacks not supported");
 	if (readerAnimationStacks.size() > 0)
 		m_AnimationStack = AnimationStack{ *readerAnimationStacks[0] };
+}
+
+void Io::Fbx::Wrapping::FbxData::ReadAnimationLayers(const Reading::FbxObject& objectsObject)
+{
+	const std::vector<Reading::FbxObject*> readerAnimationLayers{ objectsObject.GetChildren("AnimationLayer") };
+	if (readerAnimationLayers.empty())return;
+	m_AnimationLayers = { readerAnimationLayers.size() };
+	for (int i = 0; i < m_AnimationLayers.GetSize(); i++)
+		m_AnimationLayers[i] = AnimationLayer{ *readerAnimationLayers[i] };
 }
 
 void Io::Fbx::Wrapping::FbxData::TempDisplayLimbNodes() const
