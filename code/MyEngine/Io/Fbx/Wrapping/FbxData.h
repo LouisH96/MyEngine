@@ -1,4 +1,5 @@
 #pragma once
+#include "AnimationCurveNode.h"
 #include "AnimationLayer.h"
 #include "AnimationStack.h"
 #include "Geometry.h"
@@ -36,6 +37,7 @@ namespace MyEngine
 					Pose& GetBindPose() { return m_BindPose; }
 					AnimationStack& GetAnimationStack() { return m_AnimationStack; }
 					Array<AnimationLayer>& GetAnimationLayers() { return m_AnimationLayers; }
+					Array<AnimationCurveNode>& GetAnimationCurveNodes() { return m_AnimationCurveNodes; }
 
 					Array<Model> GetModelsOfType(const std::string& typeName) const;
 
@@ -47,6 +49,7 @@ namespace MyEngine
 					Pose m_BindPose{};
 					AnimationStack m_AnimationStack{};
 					Array<AnimationLayer> m_AnimationLayers{};
+					Array<AnimationCurveNode> m_AnimationCurveNodes{};
 
 					void ReadGeometry(const Reading::FbxObject& objectsObject);
 					void ReadModels(const Reading::FbxObject& objectsObject);
@@ -54,6 +57,7 @@ namespace MyEngine
 					void ReadConnections(const Reading::FbxObject& connectionsObject);
 					void ReadAnimationStack(const Reading::FbxObject& objectsObject);
 					void ReadAnimationLayers(const Reading::FbxObject& objectsObject);
+					void ReadAnimationCurveNodes(const Reading::FbxObject& objectsObject);
 					void TempDisplayLimbNodes() const;
 				};
 			}

@@ -17,7 +17,7 @@ Io::Fbx::Wrapping::FbxData::FbxData(Reading::FbxReader&& reader)
 	const Reading::FbxObject& objects{ *reader.GetRoot().GetChild("Objects") };
 	const Reading::FbxObject& connections{ *reader.GetRoot().GetChild("Connections") };
 
-	reader.GetRoot().Print();
+	//reader.GetRoot().Print();
 
 	ReadGeometry(objects);
 	ReadModels(objects);
@@ -25,6 +25,7 @@ Io::Fbx::Wrapping::FbxData::FbxData(Reading::FbxReader&& reader)
 	ReadConnections(connections);
 	ReadAnimationStack(objects);
 	ReadAnimationLayers(objects);
+	ReadAnimationCurveNodes(objects);
 	TempDisplayLimbNodes();
 }
 
@@ -129,6 +130,14 @@ void Io::Fbx::Wrapping::FbxData::ReadAnimationLayers(const Reading::FbxObject& o
 	m_AnimationLayers = { readerAnimationLayers.size() };
 	for (int i = 0; i < m_AnimationLayers.GetSize(); i++)
 		m_AnimationLayers[i] = AnimationLayer{ *readerAnimationLayers[i] };
+}
+
+void Io::Fbx::Wrapping::FbxData::ReadAnimationCurveNodes(const Reading::FbxObject& objectsObject)
+{
+	const std::vector<Reading::FbxObject*> curveNodeObjects{ objectsObject.GetChildren("AnimationCurveNode") };
+	m_AnimationCurveNodes = { curveNodeObjects.size() };
+	for (int i = 0; i < m_AnimationCurveNodes.GetSize(); i++)
+		m_AnimationCurveNodes[i] = AnimationCurveNode{ *curveNodeObjects[i] };
 }
 
 void Io::Fbx::Wrapping::FbxData::TempDisplayLimbNodes() const
