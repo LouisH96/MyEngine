@@ -83,6 +83,19 @@ int Io::Fbx::Reading::Properties70::GetInt(const std::string& name, int fallback
 	return pObject->GetProperty(pObject->GetNrProperties() - 1)->AsPrimitive<int>().GetValue();
 }
 
+int64_t Io::Fbx::Reading::Properties70::GetInt64(const std::string& name) const
+{
+	const FbxObject& object{ *GetProperty(name) };
+	return object.GetLastProperty().AsPrimitive<int64_t>().GetValue();
+}
+
+int64_t Io::Fbx::Reading::Properties70::GetInt64(const std::string& name, int64_t fallback) const
+{
+	const FbxObject* pObject{ GetPropertyOptional(name) };
+	if (pObject == nullptr) return fallback;
+	return pObject->GetLastProperty().AsPrimitive<int64_t>().GetValue();
+}
+
 std::string Io::Fbx::Reading::Properties70::GetString(const std::string& name, const std::string& fallback) const
 {
 	const FbxObject* pObject{ GetPropertyOptional(name) };
