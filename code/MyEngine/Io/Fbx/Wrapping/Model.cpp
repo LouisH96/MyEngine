@@ -13,6 +13,7 @@ Io::Fbx::Wrapping::Model::Model(Reading::FbxObject& modelObject)
 {
 	const Reading::Properties70 properties{ modelObject.GetChild(1) };
 	m_PreRotation = properties.GetFloat3("PreRotation", {});
+	m_PostRotation = properties.GetFloat3("PostRotation", {});
 	m_RotationOffset = properties.GetFloat3("RotationOffset", {});
 	m_RotationPivot = properties.GetFloat3("RotationPivot", {});
 	m_ScalingPivot = properties.GetFloat3("ScalingPivot", {});
@@ -30,7 +31,9 @@ Io::Fbx::Wrapping::Model::Model(Reading::FbxObject& modelObject)
 
 	//LH & Y-UP & X-RIGHT
 	m_LclTranslation.x = -m_LclTranslation.x;
-	m_PreRotation = -m_PreRotation;
+	m_PreRotation.y = -m_PreRotation.y;
+	m_PreRotation.z = -m_PreRotation.z;
+	m_PostRotation.x = -m_PostRotation.x;
 }
 
 void Io::Fbx::Wrapping::Model::SetBindPose(const Pose::Node& pose)

@@ -80,6 +80,7 @@ Io::Fbx::Wrapping::FbxData::FbxData(Reading::FbxReader&& reader)
 		/*std::stringstream ss{  };
 		ss << "--- " + pModel->GetName() + " ---\n";
 		ss << "PreRotation: " << ToString::Convert(pModel->GetPreRotation()) << "\n";
+		ss << "PostRotation: " << ToString::Convert(pModel->GetPostRotation()) << "\n";
 		ss << "LclTranslation: " << ToString::Convert(pModel->GetLclTranslation()) << "\n";
 		ss << "LclRotation: " << ToString::Convert(pModel->GetLclRotation()) << "\n";
 		ss << "LclScaling: " << ToString::Convert(pModel->GetLclScaling()) << "\n";
@@ -101,13 +102,23 @@ Io::Fbx::Wrapping::FbxData::FbxData(Reading::FbxReader&& reader)
 			const Game::Transform preRotation{ {}, Quaternion::FromEulerDegrees(pModel->GetPreRotation()) };
 			const Game::Transform translation{ pModel->GetLclTranslation() , {} };
 
-			transform = Game::Transform::LocalToWorld(transform, preRotation);
+			const Float3& postEulers{ pModel->GetPostRotation() };
+			const Game::Transform postRotationX{ {}, Quaternion::FromEulerDegrees({postEulers.x, 0, 0}) };
+			const Game::Transform postRotationY{ {}, Quaternion::FromEulerDegrees({0, postEulers.y, 0}) };
+			const Game::Transform postRotationZ{ {}, Quaternion::FromEulerDegrees({0, 0, postEulers.z}) };
+			Game::Transform postRotation{};
+			postRotation = Game::Transform::LocalToWorld(postRotationX, postRotation);
+			postRotation = Game::Transform::LocalToWorld(postRotationY, postRotation);
+			postRotation = Game::Transform::LocalToWorld(postRotationZ, postRotation);
+			const Game::Transform rotation{ Game::Transform::LocalToWorld(postRotation, preRotation) };
+
+			transform = Game::Transform::LocalToWorld(transform, rotation);
 			transform = Game::Transform::LocalToWorld(transform, translation);
 
 			const Connection& modelConnection{ pModel->GetConnections()[0] };
 			pModel = modelConnection.pParent;
 		}
-		DebugRenderer::AddSphere(transform.Position * 0.01, { 0,0,1 }, .05f);
+		DebugRenderer::AddSphere(transform.Position * 0.01, { 0,0,1 }, .1f);
 	}
 }
 

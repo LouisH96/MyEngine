@@ -27,6 +27,7 @@ namespace MyEngine
 					const std::string& GetTypeName() const { return m_TypeName; }
 					int GetVersion() const { return m_Version; }
 					const Float3& GetPreRotation() const { return m_PreRotation; }
+					const Float3& GetPostRotation() const { return m_PostRotation; }
 					const Float3& GetRotationOffset() const { return m_RotationOffset; }
 					const Float3& GetRotationPivot() const { return m_RotationPivot; }
 					const Float3& GetScalingPivot() const { return m_ScalingPivot; }
@@ -55,6 +56,7 @@ namespace MyEngine
 					std::string m_TypeName{};
 					int m_Version{};
 					Float3 m_PreRotation{};
+					Float3 m_PostRotation{};
 					Float3 m_RotationOffset{};
 					Float3 m_RotationPivot{};
 					Float3 m_ScalingPivot{};
