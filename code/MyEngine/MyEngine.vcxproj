@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Io\Fbx\Wrapping\AnimationCurve.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\AnimationCurveNode.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\AnimationLayer.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\AnimationStack.cpp" />
@@ -112,6 +113,7 @@
     <ClCompile Include="Game\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Io\Fbx\Wrapping\AnimationCurve.h" />
     <ClInclude Include="Io\Fbx\Wrapping\AnimationCurveNode.h" />
     <ClInclude Include="Io\Fbx\Wrapping\AnimationLayer.h" />
     <ClInclude Include="Io\Fbx\Wrapping\AnimationStack.h" />

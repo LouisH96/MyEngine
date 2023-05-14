@@ -26,6 +26,7 @@ Io::Fbx::Wrapping::FbxData::FbxData(Reading::FbxReader&& reader)
 	ReadAnimationStack(objects);
 	ReadAnimationLayers(objects);
 	ReadAnimationCurveNodes(objects);
+	ReadAnimationCurves(objects);
 	TempDisplayLimbNodes();
 }
 
@@ -92,8 +93,11 @@ void Io::Fbx::Wrapping::FbxData::ReadPoses(const Reading::FbxObject& objectsObje
 void Io::Fbx::Wrapping::FbxData::ReadConnections(const Reading::FbxObject& connectionsObject)
 {
 	const std::vector<Reading::FbxObject*> readerConnections{ connectionsObject.GetChildren() };
+	m_Connections = { readerConnections.size() };
 	for (int i = 0; i < readerConnections.size(); i++)
 	{
+		m_Connections[i] = Connection{ *readerConnections[i] };
+
 		Connection connection{ *readerConnections[i] };
 		Model* pModel{ FindModel(connection.Id) };
 		if (!pModel)
@@ -138,6 +142,38 @@ void Io::Fbx::Wrapping::FbxData::ReadAnimationCurveNodes(const Reading::FbxObjec
 	m_AnimationCurveNodes = { curveNodeObjects.size() };
 	for (int i = 0; i < m_AnimationCurveNodes.GetSize(); i++)
 		m_AnimationCurveNodes[i] = AnimationCurveNode{ *curveNodeObjects[i] };
+}
+
+void Io::Fbx::Wrapping::FbxData::ReadAnimationCurves(const Reading::FbxObject& objectsObject)
+{
+	const std::vector<Reading::FbxObject*> objects{ objectsObject.GetChildren("AnimationCurve") };
+	m_AnimationCurves = { objects.size() };
+	for (int i = 0; i < m_AnimationCurves.GetSize(); i++)
+		m_AnimationCurves[i] = AnimationCurve{ *objects[i] };
+}
+
+void Io::Fbx::Wrapping::FbxData::MakeLinks()
+{
+	for (int i = 0; i < m_Connections.GetSize(); i++)
+	{
+		Connection& connection{ m_Connections[i] };
+		Model* pModel{ FindModel(connection.Id) };
+		if (!pModel)
+			continue;
+		if (connection.ParentId != 0)
+		{
+			Model* pParentModel{ FindModel(connection.ParentId) };
+			if (!pParentModel)
+				continue;
+			if (pParentModel == pModel)
+			{
+				Logger::PrintError("Parent is same as child");
+				continue;
+			}
+			connection.pParent = pParentModel;
+		}
+		pModel->AddConnection(connection);
+	}
 }
 
 void Io::Fbx::Wrapping::FbxData::TempDisplayLimbNodes() const

@@ -1,4 +1,5 @@
 #pragma once
+#include "AnimationCurve.h"
 #include "AnimationCurveNode.h"
 #include "AnimationLayer.h"
 #include "AnimationStack.h"
@@ -47,9 +48,11 @@ namespace MyEngine
 					Array<Geometry> m_Geometries{};
 					Array<Model> m_Models{};
 					Pose m_BindPose{};
+					Array<Connection> m_Connections{};
 					AnimationStack m_AnimationStack{};
 					Array<AnimationLayer> m_AnimationLayers{};
 					Array<AnimationCurveNode> m_AnimationCurveNodes{};
+					Array<AnimationCurve> m_AnimationCurves{};
 
 					void ReadGeometry(const Reading::FbxObject& objectsObject);
 					void ReadModels(const Reading::FbxObject& objectsObject);
@@ -58,6 +61,8 @@ namespace MyEngine
 					void ReadAnimationStack(const Reading::FbxObject& objectsObject);
 					void ReadAnimationLayers(const Reading::FbxObject& objectsObject);
 					void ReadAnimationCurveNodes(const Reading::FbxObject& objectsObject);
+					void ReadAnimationCurves(const Reading::FbxObject& objectsObject);
+					void MakeLinks();
 					void TempDisplayLimbNodes() const;
 				};
 			}
