@@ -1,4 +1,5 @@
 #pragma once
+#include "AnimationStack.h"
 #include "Geometry.h"
 #include "Model.h"
 #include "Pose.h"
@@ -32,6 +33,7 @@ namespace MyEngine
 					Model& GetModel(int idx) { return m_Models[idx]; }
 					Array<Model>& GetModels() { return m_Models; }
 					Pose& GetBindPose() { return m_BindPose; }
+					AnimationStack& GetAnimationStack() { return m_AnimationStack; }
 
 					Array<Model> GetModelsOfType(const std::string& typeName) const;
 
@@ -41,6 +43,7 @@ namespace MyEngine
 					Array<Geometry> m_Geometries{};
 					Array<Model> m_Models{};
 					Pose m_BindPose{};
+					AnimationStack m_AnimationStack{};
 				};
 			}
 		}

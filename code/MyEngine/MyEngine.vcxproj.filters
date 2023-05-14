@@ -94,6 +94,7 @@
     <ClCompile Include="Physics\CollisionDetection.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\Pose.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\Connection.cpp" />
+    <ClCompile Include="Io\Fbx\Wrapping\AnimationStack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -218,6 +219,7 @@
     <ClInclude Include="Io\Fbx\Wrapping\Pose.h" />
     <ClInclude Include="Math\Double4x4.h" />
     <ClInclude Include="Io\Fbx\Wrapping\Connection.h" />
+    <ClInclude Include="Io\Fbx\Wrapping\AnimationStack.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

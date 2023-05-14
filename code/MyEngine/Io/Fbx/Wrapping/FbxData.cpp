@@ -16,7 +16,7 @@ Io::Fbx::Wrapping::FbxData::FbxData(Reading::FbxReader&& reader)
 {
 	const Reading::FbxObject& objects{ *reader.GetRoot().GetChild("Objects") };
 
-	//reader.GetRoot().Print();
+	reader.GetRoot().Print();
 
 	//Geometry
 	const std::vector<Reading::FbxObject*> geometries{ objects.GetChildren("Geometry") };
@@ -71,6 +71,13 @@ Io::Fbx::Wrapping::FbxData::FbxData(Reading::FbxReader&& reader)
 		pModel->AddConnection(connection);
 	}
 
+	//AnimationStack
+	const std::vector<Reading::FbxObject*> readerAnimationStacks{ objects.GetChildren("AnimationStack") };
+	if (readerAnimationStacks.size() > 1)
+		Logger::PrintWarning("Multiple animation-stacks not supported");
+	if (readerAnimationStacks.size() > 0)
+		m_AnimationStack = AnimationStack{ *readerAnimationStacks[0] };
+
 	//temp - display spheres on limb-nodes
 	for (int i = 0; i < m_Models.GetSize(); i++)
 	{
@@ -99,7 +106,7 @@ Io::Fbx::Wrapping::FbxData::FbxData(Reading::FbxReader&& reader)
 		Game::Transform transform{};
 		while (pModel)
 		{
-			const Float3 translation{ pModel->GetLclTranslation()  };
+			const Float3 translation{ pModel->GetLclTranslation() };
 			const Quaternion preRotation{ Quaternion::FromEulerDegrees(pModel->GetPreRotation()) };
 
 			const Float3& postEulers{ pModel->GetPostRotation() };

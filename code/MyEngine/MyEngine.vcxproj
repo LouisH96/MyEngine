@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Io\Fbx\Wrapping\AnimationStack.cpp" />
     <ClCompile Include="App\BasicExampleApp.cpp" />
     <ClCompile Include="App\FpsControl.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\Connection.cpp" />
@@ -109,6 +110,7 @@
     <ClCompile Include="Game\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Io\Fbx\Wrapping\AnimationStack.h" />
     <ClInclude Include="App\BasicExampleApp.h" />
     <ClInclude Include="Io\Fbx\Wrapping\Connection.h" />
     <ClInclude Include="Math\Double4x4.h" />
