@@ -44,6 +44,13 @@ namespace MyEngine
 					Array<Model> m_Models{};
 					Pose m_BindPose{};
 					AnimationStack m_AnimationStack{};
+
+					void ReadGeometry(const Reading::FbxObject& objectsObject);
+					void ReadModels(const Reading::FbxObject& objectsObject);
+					void ReadPoses(const Reading::FbxObject& objectsObject);
+					void ReadConnections(const Reading::FbxObject& connectionsObject);
+					void ReadAnimationStack(const Reading::FbxObject& objectsObject);
+					void TempDisplayLimbNodes() const;
 				};
 			}
 		}

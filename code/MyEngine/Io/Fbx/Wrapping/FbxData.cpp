@@ -15,23 +15,61 @@ Io::Fbx::Wrapping::FbxData::FbxData(const std::wstring& fbxPath)
 Io::Fbx::Wrapping::FbxData::FbxData(Reading::FbxReader&& reader)
 {
 	const Reading::FbxObject& objects{ *reader.GetRoot().GetChild("Objects") };
+	const Reading::FbxObject& connections{ *reader.GetRoot().GetChild("Connections") };
 
-	reader.GetRoot().Print();
+	//reader.GetRoot().Print();
 
-	//Geometry
-	const std::vector<Reading::FbxObject*> geometries{ objects.GetChildren("Geometry") };
+	ReadGeometry(objects);
+	ReadModels(objects);
+	ReadPoses(objects);
+	ReadConnections(connections);
+	ReadAnimationStack(objects);
+	TempDisplayLimbNodes();
+}
+
+Array<Io::Fbx::Wrapping::Model> Io::Fbx::Wrapping::FbxData::GetModelsOfType(const std::string& typeName) const
+{
+	int count{ 0 };
+	for (int i = 0; i < m_Models.GetSize(); i++)
+		if (m_Models[i].GetTypeName() == typeName)
+			count++;
+
+	int iModel{ 0 };
+	Array<Model> models{ count };
+	for (int i = 0; i < m_Models.GetSize(); i++)
+		if (m_Models[i].GetTypeName() == typeName)
+			models[iModel++] = m_Models[i];
+
+	return models;
+}
+
+Io::Fbx::Wrapping::Model* Io::Fbx::Wrapping::FbxData::FindModel(const int64_t& id)
+{
+	for (int i = 0; i < m_Models.GetSize(); i++)
+		if (m_Models[i].GetId() == id)
+			return &m_Models[i];
+	return nullptr;
+}
+
+void Io::Fbx::Wrapping::FbxData::ReadGeometry(const Reading::FbxObject& objectsObject)
+{
+	const std::vector<Reading::FbxObject*> geometries{ objectsObject.GetChildren("Geometry") };
 	m_Geometries = { static_cast<int>(geometries.size()) };
 	for (int i = 0; i < geometries.size(); i++)
 		m_Geometries[i] = Geometry{ *geometries[i] };
+}
 
-	//Models
-	const std::vector<Reading::FbxObject*> models{ objects.GetChildren("Model") };
+void Io::Fbx::Wrapping::FbxData::ReadModels(const Reading::FbxObject& objectsObject)
+{
+	const std::vector<Reading::FbxObject*> models{ objectsObject.GetChildren("Model") };
 	m_Models = { static_cast<int>(models.size()) };
 	for (int i = 0; i < m_Models.GetSize(); i++)
 		m_Models[i] = Model{ *models[i] };
+}
 
-	//Poses
-	const std::vector<Reading::FbxObject*> poses{ objects.GetChildren("Pose") };
+void Io::Fbx::Wrapping::FbxData::ReadPoses(const Reading::FbxObject& objectsObject)
+{
+	const std::vector<Reading::FbxObject*> poses{ objectsObject.GetChildren("Pose") };
 	if (poses.size() > 1) Logger::PrintWarning("Doesn't support multiple poses");
 	if (poses.size() > 0)
 	{
@@ -47,9 +85,11 @@ Io::Fbx::Wrapping::FbxData::FbxData(Reading::FbxReader&& reader)
 			pModel->SetBindPose(m_BindPose.Nodes[i]);
 		}
 	}
+}
 
-	//Connections
-	const std::vector<Reading::FbxObject*> readerConnections{ reader.GetRoot().GetChild("Connections")->GetChildren() };
+void Io::Fbx::Wrapping::FbxData::ReadConnections(const Reading::FbxObject& connectionsObject)
+{
+	const std::vector<Reading::FbxObject*> readerConnections{ connectionsObject.GetChildren() };
 	for (int i = 0; i < readerConnections.size(); i++)
 	{
 		Connection connection{ *readerConnections[i] };
@@ -70,18 +110,22 @@ Io::Fbx::Wrapping::FbxData::FbxData(Reading::FbxReader&& reader)
 		}
 		pModel->AddConnection(connection);
 	}
+}
 
-	//AnimationStack
-	const std::vector<Reading::FbxObject*> readerAnimationStacks{ objects.GetChildren("AnimationStack") };
+void Io::Fbx::Wrapping::FbxData::ReadAnimationStack(const Reading::FbxObject& objectsObject)
+{
+	const std::vector<Reading::FbxObject*> readerAnimationStacks{ objectsObject.GetChildren("AnimationStack") };
 	if (readerAnimationStacks.size() > 1)
 		Logger::PrintWarning("Multiple animation-stacks not supported");
 	if (readerAnimationStacks.size() > 0)
 		m_AnimationStack = AnimationStack{ *readerAnimationStacks[0] };
+}
 
-	//temp - display spheres on limb-nodes
+void Io::Fbx::Wrapping::FbxData::TempDisplayLimbNodes() const
+{
 	for (int i = 0; i < m_Models.GetSize(); i++)
 	{
-		Model* pModel{ &m_Models[i] };
+		const Model* pModel{ &m_Models[i] };
 		if (pModel->GetTypeName() != "LimbNode") continue;
 
 		/*std::stringstream ss{  };
@@ -126,28 +170,4 @@ Io::Fbx::Wrapping::FbxData::FbxData(Reading::FbxReader&& reader)
 		}
 		DebugRenderer::AddSphere(transform.Position * 0.01, { 0,0,1 }, .1f);
 	}
-}
-
-Array<Io::Fbx::Wrapping::Model> Io::Fbx::Wrapping::FbxData::GetModelsOfType(const std::string& typeName) const
-{
-	int count{ 0 };
-	for (int i = 0; i < m_Models.GetSize(); i++)
-		if (m_Models[i].GetTypeName() == typeName)
-			count++;
-
-	int iModel{ 0 };
-	Array<Model> models{ count };
-	for (int i = 0; i < m_Models.GetSize(); i++)
-		if (m_Models[i].GetTypeName() == typeName)
-			models[iModel++] = m_Models[i];
-
-	return models;
-}
-
-Io::Fbx::Wrapping::Model* Io::Fbx::Wrapping::FbxData::FindModel(const int64_t& id)
-{
-	for (int i = 0; i < m_Models.GetSize(); i++)
-		if (m_Models[i].GetId() == id)
-			return &m_Models[i];
-	return nullptr;
 }
