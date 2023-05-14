@@ -14,6 +14,7 @@ namespace MyEngine
 			Array(int size, const Data& initValue);
 			Array(unsigned size);
 			Array(unsigned size, const Data& initValue);
+			Array(size_t size);
 			~Array();
 			Array(const Array& other);
 			Array(Array&& other) noexcept;
@@ -117,6 +118,14 @@ namespace MyEngine
 		}
 
 		template <typename Data>
+		Array<Data>::Array(size_t size)
+			: m_pData(new Data[size])
+			, m_Size{ static_cast<int>(size) }
+		{
+
+		}
+
+		template <typename Data>
 		Array<Data>::~Array()
 		{
 			if (m_pData)
@@ -204,7 +213,7 @@ namespace MyEngine
 			DoBoundsCheck(idx);
 #endif
 			return m_pData[idx];
-		}
+	}
 
 		template <typename Data>
 		Data& Array<Data>::operator[](int idx)
@@ -213,7 +222,7 @@ namespace MyEngine
 			DoBoundsCheck(idx);
 #endif
 			return m_pData[idx];
-		}
+}
 
 		template <typename Data>
 		Data& Array<Data>::Last()
