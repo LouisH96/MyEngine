@@ -35,15 +35,3 @@ Io::Fbx::Wrapping::Model::Model(Reading::FbxObject& modelObject)
 	m_PreRotation.z = -m_PreRotation.z;
 	m_PostRotation.x = -m_PostRotation.x;
 }
-
-void Io::Fbx::Wrapping::Model::SetBindPose(const Pose::Node& pose)
-{
-	if (m_BindPose.IsValid())
-		Logger::PrintError("BindPose already set");
-	m_BindPose = pose;
-}
-
-void Io::Fbx::Wrapping::Model::AddConnection(const Connection& connection)
-{
-	m_Connections.Add(connection);
-}

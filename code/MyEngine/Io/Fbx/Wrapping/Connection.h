@@ -26,8 +26,6 @@ namespace MyEngine
 					int64_t Id;
 					int64_t ParentId;
 					std::string Property; //only if relation is OP
-
-					Model* pParent{};
 				};
 			}
 		}

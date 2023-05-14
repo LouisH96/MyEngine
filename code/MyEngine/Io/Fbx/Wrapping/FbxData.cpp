@@ -4,7 +4,6 @@
 #include "../Reading/FbxObject.h"
 #include "../Reading/FbxReader.h"
 #include "Debug/DebugRenderer.h"
-#include "Game/Transform.h"
 
 using namespace Math;
 
@@ -27,8 +26,6 @@ Io::Fbx::Wrapping::FbxData::FbxData(Reading::FbxReader&& reader)
 	ReadAnimationLayers(objects);
 	ReadAnimationCurveNodes(objects);
 	ReadAnimationCurves(objects);
-	MakeLinks();
-	TempDisplayLimbNodes();
 }
 
 Array<Io::Fbx::Wrapping::Model> Io::Fbx::Wrapping::FbxData::GetModelsOfType(const std::string& typeName) const
@@ -76,19 +73,7 @@ void Io::Fbx::Wrapping::FbxData::ReadPoses(const Reading::FbxObject& objectsObje
 	const std::vector<Reading::FbxObject*> poses{ objectsObject.GetChildren("Pose") };
 	if (poses.size() > 1) Logger::PrintWarning("Doesn't support multiple poses");
 	if (poses.size() > 0)
-	{
 		m_BindPose = Pose{ *poses[0] };
-		for (int i = 0; i < m_BindPose.Nodes.GetSize(); i++)
-		{
-			Model* pModel{ FindModel(m_BindPose.Nodes[i].Id) };
-			if (!pModel)
-			{
-				Logger::PrintError("Model for PoseNode not found");
-				continue;
-			}
-			pModel->SetBindPose(m_BindPose.Nodes[i]);
-		}
-	}
 }
 
 void Io::Fbx::Wrapping::FbxData::ReadConnections(const Reading::FbxObject& connectionsObject)
@@ -133,79 +118,79 @@ void Io::Fbx::Wrapping::FbxData::ReadAnimationCurves(const Reading::FbxObject& o
 		m_AnimationCurves[i] = AnimationCurve{ *objects[i] };
 }
 
-void Io::Fbx::Wrapping::FbxData::MakeLinks()
-{
-	for (int i = 0; i < m_Connections.GetSize(); i++)
-	{
-		Connection& connection{ m_Connections[i] };
+//void Io::Fbx::Wrapping::FbxData::MakeLinks()
+//{
+//	for (int i = 0; i < m_Connections.GetSize(); i++)
+//	{
+//		Connection& connection{ m_Connections[i] };
+//
+//		std::cout << i << ": " << connection.Relation << ", " << connection.Property << std::endl;
+//		Model* pModel{ FindModel(connection.Id) };
+//		if (!pModel)
+//			continue;
+//		if (connection.ParentId != 0)
+//		{
+//			Model* pParentModel{ FindModel(connection.ParentId) };
+//			if (!pParentModel)
+//				continue;
+//			if (pParentModel == pModel)
+//			{
+//				Logger::PrintError("Parent is same as child");
+//				continue;
+//			}
+//			connection.pParent = pParentModel;
+//		}
+//		pModel->AddConnection(connection);
+//	}
+//}
 
-		std::cout << i << ": " << connection.Relation << ", " << connection.Property << std::endl;
-		Model* pModel{ FindModel(connection.Id) };
-		if (!pModel)
-			continue;
-		if (connection.ParentId != 0)
-		{
-			Model* pParentModel{ FindModel(connection.ParentId) };
-			if (!pParentModel)
-				continue;
-			if (pParentModel == pModel)
-			{
-				Logger::PrintError("Parent is same as child");
-				continue;
-			}
-			connection.pParent = pParentModel;
-		}
-		pModel->AddConnection(connection);
-	}
-}
-
-void Io::Fbx::Wrapping::FbxData::TempDisplayLimbNodes() const
-{
-	for (int i = 0; i < m_Models.GetSize(); i++)
-	{
-		const Model* pModel{ &m_Models[i] };
-		if (pModel->GetTypeName() != "LimbNode") continue;
-
-		/*std::stringstream ss{  };
-		ss << "--- " + pModel->GetName() + " ---\n";
-		ss << "PreRotation: " << ToString::Convert(pModel->GetPreRotation()) << "\n";
-		ss << "PostRotation: " << ToString::Convert(pModel->GetPostRotation()) << "\n";
-		ss << "LclTranslation: " << ToString::Convert(pModel->GetLclTranslation()) << "\n";
-		ss << "LclRotation: " << ToString::Convert(pModel->GetLclRotation()) << "\n";
-		ss << "LclScaling: " << ToString::Convert(pModel->GetLclScaling()) << "\n";
-		ss << "RotationOffset: " << ToString::Convert(pModel->GetRotationOffset()) << "\n";
-		ss << "RotationPivot: " << ToString::Convert(pModel->GetRotationPivot()) << "\n";
-		ss << "ScalingPivot: " << ToString::Convert(pModel->GetScalingPivot()) << "\n";
-		ss << "ScalingMax: " << ToString::Convert(pModel->GetScalingMax()) << "\n";
-		ss << "InheritType: " << ToString::Convert(pModel->GetInheritType()) << "\n";
-		ss << "NrConnections: " << pModel->GetConnections().GetSize() << "\n";
-		const Connection& baseConnection{ pModel->GetConnections()[0] };
-		if (baseConnection.pParent)
-			ss << "Parent: " << baseConnection.pParent->GetName() << std::endl;
-		std::cout << ss.str();*/
-
-		//using model-data
-		Game::Transform transform{};
-		while (pModel)
-		{
-			const Float3 translation{ pModel->GetLclTranslation() };
-			const Quaternion preRotation{ Quaternion::FromEulerDegrees(pModel->GetPreRotation()) };
-
-			const Float3& postEulers{ pModel->GetPostRotation() };
-			const Quaternion postRotationX{ Quaternion::FromEulerDegrees({postEulers.x, 0, 0}) };
-			const Quaternion postRotationY{ Quaternion::FromEulerDegrees({0, postEulers.y, 0}) };
-			const Quaternion postRotationZ{ Quaternion::FromEulerDegrees({0, 0, postEulers.z}) };
-
-			Quaternion rotation{ postRotationZ };
-			rotation.RotateBy(postRotationY);
-			rotation.RotateBy(postRotationX);
-			rotation.RotateBy(preRotation);
-
-			transform = Game::Transform::LocalToWorld(transform, { translation, rotation });
-
-			const Connection& modelConnection{ pModel->GetConnections()[0] };
-			pModel = modelConnection.pParent;
-		}
-		DebugRenderer::AddSphere(transform.Position * 0.01, { 0,0,1 }, .1f);
-	}
-}
+//void Io::Fbx::Wrapping::FbxData::TempDisplayLimbNodes() const
+//{
+//	for (int i = 0; i < m_Models.GetSize(); i++)
+//	{
+//		const Model* pModel{ &m_Models[i] };
+//		if (pModel->GetTypeName() != "LimbNode") continue;
+//
+//		/*std::stringstream ss{  };
+//		ss << "--- " + pModel->GetName() + " ---\n";
+//		ss << "PreRotation: " << ToString::Convert(pModel->GetPreRotation()) << "\n";
+//		ss << "PostRotation: " << ToString::Convert(pModel->GetPostRotation()) << "\n";
+//		ss << "LclTranslation: " << ToString::Convert(pModel->GetLclTranslation()) << "\n";
+//		ss << "LclRotation: " << ToString::Convert(pModel->GetLclRotation()) << "\n";
+//		ss << "LclScaling: " << ToString::Convert(pModel->GetLclScaling()) << "\n";
+//		ss << "RotationOffset: " << ToString::Convert(pModel->GetRotationOffset()) << "\n";
+//		ss << "RotationPivot: " << ToString::Convert(pModel->GetRotationPivot()) << "\n";
+//		ss << "ScalingPivot: " << ToString::Convert(pModel->GetScalingPivot()) << "\n";
+//		ss << "ScalingMax: " << ToString::Convert(pModel->GetScalingMax()) << "\n";
+//		ss << "InheritType: " << ToString::Convert(pModel->GetInheritType()) << "\n";
+//		ss << "NrConnections: " << pModel->GetConnections().GetSize() << "\n";
+//		const Connection& baseConnection{ pModel->GetConnections()[0] };
+//		if (baseConnection.pParent)
+//			ss << "Parent: " << baseConnection.pParent->GetName() << std::endl;
+//		std::cout << ss.str();*/
+//
+//		//using model-data
+//		Game::Transform transform{};
+//		while (pModel)
+//		{
+//			const Float3 translation{ pModel->GetLclTranslation() };
+//			const Quaternion preRotation{ Quaternion::FromEulerDegrees(pModel->GetPreRotation()) };
+//
+//			const Float3& postEulers{ pModel->GetPostRotation() };
+//			const Quaternion postRotationX{ Quaternion::FromEulerDegrees({postEulers.x, 0, 0}) };
+//			const Quaternion postRotationY{ Quaternion::FromEulerDegrees({0, postEulers.y, 0}) };
+//			const Quaternion postRotationZ{ Quaternion::FromEulerDegrees({0, 0, postEulers.z}) };
+//
+//			Quaternion rotation{ postRotationZ };
+//			rotation.RotateBy(postRotationY);
+//			rotation.RotateBy(postRotationX);
+//			rotation.RotateBy(preRotation);
+//
+//			transform = Game::Transform::LocalToWorld(transform, { translation, rotation });
+//
+//			const Connection& modelConnection{ pModel->GetConnections()[0] };
+//			pModel = modelConnection.pParent;
+//		}
+//		DebugRenderer::AddSphere(transform.Position * 0.01, { 0,0,1 }, .1f);
+//	}
+//}

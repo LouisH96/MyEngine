@@ -62,8 +62,6 @@ namespace MyEngine
 					void ReadAnimationLayers(const Reading::FbxObject& objectsObject);
 					void ReadAnimationCurveNodes(const Reading::FbxObject& objectsObject);
 					void ReadAnimationCurves(const Reading::FbxObject& objectsObject);
-					void MakeLinks();
-					void TempDisplayLimbNodes() const;
 				};
 			}
 		}

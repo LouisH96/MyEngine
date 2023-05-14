@@ -44,12 +44,6 @@ namespace MyEngine
 
 					std::string& GetName() { return m_Name; }
 
-					void SetBindPose(const Pose::Node& pose);
-					void AddConnection(const Connection& connection);
-
-					const Pose::Node& GetBindPose() const { return m_BindPose; }
-					const Array<Connection>& GetConnections() const { return m_Connections; }
-
 				private:
 					int64_t m_Id{};
 					std::string m_Name{};
@@ -70,9 +64,6 @@ namespace MyEngine
 					std::string m_CurrentUvSet{};
 					int m_Shading{};
 					std::string m_Culling{};
-
-					Array<Connection> m_Connections{};
-					Pose::Node m_BindPose{};
 				};
 			}
 		}
