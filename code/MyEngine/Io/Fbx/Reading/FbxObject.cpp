@@ -100,6 +100,11 @@ const Io::Fbx::Reading::FbxProperty* Io::Fbx::Reading::FbxObject::GetProperty(in
 	return m_Properties[idx];
 }
 
+const Io::Fbx::Reading::FbxProperty& Io::Fbx::Reading::FbxObject::GetLastProperty() const
+{
+	return *m_Properties[m_Properties.size() - 1];
+}
+
 Io::Fbx::Reading::FbxObject* Io::Fbx::Reading::FbxObject::GetChild(const std::string& name)
 {
 	for (int i = 0; i < m_Children.size(); i++)

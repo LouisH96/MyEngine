@@ -25,6 +25,7 @@ namespace MyEngine
 					std::vector<FbxObject*> GetChildren(const std::string& name) const;
 					const FbxProperty* GetProperty(int idx) const;
 					const std::vector<FbxProperty*>& GetProperties() const { return m_Properties; }
+					const FbxProperty& GetLastProperty() const;
 					FbxObject* GetChild(const std::string& name);
 					FbxObject& GetChild(int idx);
 					FbxProperty* GetProperty(int idx);
