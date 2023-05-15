@@ -32,7 +32,7 @@ namespace MyEngine
 					const Array<Float2>& GetUvs() const { return m_Uvs; }
 					const Array<int>& GetIndices() const { return m_Indices; }
 
-					void AddParentModel(const Model& model);
+					void SetRootModel(const Model& model);
 
 				private:
 					int64_t m_Id{};
@@ -42,7 +42,7 @@ namespace MyEngine
 					Array<Float2> m_Uvs{};
 					Array<int> m_Indices{};
 
-					Array<const Model*> m_ParentModels{}; //idk, coming from Connections
+					const Model* m_pRootModel{};
 
 					void LoadPoints(const Reading::FbxObject& geometryObject);
 					void LoadNormals(const Reading::FbxObject& geometryObject);

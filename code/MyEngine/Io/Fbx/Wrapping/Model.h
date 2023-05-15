@@ -16,6 +16,8 @@ namespace MyEngine
 
 			namespace Wrapping
 			{
+				class Deformer;
+
 				class Model
 				{
 				public:
@@ -44,6 +46,10 @@ namespace MyEngine
 
 					std::string& GetName() { return m_Name; }
 
+					void SetParentModel(const Model& parent);
+					void AddChildModel(const Model& child);
+					void AddDeformer(const Deformer& deformer);
+
 				private:
 					int64_t m_Id{};
 					std::string m_Name{};
@@ -64,6 +70,10 @@ namespace MyEngine
 					std::string m_CurrentUvSet{};
 					int m_Shading{};
 					std::string m_Culling{};
+
+					const Model* m_pParentModel{};
+					Array<const Model*> m_ChildModels{};
+					Array<const Deformer*> m_Deformers{};
 				};
 			}
 		}

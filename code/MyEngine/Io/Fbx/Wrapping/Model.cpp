@@ -35,3 +35,20 @@ Io::Fbx::Wrapping::Model::Model(Reading::FbxObject& modelObject)
 	m_PreRotation.z = -m_PreRotation.z;
 	m_PostRotation.x = -m_PostRotation.x;
 }
+
+void Io::Fbx::Wrapping::Model::SetParentModel(const Model& parent)
+{
+	if (m_pParentModel)
+		Logger::PrintError("ParentModel already set");
+	m_pParentModel = &parent;
+}
+
+void Io::Fbx::Wrapping::Model::AddChildModel(const Model& child)
+{
+	m_ChildModels.Add(&child);
+}
+
+void Io::Fbx::Wrapping::Model::AddDeformer(const Deformer& deformer)
+{
+	m_Deformers.Add(&deformer);
+}

@@ -20,6 +20,7 @@ Io::Fbx::Wrapping::FbxData::FbxData(Reading::FbxReader&& reader)
 
 	ReadGeometry(objects);
 	ReadModels(objects);
+	ReadDeformers(objects);
 	ReadPoses(objects);
 	ReadConnections(connections);
 	ReadAnimationStack(objects);
@@ -62,7 +63,7 @@ const Io::Fbx::Wrapping::Model* Io::Fbx::Wrapping::FbxData::GetRootLimbNode() co
 		for (int iConnection = 0; iConnection < m_Connections.GetSize(); iConnection++)
 		{
 			const Connection& connection{ m_Connections[iConnection] };
-			if (connection.Id != model.GetId()) continue;
+			if (connection.ChildId != model.GetId()) continue;
 			if (connection.ParentId == 0)
 				return &model;
 
@@ -90,6 +91,86 @@ Io::Fbx::Wrapping::Model* Io::Fbx::Wrapping::FbxData::FindModel(const int64_t& i
 	return nullptr;
 }
 
+Io::Fbx::Wrapping::Deformer* Io::Fbx::Wrapping::FbxData::FindDeformer(const int64_t& id)
+{
+	for (int i = 0; i < m_Deformers.GetSize(); i++)
+		if (m_Deformers[i].Id == id)
+			return &m_Deformers[i];
+	return nullptr;
+}
+
+Io::Fbx::Wrapping::Pose::Node* Io::Fbx::Wrapping::FbxData::FindPoseNode(const int64_t& id)
+{
+	for (int i = 0; i < m_BindPose.Nodes.GetSize(); i++)
+		if (m_BindPose.Nodes[i].Id == id)
+			return &m_BindPose.Nodes[i];
+	return nullptr;
+}
+
+Io::Fbx::Wrapping::AnimationCurve* Io::Fbx::Wrapping::FbxData::FindAnimationCurve(const int64_t& id)
+{
+	for (int i = 0; i < m_AnimationCurves.GetSize(); i++)
+		if (m_AnimationCurves[i].Id == id)
+			return &m_AnimationCurves[i];
+	return nullptr;
+}
+
+Io::Fbx::Wrapping::AnimationCurveNode* Io::Fbx::Wrapping::FbxData::FindAnimationCurveNode(const int64_t& id)
+{
+	for (int i = 0; i < m_AnimationCurveNodes.GetSize(); i++)
+		if (m_AnimationCurveNodes[i].Id == id)
+			return &m_AnimationCurveNodes[i];
+	return nullptr;
+}
+
+const Io::Fbx::Wrapping::Geometry* Io::Fbx::Wrapping::FbxData::FindGeometry(const int64_t& id) const
+{
+	for (int i = 0; i < m_Geometries.GetSize(); i++)
+		if (m_Geometries[i].GetId() == id)
+			return &m_Geometries[i];
+	return nullptr;
+}
+
+const Io::Fbx::Wrapping::Deformer* Io::Fbx::Wrapping::FbxData::FindDeformer(const int64_t& id) const
+{
+	for (int i = 0; i < m_Deformers.GetSize(); i++)
+		if (m_Deformers[i].Id == id)
+			return &m_Deformers[i];
+	return nullptr;
+}
+
+const Io::Fbx::Wrapping::Pose::Node* Io::Fbx::Wrapping::FbxData::FindPoseNode(const int64_t& id) const
+{
+	for (int i = 0; i < m_BindPose.Nodes.GetSize(); i++)
+		if (m_BindPose.Nodes[i].Id == id)
+			return &m_BindPose.Nodes[i];
+	return nullptr;
+}
+
+const Io::Fbx::Wrapping::AnimationLayer* Io::Fbx::Wrapping::FbxData::FindAnimationLayer(const int64_t& id) const
+{
+	for (int i = 0; i < m_AnimationLayers.GetSize(); i++)
+		if (m_AnimationLayers[i].Id == id)
+			return &m_AnimationLayers[i];
+	return nullptr;
+}
+
+const Io::Fbx::Wrapping::AnimationCurve* Io::Fbx::Wrapping::FbxData::FindAnimationCurve(const int64_t& id) const
+{
+	for (int i = 0; i < m_AnimationCurves.GetSize(); i++)
+		if (m_AnimationCurves[i].Id == id)
+			return &m_AnimationCurves[i];
+	return nullptr;
+}
+
+const Io::Fbx::Wrapping::AnimationCurveNode* Io::Fbx::Wrapping::FbxData::FindAnimationCurveNode(const int64_t& id) const
+{
+	for (int i = 0; i < m_AnimationCurveNodes.GetSize(); i++)
+		if (m_AnimationCurveNodes[i].Id == id)
+			return &m_AnimationCurveNodes[i];
+	return nullptr;
+}
+
 const Io::Fbx::Wrapping::Model* Io::Fbx::Wrapping::FbxData::FindModel(const int64_t& id) const
 {
 	for (int i = 0; i < m_Models.GetSize(); i++)
@@ -111,7 +192,7 @@ Array<const Io::Fbx::Wrapping::Model*> Io::Fbx::Wrapping::FbxData::GetChildren(c
 		const Connection& connection{ m_Connections[i] };
 		if (connection.ParentId != id) continue;
 		if (connection.Relation != "OO") continue;
-		const Model* pChild{ FindModel(connection.Id) };
+		const Model* pChild{ FindModel(connection.ChildId) };
 		if (pChild)
 			children.Add(pChild);
 	}
@@ -132,6 +213,14 @@ void Io::Fbx::Wrapping::FbxData::ReadModels(const Reading::FbxObject& objectsObj
 	m_Models = { static_cast<int>(models.size()) };
 	for (int i = 0; i < m_Models.GetSize(); i++)
 		m_Models[i] = Model{ *models[i] };
+}
+
+void Io::Fbx::Wrapping::FbxData::ReadDeformers(const Reading::FbxObject& objectsObject)
+{
+	const std::vector<Reading::FbxObject*> deformers{ objectsObject.GetChildren("Deformer") };
+	m_Deformers = { static_cast<int>(deformers.size()) };
+	for (int i = 0; i < m_Deformers.GetSize(); i++)
+		m_Deformers[i] = Deformer{ *deformers[i] };
 }
 
 void Io::Fbx::Wrapping::FbxData::ReadPoses(const Reading::FbxObject& objectsObject)
@@ -190,25 +279,73 @@ void Io::Fbx::Wrapping::FbxData::HandleConnections()
 	{
 		const Connection& connection{ m_Connections[iConnection] };
 
-		Geometry* pGeometry{ FindGeometry(connection.Id) };
-		if(pGeometry)
+		Geometry* pGeometry{ FindGeometry(connection.ChildId) };
+		if (pGeometry)
 		{
 			HandleGeometryConnection(*pGeometry, connection);
 			continue;
 		}
 
-		Logger::PrintWarning("Connection child not found");
+		Model* pModel{ FindModel(connection.ChildId) };
+		if (pModel)
+		{
+			HandleModelConnection(*pModel, connection);
+			continue;
+		}
+
+		PrintUnhandledConnectionError(FindTypeName(connection.ParentId), FindTypeName(connection.ChildId));;
 	}
 }
 
 void Io::Fbx::Wrapping::FbxData::HandleGeometryConnection(Geometry& geometry, const Connection& connection)
 {
 	Model* pModel{ FindModel(connection.ParentId) };
-	if(pModel)
+	if (pModel)
 	{
-		geometry.AddParentModel(*pModel);
+		geometry.SetRootModel(*pModel);
 		return;
 	}
 
-	Logger::PrintWarning("Geometry connection not found");
+	PrintUnhandledConnectionError(FindTypeName(connection.ParentId), "Geometry");
+}
+
+void Io::Fbx::Wrapping::FbxData::HandleModelConnection(Model& childModel, const Connection& connection)
+{
+	if (connection.ParentId == 0) return;
+
+	Model* pModel{ FindModel(connection.ParentId) };
+	if (pModel)
+	{
+		childModel.SetParentModel(*pModel);
+		pModel->AddChildModel(childModel);
+		return;
+	}
+
+	Deformer* pDeformer{ FindDeformer(connection.ParentId) };
+	if (pDeformer)
+	{
+		childModel.AddDeformer(*pDeformer);
+		return;
+	}
+
+	PrintUnhandledConnectionError(FindTypeName(connection.ParentId), "Model");
+}
+
+std::string Io::Fbx::Wrapping::FbxData::FindTypeName(const int64_t& id) const
+{
+	if (FindGeometry(id)) return "Geometry";
+	if (FindModel(id)) return "Model";
+	if (FindDeformer(id)) return "Deformer";
+	if (FindPoseNode(id)) return "PoseNode";
+	if (FindAnimationLayer(id)) return "AnimationLayer";
+	if (FindAnimationCurve(id)) return "AnimationCurve";
+	if (FindAnimationCurveNode(id)) return "AnimationCurveNode";
+	if (m_AnimationStack.Id == id) return "AnimationStack";
+	return "Unknown type";
+}
+
+void Io::Fbx::Wrapping::FbxData::PrintUnhandledConnectionError(const std::string& parentType,
+	const std::string& childType)
+{
+	Logger::PrintError(childType + " has an unsupported connection to a parent " + parentType);
 }

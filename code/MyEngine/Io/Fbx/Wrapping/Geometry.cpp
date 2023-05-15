@@ -13,9 +13,11 @@ Io::Fbx::Wrapping::Geometry::Geometry(Reading::FbxObject& geometryObject)
 	LoadUvs(geometryObject);
 }
 
-void Io::Fbx::Wrapping::Geometry::AddParentModel(const Model& model)
+void Io::Fbx::Wrapping::Geometry::SetRootModel(const Model& model)
 {
-	m_ParentModels.Add(&model);
+	if (m_pRootModel)
+		Logger::PrintError("RootModel of geometry already set");
+	m_pRootModel = &model;
 }
 
 void Io::Fbx::Wrapping::Geometry::LoadPoints(const Reading::FbxObject& geometryObject)

@@ -3,6 +3,7 @@
 #include "AnimationCurveNode.h"
 #include "AnimationLayer.h"
 #include "AnimationStack.h"
+#include "Deformer.h"
 #include "Geometry.h"
 #include "Model.h"
 #include "Pose.h"
@@ -45,9 +46,19 @@ namespace MyEngine
 					const Model* GetRootLimbNode() const;
 
 					Geometry* FindGeometry(const int64_t& id);
-
 					Model* FindModel(const int64_t& id);
+					Deformer* FindDeformer(const int64_t& id);
+					Pose::Node* FindPoseNode(const int64_t& id);
+					AnimationCurve* FindAnimationCurve(const int64_t& id);
+					AnimationCurveNode* FindAnimationCurveNode(const int64_t& id);
+
+					const Geometry* FindGeometry(const int64_t& id) const;
 					const Model* FindModel(const int64_t& id) const;
+					const Deformer* FindDeformer(const int64_t& id) const;
+					const Pose::Node* FindPoseNode(const int64_t& id) const;
+					const AnimationLayer* FindAnimationLayer(const int64_t& id) const;
+					const AnimationCurveNode* FindAnimationCurveNode(const int64_t& id) const;
+					const AnimationCurve* FindAnimationCurve(const int64_t& id) const;
 
 					Array<const Model*> GetChildren(const Model& model) const;
 					Array<const Model*> GetChildren(const int64_t& id) const;
@@ -55,6 +66,7 @@ namespace MyEngine
 				private:
 					Array<Geometry> m_Geometries{};
 					Array<Model> m_Models{};
+					Array<Deformer> m_Deformers{};
 					Pose m_BindPose{};
 					Array<Connection> m_Connections{};
 					AnimationStack m_AnimationStack{};
@@ -64,6 +76,7 @@ namespace MyEngine
 
 					void ReadGeometry(const Reading::FbxObject& objectsObject);
 					void ReadModels(const Reading::FbxObject& objectsObject);
+					void ReadDeformers(const Reading::FbxObject& objectsObject);
 					void ReadPoses(const Reading::FbxObject& objectsObject);
 					void ReadConnections(const Reading::FbxObject& connectionsObject);
 					void ReadAnimationStack(const Reading::FbxObject& objectsObject);
@@ -74,6 +87,10 @@ namespace MyEngine
 					void HandleConnections();
 
 					void HandleGeometryConnection(Geometry& geometry, const Connection& connection);
+					void HandleModelConnection(Model& childModel, const Connection& connection);
+
+					std::string FindTypeName(const int64_t& id) const;
+					static void PrintUnhandledConnectionError(const std::string& parentType, const std::string& childType);
 				};
 			}
 		}

@@ -23,9 +23,11 @@ namespace MyEngine
 					explicit Connection(Reading::FbxObject& readerObject);
 
 					std::string Relation; //'OO' (object-object) or 'OP' (object-property)
-					int64_t Id;
-					int64_t ParentId;
+					int64_t ChildId{};
+					int64_t ParentId{};
 					std::string Property; //only if relation is OP
+
+					void Print(int nrTabs = 0) const;
 				};
 			}
 		}
