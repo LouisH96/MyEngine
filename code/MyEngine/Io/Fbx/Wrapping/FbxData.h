@@ -44,6 +44,8 @@ namespace MyEngine
 					Array<Model> GetLimbNodes() const;
 					const Model* GetRootLimbNode() const;
 
+					Geometry* FindGeometry(const int64_t& id);
+
 					Model* FindModel(const int64_t& id);
 					const Model* FindModel(const int64_t& id) const;
 
@@ -68,6 +70,10 @@ namespace MyEngine
 					void ReadAnimationLayers(const Reading::FbxObject& objectsObject);
 					void ReadAnimationCurveNodes(const Reading::FbxObject& objectsObject);
 					void ReadAnimationCurves(const Reading::FbxObject& objectsObject);
+
+					void HandleConnections();
+
+					void HandleGeometryConnection(Geometry& geometry, const Connection& connection);
 				};
 			}
 		}

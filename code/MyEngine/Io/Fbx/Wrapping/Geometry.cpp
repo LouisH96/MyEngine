@@ -13,6 +13,11 @@ Io::Fbx::Wrapping::Geometry::Geometry(Reading::FbxObject& geometryObject)
 	LoadUvs(geometryObject);
 }
 
+void Io::Fbx::Wrapping::Geometry::AddParentModel(const Model& model)
+{
+	m_ParentModels.Add(&model);
+}
+
 void Io::Fbx::Wrapping::Geometry::LoadPoints(const Reading::FbxObject& geometryObject)
 {
 	const Reading::FbxObject& verticesObject{ *geometryObject.GetChild("Vertices") };

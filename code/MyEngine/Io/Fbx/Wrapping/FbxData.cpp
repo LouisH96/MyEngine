@@ -26,6 +26,8 @@ Io::Fbx::Wrapping::FbxData::FbxData(Reading::FbxReader&& reader)
 	ReadAnimationLayers(objects);
 	ReadAnimationCurveNodes(objects);
 	ReadAnimationCurves(objects);
+
+	HandleConnections();
 }
 
 Array<Io::Fbx::Wrapping::Model> Io::Fbx::Wrapping::FbxData::GetModelsOfType(const std::string& typeName) const
@@ -69,6 +71,14 @@ const Io::Fbx::Wrapping::Model* Io::Fbx::Wrapping::FbxData::GetRootLimbNode() co
 				return &model;
 		}
 	}
+	return nullptr;
+}
+
+Io::Fbx::Wrapping::Geometry* Io::Fbx::Wrapping::FbxData::FindGeometry(const int64_t& id)
+{
+	for (int i = 0; i < m_Geometries.GetSize(); i++)
+		if (m_Geometries[i].GetId() == id)
+			return &m_Geometries[i];
 	return nullptr;
 }
 
@@ -172,4 +182,33 @@ void Io::Fbx::Wrapping::FbxData::ReadAnimationCurves(const Reading::FbxObject& o
 	m_AnimationCurves = { objects.size() };
 	for (int i = 0; i < m_AnimationCurves.GetSize(); i++)
 		m_AnimationCurves[i] = AnimationCurve{ *objects[i] };
+}
+
+void Io::Fbx::Wrapping::FbxData::HandleConnections()
+{
+	for (int iConnection = 0; iConnection < m_Connections.GetSize(); iConnection++)
+	{
+		const Connection& connection{ m_Connections[iConnection] };
+
+		Geometry* pGeometry{ FindGeometry(connection.Id) };
+		if(pGeometry)
+		{
+			HandleGeometryConnection(*pGeometry, connection);
+			continue;
+		}
+
+		Logger::PrintWarning("Connection child not found");
+	}
+}
+
+void Io::Fbx::Wrapping::FbxData::HandleGeometryConnection(Geometry& geometry, const Connection& connection)
+{
+	Model* pModel{ FindModel(connection.ParentId) };
+	if(pModel)
+	{
+		geometry.AddParentModel(*pModel);
+		return;
+	}
+
+	Logger::PrintWarning("Geometry connection not found");
 }
