@@ -5,6 +5,7 @@
 #include "Io/Fbx/Reading/Properties/FbxPropArray.h"
 
 Io::Fbx::Wrapping::Geometry::Geometry(Reading::FbxObject& geometryObject)
+	: m_Id{geometryObject.GetProperty(0)->AsPrimitive<int64_t>().GetValue()}
 {
 	LoadPoints(geometryObject);
 	LoadNormals(geometryObject);
