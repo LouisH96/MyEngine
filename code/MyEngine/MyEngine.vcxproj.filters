@@ -98,6 +98,8 @@
     <ClCompile Include="Io\Fbx\Wrapping\AnimationLayer.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\AnimationCurveNode.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\AnimationCurve.cpp" />
+    <ClCompile Include="Io\Fbx\FbxSkeleton.cpp" />
+    <ClCompile Include="Io\Fbx\FbxJoint.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -226,6 +228,8 @@
     <ClInclude Include="Io\Fbx\Wrapping\AnimationLayer.h" />
     <ClInclude Include="Io\Fbx\Wrapping\AnimationCurveNode.h" />
     <ClInclude Include="Io\Fbx\Wrapping\AnimationCurve.h" />
+    <ClInclude Include="Io\Fbx\FbxSkeleton.h" />
+    <ClInclude Include="Io\Fbx\FbxJoint.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

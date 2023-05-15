@@ -16,7 +16,7 @@ Io::Fbx::FbxClass::FbxClass(const std::wstring& path)
 	for (int i = 0; i < m_Geometries.GetSize(); i++)
 	{
 		Wrapping::Geometry& dataGeometry = data.GetGeometries()[i];
-		Wrapping::Model& dataModel = data.GetModel(i);
+		Model& dataModel = data.GetModel(i);
 		Geometry& modelGeometry = m_Geometries[i];
 		modelGeometry.Indices = std::move(dataGeometry.GetIndices());
 		modelGeometry.Normals = std::move(dataGeometry.GetNormals());
@@ -26,18 +26,11 @@ Io::Fbx::FbxClass::FbxClass(const std::wstring& path)
 		modelGeometry.RotationOffset = dataModel.GetRotationOffset();
 		modelGeometry.RotationPivot = dataModel.GetRotationPivot();
 	}
+
 	for (int i = 0; i < m_Geometries.GetSize(); i++)
 		MakeTriangleList(m_Geometries[i]);
 
-	const Array<Model> limbNodes{ data.GetModelsOfType("LimbNode") };
-	m_LimbNodes = { limbNodes.GetSize() };
-	for(int i = 0; i < limbNodes.GetSize(); i++)
-	{
-		const Model& dataLimbNode{ limbNodes[i] };
-		LimbNode& classLimbNode{ m_LimbNodes[i] };
-		classLimbNode.Name = dataLimbNode.GetName();
-		classLimbNode.Position = dataLimbNode.GetLclTranslation();
-	}
+	m_Skeleton = FbxSkeleton{ data };
 }
 
 void Io::Fbx::FbxClass::MakeTriangleList(Geometry& geomStruct)

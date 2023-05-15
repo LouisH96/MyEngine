@@ -1,4 +1,5 @@
 #pragma once
+#include "FbxSkeleton.h"
 #include "Math/Float2.h"
 
 namespace MyEngine
@@ -26,11 +27,6 @@ namespace MyEngine
 					Float3 RotationPivot{};
 					Float3 RotationOffset{};
 				};
-				struct LimbNode
-				{
-					std::string Name{};
-					Float3 Position{};
-				};
 
 				//---| Class |---
 				FbxClass(const std::wstring& path);
@@ -44,11 +40,11 @@ namespace MyEngine
 				const Array<Geometry>& GetGeometries() const { return m_Geometries; }
 				Array<Geometry>& GetGeometries() { return m_Geometries; }
 
-				const Array<LimbNode>& GetLimbNodes() const { return m_LimbNodes; }
+				const FbxSkeleton& GetSkeleton() const { return m_Skeleton; }
 
 			private:
 				Array<Geometry> m_Geometries{};
-				Array<LimbNode> m_LimbNodes{};
+				FbxSkeleton m_Skeleton{};
 
 				static void MakeTriangleList(Geometry& geomStruct);
 			};
