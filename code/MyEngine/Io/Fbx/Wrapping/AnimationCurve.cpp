@@ -16,3 +16,10 @@ Io::Fbx::Wrapping::AnimationCurve::AnimationCurve(Reading::FbxObject& object)
 	, KeyAttrRefCount{ std::move(object.GetChild(6).GetProperty(0)->AsArray<int>().GetValues()) }
 {
 }
+
+void Io::Fbx::Wrapping::AnimationCurve::SetAnimationCurveNode(const AnimationCurveNode& animationCurveNode)
+{
+	if (m_pAnimationCurveNode)
+		Logger::PrintError("AnimationCurveNode already set");
+	m_pAnimationCurveNode = &animationCurveNode;
+}

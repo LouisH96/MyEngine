@@ -10,3 +10,22 @@ Io::Fbx::Wrapping::AnimationCurveNode::AnimationCurveNode(Reading::FbxObject& ob
 	, pProperties70{ &object.GetChild(0) }
 {
 }
+
+void Io::Fbx::Wrapping::AnimationCurveNode::AddAnimationCurve(const AnimationCurve& animationCurve)
+{
+	m_AnimationCurves.Add(&animationCurve);
+}
+
+void Io::Fbx::Wrapping::AnimationCurveNode::SetParentModel(const Model& model)
+{
+	if (m_pParentModel)
+		Logger::PrintError("AnimationCurveNode already has a parent model");
+	m_pParentModel = &model;
+}
+
+void Io::Fbx::Wrapping::AnimationCurveNode::SetAnimationLayer(const AnimationLayer& animationLayer)
+{
+	if (m_pAnimationLayer)
+		Logger::PrintError("AnimationCurveNode already has an animationLayer");
+	m_pAnimationLayer = &animationLayer;
+}

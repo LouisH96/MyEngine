@@ -107,6 +107,14 @@ Io::Fbx::Wrapping::Pose::Node* Io::Fbx::Wrapping::FbxData::FindPoseNode(const in
 	return nullptr;
 }
 
+Io::Fbx::Wrapping::AnimationLayer* Io::Fbx::Wrapping::FbxData::FindAnimationLayer(const int64_t& id)
+{
+	for (int i = 0; i < m_AnimationLayers.GetSize(); i++)
+		if (m_AnimationLayers[i].Id == id)
+			return &m_AnimationLayers[i];
+	return nullptr;
+}
+
 Io::Fbx::Wrapping::AnimationCurve* Io::Fbx::Wrapping::FbxData::FindAnimationCurve(const int64_t& id)
 {
 	for (int i = 0; i < m_AnimationCurves.GetSize(); i++)
@@ -300,6 +308,27 @@ void Io::Fbx::Wrapping::FbxData::HandleConnections()
 			continue;
 		}
 
+		AnimationLayer* pAnimationLayer{ FindAnimationLayer(connection.ChildId) };
+		if(pAnimationLayer)
+		{
+			HandleAnimationLayerConnection(*pAnimationLayer, connection);
+			continue;
+		}
+
+		AnimationCurve* pAnimationCurve{ FindAnimationCurve(connection.ChildId) };
+		if(pAnimationCurve)
+		{
+			HandleAnimationCurveConnection(*pAnimationCurve, connection);
+			continue;
+		}
+
+		AnimationCurveNode* pAnimationCurveNode{ FindAnimationCurveNode(connection.ChildId) };
+		if(pAnimationCurveNode)
+		{
+			HandleAnimationCurveNodeConnection(*pAnimationCurveNode, connection);
+			continue;
+		}
+
 		PrintUnhandledConnectionError(FindTypeName(connection.ParentId), FindTypeName(connection.ChildId));;
 	}
 }
@@ -348,7 +377,63 @@ void Io::Fbx::Wrapping::FbxData::HandleDeformerConnection(Deformer& childDeforme
 		return;
 	}
 
+	Geometry* pGeometry{ FindGeometry(connection.ParentId) };
+	if(pGeometry)
+	{
+		childDeformer.SetParentGeometry(*pGeometry);
+		pGeometry->AddDeformer(childDeformer);
+		return;
+	}
+
 	PrintUnhandledConnectionError(FindTypeName(connection.ParentId), "Deformer");
+}
+
+void Io::Fbx::Wrapping::FbxData::HandleAnimationLayerConnection(AnimationLayer& animationLayer,
+	const Connection& connection)
+{
+	if(connection.ParentId == m_AnimationStack.Id)
+	{
+		animationLayer.SetAnimationStack(m_AnimationStack);
+		m_AnimationStack.AddAnimationLayer(animationLayer);
+		return;
+	}
+
+	PrintUnhandledConnectionError(FindTypeName(connection.ParentId), "AnimationLayer");
+}
+
+void Io::Fbx::Wrapping::FbxData::HandleAnimationCurveConnection(AnimationCurve& animationCurve, const Connection& connection)
+{
+	AnimationCurveNode* pAnimationCurveNode{ FindAnimationCurveNode(connection.ParentId) };
+	if(pAnimationCurveNode)
+	{
+		pAnimationCurveNode->AddAnimationCurve(animationCurve);
+		animationCurve.SetAnimationCurveNode(*pAnimationCurveNode);
+		return;
+	}
+
+	PrintUnhandledConnectionError(FindTypeName(connection.ParentId), "AnimationCurve");
+}
+
+void Io::Fbx::Wrapping::FbxData::HandleAnimationCurveNodeConnection(AnimationCurveNode& childAnimationCurveNode,
+	const Connection& connection)
+{
+	Model* pModel{ FindModel(connection.ParentId) };
+	if(pModel)
+	{
+		childAnimationCurveNode.SetParentModel(*pModel);
+		pModel->AddAnimationCurveNode(childAnimationCurveNode);
+		return;
+	}
+
+	AnimationLayer* pAnimationLayer{ FindAnimationLayer(connection.ParentId) };
+	if(pAnimationLayer)
+	{
+		childAnimationCurveNode.SetAnimationLayer(*pAnimationLayer);
+		pAnimationLayer->AddAnimationCurveNode(childAnimationCurveNode);
+		return;
+	}
+
+	PrintUnhandledConnectionError(FindTypeName(connection.ParentId), "AnimationCurveNode");
 }
 
 std::string Io::Fbx::Wrapping::FbxData::FindTypeName(const int64_t& id) const

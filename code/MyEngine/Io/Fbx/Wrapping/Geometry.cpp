@@ -20,6 +20,11 @@ void Io::Fbx::Wrapping::Geometry::SetRootModel(const Model& model)
 	m_pRootModel = &model;
 }
 
+void Io::Fbx::Wrapping::Geometry::AddDeformer(const Deformer& deformer)
+{
+	m_Deformers.Add(&deformer);
+}
+
 void Io::Fbx::Wrapping::Geometry::LoadPoints(const Reading::FbxObject& geometryObject)
 {
 	const Reading::FbxObject& verticesObject{ *geometryObject.GetChild("Vertices") };

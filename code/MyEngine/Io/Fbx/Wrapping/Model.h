@@ -16,6 +16,7 @@ namespace MyEngine
 
 			namespace Wrapping
 			{
+				class AnimationCurveNode;
 				class Deformer;
 
 				class Model
@@ -49,6 +50,7 @@ namespace MyEngine
 					void SetParentModel(const Model& parent);
 					void AddChildModel(const Model& child);
 					void AddDeformer(const Deformer& deformer);
+					void AddAnimationCurveNode(const AnimationCurveNode& animationCurveNode);
 
 				private:
 					int64_t m_Id{};
@@ -74,6 +76,7 @@ namespace MyEngine
 					const Model* m_pParentModel{};
 					Array<const Model*> m_ChildModels{};
 					Array<const Deformer*> m_Deformers{};
+					Array<const AnimationCurveNode*> m_AnimationCurveNodes{};
 				};
 			}
 		}

@@ -13,6 +13,8 @@ namespace MyEngine
 
 			namespace Wrapping
 			{
+				class AnimationCurveNode;
+
 				class AnimationCurve
 				{
 				public:
@@ -27,6 +29,11 @@ namespace MyEngine
 					Array<int> KeyAttrFlags;
 					Array<float> KeyAttrDataFloat;
 					Array<int> KeyAttrRefCount;
+
+					void SetAnimationCurveNode(const AnimationCurveNode& animationCurveNode);
+
+				private:
+					const AnimationCurveNode* m_pAnimationCurveNode{};
 				};
 			}
 		}

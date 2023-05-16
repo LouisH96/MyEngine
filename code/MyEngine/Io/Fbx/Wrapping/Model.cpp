@@ -52,3 +52,8 @@ void Io::Fbx::Wrapping::Model::AddDeformer(const Deformer& deformer)
 {
 	m_Deformers.Add(&deformer);
 }
+
+void Io::Fbx::Wrapping::Model::AddAnimationCurveNode(const AnimationCurveNode& animationCurveNode)
+{
+	m_AnimationCurveNodes.Add(&animationCurveNode);
+}

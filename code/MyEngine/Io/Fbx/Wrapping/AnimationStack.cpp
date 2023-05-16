@@ -15,3 +15,8 @@ Io::Fbx::Wrapping::AnimationStack::AnimationStack(Reading::FbxObject& object)
 	ReferenceStart = properties.GetInt64("ReferenceStart");
 	ReferenceStop = properties.GetInt64("ReferenceStop");
 }
+
+void Io::Fbx::Wrapping::AnimationStack::AddAnimationLayer(const AnimationLayer& animationLayer)
+{
+	m_AnimationLayers.Add(&animationLayer);
+}

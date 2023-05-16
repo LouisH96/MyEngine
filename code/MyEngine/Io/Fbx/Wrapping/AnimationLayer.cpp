@@ -10,3 +10,15 @@ Io::Fbx::Wrapping::AnimationLayer::AnimationLayer(Reading::FbxObject& object)
 {
 
 }
+
+void Io::Fbx::Wrapping::AnimationLayer::SetAnimationStack(const AnimationStack& animationStack)
+{
+	if (m_pAnimationStack)
+		Logger::PrintError("AnimationLayer already has a parent AnimationStack");
+	m_pAnimationStack = &animationStack;
+}
+
+void Io::Fbx::Wrapping::AnimationLayer::AddAnimationCurveNode(const AnimationCurveNode& animationCurveNode)
+{
+	m_AnimationCurveNodes.Add(&animationCurveNode);
+}

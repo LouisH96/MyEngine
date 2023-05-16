@@ -9,10 +9,17 @@ Io::Fbx::Wrapping::Deformer::Deformer(Reading::FbxObject& object)
 {
 }
 
+void Io::Fbx::Wrapping::Deformer::SetParentGeometry(const Geometry& geometry)
+{
+	if (m_pParentDeformer || m_pParentGeometry)
+		Logger::PrintError("Deformer already has a parent");
+	m_pParentGeometry = &geometry;
+}
+
 void Io::Fbx::Wrapping::Deformer::SetParentDeformer(const Deformer& deformer)
 {
-	if (m_pParentDeformer)
-		Logger::PrintError("Deformer already has a parent deformer");
+	if (m_pParentDeformer || m_pParentGeometry)
+		Logger::PrintError("Deformer already has a parent");
 	m_pParentDeformer = &deformer;
 }
 

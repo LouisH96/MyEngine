@@ -14,6 +14,7 @@ namespace MyEngine
 
 			namespace Wrapping
 			{
+				class Deformer;
 				class Model;
 
 				class Geometry
@@ -33,6 +34,7 @@ namespace MyEngine
 					const Array<int>& GetIndices() const { return m_Indices; }
 
 					void SetRootModel(const Model& model);
+					void AddDeformer(const Deformer& deformer);
 
 				private:
 					int64_t m_Id{};
@@ -43,6 +45,7 @@ namespace MyEngine
 					Array<int> m_Indices{};
 
 					const Model* m_pRootModel{};
+					Array<const Deformer*> m_Deformers{};
 
 					void LoadPoints(const Reading::FbxObject& geometryObject);
 					void LoadNormals(const Reading::FbxObject& geometryObject);

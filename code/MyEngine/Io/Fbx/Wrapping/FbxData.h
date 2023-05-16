@@ -49,6 +49,7 @@ namespace MyEngine
 					Model* FindModel(const int64_t& id);
 					Deformer* FindDeformer(const int64_t& id);
 					Pose::Node* FindPoseNode(const int64_t& id);
+					AnimationLayer* FindAnimationLayer(const int64_t& id);
 					AnimationCurve* FindAnimationCurve(const int64_t& id);
 					AnimationCurveNode* FindAnimationCurveNode(const int64_t& id);
 
@@ -85,10 +86,12 @@ namespace MyEngine
 					void ReadAnimationCurves(const Reading::FbxObject& objectsObject);
 
 					void HandleConnections();
-
 					void HandleGeometryConnection(Geometry& geometry, const Connection& connection);
 					void HandleModelConnection(Model& childModel, const Connection& connection);
 					void HandleDeformerConnection(Deformer& childDeformer, const Connection& connection);
+					void HandleAnimationLayerConnection(AnimationLayer& animationLayer, const Connection& connection);
+					void HandleAnimationCurveConnection(AnimationCurve& animationCurve, const Connection& connection);
+					void HandleAnimationCurveNodeConnection(AnimationCurveNode& childAnimationCurveNode, const Connection& connection);
 
 					std::string FindTypeName(const int64_t& id) const;
 					static void PrintUnhandledConnectionError(const std::string& parentType, const std::string& childType);

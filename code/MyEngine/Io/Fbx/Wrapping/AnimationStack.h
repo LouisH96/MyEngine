@@ -13,6 +13,8 @@ namespace MyEngine
 
 			namespace Wrapping
 			{
+				class AnimationLayer;
+
 				class AnimationStack
 				{
 				public:
@@ -25,6 +27,11 @@ namespace MyEngine
 					int64_t LocalStop;
 					int64_t ReferenceStart;
 					int64_t ReferenceStop;
+
+					void AddAnimationLayer(const AnimationLayer& animationLayer);
+
+				private:
+					Array<const AnimationLayer*> m_AnimationLayers{};
 				};
 			}
 		}

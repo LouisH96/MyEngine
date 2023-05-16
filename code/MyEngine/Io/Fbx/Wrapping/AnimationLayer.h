@@ -15,6 +15,9 @@ namespace MyEngine
 
 			namespace Wrapping
 			{
+				class AnimationStack;
+				class AnimationCurveNode;
+
 				class AnimationLayer
 				{
 				public:
@@ -23,6 +26,13 @@ namespace MyEngine
 
 					int64_t Id;
 					std::string Name;
+
+					void SetAnimationStack(const AnimationStack& animationStack);
+					void AddAnimationCurveNode(const AnimationCurveNode& animationCurveNode);
+
+				private:
+					const AnimationStack* m_pAnimationStack{};
+					Array<const AnimationCurveNode*> m_AnimationCurveNodes{};
 				};
 			}
 		}
