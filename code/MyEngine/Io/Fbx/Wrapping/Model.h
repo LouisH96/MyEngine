@@ -16,6 +16,7 @@ namespace MyEngine
 
 			namespace Wrapping
 			{
+				class NodeAttribute;
 				class AnimationCurveNode;
 				class Deformer;
 
@@ -48,6 +49,7 @@ namespace MyEngine
 					std::string& GetName() { return m_Name; }
 
 					void SetParentModel(const Model& parent);
+					void SetNodeAttribute(const NodeAttribute& nodeAttribute);
 					void AddChildModel(const Model& child);
 					void AddDeformer(const Deformer& deformer);
 					void AddAnimationCurveNode(const AnimationCurveNode& animationCurveNode);
@@ -74,6 +76,7 @@ namespace MyEngine
 					std::string m_Culling{};
 
 					const Model* m_pParentModel{};
+					const NodeAttribute* m_pNodeAttribute{};
 					Array<const Model*> m_ChildModels{};
 					Array<const Deformer*> m_Deformers{};
 					Array<const AnimationCurveNode*> m_AnimationCurveNodes{};

@@ -6,6 +6,7 @@
 #include "Deformer.h"
 #include "Geometry.h"
 #include "Model.h"
+#include "NodeAttribute.h"
 #include "Pose.h"
 
 namespace MyEngine
@@ -47,6 +48,7 @@ namespace MyEngine
 
 					Geometry* FindGeometry(const int64_t& id);
 					Model* FindModel(const int64_t& id);
+					NodeAttribute* FindNodeAttribute(const int64_t& id);
 					Deformer* FindDeformer(const int64_t& id);
 					Pose::Node* FindPoseNode(const int64_t& id);
 					AnimationLayer* FindAnimationLayer(const int64_t& id);
@@ -55,6 +57,7 @@ namespace MyEngine
 
 					const Geometry* FindGeometry(const int64_t& id) const;
 					const Model* FindModel(const int64_t& id) const;
+					const NodeAttribute* FindNodeAttribute(const int64_t& id) const;
 					const Deformer* FindDeformer(const int64_t& id) const;
 					const Pose::Node* FindPoseNode(const int64_t& id) const;
 					const AnimationLayer* FindAnimationLayer(const int64_t& id) const;
@@ -67,6 +70,7 @@ namespace MyEngine
 				private:
 					Array<Geometry> m_Geometries{};
 					Array<Model> m_Models{};
+					Array<NodeAttribute> m_NodeAttributes{};
 					Array<Deformer> m_Deformers{};
 					Pose m_BindPose{};
 					Array<Connection> m_Connections{};
@@ -77,6 +81,7 @@ namespace MyEngine
 
 					void ReadGeometry(const Reading::FbxObject& objectsObject);
 					void ReadModels(const Reading::FbxObject& objectsObject);
+					void ReadNodeAttributes(const Reading::FbxObject& objectsObject);
 					void ReadDeformers(const Reading::FbxObject& objectsObject);
 					void ReadPoses(const Reading::FbxObject& objectsObject);
 					void ReadConnections(const Reading::FbxObject& connectionsObject);
@@ -88,6 +93,7 @@ namespace MyEngine
 					void HandleConnections();
 					void HandleGeometryConnection(Geometry& geometry, const Connection& connection);
 					void HandleModelConnection(Model& childModel, const Connection& connection);
+					void HandleNodeAttributeConnection(NodeAttribute& nodeAttribute, const Connection& connection);
 					void HandleDeformerConnection(Deformer& childDeformer, const Connection& connection);
 					void HandleAnimationLayerConnection(AnimationLayer& animationLayer, const Connection& connection);
 					void HandleAnimationCurveConnection(AnimationCurve& animationCurve, const Connection& connection);
@@ -95,6 +101,7 @@ namespace MyEngine
 
 					std::string FindTypeName(const int64_t& id) const;
 					static void PrintUnhandledConnectionError(const std::string& parentType, const std::string& childType);
+					static void PrintUnhandledConnectionError(const std::string& parentType, const int64_t& parentId, const std::string& childType, const int64_t& childId);
 				};
 			}
 		}

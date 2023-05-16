@@ -43,6 +43,13 @@ void Io::Fbx::Wrapping::Model::SetParentModel(const Model& parent)
 	m_pParentModel = &parent;
 }
 
+void Io::Fbx::Wrapping::Model::SetNodeAttribute(const NodeAttribute& nodeAttribute)
+{
+	if (m_pNodeAttribute)
+		Logger::PrintError("NodeAttribute in model already set");
+	m_pNodeAttribute = &nodeAttribute;
+}
+
 void Io::Fbx::Wrapping::Model::AddChildModel(const Model& child)
 {
 	m_ChildModels.Add(&child);
