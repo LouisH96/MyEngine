@@ -293,6 +293,13 @@ void Io::Fbx::Wrapping::FbxData::HandleConnections()
 			continue;
 		}
 
+		Deformer* pDeformer{ FindDeformer(connection.ChildId) };
+		if(pDeformer)
+		{
+			HandleDeformerConnection(*pDeformer, connection);
+			continue;
+		}
+
 		PrintUnhandledConnectionError(FindTypeName(connection.ParentId), FindTypeName(connection.ChildId));;
 	}
 }
@@ -329,6 +336,19 @@ void Io::Fbx::Wrapping::FbxData::HandleModelConnection(Model& childModel, const 
 	}
 
 	PrintUnhandledConnectionError(FindTypeName(connection.ParentId), "Model");
+}
+
+void Io::Fbx::Wrapping::FbxData::HandleDeformerConnection(Deformer& childDeformer, const Connection& connection)
+{
+	Deformer* pParentDeformer{ FindDeformer(connection.ParentId) };
+	if(pParentDeformer)
+	{
+		childDeformer.SetParentDeformer(*pParentDeformer);
+		pParentDeformer->AddChildDeformer(childDeformer);
+		return;
+	}
+
+	PrintUnhandledConnectionError(FindTypeName(connection.ParentId), "Deformer");
 }
 
 std::string Io::Fbx::Wrapping::FbxData::FindTypeName(const int64_t& id) const

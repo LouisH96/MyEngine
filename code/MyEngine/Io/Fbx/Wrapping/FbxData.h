@@ -88,6 +88,7 @@ namespace MyEngine
 
 					void HandleGeometryConnection(Geometry& geometry, const Connection& connection);
 					void HandleModelConnection(Model& childModel, const Connection& connection);
+					void HandleDeformerConnection(Deformer& childDeformer, const Connection& connection);
 
 					std::string FindTypeName(const int64_t& id) const;
 					static void PrintUnhandledConnectionError(const std::string& parentType, const std::string& childType);
