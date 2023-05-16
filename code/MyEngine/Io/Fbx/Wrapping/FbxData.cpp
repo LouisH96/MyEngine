@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "FbxData.h"
 
+#include "Video.h"
 #include "../Reading/FbxObject.h"
 #include "../Reading/FbxReader.h"
 #include "Debug/DebugRenderer.h"
@@ -28,6 +29,8 @@ Io::Fbx::Wrapping::FbxData::FbxData(Reading::FbxReader&& reader)
 	ReadAnimationLayers(objects);
 	ReadAnimationCurveNodes(objects);
 	ReadAnimationCurves(objects);
+	ReadTextures(objects);
+	ReadVideos(objects);
 
 	HandleConnections();
 }
@@ -140,6 +143,22 @@ Io::Fbx::Wrapping::AnimationCurveNode* Io::Fbx::Wrapping::FbxData::FindAnimation
 	return nullptr;
 }
 
+Io::Fbx::Wrapping::Video* Io::Fbx::Wrapping::FbxData::FindVideo(const int64_t& id)
+{
+	for (int i = 0; i < m_Videos.GetSize(); i++)
+		if (m_Videos[i].Id == id)
+			return &m_Videos[i];
+	return nullptr;
+}
+
+Io::Fbx::Wrapping::FbxWrapTexture* Io::Fbx::Wrapping::FbxData::FindTexture(const int64_t& id)
+{
+	for (int i = 0; i < m_Textures.GetSize(); i++)
+		if (m_Textures[i].Id == id)
+			return &m_Textures[i];
+	return nullptr;
+}
+
 const Io::Fbx::Wrapping::Geometry* Io::Fbx::Wrapping::FbxData::FindGeometry(const int64_t& id) const
 {
 	for (int i = 0; i < m_Geometries.GetSize(); i++)
@@ -177,6 +196,22 @@ const Io::Fbx::Wrapping::AnimationCurve* Io::Fbx::Wrapping::FbxData::FindAnimati
 	for (int i = 0; i < m_AnimationCurves.GetSize(); i++)
 		if (m_AnimationCurves[i].Id == id)
 			return &m_AnimationCurves[i];
+	return nullptr;
+}
+
+const Io::Fbx::Wrapping::Video* Io::Fbx::Wrapping::FbxData::FindVideo(const int64_t& id) const
+{
+	for (int i = 0; i < m_Videos.GetSize(); i++)
+		if (m_Videos[i].Id == id)
+			return &m_Videos[i];
+	return nullptr;
+}
+
+const Io::Fbx::Wrapping::FbxWrapTexture* Io::Fbx::Wrapping::FbxData::FindTexture(const int64_t& id) const
+{
+	for (int i = 0; i < m_Textures.GetSize(); i++)
+		if (m_Textures[i].Id == id)
+			return &m_Textures[i];
 	return nullptr;
 }
 
@@ -306,6 +341,22 @@ void Io::Fbx::Wrapping::FbxData::ReadAnimationCurves(const Reading::FbxObject& o
 		m_AnimationCurves[i] = AnimationCurve{ *objects[i] };
 }
 
+void Io::Fbx::Wrapping::FbxData::ReadTextures(const Reading::FbxObject& objectsObject)
+{
+	const std::vector<Reading::FbxObject*> objects{ objectsObject.GetChildren("Texture") };
+	m_Textures = { objects.size() };
+	for (int i = 0; i < m_Textures.GetSize(); i++)
+		m_Textures[i] = FbxWrapTexture{ *objects[i] };
+}
+
+void Io::Fbx::Wrapping::FbxData::ReadVideos(const Reading::FbxObject& objectsObject)
+{
+	const std::vector<Reading::FbxObject*> objects{ objectsObject.GetChildren("Video") };
+	m_Videos = { objects.size() };
+	for (int i = 0; i < m_Videos.GetSize(); i++)
+		m_Videos[i] = Video{ *objects[i] };
+}
+
 void Io::Fbx::Wrapping::FbxData::HandleConnections()
 {
 	for (int iConnection = 0; iConnection < m_Connections.GetSize(); iConnection++)
@@ -358,6 +409,13 @@ void Io::Fbx::Wrapping::FbxData::HandleConnections()
 		if (pAnimationCurveNode)
 		{
 			HandleAnimationCurveNodeConnection(*pAnimationCurveNode, connection);
+			continue;
+		}
+
+		Video* pVideo{ FindVideo(connection.ChildId) };
+		if(pVideo)
+		{
+			HandleVideoConnection(*pVideo, connection);
 			continue;
 		}
 
@@ -483,8 +541,22 @@ void Io::Fbx::Wrapping::FbxData::HandleAnimationCurveNodeConnection(AnimationCur
 	PrintUnhandledConnectionError(FindTypeName(connection.ParentId), "AnimationCurveNode");
 }
 
+void Io::Fbx::Wrapping::FbxData::HandleVideoConnection(Video& video, const Connection& connection)
+{
+	FbxWrapTexture* pTexture{ FindTexture(connection.ParentId) };
+	if(pTexture)
+	{
+		video.AddTexture(*pTexture);
+		pTexture->AddLinkedVideo(video);
+		return;
+	}
+
+	PrintUnhandledConnectionError(FindTypeName(connection.ParentId), "Video");
+}
+
 std::string Io::Fbx::Wrapping::FbxData::FindTypeName(const int64_t& id) const
 {
+	if (m_AnimationStack.Id == id) return "AnimationStack";
 	if (FindGeometry(id)) return "Geometry";
 	if (FindModel(id)) return "Model";
 	if (FindNodeAttribute(id)) return "NodeAttribute";
@@ -493,7 +565,8 @@ std::string Io::Fbx::Wrapping::FbxData::FindTypeName(const int64_t& id) const
 	if (FindAnimationLayer(id)) return "AnimationLayer";
 	if (FindAnimationCurve(id)) return "AnimationCurve";
 	if (FindAnimationCurveNode(id)) return "AnimationCurveNode";
-	if (m_AnimationStack.Id == id) return "AnimationStack";
+	if (FindVideo(id)) return "Video";
+	if (FindTexture(id)) return "Texture";
 	return "Unknown type";
 }
 

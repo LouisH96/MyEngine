@@ -4,10 +4,12 @@
 #include "AnimationLayer.h"
 #include "AnimationStack.h"
 #include "Deformer.h"
+#include "FbxWrapTexture.h"
 #include "Geometry.h"
 #include "Model.h"
 #include "NodeAttribute.h"
 #include "Pose.h"
+#include "Video.h"
 
 namespace MyEngine
 {
@@ -54,6 +56,8 @@ namespace MyEngine
 					AnimationLayer* FindAnimationLayer(const int64_t& id);
 					AnimationCurve* FindAnimationCurve(const int64_t& id);
 					AnimationCurveNode* FindAnimationCurveNode(const int64_t& id);
+					Video* FindVideo(const int64_t& id);
+					FbxWrapTexture* FindTexture(const int64_t& id);
 
 					const Geometry* FindGeometry(const int64_t& id) const;
 					const Model* FindModel(const int64_t& id) const;
@@ -63,6 +67,8 @@ namespace MyEngine
 					const AnimationLayer* FindAnimationLayer(const int64_t& id) const;
 					const AnimationCurveNode* FindAnimationCurveNode(const int64_t& id) const;
 					const AnimationCurve* FindAnimationCurve(const int64_t& id) const;
+					const Video* FindVideo(const int64_t& id) const;
+					const FbxWrapTexture* FindTexture(const int64_t& id) const;
 
 					Array<const Model*> GetChildren(const Model& model) const;
 					Array<const Model*> GetChildren(const int64_t& id) const;
@@ -78,6 +84,8 @@ namespace MyEngine
 					Array<AnimationLayer> m_AnimationLayers{};
 					Array<AnimationCurveNode> m_AnimationCurveNodes{};
 					Array<AnimationCurve> m_AnimationCurves{};
+					Array<FbxWrapTexture> m_Textures{};
+					Array<Video> m_Videos{};
 
 					void ReadGeometry(const Reading::FbxObject& objectsObject);
 					void ReadModels(const Reading::FbxObject& objectsObject);
@@ -89,6 +97,8 @@ namespace MyEngine
 					void ReadAnimationLayers(const Reading::FbxObject& objectsObject);
 					void ReadAnimationCurveNodes(const Reading::FbxObject& objectsObject);
 					void ReadAnimationCurves(const Reading::FbxObject& objectsObject);
+					void ReadTextures(const Reading::FbxObject& objectsObject);
+					void ReadVideos(const Reading::FbxObject& objectsObject);
 
 					void HandleConnections();
 					void HandleGeometryConnection(Geometry& geometry, const Connection& connection);
@@ -98,6 +108,7 @@ namespace MyEngine
 					void HandleAnimationLayerConnection(AnimationLayer& animationLayer, const Connection& connection);
 					void HandleAnimationCurveConnection(AnimationCurve& animationCurve, const Connection& connection);
 					void HandleAnimationCurveNodeConnection(AnimationCurveNode& childAnimationCurveNode, const Connection& connection);
+					void HandleVideoConnection(Video& video, const Connection& connection);
 
 					std::string FindTypeName(const int64_t& id) const;
 					static void PrintUnhandledConnectionError(const std::string& parentType, const std::string& childType);

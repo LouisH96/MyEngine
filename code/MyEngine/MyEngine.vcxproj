@@ -115,6 +115,8 @@
     <ClCompile Include="Rendering\Renderers\TextRenderer.cpp" />
     <ClCompile Include="Io\Ttf\Segment.cpp" />
     <ClCompile Include="Game\Transform.cpp" />
+    <ClCompile Include="Io\Fbx\Wrapping\FbxWrapTexture.cpp" />
+    <ClCompile Include="Io\Fbx\Wrapping\Video.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Io\Fbx\Wrapping\Deformer.h" />
@@ -247,6 +249,8 @@
     <ClInclude Include="Io\Ttf\Segment.h" />
     <ClInclude Include="Game\Transform.h" />
     <ClInclude Include="Math\Vector4.h" />
+    <ClInclude Include="Io\Fbx\Wrapping\FbxWrapTexture.h" />
+    <ClInclude Include="Io\Fbx\Wrapping\Video.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
