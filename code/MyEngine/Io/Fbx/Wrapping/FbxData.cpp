@@ -17,7 +17,7 @@ Io::Fbx::Wrapping::FbxData::FbxData(Reading::FbxReader&& reader)
 	const Reading::FbxObject& objects{ *reader.GetRoot().GetChild("Objects") };
 	const Reading::FbxObject& connections{ *reader.GetRoot().GetChild("Connections") };
 
-	reader.GetRoot().Print();
+	//reader.GetRoot().Print();
 
 	ReadGeometry(objects);
 	ReadModels(objects);
