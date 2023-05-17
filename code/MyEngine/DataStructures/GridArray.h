@@ -1,5 +1,6 @@
 #pragma once
 
+
 namespace MyEngine
 {
 	template<typename T>
@@ -8,8 +9,8 @@ namespace MyEngine
 	public:
 		//---| Constructor/Destructor |---
 		GridArray();
-		explicit GridArray(Math::Int2 size);
-		explicit GridArray(Math::Int2 size, const T& initValue);
+		explicit GridArray(Int2 size);
+		explicit GridArray(Int2 size, const T& initValue);
 		~GridArray();
 
 		//---| Rule of five |---
@@ -19,22 +20,22 @@ namespace MyEngine
 		GridArray& operator=(GridArray&& other) noexcept;
 
 		//---| Operations |---
-		void Set(Math::Int2 pos, const T& data);
+		void Set(Int2 pos, const T& data);
 		void Set(int idx, const T& data);
-		const T& Get(Math::Int2 pos) const;
+		const T& Get(Int2 pos) const;
 		const T& Get(int idx) const;
-		T& Get(Math::Int2 pos);
+		T& Get(Int2 pos);
 		T& Get(int idx);
-		int PosToIdx(Math::Int2 pos) const;
-		Math::Int2 IdxToPos(int idx) const;
+		int PosToIdx(Int2 pos) const;
+		Int2 IdxToPos(int idx) const;
 
 		int GetNrCols() const { return m_Size.x; }
 		int GetNrRows() const { return m_Size.y; }
-		Math::Int2 GetSize() const { return m_Size; }
+		Int2 GetSize() const { return m_Size; }
 		int GetNrElements() const { return m_Size.x * m_Size.y; }
 
 	private:
-		Math::Int2 m_Size; //{nrCols,nrRows}
+		Int2 m_Size; //{nrCols,nrRows}
 		T* m_pData;
 	};
 
@@ -42,14 +43,14 @@ namespace MyEngine
 	GridArray<T>::GridArray() : m_Size{ 0,0 }, m_pData{ nullptr }{}
 
 	template <typename T>
-	GridArray<T>::GridArray(Math::Int2 size)
+	GridArray<T>::GridArray(Int2 size)
 		: m_Size{ size }
 		, m_pData{ new T[size.x * size.y] }
 	{
 	}
 
 	template <typename T>
-	GridArray<T>::GridArray(Math::Int2 size, const T& initValue)
+	GridArray<T>::GridArray(Int2 size, const T& initValue)
 		: m_Size{ size }
 		, m_pData{ new T[size.x * size.y] }
 	{
@@ -58,19 +59,19 @@ namespace MyEngine
 	}
 
 	template <typename T>
-	void GridArray<T>::Set(Math::Int2 pos, const T& data)
+	void GridArray<T>::Set(Int2 pos, const T& data)
 	{
 		m_pData[pos.y * m_Size.x + pos.x] = data;
 	}
 
 	template <typename T>
-	const T& GridArray<T>::Get(Math::Int2 pos) const
+	const T& GridArray<T>::Get(Int2 pos) const
 	{
 		return m_pData[pos.y * m_Size.x + pos.x];
 	}
 
 	template <typename T>
-	T& GridArray<T>::Get(Math::Int2 pos)
+	T& GridArray<T>::Get(Int2 pos)
 	{
 		return m_pData[pos.y * m_Size.x + pos.x];
 	}
@@ -137,13 +138,13 @@ namespace MyEngine
 	}
 
 	template <typename T>
-	int GridArray<T>::PosToIdx(Math::Int2 pos) const
+	int GridArray<T>::PosToIdx(Int2 pos) const
 	{
 		return pos.y * m_Size.x + pos.x;
 	}
 
 	template <typename T>
-	Math::Int2 GridArray<T>::IdxToPos(int idx) const
+	Int2 GridArray<T>::IdxToPos(int idx) const
 	{
 		return { idx % m_Size.x, idx / m_Size.x };
 	}
