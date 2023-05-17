@@ -69,11 +69,26 @@ Math::Double3 Io::Fbx::Reading::Properties70::GetDouble3(const std::string& name
 	};
 }
 
+Double3 Io::Fbx::Reading::Properties70::GetDouble3(int idx) const
+{
+	int propertyIdx = m_Object.GetChild(idx).GetNrProperties() - 1;
+	return {
+		m_Object.GetChild(idx).GetProperty(propertyIdx--)->AsPrimitive<double>().GetValue(),
+		m_Object.GetChild(idx).GetProperty(propertyIdx--)->AsPrimitive<double>().GetValue(),
+		m_Object.GetChild(idx).GetProperty(propertyIdx)->AsPrimitive<double>().GetValue()
+	};
+}
+
 bool Io::Fbx::Reading::Properties70::GetBool(const std::string& name, bool fallback) const
 {
 	const FbxObject* pObject{ GetPropertyOptional(name) };
 	if (pObject == nullptr) return fallback;
 	return pObject->GetProperty(pObject->GetNrProperties() - 1)->AsPrimitive<int>().GetValue() == 1;
+}
+
+bool Io::Fbx::Reading::Properties70::GetBool(int idx) const
+{
+	return m_Object.GetChild(idx).GetLastProperty().AsPrimitive<bool>().GetValue();
 }
 
 int Io::Fbx::Reading::Properties70::GetInt(const std::string& name, int fallback) const
@@ -103,6 +118,11 @@ std::string Io::Fbx::Reading::Properties70::GetString(const std::string& name, c
 	return pObject->GetProperty(pObject->GetNrProperties() - 1)->AsString();
 }
 
+double Io::Fbx::Reading::Properties70::GetDouble(int idx) const
+{
+	return m_Object.GetChild(idx).GetLastProperty().AsPrimitive<double>().GetValue();
+}
+
 const Io::Fbx::Reading::FbxObject* Io::Fbx::Reading::Properties70::GetPropertyOptional(const std::string& name) const
 {
 	for (int i = 0; i < m_Object.GetChildren().size(); i++)
@@ -110,6 +130,11 @@ const Io::Fbx::Reading::FbxObject* Io::Fbx::Reading::Properties70::GetPropertyOp
 			&& m_Object.GetChildren()[i]->GetProperty(0)->AsString() == name)
 			return m_Object.GetChildren()[i];
 	return nullptr;
+}
+
+void Io::Fbx::Reading::Properties70::Print(bool compact, int nrTabs) const
+{
+	m_Object.Print(compact, nrTabs);
 }
 
 const Io::Fbx::Reading::FbxObject* Io::Fbx::Reading::Properties70::GetProperty(const std::string& name) const
