@@ -31,6 +31,7 @@ Io::Fbx::Wrapping::FbxData::FbxData(Reading::FbxReader&& reader)
 	ReadAnimationCurves(objects);
 	ReadTextures(objects);
 	ReadVideos(objects);
+	ReadMaterial(objects);
 
 	HandleConnections();
 }
@@ -159,6 +160,14 @@ Io::Fbx::Wrapping::FbxWrapTexture* Io::Fbx::Wrapping::FbxData::FindTexture(const
 	return nullptr;
 }
 
+Io::Fbx::Wrapping::FbxWrapMaterial* Io::Fbx::Wrapping::FbxData::FindMaterial(const int64_t& id)
+{
+	for (int i = 0; i < m_Materials.GetSize(); i++)
+		if (m_Materials[i].Id == id)
+			return &m_Materials[i];
+	return nullptr;
+}
+
 const Io::Fbx::Wrapping::Geometry* Io::Fbx::Wrapping::FbxData::FindGeometry(const int64_t& id) const
 {
 	for (int i = 0; i < m_Geometries.GetSize(); i++)
@@ -212,6 +221,14 @@ const Io::Fbx::Wrapping::FbxWrapTexture* Io::Fbx::Wrapping::FbxData::FindTexture
 	for (int i = 0; i < m_Textures.GetSize(); i++)
 		if (m_Textures[i].Id == id)
 			return &m_Textures[i];
+	return nullptr;
+}
+
+const Io::Fbx::Wrapping::FbxWrapMaterial* Io::Fbx::Wrapping::FbxData::FindMaterial(const int64_t& id) const
+{
+	for (int i = 0; i < m_Materials.GetSize(); i++)
+		if (m_Materials[i].Id == id)
+			return &m_Materials[i];
 	return nullptr;
 }
 
@@ -357,6 +374,14 @@ void Io::Fbx::Wrapping::FbxData::ReadVideos(const Reading::FbxObject& objectsObj
 		m_Videos[i] = Video{ *objects[i] };
 }
 
+void Io::Fbx::Wrapping::FbxData::ReadMaterial(const Reading::FbxObject& objectsObject)
+{
+	const std::vector<Reading::FbxObject*> objects{ objectsObject.GetChildren("Material") };
+	m_Materials = { objects.size() };
+	for (int i = 0; i < m_Materials.GetSize(); i++)
+		m_Materials[i] = FbxWrapMaterial{ *objects[i] };
+}
+
 void Io::Fbx::Wrapping::FbxData::HandleConnections()
 {
 	for (int iConnection = 0; iConnection < m_Connections.GetSize(); iConnection++)
@@ -378,7 +403,7 @@ void Io::Fbx::Wrapping::FbxData::HandleConnections()
 		}
 
 		NodeAttribute* pNodeAttribute{ FindNodeAttribute(connection.ChildId) };
-		if(pNodeAttribute)
+		if (pNodeAttribute)
 		{
 			HandleNodeAttributeConnection(*pNodeAttribute, connection);
 			continue;
@@ -413,9 +438,23 @@ void Io::Fbx::Wrapping::FbxData::HandleConnections()
 		}
 
 		Video* pVideo{ FindVideo(connection.ChildId) };
-		if(pVideo)
+		if (pVideo)
 		{
 			HandleVideoConnection(*pVideo, connection);
+			continue;
+		}
+
+		FbxWrapTexture* pTexture{ FindTexture(connection.ChildId) };
+		if(pTexture)
+		{
+			HandleTextureConnection(*pTexture, connection);
+			continue;
+		}
+
+		FbxWrapMaterial* pMaterial{ FindMaterial(connection.ChildId) };
+		if(pMaterial)
+		{
+			HandleMaterialConnection(*pMaterial, connection);
 			continue;
 		}
 
@@ -462,7 +501,7 @@ void Io::Fbx::Wrapping::FbxData::HandleNodeAttributeConnection(NodeAttribute& no
 	const Connection& connection)
 {
 	Model* pModel{ FindModel(connection.ParentId) };
-	if(pModel)
+	if (pModel)
 	{
 		nodeAttribute.SetParentModel(*pModel);
 		pModel->SetNodeAttribute(nodeAttribute);
@@ -544,7 +583,7 @@ void Io::Fbx::Wrapping::FbxData::HandleAnimationCurveNodeConnection(AnimationCur
 void Io::Fbx::Wrapping::FbxData::HandleVideoConnection(Video& video, const Connection& connection)
 {
 	FbxWrapTexture* pTexture{ FindTexture(connection.ParentId) };
-	if(pTexture)
+	if (pTexture)
 	{
 		video.AddTexture(*pTexture);
 		pTexture->AddLinkedVideo(video);
@@ -552,6 +591,32 @@ void Io::Fbx::Wrapping::FbxData::HandleVideoConnection(Video& video, const Conne
 	}
 
 	PrintUnhandledConnectionError(FindTypeName(connection.ParentId), "Video");
+}
+
+void Io::Fbx::Wrapping::FbxData::HandleTextureConnection(FbxWrapTexture& texture, const Connection& connection)
+{
+	FbxWrapMaterial* pMaterial{ FindMaterial(connection.ParentId) };
+	if(pMaterial)
+	{
+		pMaterial->AddTexture(texture);
+		texture.AddMaterial(*pMaterial);
+		return;
+	}
+
+	PrintUnhandledConnectionError(FindTypeName(connection.ParentId), "Texture");
+}
+
+void Io::Fbx::Wrapping::FbxData::HandleMaterialConnection(FbxWrapMaterial& material, const Connection& connection)
+{
+	Model* pModel{ FindModel(connection.ParentId) };
+	if(pModel)
+	{
+		pModel->AddMaterial(material);
+		material.AddModel(*pModel);
+		return;
+	}
+
+	PrintUnhandledConnectionError(FindTypeName(connection.ParentId), "Material");
 }
 
 std::string Io::Fbx::Wrapping::FbxData::FindTypeName(const int64_t& id) const
@@ -567,6 +632,7 @@ std::string Io::Fbx::Wrapping::FbxData::FindTypeName(const int64_t& id) const
 	if (FindAnimationCurveNode(id)) return "AnimationCurveNode";
 	if (FindVideo(id)) return "Video";
 	if (FindTexture(id)) return "Texture";
+	if (FindMaterial(id)) return "Material";
 	return "Unknown type";
 }
 

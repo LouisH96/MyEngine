@@ -64,3 +64,8 @@ void Io::Fbx::Wrapping::Model::AddAnimationCurveNode(const AnimationCurveNode& a
 {
 	m_AnimationCurveNodes.Add(&animationCurveNode);
 }
+
+void Io::Fbx::Wrapping::Model::AddMaterial(const FbxWrapMaterial& material)
+{
+	m_Materials.Add(&material);
+}

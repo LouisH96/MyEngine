@@ -4,6 +4,7 @@
 #include "AnimationLayer.h"
 #include "AnimationStack.h"
 #include "Deformer.h"
+#include "FbxWrapMaterial.h"
 #include "FbxWrapTexture.h"
 #include "Geometry.h"
 #include "Model.h"
@@ -58,6 +59,7 @@ namespace MyEngine
 					AnimationCurveNode* FindAnimationCurveNode(const int64_t& id);
 					Video* FindVideo(const int64_t& id);
 					FbxWrapTexture* FindTexture(const int64_t& id);
+					FbxWrapMaterial* FindMaterial(const int64_t& id);
 
 					const Geometry* FindGeometry(const int64_t& id) const;
 					const Model* FindModel(const int64_t& id) const;
@@ -69,6 +71,7 @@ namespace MyEngine
 					const AnimationCurve* FindAnimationCurve(const int64_t& id) const;
 					const Video* FindVideo(const int64_t& id) const;
 					const FbxWrapTexture* FindTexture(const int64_t& id) const;
+					const FbxWrapMaterial* FindMaterial(const int64_t& id) const;
 
 					Array<const Model*> GetChildren(const Model& model) const;
 					Array<const Model*> GetChildren(const int64_t& id) const;
@@ -86,6 +89,7 @@ namespace MyEngine
 					Array<AnimationCurve> m_AnimationCurves{};
 					Array<FbxWrapTexture> m_Textures{};
 					Array<Video> m_Videos{};
+					Array<FbxWrapMaterial> m_Materials{};
 
 					void ReadGeometry(const Reading::FbxObject& objectsObject);
 					void ReadModels(const Reading::FbxObject& objectsObject);
@@ -99,6 +103,7 @@ namespace MyEngine
 					void ReadAnimationCurves(const Reading::FbxObject& objectsObject);
 					void ReadTextures(const Reading::FbxObject& objectsObject);
 					void ReadVideos(const Reading::FbxObject& objectsObject);
+					void ReadMaterial(const Reading::FbxObject& objectsObject);
 
 					void HandleConnections();
 					void HandleGeometryConnection(Geometry& geometry, const Connection& connection);
@@ -109,6 +114,8 @@ namespace MyEngine
 					void HandleAnimationCurveConnection(AnimationCurve& animationCurve, const Connection& connection);
 					void HandleAnimationCurveNodeConnection(AnimationCurveNode& childAnimationCurveNode, const Connection& connection);
 					void HandleVideoConnection(Video& video, const Connection& connection);
+					void HandleTextureConnection(FbxWrapTexture& texture, const Connection& connection);
+					void HandleMaterialConnection(FbxWrapMaterial& material, const Connection& connection);
 
 					std::string FindTypeName(const int64_t& id) const;
 					static void PrintUnhandledConnectionError(const std::string& parentType, const std::string& childType);

@@ -104,6 +104,7 @@
     <ClCompile Include="Io\Fbx\Wrapping\NodeAttribute.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\FbxWrapTexture.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\Video.cpp" />
+    <ClCompile Include="Io\Fbx\Wrapping\FbxWrapMaterial.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -238,6 +239,7 @@
     <ClInclude Include="Io\Fbx\Wrapping\NodeAttribute.h" />
     <ClInclude Include="Io\Fbx\Wrapping\FbxWrapTexture.h" />
     <ClInclude Include="Io\Fbx\Wrapping\Video.h" />
+    <ClInclude Include="Io\Fbx\Wrapping\FbxWrapMaterial.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

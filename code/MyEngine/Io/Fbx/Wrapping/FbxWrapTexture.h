@@ -13,6 +13,7 @@ namespace MyEngine
 
 			namespace Wrapping
 			{
+				class FbxWrapMaterial;
 				class Video;
 
 				class FbxWrapTexture
@@ -23,9 +24,11 @@ namespace MyEngine
 
 					int64_t Id;
 
+					void AddMaterial(const FbxWrapMaterial& material);
 					void AddLinkedVideo(const Video& video);
 
 				private:
+					Array<const FbxWrapMaterial*> m_Materials{};
 					Array<const Video*> m_LinkedVideos{};
 				};
 			}

@@ -9,6 +9,11 @@ Io::Fbx::Wrapping::FbxWrapTexture::FbxWrapTexture(Reading::FbxObject& object)
 {
 }
 
+void Io::Fbx::Wrapping::FbxWrapTexture::AddMaterial(const FbxWrapMaterial& material)
+{
+	m_Materials.Add(&material);
+}
+
 void Io::Fbx::Wrapping::FbxWrapTexture::AddLinkedVideo(const Video& video)
 {
 	m_LinkedVideos.Add(&video);
