@@ -16,6 +16,7 @@ namespace MyEngine
 
 			namespace Wrapping
 			{
+				class CollectionExclusive;
 				class FbxWrapMaterial;
 				class NodeAttribute;
 				class AnimationCurveNode;
@@ -55,6 +56,7 @@ namespace MyEngine
 					void AddDeformer(const Deformer& deformer);
 					void AddAnimationCurveNode(const AnimationCurveNode& animationCurveNode);
 					void AddMaterial(const FbxWrapMaterial& material);
+					void SetCollection(const CollectionExclusive& collection);
 
 				private:
 					int64_t m_Id{};
@@ -83,6 +85,7 @@ namespace MyEngine
 					Array<const Deformer*> m_Deformers{};
 					Array<const AnimationCurveNode*> m_AnimationCurveNodes{};
 					Array<const FbxWrapMaterial*> m_Materials{};
+					const CollectionExclusive* m_pCollection{};
 				};
 			}
 		}

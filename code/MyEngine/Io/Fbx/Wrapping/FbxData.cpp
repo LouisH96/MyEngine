@@ -17,7 +17,7 @@ Io::Fbx::Wrapping::FbxData::FbxData(Reading::FbxReader&& reader)
 	const Reading::FbxObject& objects{ *reader.GetRoot().GetChild("Objects") };
 	const Reading::FbxObject& connections{ *reader.GetRoot().GetChild("Connections") };
 
-	//reader.GetRoot().Print();
+	reader.GetRoot().Print();
 
 	ReadGeometry(objects);
 	ReadModels(objects);
@@ -32,6 +32,7 @@ Io::Fbx::Wrapping::FbxData::FbxData(Reading::FbxReader&& reader)
 	ReadTextures(objects);
 	ReadVideos(objects);
 	ReadMaterial(objects);
+	ReadCollections(objects);
 
 	HandleConnections();
 }
@@ -168,6 +169,14 @@ Io::Fbx::Wrapping::FbxWrapMaterial* Io::Fbx::Wrapping::FbxData::FindMaterial(con
 	return nullptr;
 }
 
+Io::Fbx::Wrapping::CollectionExclusive* Io::Fbx::Wrapping::FbxData::FindCollection(const int64_t& id)
+{
+	for (int i = 0; i < m_Collections.GetSize(); i++)
+		if (m_Collections[i].Id == id)
+			return &m_Collections[i];
+	return nullptr;
+}
+
 const Io::Fbx::Wrapping::Geometry* Io::Fbx::Wrapping::FbxData::FindGeometry(const int64_t& id) const
 {
 	for (int i = 0; i < m_Geometries.GetSize(); i++)
@@ -229,6 +238,14 @@ const Io::Fbx::Wrapping::FbxWrapMaterial* Io::Fbx::Wrapping::FbxData::FindMateri
 	for (int i = 0; i < m_Materials.GetSize(); i++)
 		if (m_Materials[i].Id == id)
 			return &m_Materials[i];
+	return nullptr;
+}
+
+const Io::Fbx::Wrapping::CollectionExclusive* Io::Fbx::Wrapping::FbxData::FindCollection(const int64_t& id) const
+{
+	for (int i = 0; i < m_Collections.GetSize(); i++)
+		if (m_Collections[i].Id == id)
+			return &m_Collections[i];
 	return nullptr;
 }
 
@@ -382,6 +399,14 @@ void Io::Fbx::Wrapping::FbxData::ReadMaterial(const Reading::FbxObject& objectsO
 		m_Materials[i] = FbxWrapMaterial{ *objects[i] };
 }
 
+void Io::Fbx::Wrapping::FbxData::ReadCollections(const Reading::FbxObject& objectsObject)
+{
+	const std::vector<Reading::FbxObject*> objects{ objectsObject.GetChildren("CollectionExclusive") };
+	m_Collections = { objects.size() };
+	for (int i = 0; i < m_Collections.GetSize(); i++)
+		m_Collections[i] = CollectionExclusive{ *objects[i] };
+}
+
 void Io::Fbx::Wrapping::FbxData::HandleConnections()
 {
 	for (int iConnection = 0; iConnection < m_Connections.GetSize(); iConnection++)
@@ -445,14 +470,14 @@ void Io::Fbx::Wrapping::FbxData::HandleConnections()
 		}
 
 		FbxWrapTexture* pTexture{ FindTexture(connection.ChildId) };
-		if(pTexture)
+		if (pTexture)
 		{
 			HandleTextureConnection(*pTexture, connection);
 			continue;
 		}
 
 		FbxWrapMaterial* pMaterial{ FindMaterial(connection.ChildId) };
-		if(pMaterial)
+		if (pMaterial)
 		{
 			HandleMaterialConnection(*pMaterial, connection);
 			continue;
@@ -494,7 +519,15 @@ void Io::Fbx::Wrapping::FbxData::HandleModelConnection(Model& childModel, const 
 		return;
 	}
 
-	PrintUnhandledConnectionError(FindTypeName(connection.ParentId), "Model");
+	CollectionExclusive* pCollection{ FindCollection(connection.ParentId) };
+	if(pCollection)
+	{
+		childModel.SetCollection(*pCollection);
+		pCollection->AddModel(childModel);
+		return;
+	}
+
+	PrintUnhandledConnectionError(FindTypeName(connection.ParentId), connection.ParentId, "Model", connection.ChildId);
 }
 
 void Io::Fbx::Wrapping::FbxData::HandleNodeAttributeConnection(NodeAttribute& nodeAttribute,
@@ -596,7 +629,7 @@ void Io::Fbx::Wrapping::FbxData::HandleVideoConnection(Video& video, const Conne
 void Io::Fbx::Wrapping::FbxData::HandleTextureConnection(FbxWrapTexture& texture, const Connection& connection)
 {
 	FbxWrapMaterial* pMaterial{ FindMaterial(connection.ParentId) };
-	if(pMaterial)
+	if (pMaterial)
 	{
 		pMaterial->AddTexture(texture);
 		texture.AddMaterial(*pMaterial);
@@ -609,7 +642,7 @@ void Io::Fbx::Wrapping::FbxData::HandleTextureConnection(FbxWrapTexture& texture
 void Io::Fbx::Wrapping::FbxData::HandleMaterialConnection(FbxWrapMaterial& material, const Connection& connection)
 {
 	Model* pModel{ FindModel(connection.ParentId) };
-	if(pModel)
+	if (pModel)
 	{
 		pModel->AddMaterial(material);
 		material.AddModel(*pModel);

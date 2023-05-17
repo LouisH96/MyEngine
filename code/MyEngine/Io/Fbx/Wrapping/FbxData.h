@@ -3,6 +3,7 @@
 #include "AnimationCurveNode.h"
 #include "AnimationLayer.h"
 #include "AnimationStack.h"
+#include "CollectionExclusive.h"
 #include "Deformer.h"
 #include "FbxWrapMaterial.h"
 #include "FbxWrapTexture.h"
@@ -60,6 +61,7 @@ namespace MyEngine
 					Video* FindVideo(const int64_t& id);
 					FbxWrapTexture* FindTexture(const int64_t& id);
 					FbxWrapMaterial* FindMaterial(const int64_t& id);
+					CollectionExclusive* FindCollection(const int64_t& id);
 
 					const Geometry* FindGeometry(const int64_t& id) const;
 					const Model* FindModel(const int64_t& id) const;
@@ -72,6 +74,7 @@ namespace MyEngine
 					const Video* FindVideo(const int64_t& id) const;
 					const FbxWrapTexture* FindTexture(const int64_t& id) const;
 					const FbxWrapMaterial* FindMaterial(const int64_t& id) const;
+					const CollectionExclusive* FindCollection(const int64_t& id) const;
 
 					Array<const Model*> GetChildren(const Model& model) const;
 					Array<const Model*> GetChildren(const int64_t& id) const;
@@ -90,6 +93,7 @@ namespace MyEngine
 					Array<FbxWrapTexture> m_Textures{};
 					Array<Video> m_Videos{};
 					Array<FbxWrapMaterial> m_Materials{};
+					Array<CollectionExclusive> m_Collections{};
 
 					void ReadGeometry(const Reading::FbxObject& objectsObject);
 					void ReadModels(const Reading::FbxObject& objectsObject);
@@ -104,6 +108,7 @@ namespace MyEngine
 					void ReadTextures(const Reading::FbxObject& objectsObject);
 					void ReadVideos(const Reading::FbxObject& objectsObject);
 					void ReadMaterial(const Reading::FbxObject& objectsObject);
+					void ReadCollections(const Reading::FbxObject& objectsObject);
 
 					void HandleConnections();
 					void HandleGeometryConnection(Geometry& geometry, const Connection& connection);

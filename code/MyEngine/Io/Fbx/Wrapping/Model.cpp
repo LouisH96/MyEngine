@@ -69,3 +69,10 @@ void Io::Fbx::Wrapping::Model::AddMaterial(const FbxWrapMaterial& material)
 {
 	m_Materials.Add(&material);
 }
+
+void Io::Fbx::Wrapping::Model::SetCollection(const CollectionExclusive& collection)
+{
+	if (m_pCollection)
+		Logger::PrintError("Model already has a CollectionExclusive");
+	m_pCollection = &collection;
+}
