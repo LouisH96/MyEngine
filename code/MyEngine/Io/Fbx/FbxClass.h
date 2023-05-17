@@ -1,6 +1,6 @@
 #pragma once
-#include "FbxSkeleton.h"
 #include "Math/Float2.h"
+#include "Wrapping/FbxData.h"
 
 namespace MyEngine
 {
@@ -40,11 +40,11 @@ namespace MyEngine
 				const Array<Geometry>& GetGeometries() const { return m_Geometries; }
 				Array<Geometry>& GetGeometries() { return m_Geometries; }
 
-				const FbxSkeleton& GetSkeleton() const { return m_Skeleton; }
+				Wrapping::FbxData& GetFbxData() { return m_FbxData; }
 
 			private:
+				Wrapping::FbxData m_FbxData;
 				Array<Geometry> m_Geometries{};
-				FbxSkeleton m_Skeleton{};
 
 				static void MakeTriangleList(Geometry& geomStruct);
 			};

@@ -98,14 +98,14 @@
     <ClCompile Include="Io\Fbx\Wrapping\AnimationLayer.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\AnimationCurveNode.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\AnimationCurve.cpp" />
-    <ClCompile Include="Io\Fbx\FbxSkeleton.cpp" />
-    <ClCompile Include="Io\Fbx\FbxJoint.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\Deformer.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\NodeAttribute.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\FbxWrapTexture.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\Video.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\FbxWrapMaterial.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\CollectionExclusive.cpp" />
+    <ClCompile Include="Animation\Joint.cpp" />
+    <ClCompile Include="Animation\Skeleton.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -234,14 +234,14 @@
     <ClInclude Include="Io\Fbx\Wrapping\AnimationLayer.h" />
     <ClInclude Include="Io\Fbx\Wrapping\AnimationCurveNode.h" />
     <ClInclude Include="Io\Fbx\Wrapping\AnimationCurve.h" />
-    <ClInclude Include="Io\Fbx\FbxSkeleton.h" />
-    <ClInclude Include="Io\Fbx\FbxJoint.h" />
     <ClInclude Include="Io\Fbx\Wrapping\Deformer.h" />
     <ClInclude Include="Io\Fbx\Wrapping\NodeAttribute.h" />
     <ClInclude Include="Io\Fbx\Wrapping\FbxWrapTexture.h" />
     <ClInclude Include="Io\Fbx\Wrapping\Video.h" />
     <ClInclude Include="Io\Fbx\Wrapping\FbxWrapMaterial.h" />
     <ClInclude Include="Io\Fbx\Wrapping\CollectionExclusive.h" />
+    <ClInclude Include="Animation\Joint.h" />
+    <ClInclude Include="Animation\Skeleton.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

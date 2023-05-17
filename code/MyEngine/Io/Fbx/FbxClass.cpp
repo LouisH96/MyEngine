@@ -10,13 +10,13 @@ using namespace Math;
 using namespace Io::Fbx::Wrapping;
 
 Io::Fbx::FbxClass::FbxClass(const std::wstring& path)
+	: m_FbxData{ path }
 {
-	FbxData data{ path };
-	m_Geometries = { data.GetGeometries().GetSize() };
+	m_Geometries = { m_FbxData.GetGeometries().GetSize() };
 	for (int i = 0; i < m_Geometries.GetSize(); i++)
 	{
-		Wrapping::Geometry& dataGeometry = data.GetGeometries()[i];
-		Model& dataModel = data.GetModel(i);
+		Wrapping::Geometry& dataGeometry = m_FbxData.GetGeometries()[i];
+		Model& dataModel = m_FbxData.GetModel(i);
 		Geometry& modelGeometry = m_Geometries[i];
 		modelGeometry.Indices = std::move(dataGeometry.GetIndices());
 		modelGeometry.Normals = std::move(dataGeometry.GetNormals());
@@ -29,8 +29,6 @@ Io::Fbx::FbxClass::FbxClass(const std::wstring& path)
 
 	for (int i = 0; i < m_Geometries.GetSize(); i++)
 		MakeTriangleList(m_Geometries[i]);
-
-	m_Skeleton = FbxSkeleton{ data };
 }
 
 void Io::Fbx::FbxClass::MakeTriangleList(Geometry& geomStruct)

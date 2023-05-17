@@ -1,13 +1,10 @@
 #include "pch.h"
-#include "FbxJoint.h"
+#include "Joint.h"
 
 #include "Debug/DebugRenderer.h"
-#include "Game/Transform.h"
-#include "Math/Quaternion.h"
-#include "Wrapping/FbxData.h"
-#include "Wrapping/Model.h"
+#include "Io/Fbx/Wrapping/FbxData.h"
 
-Io::Fbx::FbxJoint::FbxJoint(const Wrapping::Model& model, const Wrapping::FbxData& fbxData)
+Animation::Joint::Joint(const Io::Fbx::Wrapping::Model& model, const Io::Fbx::Wrapping::FbxData& fbxData)
 	: m_Name{ model.GetName() }
 {
 	//POSITION
@@ -27,7 +24,7 @@ Io::Fbx::FbxJoint::FbxJoint(const Wrapping::Model& model, const Wrapping::FbxDat
 	m_LocalTransform = { translation, rotation };
 
 	//CHILDREN
-	const Array<const Wrapping::Model*> children{ fbxData.GetChildren(model) };
+	const Array<const Io::Fbx::Wrapping::Model*> children{ fbxData.GetChildren(model) };
 	m_Children = { children.GetSize() };
 	for (int i = 0; i < m_Children.GetSize(); i++)
 	{
@@ -36,7 +33,7 @@ Io::Fbx::FbxJoint::FbxJoint(const Wrapping::Model& model, const Wrapping::FbxDat
 	}
 }
 
-Io::Fbx::FbxJoint::FbxJoint(FbxJoint&& other) noexcept
+Animation::Joint::Joint(Joint&& other) noexcept
 	: m_Name{ std::move(other.m_Name) }
 	, m_LocalTransform(std::move(other.m_LocalTransform))
 	, m_Children{ std::move(other.m_Children) }
@@ -46,7 +43,7 @@ Io::Fbx::FbxJoint::FbxJoint(FbxJoint&& other) noexcept
 		m_Children[i].m_pParent = this;
 }
 
-Io::Fbx::FbxJoint& Io::Fbx::FbxJoint::operator=(FbxJoint&& other) noexcept
+Animation::Joint& Animation::Joint::operator=(Joint&& other) noexcept
 {
 	m_Name = std::move(other.m_Name);
 	m_LocalTransform = std::move(other.m_LocalTransform);
@@ -57,12 +54,12 @@ Io::Fbx::FbxJoint& Io::Fbx::FbxJoint::operator=(FbxJoint&& other) noexcept
 	return *this;
 }
 
-void Io::Fbx::FbxJoint::AddToDebugRender(float sphereSize) const
+void Animation::Joint::AddToDebugRender(float sphereSize) const
 {
 	AddToDebugRender({}, sphereSize);
 }
 
-void Io::Fbx::FbxJoint::AddToDebugRender(const Game::Transform& parent, float sphereSize) const
+void Animation::Joint::AddToDebugRender(const Transform& parent, float sphereSize) const
 {
 	const Game::Transform world{ Game::Transform::LocalToWorld(m_LocalTransform, parent) };
 
