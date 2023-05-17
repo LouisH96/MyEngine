@@ -1,6 +1,8 @@
 #pragma once
 #include <Math/Vector4.h>
 
+#include "DataStructures/Array.h"
+
 namespace MyEngine
 {
 	namespace Math
@@ -16,9 +18,9 @@ namespace MyEngine
 			static Matrix4X4 FromRows(const Vector4<T>& row0, const Vector4<T>& row1, const Vector4<T>& row2, const Vector4<T>& row3);
 			static Matrix4X4 FromCols(const Vector4<T>& col0, const Vector4<T>& col1, const Vector4<T>& col2, const Vector4<T>& col3);
 			static Matrix4X4 FromRowMajor(const T* pValue);
-			static Matrix4X4 FromRowMajor(const Array<T>& array);
+			static Matrix4X4 FromRowMajor(const Ds::Array<T>& array);
 			static Matrix4X4 FromColMajor(const T* pValue);
-			static Matrix4X4 FromColMajor(const Array<T>& array);
+			static Matrix4X4 FromColMajor(const Ds::Array<T>& array);
 
 			//---| Constructor/Destructor |---
 			Matrix4X4() = default;
@@ -371,13 +373,13 @@ namespace MyEngine
 		}
 
 		template <typename T>
-		Matrix4X4<T> Matrix4X4<T>::FromRowMajor(const Array<T>& array)
+		Matrix4X4<T> Matrix4X4<T>::FromRowMajor(const Ds::Array<T>& array)
 		{
 			return FromRowMajor(array.GetData());
 		}
 
 		template <typename T>
-		Matrix4X4<T> Matrix4X4<T>::FromColMajor(const Array<T>& array)
+		Matrix4X4<T> Matrix4X4<T>::FromColMajor(const Ds::Array<T>& array)
 		{
 			return FromColMajor(array.GetData());
 		}

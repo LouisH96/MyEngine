@@ -1,6 +1,8 @@
 #pragma once
 #include <DirectXMath.h>
 
+#include "Vector2.h"
+
 namespace MyEngine
 {
 	namespace Math
