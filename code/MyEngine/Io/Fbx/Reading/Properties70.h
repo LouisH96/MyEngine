@@ -32,6 +32,7 @@ namespace MyEngine
 					std::string GetString(const std::string& name) const;
 					std::string GetString(const std::string& name, const std::string& fallback) const;
 					double GetDouble(int idx) const;
+					short GetShort(int idx) const;
 
 					const FbxObject* GetProperty(const std::string& name) const;
 					const FbxObject* GetPropertyOptional(const std::string& name) const;

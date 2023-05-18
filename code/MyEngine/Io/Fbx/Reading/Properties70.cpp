@@ -123,6 +123,11 @@ double Io::Fbx::Reading::Properties70::GetDouble(int idx) const
 	return m_Object.GetChild(idx).GetLastProperty().AsPrimitive<double>().GetValue();
 }
 
+short Io::Fbx::Reading::Properties70::GetShort(int idx) const
+{
+	return m_Object.GetChild(idx).GetLastProperty().AsPrimitive<short>().GetValue();
+}
+
 const Io::Fbx::Reading::FbxObject* Io::Fbx::Reading::Properties70::GetPropertyOptional(const std::string& name) const
 {
 	for (int i = 0; i < m_Object.GetChildren().size(); i++)
