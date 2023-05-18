@@ -42,11 +42,10 @@ namespace MyEngine
 
 			void CopyTo(Array<Data>& dest, int destIdx);
 
-			template<typename F>
-			bool Any(const F&& func) const;
-
-			template<typename F>
-			bool None(const F&& func) const;
+			template<typename F> bool Any(const F&& func) const;
+			template<typename F> bool None(const F&& func) const;
+			template<typename F> Data* First(const F&& func);
+			template<typename F> const Data* First(const F&& func) const;
 
 		private:
 			Data* m_pData;
@@ -298,6 +297,26 @@ namespace MyEngine
 				if (func(m_pData[i]))
 					return false;
 			return true;
+		}
+
+		template<typename Data>
+		template<typename F>
+		Data* Array<Data>::First(const F&& func)
+		{
+			for (int i = 0; i < m_Size; i++)
+				if (func(m_pData[i]))
+					return m_pData;
+			return nullptr;
+		}
+
+		template<typename Data>
+		template<typename F>
+		const Data* Array<Data>::First(const F&& func) const
+		{
+			for (int i = 0; i < m_Size; i++)
+				if (func(m_pData[i]))
+					return m_pData;
+			return nullptr;
 		}
 
 		template <typename Data>
