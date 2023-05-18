@@ -24,6 +24,7 @@ namespace MyEngine
 			void Add(const Array<Data>& other);
 			void Add(const Data& data);
 			void IncreaseSizeTo(int newSize);
+			void IncreaseSizeWith(int additionalSize);
 
 			void Remove(const Data& value);
 			void RemoveAt(int idx);
@@ -38,6 +39,14 @@ namespace MyEngine
 			Data* GetData() const { return m_pData; }
 
 			void DeleteAll() const;
+
+			void CopyTo(Array<Data>& dest, int destIdx);
+
+			template<typename F>
+			bool Any(const F&& func) const;
+
+			template<typename F>
+			bool None(const F&& func) const;
 
 		private:
 			Data* m_pData;
@@ -176,6 +185,16 @@ namespace MyEngine
 		}
 
 		template <typename Data>
+		void Array<Data>::IncreaseSizeWith(int additionalSize)
+		{
+			Data* pNew = new Data[m_Size + additionalSize];
+			memcpy(pNew, m_pData, m_Size * sizeof(Data));
+			m_Size += additionalSize;
+			delete[] m_pData;
+			m_pData = pNew;
+		}
+
+		template <typename Data>
 		void Array<Data>::Remove(const Data& value)
 		{
 			Data* pNew = new Data[--m_Size];
@@ -213,7 +232,7 @@ namespace MyEngine
 			DoBoundsCheck(idx);
 #endif
 			return m_pData[idx];
-	}
+		}
 
 		template <typename Data>
 		Data& Array<Data>::operator[](int idx)
@@ -222,7 +241,7 @@ namespace MyEngine
 			DoBoundsCheck(idx);
 #endif
 			return m_pData[idx];
-}
+		}
 
 		template <typename Data>
 		Data& Array<Data>::Last()
@@ -253,6 +272,32 @@ namespace MyEngine
 		{
 			for (int i = 0; i < m_Size; i++)
 				delete m_pData[i];
+		}
+
+		template <typename Data>
+		void Array<Data>::CopyTo(Array<Data>& dest, int destIdx)
+		{
+			memcpy(dest.GetData()[destIdx], m_pData, m_Size * sizeof(Data));
+		}
+
+		template <typename Data>
+		template <typename F>
+		bool Array<Data>::Any(const F&& func) const
+		{
+			for (int i = 0; i < m_Size; i++)
+				if (func(m_pData[i]))
+					return true;
+			return false;
+		}
+
+		template <typename Data>
+		template <typename F>
+		bool Array<Data>::None(const F&& func) const
+		{
+			for (int i = 0; i < m_Size; i++)
+				if (func(m_pData[i]))
+					return false;
+			return true;
 		}
 
 		template <typename Data>
