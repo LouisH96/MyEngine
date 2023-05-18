@@ -106,6 +106,7 @@
     <ClCompile Include="Io\Fbx\Wrapping\CollectionExclusive.cpp" />
     <ClCompile Include="Animation\Joint.cpp" />
     <ClCompile Include="Animation\Skeleton.cpp" />
+    <ClCompile Include="Animation\Clip.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -242,6 +243,7 @@
     <ClInclude Include="Io\Fbx\Wrapping\CollectionExclusive.h" />
     <ClInclude Include="Animation\Joint.h" />
     <ClInclude Include="Animation\Skeleton.h" />
+    <ClInclude Include="Animation\Clip.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

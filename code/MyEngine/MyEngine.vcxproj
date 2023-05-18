@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Animation\Clip.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\CollectionExclusive.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\FbxWrapMaterial.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\Deformer.cpp" />
@@ -121,6 +122,7 @@
     <ClCompile Include="Animation\Skeleton.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Animation\Clip.h" />
     <ClInclude Include="Io\Fbx\Wrapping\CollectionExclusive.h" />
     <ClInclude Include="Io\Fbx\Wrapping\FbxWrapMaterial.h" />
     <ClInclude Include="Io\Fbx\Wrapping\Deformer.h" />

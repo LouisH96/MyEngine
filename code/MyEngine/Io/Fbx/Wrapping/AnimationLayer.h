@@ -30,6 +30,8 @@ namespace MyEngine
 					void SetAnimationStack(const AnimationStack& animationStack);
 					void AddAnimationCurveNode(const AnimationCurveNode& animationCurveNode);
 
+					const Array<const AnimationCurveNode*>& GetCurveNodes() const { return m_AnimationCurveNodes; }
+
 				private:
 					const AnimationStack* m_pAnimationStack{};
 					Array<const AnimationCurveNode*> m_AnimationCurveNodes{};

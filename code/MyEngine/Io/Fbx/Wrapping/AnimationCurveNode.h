@@ -24,22 +24,44 @@ namespace MyEngine
 				class AnimationCurveNode
 				{
 				public:
+					//---| Types |---
+					enum class NodeType
+					{
+						LockInfluenceWeights,
+						Translation, Rotation, Scale,
+						Visibility, FilmboxTypeId,
+						Other
+					};
+
+					//---| Fields |---
+					int64_t Id{};
+
+					//---| Constructor/Destructor |---
 					AnimationCurveNode() = default;
 					explicit AnimationCurveNode(Reading::FbxObject& object);
 
-					int64_t Id;
-					std::string Type;
-
-					Reading::FbxObject* pProperties70; //temp
-
+					//---| Functions |---
 					void AddAnimationCurve(const AnimationCurve& animationCurve);
 					void SetParentModel(const Model& model);
 					void SetAnimationLayer(const AnimationLayer& animationLayer);
+					static NodeType GetNodeType(const std::string& typeName);
+
+					void Print() const;
+					NodeType GetNodeType() const { return m_NodeType; }
+					bool IsTransformNode() const;
+					const Model& GetModel() const { return *m_pParentModel; }
 
 				private:
 					Array<const AnimationCurve*> m_AnimationCurves{};
 					const Model* m_pParentModel{};
 					const AnimationLayer* m_pAnimationLayer{};
+					NodeType m_NodeType{};
+					union
+					{
+						Double3 vectorValue;
+						bool boolValue{};
+						short shortValue;
+					} m_Value{};
 				};
 			}
 		}
