@@ -50,6 +50,7 @@ namespace MyEngine
 					NodeType GetNodeType() const { return m_NodeType; }
 					bool IsTransformNode() const;
 					const Model& GetModel() const { return *m_pParentModel; }
+					const Array<const AnimationCurve*>& GetAnimationCurves() const { return m_AnimationCurves; }
 
 				private:
 					Array<const AnimationCurve*> m_AnimationCurves{};

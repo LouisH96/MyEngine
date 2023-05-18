@@ -24,6 +24,7 @@
     <ClCompile Include="Io\Fbx\Wrapping\Connection.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\NodeAttribute.cpp" />
     <ClCompile Include="Animation\Joint.cpp" />
+    <ClCompile Include="Animation\JointCurve.cpp" />
     <ClCompile Include="Physics\CollisionDetection.cpp" />
     <ClCompile Include="Framework\CoreServices.cpp" />
     <ClCompile Include="Game\Camera\FpsCameraController.cpp" />
@@ -123,6 +124,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation\Clip.h" />
+    <ClInclude Include="DataStructures\SortedList.h" />
     <ClInclude Include="Io\Fbx\Wrapping\CollectionExclusive.h" />
     <ClInclude Include="Io\Fbx\Wrapping\FbxWrapMaterial.h" />
     <ClInclude Include="Io\Fbx\Wrapping\Deformer.h" />
@@ -133,6 +135,7 @@
     <ClInclude Include="App\BasicExampleApp.h" />
     <ClInclude Include="Io\Fbx\Wrapping\Connection.h" />
     <ClInclude Include="Animation\Joint.h" />
+    <ClInclude Include="Animation\JointCurve.h" />
     <ClInclude Include="Math\Double4x4.h" />
     <ClInclude Include="Io\Fbx\Wrapping\NodeAttribute.h" />
     <ClInclude Include="Physics\CollisionDetection.h" />
