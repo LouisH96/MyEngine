@@ -45,10 +45,11 @@ namespace MyEngine
 					const Float3& GetLclRotation() const { return m_LclRotation; }
 					const Float3& GetLclScaling() const { return m_LclScaling; }
 					const std::string& GetCurrentUvSet() const { return m_CurrentUvSet; }
-					int GetShading() const { return m_Shading;  }
+					int GetShading() const { return m_Shading; }
 					const std::string& GetCulling() const { return m_Culling; }
 
 					std::string& GetName() { return m_Name; }
+					bool IsLimbNode() const;
 
 					void SetParentModel(const Model& parent);
 					void SetNodeAttribute(const NodeAttribute& nodeAttribute);
@@ -57,6 +58,14 @@ namespace MyEngine
 					void AddAnimationCurveNode(const AnimationCurveNode& animationCurveNode);
 					void AddMaterial(const FbxWrapMaterial& material);
 					void SetCollection(const CollectionExclusive& collection);
+
+					const Array<const Model*>& GetChildModels() const { return m_ChildModels; }
+					Array<const Model*> GetLimbNodes() const;
+					const Model& GetRootParentModel() const;
+					Array<const Model*> GetChildrenBreadthFirst() const;
+					void AddChildrenBreadthFirst(Array<const Model*>& models) const;
+
+					const Array<const AnimationCurveNode*>& GetAnimationCurveNodes() const { return m_AnimationCurveNodes; }
 
 				private:
 					int64_t m_Id{};
