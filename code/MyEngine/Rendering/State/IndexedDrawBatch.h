@@ -34,6 +34,8 @@ namespace MyEngine
 			//---| Functions |---
 			void Draw(const Gpu& gpu) override;
 
+			void SetInstancesDrawCount(int count) { m_DrawCountInstances = count; }
+
 		private:
 			static constexpr int NR_BUFFERS = 3;
 			static constexpr int IDX_VERTICES = 0;
@@ -42,21 +44,25 @@ namespace MyEngine
 			ID3D11Buffer* m_pBuffers[NR_BUFFERS];
 			unsigned int m_Strides[NR_BUFFERS];
 			unsigned int m_Offsets[NR_BUFFERS];
-			unsigned int m_Counts[NR_BUFFERS];
+			unsigned int m_Sizes[NR_BUFFERS];
+			unsigned int m_DrawCountInstances;
+			unsigned int m_DrawCountIndices;
 		};
 
 		template <typename Vertex, typename Instance>
 		IndexedDrawBatch::IndexedDrawBatch(
-			Gpu& gpu, 
+			Gpu& gpu,
 			const Array<Vertex>& vertices,
-			const Array<Instance>& instances, 
+			const Array<Instance>& instances,
 			const Array<int>& indices,
 			bool verticesImmutable,
-			bool instancesImmutable, 
+			bool instancesImmutable,
 			bool indicesImmutable)
-			: m_Strides{ sizeof(Vertex), sizeof(Instance), sizeof(int)}
+			: m_Strides{ sizeof(Vertex), sizeof(Instance), sizeof(int) }
 			, m_Offsets{ 0,0,0 }
-			, m_Counts{ vertices.GetSizeU(), instances.GetSizeU(), indices.GetSizeU()}
+			, m_Sizes{ vertices.GetSizeU(), instances.GetSizeU(), indices.GetSizeU() }
+			, m_DrawCountInstances{ instances.GetSizeU() }
+			, m_DrawCountIndices{ indices.GetSizeU() }
 		{
 			Dx::DxHelper::CreateVertexBuffer(gpu, m_pBuffers[IDX_VERTICES], vertices, verticesImmutable);
 			Dx::DxHelper::CreateInstanceBuffer(gpu, m_pBuffers[IDX_INSTANCES], instances, instancesImmutable);
