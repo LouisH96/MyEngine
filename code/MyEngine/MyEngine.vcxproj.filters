@@ -255,6 +255,7 @@
     <ClInclude Include="Rendering\State\IDrawBatch.h" />
     <ClInclude Include="Rendering\State\DrawBatch.h" />
     <ClInclude Include="Rendering\State\IndexedDrawBatch.h" />
+    <ClInclude Include="DataStructures\List.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

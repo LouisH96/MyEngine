@@ -125,6 +125,7 @@
     <ClCompile Include="Io\Fbx\FbxTransformCurve.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DataStructures\List.h" />
     <ClInclude Include="DataStructures\SortedList.h" />
     <ClInclude Include="Debug\Rendering\DebugSphereInstancingRenderer.h" />
     <ClInclude Include="Rendering\State\IndexedDrawBatch.h" />
