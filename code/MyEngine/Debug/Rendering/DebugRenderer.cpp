@@ -52,7 +52,7 @@ void DebugRenderer::AddRay(const Math::Float3& origin, const Math::Float3& displ
 }
 
 void DebugRenderer::AddRect(const Math::Float3& leftTop, const Math::Float3& rightTop, const Math::Float3& rightBot,
-                            const Math::Float3& leftBot, const Math::Float3& color)
+	const Math::Float3& leftBot, const Math::Float3& color)
 {
 	m_pStatic->Class_AddRect(leftTop, rightTop, rightBot, leftBot, color);
 }
@@ -141,6 +141,7 @@ DebugRenderer::DebugRenderer(Rendering::Gpu& gpu)
 	, m_ConstantBuffer(gpu)
 	, m_Shader(gpu, Framework::Resources::GetGlobalShaderPath(L"lambertCamDir.hlsl"))
 	, m_pLineRenderer(Rendering::RendererFactory::CreateUnlitRenderer(gpu))
+	, m_SphereInstancingRenderer{ gpu }
 {
 }
 
@@ -164,6 +165,7 @@ void DebugRenderer::Class_Render(const Math::Float3& cameraPosition, const Math:
 		m_Meshes[i]->Draw(m_Gpu);
 	}
 	m_pLineRenderer->Render(cameraPosition, viewProjection);
+	m_SphereInstancingRenderer.Render(m_Gpu, cameraPosition, viewProjection);
 }
 
 void DebugRenderer::Class_AddSphere(const Float3& position, const Float3& color, float radius)

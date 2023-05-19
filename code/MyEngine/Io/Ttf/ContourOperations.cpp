@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "ContourOperations.h"
 
-#include <Debug/DebugRenderer.h>
+#include "Debug/Rendering/DebugRenderer.h"
 #include <Rendering/Image.h>
 #include "TtfReader.h"
 #include "DataStructures/Algorithms.h"

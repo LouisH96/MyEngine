@@ -8,6 +8,8 @@
 #include <Rendering/Structs/VertexTypes.h>
 #include <Rendering/Renderers/RendererFactory.h>
 
+#include "DebugSphereInstancingRenderer.h"
+
 namespace MyEngine
 {
 	//---| Forward Includes |---
@@ -68,6 +70,7 @@ namespace MyEngine
 			Rendering::Shader m_Shader;
 			static const Rendering::InputLayout::Element ELEMENTS[];
 			LineRenderer* m_pLineRenderer{};
+			DebugSphereInstancingRenderer m_SphereInstancingRenderer;
 
 			//---| Mesh |---
 			Array<Rendering::Mesh*> m_Meshes{};

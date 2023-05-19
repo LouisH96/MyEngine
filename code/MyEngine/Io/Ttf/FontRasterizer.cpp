@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "FontRasterizer.h"
 
-#include <Debug/DebugRenderer.h>
+#include "Debug/Rendering/DebugRenderer.h"
 #include <Rendering/Image.h>
 #include "Intersection.h"
 #include "Io/Ttf/Glyph.h"

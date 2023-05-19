@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "FbxJoint.h"
 
-#include "Debug/DebugRenderer.h"
+#include "Debug/Rendering/DebugRenderer.h"
 #include "Io/Fbx/Wrapping/FbxData.h"
 
 Io::Fbx::FbxJoint::FbxJoint(const Io::Fbx::Wrapping::Model& model, const Io::Fbx::Wrapping::FbxData& fbxData)

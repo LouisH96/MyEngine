@@ -2,7 +2,7 @@
 #include "Contour.h"
 
 #include "ContourOperations.h"
-#include "Debug/DebugRenderer.h"
+#include "Debug/Rendering/DebugRenderer.h"
 
 Io::Ttf::Contour::Contour(const Array<TtfPoint>& ttfPoints)
 	: m_Segments(ContourOperations::ToSegments(ttfPoints))

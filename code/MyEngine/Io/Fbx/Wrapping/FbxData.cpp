@@ -4,7 +4,6 @@
 #include "Video.h"
 #include "../Reading/FbxObject.h"
 #include "../Reading/FbxReader.h"
-#include "Debug/DebugRenderer.h"
 
 using namespace Math;
 

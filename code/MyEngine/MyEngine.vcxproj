@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Debug\Rendering\DebugSphereInstancingRenderer.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\CollectionExclusive.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\FbxWrapMaterial.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\Deformer.cpp" />
@@ -123,6 +124,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataStructures\SortedList.h" />
+    <ClInclude Include="Debug\Rendering\DebugSphereInstancingRenderer.h" />
     <ClInclude Include="Io\Fbx\Wrapping\CollectionExclusive.h" />
     <ClInclude Include="Io\Fbx\Wrapping\FbxWrapMaterial.h" />
     <ClInclude Include="Io\Fbx\Wrapping\Deformer.h" />
