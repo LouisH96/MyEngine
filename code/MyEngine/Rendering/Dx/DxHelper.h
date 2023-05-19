@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 
+#include "DataStructures/List.h"
 #include "Rendering/Gpu.h"
 
 #define SAFE_RELEASE(x){if(x){(x)->Release();(x)=nullptr;}}
@@ -27,7 +28,8 @@ namespace MyEngine
 
 				static void CreateVertexBufferView(ID3D11Device& device, ID3D11Buffer*& pVertexBuffer, ID3D11UnorderedAccessView*& pView);
 				static void CreateIndexBuffer(ID3D11Device& device, ID3D11Buffer*& pIndexBuffer, const int* pInitIndices, int nrInitIndices);
-				static void CreateIndexBuffer(Gpu& gpu, ID3D11Buffer*& pIndexBuffer, const Array<int>& indices, bool immutable);
+				static void CreateIndexBuffer(const Gpu& gpu, ID3D11Buffer*& pIndexBuffer, const int* pIndices, int nrIndices, bool immutable);
+				static void CreateIndexBuffer(const Gpu& gpu, ID3D11Buffer*& pIndexBuffer, const Array<int>& indices, bool immutable);
 
 				template <typename T>
 				static void CreateDynamicConstantBuffer(ID3D11Device& device, ID3D11Buffer*& pBuffer, T* pInitData = nullptr);
@@ -48,9 +50,15 @@ namespace MyEngine
 				static void CreateStructuredBuffer(ID3D11Device& device, ID3D11Buffer*& pBuffer, ID3D11ShaderResourceView*& pView, const std::vector<T>& initData);
 
 				template<typename T>
-				static void CreateVertexBuffer(Gpu& gpu, ID3D11Buffer*& pBuffer, const Array<T>& data, bool immutable);
+				static void CreateVertexBuffer(const Gpu& gpu, ID3D11Buffer*& pBuffer, const T* pData, int length, bool immutable);
 				template<typename T>
-				static void CreateInstanceBuffer(Gpu& gpu, ID3D11Buffer*& pBuffer, const Array<T>& data, bool immutable);
+				static void CreateVertexBuffer(const Gpu& gpu, ID3D11Buffer*& pBuffer, const Array<T>& data, bool immutable);
+				template<typename T>
+				static void CreateVertexBuffer(const Gpu& gpu, ID3D11Buffer*& pBuffer, const List<T>& data, bool immutable);
+				template<typename T>
+				static void CreateInstanceBuffer(const Gpu& gpu, ID3D11Buffer*& pBuffer, const T* pData, int length, bool immutable);
+				template<typename T>
+				static void CreateInstanceBuffer(const Gpu& gpu, ID3D11Buffer*& pBuffer, const Array<T>& data, bool immutable);
 			};
 
 			template <typename T>
@@ -138,28 +146,48 @@ namespace MyEngine
 			}
 
 			template <typename T>
-			void DxHelper::CreateVertexBuffer(Gpu& gpu, ID3D11Buffer*& pBuffer, const Array<T>& data,
+			void DxHelper::CreateVertexBuffer(const Gpu& gpu, ID3D11Buffer*& pBuffer, const T* pData, int length,
 				bool immutable)
 			{
 				const D3D11_BUFFER_DESC desc
 				{
-					sizeof(T) * data.GetSize(),
+					sizeof(T) * length,
 					immutable ? D3D11_USAGE_IMMUTABLE : D3D11_USAGE_DYNAMIC,
 					D3D11_BIND_VERTEX_BUFFER,
 					immutable ? 0 : D3D11_CPU_ACCESS_WRITE,
 					0, sizeof(T)
 				};
-				const D3D11_SUBRESOURCE_DATA initData{ data.GetData(),0,0 };
+				const D3D11_SUBRESOURCE_DATA initData{ pData,0,0 };
 				const HRESULT result{ gpu.GetDevice().CreateBuffer(&desc, &initData, &pBuffer) };
 				if (FAILED(result))
 					Logger::PrintError("Failed creating Vertex-Buffer");
 			}
 
 			template <typename T>
-			void DxHelper::CreateInstanceBuffer(Gpu& gpu, ID3D11Buffer*& pBuffer, const Array<T>& data,
+			void DxHelper::CreateVertexBuffer(const Gpu& gpu, ID3D11Buffer*& pBuffer, const List<T>& data, bool immutable)
+			{
+				CreateVertexBuffer(gpu, pBuffer, data.GetData(), data.GetSize(), immutable);
+			}
+
+			template <typename T>
+			void DxHelper::CreateVertexBuffer(const Gpu& gpu, ID3D11Buffer*& pBuffer, const Array<T>& data,
 				bool immutable)
 			{
-				CreateVertexBuffer(gpu, pBuffer, data, immutable);
+				CreateVertexBuffer(gpu, pBuffer, data.GetData(), data.GetSize(), immutable);
+			}
+
+			template <typename T>
+			void DxHelper::CreateInstanceBuffer(const Gpu& gpu, ID3D11Buffer*& pBuffer, const T* pData, int length,
+				bool immutable)
+			{
+				CreateVertexBuffer(gpu, pBuffer, pData, length, immutable);
+			}
+
+			template <typename T>
+			void DxHelper::CreateInstanceBuffer(const Gpu& gpu, ID3D11Buffer*& pBuffer, const Array<T>& data,
+				bool immutable)
+			{
+				CreateInstanceBuffer(gpu, pBuffer, data, immutable);
 			}
 
 			template <typename T>
