@@ -59,7 +59,7 @@
     <ClCompile Include="Rendering\State\BlendState.cpp" />
     <ClCompile Include="Rendering\State\Mesh.cpp" />
     <ClCompile Include="Rendering\State\Shader.cpp" />
-    <ClCompile Include="Debug\DebugRenderer.cpp" />
+    <ClCompile Include="Debug\Rendering\DebugRenderer.cpp" />
     <ClCompile Include="Io\Fbx\FbxClass.cpp" />
     <ClCompile Include="Math\Geometry\PointUtils.cpp" />
     <ClCompile Include="Rendering\Structs\ConstantBufferTypes.cpp" />
@@ -181,7 +181,7 @@
     <ClInclude Include="App\Win32\IExtraWinProc.h" />
     <ClInclude Include="Rendering\State\ConstantBuffer.h" />
     <ClInclude Include="Rendering\State\BlendState.h" />
-    <ClInclude Include="Debug\DebugRenderer.h" />
+    <ClInclude Include="Debug\Rendering\DebugRenderer.h" />
     <ClInclude Include="Io\Fbx\FbxClass.h" />
     <ClInclude Include="Rendering\Structs\ConstantBufferTypes.h" />
     <ClInclude Include="Io\Fbx\Wrapping\FbxData.h" />

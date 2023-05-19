@@ -55,7 +55,7 @@
     <ClCompile Include="Rendering\State\SamplerState.cpp" />
     <ClCompile Include="Rendering\State\Texture.cpp" />
     <ClCompile Include="Math\Geometry\PointUtils.cpp" />
-    <ClCompile Include="Debug\DebugRenderer.cpp" />
+    <ClCompile Include="Debug\Rendering\DebugRenderer.cpp" />
     <ClCompile Include="Rendering\Structs\VertexTypes.cpp" />
     <ClCompile Include="Io\Fbx\FbxClass.cpp" />
     <ClCompile Include="Generation\Shapes\ArrowGenerator.cpp" />
@@ -181,7 +181,7 @@
     <ClInclude Include="Rendering\Structs\ConstantBufferTypes.h" />
     <ClInclude Include="Rendering\State\SamplerState.h" />
     <ClInclude Include="Rendering\State\Texture.h" />
-    <ClInclude Include="Debug\DebugRenderer.h" />
+    <ClInclude Include="Debug\Rendering\DebugRenderer.h" />
     <ClInclude Include="Rendering\Structs\VertexTypes.h" />
     <ClInclude Include="Io\Fbx\FbxClass.h" />
     <ClInclude Include="Generation\Shapes\ArrowGenerator.h" />
