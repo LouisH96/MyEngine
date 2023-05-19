@@ -130,3 +130,19 @@ void MyEngine::Rendering::Dx::DxHelper::CreateIndexBuffer(ID3D11Device& device, 
 	if (FAILED(result))
 		Logger::PrintError("CreateIndexBuffer");
 }
+
+void Rendering::Dx::DxHelper::CreateIndexBuffer(Gpu& gpu, ID3D11Buffer*& pIndexBuffer, const Array<int>& indices, bool immutable)
+{
+	D3D11_BUFFER_DESC desc{};
+	desc.Usage = immutable ? D3D11_USAGE_IMMUTABLE : D3D11_USAGE_DYNAMIC;
+	desc.ByteWidth = sizeof(int) * indices.GetSize();
+	desc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	desc.CPUAccessFlags = immutable ? 0 : D3D11_CPU_ACCESS_WRITE;
+	desc.MiscFlags = 0;
+
+	const D3D11_SUBRESOURCE_DATA initData{indices.GetData(),0,0};
+
+	const HRESULT result = gpu.GetDevice().CreateBuffer(&desc, &initData, &pIndexBuffer);
+	if (FAILED(result))
+		Logger::PrintError("Failed creating index-buffer");
+}
