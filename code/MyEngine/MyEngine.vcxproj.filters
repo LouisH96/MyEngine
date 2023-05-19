@@ -108,6 +108,8 @@
     <ClCompile Include="Io\Fbx\FbxSkeleton.cpp" />
     <ClCompile Include="Io\Fbx\FbxTransformCurve.cpp" />
     <ClCompile Include="Debug\Rendering\DebugSphereInstancingRenderer.cpp" />
+    <ClCompile Include="Rendering\State\DrawBatch.cpp" />
+    <ClCompile Include="Rendering\State\IndexedDrawBatch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -250,6 +252,9 @@
     <ClInclude Include="Math\Float.h" />
     <ClInclude Include="Io\Fbx\FbxTransformCurve.h" />
     <ClInclude Include="Debug\Rendering\DebugSphereInstancingRenderer.h" />
+    <ClInclude Include="Rendering\State\IDrawBatch.h" />
+    <ClInclude Include="Rendering\State\DrawBatch.h" />
+    <ClInclude Include="Rendering\State\IndexedDrawBatch.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

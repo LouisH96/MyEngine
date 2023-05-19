@@ -12,6 +12,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Debug\Rendering\DebugSphereInstancingRenderer.cpp" />
+    <ClCompile Include="Rendering\State\IndexedDrawBatch.cpp" />
+    <ClCompile Include="Rendering\State\DrawBatch.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\CollectionExclusive.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\FbxWrapMaterial.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\Deformer.cpp" />
@@ -125,6 +127,8 @@
   <ItemGroup>
     <ClInclude Include="DataStructures\SortedList.h" />
     <ClInclude Include="Debug\Rendering\DebugSphereInstancingRenderer.h" />
+    <ClInclude Include="Rendering\State\IndexedDrawBatch.h" />
+    <ClInclude Include="Rendering\State\DrawBatch.h" />
     <ClInclude Include="Io\Fbx\Wrapping\CollectionExclusive.h" />
     <ClInclude Include="Io\Fbx\Wrapping\FbxWrapMaterial.h" />
     <ClInclude Include="Io\Fbx\Wrapping\Deformer.h" />
@@ -156,6 +160,7 @@
     <ClInclude Include="Rendering\Renderers\R_LambertLight_Tex.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertLight_Col.h" />
     <ClInclude Include="Math\Float.h" />
+    <ClInclude Include="Rendering\State\IDrawBatch.h" />
     <ClInclude Include="Shapes\Capsule.h" />
     <ClInclude Include="Io\Fbx\Reading\Properties70.h" />
     <ClInclude Include="Io\Fbx\Wrapping\Geometry.h" />

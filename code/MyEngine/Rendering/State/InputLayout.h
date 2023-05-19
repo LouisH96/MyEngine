@@ -15,10 +15,16 @@ namespace MyEngine
 			{
 				Float3, Float2
 			};
+			enum class SlotClass
+			{
+				PerVertex, PerInstance
+			};
 			struct Element
 			{
 				const std::string& Semantic{};
 				const ElementType Type{};
+				const int InputSlot{ 0 };
+				const SlotClass SlotClass{ SlotClass::PerVertex };
 			};
 
 			InputLayout(const Gpu& gpu, const Element* pElements, int nrElements);
@@ -34,6 +40,7 @@ namespace MyEngine
 			ID3D11InputLayout* m_pInputLayout{};
 
 			static DXGI_FORMAT ToDxFormat(ElementType type);
+			static D3D11_INPUT_CLASSIFICATION ToDx(SlotClass slotClass);
 			static std::string CreateDummyShaderString(const Element* pElements, int nrElements);
 			static std::string ToTypeString(ElementType type);
 		};

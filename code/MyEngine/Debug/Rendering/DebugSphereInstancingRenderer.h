@@ -1,6 +1,7 @@
 #pragma once
 #include "Rendering/State/BlendState.h"
 #include "Rendering/State/ConstantBuffer.h"
+#include "Rendering/State/IndexedDrawBatch.h"
 #include "Rendering/State/InputLayout.h"
 #include "Rendering/State/RasterizerState.h"
 #include "Rendering/State/Shader.h"
@@ -21,8 +22,8 @@ namespace MyEngine
 		class DebugSphereInstancingRenderer
 		{
 		public:
-			explicit DebugSphereInstancingRenderer(const Rendering::Gpu& gpu);
-			~DebugSphereInstancingRenderer();
+			explicit DebugSphereInstancingRenderer(Rendering::Gpu& gpu);
+			~DebugSphereInstancingRenderer() = default;
 
 			void Render(const Rendering::Gpu& gpu, const Float3& cameraPosition, const Float4X4& viewProjection);
 
@@ -34,7 +35,7 @@ namespace MyEngine
 			Rendering::ConstantBuffer<Rendering::CB_CamMatPos> m_ConstantBuffer;
 			static const Rendering::InputLayout::Element ELEMENTS[];
 
-			Rendering::Mesh* m_pMesh{};
+			Rendering::IndexedDrawBatch m_DrawBatch;
 		};
 	}
 }

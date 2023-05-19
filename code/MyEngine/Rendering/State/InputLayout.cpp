@@ -11,7 +11,7 @@ Rendering::InputLayout::InputLayout(const Gpu& gpu, const Element* pElements, in
 {
 	//CREATE INPUT_ELEMENT_DESC
 	D3D11_INPUT_ELEMENT_DESC* pDxElements = new D3D11_INPUT_ELEMENT_DESC[nrElements];
-	for(int i = 0; i < nrElements; i++)
+	for (int i = 0; i < nrElements; i++)
 	{
 		D3D11_INPUT_ELEMENT_DESC& dxElement = pDxElements[i];
 		const Element& element = pElements[i];
@@ -19,10 +19,10 @@ Rendering::InputLayout::InputLayout(const Gpu& gpu, const Element* pElements, in
 		dxElement.SemanticName = element.Semantic.c_str();
 		dxElement.SemanticIndex = 0;
 		dxElement.Format = ToDxFormat(element.Type);
-		dxElement.InputSlot = 0;
+		dxElement.InputSlot = element.InputSlot;
 		dxElement.AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
-		dxElement.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-		dxElement.InstanceDataStepRate = 0;
+		dxElement.InputSlotClass = ToDx(element.SlotClass);
+		dxElement.InstanceDataStepRate = element.SlotClass == SlotClass::PerInstance ? 1 : 0;
 	}
 	//CREATE COMPILED BLOB
 	UINT flags = D3DCOMPILE_ENABLE_STRICTNESS;
@@ -40,10 +40,10 @@ Rendering::InputLayout::InputLayout(const Gpu& gpu, const Element* pElements, in
 		nullptr, nullptr, nullptr,
 		entryPoint.c_str(), target.c_str(), flags,
 		0, &pBlob, &pErrorBlob);
-	if(FAILED(result))
+	if (FAILED(result))
 	{
 		std::string error = "CreateInputLayout-CompileDummy";
-		if(pErrorBlob)
+		if (pErrorBlob)
 		{
 			error = static_cast<char*>(pErrorBlob->GetBufferPointer());
 			pErrorBlob->Release();
@@ -78,7 +78,7 @@ void Rendering::InputLayout::Activate(const Gpu& gpu) const
 
 DXGI_FORMAT Rendering::InputLayout::ToDxFormat(ElementType type)
 {
-	switch(type)
+	switch (type)
 	{
 	case ElementType::Float3: return DXGI_FORMAT_R32G32B32_FLOAT;
 	case ElementType::Float2: return DXGI_FORMAT_R32G32_FLOAT;
@@ -88,11 +88,21 @@ DXGI_FORMAT Rendering::InputLayout::ToDxFormat(ElementType type)
 	}
 }
 
+D3D11_INPUT_CLASSIFICATION Rendering::InputLayout::ToDx(SlotClass slotClass)
+{
+	switch (slotClass)
+	{
+	default: Logger::PrintError("Unknown SlotClass");
+	case SlotClass::PerVertex: return D3D11_INPUT_PER_VERTEX_DATA;
+	case SlotClass::PerInstance: return D3D11_INPUT_PER_INSTANCE_DATA;
+	}
+}
+
 std::string Rendering::InputLayout::CreateDummyShaderString(const Element* pElements, int nrElements)
 {
 	std::stringstream ss;
 	ss << "struct Vertex{\n";
-	for(int i = 0; i < nrElements; i++)
+	for (int i = 0; i < nrElements; i++)
 	{
 		const Element& element = pElements[i];
 		ss << ToTypeString(element.Type) << " var" << i << ": " << element.Semantic << ";\n";

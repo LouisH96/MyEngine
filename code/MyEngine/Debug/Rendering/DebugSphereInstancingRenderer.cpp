@@ -12,10 +12,11 @@ const InputLayout::Element DebugSphereInstancingRenderer::ELEMENTS[] =
 {
 	{"POSITION", InputLayout::ElementType::Float3},
 	{"COLOR", InputLayout::ElementType::Float3},
-	{"NORMAL", InputLayout::ElementType::Float3}
+	{"NORMAL", InputLayout::ElementType::Float3},
+	{"INSTANCEPOS", InputLayout::ElementType::Float3, 1, InputLayout::SlotClass::PerInstance}
 };
 
-DebugSphereInstancingRenderer::DebugSphereInstancingRenderer(const Gpu& gpu)
+DebugSphereInstancingRenderer::DebugSphereInstancingRenderer(Gpu& gpu)
 	: m_BlendState{ gpu }
 	, m_RasterizerState{ gpu }
 	, m_InputLayout{ gpu, ELEMENTS, static_cast<int>(sizeof(ELEMENTS) / sizeof(InputLayout::Element)) }
@@ -24,6 +25,7 @@ DebugSphereInstancingRenderer::DebugSphereInstancingRenderer(const Gpu& gpu)
 {
 	using Vertex = V_PosColNorm;
 
+	//VERTEX BUFFER
 	const Sphere sphere{ {0,0,0}, .5f };
 	Array<Float3> positions{};
 	Array<Float3> normals{};
@@ -32,12 +34,14 @@ DebugSphereInstancingRenderer::DebugSphereInstancingRenderer(const Gpu& gpu)
 	Array<Vertex> vertices{ positions.GetSize() };
 	for (int i = 0; i < positions.GetSize(); i++)
 		vertices[i] = Vertex{ positions[i], {1,1,0}, normals[i] };
-	m_pMesh = Mesh::Create<Vertex>(gpu, vertices, indices);
-}
 
-DebugSphereInstancingRenderer::~DebugSphereInstancingRenderer()
-{
-	delete m_pMesh;
+	//INSTANCE BUFFER
+	Array<Float3> instancePosition{3};
+	instancePosition[0] = {};
+	instancePosition[1] = { 1,0,1 };
+	instancePosition[2] = { 1,1,1 };
+
+	m_DrawBatch = IndexedDrawBatch{ gpu, vertices, instancePosition, indices };
 }
 
 void DebugSphereInstancingRenderer::Render(const Gpu& gpu, const Float3& cameraPosition, const Float4X4& viewProjection)
@@ -49,6 +53,5 @@ void DebugSphereInstancingRenderer::Render(const Gpu& gpu, const Float3& cameraP
 	m_BlendState.Activate(gpu);
 	m_Shader.Activate();
 
-	m_pMesh->Activate(gpu);
-	m_pMesh->Draw(gpu);
+	m_DrawBatch.Draw(gpu);
 }
