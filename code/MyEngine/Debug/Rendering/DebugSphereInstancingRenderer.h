@@ -1,4 +1,5 @@
 #pragma once
+#include "DataStructures/List.h"
 #include "Rendering/State/BlendState.h"
 #include "Rendering/State/ConstantBuffer.h"
 #include "Rendering/State/IndexedDrawBatch.h"
@@ -27,6 +28,8 @@ namespace MyEngine
 
 			void Render(const Rendering::Gpu& gpu, const Float3& cameraPosition, const Float4X4& viewProjection);
 
+			void DrawSphere(const Float3& position, const Float3& color, float size);
+
 		private:
 			struct InstanceData
 			{
@@ -40,6 +43,8 @@ namespace MyEngine
 			Rendering::Shader m_Shader;
 			Rendering::ConstantBuffer<Rendering::CB_CamMatPos> m_ConstantBuffer;
 			static const Rendering::InputLayout::Element ELEMENTS[];
+
+			List<InstanceData> m_Spheres{};
 
 			Rendering::IndexedDrawBatch m_DrawBatch;
 		};

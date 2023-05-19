@@ -38,23 +38,36 @@ DebugSphereInstancingRenderer::DebugSphereInstancingRenderer(Gpu& gpu)
 		vertices[i] = Vertex{ positions[i], normals[i] };
 
 	//INSTANCE BUFFER
-	Array<InstanceData> instancePosition{3};
-	instancePosition[0] = { {},{1,0,0}, .1f };
-	instancePosition[1] = { { 1,0,1 }, {0,1,0}, .2f };
-	instancePosition[2] = { { 1,1,1 }, {0,0,1}, .5f };
+	m_Spheres.Add({ { 1,0,1 }, { 1,0,0 }, .1f });
+	m_Spheres.Add({ { 2,0,2 }, { 1,0,0 }, .1f });
+	m_Spheres.Add({ { 3,0,3 }, { 1,0,0 }, .1f });
 
-	m_DrawBatch = IndexedDrawBatch{ gpu, vertices, instancePosition, indices,
-		true, false, true};
-
-	instancePosition[0].Position = { 0,1,0 };
-	instancePosition[1].Position = { 0,2,0 };
-	instancePosition[2].Position = { 0,3,0 };
-
-	m_DrawBatch.UpdateInstancesData(gpu, instancePosition.GetData(), 3);
+	m_DrawBatch = IndexedDrawBatch{ gpu,
+		vertices.GetData(), vertices.GetSize(),
+		m_Spheres.GetData(), m_Spheres.GetCapacity(),
+		indices.GetData(), indices.GetSize(),
+		true, false, true };
 }
 
 void DebugSphereInstancingRenderer::Render(const Gpu& gpu, const Float3& cameraPosition, const Float4X4& viewProjection)
 {
+	m_Spheres.Add({ { 1,0,1 }, { 1,0,0 }, .1f });
+	m_Spheres.Add({ { 2,0,2 }, { 1,0,0 }, .1f });
+	m_Spheres.Add({ { 3,0,3 }, { 1,0,0 }, .1f });
+	m_Spheres.Add({ { 1,1,1 }, { 1,0,0 }, .1f });
+	m_Spheres.Add({ { 2,1,2 }, { 1,0,0 }, .1f });
+	m_Spheres.Add({ { 3,1,3 }, { 1,0,0 }, .1f });
+
+	if (m_Spheres.GetSize() == 0) return;
+	if (m_Spheres.GetSize() > m_DrawBatch.GetInstancesSize())
+		m_DrawBatch.RecreateInstancesWithCapacity(gpu, m_Spheres, false);
+	else
+	{
+		m_DrawBatch.UpdateInstancesData(gpu, m_Spheres);
+		m_DrawBatch.SetInstancesDrawCount(m_Spheres.GetSize());
+	}
+	m_Spheres.Clear();
+
 	m_ConstantBuffer.Update(gpu, CB_CamMatPos{ cameraPosition, viewProjection });
 	m_ConstantBuffer.Activate(gpu);
 	m_RasterizerState.Activate(gpu);
@@ -63,4 +76,9 @@ void DebugSphereInstancingRenderer::Render(const Gpu& gpu, const Float3& cameraP
 	m_Shader.Activate();
 
 	m_DrawBatch.Draw(gpu);
+}
+
+void DebugSphereInstancingRenderer::DrawSphere(const Float3& position, const Float3& color, float size)
+{
+	m_Spheres.Add({ position, color, size });
 }

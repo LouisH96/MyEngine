@@ -39,3 +39,8 @@ void Rendering::IndexedDrawBatch::Draw(const Gpu& gpu)
 	gpu.GetContext().IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	gpu.GetContext().DrawIndexedInstanced(m_DrawCountIndices, m_DrawCountInstances, 0, 0, 0);
 }
+
+unsigned Rendering::IndexedDrawBatch::GetInstancesSize() const
+{
+	return m_Sizes[IDX_INSTANCES];
+}

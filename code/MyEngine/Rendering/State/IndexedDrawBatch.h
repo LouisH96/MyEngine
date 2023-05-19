@@ -2,6 +2,7 @@
 #include "IDrawBatch.h"
 #include <d3d11.h>
 
+#include "DataStructures/List.h"
 #include "Rendering/Dx/DxHelper.h"
 
 namespace MyEngine
@@ -14,6 +15,15 @@ namespace MyEngine
 		public:
 			//---| Constructor/Destructor |---
 			IndexedDrawBatch() = default;
+			template<typename Vertex, typename Instance>
+			IndexedDrawBatch(
+				Gpu& gpu,
+				const Vertex* pVertices, int nrVertices,
+				const Instance* pInstances, int nrInstances,
+				const int* pIndices, int nrIndices,
+				bool verticesImmutable = true,
+				bool instancesImmutable = true,
+				bool indicesImmutable = true);
 			template<typename Vertex, typename Instance>
 			IndexedDrawBatch(
 				Gpu& gpu,
@@ -34,10 +44,12 @@ namespace MyEngine
 			//---| Functions |---
 			void Draw(const Gpu& gpu) override;
 
+			unsigned int GetInstancesSize() const;
 			void SetInstancesDrawCount(int count) { m_DrawCountInstances = count; }
 
-			template<typename T>
-			void UpdateInstancesData(const Gpu& gpu, T* pData, int count);
+			template<typename T> void UpdateInstancesData(const Gpu& gpu, T* pData, int count);
+			template<typename T> void UpdateInstancesData(const Gpu& gpu, const List<T>& list);
+			template<typename T> void RecreateInstancesWithCapacity(const Gpu& gpu, const List<T>& list, bool immutable);
 
 		private:
 			static constexpr int NR_BUFFERS = 3;
@@ -55,21 +67,36 @@ namespace MyEngine
 		template <typename Vertex, typename Instance>
 		IndexedDrawBatch::IndexedDrawBatch(
 			Gpu& gpu,
+			const Vertex* pVertices, int nrVertices,
+			const Instance* pInstances, int nrInstances,
+			const int* pIndices, int nrIndices,
+			bool verticesImmutable, bool instancesImmutable, bool indicesImmutable)
+			: m_Strides{ sizeof(Vertex), sizeof(Instance), sizeof(int) }
+			, m_Offsets{ 0,0,0 }
+			, m_Sizes{ static_cast<unsigned>(nrVertices), static_cast<unsigned>(nrInstances), static_cast<unsigned>(nrIndices) }
+			, m_DrawCountInstances{ static_cast<unsigned>(nrInstances) }
+			, m_DrawCountIndices{ static_cast<unsigned>(nrIndices) }
+		{
+			Dx::DxHelper::CreateVertexBuffer(gpu, m_pBuffers[IDX_VERTICES], pVertices, nrVertices, verticesImmutable);
+			Dx::DxHelper::CreateInstanceBuffer(gpu, m_pBuffers[IDX_INSTANCES], pInstances, nrInstances, instancesImmutable);
+			Dx::DxHelper::CreateIndexBuffer(gpu, m_pBuffers[IDX_INDICES], pIndices, nrIndices, indicesImmutable);
+		}
+
+		template <typename Vertex, typename Instance>
+		IndexedDrawBatch::IndexedDrawBatch(
+			Gpu& gpu,
 			const Array<Vertex>& vertices,
 			const Array<Instance>& instances,
 			const Array<int>& indices,
 			bool verticesImmutable,
 			bool instancesImmutable,
 			bool indicesImmutable)
-			: m_Strides{ sizeof(Vertex), sizeof(Instance), sizeof(int) }
-			, m_Offsets{ 0,0,0 }
-			, m_Sizes{ vertices.GetSizeU(), instances.GetSizeU(), indices.GetSizeU() }
-			, m_DrawCountInstances{ instances.GetSizeU() }
-			, m_DrawCountIndices{ indices.GetSizeU() }
+			: IndexedDrawBatch{ gpu,
+				vertices.GetData(), vertices.GetSize(),
+				instances.GetData(), instances.GetSize(),
+				indices.GetData(), indices.GetSize(),
+				verticesImmutable, instancesImmutable, indicesImmutable }
 		{
-			Dx::DxHelper::CreateVertexBuffer(gpu, m_pBuffers[IDX_VERTICES], vertices, verticesImmutable);
-			Dx::DxHelper::CreateInstanceBuffer(gpu, m_pBuffers[IDX_INSTANCES], instances, instancesImmutable);
-			Dx::DxHelper::CreateIndexBuffer(gpu, m_pBuffers[IDX_INDICES], indices, indicesImmutable);
 		}
 
 		template <typename T>
@@ -79,6 +106,20 @@ namespace MyEngine
 			gpu.GetContext().Map(m_pBuffers[IDX_INSTANCES], 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 			memcpy(mappedResource.pData, pData, count * sizeof(T));
 			gpu.GetContext().Unmap(m_pBuffers[IDX_INSTANCES], 0);
+		}
+
+		template <typename T>
+		void IndexedDrawBatch::UpdateInstancesData(const Gpu& gpu, const List<T>& list)
+		{
+			UpdateInstancesData(gpu, list.GetData(), list.GetSize());
+		}
+
+		template <typename T>
+		void IndexedDrawBatch::RecreateInstancesWithCapacity(const Gpu& gpu, const List<T>& list, bool immutable)
+		{
+			m_pBuffers[IDX_INSTANCES]->Release();
+			Dx::DxHelper::CreateInstanceBuffer(gpu, m_pBuffers[IDX_INSTANCES], list.GetData(), list.GetCapacity(), immutable);
+			m_Sizes[IDX_INSTANCES] = list.GetCapacity();
 		}
 	}
 }
