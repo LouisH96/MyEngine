@@ -38,6 +38,7 @@ namespace MyEngine
 			const Data& Last() const;
 			const Data& First() const;
 			int GetSize() const { return m_Size; }
+			unsigned int GetSizeU() const { return static_cast<unsigned int>(m_Size); }
 			Data* GetData() const { return m_pData; }
 
 			void DeleteAll() const;
@@ -241,7 +242,7 @@ namespace MyEngine
 			DoBoundsCheck(idx);
 #endif
 			return m_pData[idx];
-	}
+		}
 
 		template <typename Data>
 		Data& Array<Data>::operator[](int idx)
@@ -250,7 +251,7 @@ namespace MyEngine
 			DoBoundsCheck(idx);
 #endif
 			return m_pData[idx];
-}
+		}
 
 		template <typename Data>
 		Data& Array<Data>::Last()
