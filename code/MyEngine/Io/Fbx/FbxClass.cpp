@@ -10,13 +10,15 @@ using namespace Math;
 using namespace Io::Fbx::Wrapping;
 
 Io::Fbx::FbxClass::FbxClass(const std::wstring& path)
-	: m_FbxData{ path }
 {
-	m_Geometries = { m_FbxData.GetGeometries().GetSize() };
+	FbxData data{ path };
+	m_Skeleton = FbxSkeleton{ data };
+
+	m_Geometries = { data.GetGeometries().GetSize() };
 	for (int i = 0; i < m_Geometries.GetSize(); i++)
 	{
-		Wrapping::Geometry& dataGeometry = m_FbxData.GetGeometries()[i];
-		Model& dataModel = m_FbxData.GetModel(i);
+		Wrapping::Geometry& dataGeometry = data.GetGeometries()[i];
+		Model& dataModel = data.GetModel(i);
 		Geometry& modelGeometry = m_Geometries[i];
 		modelGeometry.Indices = std::move(dataGeometry.GetIndices());
 		modelGeometry.Normals = std::move(dataGeometry.GetNormals());

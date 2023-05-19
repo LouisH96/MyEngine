@@ -11,7 +11,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Animation\Clip.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\CollectionExclusive.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\FbxWrapMaterial.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\Deformer.cpp" />
@@ -23,7 +22,7 @@
     <ClCompile Include="App\FpsControl.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\Connection.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\NodeAttribute.cpp" />
-    <ClCompile Include="Animation\Joint.cpp" />
+    <ClCompile Include="Io\Fbx\FbxJoint.cpp" />
     <ClCompile Include="Physics\CollisionDetection.cpp" />
     <ClCompile Include="Framework\CoreServices.cpp" />
     <ClCompile Include="Game\Camera\FpsCameraController.cpp" />
@@ -119,11 +118,10 @@
     <ClCompile Include="Game\Transform.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\FbxWrapTexture.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\Video.cpp" />
-    <ClCompile Include="Animation\Skeleton.cpp" />
-    <ClCompile Include="Animation\TransformCurve.cpp" />
+    <ClCompile Include="Io\Fbx\FbxSkeleton.cpp" />
+    <ClCompile Include="Io\Fbx\FbxTransformCurve.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Animation\Clip.h" />
     <ClInclude Include="DataStructures\SortedList.h" />
     <ClInclude Include="Io\Fbx\Wrapping\CollectionExclusive.h" />
     <ClInclude Include="Io\Fbx\Wrapping\FbxWrapMaterial.h" />
@@ -134,7 +132,7 @@
     <ClInclude Include="Io\Fbx\Wrapping\AnimationStack.h" />
     <ClInclude Include="App\BasicExampleApp.h" />
     <ClInclude Include="Io\Fbx\Wrapping\Connection.h" />
-    <ClInclude Include="Animation\Joint.h" />
+    <ClInclude Include="Io\Fbx\FbxJoint.h" />
     <ClInclude Include="Math\Double4x4.h" />
     <ClInclude Include="Io\Fbx\Wrapping\NodeAttribute.h" />
     <ClInclude Include="Physics\CollisionDetection.h" />
@@ -259,10 +257,10 @@
     <ClInclude Include="Math\Vector4.h" />
     <ClInclude Include="Io\Fbx\Wrapping\FbxWrapTexture.h" />
     <ClInclude Include="Io\Fbx\Wrapping\Video.h" />
-    <ClInclude Include="Animation\Skeleton.h" />
-    <ClInclude Include="Animation\ValueCurve.h" />
+    <ClInclude Include="Io\Fbx\FbxSkeleton.h" />
+    <ClInclude Include="Io\Fbx\FbxValueCurve.h" />
     <ClInclude Include="DataStructures\SortedArray.h" />
-    <ClInclude Include="Animation\TransformCurve.h" />
+    <ClInclude Include="Io\Fbx\FbxTransformCurve.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

@@ -1,10 +1,10 @@
 #include "pch.h"
-#include "Joint.h"
+#include "FbxJoint.h"
 
 #include "Debug/DebugRenderer.h"
 #include "Io/Fbx/Wrapping/FbxData.h"
 
-Animation::Joint::Joint(const Io::Fbx::Wrapping::Model& model, const Io::Fbx::Wrapping::FbxData& fbxData)
+Io::Fbx::FbxJoint::FbxJoint(const Io::Fbx::Wrapping::Model& model, const Io::Fbx::Wrapping::FbxData& fbxData)
 	: m_Name{ model.GetName() }
 	, m_Curve(model)
 {
@@ -41,7 +41,7 @@ Animation::Joint::Joint(const Io::Fbx::Wrapping::Model& model, const Io::Fbx::Wr
 	m_PostRotation.RotateBy(postRotationX);
 }
 
-Animation::Joint::Joint(Joint&& other) noexcept
+Io::Fbx::FbxJoint::FbxJoint(FbxJoint&& other) noexcept
 	: m_Name{ std::move(other.m_Name) }
 	, m_LocalTransform(std::move(other.m_LocalTransform))
 	, m_Children{ std::move(other.m_Children) }
@@ -55,7 +55,7 @@ Animation::Joint::Joint(Joint&& other) noexcept
 		m_Children[i].m_pParent = this;
 }
 
-Animation::Joint& Animation::Joint::operator=(Joint&& other) noexcept
+Io::Fbx::FbxJoint& Io::Fbx::FbxJoint::operator=(FbxJoint&& other) noexcept
 {
 	m_Name = std::move(other.m_Name);
 	m_LocalTransform = std::move(other.m_LocalTransform);
@@ -70,12 +70,12 @@ Animation::Joint& Animation::Joint::operator=(Joint&& other) noexcept
 	return *this;
 }
 
-void Animation::Joint::AddToDebugRender(float sphereSize) const
+void Io::Fbx::FbxJoint::AddToDebugRender(float sphereSize) const
 {
 	AddToDebugRender({}, sphereSize);
 }
 
-void Animation::Joint::AddToDebugRender(const Transform& parent, float sphereSize) const
+void Io::Fbx::FbxJoint::AddToDebugRender(const Transform& parent, float sphereSize) const
 {
 	const Transform world{ Transform::LocalToWorld(m_LocalTransform, parent) };
 
@@ -91,12 +91,12 @@ void Animation::Joint::AddToDebugRender(const Transform& parent, float sphereSiz
 	}
 }
 
-void Animation::Joint::AddToDebugRender(const int64_t& time, float sphereSize) const
+void Io::Fbx::FbxJoint::AddToDebugRender(const int64_t& time, float sphereSize) const
 {
 	AddToDebugRender(time, {}, sphereSize);
 }
 
-void Animation::Joint::AddToDebugRender(const int64_t& time, const Transform& parent, float sphereSize) const
+void Io::Fbx::FbxJoint::AddToDebugRender(const int64_t& time, const Transform& parent, float sphereSize) const
 {
 	const Transform current{ m_Curve.AtTime(time) };
 

@@ -104,10 +104,9 @@
     <ClCompile Include="Io\Fbx\Wrapping\Video.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\FbxWrapMaterial.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\CollectionExclusive.cpp" />
-    <ClCompile Include="Animation\Joint.cpp" />
-    <ClCompile Include="Animation\Skeleton.cpp" />
-    <ClCompile Include="Animation\Clip.cpp" />
-    <ClCompile Include="Animation\TransformCurve.cpp" />
+    <ClCompile Include="Io\Fbx\FbxJoint.cpp" />
+    <ClCompile Include="Io\Fbx\FbxSkeleton.cpp" />
+    <ClCompile Include="Io\Fbx\FbxTransformCurve.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -242,14 +241,13 @@
     <ClInclude Include="Io\Fbx\Wrapping\Video.h" />
     <ClInclude Include="Io\Fbx\Wrapping\FbxWrapMaterial.h" />
     <ClInclude Include="Io\Fbx\Wrapping\CollectionExclusive.h" />
-    <ClInclude Include="Animation\Joint.h" />
-    <ClInclude Include="Animation\Skeleton.h" />
-    <ClInclude Include="Animation\Clip.h" />
+    <ClInclude Include="Io\Fbx\FbxJoint.h" />
+    <ClInclude Include="Io\Fbx\FbxSkeleton.h" />
     <ClInclude Include="DataStructures\SortedList.h" />
-    <ClInclude Include="Animation\ValueCurve.h" />
+    <ClInclude Include="Io\Fbx\FbxValueCurve.h" />
     <ClInclude Include="DataStructures\SortedArray.h" />
     <ClInclude Include="Math\Float.h" />
-    <ClInclude Include="Animation\TransformCurve.h" />
+    <ClInclude Include="Io\Fbx\FbxTransformCurve.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
