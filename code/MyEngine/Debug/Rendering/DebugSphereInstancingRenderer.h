@@ -37,15 +37,11 @@ namespace MyEngine
 				Float3 Color;
 				float Size;
 			};
-			Rendering::BlendState m_BlendState;
-			Rendering::RasterizerState m_RasterizerState;
 			Rendering::InputLayout m_InputLayout;
 			Rendering::Shader m_Shader;
-			Rendering::ConstantBuffer<Rendering::CB_CamMatPos> m_ConstantBuffer;
 			static const Rendering::InputLayout::Element ELEMENTS[];
 
 			List<InstanceData> m_Spheres{};
-
 			Rendering::IndexedDrawBatch m_DrawBatch;
 		};
 	}

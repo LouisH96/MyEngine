@@ -164,8 +164,8 @@ void DebugRenderer::Class_Render(const Math::Float3& cameraPosition, const Math:
 		m_Meshes[i]->Activate(m_Gpu);
 		m_Meshes[i]->Draw(m_Gpu);
 	}
-	m_pLineRenderer->Render(cameraPosition, viewProjection);
 	m_SphereInstancingRenderer.Render(m_Gpu, cameraPosition, viewProjection);
+	m_pLineRenderer->Render(cameraPosition, viewProjection);
 }
 
 void DebugRenderer::Class_AddSphere(const Float3& position, const Float3& color, float radius)

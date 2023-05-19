@@ -18,11 +18,8 @@ const InputLayout::Element DebugSphereInstancingRenderer::ELEMENTS[] =
 };
 
 DebugSphereInstancingRenderer::DebugSphereInstancingRenderer(Gpu& gpu)
-	: m_BlendState{ gpu }
-	, m_RasterizerState{ gpu }
-	, m_InputLayout{ gpu, ELEMENTS, static_cast<int>(sizeof(ELEMENTS) / sizeof(InputLayout::Element)) }
+	: m_InputLayout{ gpu, ELEMENTS, static_cast<int>(sizeof(ELEMENTS) / sizeof(InputLayout::Element)) }
 	, m_Shader{ gpu, Framework::Resources::GetGlobalShaderPath(L"LambertCam_Inst_Col_Pos.hlsl") }
-	, m_ConstantBuffer{ gpu }
 {
 	using Vertex = V_PosNor;
 
@@ -54,13 +51,8 @@ void DebugSphereInstancingRenderer::Render(const Gpu& gpu, const Float3& cameraP
 	m_DrawBatch.SetInstancesDrawCount(m_Spheres.GetSize());
 	m_Spheres.Clear();
 
-	m_ConstantBuffer.Update(gpu, CB_CamMatPos{ cameraPosition, viewProjection });
-	m_ConstantBuffer.Activate(gpu);
-	m_RasterizerState.Activate(gpu);
 	m_InputLayout.Activate(gpu);
-	m_BlendState.Activate(gpu);
 	m_Shader.Activate();
-
 	m_DrawBatch.Draw(gpu);
 }
 
