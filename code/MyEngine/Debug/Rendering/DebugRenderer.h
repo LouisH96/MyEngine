@@ -52,6 +52,8 @@ namespace MyEngine
 
 			static void AddGridXy(const Math::Float3& offset, const Math::Float2& bounds, int nrCols, int nrRows, const Math::Float3& color);
 
+			static void DrawSphere(const Float3& position, const Float3& color, float radius);
+
 		private:
 			using Vertex = Rendering::V_PosColNorm;
 			using LineRenderer = Rendering::RendererFactory::UnlitRenderer;

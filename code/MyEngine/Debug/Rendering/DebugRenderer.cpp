@@ -133,6 +133,11 @@ void DebugRenderer::AddGridXy(const Math::Float3& offset, const Math::Float2& bo
 	m_pStatic->m_pLineRenderer->AddMesh(Rendering::Mesh::Create(m_pStatic->m_Gpu, vertices, Rendering::Topology::LineStrip));
 }
 
+void DebugRenderer::DrawSphere(const Float3& position, const Float3& color, float radius)
+{
+	m_pStatic->m_SpheresRenderer.DrawSphere(position, color, radius);
+}
+
 DebugRenderer::DebugRenderer(Rendering::Gpu& gpu)
 	: m_Gpu(gpu)
 	, m_BlendState(gpu)
