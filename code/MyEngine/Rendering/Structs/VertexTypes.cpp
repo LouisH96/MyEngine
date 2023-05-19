@@ -7,6 +7,12 @@ const Rendering::InputLayout::Element Rendering::V_Pos2Uv::ELEMENTS[] =
 	{"TEXCOORD", InputLayout::ElementType::Float2},
 };
 
+const Rendering::InputLayout::Element Rendering::V_PosNor::ELEMENTS[] =
+{
+	{"POSITION", InputLayout::ElementType::Float3},
+	{"NORMAL", InputLayout::ElementType::Float3},
+};
+
 const Rendering::InputLayout::Element Rendering::V_PosCol::ELEMENTS[] =
 {
 	{"POSITION", InputLayout::ElementType::Float3},

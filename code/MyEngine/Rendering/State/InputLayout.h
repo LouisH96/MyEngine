@@ -13,7 +13,7 @@ namespace MyEngine
 		public:
 			enum class ElementType
 			{
-				Float3, Float2
+				Float3, Float2, Float
 			};
 			enum class SlotClass
 			{

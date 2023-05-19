@@ -28,6 +28,12 @@ namespace MyEngine
 			void Render(const Rendering::Gpu& gpu, const Float3& cameraPosition, const Float4X4& viewProjection);
 
 		private:
+			struct InstanceData
+			{
+				Float3 Position;
+				Float3 Color;
+				float Size;
+			};
 			Rendering::BlendState m_BlendState;
 			Rendering::RasterizerState m_RasterizerState;
 			Rendering::InputLayout m_InputLayout;
