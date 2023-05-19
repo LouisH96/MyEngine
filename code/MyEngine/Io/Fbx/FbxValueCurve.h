@@ -17,18 +17,20 @@ namespace MyEngine
 				explicit FbxValueCurve(const Wrapping::AnimationCurve& curve);
 
 				T ValueAtTime(const int64_t& time) const;
+				void ScaleValues(float scale);
 
 			private:
 				SortedArray<int64_t> m_Times;
-				SortedArray<T> m_Values;
+				Array<T> m_Values;
 			};
 
 			//Times & values should be sorted
 			template <typename T>
 			FbxValueCurve<T>::FbxValueCurve(const Wrapping::AnimationCurve& curve)
 				: m_Times{ SortedArray<int64_t>{curve.KeyTimes} }
-				, m_Values{ SortedArray<float>{curve.KeyValueFloats} }
+				, m_Values{ curve.KeyValueFloats }
 			{
+				//todo: if times get sorted, values might also need to change positions
 				if (m_Times.GetSize() != m_Values.GetSize())
 					Logger::PrintError("Times and Values should have equal lengths");
 			}
@@ -46,6 +48,13 @@ namespace MyEngine
 				}
 				const float alpha{ Float::Unlerp(time, m_Times[idxBefore], m_Times[idxAfter]) };
 				return Float::Lerp(alpha, m_Values[idxBefore], m_Values[idxAfter]);
+			}
+
+			template <typename T>
+			void FbxValueCurve<T>::ScaleValues(float scale)
+			{
+				for (int i = 0; i < m_Values.GetSize(); i++)
+					m_Values[i] *= scale;
 			}
 		}
 	}

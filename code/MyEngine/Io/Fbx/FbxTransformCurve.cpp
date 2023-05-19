@@ -11,6 +11,11 @@ Io::Fbx::FbxTransformCurve::FbxTransformCurve(const Model& limbNode)
 	FromAnimationCurveNode(*limbNode.GetTranslationCurveNode(), m_TranslationCurves);
 	FromAnimationCurveNode(*limbNode.GetRotationCurveNode(), m_RotationCurves);
 	FromAnimationCurveNode(*limbNode.GetScaleCurveNode(), m_ScaleCurves);
+
+	m_TranslationCurves[0].ScaleValues(-1);
+	m_RotationCurves[1].ScaleValues(-1);
+	m_RotationCurves[2].ScaleValues(-1);
+	m_ScaleCurves[0].ScaleValues(-1);
 }
 
 Transform Io::Fbx::FbxTransformCurve::AtTime(const int64_t& time) const
