@@ -12,3 +12,8 @@ void Animation::Skeleton::AddToDebugRenderer(float sphereSize) const
 {
 	m_RootJoint.AddToDebugRender(sphereSize);
 }
+
+void Animation::Skeleton::AddToDebugRenderer(const int64_t& time, float sphereSize) const
+{
+	m_RootJoint.AddToDebugRender(time, sphereSize);
+}

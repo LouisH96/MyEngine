@@ -1,4 +1,5 @@
 #pragma once
+#include "TransformCurve.h"
 #include "DataStructures/GridArray.h"
 
 namespace MyEngine
@@ -27,7 +28,7 @@ namespace MyEngine
 
 		private:
 			Array<const Io::Fbx::Wrapping::Model*> m_LimbNodes{};
-			GridArray<Transform> m_Data{};
+			Array<TransformCurve> m_TransformCurves{};
 		};
 	}
 }

@@ -26,6 +26,7 @@ namespace MyEngine
 
 			bool TryAdd(const T& newValue);
 
+			const T* GetData() const { return m_pData; }
 
 		private:
 			int m_Size;
@@ -136,6 +137,7 @@ namespace MyEngine
 			{
 				m_Capacity *= 2;
 				T* pNew = new T[m_Capacity];
+				pNew[m_Size] = newValue;
 				memcpy(pNew, m_pData, m_Size++ * sizeof(T));
 				delete[] m_pData;
 				m_pData = pNew;

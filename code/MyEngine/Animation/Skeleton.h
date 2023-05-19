@@ -34,6 +34,7 @@ namespace MyEngine
 			Skeleton& operator=(Skeleton&& other) noexcept = default;
 
 			void AddToDebugRenderer(float sphereSize = .05f) const;
+			void AddToDebugRenderer(const int64_t& time, float sphereSize = .05f) const;
 
 		private:
 			Joint m_RootJoint;

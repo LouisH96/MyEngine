@@ -10,5 +10,15 @@
 			</ArrayItems>
 		</Expand>
 	</Type>
+	
+	<Type Name="MyEngine::Ds::SortedList&lt;*&gt;">
+		<DisplayString>{{ size={m_Size} }}</DisplayString>
+		<Expand>
+			<ArrayItems>
+				<Size>m_Size</Size>
+				<ValuePointer>m_pData</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
 
 </AutoVisualizer>

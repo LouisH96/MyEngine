@@ -9,6 +9,8 @@ namespace MyEngine
 		class Array
 		{
 		public:
+			static Array CopyFrom(const Data* pData, int amount);
+
 			Array();
 			Array(int size);
 			Array(int size, const Data& initValue);
@@ -54,6 +56,14 @@ namespace MyEngine
 			void DoBoundsCheck(int idx) const;
 			void PrintOutOfBounds(int idx) const;
 		};
+
+		template <typename Data>
+		Array<Data> Array<Data>::CopyFrom(const Data* pData, int amount)
+		{
+			Array array{ amount };
+			memcpy(array.m_pData, pData, amount * sizeof(Data));
+			return array;
+		}
 
 		template <typename Data>
 		Array<Data>::Array()
@@ -231,7 +241,7 @@ namespace MyEngine
 			DoBoundsCheck(idx);
 #endif
 			return m_pData[idx];
-		}
+	}
 
 		template <typename Data>
 		Data& Array<Data>::operator[](int idx)
@@ -240,7 +250,7 @@ namespace MyEngine
 			DoBoundsCheck(idx);
 #endif
 			return m_pData[idx];
-		}
+}
 
 		template <typename Data>
 		Data& Array<Data>::Last()

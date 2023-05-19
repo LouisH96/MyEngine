@@ -107,7 +107,7 @@
     <ClCompile Include="Animation\Joint.cpp" />
     <ClCompile Include="Animation\Skeleton.cpp" />
     <ClCompile Include="Animation\Clip.cpp" />
-    <ClCompile Include="Animation\JointCurve.cpp" />
+    <ClCompile Include="Animation\TransformCurve.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -245,8 +245,11 @@
     <ClInclude Include="Animation\Joint.h" />
     <ClInclude Include="Animation\Skeleton.h" />
     <ClInclude Include="Animation\Clip.h" />
-    <ClInclude Include="Animation\JointCurve.h" />
     <ClInclude Include="DataStructures\SortedList.h" />
+    <ClInclude Include="Animation\ValueCurve.h" />
+    <ClInclude Include="DataStructures\SortedArray.h" />
+    <ClInclude Include="Math\Float.h" />
+    <ClInclude Include="Animation\TransformCurve.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

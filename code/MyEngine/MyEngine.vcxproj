@@ -24,7 +24,6 @@
     <ClCompile Include="Io\Fbx\Wrapping\Connection.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\NodeAttribute.cpp" />
     <ClCompile Include="Animation\Joint.cpp" />
-    <ClCompile Include="Animation\JointCurve.cpp" />
     <ClCompile Include="Physics\CollisionDetection.cpp" />
     <ClCompile Include="Framework\CoreServices.cpp" />
     <ClCompile Include="Game\Camera\FpsCameraController.cpp" />
@@ -121,6 +120,7 @@
     <ClCompile Include="Io\Fbx\Wrapping\FbxWrapTexture.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\Video.cpp" />
     <ClCompile Include="Animation\Skeleton.cpp" />
+    <ClCompile Include="Animation\TransformCurve.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation\Clip.h" />
@@ -135,7 +135,6 @@
     <ClInclude Include="App\BasicExampleApp.h" />
     <ClInclude Include="Io\Fbx\Wrapping\Connection.h" />
     <ClInclude Include="Animation\Joint.h" />
-    <ClInclude Include="Animation\JointCurve.h" />
     <ClInclude Include="Math\Double4x4.h" />
     <ClInclude Include="Io\Fbx\Wrapping\NodeAttribute.h" />
     <ClInclude Include="Physics\CollisionDetection.h" />
@@ -156,6 +155,7 @@
     <ClInclude Include="Rendering\Renderers\R_LambertCam_Tex.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertLight_Tex.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertLight_Col.h" />
+    <ClInclude Include="Math\Float.h" />
     <ClInclude Include="Shapes\Capsule.h" />
     <ClInclude Include="Io\Fbx\Reading\Properties70.h" />
     <ClInclude Include="Io\Fbx\Wrapping\Geometry.h" />
@@ -260,6 +260,9 @@
     <ClInclude Include="Io\Fbx\Wrapping\FbxWrapTexture.h" />
     <ClInclude Include="Io\Fbx\Wrapping\Video.h" />
     <ClInclude Include="Animation\Skeleton.h" />
+    <ClInclude Include="Animation\ValueCurve.h" />
+    <ClInclude Include="DataStructures\SortedArray.h" />
+    <ClInclude Include="Animation\TransformCurve.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

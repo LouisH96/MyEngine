@@ -1,4 +1,5 @@
 #pragma once
+#include "TransformCurve.h"
 
 namespace MyEngine
 {
@@ -32,11 +33,19 @@ namespace MyEngine
 			void AddToDebugRender(float sphereSize = .05f) const;
 			void AddToDebugRender(const Transform& parent, float sphereSize = .05f) const;
 
+			void AddToDebugRender(const int64_t& time, float sphereSize = .05f) const;
+			void AddToDebugRender(const int64_t& time, const Transform& parent, float sphereSize = .05f) const;
+
 		private:
 			std::string m_Name;
 			Transform m_LocalTransform;
 			Array<Joint> m_Children;
 			Joint* m_pParent{};
+			TransformCurve m_Curve;
+
+			Float3 m_LocalTranslation;
+			Quaternion m_PreRotation;
+			Quaternion m_PostRotation;
 		};
 	}
 }
