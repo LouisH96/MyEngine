@@ -1,11 +1,10 @@
 #include "pch.h"
 #include "DebugSphereInstancingRenderer.h"
 
-#include "Framework/Resources.h"
-#include "Generation/Shapes.h"
-#include "Rendering/State/InputLayout.h"
-#include "Rendering/State/InputLayout.h"
-#include "Rendering/State/Mesh.h"
+#include <Framework/Resources.h>
+#include <Generation/Shapes.h>
+#include <Rendering/State/InputLayout.h>
+#include <Rendering/State/Mesh.h>
 
 using namespace Rendering;
 
@@ -38,10 +37,6 @@ DebugSphereInstancingRenderer::DebugSphereInstancingRenderer(Gpu& gpu)
 		vertices[i] = Vertex{ positions[i], normals[i] };
 
 	//INSTANCE BUFFER
-	m_Spheres.Add({ { 1,0,1 }, { 1,0,0 }, .1f });
-	m_Spheres.Add({ { 2,0,2 }, { 1,0,0 }, .1f });
-	m_Spheres.Add({ { 3,0,3 }, { 1,0,0 }, .1f });
-
 	m_DrawBatch = IndexedDrawBatch{ gpu,
 		vertices.GetData(), vertices.GetSize(),
 		m_Spheres.GetData(), m_Spheres.GetCapacity(),
@@ -51,21 +46,12 @@ DebugSphereInstancingRenderer::DebugSphereInstancingRenderer(Gpu& gpu)
 
 void DebugSphereInstancingRenderer::Render(const Gpu& gpu, const Float3& cameraPosition, const Float4X4& viewProjection)
 {
-	m_Spheres.Add({ { 1,0,1 }, { 1,0,0 }, .1f });
-	m_Spheres.Add({ { 2,0,2 }, { 1,0,0 }, .1f });
-	m_Spheres.Add({ { 3,0,3 }, { 1,0,0 }, .1f });
-	m_Spheres.Add({ { 1,1,1 }, { 1,0,0 }, .1f });
-	m_Spheres.Add({ { 2,1,2 }, { 1,0,0 }, .1f });
-	m_Spheres.Add({ { 3,1,3 }, { 1,0,0 }, .1f });
-
 	if (m_Spheres.GetSize() == 0) return;
 	if (m_Spheres.GetSize() > m_DrawBatch.GetInstancesSize())
 		m_DrawBatch.RecreateInstancesWithCapacity(gpu, m_Spheres, false);
 	else
-	{
 		m_DrawBatch.UpdateInstancesData(gpu, m_Spheres);
-		m_DrawBatch.SetInstancesDrawCount(m_Spheres.GetSize());
-	}
+	m_DrawBatch.SetInstancesDrawCount(m_Spheres.GetSize());
 	m_Spheres.Clear();
 
 	m_ConstantBuffer.Update(gpu, CB_CamMatPos{ cameraPosition, viewProjection });
