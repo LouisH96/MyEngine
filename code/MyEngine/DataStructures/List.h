@@ -25,6 +25,8 @@ namespace MyEngine
 			void Clear();
 
 			const T* GetData() const { return m_pData; }
+			int GetSize() const { return m_Size; }
+			int GetCapacity() const { return m_Capacity; }
 
 		private:
 			T* m_pData;
