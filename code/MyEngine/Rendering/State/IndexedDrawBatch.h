@@ -36,6 +36,9 @@ namespace MyEngine
 
 			void SetInstancesDrawCount(int count) { m_DrawCountInstances = count; }
 
+			template<typename T>
+			void UpdateInstancesData(const Gpu& gpu, T* pData, int count);
+
 		private:
 			static constexpr int NR_BUFFERS = 3;
 			static constexpr int IDX_VERTICES = 0;
@@ -67,6 +70,15 @@ namespace MyEngine
 			Dx::DxHelper::CreateVertexBuffer(gpu, m_pBuffers[IDX_VERTICES], vertices, verticesImmutable);
 			Dx::DxHelper::CreateInstanceBuffer(gpu, m_pBuffers[IDX_INSTANCES], instances, instancesImmutable);
 			Dx::DxHelper::CreateIndexBuffer(gpu, m_pBuffers[IDX_INDICES], indices, indicesImmutable);
+		}
+
+		template <typename T>
+		void IndexedDrawBatch::UpdateInstancesData(const Gpu& gpu, T* pData, int count)
+		{
+			D3D11_MAPPED_SUBRESOURCE mappedResource{};
+			gpu.GetContext().Map(m_pBuffers[IDX_INSTANCES], 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+			memcpy(mappedResource.pData, pData, count * sizeof(T));
+			gpu.GetContext().Unmap(m_pBuffers[IDX_INSTANCES], 0);
 		}
 	}
 }

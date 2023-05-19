@@ -43,9 +43,14 @@ DebugSphereInstancingRenderer::DebugSphereInstancingRenderer(Gpu& gpu)
 	instancePosition[1] = { { 1,0,1 }, {0,1,0}, .2f };
 	instancePosition[2] = { { 1,1,1 }, {0,0,1}, .5f };
 
-	m_DrawBatch = IndexedDrawBatch{ gpu, vertices, instancePosition, indices };
+	m_DrawBatch = IndexedDrawBatch{ gpu, vertices, instancePosition, indices,
+		true, false, true};
 
-	m_DrawBatch.SetInstancesDrawCount(2);
+	instancePosition[0].Position = { 0,1,0 };
+	instancePosition[1].Position = { 0,2,0 };
+	instancePosition[2].Position = { 0,3,0 };
+
+	m_DrawBatch.UpdateInstancesData(gpu, instancePosition.GetData(), 3);
 }
 
 void DebugSphereInstancingRenderer::Render(const Gpu& gpu, const Float3& cameraPosition, const Float4X4& viewProjection)
