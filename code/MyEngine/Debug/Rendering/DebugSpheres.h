@@ -20,11 +20,11 @@ namespace MyEngine
 {
 	namespace Debug
 	{
-		class DebugSphereInstancingRenderer
+		class DebugSpheres
 		{
 		public:
-			explicit DebugSphereInstancingRenderer(Rendering::Gpu& gpu);
-			~DebugSphereInstancingRenderer() = default;
+			explicit DebugSpheres(Rendering::Gpu& gpu);
+			~DebugSpheres() = default;
 
 			void Render(const Rendering::Gpu& gpu, const Float3& cameraPosition, const Float4X4& viewProjection);
 

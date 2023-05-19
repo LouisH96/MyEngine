@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "DebugSphereInstancingRenderer.h"
+#include "DebugSpheres.h"
 
 #include <Framework/Resources.h>
 #include <Generation/Shapes.h>
@@ -8,7 +8,7 @@
 
 using namespace Rendering;
 
-const InputLayout::Element DebugSphereInstancingRenderer::ELEMENTS[] =
+const InputLayout::Element DebugSpheres::ELEMENTS[] =
 {
 	{"POSITION", InputLayout::ElementType::Float3},
 	{"NORMAL", InputLayout::ElementType::Float3},
@@ -17,7 +17,7 @@ const InputLayout::Element DebugSphereInstancingRenderer::ELEMENTS[] =
 	{"INST_SIZE", InputLayout::ElementType::Float, 1, InputLayout::SlotClass::PerInstance}
 };
 
-DebugSphereInstancingRenderer::DebugSphereInstancingRenderer(Gpu& gpu)
+DebugSpheres::DebugSpheres(Gpu& gpu)
 	: m_InputLayout{ gpu, ELEMENTS, static_cast<int>(sizeof(ELEMENTS) / sizeof(InputLayout::Element)) }
 	, m_Shader{ gpu, Framework::Resources::GetGlobalShaderPath(L"LambertCam_Inst_Col_Pos.hlsl") }
 {
@@ -41,7 +41,7 @@ DebugSphereInstancingRenderer::DebugSphereInstancingRenderer(Gpu& gpu)
 		true, false, true };
 }
 
-void DebugSphereInstancingRenderer::Render(const Gpu& gpu, const Float3& cameraPosition, const Float4X4& viewProjection)
+void DebugSpheres::Render(const Gpu& gpu, const Float3& cameraPosition, const Float4X4& viewProjection)
 {
 	if (m_Spheres.GetSize() == 0) return;
 	if (m_Spheres.GetSize() > m_DrawBatch.GetInstancesSize())
@@ -56,7 +56,7 @@ void DebugSphereInstancingRenderer::Render(const Gpu& gpu, const Float3& cameraP
 	m_DrawBatch.Draw(gpu);
 }
 
-void DebugSphereInstancingRenderer::DrawSphere(const Float3& position, const Float3& color, float size)
+void DebugSpheres::DrawSphere(const Float3& position, const Float3& color, float size)
 {
 	m_Spheres.Add({ position, color, size });
 }

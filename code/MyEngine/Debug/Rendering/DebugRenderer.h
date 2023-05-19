@@ -7,8 +7,7 @@
 #include <Rendering/Structs/ConstantBufferTypes.h>
 #include <Rendering/Structs/VertexTypes.h>
 #include <Rendering/Renderers/RendererFactory.h>
-
-#include "DebugSphereInstancingRenderer.h"
+#include "DebugSpheres.h"
 
 namespace MyEngine
 {
@@ -70,7 +69,7 @@ namespace MyEngine
 			Rendering::Shader m_Shader;
 			static const Rendering::InputLayout::Element ELEMENTS[];
 			LineRenderer* m_pLineRenderer{};
-			DebugSphereInstancingRenderer m_SphereInstancingRenderer;
+			DebugSpheres m_SpheresRenderer;
 
 			//---| Mesh |---
 			Array<Rendering::Mesh*> m_Meshes{};

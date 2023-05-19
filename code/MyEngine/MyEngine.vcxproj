@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Debug\Rendering\DebugSphereInstancingRenderer.cpp" />
+    <ClCompile Include="Debug\Rendering\DebugSpheres.cpp" />
     <ClCompile Include="Rendering\State\IndexedDrawBatch.cpp" />
     <ClCompile Include="Rendering\State\DrawBatch.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\CollectionExclusive.cpp" />
@@ -127,7 +127,7 @@
   <ItemGroup>
     <ClInclude Include="DataStructures\List.h" />
     <ClInclude Include="DataStructures\SortedList.h" />
-    <ClInclude Include="Debug\Rendering\DebugSphereInstancingRenderer.h" />
+    <ClInclude Include="Debug\Rendering\DebugSpheres.h" />
     <ClInclude Include="Rendering\State\IndexedDrawBatch.h" />
     <ClInclude Include="Rendering\State\DrawBatch.h" />
     <ClInclude Include="Io\Fbx\Wrapping\CollectionExclusive.h" />

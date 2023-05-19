@@ -141,7 +141,7 @@ DebugRenderer::DebugRenderer(Rendering::Gpu& gpu)
 	, m_ConstantBuffer(gpu)
 	, m_Shader(gpu, Framework::Resources::GetGlobalShaderPath(L"lambertCamDir.hlsl"))
 	, m_pLineRenderer(Rendering::RendererFactory::CreateUnlitRenderer(gpu))
-	, m_SphereInstancingRenderer{ gpu }
+	, m_SpheresRenderer{ gpu }
 {
 }
 
@@ -164,7 +164,7 @@ void DebugRenderer::Class_Render(const Math::Float3& cameraPosition, const Math:
 		m_Meshes[i]->Activate(m_Gpu);
 		m_Meshes[i]->Draw(m_Gpu);
 	}
-	m_SphereInstancingRenderer.Render(m_Gpu, cameraPosition, viewProjection);
+	m_SpheresRenderer.Render(m_Gpu, cameraPosition, viewProjection);
 	m_pLineRenderer->Render(cameraPosition, viewProjection);
 }
 

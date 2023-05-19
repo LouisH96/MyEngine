@@ -107,7 +107,7 @@
     <ClCompile Include="Io\Fbx\FbxJoint.cpp" />
     <ClCompile Include="Io\Fbx\FbxSkeleton.cpp" />
     <ClCompile Include="Io\Fbx\FbxTransformCurve.cpp" />
-    <ClCompile Include="Debug\Rendering\DebugSphereInstancingRenderer.cpp" />
+    <ClCompile Include="Debug\Rendering\DebugSpheres.cpp" />
     <ClCompile Include="Rendering\State\DrawBatch.cpp" />
     <ClCompile Include="Rendering\State\IndexedDrawBatch.cpp" />
   </ItemGroup>
@@ -251,7 +251,7 @@
     <ClInclude Include="DataStructures\SortedArray.h" />
     <ClInclude Include="Math\Float.h" />
     <ClInclude Include="Io\Fbx\FbxTransformCurve.h" />
-    <ClInclude Include="Debug\Rendering\DebugSphereInstancingRenderer.h" />
+    <ClInclude Include="Debug\Rendering\DebugSpheres.h" />
     <ClInclude Include="Rendering\State\IDrawBatch.h" />
     <ClInclude Include="Rendering\State\DrawBatch.h" />
     <ClInclude Include="Rendering\State\IndexedDrawBatch.h" />
