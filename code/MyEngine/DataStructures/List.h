@@ -27,6 +27,7 @@ namespace MyEngine
 			const T* GetData() const { return m_pData; }
 			int GetSize() const { return m_Size; }
 			int GetCapacity() const { return m_Capacity; }
+			bool IsEmpty() const { return m_Size == 0; }
 
 		private:
 			T* m_pData;
