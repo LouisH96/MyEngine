@@ -12,7 +12,8 @@ using namespace Io::Fbx::Wrapping;
 Io::Fbx::FbxClass::FbxClass(const std::wstring& path)
 {
 	FbxData data{ path };
-	m_Skeleton = FbxSkeleton{ data };
+	if (data.GetRootLimbNode())
+		m_Skeleton = FbxSkeleton{ data };
 
 	m_Geometries = { data.GetGeometries().GetSize() };
 	for (int i = 0; i < m_Geometries.GetSize(); i++)
