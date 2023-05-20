@@ -1,0 +1,32 @@
+#pragma once
+#include "DataStructures/List.h"
+#include "Rendering/State/InputLayout.h"
+#include "Rendering/State/Shader.h"
+#include "Rendering/State/VertexBuffer.h"
+#include "Rendering/Structs/VertexTypes.h"
+
+namespace MyEngine
+{
+	namespace Debug
+	{
+		class DebugLines
+		{
+		public:
+			explicit DebugLines(const Rendering::Gpu& gpu);
+
+			void Render(const Rendering::Gpu& gpu);
+
+			void DrawLine(const Float3& begin, const Float3& end, const Float3& color);
+			void DrawRay(const Float3& origin, const Float3& displacement, const Float3& color);
+
+		private:
+			using Vertex = Rendering::V_PosCol;
+
+			Rendering::InputLayout m_InputLayout;
+			Rendering::Shader m_Shader;
+
+			List<Vertex> m_Points{};
+			Rendering::VertexBuffer m_VertexBuffer{};
+		};
+	}
+}

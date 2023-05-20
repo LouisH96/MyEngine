@@ -41,7 +41,7 @@ namespace MyEngine
 				const Array<Geometry>& GetGeometries() const { return m_Geometries; }
 				Array<Geometry>& GetGeometries() { return m_Geometries; }
 
-				const FbxSkeleton& GetSkeleton() { return m_Skeleton; }
+				const FbxSkeleton& GetSkeleton() const { return m_Skeleton; }
 
 			private:
 				Array<Geometry> m_Geometries{};

@@ -49,6 +49,9 @@ namespace MyEngine
 				template <typename T>
 				static void CreateStructuredBuffer(ID3D11Device& device, ID3D11Buffer*& pBuffer, ID3D11ShaderResourceView*& pView, const std::vector<T>& initData);
 
+				static void CreateVertexBuffer(const Gpu& gpu, ID3D11Buffer*& pBuffer, unsigned stride, int length, bool immutable);
+				template<typename T>
+				static void CreateVertexBuffer(const Gpu& gpu, ID3D11Buffer*& pBuffer, int length, bool immutable);
 				template<typename T>
 				static void CreateVertexBuffer(const Gpu& gpu, ID3D11Buffer*& pBuffer, const T* pData, int length, bool immutable);
 				template<typename T>
@@ -143,6 +146,22 @@ namespace MyEngine
 				ID3D11ShaderResourceView*& pView, const std::vector<T>& initData)
 			{
 				CreateStructuredBuffer(device, pBuffer, pView, initData.data(), initData.size());
+			}
+
+			template <typename T>
+			void DxHelper::CreateVertexBuffer(const Gpu& gpu, ID3D11Buffer*& pBuffer, int length, bool immutable)
+			{
+				const D3D11_BUFFER_DESC desc
+				{
+					sizeof(T) * length,
+					immutable ? D3D11_USAGE_IMMUTABLE : D3D11_USAGE_DYNAMIC,
+					D3D11_BIND_VERTEX_BUFFER,
+					immutable ? 0 : D3D11_CPU_ACCESS_WRITE,
+					0, sizeof(T)
+				};
+				const HRESULT result{ gpu.GetDevice().CreateBuffer(&desc, nullptr, &pBuffer) };
+				if (FAILED(result))
+					Logger::PrintError("Failed creating Vertex-Buffer");
 			}
 
 			template <typename T>

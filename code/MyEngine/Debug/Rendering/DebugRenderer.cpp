@@ -43,6 +43,16 @@ void DebugRenderer::AddLine(const Array<Math::Float3>& points, const Math::Float
 	m_pStatic->Class_AddLine(points, color);
 }
 
+void DebugRenderer::DrawLine(const Float3& begin, const Float3& end, const Float3& color)
+{
+	m_pStatic->m_LinesRenderer2.DrawLine(begin, end, color);
+}
+
+void DebugRenderer::DrawRay(const Float3& origin, const Float3& displacement, const Float3& color)
+{
+	m_pStatic->m_LinesRenderer2.DrawRay(origin, displacement, color);
+}
+
 void DebugRenderer::AddRay(const Math::Float3& origin, const Math::Float3& displacement, const Math::Float3& color)
 {
 	Array<LineVertex> vertices{ 2 };
@@ -147,6 +157,7 @@ DebugRenderer::DebugRenderer(Rendering::Gpu& gpu)
 	, m_Shader(gpu, Framework::Resources::GetGlobalShaderPath(L"lambertCamDir.hlsl"))
 	, m_pLineRenderer(Rendering::RendererFactory::CreateUnlitRenderer(gpu))
 	, m_SpheresRenderer{ gpu }
+	, m_LinesRenderer2{ gpu }
 {
 }
 
@@ -171,6 +182,7 @@ void DebugRenderer::Class_Render(const Math::Float3& cameraPosition, const Math:
 	}
 	m_SpheresRenderer.Render(m_Gpu, cameraPosition, viewProjection);
 	m_pLineRenderer->Render(cameraPosition, viewProjection);
+	m_LinesRenderer2.Render(m_Gpu);
 }
 
 void DebugRenderer::Class_AddSphere(const Float3& position, const Float3& color, float radius)

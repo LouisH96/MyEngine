@@ -152,3 +152,19 @@ void Rendering::Dx::DxHelper::CreateIndexBuffer(const Gpu& gpu, ID3D11Buffer*& p
 {
 	CreateIndexBuffer(gpu, pIndexBuffer, indices.GetData(), indices.GetSize(), immutable);
 }
+
+void Rendering::Dx::DxHelper::CreateVertexBuffer(const Gpu& gpu, ID3D11Buffer*& pBuffer, unsigned stride, int length,
+	bool immutable)
+{
+	const D3D11_BUFFER_DESC desc
+	{
+		stride * length,
+		immutable ? D3D11_USAGE_IMMUTABLE : D3D11_USAGE_DYNAMIC,
+		D3D11_BIND_VERTEX_BUFFER,
+		immutable ? 0u : D3D11_CPU_ACCESS_WRITE,
+		0, stride
+	};
+	const HRESULT result{ gpu.GetDevice().CreateBuffer(&desc, nullptr, &pBuffer) };
+	if (FAILED(result))
+		Logger::PrintError("Failed creating Vertex-Buffer");
+}

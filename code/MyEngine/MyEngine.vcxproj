@@ -11,7 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Debug\Rendering\DebugLines.cpp" />
     <ClCompile Include="Debug\Rendering\DebugSpheres.cpp" />
+    <ClCompile Include="Rendering\State\PrimitiveTopology.cpp" />
     <ClCompile Include="Rendering\State\IndexedDrawBatch.cpp" />
     <ClCompile Include="Rendering\State\DrawBatch.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\CollectionExclusive.cpp" />
@@ -123,11 +125,14 @@
     <ClCompile Include="Io\Fbx\Wrapping\Video.cpp" />
     <ClCompile Include="Io\Fbx\FbxSkeleton.cpp" />
     <ClCompile Include="Io\Fbx\FbxTransformCurve.cpp" />
+    <ClCompile Include="Rendering\State\VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataStructures\List.h" />
     <ClInclude Include="DataStructures\SortedList.h" />
+    <ClInclude Include="Debug\Rendering\DebugLines.h" />
     <ClInclude Include="Debug\Rendering\DebugSpheres.h" />
+    <ClInclude Include="Rendering\State\PrimitiveTopology.h" />
     <ClInclude Include="Rendering\State\IndexedDrawBatch.h" />
     <ClInclude Include="Rendering\State\DrawBatch.h" />
     <ClInclude Include="Io\Fbx\Wrapping\CollectionExclusive.h" />
@@ -269,6 +274,7 @@
     <ClInclude Include="Io\Fbx\FbxValueCurve.h" />
     <ClInclude Include="DataStructures\SortedArray.h" />
     <ClInclude Include="Io\Fbx\FbxTransformCurve.h" />
+    <ClInclude Include="Rendering\State\VertexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

@@ -108,9 +108,9 @@ void Io::Fbx::FbxJoint::AddToDebugRender(const int64_t& time, const Transform& p
 
 	const Float3 position{ world.Position * .01f };
 	if (m_pParent)
-		DebugRenderer::AddLine(position, parent.Position * .01f, { 0,0,1 });
+		DebugRenderer::DrawLine(position, parent.Position * .01f, { 0,0,1 });
 
-	DebugRenderer::AddSphere(position, { 0,0,1 }, sphereSize);
+	DebugRenderer::DrawSphere(position, { 0,0,1 }, sphereSize);
 	for (int i = 0; i < m_Children.GetSize(); i++)
 		m_Children[i].AddToDebugRender(time, world, sphereSize);
 }

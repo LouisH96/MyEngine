@@ -110,6 +110,9 @@
     <ClCompile Include="Debug\Rendering\DebugSpheres.cpp" />
     <ClCompile Include="Rendering\State\DrawBatch.cpp" />
     <ClCompile Include="Rendering\State\IndexedDrawBatch.cpp" />
+    <ClCompile Include="Debug\Rendering\DebugLines.cpp" />
+    <ClCompile Include="Rendering\State\VertexBuffer.cpp" />
+    <ClCompile Include="Rendering\State\PrimitiveTopology.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -256,6 +259,9 @@
     <ClInclude Include="Rendering\State\DrawBatch.h" />
     <ClInclude Include="Rendering\State\IndexedDrawBatch.h" />
     <ClInclude Include="DataStructures\List.h" />
+    <ClInclude Include="Debug\Rendering\DebugLines.h" />
+    <ClInclude Include="Rendering\State\VertexBuffer.h" />
+    <ClInclude Include="Rendering\State\PrimitiveTopology.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
