@@ -113,6 +113,8 @@
     <ClCompile Include="Debug\Rendering\DebugLines.cpp" />
     <ClCompile Include="Rendering\State\VertexBuffer.cpp" />
     <ClCompile Include="Rendering\State\PrimitiveTopology.cpp" />
+    <ClCompile Include="Gui\GuiRenderer.cpp" />
+    <ClCompile Include="Rendering\State\VertexList.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -262,6 +264,8 @@
     <ClInclude Include="Debug\Rendering\DebugLines.h" />
     <ClInclude Include="Rendering\State\VertexBuffer.h" />
     <ClInclude Include="Rendering\State\PrimitiveTopology.h" />
+    <ClInclude Include="Gui\GuiRenderer.h" />
+    <ClInclude Include="Rendering\State\VertexList.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

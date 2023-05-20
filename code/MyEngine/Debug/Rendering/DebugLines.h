@@ -1,8 +1,7 @@
 #pragma once
-#include "DataStructures/List.h"
 #include "Rendering/State/InputLayout.h"
 #include "Rendering/State/Shader.h"
-#include "Rendering/State/VertexBuffer.h"
+#include "Rendering/State/VertexList.h"
 #include "Rendering/Structs/VertexTypes.h"
 
 namespace MyEngine
@@ -25,8 +24,7 @@ namespace MyEngine
 			Rendering::InputLayout m_InputLayout;
 			Rendering::Shader m_Shader;
 
-			List<Vertex> m_Points{};
-			Rendering::VertexBuffer m_VertexBuffer{};
+			Rendering::VertexList<Vertex> m_VertexList{};
 		};
 	}
 }

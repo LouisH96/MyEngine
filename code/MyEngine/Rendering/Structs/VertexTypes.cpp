@@ -1,6 +1,12 @@
 #include "pch.h"
 #include "VertexTypes.h"
 
+const Rendering::InputLayout::Element Rendering::V_Pos2Col::ELEMENTS[] =
+{
+	{"POSITION", InputLayout::ElementType::Float2},
+	{"COLOR", InputLayout::ElementType::Float3},
+};
+
 const Rendering::InputLayout::Element Rendering::V_Pos2Uv::ELEMENTS[] =
 {
 	{"POSITION", InputLayout::ElementType::Float2},

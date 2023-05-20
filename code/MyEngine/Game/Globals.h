@@ -4,11 +4,17 @@
 
 namespace MyEngine
 {
+	namespace Rendering
+	{
+		class Gpu;
+	}
+
 	class Globals
 	{
 	public:
 		static float DeltaTime;
 		static const App::Win32::Keyboard_MsgListener* pKeyboard;
 		static const App::Win32::Mouse* pMouse;
+		static Rendering::Gpu* pGpu;
 	};
 }

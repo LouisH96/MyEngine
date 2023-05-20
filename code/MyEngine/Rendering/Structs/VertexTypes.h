@@ -7,6 +7,14 @@ namespace MyEngine
 {
 	namespace Rendering
 	{
+		struct V_Pos2Col
+		{
+			Float2 pos;
+			Float3 col;
+
+			static const InputLayout::Element ELEMENTS[];
+			static constexpr int NR_ELEMENTS = 2;
+		};
 		struct V_Pos2Uv
 		{
 			Float2 pos;
