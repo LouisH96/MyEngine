@@ -103,6 +103,7 @@ namespace MyEngine
 	template <typename T>
 	GridArray<T>& GridArray<T>::operator=(const GridArray& other)
 	{
+		if (&other == this) return *this;
 		m_Size = other.m_Size;
 		m_pData = new T[m_Size.x * m_Size.y];
 		memcpy(m_pData, other.m_pData, m_Size.x * m_Size.y * sizeof(T));

@@ -80,6 +80,7 @@ namespace MyEngine
 		template <typename T>
 		SortedList<T>& SortedList<T>::operator=(const SortedList& other)
 		{
+			if (&other == this) return *this;
 			m_Size = other.m_Size;
 			m_Capacity = other.m_Capacity;
 			m_pData = new T[m_Capacity];

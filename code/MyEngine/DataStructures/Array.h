@@ -85,6 +85,7 @@ namespace MyEngine
 		template <typename Data>
 		Array<Data>& Array<Data>::operator=(const Array& other)
 		{
+			if (&other == this) return *this;
 			if (m_pData) delete[] m_pData;
 			m_Size = other.m_Size;
 			m_pData = new Data[m_Size];
