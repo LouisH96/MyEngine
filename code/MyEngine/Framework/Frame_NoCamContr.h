@@ -35,6 +35,7 @@ namespace MyEngine
 			Canvas& canvas{ *gpu.MakeCanvas() };
 			Globals::pKeyboard = &window.GetKeyboard();
 			Globals::pMouse = &window.GetMouse();
+			Globals::pGpu = &gpu;
 
 			//FPS
 			FpsControl fpsControl{ 200 };
