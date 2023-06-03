@@ -71,6 +71,20 @@ Rendering::InputLayout::~InputLayout()
 	SAFE_RELEASE(m_pInputLayout);
 }
 
+Rendering::InputLayout::InputLayout(InputLayout&& other) noexcept
+	: m_pInputLayout{ other.m_pInputLayout }
+{
+	other.m_pInputLayout = nullptr;
+}
+
+Rendering::InputLayout& Rendering::InputLayout::operator=(InputLayout&& other) noexcept
+{
+	if (&other == this) return *this;
+	m_pInputLayout = other.m_pInputLayout;
+	other.m_pInputLayout = nullptr;
+	return *this;
+}
+
 void Rendering::InputLayout::Activate(const Gpu& gpu) const
 {
 	gpu.GetContext().IASetInputLayout(m_pInputLayout);

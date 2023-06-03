@@ -27,12 +27,14 @@ namespace MyEngine
 				const SlotClass SlotClass{ SlotClass::PerVertex };
 			};
 
+			template<typename T> static InputLayout FromType();
+
 			InputLayout(const Gpu& gpu, const Element* pElements, int nrElements);
 			~InputLayout();
 			InputLayout(const InputLayout& other) = delete;
-			InputLayout(InputLayout&& other) noexcept = delete;
+			InputLayout(InputLayout&& other) noexcept;
 			InputLayout& operator=(const InputLayout& other) = delete;
-			InputLayout& operator=(InputLayout&& other) noexcept = delete;
+			InputLayout& operator=(InputLayout&& other) noexcept;
 
 			void Activate(const Gpu& gpu) const;
 
@@ -44,6 +46,12 @@ namespace MyEngine
 			static std::string CreateDummyShaderString(const Element* pElements, int nrElements);
 			static std::string ToTypeString(ElementType type);
 		};
+
+		template <typename T>
+		InputLayout InputLayout::FromType()
+		{
+			return { *Globals::pGpu, T::ELEMENTS, T::NR_ELEMENTS };
+		}
 	}
 }
 
