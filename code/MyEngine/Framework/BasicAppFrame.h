@@ -8,6 +8,7 @@
 #include "Game/Camera/FocusPointCameraController.h"
 #include "Rendering/Canvas.h"
 #include "Rendering/Gpu.h"
+#include "Game/Globals.h"
 
 namespace MyEngine
 {
@@ -50,6 +51,9 @@ namespace MyEngine
 			//FPS
 			FpsControl fpsControl{ 200 };
 
+			//GLOBALS
+			Globals::pGpu = &gpu;
+				
 			//APP
 			T app{ AppServices{window, gpu, canvas, fpsControl, cameraController} };
 
