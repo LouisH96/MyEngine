@@ -25,6 +25,10 @@ namespace MyEngine
 			void Clear();
 			void Draw();
 
+			int GetSize() const { return m_CpuList.GetSize(); }
+			Vertex& operator[](int idx);
+			const Vertex& operator[](int idx) const;
+
 		private:
 			List<Vertex> m_CpuList;
 			VertexBuffer m_VertexBuffer;
@@ -66,6 +70,19 @@ namespace MyEngine
 			}
 			m_VertexBuffer.Activate(*Globals::pGpu);
 			m_VertexBuffer.Draw(*Globals::pGpu);
+		}
+
+		template <typename Vertex>
+		Vertex& VertexList<Vertex>::operator[](int idx)
+		{
+			m_Changed = true;
+			return m_CpuList[idx];
+		}
+
+		template <typename Vertex>
+		const Vertex& VertexList<Vertex>::operator[](int idx) const
+		{
+			return m_CpuList[idx];
 		}
 	}
 }
