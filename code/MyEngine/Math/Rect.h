@@ -26,6 +26,13 @@ namespace MyEngine
 			T GetBottom() const;
 			T GetTop() const;
 
+			void SetLeftBot(const Vector2<T>& leftBot) { m_LeftBot = leftBot; }
+			void SetSize(const Vector2<T>& size) { m_Size = size; }
+			void SetLeft(const T& left) { m_LeftBot.x = left; }
+			void SetBottom(const T& bottom) { m_LeftBot.y = bottom; }
+			void SetWidth(const T& width) { m_Size.x = width; }
+			void SetHeight(const T& height) { m_Size.y = height; }
+
 		private:
 			Vector2<T> m_LeftBot;
 			Vector2<T> m_Size;
