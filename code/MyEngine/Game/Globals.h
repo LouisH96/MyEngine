@@ -6,6 +6,7 @@ namespace MyEngine
 {
 	namespace Rendering
 	{
+		class Canvas;
 		class Gpu;
 	}
 
@@ -15,6 +16,8 @@ namespace MyEngine
 		static float DeltaTime;
 		static const App::Win32::Keyboard_MsgListener* pKeyboard;
 		static const App::Win32::Mouse* pMouse;
+
 		static Rendering::Gpu* pGpu;
+		static const Rendering::Canvas* pCanvas;
 	};
 }
