@@ -39,6 +39,7 @@ namespace MyEngine
 			void Present() const;
 
 			void OnWindowResized(Math::Int2 newSize);
+			const Int2& GetSize() const { return m_Size; }
 
 		private:
 			Gpu& m_Gpu;
@@ -49,14 +50,16 @@ namespace MyEngine
 			ID3D11DepthStencilState* m_pDepthStencilState{};
 			ID3D11DepthStencilView* m_pDepthStencilView{};
 
+			Int2 m_Size;
+
 			void Clear() const;
 			void Activate() const;
 
 			void InitSwapChain(const App::Win32::Window& window);
 			void InitRenderTarget();
 			void InitDepthStencilState();
-			void InitDepthStencil(const Math::Int2& size);
-			void SetViewPort(Math::Int2 size);
+			void InitDepthStencil();
+			void SetViewPort();
 
 			void GetFactory2(IDXGIDevice2*& pDevice2, IDXGIAdapter*& pAdapter, IDXGIFactory2*& pFactory) const;//clean after use
 		};

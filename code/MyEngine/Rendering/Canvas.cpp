@@ -9,12 +9,13 @@
 
 MyEngine::Rendering::Canvas::Canvas(Gpu& gpu, App::Win32::Window& window)
 	: m_Gpu{ gpu }
+	, m_Size{ window.GetClientSize() }
 {
 	InitSwapChain(window);
 	InitRenderTarget();
 	InitDepthStencilState();
-	InitDepthStencil(window.GetClientSize());
-	SetViewPort(window.GetClientSize());
+	InitDepthStencil();
+	SetViewPort();
 }
 
 void MyEngine::Rendering::Canvas::Activate() const
@@ -60,15 +61,15 @@ void MyEngine::Rendering::Canvas::OnWindowResized(Math::Int2 newSize)
 {
 	SAFE_RELEASE(m_pDepthStencilView);
 	SAFE_RELEASE(m_pMainRenderTargetView);
+	m_Size = newSize;
 	m_pSwapChain->ResizeBuffers(0, newSize.x, newSize.y, DXGI_FORMAT_UNKNOWN, 0);
 	InitRenderTarget();
-	InitDepthStencil(newSize);
-	SetViewPort(newSize);
+	InitDepthStencil();
+	SetViewPort();
 }
 
 void MyEngine::Rendering::Canvas::InitSwapChain(const App::Win32::Window& window)
 {
-	const Math::Int2 windowSize = window.GetClientSize();
 	DXGI_SWAP_CHAIN_DESC1 desc{};
 	desc.BufferCount = 2;
 	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -78,8 +79,8 @@ void MyEngine::Rendering::Canvas::InitSwapChain(const App::Win32::Window& window
 	desc.SampleDesc.Quality = 0;
 	desc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
 	desc.Scaling = DXGI_SCALING_NONE;
-	desc.Width = windowSize.x;
-	desc.Height = windowSize.y;
+	desc.Width = m_Size.x;
+	desc.Height = m_Size.y;
 
 	IDXGIDevice2* pDevice2{};
 	IDXGIAdapter* pAdapter{};
@@ -133,13 +134,13 @@ void MyEngine::Rendering::Canvas::InitDepthStencilState()
 	m_Gpu.GetDevice().CreateDepthStencilState(&dsDesc, &m_pDepthStencilState);
 }
 
-void MyEngine::Rendering::Canvas::InitDepthStencil(const Math::Int2& size)
+void MyEngine::Rendering::Canvas::InitDepthStencil()
 {
 	//TEXTURE
 	ID3D11Texture2D* pTempTexture{};
 	D3D11_TEXTURE2D_DESC descDepth{};
-	descDepth.Width = size.x;
-	descDepth.Height = size.y;
+	descDepth.Width = m_Size.x;
+	descDepth.Height = m_Size.y;
 	descDepth.MipLevels = 1;
 	descDepth.ArraySize = 1;
 	descDepth.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
@@ -151,7 +152,7 @@ void MyEngine::Rendering::Canvas::InitDepthStencil(const Math::Int2& size)
 	descDepth.MiscFlags = 0;
 	HRESULT hr = m_Gpu.GetDevice().CreateTexture2D(&descDepth, nullptr, &pTempTexture);
 
-	if(FAILED(hr))
+	if (FAILED(hr))
 	{
 		std::cout << "depthStencil-Texture creation failed\n";
 		return;
@@ -171,12 +172,12 @@ void MyEngine::Rendering::Canvas::InitDepthStencil(const Math::Int2& size)
 	pTempTexture->Release();
 }
 
-void MyEngine::Rendering::Canvas::SetViewPort(Math::Int2 size)
+void MyEngine::Rendering::Canvas::SetViewPort()
 {
 	m_ViewPort = {
 	  0.0f, 0.0f,
-	 static_cast<float>(size.x),
-	 static_cast<float>(size.y),
+	 static_cast<float>(m_Size.x),
+	 static_cast<float>(m_Size.y),
 	  0.0f, 1.0f };
 	m_Gpu.GetContext().RSSetViewports(1, &m_ViewPort);
 }
