@@ -10,7 +10,6 @@
     <ClCompile Include="Game\Camera\FocusPointCameraController.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Game\Globals.cpp" />
-    <ClCompile Include="Math\RectInt.cpp" />
     <ClCompile Include="App\Win32\Screen.cpp" />
     <ClCompile Include="App\Win32\Keyboard_StateReader.cpp" />
     <ClCompile Include="App\Win32\Keyboard_MsgListener.cpp" />
@@ -24,7 +23,6 @@
     <ClCompile Include="Rendering\State\BlendState.cpp" />
     <ClCompile Include="Rendering\State\RasterizerState.cpp" />
     <ClCompile Include="Generation\Shapes.cpp" />
-    <ClCompile Include="Math\Rect.cpp" />
     <ClCompile Include="Math\Cube.cpp" />
     <ClCompile Include="Shapes\Sphere.cpp" />
     <ClCompile Include="Io\Json\JsonElement.cpp" />
@@ -128,7 +126,6 @@
     <ClInclude Include="Math\Constants.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Game\Globals.h" />
-    <ClInclude Include="Math\RectInt.h" />
     <ClInclude Include="App\Win32\Screen.h" />
     <ClInclude Include="App\Win32\Keyboard_StateReader.h" />
     <ClInclude Include="App\Win32\Keyboard_.h" />
@@ -266,6 +263,8 @@
     <ClInclude Include="Rendering\State\PrimitiveTopology.h" />
     <ClInclude Include="Gui\GuiRenderer.h" />
     <ClInclude Include="Rendering\State\VertexList.h" />
+    <ClInclude Include="Math\RectInt.h" />
+    <ClInclude Include="Math\RectFloat.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

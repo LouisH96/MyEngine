@@ -9,5 +9,5 @@ MyEngine::App::Win32::Screen::Screen()
 	RECT rect;
 	GetClientRect(GetDesktopWindow(), &rect);
 
-	m_Rect = Math::RectInt(0, 0, rect.right, rect.bottom);
+	m_Rect = RectInt{{}, {rect.right, rect.bottom} };
 }

@@ -5,6 +5,6 @@ namespace MyEngine
 {
 	namespace Math
 	{
-		using RectInt = Rect<int>;
+		using RectFloat = Rect<float>;
 	}
 }
