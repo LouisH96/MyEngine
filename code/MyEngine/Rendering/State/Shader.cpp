@@ -3,6 +3,11 @@
 
 #include "../Dx/DxHelper.h"
 
+Rendering::Shader::Shader(const std::wstring& fullPath)
+	: Shader{ *Globals::pGpu, fullPath }
+{
+}
+
 Rendering::Shader::Shader(const Gpu& gpu, const std::wstring& fullPath)
 	: m_Gpu(gpu)
 {

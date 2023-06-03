@@ -14,6 +14,7 @@ namespace MyEngine
 			Shader& operator=(const Shader& other) = delete;
 			Shader& operator=(Shader&& other) noexcept = delete;
 
+			explicit Shader(const std::wstring& fullPath);
 			explicit Shader(const Gpu& gpu, const std::wstring& fullPath);
 			~Shader();
 
