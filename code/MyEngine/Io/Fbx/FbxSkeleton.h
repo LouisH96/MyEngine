@@ -26,8 +26,8 @@ namespace MyEngine
 				FbxSkeleton& operator=(const FbxSkeleton& other) = delete;
 				FbxSkeleton& operator=(FbxSkeleton&& other) noexcept = default;
 
-				void AddToDebugRenderer(float sphereSize = .05f) const;
-				void AddToDebugRenderer(const int64_t& time, float sphereSize = .05f) const;
+				void AddToDebugRenderer(float sphereSize = .005f) const;
+				void AddToDebugRenderer(const int64_t& time, float sphereSize = .005f) const;
 
 			private:
 				FbxJoint m_RootJoint;
