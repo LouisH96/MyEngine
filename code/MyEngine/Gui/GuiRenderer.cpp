@@ -20,25 +20,27 @@ void Gui::GuiRenderer::OnCanvasResize(const Int2& newSize)
 		static_cast<float>(m_CanvasSize.y) / newSize.y
 	};
 
-	for (int i = 0; i < m_Vertices.GetSize();)
+	//left-bottom
+	for (int i = 0; i < m_CenterBottomAnchoredIdx; i += VERTICES_PER_RECT)
 	{
-		RectFloat rect
+		const RectFloat rect
 		{
-			(m_Vertices[i].pos + Float2{1,1}) / 2,
-			m_Vertices[i + 5].pos - m_Vertices[i].pos 
+			(m_Vertices[i].pos + Float2{1,1}).Scaled(scale) - Float2{1, 1},
+			(m_Vertices[i + 5].pos - m_Vertices[i].pos).Scaled(scale)
 		};
-		rect.SetLeft(rect.GetLeft() * scale.x * 2 - 1);
-		rect.SetBottom(rect.GetBottom() * scale.y * 2 - 1);
-		rect.SetWidth(rect.GetWidth() * scale.x );
-		rect.SetHeight(rect.GetHeight() * scale.y );
-
-		m_Vertices[i++].pos = rect.GetLeftBot();
-		m_Vertices[i++].pos = rect.GetLeftTop();
-		m_Vertices[i++].pos = rect.GetRightBot();
-
-		m_Vertices[i++].pos = rect.GetRightBot();
-		m_Vertices[i++].pos = rect.GetLeftTop();
-		m_Vertices[i++].pos = rect.GetRightTop();
+		Replace(i, rect);
+	}
+	for (int i = m_CenterBottomAnchoredIdx; i < m_Vertices.GetSize(); i += VERTICES_PER_RECT)
+	{
+		const RectFloat rect
+		{
+			{
+				m_Vertices[i].pos.x * scale.x,
+				(m_Vertices[i].pos.y + 1) * scale.y - 1
+			},
+			(m_Vertices[i + 5].pos - m_Vertices[i].pos).Scaled(scale)
+		};
+		Replace(i, rect);
 	}
 	m_CanvasSize = newSize;
 }
@@ -50,25 +52,78 @@ void Gui::GuiRenderer::Render()
 	m_Vertices.Draw();
 }
 
-void Gui::GuiRenderer::Add(const RectInt& rectangle, const Float3& color)
+void Gui::GuiRenderer::AddLeftBottom(const RectInt& rectangle, const Float3& color)
 {
 	const RectFloat rectScaled
 	{
 		{
-			static_cast<float>(rectangle.GetLeft()) / m_CanvasSize.x * 2 - 1,
-			static_cast<float>(rectangle.GetBottom()) / m_CanvasSize.y * 2 - 1
+			ToClipAlignMin(rectangle.GetLeft(), m_CanvasSize.x),
+			ToClipAlignMin(rectangle.GetBottom(), m_CanvasSize.y)
 		},
-		{
-			static_cast<float>(rectangle.GetWidth()) / (m_CanvasSize.x / 2),
-			static_cast<float>(rectangle.GetHeight()) / (m_CanvasSize.y / 2)
-		}
+		SizeToClip(rectangle.GetSize(), m_CanvasSize)
 	};
-
-	m_Vertices.Add({ rectScaled.GetLeftBot(), color });
-	m_Vertices.Add({ rectScaled.GetLeftTop(), color });
-	m_Vertices.Add({ rectScaled.GetRightBot(), color });
-
-	m_Vertices.Add({ rectScaled.GetRightBot(), color });
-	m_Vertices.Add({ rectScaled.GetLeftTop(), color });
-	m_Vertices.Add({ rectScaled.GetRightTop(), color });
+	Add(m_CenterBottomAnchoredIdx, rectScaled, color);
+	m_CenterBottomAnchoredIdx += VERTICES_PER_RECT;
 }
+
+void Gui::GuiRenderer::AddCenterBottom(const RectInt& rectangle, const Float3& color)
+{
+	const RectFloat rectFloat
+	{
+		{
+			ToClipAlignCenter(rectangle.GetLeft(), m_CanvasSize.x),
+			ToClipAlignMin(rectangle.GetBottom(), m_CanvasSize.y)
+		},
+		SizeToClip(rectangle.GetSize(), m_CanvasSize)
+	};
+	Add(m_CenterBottomAnchoredIdx, rectFloat, color);
+}
+
+void Gui::GuiRenderer::Add(int idx, const RectFloat& rect, const Float3& color)
+{
+	List<Vertex>& list{m_Vertices.GetList()};
+	list.InsertEmpty(idx, VERTICES_PER_RECT);
+
+	list[idx++] = { rect.GetLeftBot(), color };
+	list[idx++] = { rect.GetLeftTop(), color };
+	list[idx++] = { rect.GetRightBot(), color };
+
+	list[idx++] = { rect.GetRightBot(), color };
+	list[idx++] = { rect.GetLeftTop(), color };
+	list[idx] = { rect.GetRightTop(), color };
+}
+
+void Gui::GuiRenderer::Replace(int idx, const RectFloat& rect)
+{
+	m_Vertices[idx++].pos = rect.GetLeftBot();
+	m_Vertices[idx++].pos = rect.GetLeftTop();
+	m_Vertices[idx++].pos = rect.GetRightBot();
+
+	m_Vertices[idx++].pos = rect.GetRightBot();
+	m_Vertices[idx++].pos = rect.GetLeftTop();
+	m_Vertices[idx].pos = rect.GetRightTop();
+}
+
+float Gui::GuiRenderer::ToClipAlignMin(int screenPos, float screenSize)
+{
+	return static_cast<float>(screenPos) / screenSize * 2 - 1;
+}
+
+float Gui::GuiRenderer::ToClipAlignCenter(int screenPos, float screenSize)
+{
+	return static_cast<float>(screenPos) / screenSize * 2;
+}
+
+float Gui::GuiRenderer::SizeToClip(int size, float screenSize)
+{
+	return static_cast<float>(size) / screenSize * 2;
+}
+
+Float2 Gui::GuiRenderer::SizeToClip(const Int2& size, const Float2& screenSize)
+{
+	return {
+		static_cast<float>(size.x) / screenSize.x * 2,
+		static_cast<float>(size.y) / screenSize.y * 2
+	};
+}
+
