@@ -54,7 +54,8 @@ namespace MyEngine
 			void LimitLength(T maxLength);
 			Vector3 LimitedLength(T maxLength) const;
 
-			static Vector3 RgbNormalize(const T& r, const T& g, const T& b);
+			//will normalize [0,255] to [0,1]
+			static Vector3 Color(const T& r, const T& g, const T& b);
 			static Vector3 FromXz(const Math::Vector2<T>& xz);
 			static Vector3 FromDxVector(const DirectX::XMVECTOR& vector);
 
@@ -212,7 +213,7 @@ namespace MyEngine
 		}
 
 		template <typename T>
-		Vector3<T> Vector3<T>::RgbNormalize(const T& r, const T& g, const T& b)
+		Vector3<T> Vector3<T>::Color(const T& r, const T& g, const T& b)
 		{
 			const T scale{ 1 / static_cast<T>(255) };
 			return { r * scale, g * scale , b* scale};
