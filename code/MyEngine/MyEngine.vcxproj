@@ -171,6 +171,7 @@
     <ClInclude Include="Rendering\Renderers\R_LambertLight_Col.h" />
     <ClInclude Include="Math\Float.h" />
     <ClInclude Include="Rendering\State\IDrawBatch.h" />
+    <ClInclude Include="Math\ScalarMath.h" />
     <ClInclude Include="Shapes\Capsule.h" />
     <ClInclude Include="Io\Fbx\Reading\Properties70.h" />
     <ClInclude Include="Io\Fbx\Wrapping\Geometry.h" />
