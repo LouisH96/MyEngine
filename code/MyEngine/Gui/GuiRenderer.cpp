@@ -116,6 +116,21 @@ void Gui::GuiRenderer::ChangeColor(ElementId id, const Float3& color)
 	m_Vertices[vertexId].col = color;
 }
 
+void Gui::GuiRenderer::ChangePositionX(ElementId id, int x)
+{
+	int vertexId{ ToVertexId(id) };
+	const float newX = ToClipAlignCenter(x, m_CanvasSize.x);
+	const float change{ newX - m_Vertices[vertexId].pos.x };
+
+	m_Vertices[vertexId++].pos.x += change;
+	m_Vertices[vertexId++].pos.x += change;
+	m_Vertices[vertexId++].pos.x += change;
+
+	m_Vertices[vertexId++].pos.x += change;
+	m_Vertices[vertexId++].pos.x += change;
+	m_Vertices[vertexId].pos.x += change;
+}
+
 void Gui::GuiRenderer::Add(int idx, const RectFloat& rect, const Float3& color)
 {
 	List<Vertex>& list{m_Vertices.GetList()};

@@ -38,6 +38,7 @@ namespace MyEngine
 
 			ElementId GetUnderMouse() const;
 			void ChangeColor(ElementId id, const Float3& color);
+			void ChangePositionX(ElementId id, int x);
 
 		private:
 			static constexpr int VERTICES_PER_RECT = 6;
