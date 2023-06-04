@@ -265,6 +265,7 @@
     <ClInclude Include="Rendering\State\VertexList.h" />
     <ClInclude Include="Math\RectInt.h" />
     <ClInclude Include="Math\RectFloat.h" />
+    <ClInclude Include="Math\Int4.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

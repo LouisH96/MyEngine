@@ -133,6 +133,7 @@
     <ClInclude Include="Debug\Rendering\DebugLines.h" />
     <ClInclude Include="Debug\Rendering\DebugSpheres.h" />
     <ClInclude Include="Gui\GuiRenderer.h" />
+    <ClInclude Include="Math\Int4.h" />
     <ClInclude Include="Math\RectFloat.h" />
     <ClInclude Include="Math\RectInt.h" />
     <ClInclude Include="Rendering\State\PrimitiveTopology.h" />
