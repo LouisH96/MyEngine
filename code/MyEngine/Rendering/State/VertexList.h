@@ -29,6 +29,9 @@ namespace MyEngine
 			Vertex& operator[](int idx);
 			const Vertex& operator[](int idx) const;
 
+			List<Vertex>& GetList();
+			const List<Vertex>& GetList() const { return m_CpuList; }
+
 		private:
 			List<Vertex> m_CpuList;
 			VertexBuffer m_VertexBuffer;
@@ -83,6 +86,13 @@ namespace MyEngine
 		const Vertex& VertexList<Vertex>::operator[](int idx) const
 		{
 			return m_CpuList[idx];
+		}
+
+		template <typename Vertex>
+		List<Vertex>& VertexList<Vertex>::GetList()
+		{
+			m_Changed = true;
+			return m_CpuList;
 		}
 	}
 }
