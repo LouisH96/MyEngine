@@ -44,6 +44,9 @@ namespace MyEngine
 
 			void Reverse();
 			void Scale(const Vector2<T>& r);
+			Vector2 Scaled(const Vector2& scale) const;
+			void Divide(const Vector2& divisor);
+			Vector2 Divided(const Vector2& divisor) const;
 			T Length() const;
 			T LengthSq() const;
 			void Normalize();
@@ -125,6 +128,25 @@ namespace MyEngine
 		{
 			x *= r.x;
 			y *= r.y;
+		}
+
+		template <typename T>
+		Vector2<T> Vector2<T>::Scaled(const Vector2& scale) const
+		{
+			return { x * scale.x, y * scale.y };
+		}
+
+		template <typename T>
+		void Vector2<T>::Divide(const Vector2& divisor)
+		{
+			x /= divisor.x;
+			y /= divisor.y;
+		}
+
+		template <typename T>
+		Vector2<T> Vector2<T>::Divided(const Vector2& divisor) const
+		{
+			return { x / divisor.x, y / divisor.y };
 		}
 
 		template <typename T>
