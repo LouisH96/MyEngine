@@ -12,16 +12,32 @@ namespace MyEngine
 		class GuiRenderer
 		{
 		public:
+			//---| Types |---
+			class ElementId
+			{
+			public:
+				ElementId() = default;
+				explicit ElementId(int id);
+				int GetId() const { return m_Id; }
+				bool IsValid() const { return m_Id >= 0; }
+				bool operator==(const ElementId& other) const;
+			private:
+				int m_Id;
+			};
+
+			//---| Constructors/Destructor |---
 			GuiRenderer();
 
+			//---| Operations |---
 			const Int2& GetCanvasSize() const { return m_CanvasSize; }
 			void OnCanvasResize(const Int2& newSize);
 			void Render();
 
-			int AddLeftBottom(const RectInt& rectangle, const Float3& color);
-			int AddCenterBottom(const RectInt& rectangle, const Float3& color);
+			ElementId AddLeftBottom(const RectInt& rectangle, const Float3& color);
+			ElementId AddCenterBottom(const RectInt& rectangle, const Float3& color);
 
-			int GetUnderMouse() const;
+			ElementId GetUnderMouse() const;
+			void ChangeColor(ElementId id, const Float3& color);
 
 		private:
 			static constexpr int VERTICES_PER_RECT = 6;
@@ -36,8 +52,8 @@ namespace MyEngine
 			void Add(int idx, const RectFloat& rect, const Float3& color);
 			void Replace(int idx, const RectFloat& rect);
 
-
 			Float2 MouseInClip() const;
+			int ToVertexId(ElementId id) const;
 			static float ToClipAlignMin(int screenPos, float screenSize);
 			static float ToClipAlignCenter(int screenPos, float screenSize);
 			static float SizeToClip(int size, float screenSize);

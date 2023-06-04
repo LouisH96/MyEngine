@@ -5,6 +5,13 @@
 #include "Math/RectFloat.h"
 #include "Rendering/Canvas.h"
 
+Gui::GuiRenderer::ElementId::ElementId(int id) : m_Id{id}{}
+
+bool Gui::GuiRenderer::ElementId::operator==(const ElementId& other) const
+{
+	return m_Id == other.m_Id;
+}
+
 Gui::GuiRenderer::GuiRenderer()
 	: m_InputLayout{ Rendering::InputLayout::FromType<Vertex>() }
 	, m_Shader{ Framework::Resources::GetGlobalShaderPath(L"Gui.hlsl") }
@@ -52,7 +59,7 @@ void Gui::GuiRenderer::Render()
 	m_Vertices.Draw();
 }
 
-int Gui::GuiRenderer::AddLeftBottom(const RectInt& rectangle, const Float3& color)
+Gui::GuiRenderer::ElementId Gui::GuiRenderer::AddLeftBottom(const RectInt& rectangle, const Float3& color)
 {
 	const RectFloat rectScaled
 	{
@@ -64,10 +71,10 @@ int Gui::GuiRenderer::AddLeftBottom(const RectInt& rectangle, const Float3& colo
 	};
 	Add(m_CenterBottomAnchoredIdx, rectScaled, color);
 	m_CenterBottomAnchoredIdx += VERTICES_PER_RECT;
-	return m_CenterBottomAnchoredIdx / VERTICES_PER_RECT - 1;
+	return ElementId{m_CenterBottomAnchoredIdx / VERTICES_PER_RECT - 1};
 }
 
-int Gui::GuiRenderer::AddCenterBottom(const RectInt& rectangle, const Float3& color)
+Gui::GuiRenderer::ElementId Gui::GuiRenderer::AddCenterBottom(const RectInt& rectangle, const Float3& color)
 {
 	const RectFloat rectFloat
 	{
@@ -78,10 +85,10 @@ int Gui::GuiRenderer::AddCenterBottom(const RectInt& rectangle, const Float3& co
 		SizeToClip(rectangle.GetSize(), m_CanvasSize)
 	};
 	Add(m_Vertices.GetSize(), rectFloat, color);
-	return 1000 + (m_Vertices.GetSize() - m_CenterBottomAnchoredIdx) / VERTICES_PER_RECT - 1;
+	return ElementId{ 1000 + (m_Vertices.GetSize() - m_CenterBottomAnchoredIdx) / VERTICES_PER_RECT - 1 };
 }
 
-int Gui::GuiRenderer::GetUnderMouse() const
+Gui::GuiRenderer::ElementId Gui::GuiRenderer::GetUnderMouse() const
 {
 	const Float2 mouse{ MouseInClip() };
 	for (int i = m_Vertices.GetSize() - VERTICES_PER_RECT; i >= 0; i -= VERTICES_PER_RECT)
@@ -90,11 +97,23 @@ int Gui::GuiRenderer::GetUnderMouse() const
 		if (!mouse.IsRightAbove(botLeft)) continue;
 		const Float2& topRight{ m_Vertices[i + VERTICES_PER_RECT - 1].pos };
 		if (!mouse.IsLeftBelow(topRight)) continue;
-		return i >= m_CenterBottomAnchoredIdx
+		return ElementId{ i >= m_CenterBottomAnchoredIdx
 			? 1000 + (i - m_CenterBottomAnchoredIdx) / VERTICES_PER_RECT
-			: i / VERTICES_PER_RECT;
+			: i / VERTICES_PER_RECT };
 	}
-	return -1;
+	return ElementId{ -1 };
+}
+
+void Gui::GuiRenderer::ChangeColor(ElementId id, const Float3& color)
+{
+	int vertexId{ ToVertexId(id) };
+	m_Vertices[vertexId++].col = color;
+	m_Vertices[vertexId++].col = color;
+	m_Vertices[vertexId++].col = color;
+
+	m_Vertices[vertexId++].col = color;
+	m_Vertices[vertexId++].col = color;
+	m_Vertices[vertexId].col = color;
 }
 
 void Gui::GuiRenderer::Add(int idx, const RectFloat& rect, const Float3& color)
@@ -126,6 +145,13 @@ Float2 Gui::GuiRenderer::MouseInClip() const
 {
 	const Int2& mouseInt{ Globals::pMouse->GetPos() };
 	return Float2{ mouseInt }.Divided(m_CanvasSize).Scaled({ 2,-2 }) - Float2{1, -1};
+}
+
+int Gui::GuiRenderer::ToVertexId(ElementId id) const
+{
+	if (id.GetId() >= 1000)
+		return (id.GetId() - 1000) * VERTICES_PER_RECT + m_CenterBottomAnchoredIdx;
+	return id.GetId() * VERTICES_PER_RECT;
 }
 
 float Gui::GuiRenderer::ToClipAlignMin(int screenPos, float screenSize)
