@@ -14,11 +14,14 @@ namespace MyEngine
 		public:
 			GuiRenderer();
 
+			const Int2& GetCanvasSize() const { return m_CanvasSize; }
 			void OnCanvasResize(const Int2& newSize);
 			void Render();
 
-			void AddLeftBottom(const RectInt& rectangle, const Float3& color);
-			void AddCenterBottom(const RectInt& rectangle, const Float3& color);
+			int AddLeftBottom(const RectInt& rectangle, const Float3& color);
+			int AddCenterBottom(const RectInt& rectangle, const Float3& color);
+
+			int GetUnderMouse() const;
 
 		private:
 			static constexpr int VERTICES_PER_RECT = 6;
@@ -33,6 +36,8 @@ namespace MyEngine
 			void Add(int idx, const RectFloat& rect, const Float3& color);
 			void Replace(int idx, const RectFloat& rect);
 
+
+			Float2 MouseInClip() const;
 			static float ToClipAlignMin(int screenPos, float screenSize);
 			static float ToClipAlignCenter(int screenPos, float screenSize);
 			static float SizeToClip(int size, float screenSize);

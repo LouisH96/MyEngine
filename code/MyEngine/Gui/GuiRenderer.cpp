@@ -52,7 +52,7 @@ void Gui::GuiRenderer::Render()
 	m_Vertices.Draw();
 }
 
-void Gui::GuiRenderer::AddLeftBottom(const RectInt& rectangle, const Float3& color)
+int Gui::GuiRenderer::AddLeftBottom(const RectInt& rectangle, const Float3& color)
 {
 	const RectFloat rectScaled
 	{
@@ -64,9 +64,10 @@ void Gui::GuiRenderer::AddLeftBottom(const RectInt& rectangle, const Float3& col
 	};
 	Add(m_CenterBottomAnchoredIdx, rectScaled, color);
 	m_CenterBottomAnchoredIdx += VERTICES_PER_RECT;
+	return m_CenterBottomAnchoredIdx / VERTICES_PER_RECT - 1;
 }
 
-void Gui::GuiRenderer::AddCenterBottom(const RectInt& rectangle, const Float3& color)
+int Gui::GuiRenderer::AddCenterBottom(const RectInt& rectangle, const Float3& color)
 {
 	const RectFloat rectFloat
 	{
@@ -76,7 +77,24 @@ void Gui::GuiRenderer::AddCenterBottom(const RectInt& rectangle, const Float3& c
 		},
 		SizeToClip(rectangle.GetSize(), m_CanvasSize)
 	};
-	Add(m_CenterBottomAnchoredIdx, rectFloat, color);
+	Add(m_Vertices.GetSize(), rectFloat, color);
+	return 1000 + (m_Vertices.GetSize() - m_CenterBottomAnchoredIdx) / VERTICES_PER_RECT - 1;
+}
+
+int Gui::GuiRenderer::GetUnderMouse() const
+{
+	const Float2 mouse{ MouseInClip() };
+	for (int i = m_Vertices.GetSize() - VERTICES_PER_RECT; i >= 0; i -= VERTICES_PER_RECT)
+	{
+		const Float2& botLeft{ m_Vertices[i].pos };
+		if (!mouse.IsRightAbove(botLeft)) continue;
+		const Float2& topRight{ m_Vertices[i + VERTICES_PER_RECT - 1].pos };
+		if (!mouse.IsLeftBelow(topRight)) continue;
+		return i >= m_CenterBottomAnchoredIdx
+			? 1000 + (i - m_CenterBottomAnchoredIdx) / VERTICES_PER_RECT
+			: i / VERTICES_PER_RECT;
+	}
+	return -1;
 }
 
 void Gui::GuiRenderer::Add(int idx, const RectFloat& rect, const Float3& color)
@@ -104,6 +122,12 @@ void Gui::GuiRenderer::Replace(int idx, const RectFloat& rect)
 	m_Vertices[idx].pos = rect.GetRightTop();
 }
 
+Float2 Gui::GuiRenderer::MouseInClip() const
+{
+	const Int2& mouseInt{ Globals::pMouse->GetPos() };
+	return Float2{ mouseInt }.Divided(m_CanvasSize).Scaled({ 2,-2 }) - Float2{1, -1};
+}
+
 float Gui::GuiRenderer::ToClipAlignMin(int screenPos, float screenSize)
 {
 	return static_cast<float>(screenPos) / screenSize * 2 - 1;
@@ -126,4 +150,3 @@ Float2 Gui::GuiRenderer::SizeToClip(const Int2& size, const Float2& screenSize)
 		static_cast<float>(size.y) / screenSize.y * 2
 	};
 }
-
