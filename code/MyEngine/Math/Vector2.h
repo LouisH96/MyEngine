@@ -53,6 +53,11 @@ namespace MyEngine
 			Vector2<T> Normalized() const;
 			float Cross(const Vector2<T>& o);
 
+			bool IsLeftAbove(const Vector2& comparedTo) const;
+			bool IsRightAbove(const Vector2& comparedTo) const;
+			bool IsLeftBelow(const Vector2& comparedTo) const;
+			bool IsRightBelow(const Vector2& comparedTo) const;
+
 			T x, y;
 		};
 
@@ -180,6 +185,30 @@ namespace MyEngine
 		float Vector2<T>::Cross(const Vector2<T>& o)
 		{
 			return (x * o.y) - (y * o.x);
+		}
+
+		template <typename T>
+		bool Vector2<T>::IsLeftAbove(const Vector2& comparedTo) const
+		{
+			return x < comparedTo.x && y > comparedTo.y;
+		}
+
+		template <typename T>
+		bool Vector2<T>::IsRightAbove(const Vector2& comparedTo) const
+		{
+			return x > comparedTo.x && y > comparedTo.y;
+		}
+
+		template <typename T>
+		bool Vector2<T>::IsRightBelow(const Vector2& comparedTo) const
+		{
+			return x > comparedTo.x && y < comparedTo.y;
+		}
+
+		template <typename T>
+		bool Vector2<T>::IsLeftBelow(const Vector2& comparedTo) const
+		{
+			return x < comparedTo.x && y < comparedTo.y;
 		}
 	}
 }
