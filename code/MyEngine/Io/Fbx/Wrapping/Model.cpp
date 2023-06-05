@@ -18,10 +18,10 @@ Io::Fbx::Wrapping::Model::Model(Reading::FbxObject& modelObject)
 	m_RotationOffset = properties.GetFloat3("RotationOffset", {});
 	m_RotationPivot = properties.GetFloat3("RotationPivot", {});
 	m_ScalingPivot = properties.GetFloat3("ScalingPivot", {});
-	m_RotationActive = properties.GetBool("RotationActive");
-	m_InheritType = properties.GetInt("InheritType");
-	m_ScalingMax = properties.GetFloat3("ScalingMax");
-	m_DefaultAttributeIndex = properties.GetInt("DefaultAttributeIndex");
+	m_RotationActive = properties.GetBool("RotationActive", false);
+	m_InheritType = properties.GetInt("InheritType", 0);
+	m_ScalingMax = properties.GetFloat3("ScalingMax", {1,1,1});
+	m_DefaultAttributeIndex = properties.GetInt("DefaultAttributeIndex",0);
 	m_LclTranslation = properties.GetFloat3("Lcl Translation", {});
 	m_LclRotation = properties.GetFloat3("Lcl Rotation", {});
 	m_LclScaling = properties.GetFloat3("Lcl Scaling", { 1,1,1 });
