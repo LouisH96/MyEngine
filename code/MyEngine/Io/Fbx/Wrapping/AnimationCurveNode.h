@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <string>
 
+#include "DataStructures/List.h"
 #include "Io/Fbx/Reading/Properties70.h"
 
 namespace MyEngine
@@ -17,6 +18,7 @@ namespace MyEngine
 
 			namespace Wrapping
 			{
+				class NodeAttribute;
 				class AnimationLayer;
 				class Model;
 				class AnimationCurve;
@@ -29,7 +31,7 @@ namespace MyEngine
 					{
 						LockInfluenceWeights,
 						Translation, Rotation, Scale,
-						Visibility, FilmboxTypeId,
+						Visibility, FilmboxTypeId, FocalLength,
 						Other
 					};
 
@@ -41,6 +43,7 @@ namespace MyEngine
 					explicit AnimationCurveNode(Reading::FbxObject& object);
 
 					//---| Functions |---
+					void AddNodeAttribute(const NodeAttribute& nodeAttribute);
 					void AddAnimationCurve(const AnimationCurve& animationCurve);
 					void SetParentModel(const Model& model);
 					void SetAnimationLayer(const AnimationLayer& animationLayer);
@@ -57,6 +60,7 @@ namespace MyEngine
 					short GetDefaultShort() const { return m_Value.shortValue; }
 					
 				private:
+					List<const NodeAttribute*> m_NodeAttributes{};
 					Array<const AnimationCurve*> m_AnimationCurves{};
 					const Model* m_pParentModel{};
 					const AnimationLayer* m_pAnimationLayer{};

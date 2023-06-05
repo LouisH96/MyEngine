@@ -17,3 +17,8 @@ void Io::Fbx::Wrapping::NodeAttribute::SetParentModel(const Model& parentModel)
 		Logger::PrintError("NodeAttribute already has a parent model");
 	m_pParentModel = &parentModel;
 }
+
+void Io::Fbx::Wrapping::NodeAttribute::AddAnimationCurveNode(const AnimationCurveNode& animationCurveNode)
+{
+	m_AnimationCurveNodes.Add(&animationCurveNode);
+}

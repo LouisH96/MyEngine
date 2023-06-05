@@ -625,6 +625,14 @@ void Io::Fbx::Wrapping::FbxData::HandleAnimationCurveNodeConnection(AnimationCur
 		return;
 	}
 
+	NodeAttribute* pNodeAttribute{ FindNodeAttribute(connection.ParentId) };
+	if(pNodeAttribute)
+	{
+		childAnimationCurveNode.AddNodeAttribute(*pNodeAttribute);
+		pNodeAttribute->AddAnimationCurveNode(childAnimationCurveNode);
+		return;
+	}
+
 	PrintUnhandledConnectionError(FindTypeName(connection.ParentId), "AnimationCurveNode");
 }
 

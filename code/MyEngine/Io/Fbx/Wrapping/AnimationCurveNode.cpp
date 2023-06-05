@@ -43,8 +43,16 @@ Io::Fbx::Wrapping::AnimationCurveNode::AnimationCurveNode(Reading::FbxObject& ob
 	case NodeType::FilmboxTypeId:
 		m_Value.shortValue = props.GetShort(0);
 		break;
+	case NodeType::FocalLength:
+		m_Value.shortValue = props.GetDouble(0);
+		break;
 	default:break;
 	}
+}
+
+void Io::Fbx::Wrapping::AnimationCurveNode::AddNodeAttribute(const NodeAttribute& nodeAttribute)
+{
+	m_NodeAttributes.Add(&nodeAttribute);
 }
 
 void Io::Fbx::Wrapping::AnimationCurveNode::AddAnimationCurve(const AnimationCurve& animationCurve)
@@ -75,6 +83,7 @@ Io::Fbx::Wrapping::AnimationCurveNode::NodeType Io::Fbx::Wrapping::AnimationCurv
 	if (typeName == "R") return NodeType::Rotation;
 	if (typeName == "S") return NodeType::Scale;
 	if (typeName == "filmboxTypeID") return NodeType::FilmboxTypeId;
+	if (typeName == "FocalLength") return NodeType::FocalLength;
 	Logger::PrintWarning("Unknown AnimationCurveNode type: " + typeName);
 	return NodeType::Other;
 }

@@ -10,9 +10,9 @@ Io::Fbx::Wrapping::AnimationStack::AnimationStack(Reading::FbxObject& object)
 	, Name{ object.GetProperty(1)->AsString() }
 {
 	const Reading::Properties70 properties{ object.GetChild(0) };
-	LocalStart = properties.GetInt64("LocalStart");
+	LocalStart = properties.GetInt64("LocalStart", 0);
 	LocalStop = properties.GetInt64("LocalStop");
-	ReferenceStart = properties.GetInt64("ReferenceStart");
+	ReferenceStart = properties.GetInt64("ReferenceStart", 0);
 	ReferenceStop = properties.GetInt64("ReferenceStop");
 }
 
