@@ -16,6 +16,8 @@ namespace MyEngine
 				template<typename T = uint8_t>
 				T ReadBitsFlipped(uint8_t nrBits);
 
+				void ToNextByte();
+
 			private:
 				std::istream& m_Stream;
 				uint8_t m_CurrByte{};

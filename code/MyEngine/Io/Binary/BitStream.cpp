@@ -7,3 +7,9 @@ Io::Binary::BitStream::BitStream(std::istream& stream)
 	, m_CurrBitOffset(0)
 {
 }
+
+void Io::Binary::BitStream::ToNextByte()
+{
+	m_CurrBitOffset = 0;
+	m_CurrByte = m_Stream.get();
+}
