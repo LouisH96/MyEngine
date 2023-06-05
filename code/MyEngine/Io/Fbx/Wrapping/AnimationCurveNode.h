@@ -52,6 +52,10 @@ namespace MyEngine
 					const Model& GetModel() const { return *m_pParentModel; }
 					const Array<const AnimationCurve*>& GetAnimationCurves() const { return m_AnimationCurves; }
 
+					const Double3& GetDefaultVector() const { return m_Value.vectorValue; }
+					bool GetDefaultBool() const { return m_Value.boolValue; }
+					short GetDefaultShort() const { return m_Value.shortValue; }
+					
 				private:
 					Array<const AnimationCurve*> m_AnimationCurves{};
 					const Model* m_pParentModel{};

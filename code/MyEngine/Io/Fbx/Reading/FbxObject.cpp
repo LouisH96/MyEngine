@@ -24,7 +24,7 @@ Io::Fbx::Reading::FbxObject::FbxObject(std::istream& stream, uint8_t version, bo
 	{
 		if (stream.peek() == '\0')
 		{
-			const uint8_t nrNullsAtEnd = version == 75 ? 25 : 13;
+			const uint8_t nrNullsAtEnd = (version == 75 || version == 77) ? 25 : 13;
 			const auto tillEnd = m_End - cur;
 			if(tillEnd== nrNullsAtEnd)
 			{

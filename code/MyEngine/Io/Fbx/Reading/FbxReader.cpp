@@ -38,10 +38,11 @@ uint8_t Io::Fbx::Reading::FbxReader::ReadHeader()
 
 	//version number
 	const unsigned versionNumber{ LittleEndianReader::Uint32(m_Stream) };
+	Logger::Print("Version", versionNumber);
 	if (versionNumber == 7300) return 73;
 	if (versionNumber == 7400) return 74;
 	if (versionNumber == 7500) return 75;
-	if (versionNumber == 7700) return 77;
+	if (versionNumber == 7700) return 77; //https://forums.autodesk.com/t5/fbx-forum/why-does-motionbuilder-2019-export-ascii-fbx-as-7-7-0/m-p/8906055/highlight/true#M9698
 	Logger::PrintError("FbxVersion " + std::to_string(versionNumber) + " not supported");
 	return 0;
 }

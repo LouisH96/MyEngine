@@ -14,15 +14,23 @@ namespace MyEngine
 			{
 			public:
 				FbxValueCurve() = default;
+				explicit FbxValueCurve(const T& defaultValue);
 				explicit FbxValueCurve(const Wrapping::AnimationCurve& curve);
 
 				T ValueAtTime(const int64_t& time) const;
 				void ScaleValues(float scale);
 
 			private:
+				T m_DefaultValue;
 				SortedArray<int64_t> m_Times;
 				Array<T> m_Values;
 			};
+
+			template <typename T>
+			FbxValueCurve<T>::FbxValueCurve(const T& defaultValue)
+				: m_DefaultValue{ defaultValue }
+			{
+			}
 
 			//Times & values should be sorted
 			template <typename T>
@@ -38,6 +46,8 @@ namespace MyEngine
 			template <typename T>
 			T FbxValueCurve<T>::ValueAtTime(const int64_t& time) const
 			{
+				if (m_Times.GetSize() == 0) return m_DefaultValue;
+
 				int idxBefore, idxAfter;
 				m_Times.GetSurroundingIndices(time, idxBefore, idxAfter);
 

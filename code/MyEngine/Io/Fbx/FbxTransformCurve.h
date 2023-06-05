@@ -1,5 +1,6 @@
 #pragma once
 #include "FbxValueCurve.h"
+#include "Math/Double3.h"
 
 namespace MyEngine
 {
@@ -28,6 +29,8 @@ namespace MyEngine
 				FbxValueCurve<float> m_ScaleCurves[3];
 
 				static void FromAnimationCurveNode(const Wrapping::AnimationCurveNode& node, FbxValueCurve<float>* pValueCurves);
+				static void FromDefaultValue(const Double3& value, FbxValueCurve<float>* pValueCurves);
+				static void FromDefaultValue(const Float3& value, FbxValueCurve<float>* pValueCurves);
 			};
 		}
 	}
