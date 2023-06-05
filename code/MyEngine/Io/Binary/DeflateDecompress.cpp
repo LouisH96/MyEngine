@@ -31,13 +31,22 @@ DeflateDecompress::DeflateDecompress(std::istream& stream)
 		{
 		case 1: HandleFixedBlock(); break;
 		case 2: HandleDynamicBlock(); break;
-		case 0: Logger::PrintError("Block has no compression, which is not supported yet"); return;
+		case 0: HandleNoCompression(); return;
 		case 3: Logger::PrintError("Block-type was 3 which shouldn't be used"); return;
 		default: Logger::PrintError("Unknown block-type (BTYPE) of " + std::to_string(bType)); return;
 		}
 	}
 }
 
+
+void DeflateDecompress::HandleNoCompression()
+{
+	m_BitStream.ToNextByte();
+	const uint16_t length{ m_BitStream.ReadBits<uint16_t>(16) };
+	const int16_t lengthNegate{ m_BitStream.ReadBits<int16_t>(16) };
+	for (int i = 0; i < length; i++)
+		m_Output.push_back(m_BitStream.ReadBits<uint8_t>(8));
+}
 
 void DeflateDecompress::HandleFixedBlock()
 {
@@ -75,7 +84,7 @@ void DeflateDecompress::HandleFixedBlock()
 void DeflateDecompress::HandleLengthDistancePair(uint16_t lengthCode)
 {
 #ifdef DEFLATE_DECOMPRESS_DEBUG
-	if(lengthCode < 257 || lengthCode >285)
+	if (lengthCode < 257 || lengthCode >285)
 	{
 		Logger::PrintError("length-code(" + std::to_string(lengthCode) + ") should be [257-285]");
 		throw 0;
@@ -142,7 +151,7 @@ void DeflateDecompress::HandleDynamicBlock()
 
 	Array<uint8_t> llCodeLengths{ 286, 0 };
 	GetCodeLengths(llCodeLengths, clSymbolCodes, clSymbolCodeLengths, hLit + 257);
-	Array<uint8_t> dCodeLengths{ 32,0 };
+	Array<uint8_t> dCodeLengths{ 32, 0 };
 	GetCodeLengths(dCodeLengths, clSymbolCodes, clSymbolCodeLengths, hDist + 1);
 
 	const Array<uint16_t> llCodes = Huffman<uint16_t>::GetCodesFromCodeLengths(llCodeLengths);

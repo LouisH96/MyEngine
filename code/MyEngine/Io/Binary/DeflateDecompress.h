@@ -22,6 +22,9 @@ namespace MyEngine
 				BitStream m_BitStream;
 				std::vector<uint8_t> m_Output{};
 
+				//---| Other |---
+				void HandleNoCompression();
+
 				//---| Fixed Huffman codes (BTYPE=01) |---
 				void HandleFixedBlock();
 				void HandleLengthDistancePair(uint16_t lengthCode);
