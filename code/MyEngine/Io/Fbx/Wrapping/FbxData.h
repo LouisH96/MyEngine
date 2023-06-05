@@ -42,7 +42,7 @@ namespace MyEngine
 					Model& GetModel(int idx) { return m_Models[idx]; }
 					Array<Model>& GetModels() { return m_Models; }
 					Pose& GetBindPose() { return m_BindPose; }
-					AnimationStack& GetAnimationStack() { return m_AnimationStack; }
+					Array<AnimationStack> GetAnimationStacks() { return m_AnimationStacks; }
 					Array<AnimationLayer>& GetAnimationLayers() { return m_AnimationLayers; }
 					Array<AnimationCurveNode>& GetAnimationCurveNodes() { return m_AnimationCurveNodes; }
 
@@ -55,6 +55,7 @@ namespace MyEngine
 					NodeAttribute* FindNodeAttribute(const int64_t& id);
 					Deformer* FindDeformer(const int64_t& id);
 					Pose::Node* FindPoseNode(const int64_t& id);
+					AnimationStack* FindAnimationStack(const int64_t& id);
 					AnimationLayer* FindAnimationLayer(const int64_t& id);
 					AnimationCurve* FindAnimationCurve(const int64_t& id);
 					AnimationCurveNode* FindAnimationCurveNode(const int64_t& id);
@@ -68,6 +69,7 @@ namespace MyEngine
 					const NodeAttribute* FindNodeAttribute(const int64_t& id) const;
 					const Deformer* FindDeformer(const int64_t& id) const;
 					const Pose::Node* FindPoseNode(const int64_t& id) const;
+					const AnimationStack* FindAnimationStack(const int64_t& id) const;
 					const AnimationLayer* FindAnimationLayer(const int64_t& id) const;
 					const AnimationCurveNode* FindAnimationCurveNode(const int64_t& id) const;
 					const AnimationCurve* FindAnimationCurve(const int64_t& id) const;
@@ -86,7 +88,7 @@ namespace MyEngine
 					Array<Deformer> m_Deformers{};
 					Pose m_BindPose{};
 					Array<Connection> m_Connections{};
-					AnimationStack m_AnimationStack{};
+					Array<AnimationStack> m_AnimationStacks{};
 					Array<AnimationLayer> m_AnimationLayers{};
 					Array<AnimationCurveNode> m_AnimationCurveNodes{};
 					Array<AnimationCurve> m_AnimationCurves{};

@@ -120,6 +120,14 @@ Io::Fbx::Wrapping::Pose::Node* Io::Fbx::Wrapping::FbxData::FindPoseNode(const in
 	return nullptr;
 }
 
+Io::Fbx::Wrapping::AnimationStack* Io::Fbx::Wrapping::FbxData::FindAnimationStack(const int64_t& id)
+{
+	for (int i = 0; i < m_AnimationStacks.GetSize(); i++)
+		if (m_AnimationStacks[i].Id == id)
+			return &m_AnimationStacks[i];
+	return nullptr;
+}
+
 Io::Fbx::Wrapping::AnimationLayer* Io::Fbx::Wrapping::FbxData::FindAnimationLayer(const int64_t& id)
 {
 	for (int i = 0; i < m_AnimationLayers.GetSize(); i++)
@@ -197,6 +205,14 @@ const Io::Fbx::Wrapping::Pose::Node* Io::Fbx::Wrapping::FbxData::FindPoseNode(co
 	for (int i = 0; i < m_BindPose.Nodes.GetSize(); i++)
 		if (m_BindPose.Nodes[i].Id == id)
 			return &m_BindPose.Nodes[i];
+	return nullptr;
+}
+
+const Io::Fbx::Wrapping::AnimationStack* Io::Fbx::Wrapping::FbxData::FindAnimationStack(const int64_t& id) const
+{
+	for (int i = 0; i < m_AnimationStacks.GetSize(); i++)
+		if (m_AnimationStacks[i].Id == id)
+			return &m_AnimationStacks[i];
 	return nullptr;
 }
 
@@ -343,10 +359,9 @@ void Io::Fbx::Wrapping::FbxData::ReadConnections(const Reading::FbxObject& conne
 void Io::Fbx::Wrapping::FbxData::ReadAnimationStack(const Reading::FbxObject& objectsObject)
 {
 	const std::vector<Reading::FbxObject*> readerAnimationStacks{ objectsObject.GetChildren("AnimationStack") };
-	if (readerAnimationStacks.size() > 1)
-		Logger::PrintWarning("Multiple animation-stacks not supported");
-	if (readerAnimationStacks.size() > 0)
-		m_AnimationStack = AnimationStack{ *readerAnimationStacks[0] };
+	m_AnimationStacks = { readerAnimationStacks.size() };
+	for (int i = 0; i < readerAnimationStacks.size(); i++)
+		m_AnimationStacks[i] = AnimationStack{ *readerAnimationStacks[i] };
 }
 
 void Io::Fbx::Wrapping::FbxData::ReadAnimationLayers(const Reading::FbxObject& objectsObject)
@@ -567,10 +582,11 @@ void Io::Fbx::Wrapping::FbxData::HandleDeformerConnection(Deformer& childDeforme
 void Io::Fbx::Wrapping::FbxData::HandleAnimationLayerConnection(AnimationLayer& animationLayer,
 	const Connection& connection)
 {
-	if (connection.ParentId == m_AnimationStack.Id)
+	AnimationStack* pAnimationStack{ FindAnimationStack(connection.ParentId) };
+	if (pAnimationStack)
 	{
-		animationLayer.SetAnimationStack(m_AnimationStack);
-		m_AnimationStack.AddAnimationLayer(animationLayer);
+		animationLayer.SetAnimationStack(*pAnimationStack);
+		pAnimationStack->AddAnimationLayer(animationLayer);
 		return;
 	}
 
@@ -653,7 +669,7 @@ void Io::Fbx::Wrapping::FbxData::HandleMaterialConnection(FbxWrapMaterial& mater
 
 std::string Io::Fbx::Wrapping::FbxData::FindTypeName(const int64_t& id) const
 {
-	if (m_AnimationStack.Id == id) return "AnimationStack";
+	if (FindAnimationStack(id)) return "AnimationStack";
 	if (FindGeometry(id)) return "Geometry";
 	if (FindModel(id)) return "Model";
 	if (FindNodeAttribute(id)) return "NodeAttribute";
