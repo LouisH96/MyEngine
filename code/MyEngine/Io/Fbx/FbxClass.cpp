@@ -12,7 +12,7 @@ using namespace Io::Fbx::Wrapping;
 Io::Fbx::FbxClass::FbxClass(const std::wstring& path)
 {
 	FbxData data{ path };
-	if (data.GetRootLimbNode())
+	if (data.GetARootLimbNode())
 	{
 		m_Animations = { data.GetAnimationStacks().GetSize() };
 		for (int i = 0; i < m_Animations.GetSize(); i++)

@@ -48,7 +48,7 @@ namespace MyEngine
 
 					Array<Model> GetModelsOfType(const std::string& typeName) const;
 					Array<Model> GetLimbNodes() const;
-					const Model* GetRootLimbNode() const;
+					const Model* GetARootLimbNode() const;
 
 					Geometry* FindGeometry(const int64_t& id);
 					Model* FindModel(const int64_t& id);

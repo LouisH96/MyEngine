@@ -30,7 +30,7 @@ namespace MyEngine
 				void AddToDebugRenderer(const FbxAnimationLayer& layer, const int64_t& time, float scale = 1, float sphereSize = .005f) const;
 
 			private:
-				FbxJoint m_RootJoint;
+				Array<FbxJoint> m_RootJoints;
 			};
 		}
 	}

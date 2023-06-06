@@ -62,6 +62,7 @@ namespace MyEngine
 					const Array<const Model*>& GetChildModels() const { return m_ChildModels; }
 					Array<const Model*> GetLimbNodes() const;
 					const Model& GetRootParentModel() const;
+					const Model* GetParentModel() const { return m_pParentModel; }
 					Array<const Model*> GetChildrenBreadthFirst() const;
 					void AddChildrenBreadthFirst(Array<const Model*>& models) const;
 

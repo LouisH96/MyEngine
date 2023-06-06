@@ -57,7 +57,7 @@ Array<Io::Fbx::Wrapping::Model> Io::Fbx::Wrapping::FbxData::GetLimbNodes() const
 	return GetModelsOfType("LimbNode");
 }
 
-const Io::Fbx::Wrapping::Model* Io::Fbx::Wrapping::FbxData::GetRootLimbNode() const
+const Io::Fbx::Wrapping::Model* Io::Fbx::Wrapping::FbxData::GetARootLimbNode() const
 {
 	for (int iModel = 0; iModel < m_Models.GetSize(); iModel++)
 	{
