@@ -66,9 +66,9 @@ namespace MyEngine
 					void AddChildrenBreadthFirst(Array<const Model*>& models) const;
 
 					const Array<const AnimationCurveNode*>& GetAnimationCurveNodes() const { return m_AnimationCurveNodes; }
-					const AnimationCurveNode* GetTranslationCurveNode() const;
-					const AnimationCurveNode* GetRotationCurveNode() const;
-					const AnimationCurveNode* GetScaleCurveNode() const;
+					const AnimationCurveNode* GetTranslationCurveNode(int64_t layerId) const;
+					const AnimationCurveNode* GetRotationCurveNode(int64_t layerId) const;
+					const AnimationCurveNode* GetScaleCurveNode(int64_t layerId) const;
 
 				private:
 					int64_t m_Id{};

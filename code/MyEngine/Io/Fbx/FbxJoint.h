@@ -7,6 +7,8 @@ namespace MyEngine
 	{
 		namespace Fbx
 		{
+			class FbxClass;
+
 			namespace Wrapping
 			{
 				class FbxData;
@@ -18,7 +20,7 @@ namespace MyEngine
 			public:
 				//---| Constructor/Destructor |---
 				FbxJoint() = default;
-				FbxJoint(const Wrapping::Model& model, const Wrapping::FbxData& fbxData);
+				FbxJoint(const Wrapping::Model& model, const Wrapping::FbxData& fbxData, const FbxClass& fbxClass);
 
 				//---| Move/Copy |---
 				FbxJoint(const FbxJoint& other) = delete;
@@ -29,19 +31,22 @@ namespace MyEngine
 				void AddToDebugRender(float sphereSize = .05f) const;
 				void AddToDebugRender(const Transform& parent, float sphereSize = .05f) const;
 
-				void AddToDebugRender(const int64_t& time, float sphereSize = .05f) const;
-				void AddToDebugRender(const int64_t& time, const Transform& parent, float sphereSize = .05f) const;
+				void AddToDebugRender(const FbxAnimationLayer& layer, const int64_t& time, float scale = 1, float sphereSize = .05f) const;
+				void AddToDebugRender(const FbxAnimationLayer& layer, const int64_t& time, const Transform& parent, float scale = 1, float sphereSize = .05f) const;
 
 			private:
 				std::string m_Name;
 				Transform m_LocalTransform;
 				Array<FbxJoint> m_Children;
 				FbxJoint* m_pParent{};
-				FbxTransformCurve m_Curve;
+
+				Array<FbxTransformCurve> m_Curves;
 
 				Float3 m_LocalTranslation;
 				Quaternion m_PreRotation;
 				Quaternion m_PostRotation;
+
+				const FbxTransformCurve* FindCurve(const FbxAnimationLayer& layer) const;
 			};
 		}
 	}

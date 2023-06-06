@@ -113,6 +113,8 @@
     <ClCompile Include="Rendering\State\PrimitiveTopology.cpp" />
     <ClCompile Include="Gui\GuiRenderer.cpp" />
     <ClCompile Include="Rendering\State\VertexList.cpp" />
+    <ClCompile Include="Io\Fbx\FbxAnimation.cpp" />
+    <ClCompile Include="Io\Fbx\FbxAnimationLayer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -267,6 +269,8 @@
     <ClInclude Include="Math\RectFloat.h" />
     <ClInclude Include="Math\Int4.h" />
     <ClInclude Include="Math\ScalarMath.h" />
+    <ClInclude Include="Io\Fbx\FbxAnimation.h" />
+    <ClInclude Include="Io\Fbx\FbxAnimationLayer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

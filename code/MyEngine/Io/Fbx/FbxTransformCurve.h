@@ -14,16 +14,19 @@ namespace MyEngine
 				class AnimationCurve;
 				class Model;
 			}
+			class FbxAnimationLayer;
 
 			class FbxTransformCurve
 			{
 			public:
 				FbxTransformCurve() = default;
-				explicit FbxTransformCurve(const Wrapping::Model& limbNode);
+				explicit FbxTransformCurve(const Wrapping::Model& limbNode, const FbxAnimationLayer& layer);
 
 				Transform AtTime(const int64_t& time) const;
+				bool IsInLayer(const FbxAnimationLayer& layer) const;
 
 			private:
+				const FbxAnimationLayer* m_pLayer;
 				FbxValueCurve<float> m_TranslationCurves[3];
 				FbxValueCurve<float> m_RotationCurves[3];
 				FbxValueCurve<float> m_ScaleCurves[3];

@@ -29,6 +29,7 @@ namespace MyEngine
 					int64_t ReferenceStop;
 
 					void AddAnimationLayer(const AnimationLayer& animationLayer);
+					const Array<const AnimationLayer*>& GetAnimationLayers() const { return m_AnimationLayers; }
 
 				private:
 					Array<const AnimationLayer*> m_AnimationLayers{};

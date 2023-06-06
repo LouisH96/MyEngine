@@ -13,7 +13,13 @@ Io::Fbx::FbxClass::FbxClass(const std::wstring& path)
 {
 	FbxData data{ path };
 	if (data.GetRootLimbNode())
-		m_Skeleton = FbxSkeleton{ data };
+	{
+		m_Animations = { data.GetAnimationStacks().GetSize() };
+		for (int i = 0; i < m_Animations.GetSize(); i++)
+			m_Animations[i] = FbxAnimation{ data.GetAnimationStacks()[i] };
+
+		m_Skeleton = FbxSkeleton{ data, *this };
+	}
 
 	m_Geometries = { data.GetGeometries().GetSize() };
 	for (int i = 0; i < m_Geometries.GetSize(); i++)
@@ -32,6 +38,14 @@ Io::Fbx::FbxClass::FbxClass(const std::wstring& path)
 
 	for (int i = 0; i < m_Geometries.GetSize(); i++)
 		MakeTriangleList(m_Geometries[i]);
+}
+
+int Io::Fbx::FbxClass::GetNrOfAnimationLayers() const
+{
+	int total = 0;
+	for (int i = 0; i < m_Animations.GetSize(); i++)
+		total += m_Animations[i].GetNrLayers();
+	return total;
 }
 
 void Io::Fbx::FbxClass::MakeTriangleList(Geometry& geomStruct)

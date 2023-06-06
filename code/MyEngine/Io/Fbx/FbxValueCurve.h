@@ -51,11 +51,11 @@ namespace MyEngine
 				int idxBefore, idxAfter;
 				m_Times.GetSurroundingIndices(time, idxBefore, idxAfter);
 
-				if (idxBefore == -1 || idxAfter == -1)
-				{
-					Logger::PrintError("Time is out of range");
-					return 0;
-				}
+				if (idxBefore == -1)
+					return m_Values.First();
+				if (idxAfter == -1)
+					return m_Values.Last();
+				
 				const float alpha{ Float::Unlerp(time, m_Times[idxBefore], m_Times[idxAfter]) };
 				return Float::Lerp(alpha, m_Values[idxBefore], m_Values[idxAfter]);
 			}

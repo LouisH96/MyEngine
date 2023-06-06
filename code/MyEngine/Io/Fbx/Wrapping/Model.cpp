@@ -2,6 +2,7 @@
 #include "Model.h"
 
 #include "AnimationCurveNode.h"
+#include "AnimationLayer.h"
 #include "Io/Fbx/Reading/FbxObject.h"
 #include "Io/Fbx/Reading/Properties/FbxPropPrimitive.h"
 #include "Io/Fbx/Reading/Properties70.h"
@@ -116,26 +117,38 @@ void Io::Fbx::Wrapping::Model::AddChildrenBreadthFirst(
 	for (int iChild = 0; iChild < m_ChildModels.GetSize(); iChild++) m_ChildModels[iChild]->AddChildrenBreadthFirst(models);
 }
 
-const Io::Fbx::Wrapping::AnimationCurveNode* Io::Fbx::Wrapping::Model::GetTranslationCurveNode() const
+const Io::Fbx::Wrapping::AnimationCurveNode* Io::Fbx::Wrapping::Model::GetTranslationCurveNode(int64_t layerId) const
 {
 	for (int i = 0; i < m_AnimationCurveNodes.GetSize(); i++)
-		if (m_AnimationCurveNodes[i]->GetNodeType() == AnimationCurveNode::NodeType::Translation)
-			return m_AnimationCurveNodes[i];
+	{
+		const AnimationCurveNode& node{ *m_AnimationCurveNodes[i] };
+		if (node.GetAnimationLayer().Id != layerId) continue;
+		if (node.GetNodeType() != AnimationCurveNode::NodeType::Translation) continue;
+		return &node;
+	}
 	return nullptr;
 }
 
-const Io::Fbx::Wrapping::AnimationCurveNode* Io::Fbx::Wrapping::Model::GetRotationCurveNode() const
+const Io::Fbx::Wrapping::AnimationCurveNode* Io::Fbx::Wrapping::Model::GetRotationCurveNode(int64_t layerId) const
 {
 	for (int i = 0; i < m_AnimationCurveNodes.GetSize(); i++)
-		if (m_AnimationCurveNodes[i]->GetNodeType() == AnimationCurveNode::NodeType::Rotation)
-			return m_AnimationCurveNodes[i];
+	{
+		const AnimationCurveNode& node{ *m_AnimationCurveNodes[i] };
+		if (node.GetAnimationLayer().Id != layerId) continue;
+		if (node.GetNodeType() != AnimationCurveNode::NodeType::Rotation) continue;
+		return &node;
+	}
 	return nullptr;
 }
 
-const Io::Fbx::Wrapping::AnimationCurveNode* Io::Fbx::Wrapping::Model::GetScaleCurveNode() const
+const Io::Fbx::Wrapping::AnimationCurveNode* Io::Fbx::Wrapping::Model::GetScaleCurveNode(int64_t layerId) const
 {
 	for (int i = 0; i < m_AnimationCurveNodes.GetSize(); i++)
-		if (m_AnimationCurveNodes[i]->GetNodeType() == AnimationCurveNode::NodeType::Scale)
-			return m_AnimationCurveNodes[i];
+	{
+		const AnimationCurveNode& node{ *m_AnimationCurveNodes[i] };
+		if (node.GetAnimationLayer().Id != layerId) continue;
+		if (node.GetNodeType() != AnimationCurveNode::NodeType::Scale) continue;
+		return &node;
+	}
 	return nullptr;
 }

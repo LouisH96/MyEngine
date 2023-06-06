@@ -2,6 +2,7 @@
 #include "FbxSkeleton.h"
 #include "Math/Float2.h"
 #include "Wrapping/FbxData.h"
+#include "FbxAnimation.h"
 
 namespace MyEngine
 {
@@ -31,10 +32,11 @@ namespace MyEngine
 
 				//---| Class |---
 				FbxClass(const std::wstring& path);
-				~FbxClass() = default; FbxClass(const FbxClass& other) = default;
-				FbxClass(FbxClass&& other) noexcept = default;
-				FbxClass& operator=(const FbxClass& other) = default;
-				FbxClass& operator=(FbxClass&& other) noexcept = default;
+				~FbxClass() = default;
+				FbxClass(const FbxClass& other) = delete;
+				FbxClass(FbxClass&& other) noexcept = delete;
+				FbxClass& operator=(const FbxClass& other) = delete;
+				FbxClass& operator=(FbxClass&& other) noexcept = delete;
 
 				const Geometry& GetGeometry(int idx) const { return m_Geometries[idx]; }
 				Geometry& GetGeometry(int idx) { return m_Geometries[idx]; }
@@ -42,9 +44,12 @@ namespace MyEngine
 				Array<Geometry>& GetGeometries() { return m_Geometries; }
 
 				const FbxSkeleton& GetSkeleton() const { return m_Skeleton; }
+				const Array<FbxAnimation>& GetAnimations() const { return m_Animations; }
+				int GetNrOfAnimationLayers() const;
 
 			private:
 				Array<Geometry> m_Geometries{};
+				Array<FbxAnimation> m_Animations{};
 				FbxSkeleton m_Skeleton{};
 
 				static void MakeTriangleList(Geometry& geomStruct);

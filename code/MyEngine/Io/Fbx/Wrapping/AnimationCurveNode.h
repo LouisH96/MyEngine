@@ -58,7 +58,9 @@ namespace MyEngine
 					const Double3& GetDefaultVector() const { return m_Value.vectorValue; }
 					bool GetDefaultBool() const { return m_Value.boolValue; }
 					short GetDefaultShort() const { return m_Value.shortValue; }
-					
+
+					const AnimationLayer& GetAnimationLayer() const { return *m_pAnimationLayer; }
+
 				private:
 					List<const NodeAttribute*> m_NodeAttributes{};
 					Array<const AnimationCurve*> m_AnimationCurves{};

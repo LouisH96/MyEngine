@@ -13,6 +13,8 @@
   <ItemGroup>
     <ClCompile Include="Debug\Rendering\DebugLines.cpp" />
     <ClCompile Include="Debug\Rendering\DebugSpheres.cpp" />
+    <ClCompile Include="Io\Fbx\FbxAnimation.cpp" />
+    <ClCompile Include="Io\Fbx\FbxAnimationLayer.cpp" />
     <ClCompile Include="Gui\GuiRenderer.cpp" />
     <ClCompile Include="Rendering\State\PrimitiveTopology.cpp" />
     <ClCompile Include="Rendering\State\IndexedDrawBatch.cpp" />
@@ -132,6 +134,8 @@
     <ClInclude Include="DataStructures\SortedList.h" />
     <ClInclude Include="Debug\Rendering\DebugLines.h" />
     <ClInclude Include="Debug\Rendering\DebugSpheres.h" />
+    <ClInclude Include="Io\Fbx\FbxAnimation.h" />
+    <ClInclude Include="Io\Fbx\FbxAnimationLayer.h" />
     <ClInclude Include="Gui\GuiRenderer.h" />
     <ClInclude Include="Math\Int4.h" />
     <ClInclude Include="Math\RectFloat.h" />

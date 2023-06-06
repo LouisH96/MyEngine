@@ -3,20 +3,23 @@
 
 #include "Io/Fbx/Wrapping/AnimationCurveNode.h"
 #include "Io/Fbx/Wrapping/Model.h"
+#include "Io/Fbx/FbxANimationLayer.h"
 
 using namespace Io::Fbx::Wrapping;
 
-Io::Fbx::FbxTransformCurve::FbxTransformCurve(const Model& limbNode)
+Io::Fbx::FbxTransformCurve::FbxTransformCurve(const Wrapping::Model& limbNode, const FbxAnimationLayer& layer)
+	: m_pLayer{ &layer }
+	, m_TranslationCurves{}, m_RotationCurves{}, m_ScaleCurves{}
 {
-	const AnimationCurveNode* pTranslationNode{ limbNode.GetTranslationCurveNode() };
+	const AnimationCurveNode* pTranslationNode{ limbNode.GetTranslationCurveNode(m_pLayer->GetId()) };
 	if (pTranslationNode) FromAnimationCurveNode(*pTranslationNode, m_TranslationCurves);
 	else FromDefaultValue(limbNode.GetLclTranslation(), m_TranslationCurves);
 
-	const AnimationCurveNode* pRotationNode{ limbNode.GetRotationCurveNode() };
+	const AnimationCurveNode* pRotationNode{ limbNode.GetRotationCurveNode(m_pLayer->GetId()) };
 	if (pRotationNode) FromAnimationCurveNode(*pRotationNode, m_RotationCurves);
 	else FromDefaultValue(limbNode.GetLclRotation(), m_RotationCurves);
 
-	const AnimationCurveNode* pScaleNode{ limbNode.GetScaleCurveNode() };
+	const AnimationCurveNode* pScaleNode{ limbNode.GetScaleCurveNode(m_pLayer->GetId()) };
 	if (pScaleNode) FromAnimationCurveNode(*pScaleNode, m_ScaleCurves);
 	else FromDefaultValue(limbNode.GetLclScaling(), m_ScaleCurves);
 
@@ -39,6 +42,11 @@ Transform Io::Fbx::FbxTransformCurve::AtTime(const int64_t& time) const
 		m_RotationCurves[2].ValueAtTime(time)
 	};
 	return Transform{ translation, Quaternion::FromEulerDegrees(rotation) };
+}
+
+bool Io::Fbx::FbxTransformCurve::IsInLayer(const FbxAnimationLayer& layer) const
+{
+	return &layer == m_pLayer;
 }
 
 void Io::Fbx::FbxTransformCurve::FromAnimationCurveNode(const AnimationCurveNode& node, FbxValueCurve<float>* pValueCurves)
