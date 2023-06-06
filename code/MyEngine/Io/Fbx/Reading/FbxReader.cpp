@@ -38,7 +38,6 @@ uint8_t Io::Fbx::Reading::FbxReader::ReadHeader()
 
 	//version number
 	const unsigned versionNumber{ LittleEndianReader::Uint32(m_Stream) };
-	Logger::Print("Version", versionNumber);
 	if (versionNumber == 7300) return 73;
 	if (versionNumber == 7400) return 74;
 	if (versionNumber == 7500) return 75;
