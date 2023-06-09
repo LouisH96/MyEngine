@@ -6,6 +6,7 @@
 #include "Io/Ttf/ContourOperations.h"
 #include "Io/Ttf/FontRasterizer.h"
 #include "Io/Ttf/TtfReader.h"
+#include "Rendering/Image.h"
 
 Rendering::TextRenderer::TextRenderer(Gpu& gpu)
 	: m_pTextureRenderer(
