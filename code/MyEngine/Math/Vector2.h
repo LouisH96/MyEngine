@@ -52,6 +52,8 @@ namespace MyEngine
 			void Normalize();
 			Vector2<T> Normalized() const;
 			float Cross(const Vector2<T>& o);
+			Vector2<int> Floored() const;
+			Vector2<int> Ceiled() const;
 
 			bool IsLeftAbove(const Vector2& comparedTo) const;
 			bool IsRightAbove(const Vector2& comparedTo) const;
@@ -185,6 +187,18 @@ namespace MyEngine
 		float Vector2<T>::Cross(const Vector2<T>& o)
 		{
 			return (x * o.y) - (y * o.x);
+		}
+
+		template <typename T>
+		Vector2<int> Vector2<T>::Floored() const
+		{
+			return { static_cast<int>(floor(x)), static_cast<int>(floor(y)) };
+		}
+
+		template <typename T>
+		Vector2<int> Vector2<T>::Ceiled() const
+		{
+			return { static_cast<int>(ceil(x)), static_cast<int>(ceil(y)) };
 		}
 
 		template <typename T>
