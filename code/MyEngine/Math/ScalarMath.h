@@ -13,6 +13,8 @@ namespace MyEngine
 			template<typename D> static D LerpClamp(const T& alpha, const D& begin, const D& end);
 
 			static T Clamp(const T& value, const T& min, const T& max);
+			static T Max();
+			static T Min();
 		};
 
 		template <typename T>
@@ -42,6 +44,18 @@ namespace MyEngine
 			if (value <= min) return min;
 			if (value >= max) return max;
 			return value;
+		}
+
+		template <typename T>
+		T ScalarMath<T>::Max()
+		{
+			return std::numeric_limits<T>().max();
+		}
+
+		template <typename T>
+		T ScalarMath<T>::Min()
+		{
+			return std::numeric_limits<T>().min();
 		}
 
 		using DoubleMath = ScalarMath<double>;
