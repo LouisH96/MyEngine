@@ -27,6 +27,10 @@ namespace MyEngine
 			static Mesh* Create(const Gpu& gpu, const Ds::Array<Vertex>& vertices, const Ds::Array<int>& indices, Topology topology = Topology::TriangleList, bool immutable = true);
 			template<typename Vertex>
 			static Mesh* Create(const Gpu& gpu, const Ds::Array<Vertex>& vertices, Topology topology = Topology::TriangleList, bool immutable = true);
+			template<typename Vertex>
+			static Mesh* Create(const Ds::Array<Vertex>& vertices, const Ds::Array<int>& indices, Topology topology = Topology::TriangleList, bool immutable = true);
+			template<typename Vertex>
+			static Mesh* Create(const Ds::Array<Vertex>& vertices, Topology topology = Topology::TriangleList, bool immutable = true);
 			~Mesh();
 
 			template<typename T>
@@ -72,6 +76,19 @@ namespace MyEngine
 		Mesh* Mesh::Create(const Gpu& gpu, const Ds::Array<Vertex>& vertices, Topology topology, bool immutable)
 		{
 			return new Mesh(gpu, sizeof(Vertex), vertices.GetData(), vertices.GetSize(), topology, immutable);
+		}
+
+		template <typename Vertex>
+		Mesh* Mesh::Create(const Ds::Array<Vertex>& vertices, const Ds::Array<int>& indices, Topology topology,
+			bool immutable)
+		{
+			return Create(*Globals::pGpu, vertices, indices, topology, immutable);
+		}
+
+		template <typename Vertex>
+		Mesh* Mesh::Create(const Ds::Array<Vertex>& vertices, Topology topology, bool immutable)
+		{
+			return Create(*Globals::pGpu, vertices, topology, immutable);
 		}
 
 		template <typename T>
