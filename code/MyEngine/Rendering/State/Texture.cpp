@@ -213,6 +213,16 @@ Rendering::Texture::Texture(const Gpu& gpu, Image* pImage)
 	pTexture->Release();
 }
 
+Rendering::Texture::Texture(const std::wstring& path)
+	: Texture{*Globals::pGpu, path}
+{
+}
+
+Rendering::Texture::Texture(Image* pImage)
+	: Texture{*Globals::pGpu, pImage}
+{
+}
+
 Rendering::Texture::~Texture()
 {
 	m_pShaderResourceView->Release();

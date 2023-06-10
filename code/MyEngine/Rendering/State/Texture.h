@@ -15,6 +15,8 @@ namespace MyEngine
 		public:
 			Texture(const Gpu& gpu, const std::wstring& path);
 			Texture(const Gpu& gpu, Image* pImage);
+			Texture(const std::wstring& path);
+			Texture(Image* pImage);
 			~Texture();
 			Texture(const Texture& other) = delete;
 			Texture(Texture&& other) noexcept = delete;
