@@ -115,6 +115,7 @@
     <ClCompile Include="Rendering\State\VertexList.cpp" />
     <ClCompile Include="Io\Fbx\FbxAnimation.cpp" />
     <ClCompile Include="Io\Fbx\FbxAnimationLayer.cpp" />
+    <ClCompile Include="Rendering\Font\FontAtlas.cpp" />
     <ClCompile Include="Generation\PlaneGeneration.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -272,6 +273,7 @@
     <ClInclude Include="Math\ScalarMath.h" />
     <ClInclude Include="Io\Fbx\FbxAnimation.h" />
     <ClInclude Include="Io\Fbx\FbxAnimationLayer.h" />
+    <ClInclude Include="Rendering\Font\FontAtlas.h" />
     <ClInclude Include="Generation\PlaneGeneration.h" />
   </ItemGroup>
   <ItemGroup>
