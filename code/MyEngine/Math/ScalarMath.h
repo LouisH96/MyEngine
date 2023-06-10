@@ -12,6 +12,8 @@ namespace MyEngine
 			template<typename D> static D Lerp(const T& alpha, const D& begin, const D& end);
 			template<typename D> static D LerpClamp(const T& alpha, const D& begin, const D& end);
 
+			static int Ceil(const T& value);
+			static int Floor(const T& value);
 			static T Clamp(const T& value, const T& min, const T& max);
 			static T Max();
 			static T Min();
@@ -36,6 +38,18 @@ namespace MyEngine
 		D ScalarMath<T>::LerpClamp(const T& alpha, const D& begin, const D& end)
 		{
 			return Clamp(Lerp(alpha, begin, end), begin, end);
+		}
+
+		template <typename T>
+		int ScalarMath<T>::Ceil(const T& value)
+		{
+			return ceil(value);
+		}
+
+		template <typename T>
+		int ScalarMath<T>::Floor(const T& value)
+		{
+			return floor(value);
 		}
 
 		template <typename T>
