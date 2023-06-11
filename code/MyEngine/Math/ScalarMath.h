@@ -1,5 +1,8 @@
 #pragma once
 
+#undef max
+#undef min
+
 namespace MyEngine
 {
 	namespace Math
@@ -11,6 +14,7 @@ namespace MyEngine
 			template<typename D> static T Unlerp(const D& value, const D& begin, const D& end);
 			template<typename D> static D Lerp(const T& alpha, const D& begin, const D& end);
 			template<typename D> static D LerpClamp(const T& alpha, const D& begin, const D& end);
+			template<typename D> static T Cast(const D& value);
 
 			static int Ceil(const T& value);
 			static int Floor(const T& value);
@@ -18,6 +22,8 @@ namespace MyEngine
 			static T Max();
 			static T Min();
 		};
+
+		using Int = ScalarMath<int>;
 
 		template <typename T>
 		template <typename D>
@@ -38,6 +44,13 @@ namespace MyEngine
 		D ScalarMath<T>::LerpClamp(const T& alpha, const D& begin, const D& end)
 		{
 			return Clamp(Lerp(alpha, begin, end), begin, end);
+		}
+
+		template <typename T>
+		template <typename D>
+		T ScalarMath<T>::Cast(const D& value)
+		{
+			return static_cast<T>(value);
 		}
 
 		template <typename T>
