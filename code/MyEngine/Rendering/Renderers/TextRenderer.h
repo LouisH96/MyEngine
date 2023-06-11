@@ -1,7 +1,9 @@
 #pragma once
 #include <Rendering/Renderers/RendererFactory.h>
-#include "Rendering/State/BlendState.h"
-#include <Rendering/Renderers/TextureRenderer.h>
+
+#include "Math/RectFloat.h"
+#include "Math/RectInt.h"
+#include "Rendering/State/VertexList.h"
 
 namespace MyEngine
 {
@@ -12,7 +14,6 @@ namespace MyEngine
 			class FontRasterizer;
 		}
 	}
-
 	namespace Game
 	{
 		class FocusPointCamera;
@@ -25,15 +26,69 @@ namespace MyEngine
 		class TextRenderer
 		{
 		public:
-			TextRenderer(Gpu& gpu);
-			~TextRenderer();
+			//---| Types |---
+			class TextRendererElementId
+			{
+			public:
+				TextRendererElementId() = default;
+				explicit TextRendererElementId(int id);
+				int GetId() const { return m_Id; }
+				bool IsValid() const { return m_Id >= 0; }
+				bool operator==(const TextRendererElementId& other) const;
+			private:
+				int m_Id;
+			};
+			TextRenderer();
+			~TextRenderer() = default;
 
-			void AddCharacterXy(const Math::Float3& offset, const Math::Float2& size, const Io::Ttf::FontRasterizer& rasterizer) const;
-			void Render(const Math::Float3& cameraPosition, const Math::Float4X4& viewProjection) const;
+			void OnCanvasResize(const Int2& newSize);
+			void Render();
+
+			TextRendererElementId AddLeftBottom(const Int2& leftBot, float xWidth, const std::string& text, float spacing = 0);
+			TextRendererElementId AddCenterBottom(const Int2& leftBot, float xWidth, const std::string& text, float spacing = 0);
+
+			float GetScreenWidth(float xWidth, const std::string& text, float spacing = 0) const;
 
 		private:
-			TextureRenderer<V_PosUv, CB_CamMat>* m_pTextureRenderer;
-			Gpu& m_Gpu;
+			using Vertex = V_Pos2Uv;
+			static constexpr int VERTICES_PER_RECT = 6;
+
+			BlendState m_BlendState;
+			InputLayout m_InputLayout;
+			RasterizerState m_RasterizerState;
+			SamplerState m_SamplerState;
+			Shader m_Shader;
+
+			Array<float> m_CharactersHorPos;
+			Array<float> m_CharactersHeight;
+			float m_SpaceWidth;
+
+			Texture m_FontAtlas;
+			float m_HeightToWidth; //in uv
+			float m_UvToScreen; //multiply uv-width with this to be in screen-width (1/'x'-uv-width), result is 'x' * this would be 1 pixel screen-space
+
+			Int2 m_CanvasSize;
+			VertexList<Vertex> m_Vertices;
+			int m_CenterBottomAnchoredIdx; //begin of vertices anchored to center-bottom (before is anchored to left-bottom)
+
+			void Add(int idx, const RectFloat& rect, const RectFloat& uvRect);
+			void Replace(int idx, const RectFloat& rect);
+			int ToVertexIdx(TextRendererElementId id) const;
+
+			float GetCharUvWidth(int charIdx) const;
+			float GetCharUvWidth(char c) const;
+			Float2 GetCharUvSize(int charIdx) const;
+			Float2 GetCharUvSize(char c) const;
+			RectFloat GetCharUvRect(char c) const;
+			RectFloat GetCharUvRect(int charIdx) const;
+			//toclip functions should be renamed to toNdc
+			static float ToClipAlignMin(int screenPos, float screenSize);
+			static float ToClipAlignCenter(int screenPos, float screenSize);
+			static float SizeToClip(float size, float screenSize);
+			static float SizeToClip(int size, float screenSize);
+			static Float2 SizeToClip(const Float2& size, const Float2& screenSize);
+			static Float2 SizeToClip(const Int2& size, const Float2& screenSize);
+			static int CharacterToIndex(char c);
 		};
 	}
 }

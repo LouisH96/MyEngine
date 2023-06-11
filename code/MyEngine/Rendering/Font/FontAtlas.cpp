@@ -10,28 +10,41 @@
 
 using namespace Io::Ttf;
 
-Rendering::Font::FontAtlas::FontAtlas()
+Rendering::Font::FontAtlas::FontAtlas(int xHorizontalPixels)
 {
 	//read
 	const std::wstring fontPath = Framework::Resources::GetGlobalResourcePath(L"Fonts\\ShortBaby.ttf");
 	std::ifstream stream{ fontPath, std::ios::binary };
 	const Io::TtfReader reader{ stream };
 
-	//create empty atlas
-	constexpr float desiredXWidth{ .1f };
-	constexpr int pixelsXWidth{ 32 };
-	const float ttfToPixels{ pixelsXWidth / static_cast<float>(reader.GetGlyph('x').GetSize().x) };
+	const float ttfToPixels{ static_cast<float>(xHorizontalPixels) / static_cast<float>(reader.GetGlyph('x').GetSize().x) };
 
-	const Int2 atlasSize{ GetBounds(reader, ttfToPixels) };
-	m_pImage = new Image{ atlasSize };
+	constexpr int nrCharacters = 'z' - 'a' + 1 + 'Z' - 'A' + 1 + '9' - '0' + 1;
+	m_CharacterHorPos = { nrCharacters + 1 };
+	m_CharacterHeight = { nrCharacters };
+	m_CharacterHorPos[0] = 0;
 
-	m_WorldSize = Float2(atlasSize) * desiredXWidth / pixelsXWidth;
+	//phase1: pixel sizes
+	int idx{ 0 };
+	float highest{ 0 };
+	for (char c = 'a'; c <= 'z'; c++, idx++) CharacterInfoStep(reader.GetGlyph(c), idx, ttfToPixels, highest);
+	for (char c = 'A'; c <= 'Z'; c++, idx++) CharacterInfoStep(reader.GetGlyph(c), idx, ttfToPixels, highest);
+	for (char c = '0'; c <= '9'; c++, idx++) CharacterInfoStep(reader.GetGlyph(c), idx, ttfToPixels, highest);
 
-	//draw atlas
-	int drawX{ 0 };
-	for (char lower = 'a'; lower <= 'z'; lower++) DrawAtlasStep(reader, *m_pImage, drawX, ttfToPixels, lower);
-	for (char upper = 'A'; upper <= 'Z'; upper++)  DrawAtlasStep(reader, *m_pImage, drawX, ttfToPixels, upper);
-	for (char number = '0'; number <= '9'; number++)  DrawAtlasStep(reader, *m_pImage, drawX, ttfToPixels, number);
+	//phase2: make image
+	m_pImage = new Image{ static_cast<int>(m_CharacterHorPos.Last()), static_cast<int>(highest) };
+	const Float2 scale{ 1 / static_cast<float>(m_pImage->GetWidth()), 1 / static_cast<float>(m_pImage->GetHeight())};
+	idx = 0;
+	for (char c = 'a'; c <= 'z'; c++, idx++) DrawGlyphStep(reader.GetGlyph(c), idx, ttfToPixels);
+	for (char c = 'A'; c <= 'Z'; c++, idx++) DrawGlyphStep(reader.GetGlyph(c), idx, ttfToPixels);
+	for (char c = '0'; c <= '9'; c++, idx++) DrawGlyphStep(reader.GetGlyph(c), idx, ttfToPixels);
+
+	//phase3: normalize char-info
+	for (int i = 0; i < m_CharacterHeight.GetSize(); i++) m_CharacterHeight[i] *= scale.y;
+	for (int i = 0; i < m_CharacterHorPos.GetSize(); i++) m_CharacterHorPos[i] *= scale.x;
+
+	//other
+	m_SpaceWidth = reader.GetGlyph(' ').GetSize().x * ttfToPixels * scale.x;
 }
 
 Rendering::Font::FontAtlas::~FontAtlas()
@@ -46,33 +59,20 @@ Rendering::Image* Rendering::Font::FontAtlas::GetImageOwnership()
 	return pReturn;
 }
 
-Float2 Rendering::Font::FontAtlas::GetBounds(const Io::TtfReader& reader, float ttfToPixels)
+void Rendering::Font::FontAtlas::CharacterInfoStep(const Glyph& glyph, int idx, float ttfToPixels, float& highest)
 {
-	Int2 bounds{ 0, 0 };
-	for (char lower = 'a'; lower <= 'z'; lower++) DoBoundsStep(reader, bounds, ttfToPixels, lower);
-	for (char upper = 'A'; upper <= 'Z'; upper++) DoBoundsStep(reader, bounds, ttfToPixels, upper);
-	for (char number = '0'; number <= '9'; number++) DoBoundsStep(reader, bounds, ttfToPixels, number);
-	return bounds;
+	const Float2 sizeInPixels{ (glyph.GetSize() * ttfToPixels).Ceiled() };
+
+	if (sizeInPixels.y > highest) highest = sizeInPixels.y;
+	m_CharacterHeight[idx] = sizeInPixels.y;
+	m_CharacterHorPos[idx + 1] = m_CharacterHorPos[idx] + sizeInPixels.x;
 }
 
-void Rendering::Font::FontAtlas::DoBoundsStep(const Io::TtfReader& reader, Int2& bounds, float ttfToPixels, char character)
+void Rendering::Font::FontAtlas::DrawGlyphStep(const Io::Ttf::Glyph& glyph, int idx, float ttfToPixels)
 {
-	const Glyph glyph{ reader.GetGlyph(character) };
 	const Int2 sizeInPixels{ (glyph.GetSize() * ttfToPixels).Ceiled() };
-	bounds.x += sizeInPixels.x;
-	if (sizeInPixels.y > bounds.y) bounds.y = sizeInPixels.y;
-}
-
-void Rendering::Font::FontAtlas::DrawAtlasStep(const Io::TtfReader& reader, Image& atlasImage, int& x, float ttfToPixels, char character)
-{
-	const Glyph glyph{ reader.GetGlyph(character) };
-	const Int2 sizeInPixels{ (glyph.GetSize() * ttfToPixels).Ceiled() };
-
-	const FontRasterizer rasterizer{ glyph, sizeInPixels.x,sizeInPixels.y };
+	const FontRasterizer rasterizer{ glyph, sizeInPixels };
 	const Image* pGlyphImage{ rasterizer.MakeImage({}) };
-
-	pGlyphImage->CopyTo(atlasImage, { x, 0 });
-	x += sizeInPixels.x;
-
+	pGlyphImage->CopyTo(*m_pImage, { static_cast<int>(m_CharacterHorPos[idx]), 0 });
 	delete pGlyphImage;
 }

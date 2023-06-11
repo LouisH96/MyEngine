@@ -4,9 +4,13 @@ namespace MyEngine
 {
 	namespace Io
 	{
+		namespace Ttf
+		{
+			class Glyph;
+		}
+
 		class TtfReader;
 	}
-
 	namespace Rendering
 	{
 		class Image;
@@ -16,22 +20,24 @@ namespace MyEngine
 			class FontAtlas
 			{
 			public:
-				FontAtlas();
+				FontAtlas(int xHorizontalPixels); //amount of horizontal pixels in x-character
 				~FontAtlas();
 
 				Image& GetImage() { return *m_pImage; }
 				Image* GetImageOwnership();
 
-				const Float2& GetWorldSize() const { return m_WorldSize; }
+				Array<float>& GetCharacterHorPos() { return m_CharacterHorPos; }
+				Array<float>& GetCharacterHeight() { return m_CharacterHeight; }
+				float GetSpaceWidth() const { return m_SpaceWidth; }
 
 			private:
 				Image* m_pImage;
-				Float2 m_WorldSize; //temp
+				Array<float> m_CharacterHorPos;
+				Array<float> m_CharacterHeight;
+				float m_SpaceWidth;
 
-				static Float2 GetBounds(const Io::TtfReader& reader, float ttfToPixels);
-				static void DoBoundsStep(const Io::TtfReader& reader, Int2& bounds, float ttfToPixels, char character);
-
-				static void DrawAtlasStep(const Io::TtfReader& reader, Image& atlasImage, int& x, float ttfToPixels, char character);
+				void CharacterInfoStep(const Io::Ttf::Glyph& glyph, int idx, float ttfToPixels, float& highest);
+				void DrawGlyphStep(const Io::Ttf::Glyph& glyph, int idx, float ttfToPixels);
 			};
 		}
 	}
