@@ -137,6 +137,7 @@
     <ClInclude Include="Debug\Rendering\DebugLines.h" />
     <ClInclude Include="Debug\Rendering\DebugSpheres.h" />
     <ClInclude Include="Generation\PlaneGeneration.h" />
+    <ClInclude Include="Rendering\Buffers\InstanceList.h" />
     <ClInclude Include="Rendering\Font\FontAtlas.h" />
     <ClInclude Include="Io\Fbx\FbxAnimation.h" />
     <ClInclude Include="Io\Fbx\FbxAnimationLayer.h" />

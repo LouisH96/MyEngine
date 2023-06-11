@@ -22,8 +22,8 @@ const Rendering::InputLayout::Element Rendering::TextRenderer::ELEMENTS[] =
 	{"INST_COLOR", InputLayout::ElementType::Float3, 1, InputLayout::SlotClass::PerInstance}
 };
 
-Rendering::TextRenderer::TextRendererElementId::TextRendererElementId(int id)
-	: m_Id{ id }
+Rendering::TextRenderer::TextRendererElementId::TextRendererElementId(unsigned id)
+	: m_Id{ static_cast<int>(id) }
 {
 }
 
@@ -39,10 +39,8 @@ Rendering::TextRenderer::TextRenderer()
 {
 	//VERTICES
 	const Array<Vertex> vertices{ Generation::PlaneGeneration::CreateVertices({ 0,0 }, { 1,1 }, { {0,0},{1,1} })};
-	m_DrawBatch = DrawBatch{
-		vertices.GetData(), vertices.GetSizeU(),
-		m_Instances.GetData(), m_Instances.GetSizeU(),
-		true, false
+	m_Instances = InstanceList<Vertex, Instance>{
+		vertices.GetData(), vertices.GetSizeU()
 	};
 
 	//ATLAS
@@ -86,7 +84,6 @@ void Rendering::TextRenderer::OnCanvasResize(const Int2& newSize)
 		Replace(i, rect);
 	}
 	m_CanvasSize = newSize;
-	m_InstancesChanged = true;
 }
 
 void Rendering::TextRenderer::Render()
@@ -100,12 +97,7 @@ void Rendering::TextRenderer::Render()
 	m_FontAtlas.Activate(*Globals::pGpu);
 	m_Shader.Activate();
 
-	if (m_InstancesChanged)
-	{
-		m_InstancesChanged = false;
-		m_DrawBatch.SetInstances(m_Instances.GetData(), m_Instances.GetSizeU(), false);
-	}
-	m_DrawBatch.Draw(*Globals::pGpu);
+	m_Instances.Draw();
 }
 
 Rendering::TextRenderer::TextRendererElementId Rendering::TextRenderer::AddLeftBottom(const Int2& leftBot, float xWidth,
@@ -207,8 +199,7 @@ void Rendering::TextRenderer::Add(int idx, const RectFloat& rect, const RectFloa
 		uvRect.GetSize(), uvRect.GetLeftBot(),
 		color
 	};
-	m_Instances.Add(instanceData);
-	m_InstancesChanged = true;
+	m_Instances.Insert(instanceData, idx);
 }
 
 void Rendering::TextRenderer::Replace(int idx, const RectFloat& rect)

@@ -3,6 +3,7 @@
 
 #include "Math/RectFloat.h"
 #include "Math/RectInt.h"
+#include "Rendering/Buffers/InstanceList.h"
 #include "Rendering/State/DrawBatch.h"
 #include "Rendering/State/VertexList.h"
 
@@ -32,7 +33,7 @@ namespace MyEngine
 			{
 			public:
 				TextRendererElementId() = default;
-				explicit TextRendererElementId(int id);
+				explicit TextRendererElementId(unsigned id);
 				int GetId() const { return m_Id; }
 				bool IsValid() const { return m_Id >= 0; }
 				bool operator==(const TextRendererElementId& other) const;
@@ -73,16 +74,13 @@ namespace MyEngine
 			Array<float> m_CharactersHeight;
 			float m_SpaceWidth;
 
-			List<Instance> m_Instances;
-			bool m_InstancesChanged = false;
-
 			Texture m_FontAtlas;
 			float m_HeightToWidth; //in uv
 			float m_UvToScreen; //multiply uv-width with this to be in screen-width (1/'x'-uv-width), result is 'x' * this would be 1 pixel screen-space
 
 			Int2 m_CanvasSize;
-			DrawBatch m_DrawBatch;
-			int m_CenterBottomAnchoredIdx; //begin of vertices anchored to center-bottom (before is anchored to left-bottom)
+			InstanceList<Vertex, Instance> m_Instances;
+			unsigned m_CenterBottomAnchoredIdx; //begin of vertices anchored to center-bottom (before is anchored to left-bottom)
 
 			void Add(int idx, const RectFloat& rect, const RectFloat& uvRect, const Float3& color);
 			void Replace(int idx, const RectFloat& rect);
