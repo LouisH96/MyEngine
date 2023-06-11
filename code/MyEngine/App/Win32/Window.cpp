@@ -145,6 +145,7 @@ LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, 
 		PostQuitMessage(0);
 		break;
 	case WM_SIZE:
+		if (wParam == SIZE_MINIMIZED) break;
 		window.m_ClientSize.x = LOWORD(lParam);
 		window.m_ClientSize.y = HIWORD(lParam);
 		window.m_IsResized = true;
