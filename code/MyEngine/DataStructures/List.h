@@ -20,6 +20,7 @@ namespace MyEngine
 
 			//---| Functions |---
 			void Add(const T& value);
+			void Insert(int idx, const T& value);
 			void InsertEmpty(int idx, int amount);
 
 			const T& operator[](int idx) const;
@@ -30,6 +31,7 @@ namespace MyEngine
 			int GetSize() const { return m_Size; }
 			unsigned GetSizeU() const { return static_cast<unsigned>(m_Size); }
 			int GetCapacity() const { return m_Capacity; }
+			unsigned GetCapacityU() const { return static_cast<unsigned>(m_Capacity); }
 			bool IsEmpty() const { return m_Size == 0; }
 
 		private:
@@ -104,6 +106,26 @@ namespace MyEngine
 				m_pData = pNew;
 			}
 			m_pData[m_Size++] = value;
+		}
+
+		template <typename T>
+		void List<T>::Insert(int idx, const T& value)
+		{
+			if (m_Size == m_Capacity)
+			{
+				m_Capacity *= 2;
+				T* pNew = new T[m_Capacity];
+				memcpy(pNew, m_pData, idx * sizeof(T));
+				pNew[idx] = value;
+				memcpy(&pNew[idx + 1], &m_pData[idx], (m_Size - idx) * sizeof(T));
+				delete m_pData;
+				m_pData = pNew;
+				m_Size++;
+				return;
+			}
+			memcpy(&m_pData[idx], &m_pData[idx + 1], (m_Size - idx) * sizeof(T));
+			m_pData[idx] = value;
+			m_Size++;
 		}
 
 		template <typename T>
