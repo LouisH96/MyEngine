@@ -21,12 +21,12 @@ namespace MyEngine
 					AnimationStack() = default;
 					explicit AnimationStack(Reading::FbxObject& object);
 
-					int64_t Id;
-					std::string Name;
-					int64_t LocalStart;
-					int64_t LocalStop;
-					int64_t ReferenceStart;
-					int64_t ReferenceStop;
+					int64_t Id{};
+					std::string Name{};
+					int64_t LocalStart{};
+					int64_t LocalStop{};
+					int64_t ReferenceStart{};
+					int64_t ReferenceStop{};
 
 					void AddAnimationLayer(const AnimationLayer& animationLayer);
 					const Array<const AnimationLayer*>& GetAnimationLayers() const { return m_AnimationLayers; }
