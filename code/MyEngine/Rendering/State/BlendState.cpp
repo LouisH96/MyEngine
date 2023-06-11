@@ -4,6 +4,11 @@
 #include <d3d11.h>
 #include "../Gpu.h"
 
+Rendering::BlendState::BlendState()
+	: BlendState{ *Globals::pGpu }
+{
+}
+
 Rendering::BlendState::BlendState(const Rendering::Gpu& gpu)
 {
 	D3D11_BLEND_DESC desc{};

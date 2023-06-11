@@ -5,6 +5,11 @@
 
 #include "../Gpu.h"
 
+Rendering::SamplerState::SamplerState()
+	: SamplerState{ *Globals::pGpu }
+{
+}
+
 Rendering::SamplerState::SamplerState(const Gpu& gpu)
 {
 	D3D11_SAMPLER_DESC desc{};

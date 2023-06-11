@@ -7,6 +7,11 @@
 #include "../Dx/DxHelper.h"
 #include "../Gpu.h"
 
+Rendering::InputLayout::InputLayout(const Element* pElements, int nrElements)
+	: InputLayout{ *Globals::pGpu, pElements, nrElements }
+{
+}
+
 Rendering::InputLayout::InputLayout(const Gpu& gpu, const Element* pElements, int nrElements)
 {
 	//CREATE INPUT_ELEMENT_DESC

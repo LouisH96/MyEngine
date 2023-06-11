@@ -29,6 +29,7 @@ namespace MyEngine
 
 			template<typename T> static InputLayout FromType();
 
+			InputLayout(const Element* pElements, int nrElements);
 			InputLayout(const Gpu& gpu, const Element* pElements, int nrElements);
 			~InputLayout();
 			InputLayout(const InputLayout& other) = delete;

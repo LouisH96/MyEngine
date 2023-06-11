@@ -11,6 +11,7 @@ namespace MyEngine
 		class RasterizerState
 		{
 		public:
+			explicit RasterizerState(bool isWireframe = false);
 			explicit RasterizerState(const Gpu& gpu, bool isWireframe = false);
 			~RasterizerState();
 			RasterizerState(const RasterizerState& other) = delete;

@@ -11,6 +11,7 @@ namespace MyEngine
 		class SamplerState
 		{
 		public:
+			SamplerState();
 			SamplerState(const Gpu& gpu);
 			~SamplerState();
 			SamplerState(const SamplerState& other) = delete;

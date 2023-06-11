@@ -3,10 +3,15 @@
 
 #include "../Gpu.h"
 
+Rendering::RasterizerState::RasterizerState(bool isWireframe)
+	: RasterizerState{ *Globals::pGpu, isWireframe }
+{
+}
+
 Rendering::RasterizerState::RasterizerState(const Gpu& gpu, bool isWireframe)
 {
 	D3D11_RASTERIZER_DESC desc{};
-	if(isWireframe)
+	if (isWireframe)
 	{
 		desc.FillMode = D3D11_FILL_WIREFRAME;
 		desc.CullMode = D3D11_CULL_NONE;

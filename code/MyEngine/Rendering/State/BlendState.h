@@ -11,6 +11,7 @@ namespace MyEngine
 		class BlendState
 		{
 		public:
+			BlendState();
 			BlendState(const Gpu& gpu);
 			~BlendState();
 			BlendState(const BlendState& other) = delete;
