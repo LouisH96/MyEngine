@@ -3,12 +3,24 @@
 
 #include <fstream>
 #include "Framework/Resources.h"
+#include "Generation/PlaneGeneration.h"
 #include "Io/Ttf/ContourOperations.h"
 #include "Io/Ttf/TtfReader.h"
 #include "Math/ScalarMath.h"
 #include "Rendering/Canvas.h"
 #include "Rendering/Image.h"
 #include "Rendering/Font/FontAtlas.h"
+
+const Rendering::InputLayout::Element Rendering::TextRenderer::ELEMENTS[] =
+{
+	{"POSITION", InputLayout::ElementType::Float2},
+	{"TEXCOORD", InputLayout::ElementType::Float2},
+	{"INST_POS_OFFSET", InputLayout::ElementType::Float2, 1, InputLayout::SlotClass::PerInstance},
+	{"INST_SIZE", InputLayout::ElementType::Float2, 1, InputLayout::SlotClass::PerInstance},
+	{"INST_UV_SCALE", InputLayout::ElementType::Float2, 1, InputLayout::SlotClass::PerInstance},
+	{"INST_UV_OFFSET", InputLayout::ElementType::Float2, 1, InputLayout::SlotClass::PerInstance},
+	{"INST_COLOR", InputLayout::ElementType::Float3, 1, InputLayout::SlotClass::PerInstance}
+};
 
 Rendering::TextRenderer::TextRendererElementId::TextRendererElementId(int id)
 	: m_Id{ id }
@@ -21,10 +33,19 @@ bool Rendering::TextRenderer::TextRendererElementId::operator==(const TextRender
 }
 
 Rendering::TextRenderer::TextRenderer()
-	: m_InputLayout{ InputLayout::FromType<Vertex>() }
-	, m_Shader{ Framework::Resources::GetGlobalShaderPath(L"Font.hlsl") }
+	: m_InputLayout{ ELEMENTS, sizeof ELEMENTS / sizeof(InputLayout::Element) }
+	, m_Shader{ Framework::Resources::GetGlobalShaderPath(L"Font_Inst.hlsl") }
 	, m_CanvasSize{ Globals::pCanvas->GetSize() }
 {
+	//VERTICES
+	const Array<Vertex> vertices{ Generation::PlaneGeneration::CreateVertices({ 0,0 }, { 1,1 }, { {0,0},{1,1} })};
+	m_DrawBatch = DrawBatch{
+		vertices.GetData(), vertices.GetSizeU(),
+		m_Instances.GetData(), m_Instances.GetSizeU(),
+		true, false
+	};
+
+	//ATLAS
 	Font::FontAtlas fontAtlas{32};
 	m_FontAtlas = Texture{ fontAtlas.GetImage() };
 	m_HeightToWidth = FloatMath::Cast(fontAtlas.GetImage().GetHeight()) / FloatMath::Cast(fontAtlas.GetImage().GetWidth());
@@ -43,51 +64,63 @@ void Rendering::TextRenderer::OnCanvasResize(const Int2& newSize)
 	};
 
 	//left-bottom
-	for (int i = 0; i < m_CenterBottomAnchoredIdx; i += VERTICES_PER_RECT)
+	for (int i = 0; i < m_CenterBottomAnchoredIdx; i++)
 	{
 		const RectFloat rect
 		{
-			(m_Vertices[i].pos + Float2{1,1}).Scaled(scale) - Float2{1, 1},
-			(m_Vertices[i + 5].pos - m_Vertices[i].pos).Scaled(scale)
+			(m_Instances[i].PositionOffset + Float2{1,1}).Scaled(scale) - Float2{1, 1},
+			m_Instances[i].Size.Scaled(scale)
 		};
 		Replace(i, rect);
 	}
-	for (int i = m_CenterBottomAnchoredIdx; i < m_Vertices.GetSize(); i += VERTICES_PER_RECT)
+	for (int i = m_CenterBottomAnchoredIdx; i < m_Instances.GetSize(); i++)
 	{
 		const RectFloat rect
 		{
 			{
-				m_Vertices[i].pos.x * scale.x,
-				(m_Vertices[i].pos.y + 1) * scale.y - 1
+				m_Instances[i].PositionOffset.x * scale.x,
+				(m_Instances[i].PositionOffset.y + 1) * scale.y - 1
 			},
-			(m_Vertices[i + 5].pos - m_Vertices[i].pos).Scaled(scale)
+			m_Instances[i].Size.Scaled(scale)
 		};
 		Replace(i, rect);
 	}
 	m_CanvasSize = newSize;
+	m_InstancesChanged = true;
 }
 
 void Rendering::TextRenderer::Render()
 {
+	if (m_Instances.GetSize() == 0) return;
+
+	m_BlendState.Activate(*Globals::pGpu);
+	m_RasterizerState.Activate(*Globals::pGpu);
+	m_SamplerState.Activate(*Globals::pGpu);
 	m_InputLayout.Activate(*Globals::pGpu);
 	m_FontAtlas.Activate(*Globals::pGpu);
 	m_Shader.Activate();
-	m_Vertices.Draw();
+
+	if (m_InstancesChanged)
+	{
+		m_InstancesChanged = false;
+		m_DrawBatch.SetInstances(m_Instances.GetData(), m_Instances.GetSizeU(), false);
+	}
+	m_DrawBatch.Draw(*Globals::pGpu);
 }
 
 Rendering::TextRenderer::TextRendererElementId Rendering::TextRenderer::AddLeftBottom(const Int2& leftBot, float xWidth,
-	const std::string& text, float spacing)
+	const std::string& text, const Float3& color, float spacing)
 {
-	const TextRendererElementId firstId{ m_CenterBottomAnchoredIdx / VERTICES_PER_RECT };
+	const TextRendererElementId firstId{ m_CenterBottomAnchoredIdx };
 	const float yClip{ ToClipAlignMin(leftBot.y, m_CanvasSize.y) };
 
 	const float uvWidthToScreen{ m_UvToScreen * xWidth };
 	const float uvHeightToScreen{ m_HeightToWidth * uvWidthToScreen };
-			 
+
 	float x{ FloatMath::Cast(leftBot.x) };
 	for (int i = 0; i < text.size(); i++)
 	{
-		if(text[i] == ' ')
+		if (text[i] == ' ')
 		{
 			x += m_SpaceWidth * uvWidthToScreen;
 			continue;
@@ -96,7 +129,7 @@ Rendering::TextRenderer::TextRendererElementId Rendering::TextRenderer::AddLeftB
 		const RectFloat charUvRect{ GetCharUvRect(text[i]) };
 		const Float2 charScreenSize{
 			charUvRect.GetWidth() * uvWidthToScreen,
-			charUvRect.GetHeight()* uvHeightToScreen
+			charUvRect.GetHeight() * uvHeightToScreen
 		};
 		const RectFloat charNdcRect{
 			{
@@ -105,17 +138,17 @@ Rendering::TextRenderer::TextRendererElementId Rendering::TextRenderer::AddLeftB
 			},
 			SizeToClip(charScreenSize, m_CanvasSize)
 		};
-		Add(m_CenterBottomAnchoredIdx, charNdcRect, charUvRect);
-		m_CenterBottomAnchoredIdx += VERTICES_PER_RECT;
+		Add(m_CenterBottomAnchoredIdx, charNdcRect, charUvRect, color);
+		m_CenterBottomAnchoredIdx++;
 		x += charScreenSize.x + spacing;
 	}
 	return firstId;
 }
 
 Rendering::TextRenderer::TextRendererElementId Rendering::TextRenderer::AddCenterBottom(const Int2& leftBot,
-	float xWidth, const std::string& text, float spacing)
+	float xWidth, const std::string& text, const Float3& color, float spacing)
 {
-	const TextRendererElementId firstId{ m_CenterBottomAnchoredIdx / VERTICES_PER_RECT };
+	const TextRendererElementId firstId{ m_Instances.GetSize() };
 	const float yClip{ ToClipAlignMin(leftBot.y, m_CanvasSize.y) };
 
 	const float uvWidthToScreen{ m_UvToScreen * xWidth };
@@ -142,7 +175,7 @@ Rendering::TextRenderer::TextRendererElementId Rendering::TextRenderer::AddCente
 			},
 			SizeToClip(charScreenSize, m_CanvasSize)
 		};
-		Add(m_Vertices.GetSize(), charNdcRect, charUvRect);
+		Add(m_Instances.GetSize(), charNdcRect, charUvRect, color);
 		x += charScreenSize.x + spacing;
 	}
 	return firstId;
@@ -155,62 +188,40 @@ float Rendering::TextRenderer::GetScreenWidth(float xWidth, const std::string& t
 	float totalWidth{ 0 };
 	for (const char c : text)
 	{
-		if(c == ' ')
+		if (c == ' ')
 		{
 			totalWidth += m_SpaceWidth;
 			continue;
 		}
 		const float charUvWidth{ GetCharUvWidth(c) };
 		const float charScreenWidth{ charUvWidth * uvWidthToScreen };
-		totalWidth += charScreenWidth;
+		totalWidth += charScreenWidth + spacing;
 	}
 	return totalWidth;
 }
 
-//Rendering::TextRenderer::TextRendererElementId Rendering::TextRenderer::AddCenterBottom(const RectInt& rectangle, const std::string& text, float spacing)
-//{
-//	const RectFloat rectFloat
-//	{
-//		{
-//			ToClipAlignCenter(rectangle.GetLeft(), m_CanvasSize.x),
-//			ToClipAlignMin(rectangle.GetBottom(), m_CanvasSize.y)
-//		},
-//		SizeToClip(rectangle.GetSize(), m_CanvasSize)
-//	};
-//	Add(m_Vertices.GetSize(), rectFloat);
-//	return TextRendererElementId{ 1000 + (m_Vertices.GetSize() - m_CenterBottomAnchoredIdx) / VERTICES_PER_RECT - 1 };
-//}
-
-void Rendering::TextRenderer::Add(int idx, const RectFloat& rect, const RectFloat& uvRect)
+void Rendering::TextRenderer::Add(int idx, const RectFloat& rect, const RectFloat& uvRect, const Float3& color)
 {
-	List<Vertex>& list{m_Vertices.GetList()};
-	list.InsertEmpty(idx, VERTICES_PER_RECT);
-
-	list[idx++] = { rect.GetLeftBot(), {uvRect.GetLeft(),uvRect.GetBottom()} };
-	list[idx++] = { rect.GetLeftTop(), {uvRect.GetLeft(),uvRect.GetTopInv()} };
-	list[idx++] = { rect.GetRightBot(), {uvRect.GetRight(),uvRect.GetBottom()} };
-
-	list[idx++] = { rect.GetRightBot(), {uvRect.GetRight(),uvRect.GetBottom()} };
-	list[idx++] = { rect.GetLeftTop(), {uvRect.GetLeft(),uvRect.GetTopInv()} };
-	list[idx] = { rect.GetRightTop(), {uvRect.GetRight(),uvRect.GetTopInv()} };
+	const Instance instanceData{
+		rect.GetLeftBot(), rect.GetSize(),
+		uvRect.GetSize(), uvRect.GetLeftBot(),
+		color
+	};
+	m_Instances.Add(instanceData);
+	m_InstancesChanged = true;
 }
 
 void Rendering::TextRenderer::Replace(int idx, const RectFloat& rect)
 {
-	m_Vertices[idx++].pos = rect.GetLeftBot();
-	m_Vertices[idx++].pos = rect.GetLeftTop();
-	m_Vertices[idx++].pos = rect.GetRightBot();
-
-	m_Vertices[idx++].pos = rect.GetRightBot();
-	m_Vertices[idx++].pos = rect.GetLeftTop();
-	m_Vertices[idx].pos = rect.GetRightTop();
+	m_Instances[idx].PositionOffset = rect.GetLeftBot();
+	m_Instances[idx].Size = rect.GetSize();
 }
 
 int Rendering::TextRenderer::ToVertexIdx(TextRendererElementId id) const
 {
 	if (id.GetId() >= 1000)
-		return (id.GetId() - 1000) * VERTICES_PER_RECT + m_CenterBottomAnchoredIdx;
-	return id.GetId() * VERTICES_PER_RECT;
+		return (id.GetId() - 1000) + m_CenterBottomAnchoredIdx;
+	return id.GetId();
 }
 
 float Rendering::TextRenderer::GetCharUvWidth(int charIdx) const

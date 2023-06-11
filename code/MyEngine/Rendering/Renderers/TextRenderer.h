@@ -3,6 +3,7 @@
 
 #include "Math/RectFloat.h"
 #include "Math/RectInt.h"
+#include "Rendering/State/DrawBatch.h"
 #include "Rendering/State/VertexList.h"
 
 namespace MyEngine
@@ -44,14 +45,23 @@ namespace MyEngine
 			void OnCanvasResize(const Int2& newSize);
 			void Render();
 
-			TextRendererElementId AddLeftBottom(const Int2& leftBot, float xWidth, const std::string& text, float spacing = 0);
-			TextRendererElementId AddCenterBottom(const Int2& leftBot, float xWidth, const std::string& text, float spacing = 0);
+			TextRendererElementId AddLeftBottom(const Int2& leftBot, float xWidth, const std::string& text, const Float3& color = {}, float spacing = 0);
+			TextRendererElementId AddCenterBottom(const Int2& leftBot, float xWidth, const std::string& text, const Float3& color = {}, float spacing = 0);
 
 			float GetScreenWidth(float xWidth, const std::string& text, float spacing = 0) const;
 
 		private:
 			using Vertex = V_Pos2Uv;
+			struct Instance
+			{
+				Float2 PositionOffset;
+				Float2 Size;
+				Float2 UvScale;
+				Float2 UvOffset;
+				Float3 Color;
+			};
 			static constexpr int VERTICES_PER_RECT = 6;
+			static const InputLayout::Element ELEMENTS[];
 
 			BlendState m_BlendState;
 			InputLayout m_InputLayout;
@@ -63,15 +73,18 @@ namespace MyEngine
 			Array<float> m_CharactersHeight;
 			float m_SpaceWidth;
 
+			List<Instance> m_Instances;
+			bool m_InstancesChanged = false;
+
 			Texture m_FontAtlas;
 			float m_HeightToWidth; //in uv
 			float m_UvToScreen; //multiply uv-width with this to be in screen-width (1/'x'-uv-width), result is 'x' * this would be 1 pixel screen-space
 
 			Int2 m_CanvasSize;
-			VertexList<Vertex> m_Vertices;
+			DrawBatch m_DrawBatch;
 			int m_CenterBottomAnchoredIdx; //begin of vertices anchored to center-bottom (before is anchored to left-bottom)
 
-			void Add(int idx, const RectFloat& rect, const RectFloat& uvRect);
+			void Add(int idx, const RectFloat& rect, const RectFloat& uvRect, const Float3& color);
 			void Replace(int idx, const RectFloat& rect);
 			int ToVertexIdx(TextRendererElementId id) const;
 
