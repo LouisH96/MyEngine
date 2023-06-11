@@ -34,3 +34,10 @@ void Rendering::DrawBatch::Draw(const Gpu& gpu)
 	gpu.GetContext().IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	gpu.GetContext().DrawInstanced(m_Counts[IDX_VERTICES], m_Counts[IDX_INSTANCES], 0, 0);
 }
+
+void Rendering::DrawBatch::Draw(unsigned instanceCount) const
+{
+	Globals::pGpu->GetContext().IASetVertexBuffers(0, 2, m_pBuffers, m_Strides, m_Offsets);
+	Globals::pGpu->GetContext().IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	Globals::pGpu->GetContext().DrawInstanced(m_Counts[IDX_VERTICES], instanceCount, 0, 0);
+}
