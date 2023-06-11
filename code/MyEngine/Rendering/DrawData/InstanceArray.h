@@ -13,7 +13,7 @@ namespace MyEngine
 			//---| Constructor/Destructor |---
 			InstanceArray() = default;
 			template<typename Vertex>
-			InstanceArray(const Vertex* pVertices, unsigned nrVertices, unsigned instanceStride, bool verticesImmutable = true);
+			InstanceArray(const Vertex* pVertices, unsigned nrVertices, unsigned instanceStride, unsigned instancesCapacity = 5, bool verticesImmutable = true, bool instancesImmutable = true);
 			template<typename Vertex, typename Instance>
 			InstanceArray(const Vertex* pVertices, unsigned nrVertices, const Instance* pInstances, unsigned nrInstances, bool verticesImmutable = true, bool instancesImmutable = true);
 			template<typename Vertex, typename Instance>
@@ -33,29 +33,36 @@ namespace MyEngine
 			unsigned GetVertexCount() const { return m_Counts[IDX_VERTICES]; }
 			unsigned GetInstanceCount() const { return m_Counts[IDX_INSTANCES]; }
 
+			void SetInstanceCount(unsigned count) { m_Counts[IDX_INSTANCES] = count; }
+			void SetInstanceCapacity(unsigned capacity, bool immutable);
+
+			void EnsureInstanceCapacity(unsigned minCapacity, bool immutable);
+			template<typename Instance> void UpdateInstances(const Instance* pInstances, unsigned nrInstances);
+
 			template<typename Vertex> void SetVertices(const Vertex* pVertices, unsigned nrVertices, bool immutable = true);
 			template<typename Instance> void SetInstances(const Instance* pInstances, unsigned nrInstances, bool immutable = true);
-
-			template<typename Instance> void UpdateInstances(const Instance* pInstances);
 
 		protected:
 			static constexpr int NR_BUFFERS = 2;
 			static constexpr int IDX_VERTICES = 0;
+
 			static constexpr int IDX_INSTANCES = 1;
 			ID3D11Buffer* m_pBuffers[NR_BUFFERS];
-			unsigned int m_Strides[NR_BUFFERS];
-			unsigned int m_Offsets[NR_BUFFERS];
-			unsigned int m_Counts[NR_BUFFERS];
+			unsigned m_Strides[NR_BUFFERS];
+			unsigned m_Offsets[NR_BUFFERS];
+			unsigned m_Counts[NR_BUFFERS];
+			unsigned m_Capacities[NR_BUFFERS];
 		};
 
 		template <typename Vertex>
-		InstanceArray::InstanceArray(const Vertex* pVertices, unsigned nrVertices, unsigned instanceStride, bool verticesImmutable)
+		InstanceArray::InstanceArray(const Vertex* pVertices, unsigned nrVertices, unsigned instanceStride, unsigned instancesCapacity, bool verticesImmutable, bool instancesImmutable)
 			: m_Strides{ sizeof(Vertex), instanceStride }
 			, m_Offsets{ 0,0 }
 			, m_Counts{ nrVertices, 0 }
+			, m_Capacities{ nrVertices, instancesCapacity }
 		{
 			Dx::DxHelper::CreateVertexBuffer(*Globals::pGpu, m_pBuffers[IDX_VERTICES], pVertices, nrVertices, verticesImmutable);
-			m_pBuffers[IDX_INSTANCES] = nullptr;
+			Dx::DxHelper::CreateVertexBuffer(*Globals::pGpu, m_pBuffers[IDX_INSTANCES], instanceStride, instancesCapacity, instancesImmutable);;
 		}
 
 		template <typename Vertex, typename Instance>
@@ -64,6 +71,7 @@ namespace MyEngine
 			: m_Strides{ sizeof(Vertex), sizeof(Instance) }
 			, m_Offsets{ 0,0 }
 			, m_Counts{ nrVertices, nrInstances }
+			, m_Capacities{ nrVertices, nrInstances }
 		{
 			Dx::DxHelper::CreateVertexBuffer(*Globals::pGpu, m_pBuffers[IDX_VERTICES], pVertices, nrVertices, verticesImmutable);
 			Dx::DxHelper::CreateInstanceBuffer(*Globals::pGpu, m_pBuffers[IDX_INSTANCES], pInstances, nrInstances, instancesImmutable);
@@ -79,6 +87,7 @@ namespace MyEngine
 			: m_Strides{ sizeof(Vertex), sizeof(Instance) }
 			, m_Offsets{ 0,0 }
 			, m_Counts{ vertices.GetSize(), instances.GetSize() }
+			, m_Capacities{ vertices.GetSize(), instances.GetSize() }
 		{
 			Dx::DxHelper::CreateVertexBuffer(gpu, m_pBuffers[IDX_VERTICES], vertices, verticesImmutable);
 			Dx::DxHelper::CreateInstanceBuffer(gpu, m_pBuffers[IDX_INSTANCES], instances, instancesImmutable);
@@ -101,12 +110,12 @@ namespace MyEngine
 		}
 
 		template <typename Instance>
-		void InstanceArray::UpdateInstances(const Instance* pInstances)
+		void InstanceArray::UpdateInstances(const Instance* pInstances, unsigned nrInstances)
 		{
 			D3D11_MAPPED_SUBRESOURCE mappedResource{};
 			const HRESULT result{ Globals::pGpu->GetContext().Map(m_pBuffers[IDX_INSTANCES], 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource) };
 			if (FAILED(result)) Logger::PrintError("Failed updating instances in InstanceArray");
-			memcpy(mappedResource.pData, pInstances, m_Counts[IDX_INSTANCES] * sizeof(Instance));
+			memcpy(mappedResource.pData, pInstances, nrInstances * sizeof(Instance));
 			Globals::pGpu->GetContext().Unmap(m_pBuffers[IDX_INSTANCES], 0);
 		}
 	}

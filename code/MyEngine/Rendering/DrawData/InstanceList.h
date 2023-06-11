@@ -32,13 +32,13 @@ namespace MyEngine
 
 		private:
 			InstanceArray m_DrawBatch;
-			Ds::List<Instance> m_CpuInstances{};
+			List<Instance> m_CpuInstances{};
 			bool m_Changed{ false };
 		};
 
 		template <typename Vertex, typename Instance>
 		InstanceList<Vertex, Instance>::InstanceList(const Vertex* pVertices, unsigned nrVertices)
-			: m_DrawBatch{ pVertices, nrVertices, sizeof(Instance), true }
+			: m_DrawBatch{ pVertices, nrVertices, sizeof(Instance), 5, true, false }
 		{
 		}
 
@@ -75,10 +75,9 @@ namespace MyEngine
 			if (m_Changed)
 			{
 				m_Changed = false;
-				if (m_CpuInstances.GetSize() <= m_DrawBatch.GetInstanceCount())
-					m_DrawBatch.UpdateInstances(m_CpuInstances.GetData());
-				else
-					m_DrawBatch.SetInstances(m_CpuInstances.GetData(), m_CpuInstances.GetCapacityU(), false);
+				m_DrawBatch.EnsureInstanceCapacity(m_CpuInstances.GetCapacityU(), false);
+				m_DrawBatch.UpdateInstances(m_CpuInstances.GetData(), m_CpuInstances.GetSize());
+				m_DrawBatch.SetInstanceCount(m_CpuInstances.GetSize());
 			}
 			m_DrawBatch.Draw(m_CpuInstances.GetSizeU());
 		}
