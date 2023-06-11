@@ -1,7 +1,7 @@
 #pragma once
+#include "Rendering/DrawData/VertexList.h"
 #include "Rendering/State/InputLayout.h"
 #include "Rendering/State/Shader.h"
-#include "Rendering/State/VertexList.h"
 #include "Rendering/Structs/VertexTypes.h"
 
 namespace MyEngine

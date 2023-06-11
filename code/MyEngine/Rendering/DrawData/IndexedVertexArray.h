@@ -1,5 +1,5 @@
 #pragma once
-#include "IDrawBatch.h"
+#include "IDrawData.h"
 #include <d3d11.h>
 
 #include "DataStructures/List.h"
@@ -10,13 +10,13 @@ namespace MyEngine
 	namespace Rendering
 	{
 		//VertexBuffer & IndexBuffer & InstanceBuffer
-		class IndexedDrawBatch final : IDrawBatch
+		class IndexedVertexArray final : IDrawData
 		{
 		public:
 			//---| Constructor/Destructor |---
-			IndexedDrawBatch() = default;
+			IndexedVertexArray() = default;
 			template<typename Vertex, typename Instance>
-			IndexedDrawBatch(
+			IndexedVertexArray(
 				Gpu& gpu,
 				const Vertex* pVertices, int nrVertices,
 				const Instance* pInstances, int nrInstances,
@@ -25,7 +25,7 @@ namespace MyEngine
 				bool instancesImmutable = true,
 				bool indicesImmutable = true);
 			template<typename Vertex, typename Instance>
-			IndexedDrawBatch(
+			IndexedVertexArray(
 				Gpu& gpu,
 				const Array<Vertex>& vertices,
 				const Array<Instance>& instances,
@@ -33,13 +33,13 @@ namespace MyEngine
 				bool verticesImmutable = true,
 				bool instancesImmutable = true,
 				bool indicesImmutable = true);
-			~IndexedDrawBatch() override;
+			~IndexedVertexArray() override;
 
 			//---| Copy/Move |---
-			IndexedDrawBatch(const IndexedDrawBatch& other) = delete;
-			IndexedDrawBatch& operator=(const IndexedDrawBatch& other) = delete;
-			IndexedDrawBatch(IndexedDrawBatch&& other) noexcept;
-			IndexedDrawBatch& operator=(IndexedDrawBatch&& other) noexcept;
+			IndexedVertexArray(const IndexedVertexArray& other) = delete;
+			IndexedVertexArray& operator=(const IndexedVertexArray& other) = delete;
+			IndexedVertexArray(IndexedVertexArray&& other) noexcept;
+			IndexedVertexArray& operator=(IndexedVertexArray&& other) noexcept;
 
 			//---| Functions |---
 			void Draw(const Gpu& gpu) override;
@@ -65,7 +65,7 @@ namespace MyEngine
 		};
 
 		template <typename Vertex, typename Instance>
-		IndexedDrawBatch::IndexedDrawBatch(
+		IndexedVertexArray::IndexedVertexArray(
 			Gpu& gpu,
 			const Vertex* pVertices, int nrVertices,
 			const Instance* pInstances, int nrInstances,
@@ -83,7 +83,7 @@ namespace MyEngine
 		}
 
 		template <typename Vertex, typename Instance>
-		IndexedDrawBatch::IndexedDrawBatch(
+		IndexedVertexArray::IndexedVertexArray(
 			Gpu& gpu,
 			const Array<Vertex>& vertices,
 			const Array<Instance>& instances,
@@ -91,7 +91,7 @@ namespace MyEngine
 			bool verticesImmutable,
 			bool instancesImmutable,
 			bool indicesImmutable)
-			: IndexedDrawBatch{ gpu,
+			: IndexedVertexArray{ gpu,
 				vertices.GetData(), vertices.GetSize(),
 				instances.GetData(), instances.GetSize(),
 				indices.GetData(), indices.GetSize(),
@@ -100,7 +100,7 @@ namespace MyEngine
 		}
 
 		template <typename T>
-		void IndexedDrawBatch::UpdateInstancesData(const Gpu& gpu, T* pData, int count)
+		void IndexedVertexArray::UpdateInstancesData(const Gpu& gpu, T* pData, int count)
 		{
 			D3D11_MAPPED_SUBRESOURCE mappedResource{};
 			gpu.GetContext().Map(m_pBuffers[IDX_INSTANCES], 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
@@ -109,13 +109,13 @@ namespace MyEngine
 		}
 
 		template <typename T>
-		void IndexedDrawBatch::UpdateInstancesData(const Gpu& gpu, const List<T>& list)
+		void IndexedVertexArray::UpdateInstancesData(const Gpu& gpu, const List<T>& list)
 		{
 			UpdateInstancesData(gpu, list.GetData(), list.GetSize());
 		}
 
 		template <typename T>
-		void IndexedDrawBatch::RecreateInstancesWithCapacity(const Gpu& gpu, const List<T>& list, bool immutable)
+		void IndexedVertexArray::RecreateInstancesWithCapacity(const Gpu& gpu, const List<T>& list, bool immutable)
 		{
 			m_pBuffers[IDX_INSTANCES]->Release();
 			Dx::DxHelper::CreateInstanceBuffer(gpu, m_pBuffers[IDX_INSTANCES], list.GetData(), list.GetCapacity(), immutable);

@@ -1,7 +1,7 @@
 #pragma once
 #include <d3d11.h>
 
-#include "PrimitiveTopology.h"
+#include "../State/PrimitiveTopology.h"
 #include "Rendering/Dx/DxHelper.h"
 
 namespace MyEngine
@@ -10,28 +10,28 @@ namespace MyEngine
 	{
 		class Gpu;
 
-		//VertexBuffer & NO IndexBuffer & NO InstanceBuffer
-		class VertexBuffer
+		//VertexArray & NO IndexBuffer & NO InstanceBuffer
+		class VertexArray
 		{
 		public:
 			//---| Constructor/Destructor |---
-			VertexBuffer() = default;
+			VertexArray() = default;
 			template<typename Vertex>
-			VertexBuffer(const Gpu& gpu,
+			VertexArray(const Gpu& gpu,
 				const Vertex* pInitData, int initSize,
 				bool immutable = true,
 				PrimitiveTopology topology = PrimitiveTopology::TriangleList);
-			VertexBuffer(const Gpu& gpu,
+			VertexArray(const Gpu& gpu,
 				int stride, int initCount,
 				bool immutable = true,
 				PrimitiveTopology topology = PrimitiveTopology::TriangleList);
-			~VertexBuffer();
+			~VertexArray();
 
 			//---| Move/Copy |---
-			VertexBuffer(const VertexBuffer& other) = delete;
-			VertexBuffer& operator=(const VertexBuffer& other) = delete;
-			VertexBuffer(VertexBuffer&& other) noexcept;
-			VertexBuffer& operator=(VertexBuffer&& other) noexcept;
+			VertexArray(const VertexArray& other) = delete;
+			VertexArray& operator=(const VertexArray& other) = delete;
+			VertexArray(VertexArray&& other) noexcept;
+			VertexArray& operator=(VertexArray&& other) noexcept;
 
 			//---| Functions |---
 			void Activate(const Gpu& gpu) const;
@@ -58,7 +58,7 @@ namespace MyEngine
 		};
 
 		template <typename Vertex>
-		VertexBuffer::VertexBuffer(
+		VertexArray::VertexArray(
 			const Gpu& gpu,
 			const Vertex* pInitData, int initSize,
 			bool immutable, PrimitiveTopology topology)
@@ -73,11 +73,11 @@ namespace MyEngine
 		}
 
 		template <typename T>
-		void VertexBuffer::UpdateData(const Gpu& gpu, T* pData, int dataCount)
+		void VertexArray::UpdateData(const Gpu& gpu, T* pData, int dataCount)
 		{
 			D3D11_MAPPED_SUBRESOURCE mappedResource{};
 			const HRESULT result{ gpu.GetContext().Map(m_pBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource) };
-			if (FAILED(result)) Logger::PrintError("Failed updating VertexBuffer data");
+			if (FAILED(result)) Logger::PrintError("Failed updating VertexArray data");
 			memcpy(mappedResource.pData, pData, dataCount * sizeof(T));
 			gpu.GetContext().Unmap(m_pBuffer, 0);
 		}

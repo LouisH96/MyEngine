@@ -106,13 +106,13 @@
     <ClCompile Include="Io\Fbx\FbxSkeleton.cpp" />
     <ClCompile Include="Io\Fbx\FbxTransformCurve.cpp" />
     <ClCompile Include="Debug\Rendering\DebugSpheres.cpp" />
-    <ClCompile Include="Rendering\State\DrawBatch.cpp" />
-    <ClCompile Include="Rendering\State\IndexedDrawBatch.cpp" />
+    <ClCompile Include="Rendering\DrawData\InstanceArray.cpp" />
+    <ClCompile Include="Rendering\DrawData\IndexedVertexArray.cpp" />
     <ClCompile Include="Debug\Rendering\DebugLines.cpp" />
-    <ClCompile Include="Rendering\State\VertexBuffer.cpp" />
+    <ClCompile Include="Rendering\DrawData\VertexArray.cpp" />
     <ClCompile Include="Rendering\State\PrimitiveTopology.cpp" />
     <ClCompile Include="Gui\GuiRenderer.cpp" />
-    <ClCompile Include="Rendering\State\VertexList.cpp" />
+    <ClCompile Include="Rendering\DrawData\VertexList.cpp" />
     <ClCompile Include="Io\Fbx\FbxAnimation.cpp" />
     <ClCompile Include="Io\Fbx\FbxAnimationLayer.cpp" />
     <ClCompile Include="Rendering\Font\FontAtlas.cpp" />
@@ -258,15 +258,15 @@
     <ClInclude Include="Math\Float.h" />
     <ClInclude Include="Io\Fbx\FbxTransformCurve.h" />
     <ClInclude Include="Debug\Rendering\DebugSpheres.h" />
-    <ClInclude Include="Rendering\State\IDrawBatch.h" />
-    <ClInclude Include="Rendering\State\DrawBatch.h" />
-    <ClInclude Include="Rendering\State\IndexedDrawBatch.h" />
+    <ClInclude Include="Rendering\DrawData\IDrawData.h" />
+    <ClInclude Include="Rendering\DrawData\InstanceArray.h" />
+    <ClInclude Include="Rendering\DrawData\IndexedVertexArray.h" />
     <ClInclude Include="DataStructures\List.h" />
     <ClInclude Include="Debug\Rendering\DebugLines.h" />
-    <ClInclude Include="Rendering\State\VertexBuffer.h" />
+    <ClInclude Include="Rendering\DrawData\VertexArray.h" />
     <ClInclude Include="Rendering\State\PrimitiveTopology.h" />
     <ClInclude Include="Gui\GuiRenderer.h" />
-    <ClInclude Include="Rendering\State\VertexList.h" />
+    <ClInclude Include="Rendering\DrawData\VertexList.h" />
     <ClInclude Include="Math\RectInt.h" />
     <ClInclude Include="Math\RectFloat.h" />
     <ClInclude Include="Math\Int4.h" />
@@ -275,7 +275,7 @@
     <ClInclude Include="Io\Fbx\FbxAnimationLayer.h" />
     <ClInclude Include="Rendering\Font\FontAtlas.h" />
     <ClInclude Include="Generation\PlaneGeneration.h" />
-    <ClInclude Include="Rendering\Buffers\InstanceList.h" />
+    <ClInclude Include="Rendering\DrawData\InstanceList.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

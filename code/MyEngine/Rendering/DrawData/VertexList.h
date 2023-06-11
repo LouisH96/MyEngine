@@ -1,5 +1,5 @@
 #pragma once
-#include "VertexBuffer.h"
+#include "VertexArray.h"
 #include "DataStructures/List.h"
 
 namespace MyEngine
@@ -34,14 +34,14 @@ namespace MyEngine
 
 		private:
 			List<Vertex> m_CpuList;
-			VertexBuffer m_VertexBuffer;
+			VertexArray m_VertexArray;
 			bool m_Changed;
 		};
 
 		template <typename Vertex>
 		VertexList<Vertex>::VertexList(int capacity, PrimitiveTopology topology)
 			: m_CpuList{ capacity }
-			, m_VertexBuffer{ *Globals::pGpu, sizeof(Vertex), capacity, false, topology }
+			, m_VertexArray{ *Globals::pGpu, sizeof(Vertex), capacity, false, topology }
 			, m_Changed{ false }
 		{
 		}
@@ -66,13 +66,13 @@ namespace MyEngine
 			if (m_CpuList.IsEmpty()) return;
 			if (m_Changed)
 			{
-				m_VertexBuffer.SetCount(m_CpuList.GetSize());
-				m_VertexBuffer.EnsureCapacity(*Globals::pGpu, m_CpuList.GetCapacity(), false);
-				m_VertexBuffer.UpdateData(*Globals::pGpu, m_CpuList.GetData(), m_CpuList.GetSize());
+				m_VertexArray.SetCount(m_CpuList.GetSize());
+				m_VertexArray.EnsureCapacity(*Globals::pGpu, m_CpuList.GetCapacity(), false);
+				m_VertexArray.UpdateData(*Globals::pGpu, m_CpuList.GetData(), m_CpuList.GetSize());
 				m_Changed = false;
 			}
-			m_VertexBuffer.Activate(*Globals::pGpu);
-			m_VertexBuffer.Draw(*Globals::pGpu);
+			m_VertexArray.Activate(*Globals::pGpu);
+			m_VertexArray.Draw(*Globals::pGpu);
 		}
 
 		template <typename Vertex>

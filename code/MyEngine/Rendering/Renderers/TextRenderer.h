@@ -3,9 +3,8 @@
 
 #include "Math/RectFloat.h"
 #include "Math/RectInt.h"
-#include "Rendering/Buffers/InstanceList.h"
-#include "Rendering/State/DrawBatch.h"
-#include "Rendering/State/VertexList.h"
+#include "Rendering/DrawData/InstanceList.h"
+#include "Rendering/DrawData/VertexList.h"
 
 namespace MyEngine
 {

@@ -6,10 +6,10 @@ namespace MyEngine
 	{
 		class Gpu;
 
-		class IDrawBatch
+		class IDrawData
 		{
 		public:
-			virtual ~IDrawBatch() = default;
+			virtual ~IDrawData() = default;
 			virtual void Draw(const Rendering::Gpu& gpu) = 0;
 		};
 	}

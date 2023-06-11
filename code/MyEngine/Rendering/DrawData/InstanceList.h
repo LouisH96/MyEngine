@@ -1,12 +1,12 @@
 #pragma once
-#include "Rendering/State/DrawBatch.h"
+#include "InstanceArray.h"
 
 namespace MyEngine
 {
 	namespace Rendering
 	{
 		template<typename Vertex, typename Instance>
-		class InstanceList final : IDrawBatch
+		class InstanceList final : IDrawData
 		{
 		public:
 			//---| Constructor/Destructor |---
@@ -31,7 +31,7 @@ namespace MyEngine
 			const Instance& operator[](unsigned idx) const;
 
 		private:
-			DrawBatch m_DrawBatch;
+			InstanceArray m_DrawBatch;
 			Ds::List<Instance> m_CpuInstances{};
 			bool m_Changed{ false };
 		};

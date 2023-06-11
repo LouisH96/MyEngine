@@ -1,10 +1,7 @@
 #pragma once
 #include "DataStructures/List.h"
-#include "Rendering/State/BlendState.h"
-#include "Rendering/State/ConstantBuffer.h"
-#include "Rendering/State/IndexedDrawBatch.h"
+#include "Rendering/DrawData/IndexedVertexArray.h"
 #include "Rendering/State/InputLayout.h"
-#include "Rendering/State/RasterizerState.h"
 #include "Rendering/State/Shader.h"
 #include "Rendering/Structs/ConstantBufferTypes.h"
 
@@ -42,7 +39,7 @@ namespace MyEngine
 			static const Rendering::InputLayout::Element ELEMENTS[];
 
 			List<InstanceData> m_Spheres{};
-			Rendering::IndexedDrawBatch m_DrawBatch;
+			Rendering::IndexedVertexArray m_Vertices;
 		};
 	}
 }

@@ -34,7 +34,7 @@ DebugSpheres::DebugSpheres(Gpu& gpu)
 		vertices[i] = Vertex{ positions[i], normals[i] };
 
 	//INSTANCE BUFFER
-	m_DrawBatch = IndexedDrawBatch{ gpu,
+	m_Vertices = IndexedVertexArray{ gpu,
 		vertices.GetData(), vertices.GetSize(),
 		m_Spheres.GetData(), m_Spheres.GetCapacity(),
 		indices.GetData(), indices.GetSize(),
@@ -44,16 +44,16 @@ DebugSpheres::DebugSpheres(Gpu& gpu)
 void DebugSpheres::Render(const Gpu& gpu, const Float3& cameraPosition, const Float4X4& viewProjection)
 {
 	if (m_Spheres.GetSize() == 0) return;
-	if (m_Spheres.GetSize() > m_DrawBatch.GetInstancesSize())
-		m_DrawBatch.RecreateInstancesWithCapacity(gpu, m_Spheres, false);
+	if (m_Spheres.GetSize() > m_Vertices.GetInstancesSize())
+		m_Vertices.RecreateInstancesWithCapacity(gpu, m_Spheres, false);
 	else
-		m_DrawBatch.UpdateInstancesData(gpu, m_Spheres);
-	m_DrawBatch.SetInstancesDrawCount(m_Spheres.GetSize());
+		m_Vertices.UpdateInstancesData(gpu, m_Spheres);
+	m_Vertices.SetInstancesDrawCount(m_Spheres.GetSize());
 	m_Spheres.Clear();
 
 	m_InputLayout.Activate(gpu);
 	m_Shader.Activate();
-	m_DrawBatch.Draw(gpu);
+	m_Vertices.Draw(gpu);
 }
 
 void DebugSpheres::DrawSphere(const Float3& position, const Float3& color, float size)
