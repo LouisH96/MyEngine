@@ -20,6 +20,7 @@ namespace MyEngine
 			class FontRasterizer
 			{
 			public:
+				explicit FontRasterizer(const Glyph& glyph, const Int2& sizeInPixels);
 				explicit FontRasterizer(const Glyph& glyph, int nrCols, int nrRows);
 
 				void DrawBounds(const Math::Float3& color, const Math::Float3& offset) const;

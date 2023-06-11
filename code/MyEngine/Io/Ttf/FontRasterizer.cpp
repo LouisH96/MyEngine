@@ -9,6 +9,11 @@
 #undef min;
 #undef max;
 
+Io::Ttf::FontRasterizer::FontRasterizer(const Glyph& glyph, const Int2& sizeInPixels)
+	: FontRasterizer{ glyph, sizeInPixels.x, sizeInPixels.y }
+{
+}
+
 Io::Ttf::FontRasterizer::FontRasterizer(const Glyph& glyph, int nrCols, int nrRows)
 	: m_Glyph{ glyph }
 	, m_NrCols{ nrCols }
@@ -41,11 +46,11 @@ void Io::Ttf::FontRasterizer::DrawIntersections(const Math::Float3& offset, cons
 		for (int iIntersection = 0; iIntersection < intersections.size(); iIntersection++)
 		{
 			const Intersection& intersection{ intersections[iIntersection] };
-			const Math::Float3 color{ intersection.rightIsInside ? Math::Float3{0,1,0} : Math::Float3{1,0,0} };
+			const Math::Float3 color{ intersection.rightIsInside ? Math::Float3{0, 1, 0} : Math::Float3{ 1,0,0 } };
 			const Math::Float3 position{
 				intersection.distance / static_cast<float>(glyphSize.x) * bounds.x + offset.x,
-				static_cast<float>((height-m_Glyph.GetMinBounds().y) / glyphSize.y) * bounds.y + offset.y,
-				offset.z
+					static_cast<float>((height - m_Glyph.GetMinBounds().y) / glyphSize.y)* bounds.y + offset.y,
+					offset.z
 			};
 
 			DebugRenderer::AddSphere(position, color, 0.005f);
@@ -58,7 +63,7 @@ Rendering::Image* Io::Ttf::FontRasterizer::MakeImage(const Math::Float3& fillCol
 	using namespace Rendering;
 	constexpr float fillAlpha{ 1.0f };
 	constexpr float emptyAlpha{ .0f };
-	const Math::Float3 emptyColor{ 1,1,1 };
+	const Math::Float3 emptyColor{ 1, 1, 1 };
 	const Math::Double2 glyphSize{ m_Glyph.GetSize() };
 	Image* pImage = new Image(m_NrCols, m_NrRows);
 	std::vector<Intersection> intersections{};
