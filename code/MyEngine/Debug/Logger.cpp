@@ -129,7 +129,7 @@ void Logger::SetColorRed()
 	SetColor(12);
 }
 
-void Logger::SetColor(int attribute)
+void Logger::SetColor(short attribute)
 {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), attribute);
 }

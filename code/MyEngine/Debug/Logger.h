@@ -60,7 +60,7 @@ namespace MyEngine
 			static void SetColorWhite();
 			static void SetColorYellow();
 			static void SetColorRed();
-			static void SetColor(int attribute);
+			static void SetColor(short attribute);
 		};
 
 		template <typename T>
