@@ -19,6 +19,7 @@ Rendering::DrawBatch::DrawBatch(DrawBatch&& other) noexcept
 
 Rendering::DrawBatch& Rendering::DrawBatch::operator=(DrawBatch&& other) noexcept
 {
+	if (&other == this) return *this;
 	m_pBuffers[0] = other.m_pBuffers[0]; m_pBuffers[1] = other.m_pBuffers[1];
 	m_Counts[0] = other.m_Counts[0]; m_Counts[1] = other.m_Counts[1];
 	m_Strides[0] = other.m_Strides[0]; m_Strides[1] = other.m_Strides[1];
