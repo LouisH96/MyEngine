@@ -26,6 +26,7 @@ namespace MyEngine
 
 			//---| Construction |---
 			TextureRenderer(Gpu& gpu, const std::wstring& shaderPath);
+			explicit TextureRenderer(const std::wstring& shaderPath);
 			~TextureRenderer();
 
 			//---| Rule of Five |---
@@ -73,6 +74,12 @@ namespace MyEngine
 			, m_Shader(gpu, shaderPath)
 			, m_InputLayout(gpu, Vertex::ELEMENTS, Vertex::NR_ELEMENTS)
 			, m_ConstantBuffer(gpu)
+		{
+		}
+
+		template <typename Vertex, typename CamData>
+		TextureRenderer<Vertex, CamData>::TextureRenderer(const std::wstring& shaderPath)
+			: TextureRenderer{ *Globals::pGpu, shaderPath }
 		{
 		}
 
