@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Logger.h"
 
+#include <Windows.h>
 #include <iostream>
 #include <locale>
 #include <iomanip>
@@ -87,7 +88,9 @@ void Debug::Logger::PrintError(const std::string& message)
 	std::stringstream ss;
 	ss << "[Error] ";
 	ss << message;
+	SetColorRed();
 	Print(ss.str());
+	SetColorWhite();
 }
 
 void Logger::PrintWarning(const std::string& message)
@@ -95,7 +98,9 @@ void Logger::PrintWarning(const std::string& message)
 	std::stringstream ss;
 	ss << "[Warning] ";
 	ss << message;
+	SetColorYellow();
 	Print(ss.str());
+	SetColorWhite();
 }
 
 std::string Debug::Logger::ToStringXY(const Math::Int2& vector)
@@ -107,6 +112,26 @@ std::string Debug::Logger::ToStringXY(const Math::Int2& vector)
 	ss << std::to_string(vector.y);
 	ss << ")";
 	return ss.str();
+}
+
+void Logger::SetColorWhite()
+{
+	SetColor(7);
+}
+
+void Logger::SetColorYellow()
+{
+	SetColor(14);
+}
+
+void Logger::SetColorRed()
+{
+	SetColor(12);
+}
+
+void Logger::SetColor(int attribute)
+{
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), attribute);
 }
 
 std::string Debug::Logger::ToStringXYZ(const float* x)
