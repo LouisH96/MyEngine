@@ -129,7 +129,6 @@
     <ClCompile Include="Io\Fbx\FbxSkeleton.cpp" />
     <ClCompile Include="Io\Fbx\FbxTransformCurve.cpp" />
     <ClCompile Include="Rendering\DrawData\VertexArray.cpp" />
-    <ClCompile Include="Rendering\DrawData\VertexList.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataStructures\List.h" />
