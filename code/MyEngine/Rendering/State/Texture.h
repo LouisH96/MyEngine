@@ -16,12 +16,14 @@ namespace MyEngine
 			Texture(const Gpu& gpu, const std::wstring& path);
 			Texture(const Gpu& gpu, Image* pImage);
 			Texture(const std::wstring& path);
+			Texture(Image& image);
 			Texture(Image* pImage);
+			Texture();
 			~Texture();
 			Texture(const Texture& other) = delete;
-			Texture(Texture&& other) noexcept = delete;
 			Texture& operator=(const Texture& other) = delete;
-			Texture& operator=(Texture&& other) noexcept = delete;
+			Texture(Texture&& other) noexcept;
+			Texture& operator=(Texture&& other) noexcept;
 
 			void ActivateVs(const Gpu& gpu) const;
 			void ActivatePs(const Gpu& gpu) const;

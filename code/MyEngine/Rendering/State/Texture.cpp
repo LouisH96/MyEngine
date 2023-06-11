@@ -214,18 +214,44 @@ Rendering::Texture::Texture(const Gpu& gpu, Image* pImage)
 }
 
 Rendering::Texture::Texture(const std::wstring& path)
-	: Texture{*Globals::pGpu, path}
+	: Texture{ *Globals::pGpu, path }
+{
+}
+
+Rendering::Texture::Texture(Image& image)
+	: Texture{ *Globals::pGpu, &image }
 {
 }
 
 Rendering::Texture::Texture(Image* pImage)
-	: Texture{*Globals::pGpu, pImage}
+	: Texture{ *Globals::pGpu, pImage }
+{
+}
+
+Rendering::Texture::Texture()
+	: m_pShaderResourceView{ nullptr }
 {
 }
 
 Rendering::Texture::~Texture()
 {
-	m_pShaderResourceView->Release();
+	if (m_pShaderResourceView)
+		m_pShaderResourceView->Release();
+	m_pShaderResourceView = nullptr;
+}
+
+Rendering::Texture::Texture(Texture&& other) noexcept
+	: m_pShaderResourceView{ other.m_pShaderResourceView }
+{
+	other.m_pShaderResourceView = nullptr;
+}
+
+Rendering::Texture& Rendering::Texture::operator=(Texture&& other) noexcept
+{
+	if (&other == this) return *this;
+	m_pShaderResourceView = other.m_pShaderResourceView;
+	other.m_pShaderResourceView = nullptr;
+	return *this;
 }
 
 void Rendering::Texture::ActivateVs(const Gpu& gpu) const
