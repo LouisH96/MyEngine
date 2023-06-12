@@ -11,8 +11,10 @@ namespace MyEngine
 		public:
 			//---| Constructor/Destructor |---
 			SortedArray() = default;
+
 			explicit SortedArray(const SortedList<T>& sortedList);
 			explicit SortedArray(const Array<T>& unsortedArray);
+			explicit SortedArray(Array<T>&& unsortedArray);
 
 			//---| Move/Copy |---
 			SortedArray(const SortedArray& other) = default;
@@ -42,7 +44,14 @@ namespace MyEngine
 		SortedArray<T>::SortedArray(const Array<T>& unsortedArray)
 			: m_Array{ unsortedArray }
 		{
-			//todo: sort
+			m_Array.BubbleSort();
+		}
+
+		template <typename T>
+		SortedArray<T>::SortedArray(Array<T>&& unsortedArray)
+			: m_Array{ std::move(unsortedArray) }
+		{
+			m_Array.BubbleSort();
 		}
 
 		template <typename T>
@@ -61,7 +70,7 @@ namespace MyEngine
 				before = i;
 				return;
 			}
-			if(m_Array.Last() >= value)
+			if (m_Array.Last() >= value)
 			{
 				after = m_Array.GetSize() - 1;
 				before = after - 1;
@@ -86,14 +95,14 @@ namespace MyEngine
 				after = &m_Array[0];
 				return;
 			}
-			for (int i = 1; i < m_Array.GetSize()-1; i++)
+			for (int i = 1; i < m_Array.GetSize() - 1; i++)
 			{
 				if (m_Array[i] <= value) continue;
 				before = &m_Array[i - 1];
 				after = &m_Array[i];
 				return;
 			}
-			if(m_Array.Last() >= value)
+			if (m_Array.Last() >= value)
 			{
 				after = m_Array.Last();
 				before = m_Array[m_Array.GetSize() - 2];

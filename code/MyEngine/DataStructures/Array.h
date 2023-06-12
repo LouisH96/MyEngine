@@ -55,6 +55,9 @@ namespace MyEngine
 			template<typename F> bool Any(const F&& func) const;
 			template<typename F> bool None(const F&& func) const;
 
+			//---| Functions: Sort |---
+			void BubbleSort();
+
 			//---| Functions: Other |---
 			void DeleteAll() const; //calls delete on all (doesn't clear array)
 			void CopyTo(Array& dest, int destIdx);
@@ -322,6 +325,28 @@ namespace MyEngine
 				if (func(m_pData[i]))
 					return false;
 			return true;
+		}
+
+		template <typename Data>
+		void Array<Data>::BubbleSort()
+		{
+			int lastToCheck{ m_Size - 1 };
+			bool changed{ true };
+			while (lastToCheck > 0 && changed)
+			{
+				changed = false;
+				for (int i = 0; i < lastToCheck; i++)
+				{
+					if (m_pData[i] > m_pData[i + 1])
+					{
+						const Data temp{ m_pData[i + 1] };
+						m_pData[i + 1] = m_pData[i];
+						m_pData[i] = temp;
+						changed = true;
+					}
+				}
+				lastToCheck--;
+			}
 		}
 
 		template<typename Data>
