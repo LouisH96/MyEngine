@@ -56,6 +56,7 @@ namespace MyEngine
 			BlendState m_BlendState;
 			RasterizerState m_RasterizerState;
 			SamplerState m_Sampler;
+			DepthStencilState m_DepthStencilState;
 
 			//---| Mesh/Shader Specific |---
 			static const InputLayout::Element ELEMENTS[];
@@ -97,6 +98,7 @@ namespace MyEngine
 		void TextureRenderer<Vertex, CamData>::Render(const Math::Float3& cameraPosition,
 			const Math::Float4X4& viewProjection)
 		{
+			m_DepthStencilState.Activate();
 			m_Sampler.ActivatePs(m_Gpu);
 			m_ConstantBuffer.Update(m_Gpu, CamData{ cameraPosition, viewProjection });
 			m_ConstantBuffer.Activate(m_Gpu);

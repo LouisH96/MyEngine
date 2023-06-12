@@ -71,6 +71,7 @@ namespace MyEngine
 			Rendering::Gpu& m_Gpu;
 
 			//---| RenderState |---
+			Rendering::DepthStencilState m_DepthStencilState;
 			Rendering::BlendState m_BlendState;
 			Rendering::RasterizerState m_RasterizerState;
 			Rendering::InputLayout m_InputLayout;

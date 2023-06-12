@@ -6,6 +6,7 @@
 #include <Rendering/State/RasterizerState.h>
 
 #include "Math/Float4X4.h"
+#include "Rendering/State/DepthStencilState.h"
 
 namespace MyEngine
 {
@@ -49,6 +50,7 @@ namespace MyEngine
 			Gpu& m_Gpu;
 			BlendState m_BlendState;
 			RasterizerState m_RasterizerState;
+			DepthStencilState m_DepthStencilState;
 
 			//---| Mesh/Shader Specific |---
 			static const InputLayout::Element ELEMENTS[];
@@ -79,6 +81,7 @@ namespace MyEngine
 		template <typename Vertex, typename CamData>
 		void BasicRenderer<Vertex, CamData>::Render(const Math::Float3& cameraPosition, const DirectX::XMMATRIX& viewProjection)
 		{
+			m_DepthStencilState.Activate();
 			m_ConstantBuffer.Update(m_Gpu, CamData{ cameraPosition, viewProjection });
 			m_ConstantBuffer.Activate(m_Gpu);
 			m_RasterizerState.Activate(m_Gpu);
@@ -96,6 +99,7 @@ namespace MyEngine
 		void BasicRenderer<Vertex, CamData>::Render(const Math::Float3& cameraPosition,
 			const Math::Float4X4& viewProjection)
 		{
+			m_DepthStencilState.Activate();
 			m_ConstantBuffer.Update(m_Gpu, CamData{ cameraPosition, viewProjection });
 			m_ConstantBuffer.Activate(m_Gpu);
 			m_RasterizerState.Activate(m_Gpu);

@@ -169,6 +169,7 @@ DebugRenderer::~DebugRenderer()
 
 void DebugRenderer::Class_Render(const Math::Float3& cameraPosition, const Math::Float4X4& viewProjection)
 {
+	m_DepthStencilState.Activate();
 	m_ConstantBuffer.Update(m_Gpu, Rendering::CB_CamMatPos{ cameraPosition, viewProjection });
 	m_ConstantBuffer.Activate(m_Gpu);
 	m_RasterizerState.Activate(m_Gpu);

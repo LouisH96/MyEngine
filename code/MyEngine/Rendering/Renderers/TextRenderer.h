@@ -68,6 +68,7 @@ namespace MyEngine
 			RasterizerState m_RasterizerState;
 			SamplerState m_SamplerState;
 			Shader m_Shader;
+			DepthStencilState m_DepthStencilState;
 
 			Array<float> m_CharactersHorPos;
 			Array<float> m_CharactersHeight;

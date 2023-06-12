@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="Debug\Rendering\DebugLines.cpp" />
     <ClCompile Include="Debug\Rendering\DebugSpheres.cpp" />
+    <ClCompile Include="Rendering\State\DepthStencilState.cpp" />
     <ClCompile Include="Generation\PlaneGeneration.cpp" />
     <ClCompile Include="Rendering\Font\FontAtlas.cpp" />
     <ClCompile Include="Io\Fbx\FbxAnimation.cpp" />
@@ -135,6 +136,7 @@
     <ClInclude Include="DataStructures\SortedList.h" />
     <ClInclude Include="Debug\Rendering\DebugLines.h" />
     <ClInclude Include="Debug\Rendering\DebugSpheres.h" />
+    <ClInclude Include="Rendering\State\DepthStencilState.h" />
     <ClInclude Include="Generation\PlaneGeneration.h" />
     <ClInclude Include="Rendering\DrawData\InstanceList.h" />
     <ClInclude Include="Rendering\Font\FontAtlas.h" />

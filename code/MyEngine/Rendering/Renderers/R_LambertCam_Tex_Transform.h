@@ -8,6 +8,8 @@
 #include <Rendering\State\BlendState.h>
 #include <Rendering\State\SamplerState.h>
 
+#include "Rendering/State/DepthStencilState.h"
+
 namespace MyEngine
 {
 	namespace Game
@@ -63,6 +65,7 @@ namespace MyEngine
 			SamplerState m_Sampler;
 			InputLayout m_InputLayout;
 			Shader m_Shader;
+			DepthStencilState m_DepthStencilState;
 
 			ConstantBuffer<CB_CamMatPos> m_CameraConstantBuffer;
 			ConstantBuffer<CB_ModelBuffer> m_ModelConstantBuffer;

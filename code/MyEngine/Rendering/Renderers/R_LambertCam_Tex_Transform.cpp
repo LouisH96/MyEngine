@@ -21,6 +21,7 @@ Rendering::R_LambertCam_Tex_Transform::R_LambertCam_Tex_Transform(Gpu& gpu)
 void Rendering::R_LambertCam_Tex_Transform::Render(const Math::Float3& cameraPosition, const Math::Float4X4& viewProjection)
 {
 	using namespace DirectX;
+	m_DepthStencilState.Activate();
 	m_Sampler.ActivatePs(m_Gpu);
 	m_RasterizerState.Activate(m_Gpu);
 	m_InputLayout.Activate(m_Gpu);

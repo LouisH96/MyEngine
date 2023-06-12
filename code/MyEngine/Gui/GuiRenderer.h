@@ -2,6 +2,7 @@
 #include "Math/RectFloat.h"
 #include "Math/RectInt.h"
 #include "Rendering/DrawData/VertexList.h"
+#include "Rendering/State/DepthStencilState.h"
 #include "Rendering/State/Shader.h"
 #include "Rendering/Structs/VertexTypes.h"
 
@@ -43,6 +44,7 @@ namespace MyEngine
 		private:
 			static constexpr int VERTICES_PER_RECT = 6;
 			using Vertex = Rendering::V_Pos2Col;
+			Rendering::DepthStencilState m_DepthStencilState;
 			Rendering::InputLayout m_InputLayout;
 			Rendering::Shader m_Shader;
 

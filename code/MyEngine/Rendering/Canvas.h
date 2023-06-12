@@ -47,7 +47,6 @@ namespace MyEngine
 			ID3D11RenderTargetView* m_pMainRenderTargetView{};
 			D3D11_VIEWPORT m_ViewPort{};
 
-			ID3D11DepthStencilState* m_pDepthStencilState{};
 			ID3D11DepthStencilView* m_pDepthStencilView{};
 
 			Int2 m_Size;
@@ -57,7 +56,6 @@ namespace MyEngine
 
 			void InitSwapChain(const App::Win32::Window& window);
 			void InitRenderTarget();
-			void InitDepthStencilState();
 			void InitDepthStencil();
 			void SetViewPort();
 
