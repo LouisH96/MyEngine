@@ -74,6 +74,12 @@ namespace MyEngine
 			return ss.str();
 		}
 
+		template<>
+		inline std::string ToString::Convert(const bool& value)
+		{
+			return value ? "true" : "false";
+		}
+
 		template<typename T>
 		inline std::string ToString::Convert(const T& value)
 		{
