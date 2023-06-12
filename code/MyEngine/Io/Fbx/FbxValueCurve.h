@@ -1,7 +1,7 @@
 #pragma once
-#include "DataStructures/SortedArray.h"
-#include "Math/Float.h"
+#include <DataStructures/SortedArray.h>
 #include <Io/Fbx/Wrapping/AnimationCurve.h>
+#include <Math/Float.h>
 
 namespace MyEngine
 {
@@ -35,12 +35,13 @@ namespace MyEngine
 			//Times & values should be sorted
 			template <typename T>
 			FbxValueCurve<T>::FbxValueCurve(const Wrapping::AnimationCurve& curve)
-				: m_Times{ SortedArray<int64_t>{curve.KeyTimes} }
+				: m_Times{ curve.KeyTimes }
 				, m_Values{ curve.KeyValueFloats }
 			{
-				//todo: if times get sorted, values might also need to change positions
 				if (m_Times.GetSize() != m_Values.GetSize())
 					Logger::PrintError("Times and Values should have equal lengths");
+				if (!curve.KeyTimes.IsSorted())
+					Logger::PrintError("[FbxValueCurve] Times is expected to be sorted");
 			}
 
 			template <typename T>
@@ -55,7 +56,7 @@ namespace MyEngine
 					return m_Values.First();
 				if (idxAfter == -1)
 					return m_Values.Last();
-				
+
 				const float alpha{ Float::Unlerp(time, m_Times[idxBefore], m_Times[idxAfter]) };
 				return Float::Lerp(alpha, m_Values[idxBefore], m_Values[idxAfter]);
 			}
@@ -69,4 +70,3 @@ namespace MyEngine
 		}
 	}
 }
-
