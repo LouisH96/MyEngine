@@ -9,46 +9,54 @@ namespace MyEngine
 		class Array
 		{
 		public:
+			//---| Constructor/Destructor |---
 			static Array CopyFrom(const Data* pData, int amount);
-
 			Array();
 			Array(int size);
-			Array(int size, const Data& initValue);
-			Array(unsigned size);
-			Array(unsigned size, const Data& initValue);
 			Array(size_t size);
+			Array(unsigned size);
+			Array(int size, const Data& initValue);
+			Array(unsigned size, const Data& initValue);
 			~Array();
+
+			//---| Move/Copy |---
 			Array(const Array& other);
 			Array(Array&& other) noexcept;
 			Array& operator=(const Array& other);
 			Array& operator=(Array&& other) noexcept;
 
+			//---| Functions: Add |---
 			void Add(const Array<Data>& other);
 			void Add(const Data& data);
 			void IncreaseSizeTo(int newSize);
 			void IncreaseSizeWith(int additionalSize);
 
+			//---| Functions: Remove |---
 			void Remove(const Data& value);
 			void RemoveAt(int idx);
 
-			const Data& operator[](int idx) const;
+			//---| Functions: Get Element |---
 			Data& operator[](int idx);
 			Data& Last();
 			Data& First();
+			const Data& operator[](int idx) const;
 			const Data& Last() const;
 			const Data& First() const;
-			int GetSize() const { return m_Size; }
-			unsigned int GetSizeU() const { return static_cast<unsigned int>(m_Size); }
 			Data* GetData() const { return m_pData; }
 
-			void DeleteAll() const;
+			//---| Functions: Get Other |---
+			int GetSize() const { return m_Size; }
+			unsigned int GetSizeU() const { return static_cast<unsigned int>(m_Size); }
 
-			void CopyTo(Array<Data>& dest, int destIdx);
-
-			template<typename F> bool Any(const F&& func) const;
-			template<typename F> bool None(const F&& func) const;
+			//---| Functions: Search |---
 			template<typename F> Data* First(const F&& func);
 			template<typename F> const Data* First(const F&& func) const;
+			template<typename F> bool Any(const F&& func) const;
+			template<typename F> bool None(const F&& func) const;
+
+			//---| Functions: Other |---
+			void DeleteAll() const; //calls delete on all (doesn't clear array)
+			void CopyTo(Array& dest, int destIdx);
 
 		private:
 			Data* m_pData;
@@ -122,14 +130,14 @@ namespace MyEngine
 		}
 
 		template<typename Data>
-		inline Array<Data>::Array(unsigned size)
+		Array<Data>::Array(unsigned size)
 			: m_pData(new Data[size])
 			, m_Size(size)
 		{
 		}
 
 		template<typename Data>
-		inline Array<Data>::Array(unsigned size, const Data& initValue)
+		Array<Data>::Array(unsigned size, const Data& initValue)
 			: m_pData(new Data[size])
 			, m_Size(size)
 		{
@@ -205,6 +213,10 @@ namespace MyEngine
 			m_pData = pNew;
 		}
 
+		/**
+		 * \brief Removes first occurrence.
+		 * If not found: last item will be removed
+		 */
 		template <typename Data>
 		void Array<Data>::Remove(const Data& value)
 		{
@@ -286,7 +298,7 @@ namespace MyEngine
 		}
 
 		template <typename Data>
-		void Array<Data>::CopyTo(Array<Data>& dest, int destIdx)
+		void Array<Data>::CopyTo(Array& dest, int destIdx)
 		{
 			memcpy(dest.GetData()[destIdx], m_pData, m_Size * sizeof(Data));
 		}
