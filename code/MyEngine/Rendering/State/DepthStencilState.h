@@ -10,7 +10,7 @@ namespace MyEngine
 		{
 		public:
 			//---| Constructor/Destructor |---
-			DepthStencilState();
+			DepthStencilState(bool useDepth = true);
 			~DepthStencilState();
 
 			//---| Move/Copy |---

@@ -4,14 +4,14 @@
 #include <d3d11.h>
 #include <Rendering/Gpu.h>
 
-Rendering::DepthStencilState::DepthStencilState()
+Rendering::DepthStencilState::DepthStencilState(bool useDepth)
 {
 	D3D11_DEPTH_STENCIL_DESC dsDesc{};
 
 	// Depth test parameters
 	dsDesc.DepthEnable = true;
-	dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
-	dsDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
+	dsDesc.DepthFunc = useDepth ? D3D11_COMPARISON_LESS_EQUAL : D3D11_COMPARISON_ALWAYS;
+	dsDesc.DepthWriteMask = useDepth ? D3D11_DEPTH_WRITE_MASK_ALL : D3D11_DEPTH_WRITE_MASK_ZERO;
 
 	// Stencil test parameters
 	dsDesc.StencilEnable = true;

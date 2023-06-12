@@ -35,6 +35,7 @@ bool Rendering::TextRenderer::TextRendererElementId::operator==(const TextRender
 Rendering::TextRenderer::TextRenderer()
 	: m_InputLayout{ ELEMENTS, sizeof ELEMENTS / sizeof(InputLayout::Element) }
 	, m_Shader{ Framework::Resources::GetGlobalShaderPath(L"Font_Inst.hlsl") }
+	, m_DepthStencilState{ false }
 	, m_CanvasSize{ Globals::pCanvas->GetSize() }
 {
 	//VERTICES
