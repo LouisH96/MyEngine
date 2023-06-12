@@ -39,10 +39,11 @@ namespace MyEngine
 			Data& operator[](int idx);
 			Data& Last();
 			Data& First();
+			Data* GetData() { return m_pData; }
 			const Data& operator[](int idx) const;
 			const Data& Last() const;
 			const Data& First() const;
-			Data* GetData() const { return m_pData; }
+			const Data* GetData() const { return m_pData; }
 
 			//---| Functions: Get Other |---
 			int GetSize() const { return m_Size; }
