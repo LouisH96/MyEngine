@@ -57,6 +57,7 @@ namespace MyEngine
 
 			//---| Functions: Sort |---
 			void BubbleSort();
+			bool IsSorted() const;
 
 			//---| Functions: Other |---
 			void DeleteAll() const; //calls delete on all (doesn't clear array)
@@ -347,6 +348,18 @@ namespace MyEngine
 				}
 				lastToCheck--;
 			}
+		}
+
+		/**
+		 * \brief ascending
+		 */
+		template <typename Data>
+		bool Array<Data>::IsSorted() const
+		{
+			for (int i = 0; i < m_Size - 1; i++)
+				if (m_pData[i] > m_pData[i + 1])
+					return false;
+			return true;
 		}
 
 		template<typename Data>
