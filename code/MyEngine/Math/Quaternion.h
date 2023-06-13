@@ -1,8 +1,7 @@
 #pragma once
-#include <Math/Float3.h>
 
 #include "Double4x4.h"
-#include "Float4.h"
+#include "Vectors.h"
 
 namespace MyEngine
 {

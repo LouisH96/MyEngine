@@ -1,5 +1,4 @@
 #pragma once
-#include "Math/Double3.h"
 
 namespace MyEngine
 {

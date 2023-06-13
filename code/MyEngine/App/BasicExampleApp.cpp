@@ -6,6 +6,7 @@
 #include <Rendering/Gpu.h>
 #include <Rendering/State/Mesh.h>
 #include <Rendering/State/Shader.h>
+#include <Rendering/Structs/ConstantBufferTypes.h>
 #include "FpsControl.h"
 #include "../Game/Camera/FocusPointCameraController.h"
 #include "App/Win32/Window.h"
@@ -13,12 +14,9 @@
 #include "Game/Camera/Camera.h"
 #include "Generation/Shapes.h"
 #include "Math/Cube.h"
-#include "Math/Float3.h"
 #include "Rendering/Canvas.h"
 #include "Rendering/State/ConstantBuffer.h"
 #include "Rendering/State/InputLayout.h"
-#include <Rendering/Structs/ConstantBufferTypes.h>
-#include <App/Win32/Window.h>
 
 using namespace Rendering;
 

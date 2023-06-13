@@ -1,10 +1,9 @@
 #include "pch.h"
 #include "Segment.h"
 
-#include "Math/Float2.h"
 #include "Intersection.h"
 
-Io::Ttf::Segment::Segment(const Math::Double2& begin, const Math::Double2& controlPoint, const Math::Double2& end)
+Io::Ttf::Segment::Segment(const Double2& begin, const Double2& controlPoint, const Double2& end)
 	: m_Begin(begin)
 	, m_End(end)
 	, m_ControlPoint(controlPoint)
@@ -12,7 +11,7 @@ Io::Ttf::Segment::Segment(const Math::Double2& begin, const Math::Double2& contr
 {
 }
 
-Io::Ttf::Segment::Segment(const Math::Double2& begin, const Math::Double2& end)
+Io::Ttf::Segment::Segment(const Double2& begin, const Double2& end)
 	: m_Begin(begin)
 	, m_End(end)
 	, m_ControlPoint(INFINITY, 0)
@@ -25,7 +24,7 @@ bool Io::Ttf::Segment::IsLinear() const
 	return m_IsLinear;
 }
 
-void Io::Ttf::Segment::Translate(const Math::Double2& translation)
+void Io::Ttf::Segment::Translate(const Double2& translation)
 {
 	m_Begin += translation;
 	m_End += translation;
@@ -70,7 +69,7 @@ void Io::Ttf::Segment::AddIntersectionPointsLinear(std::vector<Intersection>& in
 	const double result{ (height - m_Begin.y) / divisor };
 	if (result >= 0 && result <= 1)
 	{
-		const Math::Float2 point{ m_Begin + (m_End - m_Begin) * result };
+		const Float2 point{ m_Begin + (m_End - m_Begin) * result };
 		intersections.push_back(Intersection{ point.x, m_End.y > m_Begin.y });
 	}
 }
@@ -86,7 +85,7 @@ void Io::Ttf::Segment::AddIntersectionPointsCurve(std::vector<Intersection>& int
 		const double result{ -(-2 * b + c + height) / (2 * (b - c)) };
 		if (result >= 0 && result <= 1)
 		{
-			const Math::Float2 point{ CalculatePoint(result) };
+			const Float2 point{ CalculatePoint(result) };
 			intersections.push_back({ point.x, m_End.y > m_Begin.y });
 		}
 	}
@@ -99,17 +98,17 @@ void Io::Ttf::Segment::AddIntersectionPointsCurve(std::vector<Intersection>& int
 	const double result2{ -(root - a + b) / divisor };
 	if (result1 > 0 && result1 < 1)
 	{
-		const Math::Float2 point{ CalculatePoint(result1) };
+		const Float2 point{ CalculatePoint(result1) };
 		intersections.push_back({ point.x, true });
 	}
 	if (result2 > 0 && result2 < 1)
 	{
-		const Math::Float2 point{ CalculatePoint(result2) };
+		const Float2 point{ CalculatePoint(result2) };
 		intersections.push_back({ point.x, false });
 	}
 }
 
-Math::Double2 Io::Ttf::Segment::CalculatePoint(double alpha) const
+Double2 Io::Ttf::Segment::CalculatePoint(double alpha) const
 {
 	const double invAlpha = 1.0 - alpha;
 	return m_Begin * (invAlpha * invAlpha)
@@ -117,7 +116,7 @@ Math::Double2 Io::Ttf::Segment::CalculatePoint(double alpha) const
 		+ m_End * (alpha * alpha);
 }
 
-void Io::Ttf::Segment::AddCurvePoints(Array<Math::Double2>& points, int offset, int pointsPerCurve) const
+void Io::Ttf::Segment::AddCurvePoints(Array<Double2>& points, int offset, int pointsPerCurve) const
 {
 	if (pointsPerCurve < 2)
 	{
@@ -129,7 +128,7 @@ void Io::Ttf::Segment::AddCurvePoints(Array<Math::Double2>& points, int offset, 
 		points[offset++] = CalculatePoint(i * alphaStep);
 }
 
-void Io::Ttf::Segment::AddLinearPoints(Array<Math::Double2>& points, int offset) const
+void Io::Ttf::Segment::AddLinearPoints(Array<Double2>& points, int offset) const
 {
 	points[offset] = m_Begin;
 	points[offset + 1] = m_End;

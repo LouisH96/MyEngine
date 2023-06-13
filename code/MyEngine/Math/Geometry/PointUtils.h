@@ -2,9 +2,6 @@
 
 #include <limits>
 #include <DataStructures/Array.h>
-#include "Math/Vector2.h"
-#include <Math/Float3.h>
-#include "Math/Vector3.h"
 
 #undef min;
 #undef max;

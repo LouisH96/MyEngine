@@ -136,6 +136,7 @@
     <ClInclude Include="DataStructures\SortedList.h" />
     <ClInclude Include="Debug\Rendering\DebugLines.h" />
     <ClInclude Include="Debug\Rendering\DebugSpheres.h" />
+    <ClInclude Include="Math\Vectors.h" />
     <ClInclude Include="Rendering\State\DepthStencilState.h" />
     <ClInclude Include="Generation\PlaneGeneration.h" />
     <ClInclude Include="Rendering\DrawData\InstanceList.h" />
@@ -143,7 +144,6 @@
     <ClInclude Include="Io\Fbx\FbxAnimation.h" />
     <ClInclude Include="Io\Fbx\FbxAnimationLayer.h" />
     <ClInclude Include="Gui\GuiRenderer.h" />
-    <ClInclude Include="Math\Int4.h" />
     <ClInclude Include="Math\RectFloat.h" />
     <ClInclude Include="Math\RectInt.h" />
     <ClInclude Include="Rendering\State\PrimitiveTopology.h" />
@@ -170,7 +170,6 @@
     <ClInclude Include="Io\Ascii\AsciiWriter.h" />
     <ClInclude Include="Framework\BasicAppFrame.h" />
     <ClInclude Include="Framework\CppFramework.h" />
-    <ClInclude Include="Math\Float4.h" />
     <ClInclude Include="Math\Float4X4.h" />
     <ClInclude Include="Math\Quaternion.h" />
     <ClInclude Include="Math\Matrix4x4.h" />
@@ -189,7 +188,6 @@
     <ClInclude Include="Rendering\FpsDisplay.h" />
     <ClInclude Include="Io\Ttf\Intersection.h" />
     <ClInclude Include="Io\Ttf\FontRasterizer.h" />
-    <ClInclude Include="Math\Double3.h" />
     <ClInclude Include="Io\Ttf\Contour.h" />
     <ClInclude Include="Io\Ttf\Glyph.h" />
     <ClInclude Include="Rendering\Image.h" />
@@ -231,7 +229,6 @@
     <ClInclude Include="DataStructures\DsUtils.h" />
     <ClInclude Include="Io\Fbx\Reading\FbxReader.h" />
     <ClInclude Include="Io\Json\Streaming\JsonStreaming.h" />
-    <ClInclude Include="Math\Double2.h" />
     <ClInclude Include="Io\Json\ElementType.h" />
     <ClInclude Include="Io\Json\JsonElement.h" />
     <ClInclude Include="Io\Json\JsonObject.h" />
@@ -240,8 +237,6 @@
     <ClInclude Include="Io\Json\JsonNumber.h" />
     <ClInclude Include="Io\Json\JsonNull.h" />
     <ClInclude Include="Math\Cube.h" />
-    <ClInclude Include="Math\Float3.h" />
-    <ClInclude Include="Math\Float2.h" />
     <ClInclude Include="Game\Globals.h" />
     <ClInclude Include="Game\Camera\FocusPointCameraController.h" />
     <ClInclude Include="App\FpsControl.h" />
@@ -252,7 +247,6 @@
     <ClInclude Include="App\Win32\Keyboard_MsgListener.h" />
     <ClInclude Include="Rendering\State\InputLayout.h" />
     <ClInclude Include="Math\Geometry\PointUtils.h" />
-    <ClInclude Include="Math\Int2.h" />
     <ClInclude Include="Debug\Logger.h" />
     <ClInclude Include="App\Win32\Window.h" />
     <ClInclude Include="App\Time.h" />

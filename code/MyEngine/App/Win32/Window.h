@@ -4,7 +4,6 @@
 #include <string>
 #include "Keyboard_MsgListener.h"
 #include "Mouse.h"
-#include "Math/Int2.h"
 
 LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK win32_window_proc_extra(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -38,15 +37,15 @@ namespace MyEngine
 
 				explicit Window(const std::wstring& title, Options options = {});
 				explicit Window(const std::wstring& title, IExtraWinProc& extraWinProc, Options options = {});
-				explicit Window(const std::wstring& title, const Math::Int2& clientSize, Options options = {});
-				explicit Window(const std::wstring& title, const Math::Int2& clientSize, IExtraWinProc& extraWinProc, Options options = {});
+				explicit Window(const std::wstring& title, const Int2& clientSize, Options options = {});
+				explicit Window(const std::wstring& title, const Int2& clientSize, IExtraWinProc& extraWinProc, Options options = {});
 				~Window();
 
 				//window
 				bool IsDestroyed() const { return m_IsDestroyed; }
 				void SetIsDestroyed() { m_IsDestroyed = true; }
 				bool IsResized() const { return m_IsResized; }
-				Math::Int2 GetClientSize() const { return m_ClientSize; };
+				Int2 GetClientSize() const { return m_ClientSize; };
 				int GetClientWidth() const { return m_ClientSize.x; }
 				int GetClientHeight() const { return m_ClientSize.y; }
 				DirectX::XMINT2 AskClientSize_WinApi() const;
@@ -66,7 +65,7 @@ namespace MyEngine
 
 				Keyboard m_Keyboard{};
 				Mouse m_Mouse{};
-				Math::Int2 m_ClientSize{ 1200,800 };
+				Int2 m_ClientSize{ 1200,800 };
 				HWND m_WindowHandle{};
 				IExtraWinProc* m_pExtraWinProc{};
 				bool m_IsDestroyed{ false };

@@ -1,6 +1,6 @@
 #pragma once
 #include "Math/Constants.h"
-#include "Math/Float2.h"
+#include "Math/Vectors.h"
 
 namespace MyEngine
 {

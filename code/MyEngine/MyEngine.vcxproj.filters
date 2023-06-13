@@ -143,7 +143,6 @@
     <ClInclude Include="App\Win32\IExtraWinProc.h" />
     <ClInclude Include="App\Win32\Renderer2D.h" />
     <ClInclude Include="App\Wrappers\Dx\RendererD2D.h" />
-    <ClInclude Include="Math\Int2.h" />
     <ClInclude Include="App\Win32\Mouse.h" />
     <ClInclude Include="Rendering\State\InputLayout.h" />
     <ClInclude Include="Rendering\State\ConstantBuffer.h" />
@@ -151,8 +150,6 @@
     <ClInclude Include="Rendering\State\RasterizerState.h" />
     <ClInclude Include="Generation\Shapes.h" />
     <ClInclude Include="Math\Rect.h" />
-    <ClInclude Include="Math\Float2.h" />
-    <ClInclude Include="Math\Float3.h" />
     <ClInclude Include="Math\Cube.h" />
     <ClInclude Include="DataStructures\Array.h" />
     <ClInclude Include="Shapes\Sphere.h" />
@@ -163,7 +160,6 @@
     <ClInclude Include="Io\Json\JsonString.h" />
     <ClInclude Include="Io\Json\JsonNumber.h" />
     <ClInclude Include="Io\Json\JsonNull.h" />
-    <ClInclude Include="Math\Double2.h" />
     <ClInclude Include="Math\Vector2.h" />
     <ClInclude Include="DataStructures\DsUtils.h" />
     <ClInclude Include="Math\Geometry\PointUtils.h" />
@@ -211,7 +207,6 @@
     <ClInclude Include="Io\Ttf\Contour.h" />
     <ClInclude Include="Io\Ttf\Segment.h" />
     <ClInclude Include="Math\Vector3.h" />
-    <ClInclude Include="Math\Double3.h" />
     <ClInclude Include="Io\Ttf\FontRasterizer.h" />
     <ClInclude Include="Io\Ttf\Intersection.h" />
     <ClInclude Include="Rendering\FpsDisplay.h" />
@@ -231,7 +226,6 @@
     <ClInclude Include="Game\Camera\FpsCameraController.h" />
     <ClInclude Include="Math\Matrix4x4.h" />
     <ClInclude Include="Math\Float4X4.h" />
-    <ClInclude Include="Math\Float4.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertCam_Tex.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertLight_Tex.h" />
     <ClInclude Include="DataStructures\GridArray.h" />
@@ -269,7 +263,6 @@
     <ClInclude Include="Rendering\DrawData\VertexList.h" />
     <ClInclude Include="Math\RectInt.h" />
     <ClInclude Include="Math\RectFloat.h" />
-    <ClInclude Include="Math\Int4.h" />
     <ClInclude Include="Math\ScalarMath.h" />
     <ClInclude Include="Io\Fbx\FbxAnimation.h" />
     <ClInclude Include="Io\Fbx\FbxAnimationLayer.h" />
@@ -277,6 +270,7 @@
     <ClInclude Include="Generation\PlaneGeneration.h" />
     <ClInclude Include="Rendering\DrawData\InstanceList.h" />
     <ClInclude Include="Rendering\State\DepthStencilState.h" />
+    <ClInclude Include="Math\Vectors.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

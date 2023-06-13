@@ -1,7 +1,4 @@
 #pragma once
-#include "Math/Float3.h"
-#include "Math/Int2.h"
-#include "Math/Vector2.h"
 
 namespace MyEngine
 {

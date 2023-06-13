@@ -3,7 +3,6 @@
 
 #include "Generation/MeshUtils.h"
 #include "Math/Constants.h"
-#include "Math/Float3.h"
 #include "Math/Geometry/PointUtils.h"
 
 

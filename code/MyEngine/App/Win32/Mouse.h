@@ -1,7 +1,5 @@
 #pragma once
 
-#include <Math/Int2.h>
-
 namespace MyEngine
 {
 	namespace App

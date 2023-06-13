@@ -1,6 +1,5 @@
 #pragma once
 #include "FbxValueCurve.h"
-#include "Math/Double3.h"
 
 namespace MyEngine
 {

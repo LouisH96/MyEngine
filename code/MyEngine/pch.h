@@ -7,6 +7,7 @@
 #include "Debug/Logger.h"
 #include "DataStructures/Array.h"
 #include <Shapes/Sphere.h>
+#include <Math/Vectors.h>
 
 #undef min
 #undef max

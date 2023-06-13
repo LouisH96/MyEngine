@@ -4,7 +4,6 @@
 #include "Wrapping/FbxData.h"
 #include "Wrapping/Model.h"
 #include "DataStructures/DsUtils.h"
-#include <Math/Float3.h>
 
 using namespace Math;
 using namespace Io::Fbx::Wrapping;

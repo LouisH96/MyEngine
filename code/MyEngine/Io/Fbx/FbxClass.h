@@ -1,6 +1,5 @@
 #pragma once
 #include "FbxSkeleton.h"
-#include "Math/Float2.h"
 #include "Wrapping/FbxData.h"
 #include "FbxAnimation.h"
 

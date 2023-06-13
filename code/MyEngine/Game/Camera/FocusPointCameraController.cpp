@@ -7,13 +7,11 @@
 #include "Camera.h"
 #include "Windows.h"
 #include "Math/Constants.h"
-#include "Math/Float4.h"
-#include "Math/Int2.h"
 
 using namespace App::Win32;
 using namespace Math;
 
-Game::FocusPointCameraController::FocusPointCameraController(Camera& camera, const Keyboard& keyboard, const Mouse& mouse)
+FocusPointCameraController::FocusPointCameraController(Camera& camera, const Keyboard& keyboard, const Mouse& mouse)
 	: m_Keyboard(keyboard)
 	, m_Mouse(mouse)
 	, m_Camera(camera)
@@ -27,7 +25,7 @@ Game::FocusPointCameraController::FocusPointCameraController(Camera& camera, con
 {
 }
 
-void Game::FocusPointCameraController::Update()
+void FocusPointCameraController::Update()
 {
 	//ROTATION
 	if (m_Mouse.IsRightBtnDown())
@@ -56,27 +54,27 @@ void Game::FocusPointCameraController::Update()
 	m_Distance += m_Mouse.GetScroll() * m_ScrollSpeed;
 }
 
-void Game::FocusPointCameraController::SetFocusPoint(const Float3& position)
+void FocusPointCameraController::SetFocusPoint(const Float3& position)
 {
 	m_FocusPoint = position;
 }
 
-void Game::FocusPointCameraController::SetPitch(float pitch)
+void FocusPointCameraController::SetPitch(float pitch)
 {
 	m_Pitch = pitch;
 }
 
-void Game::FocusPointCameraController::SetYaw(float yaw)
+void FocusPointCameraController::SetYaw(float yaw)
 {
 	m_Yaw = yaw;
 }
 
-void Game::FocusPointCameraController::SetDistance(float distance)
+void FocusPointCameraController::SetDistance(float distance)
 {
 	m_Distance = distance;
 }
 
-void Game::FocusPointCameraController::MoveRelative(const Math::Float3& movement)
+void FocusPointCameraController::MoveRelative(const Float3& movement)
 {
 	const float yawRad = m_Yaw * Constants::TO_RAD;
 	const float yawCos = cosf(yawRad);
@@ -90,7 +88,7 @@ void Game::FocusPointCameraController::MoveRelative(const Math::Float3& movement
 	m_FocusPoint.y += movement.y;
 }
 
-DirectX::XMFLOAT4X4 Game::FocusPointCameraController::GetWorldMatrix() const
+DirectX::XMFLOAT4X4 FocusPointCameraController::GetWorldMatrix() const
 {
 	const float pitchRad = m_Pitch * Constants::TO_RAD;
 	const float pitchCos = cosf(pitchRad);
@@ -123,7 +121,7 @@ DirectX::XMFLOAT4X4 Game::FocusPointCameraController::GetWorldMatrix() const
 	};
 }
 
-Math::Float4X4 Game::FocusPointCameraController::GetViewMatrix() const
+Float4X4 FocusPointCameraController::GetViewMatrix() const
 {
 	using namespace Math;
 	const float pitchRad = m_Pitch * Constants::TO_RAD;
@@ -147,17 +145,17 @@ Math::Float4X4 Game::FocusPointCameraController::GetViewMatrix() const
 	};
 }
 
-Math::Float4X4 Game::FocusPointCameraController::GetProjectionMatrix() const
+Float4X4 FocusPointCameraController::GetProjectionMatrix() const
 {
 	return m_Camera.GetProjectionMatrix();
 }
 
-Math::Float4X4 Game::FocusPointCameraController::GetViewProjectionMatrix() const
+Float4X4 FocusPointCameraController::GetViewProjectionMatrix() const
 {
 	return GetViewMatrix() * m_Camera.GetProjectionMatrix();
 }
 
-DirectX::XMMATRIX Game::FocusPointCameraController::GetXmViewProjectionMatrix() const
+DirectX::XMMATRIX FocusPointCameraController::GetXmViewProjectionMatrix() const
 {
 	using namespace DirectX;
 	XMFLOAT4X4 matrix{ GetWorldMatrix() };
@@ -167,7 +165,7 @@ DirectX::XMMATRIX Game::FocusPointCameraController::GetXmViewProjectionMatrix() 
 	return view * projection;
 }
 
-Float3 Game::FocusPointCameraController::GetCameraPosition() const
+Float3 FocusPointCameraController::GetCameraPosition() const
 {
 	const float pitchRad = m_Pitch * Constants::TO_RAD;
 	const float pitchCos = cosf(pitchRad);
@@ -186,7 +184,7 @@ Float3 Game::FocusPointCameraController::GetCameraPosition() const
 		-zz * m_Distance + m_FocusPoint.z };
 }
 
-void Game::FocusPointCameraController::KeyboardRotation()
+void FocusPointCameraController::KeyboardRotation()
 {
 	constexpr float maxPitchSpeed = 100.f; //degrees/sec
 	constexpr float maxYawSpeed = 100.f; //degrees/sec
@@ -198,7 +196,7 @@ void Game::FocusPointCameraController::KeyboardRotation()
 	m_Pitch += pitch;
 }
 
-void Game::FocusPointCameraController::MouseRotation()
+void FocusPointCameraController::MouseRotation()
 {
 	constexpr float radiansPerPixel = Constants::PI / 10;
 	const Int2& mouseDelta = m_Mouse.GetMovement();

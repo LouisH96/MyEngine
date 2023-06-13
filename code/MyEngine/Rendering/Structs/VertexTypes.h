@@ -1,7 +1,5 @@
 #pragma once
 #include <Rendering/State/InputLayout.h>
-#include "Math/Float2.h"
-#include "Math/Float3.h"
 
 namespace MyEngine
 {
