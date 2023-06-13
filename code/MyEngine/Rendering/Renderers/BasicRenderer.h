@@ -28,7 +28,7 @@ namespace MyEngine
 			using CamDataRefType = CamData;
 
 			//---| Construction |---
-			BasicRenderer(Gpu& gpu, const std::wstring& shaderPath, bool isWireframe = false);
+			BasicRenderer(const std::wstring& shaderPath, bool isWireframe = false);
 			~BasicRenderer();
 
 			//---| Rule of Five |---
@@ -47,7 +47,6 @@ namespace MyEngine
 
 		private:
 			//---| General |---
-			Gpu& m_Gpu;
 			BlendState m_BlendState;
 			RasterizerState m_RasterizerState;
 			DepthStencilState m_DepthStencilState;
@@ -61,10 +60,9 @@ namespace MyEngine
 		};
 
 		template <typename Vertex, typename CamData>
-		BasicRenderer<Vertex, CamData>::BasicRenderer(Gpu& gpu,
+		BasicRenderer<Vertex, CamData>::BasicRenderer(
 			const std::wstring& shaderPath, bool isWireframe)
-			: m_Gpu(gpu)
-			, m_RasterizerState(isWireframe)
+			: m_RasterizerState(isWireframe)
 			, m_Shader(shaderPath)
 			, m_InputLayout(Vertex::ELEMENTS, Vertex::NR_ELEMENTS)
 			, m_ConstantBuffer{}

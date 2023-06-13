@@ -5,15 +5,14 @@
 #include <Rendering/State/Mesh.h>
 #include <Rendering/State/Texture.h>
 
-Rendering::R_LambertLight_Tex::R_LambertLight_Tex(Gpu& gpu)
-	: m_Gpu(gpu)
-	, m_InputLayout{ Vertex::ELEMENTS, Vertex::NR_ELEMENTS }
+Rendering::R_LambertLight_Tex::R_LambertLight_Tex()
+	: m_InputLayout{ Vertex::ELEMENTS, Vertex::NR_ELEMENTS }
 	, m_Shader{ Framework::Resources::GetGlobalShaderPath(L"LambertLight_Tex.hlsl") }
 	, m_Entries{ 0 }
 {
 }
 
-void Rendering::R_LambertLight_Tex::Render(const Math::Float3& cameraPosition, const Math::Float4X4& viewProjection)
+void Rendering::R_LambertLight_Tex::Render(const Float3& cameraPosition, const Float4X4& viewProjection)
 {
 	using namespace DirectX;
 	m_DepthStencilState.Activate();

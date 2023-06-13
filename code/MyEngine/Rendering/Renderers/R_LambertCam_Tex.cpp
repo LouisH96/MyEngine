@@ -5,9 +5,8 @@
 #include <Rendering/State/Mesh.h>
 #include <Rendering/State/Texture.h>
 
-Rendering::R_LambertCam_Tex::R_LambertCam_Tex(Gpu& gpu)
-	: m_Gpu(gpu)
-	, m_InputLayout{ Vertex::ELEMENTS, Vertex::NR_ELEMENTS }
+Rendering::R_LambertCam_Tex::R_LambertCam_Tex()
+	: m_InputLayout{ Vertex::ELEMENTS, Vertex::NR_ELEMENTS }
 	, m_Shader{ Framework::Resources::GetGlobalShaderPath(L"LambertCam_Tex.hlsl") }
 	, m_Entries{ 0 }
 {

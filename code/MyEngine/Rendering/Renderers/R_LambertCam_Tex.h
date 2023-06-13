@@ -14,10 +14,6 @@ namespace MyEngine
 	{
 		class Transform;
 	}
-}
-
-namespace MyEngine
-{
 	namespace Rendering
 	{
 		class Mesh;
@@ -30,7 +26,7 @@ namespace MyEngine
 			using Vertex = V_PosNorUv;
 
 			//---| Constructor/Destructor |---
-			explicit R_LambertCam_Tex(Gpu& gpu);
+			explicit R_LambertCam_Tex();
 			~R_LambertCam_Tex() = default;
 
 			//---| Rule of five |---
@@ -40,7 +36,7 @@ namespace MyEngine
 			R_LambertCam_Tex& operator=(R_LambertCam_Tex && other) noexcept = delete;
 
 			//---| Loop |---
-			void Render(const Math::Float3& cameraPosition, const Math::Float4X4& viewProjection);
+			void Render(const Float3& cameraPosition, const Float4X4& viewProjection);
 
 			//---| Operations |---
 			void AddEntry(Mesh& mesh, Texture& texture);
@@ -52,7 +48,6 @@ namespace MyEngine
 				Texture* pTexture;
 			};
 
-			Gpu& m_Gpu;
 			BlendState m_BlendState;
 			RasterizerState m_RasterizerState;
 			SamplerState m_Sampler;

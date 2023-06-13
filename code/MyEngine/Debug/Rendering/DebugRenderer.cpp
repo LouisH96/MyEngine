@@ -152,7 +152,7 @@ DebugRenderer::DebugRenderer(Rendering::Gpu& gpu)
 	: m_Gpu(gpu)
 	, m_InputLayout(Vertex::ELEMENTS, Vertex::NR_ELEMENTS)
 	, m_Shader(Framework::Resources::GetGlobalShaderPath(L"lambertCamDir.hlsl"))
-	, m_pLineRenderer(Rendering::RendererFactory::CreateUnlitRenderer(gpu))
+	, m_pLineRenderer(Rendering::RendererFactory::CreateUnlitRenderer())
 	, m_SpheresRenderer{ gpu }
 	, m_LinesRenderer2{ gpu }
 {

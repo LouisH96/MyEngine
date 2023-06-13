@@ -28,7 +28,7 @@ namespace MyEngine
 		public:
 			using Vertex = V_PosNorUv;
 
-			R_LambertCam_Tex_Transform(Gpu& gpu);
+			R_LambertCam_Tex_Transform();
 			~R_LambertCam_Tex_Transform() = default;
 			R_LambertCam_Tex_Transform(const R_LambertCam_Tex_Transform& other) = delete;
 			R_LambertCam_Tex_Transform(R_LambertCam_Tex_Transform&& other) noexcept = delete;
@@ -36,12 +36,12 @@ namespace MyEngine
 			R_LambertCam_Tex_Transform& operator=(R_LambertCam_Tex_Transform&& other) noexcept = delete;
 
 			//---| Loop |---
-			void Render(const Math::Float3& cameraPosition, const Math::Float4X4& viewProjection);
+			void Render(const Float3& cameraPosition, const Float4X4& viewProjection);
 
 			//---| Operations |---
-			void AddEntry(Mesh& mesh, Texture& texture, Game::Transform& transform);
-			void Remove(const Game::Transform& transform);
-			void Replace(const Game::Transform& old, Game::Transform& with);
+			void AddEntry(Mesh& mesh, Texture& texture, Transform& transform);
+			void Remove(const Transform& transform);
+			void Replace(const Transform& old, Transform& with);
 
 		private:
 			//---| Types |---
@@ -49,16 +49,14 @@ namespace MyEngine
 			{
 				Mesh* pMesh;
 				Texture* pTexture;
-				Game::Transform* pTransform;
+				Transform* pTransform;
 			};
 			struct DrawEntryMatrix
 			{
 				Mesh* pMesh;
 				Texture* pTexture;
-				Math::Float4X4* pMatrix;
+				Float4X4* pMatrix;
 			};
-
-			Gpu& m_Gpu;
 
 			BlendState m_BlendState;
 			RasterizerState m_RasterizerState;

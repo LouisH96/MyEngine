@@ -14,10 +14,6 @@ namespace MyEngine
 	{
 		class Transform;
 	}
-}
-
-namespace MyEngine
-{
 	namespace Rendering
 	{
 		class Mesh;
@@ -30,7 +26,7 @@ namespace MyEngine
 			using Vertex = V_PosNorCol;
 
 			//---| Constructor/Destructor |---
-			explicit R_LambertLight_Col(Gpu& gpu, bool isWireframe = false);
+			explicit R_LambertLight_Col(bool isWireframe = false);
 			~R_LambertLight_Col() = default;
 
 			//---| Rule of five |---
@@ -40,13 +36,12 @@ namespace MyEngine
 			R_LambertLight_Col& operator=(R_LambertLight_Col&& other) noexcept = delete;
 
 			//---| Loop |---
-			void Render(const Math::Float3& cameraPosition, const Math::Float4X4& viewProjection);
+			void Render(const Float3& cameraPosition, const Float4X4& viewProjection);
 
 			//---| Operations |---
 			void AddEntry(Mesh& mesh);
 
 		private:
-			Gpu& m_Gpu;
 			BlendState m_BlendState;
 			RasterizerState m_RasterizerState;
 			SamplerState m_Sampler;

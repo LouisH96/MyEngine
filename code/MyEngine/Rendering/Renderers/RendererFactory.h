@@ -1,8 +1,8 @@
 #pragma once
-#include "BasicRenderer.h"
-	#include <Rendering/Structs/VertexTypes.h>
-	#include <Rendering/Structs/ConstantBufferTypes.h>
-#include "TextureRenderer.h"
+#include <Rendering/Structs/ConstantBufferTypes.h>
+#include <Rendering/Structs/VertexTypes.h>
+#include <Rendering/Renderers/BasicRenderer.h>
+#include <Rendering/Renderers/TextureRenderer.h>
 
 namespace MyEngine
 {
@@ -13,8 +13,6 @@ namespace MyEngine
 
 	namespace Rendering
 	{
-		class Gpu;
-
 		class RendererFactory
 		{
 		public:
@@ -22,30 +20,30 @@ namespace MyEngine
 			using UnlitRenderer = BasicRenderer<V_PosCol, CB_CamMat>;
 			using SimpleTexRenderer = TextureRenderer<V_PosNorUv, CB_CamMatPos>;
 
-			static SimpleRenderer* CreateSimpleRenderer(Gpu& gpu, bool wireframe = false);
-			static UnlitRenderer* CreateUnlitRenderer(Gpu& gpu, bool wireframe = true);
-			static SimpleTexRenderer* CreateSimpleTexRenderer(Gpu& gpu);
+			static SimpleRenderer* CreateSimpleRenderer(bool wireframe = false);
+			static UnlitRenderer* CreateUnlitRenderer(bool wireframe = true);
+			static SimpleTexRenderer* CreateSimpleTexRenderer();
 
 			template<typename T>
-			static T* Create(Gpu& gpu);
+			static T* Create();
 		};
 
 		template <>
-		inline RendererFactory::SimpleRenderer* RendererFactory::Create(Gpu& gpu)
+		inline RendererFactory::SimpleRenderer* RendererFactory::Create()
 		{
-			return CreateSimpleRenderer(gpu);
+			return CreateSimpleRenderer();
 		}
 
 		template <>
-		inline RendererFactory::UnlitRenderer* RendererFactory::Create(Gpu& gpu)
+		inline RendererFactory::UnlitRenderer* RendererFactory::Create()
 		{
-			return CreateUnlitRenderer(gpu);
+			return CreateUnlitRenderer();
 		}
 
 		template <>
-		inline RendererFactory::SimpleTexRenderer* RendererFactory::Create(Gpu& gpu)
+		inline RendererFactory::SimpleTexRenderer* RendererFactory::Create()
 		{
-			return CreateSimpleTexRenderer(gpu);
+			return CreateSimpleTexRenderer();
 		}
 	}
 }
