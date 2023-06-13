@@ -25,7 +25,6 @@ namespace MyEngine
 			using CamDataRefType = CamData;
 
 			//---| Construction |---
-			TextureRenderer(Gpu& gpu, const std::wstring& shaderPath);
 			explicit TextureRenderer(const std::wstring& shaderPath);
 			~TextureRenderer();
 
@@ -36,7 +35,7 @@ namespace MyEngine
 			TextureRenderer& operator=(TextureRenderer&& other) noexcept = delete;
 
 			//---| Loop |---
-			void Render(const Math::Float3& cameraPosition, const Math::Float4X4& viewProjection);
+			void Render(const Float3& cameraPosition, const Float4X4& viewProjection);
 
 			//---| Operations |---
 			void AddMesh(const Array<Vertex>& vertices, const Array<int>& indices, const std::wstring& texturePath);
@@ -52,7 +51,6 @@ namespace MyEngine
 			};
 
 			//---| General |---
-			Gpu& m_Gpu;
 			BlendState m_BlendState;
 			RasterizerState m_RasterizerState;
 			SamplerState m_Sampler;
@@ -67,16 +65,9 @@ namespace MyEngine
 		};
 
 		template <typename Vertex, typename CamData>
-		TextureRenderer<Vertex, CamData>::TextureRenderer(Gpu& gpu, const std::wstring& shaderPath)
-			: m_Gpu(gpu)
-			, m_Shader(shaderPath)
-			, m_InputLayout(Vertex::ELEMENTS, Vertex::NR_ELEMENTS)
-		{
-		}
-
-		template <typename Vertex, typename CamData>
 		TextureRenderer<Vertex, CamData>::TextureRenderer(const std::wstring& shaderPath)
-			: TextureRenderer{ *Globals::pGpu, shaderPath }
+			: m_Shader(shaderPath)
+			, m_InputLayout(Vertex::ELEMENTS, Vertex::NR_ELEMENTS)
 		{
 		}
 
@@ -91,38 +82,38 @@ namespace MyEngine
 		}
 
 		template <typename Vertex, typename CamData>
-		void TextureRenderer<Vertex, CamData>::Render(const Math::Float3& cameraPosition,
-			const Math::Float4X4& viewProjection)
+		void TextureRenderer<Vertex, CamData>::Render(const Float3& cameraPosition,
+			const Float4X4& viewProjection)
 		{
 			m_DepthStencilState.Activate();
-			m_Sampler.ActivatePs(m_Gpu);
-			m_ConstantBuffer.Update(m_Gpu, CamData{ cameraPosition, viewProjection });
-			m_ConstantBuffer.Activate(m_Gpu);
-			m_RasterizerState.Activate(m_Gpu);
+			m_Sampler.ActivatePs();
+			m_ConstantBuffer.Update(CamData{ cameraPosition, viewProjection });
+			m_ConstantBuffer.Activate();
+			m_RasterizerState.Activate();
 			m_InputLayout.Activate();
 			m_BlendState.Activate();
 			m_Shader.Activate();
 			for (int i = 0; i < m_Meshes.GetSize(); i++)
 			{
-				m_Meshes[i].pTexture->ActivatePs(m_Gpu);
-				m_Meshes[i].pMesh->Activate(m_Gpu);
-				m_Meshes[i].pMesh->Draw(m_Gpu);
+				m_Meshes[i].pTexture->ActivatePs();
+				m_Meshes[i].pMesh->Activate();
+				m_Meshes[i].pMesh->Draw();
 			}
 		}
 
 		template <typename Vertex, typename CamData>
 		void TextureRenderer<Vertex, CamData>::AddMesh(const Array<Vertex>& vertices, const Array<int>& indices, const std::wstring& texturePath)
 		{
-			Mesh* pMesh = Mesh::Create<Vertex>(m_Gpu, vertices, indices);
-			Texture* pTexture = new Texture(m_Gpu, texturePath);
+			Mesh* pMesh = Mesh::Create<Vertex>(vertices, indices);
+			Texture* pTexture = new Texture(texturePath);
 			m_Meshes.Add({ pMesh, pTexture });
 		}
 
 		template <typename Vertex, typename CamData>
 		void TextureRenderer<Vertex, CamData>::AddMesh(const Array<Vertex>& vertices, const std::wstring& texturePath)
 		{
-			Mesh* pMesh = Mesh::Create<Vertex>(m_Gpu, vertices);
-			Texture* pTexture = new Texture(m_Gpu, texturePath);
+			Mesh* pMesh = Mesh::Create<Vertex>(vertices);
+			Texture* pTexture = new Texture(texturePath);
 			m_Meshes.Add({ pMesh, pTexture });
 		}
 

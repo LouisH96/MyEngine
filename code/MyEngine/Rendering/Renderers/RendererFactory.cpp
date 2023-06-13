@@ -16,5 +16,5 @@ Rendering::RendererFactory::UnlitRenderer* Rendering::RendererFactory::CreateUnl
 
 Rendering::RendererFactory::SimpleTexRenderer* Rendering::RendererFactory::CreateSimpleTexRenderer(Gpu& gpu)
 {
-	return new SimpleTexRenderer(gpu, Framework::Resources::GetGlobalShaderPath(L"LambertCam_Tex.hlsl"));
+	return new SimpleTexRenderer(Framework::Resources::GetGlobalShaderPath(L"LambertCam_Tex.hlsl"));
 }
