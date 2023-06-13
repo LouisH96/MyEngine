@@ -12,33 +12,33 @@ namespace MyEngine
 		class ConstantBuffer
 		{
 		public:
-			explicit ConstantBuffer(const Gpu& gpu);
-			ConstantBuffer(const Gpu& gpu, const Data& initData);
+			explicit ConstantBuffer();
+			ConstantBuffer(const Data& initData);
 			~ConstantBuffer();
 			ConstantBuffer(const ConstantBuffer& other) = delete;
 			ConstantBuffer(ConstantBuffer&& other) noexcept = delete;
 			ConstantBuffer& operator=(const ConstantBuffer& other) = delete;
 			ConstantBuffer& operator=(ConstantBuffer&& other) noexcept = delete;
 
-			void ActivateVs(const Gpu& gpu, int index = 0) const;
-			void ActivatePs(const Gpu& gpu, int index = 0) const;
-			void Activate(const Gpu& gpu, int index = 0) const;
-			void Update(const Gpu& gpu, const Data& newData) const;
+			void ActivateVs(int index = 0) const;
+			void ActivatePs(int index = 0) const;
+			void Activate(int index = 0) const;
+			void Update(const Data& newData) const;
 
 		private:
 			ID3D11Buffer* m_pBuffer{};
 		};
 
 		template <typename Data>
-		ConstantBuffer<Data>::ConstantBuffer(const Gpu& gpu)
+		ConstantBuffer<Data>::ConstantBuffer()
 		{
-			Dx::DxHelper::CreateDynamicConstantBuffer<Data>(gpu.GetDevice(), m_pBuffer);
+			Dx::DxHelper::CreateDynamicConstantBuffer<Data>(Globals::pGpu->GetDevice(), m_pBuffer);
 		}
 
 		template <typename Data>
-		ConstantBuffer<Data>::ConstantBuffer(const Gpu& gpu, const Data& initData)
+		ConstantBuffer<Data>::ConstantBuffer(const Data& initData)
 		{
-			Dx::DxHelper::CreateDynamicConstantBuffer<Data>(gpu.GetDevice(), m_pBuffer, initData);
+			Dx::DxHelper::CreateDynamicConstantBuffer<Data>(Globals::pGpu->GetDevice(), m_pBuffer, initData);
 		}
 
 		template <typename Data>
@@ -48,28 +48,28 @@ namespace MyEngine
 		}
 
 		template <typename Data>
-		void ConstantBuffer<Data>::ActivateVs(const Gpu& gpu, int index) const
+		void ConstantBuffer<Data>::ActivateVs(int index) const
 		{
-			gpu.GetContext().VSSetConstantBuffers(index, 1, &m_pBuffer);
+			Globals::pGpu->GetContext().VSSetConstantBuffers(index, 1, &m_pBuffer);
 		}
 
 		template <typename Data>
-		void ConstantBuffer<Data>::ActivatePs(const Gpu& gpu, int index) const
+		void ConstantBuffer<Data>::ActivatePs(int index) const
 		{
-			gpu.GetContext().PSSetConstantBuffers(index, 1, &m_pBuffer);
+			Globals::pGpu->GetContext().PSSetConstantBuffers(index, 1, &m_pBuffer);
 		}
 
 		template <typename Data>
-		void ConstantBuffer<Data>::Activate(const Gpu& gpu, int index) const
+		void ConstantBuffer<Data>::Activate(int index) const
 		{
-			gpu.GetContext().VSSetConstantBuffers(index, 1, &m_pBuffer);
-			gpu.GetContext().PSSetConstantBuffers(index, 1, &m_pBuffer);
+			Globals::pGpu->GetContext().VSSetConstantBuffers(index, 1, &m_pBuffer);
+			Globals::pGpu->GetContext().PSSetConstantBuffers(index, 1, &m_pBuffer);
 		}
 
 		template <typename Data>
-		void ConstantBuffer<Data>::Update(const Gpu& gpu, const Data& newData) const
+		void ConstantBuffer<Data>::Update(const Data& newData) const
 		{
-			Dx::DxHelper::UpdateBuffer(gpu.GetContext(), *m_pBuffer, newData);
+			Dx::DxHelper::UpdateBuffer(Globals::pGpu->GetContext(), *m_pBuffer, newData);
 		}
 	}
 }

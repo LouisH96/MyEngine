@@ -66,7 +66,7 @@ namespace MyEngine
 			, m_RasterizerState(gpu, isWireframe)
 			, m_Shader(gpu, shaderPath)
 			, m_InputLayout(gpu, Vertex::ELEMENTS, Vertex::NR_ELEMENTS)
-			, m_ConstantBuffer(gpu)
+			, m_ConstantBuffer{}
 		{
 		}
 
@@ -80,8 +80,8 @@ namespace MyEngine
 		void BasicRenderer<Vertex, CamData>::Render(const Math::Float3& cameraPosition, const DirectX::XMMATRIX& viewProjection)
 		{
 			m_DepthStencilState.Activate();
-			m_ConstantBuffer.Update(m_Gpu, CamData{ cameraPosition, viewProjection });
-			m_ConstantBuffer.Activate(m_Gpu);
+			m_ConstantBuffer.Update(CamData{ cameraPosition, viewProjection });
+			m_ConstantBuffer.Activate();
 			m_RasterizerState.Activate(m_Gpu);
 			m_InputLayout.Activate(m_Gpu);
 			m_BlendState.Activate();
@@ -98,8 +98,8 @@ namespace MyEngine
 			const Math::Float4X4& viewProjection)
 		{
 			m_DepthStencilState.Activate();
-			m_ConstantBuffer.Update(m_Gpu, CamData{ cameraPosition, viewProjection });
-			m_ConstantBuffer.Activate(m_Gpu);
+			m_ConstantBuffer.Update(CamData{ cameraPosition, viewProjection });
+			m_ConstantBuffer.Activate();
 			m_RasterizerState.Activate(m_Gpu);
 			m_InputLayout.Activate(m_Gpu);
 			m_BlendState.Activate();

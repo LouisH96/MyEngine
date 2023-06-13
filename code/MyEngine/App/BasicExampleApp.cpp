@@ -61,13 +61,13 @@ void App::BasicExampleApp::Run()
 
 	Shader& shader = *new Shader(gpu, Framework::Resources::GetGlobalShaderPath(L"unlit.hlsl"));
 	Mesh& mesh = *Mesh::Create<Vertex>(gpu, cubeVertices, cubeIndices);
-	const ConstantBuffer<CB_CamMat> constantBuffer{ gpu };
+	const ConstantBuffer<CB_CamMat> constantBuffer{ };
 
 	//GAME
 	Game::Camera& camera = *new Game::Camera(window.GetClientSize());
 
 	//RENDER-PIPELINE
-	constantBuffer.ActivateVs(gpu);
+	constantBuffer.ActivateVs();
 	inputLayout.Activate(gpu);
 	shader.Activate();
 	mesh.Activate(gpu);
@@ -98,7 +98,7 @@ void App::BasicExampleApp::Run()
 		cameraController.Update();
 
 		//render
-		constantBuffer.Update(gpu, CB_CamMat{ cameraController.GetXmViewProjectionMatrix() });
+		constantBuffer.Update(CB_CamMat{ cameraController.GetXmViewProjectionMatrix() });
 		canvas.BeginPaint();
 		shader.Activate();
 		mesh.Activate(gpu);

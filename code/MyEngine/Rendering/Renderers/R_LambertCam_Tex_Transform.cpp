@@ -11,8 +11,6 @@ Rendering::R_LambertCam_Tex_Transform::R_LambertCam_Tex_Transform(Gpu& gpu)
 	, m_Sampler{ gpu }
 	, m_InputLayout{ gpu, Vertex::ELEMENTS, Vertex::NR_ELEMENTS }
 	, m_Shader{ gpu, Framework::Resources::GetGlobalShaderPath(L"LambertCam_Tex_Trans.hlsl") }
-	, m_CameraConstantBuffer{ gpu }
-	, m_ModelConstantBuffer{ gpu }
 	, m_Entries{ 0 }
 {
 }
@@ -28,10 +26,10 @@ void Rendering::R_LambertCam_Tex_Transform::Render(const Math::Float3& cameraPos
 	m_Shader.Activate();
 	for (int i = 0; i < m_Entries.GetSize(); i++)
 	{
-		m_CameraConstantBuffer.Update(m_Gpu, CB_CamMatPos{ cameraPosition, viewProjection, *m_Entries[i].pTransform });
-		m_CameraConstantBuffer.Activate(m_Gpu);
-		m_ModelConstantBuffer.Update(m_Gpu, CB_ModelBuffer{ *m_Entries[i].pTransform });
-		m_ModelConstantBuffer.Activate(m_Gpu, 1);
+		m_CameraConstantBuffer.Update(CB_CamMatPos{ cameraPosition, viewProjection, *m_Entries[i].pTransform });
+		m_CameraConstantBuffer.Activate();
+		m_ModelConstantBuffer.Update(CB_ModelBuffer{ *m_Entries[i].pTransform });
+		m_ModelConstantBuffer.Activate(1);
 		m_Entries[i].pTexture->ActivatePs(m_Gpu);
 		m_Entries[i].pMesh->Activate(m_Gpu);
 		m_Entries[i].pMesh->Draw(m_Gpu);
