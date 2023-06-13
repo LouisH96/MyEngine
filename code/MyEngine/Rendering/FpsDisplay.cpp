@@ -2,24 +2,21 @@
 #include "FpsDisplay.h"
 
 #include <fstream>
-
-#include "Io/Ttf/Glyph.h"
-#include "Io/Ttf/TtfReader.h"
+#include <App/Win32/Window.h>
+#include <Framework/Resources.h>
+#include <Io/Ttf/FontRasterizer.h>
+#include <Io/Ttf/Glyph.h>
+#include <Io/Ttf/TtfReader.h>
+#include <Rendering/State/Mesh.h>
+#include <Rendering/State/Texture.h>
 #include <Rendering/Structs/VertexTypes.h>
-
 #include "Image.h"
-#include "App/Win32/Window.h"
-#include "Framework/Resources.h"
-#include "Io/Ttf/FontRasterizer.h"
-#include "State/Mesh.h"
-#include "State/Texture.h"
 
-#undef min;
-#undef max;
+#undef min
+#undef max
 
-Rendering::FpsDisplay::FpsDisplay(Rendering::Gpu& gpu, Rendering::Canvas& canvas, App::Win32::Window& window)
-	: m_Gpu(gpu)
-	, m_Canvas(canvas)
+Rendering::FpsDisplay::FpsDisplay(Canvas& canvas, App::Win32::Window& window)
+	: m_Canvas(canvas)
 	, m_Shader(Framework::Resources::GetGlobalShaderPath(L"screenSpace.hlsl"))
 	, m_InputLayout( V_Pos2Uv::ELEMENTS, V_Pos2Uv::NR_ELEMENTS)
 	, m_Vertices{ 6 }
@@ -62,7 +59,7 @@ Rendering::FpsDisplay::FpsDisplay(Rendering::Gpu& gpu, Rendering::Canvas& canvas
 			static_cast<float>(pixelsInWidth) / window.GetClientWidth(),
 			static_cast<float>(pixelsInHeight) / window.GetClientHeight()
 		};
-		const Math::Float2 screenSpacePos{
+		const Float2 screenSpacePos{
 			xPos, 1.f - m_Sizes[i].y - m_ScreenSpaceMargin.y
 		};
 		xPos += m_Sizes[i].x;
@@ -103,7 +100,7 @@ void Rendering::FpsDisplay::Render()
 	{
 		if (!began && numbers[i] == 0) continue;
 		began = true;
-		const Math::Float2& size{ m_Sizes[numbers[i]] };
+		const Float2& size{ m_Sizes[numbers[i]] };
 		SetPos(m_Vertices, { x, 1.f - m_ScreenSpaceMargin.y - size.y }, size);
 		m_pMesh->Update(m_Vertices);
 
@@ -117,7 +114,7 @@ void Rendering::FpsDisplay::OnWindowResized(DirectX::XMINT2 newSize)
 {
 }
 
-void Rendering::FpsDisplay::SetPos(Array<V_Pos2Uv>& vertices, const Math::Float2& origin, const Math::Float2& size)
+void Rendering::FpsDisplay::SetPos(Array<V_Pos2Uv>& vertices, const Float2& origin, const Float2& size)
 {
 	const float left{ origin.x };
 	const float right{ left + size.x };
@@ -131,7 +128,7 @@ void Rendering::FpsDisplay::SetPos(Array<V_Pos2Uv>& vertices, const Math::Float2
 	vertices[5].pos = { left, bot };
 }
 
-void Rendering::FpsDisplay::InitVertices(Array<Rendering::V_Pos2Uv>& vertices)
+void Rendering::FpsDisplay::InitVertices(Array<V_Pos2Uv>& vertices)
 {
 	vertices[0] = { {},{0,0} };
 	vertices[1] = { {},{1,0} };

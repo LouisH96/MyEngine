@@ -14,10 +14,6 @@ namespace MyEngine
 			class Window;
 		}
 	}
-}
-
-namespace MyEngine
-{
 	namespace Rendering
 	{
 		class Texture;
@@ -25,17 +21,11 @@ namespace MyEngine
 		class Image;
 		class Canvas;
 		class TextRenderer;
-	}
-}
 
-namespace MyEngine
-{
-	namespace Rendering
-	{
 		class FpsDisplay
 		{
 		public:
-			FpsDisplay(Gpu& gpu, Canvas& canvas, App::Win32::Window& window);
+			FpsDisplay(Canvas& canvas, App::Win32::Window& window);
 			~FpsDisplay();
 			
 			void Render();
@@ -46,7 +36,6 @@ namespace MyEngine
 		private:
 			//---| MEMBERS |---
 			static constexpr int NR_NUMBERS = 10;
-			Gpu& m_Gpu;
 			Canvas& m_Canvas;
 			BlendState m_BlendState;
 			RasterizerState m_RasterizerState;
@@ -57,11 +46,11 @@ namespace MyEngine
 			Array<V_Pos2Uv> m_Vertices;
 			Mesh* m_pMesh{};
 			Texture* m_pTextures[NR_NUMBERS]{};
-			Math::Float2 m_Sizes[NR_NUMBERS]{};
-			Math::Float2 m_ScreenSpaceMargin{};
+			Float2 m_Sizes[NR_NUMBERS]{};
+			Float2 m_ScreenSpaceMargin{};
 			int m_Fps{};
 
-			static void SetPos(Array<V_Pos2Uv>& vertices, const Math::Float2& origin, const Math::Float2& size);
+			static void SetPos(Array<V_Pos2Uv>& vertices, const Float2& origin, const Float2& size);
 			static void InitVertices(Array<V_Pos2Uv>& vertices);
 		};
 	}
