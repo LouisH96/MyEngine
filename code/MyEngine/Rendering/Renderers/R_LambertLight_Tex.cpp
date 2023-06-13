@@ -7,7 +7,6 @@
 
 Rendering::R_LambertLight_Tex::R_LambertLight_Tex(Gpu& gpu)
 	: m_Gpu(gpu)
-	, m_Sampler{ gpu }
 	, m_InputLayout{ Vertex::ELEMENTS, Vertex::NR_ELEMENTS }
 	, m_Shader{ gpu, Framework::Resources::GetGlobalShaderPath(L"LambertLight_Tex.hlsl") }
 	, m_Entries{ 0 }
@@ -18,7 +17,7 @@ void Rendering::R_LambertLight_Tex::Render(const Math::Float3& cameraPosition, c
 {
 	using namespace DirectX;
 	m_DepthStencilState.Activate();
-	m_Sampler.ActivatePs(m_Gpu);
+	m_Sampler.ActivatePs();
 	m_RasterizerState.Activate();
 	m_InputLayout.Activate();
 	m_BlendState.Activate();

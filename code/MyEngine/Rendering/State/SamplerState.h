@@ -12,16 +12,15 @@ namespace MyEngine
 		{
 		public:
 			SamplerState();
-			SamplerState(const Gpu& gpu);
 			~SamplerState();
 			SamplerState(const SamplerState& other) = delete;
 			SamplerState(SamplerState&& other) noexcept = delete;
 			SamplerState& operator=(const SamplerState& other) = delete;
 			SamplerState& operator=(SamplerState&& other) noexcept = delete;
 
-			void ActivateVs(const Gpu& gpu) const;
-			void ActivatePs(const Gpu& gpu) const;
-			void Activate(const Gpu& gpu) const;
+			void ActivateVs() const;
+			void ActivatePs() const;
+			void Activate() const;
 
 		private:
 			ID3D11SamplerState* m_pSamplerState{};

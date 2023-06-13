@@ -20,7 +20,6 @@
 Rendering::FpsDisplay::FpsDisplay(Rendering::Gpu& gpu, Rendering::Canvas& canvas, App::Win32::Window& window)
 	: m_Gpu(gpu)
 	, m_Canvas(canvas)
-	, m_Sampler(gpu)
 	, m_Shader(gpu, Framework::Resources::GetGlobalShaderPath(L"screenSpace.hlsl"))
 	, m_InputLayout( V_Pos2Uv::ELEMENTS, V_Pos2Uv::NR_ELEMENTS)
 	, m_Vertices{ 6 }
@@ -83,7 +82,7 @@ Rendering::FpsDisplay::~FpsDisplay()
 
 void Rendering::FpsDisplay::Render()
 {
-	m_Sampler.ActivatePs(m_Gpu);
+	m_Sampler.ActivatePs();
 	m_RasterizerState.Activate();
 	m_InputLayout.Activate();
 	m_BlendState.Activate();
