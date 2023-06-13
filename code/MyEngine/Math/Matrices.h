@@ -5,6 +5,8 @@ namespace MyEngine
 {
 	namespace Math
 	{
+		using Int4X4 = Matrix4X4<int>;
 		using Float4X4 = Matrix4X4<float>;
+		using Double4X4 = Matrix4X4<double>;
 	}
 }

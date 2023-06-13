@@ -5,7 +5,6 @@
 #include <Rendering/State/Mesh.h>
 #include <Rendering/State/RasterizerState.h>
 
-#include "Math/Float4X4.h"
 #include "Rendering/State/DepthStencilState.h"
 
 namespace MyEngine
@@ -38,8 +37,8 @@ namespace MyEngine
 			BasicRenderer& operator=(BasicRenderer&& other) noexcept = delete;
 
 			//---| Loop |---
-			void Render(const Math::Float3& cameraPosition, const DirectX::XMMATRIX& viewProjection);
-			void Render(const Math::Float3& cameraPosition, const Math::Float4X4& viewProjection);
+			void Render(const Float3& cameraPosition, const DirectX::XMMATRIX& viewProjection);
+			void Render(const Float3& cameraPosition, const Float4X4& viewProjection);
 
 			//---| Operations |---
 			void AddMesh(const Array<Vertex>& vertices, const Array<int>& indices);

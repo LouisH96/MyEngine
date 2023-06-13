@@ -7,6 +7,7 @@
 
 #include "DataStructures/Array.h"
 #include "ToString.h"
+#include "Math/Vectors.h"
 
 namespace MyEngine
 {

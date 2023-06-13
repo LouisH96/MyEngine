@@ -1,16 +1,17 @@
 #pragma once
+#undef min
+#undef max
 
 #include <iostream>
 
-#include "Game/Transform.h"
-#include "Game/Globals.h"
-#include "Debug/Logger.h"
-#include "DataStructures/Array.h"
-#include <Shapes/Sphere.h>
 #include <Math/Vectors.h>
+#include <Math/Matrices.h>
 
-#undef min
-#undef max
+#include <DataStructures/Array.h>
+#include <Debug/Logger.h>
+#include <Game/Globals.h>
+#include <Game/Transform.h>
+#include <Shapes/Sphere.h>
 
 using namespace MyEngine;
 using namespace Game;

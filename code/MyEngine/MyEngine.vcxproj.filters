@@ -225,14 +225,12 @@
     <ClInclude Include="Framework\CoreServices.h" />
     <ClInclude Include="Game\Camera\FpsCameraController.h" />
     <ClInclude Include="Math\Matrix4x4.h" />
-    <ClInclude Include="Math\Float4X4.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertCam_Tex.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertLight_Tex.h" />
     <ClInclude Include="DataStructures\GridArray.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertLight_Col.h" />
     <ClInclude Include="Physics\CollisionDetection.h" />
     <ClInclude Include="Io\Fbx\Wrapping\Pose.h" />
-    <ClInclude Include="Math\Double4x4.h" />
     <ClInclude Include="Io\Fbx\Wrapping\Connection.h" />
     <ClInclude Include="Io\Fbx\Wrapping\AnimationStack.h" />
     <ClInclude Include="Io\Fbx\Wrapping\AnimationLayer.h" />
@@ -271,6 +269,7 @@
     <ClInclude Include="Rendering\DrawData\InstanceList.h" />
     <ClInclude Include="Rendering\State\DepthStencilState.h" />
     <ClInclude Include="Math\Vectors.h" />
+    <ClInclude Include="Math\Matrices.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
