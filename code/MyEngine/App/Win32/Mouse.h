@@ -11,7 +11,7 @@ namespace MyEngine
 			class Mouse
 			{
 			public:
-				Mouse();
+				Mouse() = default;
 
 				void PreChange();
 				void PostChange();
@@ -47,10 +47,10 @@ namespace MyEngine
 				static constexpr int RIGHT_MASK = 2;
 				static constexpr int MIDDLE_MASK = 4;
 				static constexpr int NR_BUTTONS = 3;
-				Math::Int2 m_Pos;
-				Math::Int2 m_Movement;
-				float m_Scroll;
-				int m_State;
+				Math::Int2 m_Pos{0, 0};
+				Math::Int2 m_Movement{0, 0};
+				float m_Scroll{ 0 };
+				int m_State{ 0 };
 			};
 		}
 	}
