@@ -12,16 +12,23 @@ namespace MyEngine
 			{
 			public:
 				Keyboard_MsgListener();
-				bool IsDown_(char c) const;
+
+				void PreInput();
 
 				void KeyUp(char c);
 				void KeyDown(char c);
 
+				bool IsDown_(char c) const;
+				bool IsPressed(char c) const;
+				bool IsReleased(char c) const;
+
 			private:
 				static constexpr unsigned NR_KEYS = 256;
 				static constexpr int PACK_SIZE = 8;
-				static constexpr int NR_PACKS = NR_KEYS / PACK_SIZE;
-				unsigned char m_Keys[NR_PACKS]{};
+				static constexpr int PACKS_PER_STATE = NR_KEYS / PACK_SIZE;
+				static constexpr int NR_STATES = 2; //first: is currently down?, second: was down?
+				static constexpr int TOTAL_PACKS = PACKS_PER_STATE * NR_STATES;
+				unsigned char m_Keys[TOTAL_PACKS]{};
 			};
 		}
 	}

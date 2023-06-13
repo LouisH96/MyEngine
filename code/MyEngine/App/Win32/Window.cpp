@@ -110,6 +110,7 @@ void MyEngine::App::Win32::Window::HandleMessages()
 {
 	m_IsResized = false;
 	m_Mouse.PreChange();
+	m_Keyboard.PreInput();
 
 	//win32-messages
 	MSG msg;

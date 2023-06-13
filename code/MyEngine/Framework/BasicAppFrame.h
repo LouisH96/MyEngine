@@ -53,6 +53,8 @@ namespace MyEngine
 
 			//GLOBALS
 			Globals::pGpu = &gpu;
+			Globals::pMouse = &window.GetMouse();
+			Globals::pKeyboard = &window.GetKeyboard();
 				
 			//APP
 			T app{ AppServices{window, gpu, canvas, fpsControl, cameraController} };
