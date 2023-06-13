@@ -17,10 +17,9 @@ namespace MyEngine
 		struct AppServices
 		{
 			App::Win32::Window& Window;
-			Rendering::Gpu& Gpu;
 			Rendering::Canvas& Canvas;
 			App::FpsControl& FpsControl;
-			Game::FocusPointCameraController& CameraController;
+			FocusPointCameraController& CameraController;
 		};
 
 		template<typename T>
@@ -57,7 +56,7 @@ namespace MyEngine
 			Globals::pKeyboard = &window.GetKeyboard();
 				
 			//APP
-			T app{ AppServices{window, gpu, canvas, fpsControl, cameraController} };
+			T app{ AppServices{window, canvas, fpsControl, cameraController} };
 
 			//LOOP
 			while (!window.IsDestroyed())
