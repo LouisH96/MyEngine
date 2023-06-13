@@ -91,6 +91,7 @@ namespace MyEngine
 		template <typename T>
 		SortedList<T>& SortedList<T>::operator=(SortedList&& other) noexcept
 		{
+			if (&other == this) return *this;
 			m_Size = other.m_Size;
 			m_Capacity = other.m_Capacity;
 			m_pData = other.m_pData;

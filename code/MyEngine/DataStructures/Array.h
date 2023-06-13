@@ -110,6 +110,7 @@ namespace MyEngine
 		template <typename Data>
 		Array<Data>& Array<Data>::operator=(Array&& other) noexcept
 		{
+			if (&other == this) return *this;
 			if (m_pData) delete[] m_pData;
 			m_pData = other.m_pData;
 			m_Size = other.m_Size;

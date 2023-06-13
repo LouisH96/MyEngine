@@ -86,6 +86,7 @@ namespace MyEngine
 		template <typename T>
 		List<T>& List<T>::operator=(List&& other) noexcept
 		{
+			if (&other == this) return *this;
 			delete[] m_pData;
 			m_pData = other.m_pData;
 			other.m_pData = nullptr;

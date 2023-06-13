@@ -113,6 +113,7 @@ namespace MyEngine
 	template <typename T>
 	GridArray<T>& GridArray<T>::operator=(GridArray&& other) noexcept
 	{
+		if (&other == this) return *this;
 		m_Size = other.m_Size;
 		m_pData = other.m_pData;
 		other.m_Size = { 0,0 };
