@@ -7,7 +7,6 @@
 
 Rendering::R_LambertCam_Tex::R_LambertCam_Tex(Gpu& gpu)
 	: m_Gpu(gpu)
-	, m_BlendState{ gpu }
 	, m_RasterizerState{ gpu }
 	, m_Sampler{ gpu }
 	, m_InputLayout{ gpu, Vertex::ELEMENTS, Vertex::NR_ELEMENTS }
@@ -24,7 +23,7 @@ void Rendering::R_LambertCam_Tex::Render(const Math::Float3& cameraPosition, con
 	m_Sampler.ActivatePs(m_Gpu);
 	m_RasterizerState.Activate(m_Gpu);
 	m_InputLayout.Activate(m_Gpu);
-	m_BlendState.Activate(m_Gpu);
+	m_BlendState.Activate();
 	m_Shader.Activate();
 	for (int i = 0; i < m_Entries.GetSize(); i++)
 	{

@@ -150,7 +150,6 @@ void DebugRenderer::DrawSphere(const Float3& position, const Float3& color, floa
 
 DebugRenderer::DebugRenderer(Rendering::Gpu& gpu)
 	: m_Gpu(gpu)
-	, m_BlendState(gpu)
 	, m_RasterizerState(gpu)
 	, m_InputLayout(gpu, Vertex::ELEMENTS, Vertex::NR_ELEMENTS)
 	, m_ConstantBuffer(gpu)
@@ -174,7 +173,7 @@ void DebugRenderer::Class_Render(const Math::Float3& cameraPosition, const Math:
 	m_ConstantBuffer.Activate(m_Gpu);
 	m_RasterizerState.Activate(m_Gpu);
 	m_InputLayout.Activate(m_Gpu);
-	m_BlendState.Activate(m_Gpu);
+	m_BlendState.Activate();
 	m_Shader.Activate();
 	for (int i = 0; i < m_Meshes.GetSize(); i++)
 	{

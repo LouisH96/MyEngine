@@ -92,7 +92,7 @@ void Rendering::TextRenderer::Render()
 	if (m_Instances.GetSize() == 0) return;
 
 	m_DepthStencilState.Activate();
-	m_BlendState.Activate(*Globals::pGpu);
+	m_BlendState.Activate();
 	m_RasterizerState.Activate(*Globals::pGpu);
 	m_SamplerState.Activate(*Globals::pGpu);
 	m_InputLayout.Activate(*Globals::pGpu);

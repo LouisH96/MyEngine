@@ -2,14 +2,9 @@
 #include "BlendState.h"
 
 #include <d3d11.h>
-#include "../Gpu.h"
+#include <Rendering/Gpu.h>
 
 Rendering::BlendState::BlendState()
-	: BlendState{ *Globals::pGpu }
-{
-}
-
-Rendering::BlendState::BlendState(const Rendering::Gpu& gpu)
 {
 	D3D11_BLEND_DESC desc{};
 	desc.RenderTarget[0].BlendEnable = true;
@@ -20,7 +15,8 @@ Rendering::BlendState::BlendState(const Rendering::Gpu& gpu)
 	desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
 	desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
 	desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
-	gpu.GetDevice().CreateBlendState(&desc, &m_pBlendState);
+	const HRESULT result{ Globals::pGpu->GetDevice().CreateBlendState(&desc, &m_pBlendState) };
+	if (FAILED(result)) Logger::PrintError("Failed creating BlendState");
 }
 
 Rendering::BlendState::~BlendState()
@@ -28,7 +24,7 @@ Rendering::BlendState::~BlendState()
 	m_pBlendState->Release();
 }
 
-void Rendering::BlendState::Activate(const Rendering::Gpu& gpu) const
+void Rendering::BlendState::Activate() const
 {
-	gpu.GetContext().OMSetBlendState(m_pBlendState, nullptr, 0xffffffff);
+	Globals::pGpu->GetContext().OMSetBlendState(m_pBlendState, nullptr, 0xffffffff);
 }

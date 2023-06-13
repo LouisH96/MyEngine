@@ -63,7 +63,6 @@ namespace MyEngine
 		BasicRenderer<Vertex, CamData>::BasicRenderer(Gpu& gpu,
 			const std::wstring& shaderPath, bool isWireframe)
 			: m_Gpu(gpu)
-			, m_BlendState(gpu)
 			, m_RasterizerState(gpu, isWireframe)
 			, m_Shader(gpu, shaderPath)
 			, m_InputLayout(gpu, Vertex::ELEMENTS, Vertex::NR_ELEMENTS)
@@ -85,7 +84,7 @@ namespace MyEngine
 			m_ConstantBuffer.Activate(m_Gpu);
 			m_RasterizerState.Activate(m_Gpu);
 			m_InputLayout.Activate(m_Gpu);
-			m_BlendState.Activate(m_Gpu);
+			m_BlendState.Activate();
 			m_Shader.Activate();
 			for (int i = 0; i < m_Meshes.GetSize(); i++)
 			{
@@ -103,7 +102,7 @@ namespace MyEngine
 			m_ConstantBuffer.Activate(m_Gpu);
 			m_RasterizerState.Activate(m_Gpu);
 			m_InputLayout.Activate(m_Gpu);
-			m_BlendState.Activate(m_Gpu);
+			m_BlendState.Activate();
 			m_Shader.Activate();
 			for (int i = 0; i < m_Meshes.GetSize(); i++)
 			{
