@@ -55,7 +55,7 @@ Rendering::FpsDisplay::FpsDisplay(Rendering::Gpu& gpu, Rendering::Canvas& canvas
 
 		const Io::Ttf::FontRasterizer rasterizer{ glyph, pixelsInWidth,pixelsInHeight };
 		Image* pImage = rasterizer.MakeImage({ 1,1,0 });
-		Texture* pTexture = new Texture(m_Gpu, pImage);
+		Texture* pTexture = new Texture(pImage);
 		delete pImage;
 
 		m_Sizes[i] = {
@@ -107,7 +107,7 @@ void Rendering::FpsDisplay::Render()
 		SetPos(m_Vertices, { x, 1.f - m_ScreenSpaceMargin.y - size.y }, size);
 		m_pMesh->Update(m_Vertices);
 
-		m_pTextures[numbers[i]]->ActivatePs(m_Gpu);
+		m_pTextures[numbers[i]]->ActivatePs();
 		m_pMesh->Draw();
 		x += size.x;
 	}

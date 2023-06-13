@@ -28,7 +28,7 @@ void Rendering::R_LambertCam_Tex_Transform::Render(const Math::Float3& cameraPos
 		m_CameraConstantBuffer.Activate();
 		m_ModelConstantBuffer.Update(CB_ModelBuffer{ *m_Entries[i].pTransform });
 		m_ModelConstantBuffer.Activate(1);
-		m_Entries[i].pTexture->ActivatePs(m_Gpu);
+		m_Entries[i].pTexture->ActivatePs();
 		m_Entries[i].pMesh->Activate();
 		m_Entries[i].pMesh->Draw();
 	}

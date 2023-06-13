@@ -96,7 +96,7 @@ void Rendering::TextRenderer::Render()
 	m_RasterizerState.Activate();
 	m_SamplerState.Activate();
 	m_InputLayout.Activate();
-	m_FontAtlas.Activate(*Globals::pGpu);
+	m_FontAtlas.Activate();
 	m_Shader.Activate();
 
 	m_Instances.Draw();

@@ -26,7 +26,7 @@ void Rendering::R_LambertLight_Tex::Render(const Math::Float3& cameraPosition, c
 	{
 		m_CameraConstantBuffer.Update(CB_CamMatPos{ cameraPosition, viewProjection });
 		m_CameraConstantBuffer.Activate();
-		m_Entries[i].pTexture->ActivatePs(m_Gpu);
+		m_Entries[i].pTexture->ActivatePs();
 		m_Entries[i].pMesh->Activate();
 		m_Entries[i].pMesh->Draw();
 	}

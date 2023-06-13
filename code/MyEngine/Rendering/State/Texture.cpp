@@ -1,14 +1,12 @@
 #include "pch.h"
 #include "Texture.h"
 
-#include <wincodec.h>
-#include "Shader.h"
 #include <dxgi.h>
+#include <wincodec.h>
+#include <Rendering/Gpu.h>
 #include <Rendering/Image.h>
 
-#include "Rendering/Gpu.h"
-
-Rendering::Texture::Texture(const Gpu& gpu, const std::wstring& path)
+Rendering::Texture::Texture(const std::wstring& path)
 {
 	//https://www.braynzarsoft.net/viewtutorial/q16390-directx-12-textures-from-file
 	static IWICImagingFactory* wicFactory;
@@ -162,7 +160,7 @@ Rendering::Texture::Texture(const Gpu& gpu, const std::wstring& path)
 	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = 1;
 
-	gpu.GetDevice().CreateShaderResourceView(pTexture, &srvDesc, &m_pShaderResourceView);
+	Globals::pGpu->GetDevice().CreateShaderResourceView(pTexture, &srvDesc, &m_pShaderResourceView);
 	if (FAILED(hr))
 	{
 		Logger::PrintError("Failed to create shaderResource");
@@ -173,7 +171,7 @@ Rendering::Texture::Texture(const Gpu& gpu, const std::wstring& path)
 	delete[] pImageData;
 }
 
-Rendering::Texture::Texture(const Gpu& gpu, Image* pImage)
+Rendering::Texture::Texture(Image* pImage)
 {
 	D3D11_TEXTURE2D_DESC desc{};
 	desc.Width = pImage->GetWidth();
@@ -193,7 +191,7 @@ Rendering::Texture::Texture(const Gpu& gpu, Image* pImage)
 	initData.pSysMem = pImage->GetData();
 
 	ID3D11Texture2D* pTexture{};
-	HRESULT hr = gpu.GetDevice().CreateTexture2D(&desc, &initData, &pTexture);
+	HRESULT hr = Globals::pGpu->GetDevice().CreateTexture2D(&desc, &initData, &pTexture);
 	if (FAILED(hr))
 	{
 		Logger::PrintError("Failed creating Texture2D");
@@ -205,7 +203,7 @@ Rendering::Texture::Texture(const Gpu& gpu, Image* pImage)
 	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = 1;
 
-	hr = gpu.GetDevice().CreateShaderResourceView(pTexture, &srvDesc, &m_pShaderResourceView);
+	hr = Globals::pGpu->GetDevice().CreateShaderResourceView(pTexture, &srvDesc, &m_pShaderResourceView);
 	if (FAILED(hr))
 	{
 		Logger::PrintError("Failed to create shaderResource");
@@ -215,18 +213,8 @@ Rendering::Texture::Texture(const Gpu& gpu, Image* pImage)
 	pTexture->Release();
 }
 
-Rendering::Texture::Texture(const std::wstring& path)
-	: Texture{ *Globals::pGpu, path }
-{
-}
-
 Rendering::Texture::Texture(Image& image)
-	: Texture{ *Globals::pGpu, &image }
-{
-}
-
-Rendering::Texture::Texture(Image* pImage)
-	: Texture{ *Globals::pGpu, pImage }
+	: Texture{ &image }
 {
 }
 
@@ -256,20 +244,20 @@ Rendering::Texture& Rendering::Texture::operator=(Texture&& other) noexcept
 	return *this;
 }
 
-void Rendering::Texture::ActivateVs(const Gpu& gpu) const
+void Rendering::Texture::ActivateVs() const
 {
-	gpu.GetContext().VSSetShaderResources(0, 1, &m_pShaderResourceView);
+	Globals::pGpu->GetContext().VSSetShaderResources(0, 1, &m_pShaderResourceView);
 }
 
-void Rendering::Texture::ActivatePs(const Gpu& gpu) const
+void Rendering::Texture::ActivatePs() const
 {
-	gpu.GetContext().PSSetShaderResources(0, 1, &m_pShaderResourceView);
+	Globals::pGpu->GetContext().PSSetShaderResources(0, 1, &m_pShaderResourceView);
 }
 
-void Rendering::Texture::Activate(const Gpu& gpu) const
+void Rendering::Texture::Activate() const
 {
-	gpu.GetContext().PSSetShaderResources(0, 1, &m_pShaderResourceView);
-	gpu.GetContext().VSSetShaderResources(0, 1, &m_pShaderResourceView);
+	Globals::pGpu->GetContext().PSSetShaderResources(0, 1, &m_pShaderResourceView);
+	Globals::pGpu->GetContext().VSSetShaderResources(0, 1, &m_pShaderResourceView);
 }
 
 DXGI_FORMAT Rendering::Texture::GetDXGIFormatFromWICFormat(WICPixelFormatGUID& wicFormatGuid)

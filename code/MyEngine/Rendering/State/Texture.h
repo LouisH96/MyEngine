@@ -9,15 +9,12 @@ namespace MyEngine
 	namespace Rendering
 	{
 		class Image;
-		class Gpu;
 		class Texture
 		{
 		public:
-			Texture(const Gpu& gpu, const std::wstring& path);
-			Texture(const Gpu& gpu, Image* pImage);
 			Texture(const std::wstring& path);
-			Texture(Image& image);
 			Texture(Image* pImage);
+			Texture(Image& image);
 			Texture();
 			~Texture();
 			Texture(const Texture& other) = delete;
@@ -25,9 +22,9 @@ namespace MyEngine
 			Texture(Texture&& other) noexcept;
 			Texture& operator=(Texture&& other) noexcept;
 
-			void ActivateVs(const Gpu& gpu) const;
-			void ActivatePs(const Gpu& gpu) const;
-			void Activate(const Gpu& gpu) const;
+			void ActivateVs() const;
+			void ActivatePs() const;
+			void Activate() const;
 
 		private:
 			ID3D11ShaderResourceView* m_pShaderResourceView{};
