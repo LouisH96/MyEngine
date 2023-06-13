@@ -3,6 +3,7 @@
 #include <Rendering/State/ConstantBuffer.h>
 #include <Rendering/State/InputLayout.h>
 #include <Rendering/State/Mesh.h>
+#include <Rendering/State/Shader.h>
 #include <Rendering/State/RasterizerState.h>
 
 #include "Rendering/State/DepthStencilState.h"
@@ -88,8 +89,8 @@ namespace MyEngine
 			m_Shader.Activate();
 			for (int i = 0; i < m_Meshes.GetSize(); i++)
 			{
-				m_Meshes[i]->Activate(m_Gpu);
-				m_Meshes[i]->Draw(m_Gpu);
+				m_Meshes[i]->Activate();
+				m_Meshes[i]->Draw();
 			}
 		}
 
@@ -106,15 +107,15 @@ namespace MyEngine
 			m_Shader.Activate();
 			for (int i = 0; i < m_Meshes.GetSize(); i++)
 			{
-				m_Meshes[i]->Activate(m_Gpu);
-				m_Meshes[i]->Draw(m_Gpu);
+				m_Meshes[i]->Activate();
+				m_Meshes[i]->Draw();
 			}
 		}
 
 		template <typename Vertex, typename CamData>
 		void BasicRenderer<Vertex, CamData>::AddMesh(const Array<Vertex>& vertices, const Array<int>& indices)
 		{
-			m_Meshes.Add(Mesh::Create<Vertex>(m_Gpu, vertices, indices));
+			m_Meshes.Add(Mesh::Create<Vertex>(vertices, indices));
 		}
 
 		template <typename Vertex, typename CamData>

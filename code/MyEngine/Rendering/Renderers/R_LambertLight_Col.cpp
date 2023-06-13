@@ -27,8 +27,8 @@ void Rendering::R_LambertLight_Col::Render(const Math::Float3& cameraPosition, c
 	{
 		m_CameraConstantBuffer.Update(CB_CamMatPos{ cameraPosition, viewProjection });
 		m_CameraConstantBuffer.Activate();
-		m_Entries[i]->Activate(m_Gpu);
-		m_Entries[i]->Draw(m_Gpu);
+		m_Entries[i]->Activate();
+		m_Entries[i]->Draw();
 	}
 }
 

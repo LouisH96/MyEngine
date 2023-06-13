@@ -72,7 +72,7 @@ Rendering::FpsDisplay::FpsDisplay(Rendering::Gpu& gpu, Rendering::Canvas& canvas
 	}
 
 	InitVertices(m_Vertices);
-	m_pMesh = Mesh::Create(m_Gpu, m_Vertices, Topology::TriangleList, false);
+	m_pMesh = Mesh::Create(m_Vertices, Topology::TriangleList, false);
 }
 
 Rendering::FpsDisplay::~FpsDisplay()
@@ -98,7 +98,7 @@ void Rendering::FpsDisplay::Render()
 		m_Fps % 10
 	};
 
-	m_pMesh->Activate(m_Gpu);
+	m_pMesh->Activate();
 	bool began = false;
 	float x = -1.f + m_ScreenSpaceMargin.x;
 	for (int i = 0; i < 4; i++)
@@ -107,10 +107,10 @@ void Rendering::FpsDisplay::Render()
 		began = true;
 		const Math::Float2& size{ m_Sizes[numbers[i]] };
 		SetPos(m_Vertices, { x, 1.f - m_ScreenSpaceMargin.y - size.y }, size);
-		m_pMesh->Update(m_Gpu, m_Vertices);
+		m_pMesh->Update(m_Vertices);
 
 		m_pTextures[numbers[i]]->ActivatePs(m_Gpu);
-		m_pMesh->Draw(m_Gpu);
+		m_pMesh->Draw();
 		x += size.x;
 	}
 }

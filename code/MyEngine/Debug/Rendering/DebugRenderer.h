@@ -124,7 +124,7 @@ namespace MyEngine
 			vertices[2] = { {right, top, offset.z}, color };
 			vertices[3] = { {right, bot, offset.z}, color };
 			vertices[4] = vertices[0];
-			m_pLineRenderer->AddMesh(Rendering::Mesh::Create(m_Gpu, vertices, Rendering::Topology::LineStrip));
+			m_pLineRenderer->AddMesh(Rendering::Mesh::Create(vertices, Rendering::Topology::LineStrip));
 		}
 	}
 }

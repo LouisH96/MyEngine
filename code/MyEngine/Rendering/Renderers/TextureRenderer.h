@@ -101,8 +101,8 @@ namespace MyEngine
 			m_ConstantBuffer.Update(m_Gpu, CamData{ cameraPosition, viewProjection });
 			m_ConstantBuffer.Activate(m_Gpu);
 			m_RasterizerState.Activate(m_Gpu);
-			m_InputLayout.Activate(m_Gpu);
-			m_BlendState.Activate(m_Gpu);
+			m_InputLayout.Activate();
+			m_BlendState.Activate();
 			m_Shader.Activate();
 			for (int i = 0; i < m_Meshes.GetSize(); i++)
 			{

@@ -58,7 +58,7 @@ void DebugRenderer::AddRay(const Math::Float3& origin, const Math::Float3& displ
 	Array<LineVertex> vertices{ 2 };
 	vertices[0] = { origin, color };
 	vertices[1] = { origin + displacement, color };
-	m_pStatic->m_pLineRenderer->AddMesh(Rendering::Mesh::Create(m_pStatic->m_Gpu, vertices, Rendering::Topology::LineStrip));
+	m_pStatic->m_pLineRenderer->AddMesh(Rendering::Mesh::Create(vertices, Rendering::Topology::LineStrip));
 }
 
 void DebugRenderer::AddRect(const Math::Float3& leftTop, const Math::Float3& rightTop, const Math::Float3& rightBot,
@@ -140,7 +140,7 @@ void DebugRenderer::AddGridXy(const Math::Float3& offset, const Math::Float2& bo
 	else
 		vertex.Pos.x = right;
 	vertices[iVertex] = vertex;
-	m_pStatic->m_pLineRenderer->AddMesh(Rendering::Mesh::Create(m_pStatic->m_Gpu, vertices, Rendering::Topology::LineStrip));
+	m_pStatic->m_pLineRenderer->AddMesh(Rendering::Mesh::Create(vertices, Rendering::Topology::LineStrip));
 }
 
 void DebugRenderer::DrawSphere(const Float3& position, const Float3& color, float radius)
@@ -176,8 +176,8 @@ void DebugRenderer::Class_Render(const Math::Float3& cameraPosition, const Math:
 	m_Shader.Activate();
 	for (int i = 0; i < m_Meshes.GetSize(); i++)
 	{
-		m_Meshes[i]->Activate(m_Gpu);
-		m_Meshes[i]->Draw(m_Gpu);
+		m_Meshes[i]->Activate();
+		m_Meshes[i]->Draw();
 	}
 	m_SpheresRenderer.Render(m_Gpu, cameraPosition, viewProjection);
 	m_pLineRenderer->Render(cameraPosition, viewProjection);
@@ -194,7 +194,7 @@ void DebugRenderer::Class_AddSphere(const Float3& position, const Float3& color,
 	Array<Vertex> vertices{ positions.GetSize() };
 	for (int i = 0; i < positions.GetSize(); i++)
 		vertices[i] = Vertex{ positions[i], color, normals[i] };
-	m_Meshes.Add(Rendering::Mesh::Create<Vertex>(m_Gpu, vertices, indices));
+	m_Meshes.Add(Rendering::Mesh::Create<Vertex>(vertices, indices));
 }
 
 void DebugRenderer::Class_AddSpheres(const Array<Float3>& positions, const Float3& color, float radius)
@@ -209,7 +209,7 @@ void DebugRenderer::Class_AddLine(const Math::Float3& begin, const Math::Float3&
 	Array<LineVertex> vertices{ 2 };
 	vertices[0] = { begin, color };
 	vertices[1] = { end, color };
-	m_pLineRenderer->AddMesh(Rendering::Mesh::Create(m_Gpu, vertices, Rendering::Topology::LineStrip));
+	m_pLineRenderer->AddMesh(Rendering::Mesh::Create(vertices, Rendering::Topology::LineStrip));
 }
 
 void DebugRenderer::Class_AddLine(const Array<Math::Float3>& points, const Math::Float3& color) const
@@ -217,7 +217,7 @@ void DebugRenderer::Class_AddLine(const Array<Math::Float3>& points, const Math:
 	Array<LineVertex> vertices{ points.GetSize() };
 	for (int i = 0; i < points.GetSize(); i++)
 		vertices[i] = { points[i], color };
-	m_pLineRenderer->AddMesh(Rendering::Mesh::Create(m_Gpu, vertices, Rendering::Topology::LineStrip));
+	m_pLineRenderer->AddMesh(Rendering::Mesh::Create(vertices, Rendering::Topology::LineStrip));
 }
 
 void DebugRenderer::Class_AddRect(const Math::Float3& leftTop, const Math::Float3& rightTop,
@@ -227,5 +227,5 @@ void DebugRenderer::Class_AddRect(const Math::Float3& leftTop, const Math::Float
 	vertices[0] = { leftTop, color }; vertices[1] = { rightTop, color };
 	vertices[2] = { rightBot, color }; vertices[3] = { leftBot, color };
 	vertices[4] = vertices[0];
-	m_pLineRenderer->AddMesh(Rendering::Mesh::Create(m_Gpu, vertices, Rendering::Topology::LineStrip));
+	m_pLineRenderer->AddMesh(Rendering::Mesh::Create(vertices, Rendering::Topology::LineStrip));
 }

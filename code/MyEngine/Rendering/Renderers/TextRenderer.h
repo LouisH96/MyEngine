@@ -4,6 +4,7 @@
 #include "Math/Rects.h"
 #include "Rendering/DrawData/InstanceList.h"
 #include "Rendering/DrawData/VertexList.h"
+#include "Rendering/State/Shader.h"
 
 namespace MyEngine
 {
