@@ -69,7 +69,6 @@ namespace MyEngine
 		template <typename Vertex, typename CamData>
 		TextureRenderer<Vertex, CamData>::TextureRenderer(Gpu& gpu, const std::wstring& shaderPath)
 			: m_Gpu(gpu)
-			, m_RasterizerState(gpu)
 			, m_Sampler(gpu)
 			, m_Shader(gpu, shaderPath)
 			, m_InputLayout(Vertex::ELEMENTS, Vertex::NR_ELEMENTS)

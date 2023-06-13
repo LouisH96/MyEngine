@@ -4,11 +4,6 @@
 #include "../Gpu.h"
 
 Rendering::RasterizerState::RasterizerState(bool isWireframe)
-	: RasterizerState{ *Globals::pGpu, isWireframe }
-{
-}
-
-Rendering::RasterizerState::RasterizerState(const Gpu& gpu, bool isWireframe)
 {
 	D3D11_RASTERIZER_DESC desc{};
 	if (isWireframe)
@@ -24,7 +19,7 @@ Rendering::RasterizerState::RasterizerState(const Gpu& gpu, bool isWireframe)
 	}
 	desc.DepthClipEnable = true;
 
-	const HRESULT result = gpu.GetDevice().CreateRasterizerState(&desc, &m_pState);
+	const HRESULT result = Globals::pGpu->GetDevice().CreateRasterizerState(&desc, &m_pState);
 	if (FAILED(result))
 		Logger::PrintError("RasterizerState");
 }
@@ -34,7 +29,7 @@ Rendering::RasterizerState::~RasterizerState()
 	m_pState->Release();
 }
 
-void Rendering::RasterizerState::Activate(const Gpu& gpu) const
+void Rendering::RasterizerState::Activate() const
 {
-	gpu.GetContext().RSSetState(m_pState);
+	Globals::pGpu->GetContext().RSSetState(m_pState);
 }

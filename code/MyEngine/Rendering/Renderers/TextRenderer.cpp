@@ -93,7 +93,7 @@ void Rendering::TextRenderer::Render()
 
 	m_DepthStencilState.Activate();
 	m_BlendState.Activate();
-	m_RasterizerState.Activate(*Globals::pGpu);
+	m_RasterizerState.Activate();
 	m_SamplerState.Activate(*Globals::pGpu);
 	m_InputLayout.Activate();
 	m_FontAtlas.Activate(*Globals::pGpu);
