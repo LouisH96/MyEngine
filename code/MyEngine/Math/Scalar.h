@@ -8,7 +8,7 @@ namespace MyEngine
 	namespace Math
 	{
 		template<typename T>
-		class ScalarMath
+		class Scalar
 		{
 		public:
 			template<typename D> static T Unlerp(const D& value, const D& begin, const D& end);
@@ -23,50 +23,48 @@ namespace MyEngine
 			static T Min();
 		};
 
-		using Int = ScalarMath<int>;
-
 		template <typename T>
 		template <typename D>
-		T ScalarMath<T>::Unlerp(const D& value, const D& begin, const D& end)
+		T Scalar<T>::Unlerp(const D& value, const D& begin, const D& end)
 		{
 			return static_cast<T>(value - begin) / static_cast<T>(end - begin);
 		}
 
 		template <typename T>
 		template <typename D>
-		D ScalarMath<T>::Lerp(const T& alpha, const D& begin, const D& end)
+		D Scalar<T>::Lerp(const T& alpha, const D& begin, const D& end)
 		{
 			return begin + static_cast<D>(static_cast<T>(end - begin) * alpha);
 		}
 
 		template <typename T>
 		template <typename D>
-		D ScalarMath<T>::LerpClamp(const T& alpha, const D& begin, const D& end)
+		D Scalar<T>::LerpClamp(const T& alpha, const D& begin, const D& end)
 		{
 			return Clamp(Lerp(alpha, begin, end), begin, end);
 		}
 
 		template <typename T>
 		template <typename D>
-		T ScalarMath<T>::Cast(const D& value)
+		T Scalar<T>::Cast(const D& value)
 		{
 			return static_cast<T>(value);
 		}
 
 		template <typename T>
-		int ScalarMath<T>::Ceil(const T& value)
+		int Scalar<T>::Ceil(const T& value)
 		{
 			return ceil(value);
 		}
 
 		template <typename T>
-		int ScalarMath<T>::Floor(const T& value)
+		int Scalar<T>::Floor(const T& value)
 		{
 			return floor(value);
 		}
 
 		template <typename T>
-		T ScalarMath<T>::Clamp(const T& value, const T& min, const T& max)
+		T Scalar<T>::Clamp(const T& value, const T& min, const T& max)
 		{
 			if (value <= min) return min;
 			if (value >= max) return max;
@@ -74,18 +72,18 @@ namespace MyEngine
 		}
 
 		template <typename T>
-		T ScalarMath<T>::Max()
+		T Scalar<T>::Max()
 		{
 			return std::numeric_limits<T>().max();
 		}
 
 		template <typename T>
-		T ScalarMath<T>::Min()
+		T Scalar<T>::Min()
 		{
 			return std::numeric_limits<T>().min();
 		}
 
-		using DoubleMath = ScalarMath<double>;
-		using FloatMath = ScalarMath<float>;
+		using DoubleMath = Scalar<double>;
+		using FloatMath = Scalar<float>;
 	}
 }

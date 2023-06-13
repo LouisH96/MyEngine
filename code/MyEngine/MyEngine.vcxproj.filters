@@ -247,7 +247,6 @@
     <ClInclude Include="DataStructures\SortedList.h" />
     <ClInclude Include="Io\Fbx\FbxValueCurve.h" />
     <ClInclude Include="DataStructures\SortedArray.h" />
-    <ClInclude Include="Math\Float.h" />
     <ClInclude Include="Io\Fbx\FbxTransformCurve.h" />
     <ClInclude Include="Debug\Rendering\DebugSpheres.h" />
     <ClInclude Include="Rendering\DrawData\IDrawData.h" />
@@ -261,7 +260,7 @@
     <ClInclude Include="Rendering\DrawData\VertexList.h" />
     <ClInclude Include="Math\RectInt.h" />
     <ClInclude Include="Math\RectFloat.h" />
-    <ClInclude Include="Math\ScalarMath.h" />
+    <ClInclude Include="Math\Scalar.h" />
     <ClInclude Include="Io\Fbx\FbxAnimation.h" />
     <ClInclude Include="Io\Fbx\FbxAnimationLayer.h" />
     <ClInclude Include="Rendering\Font\FontAtlas.h" />
@@ -270,6 +269,7 @@
     <ClInclude Include="Rendering\State\DepthStencilState.h" />
     <ClInclude Include="Math\Vectors.h" />
     <ClInclude Include="Math\Matrices.h" />
+    <ClInclude Include="Math\Scalars.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

@@ -1,7 +1,6 @@
 #pragma once
 #include <DataStructures/SortedArray.h>
 #include <Io/Fbx/Wrapping/AnimationCurve.h>
-#include <Math/Float.h>
 
 namespace MyEngine
 {

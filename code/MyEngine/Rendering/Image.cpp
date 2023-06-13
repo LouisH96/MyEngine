@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Image.h"
 
-#include "Math/ScalarMath.h"
+#include "Math/Scalar.h"
 
 Rendering::Image::Image(int width, int height)
 	: m_Width{ width }

@@ -137,6 +137,7 @@
     <ClInclude Include="Debug\Rendering\DebugLines.h" />
     <ClInclude Include="Debug\Rendering\DebugSpheres.h" />
     <ClInclude Include="Math\Matrices.h" />
+    <ClInclude Include="Math\Scalars.h" />
     <ClInclude Include="Math\Vectors.h" />
     <ClInclude Include="Rendering\State\DepthStencilState.h" />
     <ClInclude Include="Generation\PlaneGeneration.h" />
@@ -177,9 +178,8 @@
     <ClInclude Include="Rendering\Renderers\R_LambertCam_Tex.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertLight_Tex.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertLight_Col.h" />
-    <ClInclude Include="Math\Float.h" />
     <ClInclude Include="Rendering\DrawData\IDrawData.h" />
-    <ClInclude Include="Math\ScalarMath.h" />
+    <ClInclude Include="Math\Scalar.h" />
     <ClInclude Include="Shapes\Capsule.h" />
     <ClInclude Include="Io\Fbx\Reading\Properties70.h" />
     <ClInclude Include="Io\Fbx\Wrapping\Geometry.h" />

@@ -6,7 +6,7 @@
 #include "Generation/PlaneGeneration.h"
 #include "Io/Ttf/ContourOperations.h"
 #include "Io/Ttf/TtfReader.h"
-#include "Math/ScalarMath.h"
+#include "Math/Scalar.h"
 #include "Rendering/Canvas.h"
 #include "Rendering/Image.h"
 #include "Rendering/Font/FontAtlas.h"

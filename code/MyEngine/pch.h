@@ -4,6 +4,7 @@
 
 #include <iostream>
 
+#include <Math/Scalars.h>
 #include <Math/Vectors.h>
 #include <Math/Matrices.h>
 
