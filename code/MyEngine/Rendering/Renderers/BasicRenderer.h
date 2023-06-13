@@ -65,7 +65,7 @@ namespace MyEngine
 			: m_Gpu(gpu)
 			, m_RasterizerState(gpu, isWireframe)
 			, m_Shader(gpu, shaderPath)
-			, m_InputLayout(gpu, Vertex::ELEMENTS, Vertex::NR_ELEMENTS)
+			, m_InputLayout(Vertex::ELEMENTS, Vertex::NR_ELEMENTS)
 			, m_ConstantBuffer{}
 		{
 		}
@@ -83,7 +83,7 @@ namespace MyEngine
 			m_ConstantBuffer.Update(CamData{ cameraPosition, viewProjection });
 			m_ConstantBuffer.Activate();
 			m_RasterizerState.Activate(m_Gpu);
-			m_InputLayout.Activate(m_Gpu);
+			m_InputLayout.Activate();
 			m_BlendState.Activate();
 			m_Shader.Activate();
 			for (int i = 0; i < m_Meshes.GetSize(); i++)
@@ -101,7 +101,7 @@ namespace MyEngine
 			m_ConstantBuffer.Update(CamData{ cameraPosition, viewProjection });
 			m_ConstantBuffer.Activate();
 			m_RasterizerState.Activate(m_Gpu);
-			m_InputLayout.Activate(m_Gpu);
+			m_InputLayout.Activate();
 			m_BlendState.Activate();
 			m_Shader.Activate();
 			for (int i = 0; i < m_Meshes.GetSize(); i++)

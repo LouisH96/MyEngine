@@ -8,11 +8,6 @@
 #include "../Gpu.h"
 
 Rendering::InputLayout::InputLayout(const Element* pElements, int nrElements)
-	: InputLayout{ *Globals::pGpu, pElements, nrElements }
-{
-}
-
-Rendering::InputLayout::InputLayout(const Gpu& gpu, const Element* pElements, int nrElements)
 {
 	//CREATE INPUT_ELEMENT_DESC
 	D3D11_INPUT_ELEMENT_DESC* pDxElements = new D3D11_INPUT_ELEMENT_DESC[nrElements];
@@ -59,7 +54,7 @@ Rendering::InputLayout::InputLayout(const Gpu& gpu, const Element* pElements, in
 	}
 
 	//INPUTLAYOUT
-	result = gpu.GetDevice().CreateInputLayout(
+	result = Globals::pGpu->GetDevice().CreateInputLayout(
 		pDxElements, nrElements,
 		pBlob->GetBufferPointer(), pBlob->GetBufferSize(),
 		&m_pInputLayout);
@@ -90,9 +85,9 @@ Rendering::InputLayout& Rendering::InputLayout::operator=(InputLayout&& other) n
 	return *this;
 }
 
-void Rendering::InputLayout::Activate(const Gpu& gpu) const
+void Rendering::InputLayout::Activate() const
 {
-	gpu.GetContext().IASetInputLayout(m_pInputLayout);
+	Globals::pGpu->GetContext().IASetInputLayout(m_pInputLayout);
 }
 
 DXGI_FORMAT Rendering::InputLayout::ToDxFormat(ElementType type)

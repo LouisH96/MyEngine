@@ -4,7 +4,7 @@
 #include "Framework/Resources.h"
 
 DebugLines::DebugLines(const Rendering::Gpu& gpu)
-	: m_InputLayout{ gpu, Vertex::ELEMENTS, Vertex::NR_ELEMENTS }
+	: m_InputLayout{Vertex::ELEMENTS, Vertex::NR_ELEMENTS }
 	, m_Shader{ gpu, Framework::Resources::GetGlobalShaderPath(L"unlit.hlsl") }
 	, m_VertexList{ 5, Rendering::PrimitiveTopology::LineList }
 {
@@ -13,7 +13,7 @@ DebugLines::DebugLines(const Rendering::Gpu& gpu)
 
 void DebugLines::Render(const Rendering::Gpu& gpu)
 {
-	m_InputLayout.Activate(gpu);
+	m_InputLayout.Activate();
 	m_Shader.Activate();
 	m_VertexList.Draw();
 	m_VertexList.Clear();

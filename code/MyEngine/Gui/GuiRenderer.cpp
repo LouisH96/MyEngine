@@ -54,7 +54,7 @@ void Gui::GuiRenderer::OnCanvasResize(const Int2& newSize)
 void Gui::GuiRenderer::Render()
 {
 	m_DepthStencilState.Activate();
-	m_InputLayout.Activate(*Globals::pGpu);
+	m_InputLayout.Activate();
 	m_Shader.Activate();
 	m_Vertices.Draw();
 }

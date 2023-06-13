@@ -23,7 +23,7 @@ Rendering::FpsDisplay::FpsDisplay(Rendering::Gpu& gpu, Rendering::Canvas& canvas
 	, m_RasterizerState(gpu)
 	, m_Sampler(gpu)
 	, m_Shader(gpu, Framework::Resources::GetGlobalShaderPath(L"screenSpace.hlsl"))
-	, m_InputLayout(gpu, V_Pos2Uv::ELEMENTS, V_Pos2Uv::NR_ELEMENTS)
+	, m_InputLayout( V_Pos2Uv::ELEMENTS, V_Pos2Uv::NR_ELEMENTS)
 	, m_Vertices{ 6 }
 {
 	const std::wstring fontPath = Framework::Resources::GetGlobalResourcePath(L"Fonts\\ShortBaby.ttf");
@@ -86,7 +86,7 @@ void Rendering::FpsDisplay::Render()
 {
 	m_Sampler.ActivatePs(m_Gpu);
 	m_RasterizerState.Activate(m_Gpu);
-	m_InputLayout.Activate(m_Gpu);
+	m_InputLayout.Activate();
 	m_BlendState.Activate();
 	m_Shader.Activate();
 

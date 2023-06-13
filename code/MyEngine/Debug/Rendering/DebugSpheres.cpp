@@ -18,7 +18,7 @@ const InputLayout::Element DebugSpheres::ELEMENTS[] =
 };
 
 DebugSpheres::DebugSpheres(Gpu& gpu)
-	: m_InputLayout{ gpu, ELEMENTS, static_cast<int>(sizeof(ELEMENTS) / sizeof(InputLayout::Element)) }
+	: m_InputLayout{ ELEMENTS, static_cast<int>(sizeof(ELEMENTS) / sizeof(InputLayout::Element)) }
 	, m_Shader{ gpu, Framework::Resources::GetGlobalShaderPath(L"LambertCam_Inst_Col_Pos.hlsl") }
 {
 	using Vertex = V_PosNor;
@@ -51,7 +51,7 @@ void DebugSpheres::Render(const Gpu& gpu, const Float3& cameraPosition, const Fl
 	m_Vertices.SetInstancesDrawCount(m_Spheres.GetSize());
 	m_Spheres.Clear();
 
-	m_InputLayout.Activate(gpu);
+	m_InputLayout.Activate();
 	m_Shader.Activate();
 	m_Vertices.Draw();
 }

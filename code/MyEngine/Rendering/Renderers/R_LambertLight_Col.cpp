@@ -8,7 +8,7 @@ Rendering::R_LambertLight_Col::R_LambertLight_Col(Gpu& gpu, bool isWireframe)
 	: m_Gpu(gpu)
 	, m_RasterizerState{ gpu, isWireframe }
 	, m_Sampler{ gpu }
-	, m_InputLayout{ gpu, Vertex::ELEMENTS, Vertex::NR_ELEMENTS }
+	, m_InputLayout{ Vertex::ELEMENTS, Vertex::NR_ELEMENTS }
 	, m_Shader{ gpu, Framework::Resources::GetGlobalShaderPath(L"LambertLight_Col.hlsl") }
 	, m_Entries{ 0 }
 {
@@ -20,7 +20,7 @@ void Rendering::R_LambertLight_Col::Render(const Math::Float3& cameraPosition, c
 	m_DepthStencilState.Activate();
 	m_Sampler.ActivatePs(m_Gpu);
 	m_RasterizerState.Activate(m_Gpu);
-	m_InputLayout.Activate(m_Gpu);
+	m_InputLayout.Activate();
 	m_BlendState.Activate();
 	m_Shader.Activate();
 	for (int i = 0; i < m_Entries.GetSize(); i++)

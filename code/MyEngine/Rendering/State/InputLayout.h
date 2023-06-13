@@ -6,8 +6,6 @@ namespace MyEngine
 {
 	namespace Rendering
 	{
-		class Gpu;
-
 		class InputLayout
 		{
 		public:
@@ -30,14 +28,13 @@ namespace MyEngine
 			template<typename T> static InputLayout FromType();
 
 			InputLayout(const Element* pElements, int nrElements);
-			InputLayout(const Gpu& gpu, const Element* pElements, int nrElements);
 			~InputLayout();
 			InputLayout(const InputLayout& other) = delete;
 			InputLayout(InputLayout&& other) noexcept;
 			InputLayout& operator=(const InputLayout& other) = delete;
 			InputLayout& operator=(InputLayout&& other) noexcept;
 
-			void Activate(const Gpu& gpu) const;
+			void Activate() const;
 
 		private:
 			ID3D11InputLayout* m_pInputLayout{};
@@ -51,7 +48,7 @@ namespace MyEngine
 		template <typename T>
 		InputLayout InputLayout::FromType()
 		{
-			return { *Globals::pGpu, T::ELEMENTS, T::NR_ELEMENTS };
+			return { T::ELEMENTS, T::NR_ELEMENTS };
 		}
 	}
 }

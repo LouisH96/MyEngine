@@ -57,7 +57,7 @@ void App::BasicExampleApp::Run()
 		{"POSITION", InputLayout::ElementType::Float3},
 		{"COLOR", InputLayout::ElementType::Float3},
 	};
-	const InputLayout inputLayout{ gpu, meshElements, ARRAYSIZE(meshElements) };
+	const InputLayout inputLayout{ meshElements, ARRAYSIZE(meshElements) };
 
 	Shader& shader = *new Shader(gpu, Framework::Resources::GetGlobalShaderPath(L"unlit.hlsl"));
 	Mesh& mesh = *Mesh::Create<Vertex>(gpu, cubeVertices, cubeIndices);
@@ -68,7 +68,7 @@ void App::BasicExampleApp::Run()
 
 	//RENDER-PIPELINE
 	constantBuffer.ActivateVs();
-	inputLayout.Activate(gpu);
+	inputLayout.Activate();
 	shader.Activate();
 	mesh.Activate(gpu);
 

@@ -72,7 +72,7 @@ namespace MyEngine
 			, m_RasterizerState(gpu)
 			, m_Sampler(gpu)
 			, m_Shader(gpu, shaderPath)
-			, m_InputLayout(gpu, Vertex::ELEMENTS, Vertex::NR_ELEMENTS)
+			, m_InputLayout(Vertex::ELEMENTS, Vertex::NR_ELEMENTS)
 		{
 		}
 

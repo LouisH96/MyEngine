@@ -151,7 +151,7 @@ void DebugRenderer::DrawSphere(const Float3& position, const Float3& color, floa
 DebugRenderer::DebugRenderer(Rendering::Gpu& gpu)
 	: m_Gpu(gpu)
 	, m_RasterizerState(gpu)
-	, m_InputLayout(gpu, Vertex::ELEMENTS, Vertex::NR_ELEMENTS)
+	, m_InputLayout(Vertex::ELEMENTS, Vertex::NR_ELEMENTS)
 	, m_Shader(gpu, Framework::Resources::GetGlobalShaderPath(L"lambertCamDir.hlsl"))
 	, m_pLineRenderer(Rendering::RendererFactory::CreateUnlitRenderer(gpu))
 	, m_SpheresRenderer{ gpu }
@@ -171,7 +171,7 @@ void DebugRenderer::Class_Render(const Math::Float3& cameraPosition, const Math:
 	m_ConstantBuffer.Update(Rendering::CB_CamMatPos{ cameraPosition, viewProjection });
 	m_ConstantBuffer.Activate();
 	m_RasterizerState.Activate(m_Gpu);
-	m_InputLayout.Activate(m_Gpu);
+	m_InputLayout.Activate();
 	m_BlendState.Activate();
 	m_Shader.Activate();
 	for (int i = 0; i < m_Meshes.GetSize(); i++)
