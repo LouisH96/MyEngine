@@ -4,8 +4,8 @@
 #include <Windows.h>
 
 // ReSharper disable once StringLiteralTypo
-std::wstring Framework::Resources::m_GlobalResourcesPath = LR"(D:\VirtualWorld\resources\)";
-std::wstring Framework::Resources::m_LocalResourcesPath = L"";
+std::wstring Framework::Resources::m_GlobalPath = LR"(D:\VirtualWorld\resources\)";
+std::wstring Framework::Resources::m_LocalPath;
 
 void Framework::Resources::Init()
 {
@@ -16,7 +16,7 @@ void Framework::Resources::Init()
 	LPWSTR* args = CommandLineToArgvW(GetCommandLineW(), &nrArgs);
 
 	if (nrArgs >= 2)
-		m_LocalResourcesPath = args[1];
+		m_LocalPath = args[1];
 	else
 	{
 		Logger::PrintError("Local resources path should be defined in args");
@@ -24,28 +24,24 @@ void Framework::Resources::Init()
 	}
 
 	LocalFree(args);
-
-	/*m_GlobalResourcesPath = buffer;
-	m_GlobalResourcesPath = m_GlobalResourcesPath.substr(0, m_GlobalResourcesPath.find_last_of('\\'));
-	m_GlobalResourcesPath = m_GlobalResourcesPath.append(L"\\resources\\");*/
 }
 
-std::wstring Framework::Resources::GetGlobalResourcePath(const std::wstring& subPath)
+std::wstring Framework::Resources::Global(const std::wstring& subPath)
 {
-	return std::wstring(m_GlobalResourcesPath + subPath);
+	return std::wstring(m_GlobalPath + subPath);
 }
 
-std::wstring Framework::Resources::GetGlobalShaderPath(const std::wstring& subPath)
+std::wstring Framework::Resources::GlobalShader(const std::wstring& subPath)
 {
-	return std::wstring(m_GlobalResourcesPath + L"Shaders\\" + subPath);
+	return std::wstring(m_GlobalPath + L"Shaders\\" + subPath);
 }
 
-std::wstring Framework::Resources::GetLocalResourcePath(const std::wstring& subPath)
+std::wstring Framework::Resources::Local(const std::wstring& subPath)
 {
-	return std::wstring(m_LocalResourcesPath + subPath);
+	return std::wstring(m_LocalPath + subPath);
 }
 
-std::wstring Framework::Resources::GetLocalShaderPath(const std::wstring& subPath)
+std::wstring Framework::Resources::LocalShader(const std::wstring& subPath)
 {
-	return std::wstring(m_LocalResourcesPath + L"Shaders\\" + subPath);
+	return std::wstring(m_LocalPath + L"Shaders\\" + subPath);
 }

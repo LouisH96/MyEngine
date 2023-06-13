@@ -13,7 +13,7 @@ using namespace Io::Ttf;
 Rendering::Font::FontAtlas::FontAtlas(int xHorizontalPixels)
 {
 	//read
-	const std::wstring fontPath = Framework::Resources::GetGlobalResourcePath(L"Fonts\\ShortBaby.ttf");
+	const std::wstring fontPath = Framework::Resources::Global(L"Fonts\\ShortBaby.ttf");
 	std::ifstream stream{ fontPath, std::ios::binary };
 	const Io::TtfReader reader{ stream };
 

@@ -7,7 +7,7 @@
 
 Rendering::R_LambertCam_Tex_Transform::R_LambertCam_Tex_Transform()
 	: m_InputLayout{Vertex::ELEMENTS, Vertex::NR_ELEMENTS }
-	, m_Shader{ Framework::Resources::GetGlobalShaderPath(L"LambertCam_Tex_Trans.hlsl") }
+	, m_Shader{ Framework::Resources::GlobalShader(L"LambertCam_Tex_Trans.hlsl") }
 	, m_Entries{ 0 }
 {
 }

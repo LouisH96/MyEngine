@@ -9,14 +9,14 @@ namespace MyEngine
 		{
 		public:
 			static void Init();
-			static std::wstring GetGlobalResourcePath(const std::wstring& subPath);
-			static std::wstring GetGlobalShaderPath(const std::wstring& subPath);
-			static std::wstring GetLocalResourcePath(const std::wstring& subPath);
-			static std::wstring GetLocalShaderPath(const std::wstring& subPath);
+			static std::wstring Global(const std::wstring& subPath);
+			static std::wstring GlobalShader(const std::wstring& subPath);
+			static std::wstring Local(const std::wstring& subPath);
+			static std::wstring LocalShader(const std::wstring& subPath);
 
 		private:
-			static std::wstring m_GlobalResourcesPath;
-			static std::wstring m_LocalResourcesPath;
+			static std::wstring m_GlobalPath;
+			static std::wstring m_LocalPath;
 		};
 	}
 }
