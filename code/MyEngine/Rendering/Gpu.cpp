@@ -29,7 +29,7 @@ void Rendering::Gpu::Release()
 
 Rendering::Canvas* Rendering::Gpu::MakeCanvas()
 {
-	return new Canvas(*this, m_Window);
+	return new Canvas(m_Window);
 }
 
 void Rendering::Gpu::Init()

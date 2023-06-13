@@ -1,7 +1,5 @@
 #pragma once
-
-#include "Gpu.h"
-#include <DirectXMath.h>
+#include <d3d11.h>
 
 struct IDXGISwapChain1;
 struct IDXGIDevice2;
@@ -16,10 +14,7 @@ namespace MyEngine
 			class Window;
 		}
 	}
-}
 
-namespace MyEngine
-{
 	namespace Rendering
 	{
 		class Gpu;
@@ -32,7 +27,7 @@ namespace MyEngine
 			Canvas& operator=(const Canvas& other) = delete;
 			Canvas& operator=(Canvas&& other) noexcept = delete;
 
-			Canvas(Gpu& gpu, App::Win32::Window& window);
+			Canvas(App::Win32::Window& window);
 			~Canvas();
 
 			void BeginPaint() const;
@@ -42,7 +37,6 @@ namespace MyEngine
 			const Int2& GetSize() const { return m_Size; }
 
 		private:
-			Gpu& m_Gpu;
 			IDXGISwapChain1* m_pSwapChain{};
 			ID3D11RenderTargetView* m_pMainRenderTargetView{};
 			D3D11_VIEWPORT m_ViewPort{};

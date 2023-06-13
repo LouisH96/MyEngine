@@ -7,9 +7,8 @@
 #include "App/Win32/Window.h"
 #include "Gpu.h"
 
-MyEngine::Rendering::Canvas::Canvas(Gpu& gpu, App::Win32::Window& window)
-	: m_Gpu{ gpu }
-	, m_Size{ window.GetClientSize() }
+Rendering::Canvas::Canvas(App::Win32::Window& window)
+	:m_Size{ window.GetClientSize() }
 {
 	InitSwapChain(window);
 	InitRenderTarget();
@@ -17,42 +16,42 @@ MyEngine::Rendering::Canvas::Canvas(Gpu& gpu, App::Win32::Window& window)
 	SetViewPort();
 }
 
-void MyEngine::Rendering::Canvas::Activate() const
+void Rendering::Canvas::Activate() const
 {
 	//Rendertarget
-	m_Gpu.GetContext().OMSetRenderTargets(1, &m_pMainRenderTargetView, m_pDepthStencilView);
+	Globals::pGpu->GetContext().OMSetRenderTargets(1, &m_pMainRenderTargetView, m_pDepthStencilView);
 }
 
-MyEngine::Rendering::Canvas::~Canvas()
+Rendering::Canvas::~Canvas()
 {
 	SAFE_RELEASE(m_pMainRenderTargetView);
 	SAFE_RELEASE(m_pSwapChain);
 	SAFE_RELEASE(m_pDepthStencilView);
 }
 
-void MyEngine::Rendering::Canvas::BeginPaint() const
+void Rendering::Canvas::BeginPaint() const
 {
 	Clear();
 	Activate();
 }
 
-void MyEngine::Rendering::Canvas::Clear() const
+void Rendering::Canvas::Clear() const
 {
 	/* clear the back buffer to cornflower blue for the new frame */
 	constexpr float background_colour[4] = {
 	  0x64 / 255.0f, 0x95 / 255.0f, 0xED / 255.0f, 1.0f };
-	m_Gpu.GetContext().ClearRenderTargetView(
+	Globals::pGpu->GetContext().ClearRenderTargetView(
 		m_pMainRenderTargetView, background_colour);
-	m_Gpu.GetContext().ClearDepthStencilView(m_pDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+	Globals::pGpu->GetContext().ClearDepthStencilView(m_pDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 }
 
-void MyEngine::Rendering::Canvas::Present() const
+void Rendering::Canvas::Present() const
 {
 	DXGI_PRESENT_PARAMETERS param{ 0,nullptr,0,nullptr };
 	m_pSwapChain->Present1(0, DXGI_PRESENT_DO_NOT_WAIT, &param);
 }
 
-void MyEngine::Rendering::Canvas::OnWindowResized(Math::Int2 newSize)
+void Rendering::Canvas::OnWindowResized(Int2 newSize)
 {
 	SAFE_RELEASE(m_pDepthStencilView);
 	SAFE_RELEASE(m_pMainRenderTargetView);
@@ -63,7 +62,7 @@ void MyEngine::Rendering::Canvas::OnWindowResized(Math::Int2 newSize)
 	SetViewPort();
 }
 
-void MyEngine::Rendering::Canvas::InitSwapChain(const App::Win32::Window& window)
+void Rendering::Canvas::InitSwapChain(const App::Win32::Window& window)
 {
 	DXGI_SWAP_CHAIN_DESC1 desc{};
 	desc.BufferCount = 2;
@@ -82,7 +81,7 @@ void MyEngine::Rendering::Canvas::InitSwapChain(const App::Win32::Window& window
 	IDXGIFactory2* pFactory{};
 	GetFactory2(pDevice2, pAdapter, pFactory);
 
-	if (pFactory->CreateSwapChainForHwnd(&m_Gpu.GetDevice(), window.GetWindowHandle(), &desc, nullptr, nullptr, &m_pSwapChain) != S_OK)
+	if (pFactory->CreateSwapChainForHwnd(&Globals::pGpu->GetDevice(), window.GetWindowHandle(), &desc, nullptr, nullptr, &m_pSwapChain) != S_OK)
 		throw std::exception("Canvas::InitSwapChain");
 
 	pFactory->Release();
@@ -90,16 +89,16 @@ void MyEngine::Rendering::Canvas::InitSwapChain(const App::Win32::Window& window
 	pDevice2->Release();
 }
 
-void MyEngine::Rendering::Canvas::InitRenderTarget()
+void Rendering::Canvas::InitRenderTarget()
 {
 	ID3D11Texture2D* pBackBuffer;
 	m_pSwapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer));
 	if (pBackBuffer)
-		m_Gpu.GetDevice().CreateRenderTargetView(pBackBuffer, nullptr, &m_pMainRenderTargetView);
+		Globals::pGpu->GetDevice().CreateRenderTargetView(pBackBuffer, nullptr, &m_pMainRenderTargetView);
 	pBackBuffer->Release();
 }
 
-void MyEngine::Rendering::Canvas::InitDepthStencil()
+void Rendering::Canvas::InitDepthStencil()
 {
 	//TEXTURE
 	ID3D11Texture2D* pTempTexture{};
@@ -115,7 +114,7 @@ void MyEngine::Rendering::Canvas::InitDepthStencil()
 	descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
 	descDepth.CPUAccessFlags = 0;
 	descDepth.MiscFlags = 0;
-	HRESULT hr = m_Gpu.GetDevice().CreateTexture2D(&descDepth, nullptr, &pTempTexture);
+	HRESULT hr = Globals::pGpu->GetDevice().CreateTexture2D(&descDepth, nullptr, &pTempTexture);
 
 	if (FAILED(hr))
 	{
@@ -130,27 +129,27 @@ void MyEngine::Rendering::Canvas::InitDepthStencil()
 	descDSV.Texture2D.MipSlice = 0;
 
 	// Create the depth stencil view
-	hr = m_Gpu.GetDevice().CreateDepthStencilView(pTempTexture, // Depth stencil texture
+	hr = Globals::pGpu->GetDevice().CreateDepthStencilView(pTempTexture, // Depth stencil texture
 		&descDSV, // Depth stencil desc
 		&m_pDepthStencilView);  // [out] Depth stencil view
 
 	pTempTexture->Release();
 }
 
-void MyEngine::Rendering::Canvas::SetViewPort()
+void Rendering::Canvas::SetViewPort()
 {
 	m_ViewPort = {
 	  0.0f, 0.0f,
 	 static_cast<float>(m_Size.x),
 	 static_cast<float>(m_Size.y),
 	  0.0f, 1.0f };
-	m_Gpu.GetContext().RSSetViewports(1, &m_ViewPort);
+	Globals::pGpu->GetContext().RSSetViewports(1, &m_ViewPort);
 }
 
-void MyEngine::Rendering::Canvas::GetFactory2(IDXGIDevice2*& pDevice2, IDXGIAdapter*& pAdapter,
-	IDXGIFactory2*& pFactory) const
+void Rendering::Canvas::GetFactory2(IDXGIDevice2*& pDevice2, IDXGIAdapter*& pAdapter,
+                                    IDXGIFactory2*& pFactory) const
 {
-	HRESULT hr = m_Gpu.GetDevice().QueryInterface(__uuidof(IDXGIDevice2), reinterpret_cast<void**>(&pDevice2));
+	HRESULT hr = Globals::pGpu->GetDevice().QueryInterface(__uuidof(IDXGIDevice2), reinterpret_cast<void**>(&pDevice2));
 	if (FAILED(hr))
 		throw std::exception("Canvas::GetFactory2::Device2");
 
