@@ -2,7 +2,7 @@
 #include "VertexArray.h"
 
 
-Rendering::VertexArray::VertexArray(const Gpu& gpu, int stride, int initCount, bool immutable,
+Rendering::VertexArray::VertexArray(int stride, int initCount, bool immutable,
                                     PrimitiveTopology topology)
 	: m_pBuffer{ nullptr }
 	, m_Stride{ static_cast<unsigned>(stride)}
@@ -11,7 +11,7 @@ Rendering::VertexArray::VertexArray(const Gpu& gpu, int stride, int initCount, b
 	, m_Count{ static_cast<unsigned>(initCount) }
 	, m_Topology{ PrimitiveTopologyUtils::ToDx(topology) }
 {
-	Dx::DxHelper::CreateVertexBuffer<char>(gpu, m_pBuffer, initCount * stride, immutable);
+	Dx::DxHelper::CreateVertexBuffer<char>(*Globals::pGpu, m_pBuffer, initCount * stride, immutable);
 }
 
 MyEngine::Rendering::VertexArray::~VertexArray()
@@ -43,15 +43,15 @@ Rendering::VertexArray& Rendering::VertexArray::operator=(VertexArray&& other) n
 	return *this;
 }
 
-void Rendering::VertexArray::Activate(const Gpu& gpu) const
+void Rendering::VertexArray::Activate() const
 {
-	gpu.GetContext().IASetPrimitiveTopology(m_Topology);
-	gpu.GetContext().IASetVertexBuffers(0, 1, &m_pBuffer, &m_Stride, &m_Offset);
+	Globals::pGpu->GetContext().IASetPrimitiveTopology(m_Topology);
+	Globals::pGpu->GetContext().IASetVertexBuffers(0, 1, &m_pBuffer, &m_Stride, &m_Offset);
 }
 
-void Rendering::VertexArray::Draw(const Gpu& gpu) const
+void Rendering::VertexArray::Draw() const
 {
-	gpu.GetContext().Draw(m_Count, 0);
+	Globals::pGpu->GetContext().Draw(m_Count, 0);
 }
 
 void Rendering::VertexArray::SetOffset(unsigned offset)
@@ -59,11 +59,11 @@ void Rendering::VertexArray::SetOffset(unsigned offset)
 	m_Offset = offset;
 }
 
-void Rendering::VertexArray::SetCapacity(const Gpu& gpu, unsigned capacity, bool immutable)
+void Rendering::VertexArray::SetCapacity(unsigned capacity, bool immutable)
 {
 	if (m_Capacity == capacity) return;
 	m_pBuffer->Release();
-	Dx::DxHelper::CreateVertexBuffer(gpu, m_pBuffer, m_Stride, capacity, immutable);
+	Dx::DxHelper::CreateVertexBuffer(*Globals::pGpu, m_pBuffer, m_Stride, capacity, immutable);
 	m_Capacity = capacity;
 }
 
@@ -72,8 +72,8 @@ void Rendering::VertexArray::SetCount(unsigned count)
 	m_Count = count;
 }
 
-void Rendering::VertexArray::EnsureCapacity(const Gpu& gpu, unsigned minCapacity, bool immutable)
+void Rendering::VertexArray::EnsureCapacity(unsigned minCapacity, bool immutable)
 {
 	if (m_Capacity >= minCapacity) return;
-	SetCapacity(gpu, minCapacity, immutable);
+	SetCapacity(minCapacity, immutable);
 }

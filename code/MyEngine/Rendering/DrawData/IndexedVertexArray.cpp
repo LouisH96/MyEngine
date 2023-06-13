@@ -32,12 +32,12 @@ Rendering::IndexedVertexArray& Rendering::IndexedVertexArray::operator=(IndexedV
 	return *this;
 }
 
-void Rendering::IndexedVertexArray::Draw(const Gpu& gpu)
+void Rendering::IndexedVertexArray::Draw()
 {
-	gpu.GetContext().IASetVertexBuffers(0, 2, m_pBuffers, m_Strides, m_Offsets);
-	gpu.GetContext().IASetIndexBuffer(m_pBuffers[IDX_INDICES], DXGI_FORMAT_R32_UINT, m_Offsets[IDX_INDICES]);
-	gpu.GetContext().IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	gpu.GetContext().DrawIndexedInstanced(m_DrawCountIndices, m_DrawCountInstances, 0, 0, 0);
+	Globals::pGpu->GetContext().IASetVertexBuffers(0, 2, m_pBuffers, m_Strides, m_Offsets);
+	Globals::pGpu->GetContext().IASetIndexBuffer(m_pBuffers[IDX_INDICES], DXGI_FORMAT_R32_UINT, m_Offsets[IDX_INDICES]);
+	Globals::pGpu->GetContext().IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	Globals::pGpu->GetContext().DrawIndexedInstanced(m_DrawCountIndices, m_DrawCountInstances, 0, 0, 0);
 }
 
 unsigned Rendering::IndexedVertexArray::GetInstancesSize() const

@@ -41,7 +41,7 @@ namespace MyEngine
 		template <typename Vertex>
 		VertexList<Vertex>::VertexList(int capacity, PrimitiveTopology topology)
 			: m_CpuList{ capacity }
-			, m_VertexArray{ *Globals::pGpu, sizeof(Vertex), capacity, false, topology }
+			, m_VertexArray{ sizeof(Vertex), capacity, false, topology }
 			, m_Changed{ false }
 		{
 		}
@@ -67,12 +67,12 @@ namespace MyEngine
 			if (m_Changed)
 			{
 				m_VertexArray.SetCount(m_CpuList.GetSize());
-				m_VertexArray.EnsureCapacity(*Globals::pGpu, m_CpuList.GetCapacity(), false);
-				m_VertexArray.UpdateData(*Globals::pGpu, m_CpuList.GetData(), m_CpuList.GetSize());
+				m_VertexArray.EnsureCapacity(m_CpuList.GetCapacity(), false);
+				m_VertexArray.UpdateData(m_CpuList.GetData(), m_CpuList.GetSize());
 				m_Changed = false;
 			}
-			m_VertexArray.Activate(*Globals::pGpu);
-			m_VertexArray.Draw(*Globals::pGpu);
+			m_VertexArray.Activate();
+			m_VertexArray.Draw();
 		}
 
 		template <typename Vertex>

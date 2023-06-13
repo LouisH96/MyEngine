@@ -21,8 +21,7 @@ namespace MyEngine
 			InstanceList& operator=(InstanceList&& other) noexcept;
 
 			//---| Functions |---
-			void Draw();
-			void Draw(const Gpu& gpu) override;
+			void Draw() override;
 			void Add(const Instance& instance);
 			void Insert(const Instance& instance, int idx);
 
@@ -64,12 +63,6 @@ namespace MyEngine
 
 		template <typename Vertex, typename Instance>
 		void InstanceList<Vertex, Instance>::Draw()
-		{
-			Draw(*Globals::pGpu);
-		}
-
-		template <typename Vertex, typename Instance>
-		void InstanceList<Vertex, Instance>::Draw(const Gpu& gpu)
 		{
 			if (m_CpuInstances.IsEmpty()) return;
 			if (m_Changed)

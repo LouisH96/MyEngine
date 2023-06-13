@@ -30,11 +30,11 @@ Rendering::InstanceArray& Rendering::InstanceArray::operator=(InstanceArray&& ot
 	return *this;
 }
 
-void Rendering::InstanceArray::Draw(const Gpu& gpu)
+void Rendering::InstanceArray::Draw()
 {
-	gpu.GetContext().IASetVertexBuffers(0, 2, m_pBuffers, m_Strides, m_Offsets);
-	gpu.GetContext().IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	gpu.GetContext().DrawInstanced(m_Counts[IDX_VERTICES], m_Counts[IDX_INSTANCES], 0, 0);
+	Globals::pGpu->GetContext().IASetVertexBuffers(0, 2, m_pBuffers, m_Strides, m_Offsets);
+	Globals::pGpu->GetContext().IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	Globals::pGpu->GetContext().DrawInstanced(m_Counts[IDX_VERTICES], m_Counts[IDX_INSTANCES], 0, 0);
 }
 
 void Rendering::InstanceArray::Draw(unsigned instanceCount) const

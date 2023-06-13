@@ -17,11 +17,11 @@ namespace MyEngine
 			//---| Constructor/Destructor |---
 			VertexArray() = default;
 			template<typename Vertex>
-			VertexArray(const Gpu& gpu,
+			VertexArray(
 				const Vertex* pInitData, int initSize,
 				bool immutable = true,
 				PrimitiveTopology topology = PrimitiveTopology::TriangleList);
-			VertexArray(const Gpu& gpu,
+			VertexArray(
 				int stride, int initCount,
 				bool immutable = true,
 				PrimitiveTopology topology = PrimitiveTopology::TriangleList);
@@ -34,19 +34,19 @@ namespace MyEngine
 			VertexArray& operator=(VertexArray&& other) noexcept;
 
 			//---| Functions |---
-			void Activate(const Gpu& gpu) const;
-			void Draw(const Gpu& gpu) const;
+			void Activate() const;
+			void Draw() const;
 
 			unsigned int GetOffset() const { return m_Offset; }
 			unsigned int GetCapacity() const { return m_Capacity; }
 			unsigned int GetCount() const { return m_Count; }
 
 			void SetOffset(unsigned int offset);
-			void SetCapacity(const Gpu& gpu, unsigned int capacity, bool immutable);
+			void SetCapacity(unsigned int capacity, bool immutable);
 			void SetCount(unsigned int count);
 
-			void EnsureCapacity(const Gpu& gpu, unsigned int minCapacity, bool immutable);
-			template<typename T> void UpdateData(const Gpu& gpu, T* pData, int dataCount);
+			void EnsureCapacity(unsigned int minCapacity, bool immutable);
+			template<typename T> void UpdateData(T* pData, int dataCount);
 
 		private:
 			ID3D11Buffer* m_pBuffer;
@@ -59,7 +59,6 @@ namespace MyEngine
 
 		template <typename Vertex>
 		VertexArray::VertexArray(
-			const Gpu& gpu,
 			const Vertex* pInitData, int initSize,
 			bool immutable, PrimitiveTopology topology)
 			: m_pBuffer{ nullptr }
@@ -69,17 +68,17 @@ namespace MyEngine
 			, m_Count{ static_cast<unsigned>(initSize) }
 			, m_Topology{ PrimitiveTopologyUtils::ToDx(topology) }
 		{
-			Dx::DxHelper::CreateVertexBuffer(gpu, m_pBuffer, pInitData, initSize, immutable);
+			Dx::DxHelper::CreateVertexBuffer(*Globals::pGpu, m_pBuffer, pInitData, initSize, immutable);
 		}
 
 		template <typename T>
-		void VertexArray::UpdateData(const Gpu& gpu, T* pData, int dataCount)
+		void VertexArray::UpdateData(T* pData, int dataCount)
 		{
 			D3D11_MAPPED_SUBRESOURCE mappedResource{};
-			const HRESULT result{ gpu.GetContext().Map(m_pBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource) };
+			const HRESULT result{ Globals::pGpu->GetContext().Map(m_pBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource) };
 			if (FAILED(result)) Logger::PrintError("Failed updating VertexArray data");
 			memcpy(mappedResource.pData, pData, dataCount * sizeof(T));
-			gpu.GetContext().Unmap(m_pBuffer, 0);
+			Globals::pGpu->GetContext().Unmap(m_pBuffer, 0);
 		}
 	}
 }

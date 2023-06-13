@@ -16,8 +16,6 @@ namespace MyEngine
 			InstanceArray(const Vertex* pVertices, unsigned nrVertices, unsigned instanceStride, unsigned instancesCapacity = 5, bool verticesImmutable = true, bool instancesImmutable = true);
 			template<typename Vertex, typename Instance>
 			InstanceArray(const Vertex* pVertices, unsigned nrVertices, const Instance* pInstances, unsigned nrInstances, bool verticesImmutable = true, bool instancesImmutable = true);
-			template<typename Vertex, typename Instance>
-			InstanceArray(Gpu& gpu, const Ds::Array<Vertex>& vertices, const Ds::Array<Instance>& instances, bool verticesImmutable = true, bool instancesImmutable = true);
 			~InstanceArray() override;
 
 			//---| Copy/Move |---
@@ -27,7 +25,7 @@ namespace MyEngine
 			InstanceArray& operator=(InstanceArray&& other) noexcept;
 
 			//---| Functions |---
-			void Draw(const Gpu& gpu) override;
+			void Draw() override;
 			void Draw(unsigned instanceCount) const;
 
 			unsigned GetVertexCount() const { return m_Counts[IDX_VERTICES]; }
@@ -75,22 +73,6 @@ namespace MyEngine
 		{
 			Dx::DxHelper::CreateVertexBuffer(*Globals::pGpu, m_pBuffers[IDX_VERTICES], pVertices, nrVertices, verticesImmutable);
 			Dx::DxHelper::CreateInstanceBuffer(*Globals::pGpu, m_pBuffers[IDX_INSTANCES], pInstances, nrInstances, instancesImmutable);
-		}
-
-		template <typename Vertex, typename Instance>
-		InstanceArray::InstanceArray(
-			Gpu& gpu,
-			const Array<Vertex>& vertices,
-			const Array<Instance>& instances,
-			bool verticesImmutable,
-			bool instancesImmutable)
-			: m_Strides{ sizeof(Vertex), sizeof(Instance) }
-			, m_Offsets{ 0,0 }
-			, m_Counts{ vertices.GetSize(), instances.GetSize() }
-			, m_Capacities{ vertices.GetSize(), instances.GetSize() }
-		{
-			Dx::DxHelper::CreateVertexBuffer(gpu, m_pBuffers[IDX_VERTICES], vertices, verticesImmutable);
-			Dx::DxHelper::CreateInstanceBuffer(gpu, m_pBuffers[IDX_INSTANCES], instances, instancesImmutable);
 		}
 
 		template <typename Vertex>
