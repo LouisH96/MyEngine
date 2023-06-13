@@ -1,6 +1,5 @@
 #pragma once
-#include "Math/RectFloat.h"
-#include "Math/RectInt.h"
+#include "Math/Rects.h"
 #include "Rendering/DrawData/VertexList.h"
 #include "Rendering/State/DepthStencilState.h"
 #include "Rendering/State/Shader.h"

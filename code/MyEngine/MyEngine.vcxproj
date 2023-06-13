@@ -137,6 +137,7 @@
     <ClInclude Include="Debug\Rendering\DebugLines.h" />
     <ClInclude Include="Debug\Rendering\DebugSpheres.h" />
     <ClInclude Include="Math\Matrices.h" />
+    <ClInclude Include="Math\Rects.h" />
     <ClInclude Include="Math\Scalars.h" />
     <ClInclude Include="Math\Vectors.h" />
     <ClInclude Include="Rendering\State\DepthStencilState.h" />
@@ -146,8 +147,6 @@
     <ClInclude Include="Io\Fbx\FbxAnimation.h" />
     <ClInclude Include="Io\Fbx\FbxAnimationLayer.h" />
     <ClInclude Include="Gui\GuiRenderer.h" />
-    <ClInclude Include="Math\RectFloat.h" />
-    <ClInclude Include="Math\RectInt.h" />
     <ClInclude Include="Rendering\State\PrimitiveTopology.h" />
     <ClInclude Include="Rendering\DrawData\IndexedVertexArray.h" />
     <ClInclude Include="Rendering\DrawData\InstanceArray.h" />

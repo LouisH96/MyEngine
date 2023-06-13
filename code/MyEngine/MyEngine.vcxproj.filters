@@ -258,8 +258,6 @@
     <ClInclude Include="Rendering\State\PrimitiveTopology.h" />
     <ClInclude Include="Gui\GuiRenderer.h" />
     <ClInclude Include="Rendering\DrawData\VertexList.h" />
-    <ClInclude Include="Math\RectInt.h" />
-    <ClInclude Include="Math\RectFloat.h" />
     <ClInclude Include="Math\Scalar.h" />
     <ClInclude Include="Io\Fbx\FbxAnimation.h" />
     <ClInclude Include="Io\Fbx\FbxAnimationLayer.h" />
@@ -270,6 +268,7 @@
     <ClInclude Include="Math\Vectors.h" />
     <ClInclude Include="Math\Matrices.h" />
     <ClInclude Include="Math\Scalars.h" />
+    <ClInclude Include="Math\Rects.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

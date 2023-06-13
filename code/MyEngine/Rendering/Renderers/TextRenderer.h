@@ -1,8 +1,7 @@
 #pragma once
 #include <Rendering/Renderers/RendererFactory.h>
 
-#include "Math/RectFloat.h"
-#include "Math/RectInt.h"
+#include "Math/Rects.h"
 #include "Rendering/DrawData/InstanceList.h"
 #include "Rendering/DrawData/VertexList.h"
 

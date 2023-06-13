@@ -1,5 +1,5 @@
 #pragma once
-#include "Math/RectFloat.h"
+#include "Math/Rects.h"
 #include "Rendering/Structs/VertexTypes.h"
 
 namespace MyEngine

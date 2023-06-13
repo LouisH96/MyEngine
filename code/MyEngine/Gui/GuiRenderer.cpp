@@ -2,7 +2,6 @@
 #include "GuiRenderer.h"
 
 #include "Framework/Resources.h"
-#include "Math/RectFloat.h"
 #include "Rendering/Canvas.h"
 
 Gui::GuiRenderer::ElementId::ElementId(int id) : m_Id{id}{}
