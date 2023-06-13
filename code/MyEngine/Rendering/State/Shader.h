@@ -1,6 +1,5 @@
 #pragma once
 #include <d3d11.h>
-#include "../Gpu.h"
 
 namespace MyEngine
 {
@@ -15,14 +14,11 @@ namespace MyEngine
 			Shader& operator=(Shader&& other) noexcept = delete;
 
 			explicit Shader(const std::wstring& fullPath);
-			explicit Shader(const Gpu& gpu, const std::wstring& fullPath);
 			~Shader();
 
 			void Activate() const;
 
 		private:
-			const Gpu& m_Gpu;
-
 			ID3D11VertexShader* m_pVertexShader{};
 			ID3D11PixelShader* m_pPixelShader{};
 

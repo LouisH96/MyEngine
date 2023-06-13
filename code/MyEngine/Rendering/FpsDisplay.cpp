@@ -20,7 +20,7 @@
 Rendering::FpsDisplay::FpsDisplay(Rendering::Gpu& gpu, Rendering::Canvas& canvas, App::Win32::Window& window)
 	: m_Gpu(gpu)
 	, m_Canvas(canvas)
-	, m_Shader(gpu, Framework::Resources::GetGlobalShaderPath(L"screenSpace.hlsl"))
+	, m_Shader(Framework::Resources::GetGlobalShaderPath(L"screenSpace.hlsl"))
 	, m_InputLayout( V_Pos2Uv::ELEMENTS, V_Pos2Uv::NR_ELEMENTS)
 	, m_Vertices{ 6 }
 {

@@ -59,7 +59,7 @@ void App::BasicExampleApp::Run()
 	};
 	const InputLayout inputLayout{ meshElements, ARRAYSIZE(meshElements) };
 
-	Shader& shader = *new Shader(gpu, Framework::Resources::GetGlobalShaderPath(L"unlit.hlsl"));
+	Shader& shader = *new Shader(Framework::Resources::GetGlobalShaderPath(L"unlit.hlsl"));
 	Mesh& mesh = *Mesh::Create<Vertex>(cubeVertices, cubeIndices);
 	const ConstantBuffer<CB_CamMat> constantBuffer{ };
 

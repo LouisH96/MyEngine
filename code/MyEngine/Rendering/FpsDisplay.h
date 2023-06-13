@@ -7,6 +7,17 @@
 
 namespace MyEngine
 {
+	namespace App
+	{
+		namespace Win32
+		{
+			class Window;
+		}
+	}
+}
+
+namespace MyEngine
+{
 	namespace Rendering
 	{
 		class Texture;

@@ -65,7 +65,7 @@ namespace MyEngine
 			const std::wstring& shaderPath, bool isWireframe)
 			: m_Gpu(gpu)
 			, m_RasterizerState(isWireframe)
-			, m_Shader(gpu, shaderPath)
+			, m_Shader(shaderPath)
 			, m_InputLayout(Vertex::ELEMENTS, Vertex::NR_ELEMENTS)
 			, m_ConstantBuffer{}
 		{

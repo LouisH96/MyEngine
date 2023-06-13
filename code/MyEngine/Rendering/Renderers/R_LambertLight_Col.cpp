@@ -8,7 +8,7 @@ Rendering::R_LambertLight_Col::R_LambertLight_Col(Gpu& gpu, bool isWireframe)
 	: m_Gpu(gpu)
 	, m_RasterizerState{ isWireframe }
 	, m_InputLayout{ Vertex::ELEMENTS, Vertex::NR_ELEMENTS }
-	, m_Shader{ gpu, Framework::Resources::GetGlobalShaderPath(L"LambertLight_Col.hlsl") }
+	, m_Shader{ Framework::Resources::GetGlobalShaderPath(L"LambertLight_Col.hlsl") }
 	, m_Entries{ 0 }
 {
 }

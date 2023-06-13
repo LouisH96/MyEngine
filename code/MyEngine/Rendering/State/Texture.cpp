@@ -6,6 +6,8 @@
 #include <dxgi.h>
 #include <Rendering/Image.h>
 
+#include "Rendering/Gpu.h"
+
 Rendering::Texture::Texture(const Gpu& gpu, const std::wstring& path)
 {
 	//https://www.braynzarsoft.net/viewtutorial/q16390-directx-12-textures-from-file
@@ -148,7 +150,7 @@ Rendering::Texture::Texture(const Gpu& gpu, const std::wstring& path)
 	//initData.SysMemSlicePitch = bytesPerRow * textureHeight;
 
 	ID3D11Texture2D* pTexture{};
-	hr = gpu.GetDevice().CreateTexture2D(&desc, &initData, &pTexture);
+	hr = Globals::pGpu->GetDevice().CreateTexture2D(&desc, &initData, &pTexture);
 	if (FAILED(hr))
 	{
 		Logger::PrintError("Failed creating Texture2D");

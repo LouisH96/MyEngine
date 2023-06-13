@@ -8,7 +8,7 @@
 Rendering::R_LambertCam_Tex::R_LambertCam_Tex(Gpu& gpu)
 	: m_Gpu(gpu)
 	, m_InputLayout{ Vertex::ELEMENTS, Vertex::NR_ELEMENTS }
-	, m_Shader{ gpu, Framework::Resources::GetGlobalShaderPath(L"LambertCam_Tex.hlsl") }
+	, m_Shader{ Framework::Resources::GetGlobalShaderPath(L"LambertCam_Tex.hlsl") }
 	, m_Entries{ 0 }
 {
 }

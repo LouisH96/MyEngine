@@ -19,7 +19,7 @@ const InputLayout::Element DebugSpheres::ELEMENTS[] =
 
 DebugSpheres::DebugSpheres(Gpu& gpu)
 	: m_InputLayout{ ELEMENTS, static_cast<int>(sizeof(ELEMENTS) / sizeof(InputLayout::Element)) }
-	, m_Shader{ gpu, Framework::Resources::GetGlobalShaderPath(L"LambertCam_Inst_Col_Pos.hlsl") }
+	, m_Shader{ Framework::Resources::GetGlobalShaderPath(L"LambertCam_Inst_Col_Pos.hlsl") }
 {
 	using Vertex = V_PosNor;
 

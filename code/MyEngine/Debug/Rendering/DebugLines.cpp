@@ -4,8 +4,8 @@
 #include "Framework/Resources.h"
 
 DebugLines::DebugLines(const Rendering::Gpu& gpu)
-	: m_InputLayout{Vertex::ELEMENTS, Vertex::NR_ELEMENTS }
-	, m_Shader{ gpu, Framework::Resources::GetGlobalShaderPath(L"unlit.hlsl") }
+	: m_InputLayout{ Vertex::ELEMENTS, Vertex::NR_ELEMENTS }
+	, m_Shader{ Framework::Resources::GetGlobalShaderPath(L"unlit.hlsl") }
 	, m_VertexList{ 5, Rendering::PrimitiveTopology::LineList }
 {
 
