@@ -42,6 +42,7 @@ namespace MyEngine
 			CppFramework framework{};
 			Window window{ windowName };
 			Gpu gpu{ window };
+			Globals::pGpu = &gpu;
 			Canvas& canvas{ *gpu.MakeCanvas() };
 
 			//CAMERA
@@ -52,7 +53,6 @@ namespace MyEngine
 			FpsControl fpsControl{ 200 };
 
 			//GLOBALS
-			Globals::pGpu = &gpu;
 			Globals::pMouse = &window.GetMouse();
 			Globals::pKeyboard = &window.GetKeyboard();
 				

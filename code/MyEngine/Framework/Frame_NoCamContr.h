@@ -32,10 +32,10 @@ namespace MyEngine
 			CppFramework framework{};
 			Window window{ windowName, options };
 			Gpu gpu{ window };
+			Globals::pGpu = &gpu;
 			Canvas& canvas{ *gpu.MakeCanvas() };
 			Globals::pKeyboard = &window.GetKeyboard();
 			Globals::pMouse = &window.GetMouse();
-			Globals::pGpu = &gpu;
 
 			//FPS
 			FpsControl fpsControl{ 200 };
