@@ -49,6 +49,12 @@ void Rendering::VertexArray::Activate() const
 	Globals::pGpu->GetContext().IASetVertexBuffers(0, 1, &m_pBuffer, &m_Stride, &m_Offset);
 }
 
+void Rendering::VertexArray::Activate(int idx) const
+{
+	Globals::pGpu->GetContext().IASetPrimitiveTopology(m_Topology);
+	Globals::pGpu->GetContext().IASetVertexBuffers(idx, 1, &m_pBuffer, &m_Stride, &m_Offset);
+}
+
 void Rendering::VertexArray::Draw() const
 {
 	Globals::pGpu->GetContext().Draw(m_Count, 0);

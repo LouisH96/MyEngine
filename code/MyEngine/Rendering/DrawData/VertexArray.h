@@ -35,6 +35,7 @@ namespace MyEngine
 
 			//---| Functions |---
 			void Activate() const;
+			void Activate(int idx) const;
 			void Draw() const;
 
 			unsigned int GetOffset() const { return m_Offset; }
