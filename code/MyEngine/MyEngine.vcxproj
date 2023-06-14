@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="Debug\Rendering\DebugLines.cpp" />
     <ClCompile Include="Debug\Rendering\DebugSpheres.cpp" />
+    <ClCompile Include="Framework\GameFrame.cpp" />
     <ClCompile Include="Rendering\State\DepthStencilState.cpp" />
     <ClCompile Include="Generation\PlaneGeneration.cpp" />
     <ClCompile Include="Rendering\Font\FontAtlas.cpp" />
@@ -136,6 +137,7 @@
     <ClInclude Include="DataStructures\SortedList.h" />
     <ClInclude Include="Debug\Rendering\DebugLines.h" />
     <ClInclude Include="Debug\Rendering\DebugSpheres.h" />
+    <ClInclude Include="Framework\GameFrame.h" />
     <ClInclude Include="Math\Matrices.h" />
     <ClInclude Include="Math\Rects.h" />
     <ClInclude Include="Math\Scalars.h" />

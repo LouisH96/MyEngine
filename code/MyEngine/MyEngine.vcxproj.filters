@@ -117,6 +117,7 @@
     <ClCompile Include="Rendering\Font\FontAtlas.cpp" />
     <ClCompile Include="Generation\PlaneGeneration.cpp" />
     <ClCompile Include="Rendering\State\DepthStencilState.cpp" />
+    <ClCompile Include="Framework\GameFrame.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -269,6 +270,7 @@
     <ClInclude Include="Math\Matrices.h" />
     <ClInclude Include="Math\Scalars.h" />
     <ClInclude Include="Math\Rects.h" />
+    <ClInclude Include="Framework\GameFrame.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
