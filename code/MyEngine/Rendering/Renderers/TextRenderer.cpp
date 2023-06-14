@@ -4,23 +4,11 @@
 #include <fstream>
 #include "Framework/Resources.h"
 #include "Generation/PlaneGeneration.h"
-#include "Io/Ttf/ContourOperations.h"
 #include "Io/Ttf/TtfReader.h"
 #include "Math/Scalar.h"
 #include "Rendering/Canvas.h"
 #include "Rendering/Image.h"
 #include "Rendering/Font/FontAtlas.h"
-
-const Rendering::InputLayout::Element Rendering::TextRenderer::ELEMENTS[] =
-{
-	{"POSITION", InputLayout::ElementType::Float2},
-	{"TEXCOORD", InputLayout::ElementType::Float2},
-	{"INST_POS_OFFSET", InputLayout::ElementType::Float2, 1, InputLayout::SlotClass::PerInstance},
-	{"INST_SIZE", InputLayout::ElementType::Float2, 1, InputLayout::SlotClass::PerInstance},
-	{"INST_UV_SCALE", InputLayout::ElementType::Float2, 1, InputLayout::SlotClass::PerInstance},
-	{"INST_UV_OFFSET", InputLayout::ElementType::Float2, 1, InputLayout::SlotClass::PerInstance},
-	{"INST_COLOR", InputLayout::ElementType::Float3, 1, InputLayout::SlotClass::PerInstance}
-};
 
 Rendering::TextRenderer::TextRendererElementId::TextRendererElementId(unsigned id)
 	: m_Id{ static_cast<int>(id) }
@@ -33,7 +21,7 @@ bool Rendering::TextRenderer::TextRendererElementId::operator==(const TextRender
 }
 
 Rendering::TextRenderer::TextRenderer()
-	: m_InputLayout{ ELEMENTS, sizeof ELEMENTS / sizeof(InputLayout::Element) }
+	: m_InputLayout{ InputLayout::FromType<Instance>() }
 	, m_Shader{ Framework::Resources::GlobalShader(L"Font_Inst.hlsl") }
 	, m_DepthStencilState{ false }
 	, m_CanvasSize{ Globals::pCanvas->GetSize() }

@@ -55,7 +55,6 @@ namespace MyEngine
 			using Vertex = V_Pos2Uv;
 			using Instance = I_Pos2UvCol;
 			static constexpr int VERTICES_PER_RECT = 6;
-			static const InputLayout::Element ELEMENTS[];
 
 			BlendState m_BlendState;
 			InputLayout m_InputLayout;
