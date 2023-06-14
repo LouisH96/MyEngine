@@ -15,6 +15,12 @@ Rendering::Image::Image(const Float2& size)
 {
 }
 
+Rendering::Image::Image(const Int2& size, const Float3& color, float alpha)
+	: Image{ size.x, size.y }
+{
+	SetColor(color, alpha);
+}
+
 Rendering::Image::~Image()
 {
 	delete[] m_pData;
@@ -28,6 +34,15 @@ void Rendering::Image::Clear()
 bool Rendering::Image::IsCleared() const
 {
 	return m_pData == nullptr;
+}
+
+void Rendering::Image::SetColor(const Float3& color, float alpha)
+{
+	SetColor(
+		static_cast<uint8_t>(color.x * 255),
+		static_cast<uint8_t>(color.y * 255),
+		static_cast<uint8_t>(color.z * 255),
+		static_cast<uint8_t>(alpha * 255));
 }
 
 void Rendering::Image::SetColor(uint8_t r, uint8_t g, uint8_t b, uint8_t a)

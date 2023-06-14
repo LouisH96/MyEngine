@@ -9,11 +9,13 @@ namespace MyEngine
 		public:
 			Image(int width, int height);
 			explicit Image(const Float2& size);
+			explicit Image(const Int2& size, const Float3& color, float alpha = 1);
 			~Image();
 
 			void Clear();
 			bool IsCleared() const;
 
+			void SetColor(const Float3& color, float alpha = 1);
 			void SetColor(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
 			void SetColor(int col, int row, uint8_t r, uint8_t g, uint8_t b, uint8_t a) const;
 			void SetColor(int col, int row, const Math::Float3& color, float a = 1.f) const;
