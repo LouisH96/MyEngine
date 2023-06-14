@@ -98,7 +98,7 @@ void Rendering::FpsDisplay::Render()
 	float x = -1.f + m_ScreenSpaceMargin.x;
 	for (int i = 0; i < 4; i++)
 	{
-		if (!began && numbers[i] == 0) continue;
+		if (!began && numbers[i] == 0 && i != 3) continue;
 		began = true;
 		const Float2& size{ m_Sizes[numbers[i]] };
 		SetPos(m_Vertices, { x, 1.f - m_ScreenSpaceMargin.y - size.y }, size);
