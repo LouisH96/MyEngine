@@ -46,7 +46,7 @@ namespace MyEngine
 
 			//CAMERA
 			Camera camera{ window.GetClientSize() };
-			FocusPointCameraController cameraController{ camera, window.GetKeyboard(), window.GetMouse() };
+			FocusPointCameraController cameraController{ camera };
 
 			//FPS
 			FpsControl fpsControl{ 200 };
@@ -73,8 +73,12 @@ namespace MyEngine
 					camera.OnWindowResized(window.GetClientSize());
 				}
 
+				//EARLY UPDATE
+				app.EarlyUpdate();
+
 				//INPUT
 				cameraController.Update();
+				camera.Update();
 
 				//UPDATE
 				app.Update();

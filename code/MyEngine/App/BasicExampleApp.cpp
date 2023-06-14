@@ -22,12 +22,12 @@ using namespace Rendering;
 
 void App::BasicExampleApp::Run()
 {
-	using namespace Wrappers::Win32;
+	using namespace Win32;
 	using namespace Ds;
 	using namespace Math;
 
 	//APP
-	Win32::Window& window = *new Win32::Window(L"Window");
+	Window& window = *new Window(L"Window");
 	Gpu& gpu = *new Gpu(window);
 	Canvas& canvas = *gpu.MakeCanvas();
 
@@ -64,7 +64,7 @@ void App::BasicExampleApp::Run()
 	const ConstantBuffer<CB_CamMat> constantBuffer{ };
 
 	//GAME
-	Game::Camera& camera = *new Game::Camera(window.GetClientSize());
+	Camera& camera = *new Camera(window.GetClientSize());
 
 	//RENDER-PIPELINE
 	constantBuffer.ActivateVs();
@@ -73,7 +73,7 @@ void App::BasicExampleApp::Run()
 	mesh.Activate();
 
 	//input
-	Game::FocusPointCameraController& cameraController = *new Game::FocusPointCameraController(camera, window.GetKeyboard(), window.GetMouse());
+	FocusPointCameraController& cameraController = *new FocusPointCameraController(camera);
 	cameraController.SetScrollSpeed(.25f);
 
 	//fps 
@@ -98,7 +98,7 @@ void App::BasicExampleApp::Run()
 		cameraController.Update();
 
 		//render
-		constantBuffer.Update(CB_CamMat{ cameraController.GetXmViewProjectionMatrix() });
+		constantBuffer.Update(CB_CamMat{ cameraController.GetCamera().GetViewProjection() });
 		canvas.BeginPaint();
 		shader.Activate();
 		mesh.Activate();

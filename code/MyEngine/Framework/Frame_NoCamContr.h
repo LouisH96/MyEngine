@@ -58,6 +58,7 @@ namespace MyEngine
 
 				//APP
 				app.Update();
+				camera.Update();
 				app.Render();
 			}
 

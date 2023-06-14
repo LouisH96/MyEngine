@@ -2,23 +2,19 @@
 #include "FocusPointCameraController.h"
 
 #include <DirectXMath.h>
+#include <Windows.h>
 #include <App/Win32/Mouse.h>
-
-#include "Camera.h"
-#include "Windows.h"
-#include "Math/Constants.h"
+#include <Game/Camera/Camera.h>
+#include <Math/Constants.h>
 
 using namespace App::Win32;
 using namespace Math;
 
-FocusPointCameraController::FocusPointCameraController(Camera& camera, const Keyboard& keyboard, const Mouse& mouse)
-	: m_Keyboard(keyboard)
-	, m_Mouse(mouse)
-	, m_Camera(camera)
+FocusPointCameraController::FocusPointCameraController(Camera& camera)
+	: m_Camera(camera)
 	, m_ScrollSpeed(-1.f)
 	, m_HorizontalSpeed(1.f)
 	, m_VerticalSpeed{ 1.f }
-	, m_FocusPoint{}
 	, m_Pitch{ 0 }
 	, m_Yaw{ 0 }
 	, m_Distance{ 1 }
@@ -28,7 +24,7 @@ FocusPointCameraController::FocusPointCameraController(Camera& camera, const Key
 void FocusPointCameraController::Update()
 {
 	//ROTATION
-	if (m_Mouse.IsRightBtnDown())
+	if (Globals::pMouse->IsRightBtnDown())
 		MouseRotation();
 	else
 		KeyboardRotation();
@@ -39,9 +35,9 @@ void FocusPointCameraController::Update()
 	if (maxVerSpeed != 0 || horSpeed != 0)
 	{
 		Float3 translation;
-		translation.x = static_cast<float>(m_Keyboard.IsDown('D') - m_Keyboard.IsDown('Q'));
-		translation.y = static_cast<float>(m_Keyboard.IsDown('E') - m_Keyboard.IsDown('A')) * maxVerSpeed;
-		translation.z = static_cast<float>(m_Keyboard.IsDown('Z') - m_Keyboard.IsDown('S'));
+		translation.x = static_cast<float>(Globals::pKeyboard->IsDown('D') - Globals::pKeyboard->IsDown('Q'));
+		translation.y = static_cast<float>(Globals::pKeyboard->IsDown('E') - Globals::pKeyboard->IsDown('A')) * maxVerSpeed;
+		translation.z = static_cast<float>(Globals::pKeyboard->IsDown('Z') - Globals::pKeyboard->IsDown('S'));
 
 		//multiply with speed
 		if (translation.x != 0 && translation.z != 0) horSpeed *= Constants::DIVSQR2;
@@ -51,7 +47,11 @@ void FocusPointCameraController::Update()
 	}
 
 	//SCROLL
-	m_Distance += m_Mouse.GetScroll() * m_ScrollSpeed;
+	m_Distance += Globals::pMouse->GetScroll() * m_ScrollSpeed;
+
+	//UPDATE CAMERA
+	m_Camera.SetRotation(m_Pitch * Constants::TO_RAD, m_Yaw * Constants::TO_RAD);
+	m_Camera.SetPosition(m_Camera.GetForward() * -m_Distance + m_FocusPoint);
 }
 
 void FocusPointCameraController::SetFocusPoint(const Float3& position)
@@ -83,86 +83,9 @@ void FocusPointCameraController::MoveRelative(const Float3& movement)
 	const float xx = yawCos;
 	const float xz = yawSin;
 
-	m_FocusPoint += Float3{ xx,xy,xz } *movement.x;
-	m_FocusPoint += Float3{ -xz,xy,xx } *movement.z;
+	m_FocusPoint += Float3{ xx, xy, xz } *movement.x;
+	m_FocusPoint += Float3{ -xz, xy, xx } *movement.z;
 	m_FocusPoint.y += movement.y;
-}
-
-DirectX::XMFLOAT4X4 FocusPointCameraController::GetWorldMatrix() const
-{
-	const float pitchRad = m_Pitch * Constants::TO_RAD;
-	const float pitchCos = cosf(pitchRad);
-	const float pitchSin = sinf(pitchRad);
-
-	const float yawRad = m_Yaw * Constants::TO_RAD;
-	const float yawCos = cosf(yawRad);
-	const float yawSin = sinf(yawRad);
-
-	constexpr float xy = 0;
-	const float xx = yawCos;
-	const float xz = yawSin;
-
-	const float yx = -yawSin * pitchSin;
-	const float yy = pitchCos;
-	const float yz = yawCos * pitchSin;
-
-	const float zx = -yawSin * pitchCos;
-	const float zy = -pitchSin;
-	const float zz = yawCos * pitchCos;
-
-	return {
-		xx,xy,xz,0,
-		yx,yy,yz,0,
-		zx,zy,zz,0,
-		-zx * m_Distance + m_FocusPoint.x,
-		-zy * m_Distance + m_FocusPoint.y,
-		-zz * m_Distance + m_FocusPoint.z,
-		1
-	};
-}
-
-Float4X4 FocusPointCameraController::GetViewMatrix() const
-{
-	using namespace Math;
-	const float pitchRad = m_Pitch * Constants::TO_RAD;
-	const float pitchCos = cosf(pitchRad);
-	const float pitchSin = sinf(pitchRad);
-
-	const float yawRad = m_Yaw * Constants::TO_RAD;
-	const float yawCos = cosf(yawRad);
-	const float yawSin = sinf(yawRad);
-
-	const Float3 camX{ yawCos, 0, yawSin };
-	const Float3 camY{ -yawSin * pitchSin, pitchCos, yawCos * pitchSin };
-	const Float3 camZ{ -yawSin * pitchCos, -pitchSin, yawCos * pitchCos };
-	const Float3 invCameraPos{ camZ * m_Distance - m_FocusPoint };
-
-	return {
-		{camX,invCameraPos.Dot(camX)},
-		{camY,invCameraPos.Dot(camY)},
-		{camZ,invCameraPos.Dot(camZ)},
-		{0,0,0,1}
-	};
-}
-
-Float4X4 FocusPointCameraController::GetProjectionMatrix() const
-{
-	return m_Camera.GetProjectionMatrix();
-}
-
-Float4X4 FocusPointCameraController::GetViewProjectionMatrix() const
-{
-	return GetViewMatrix() * m_Camera.GetProjectionMatrix();
-}
-
-DirectX::XMMATRIX FocusPointCameraController::GetXmViewProjectionMatrix() const
-{
-	using namespace DirectX;
-	XMFLOAT4X4 matrix{ GetWorldMatrix() };
-	const XMMATRIX view{ XMMatrixInverse(nullptr, XMLoadFloat4x4(&matrix)) };
-	matrix = m_Camera.GetDxProjectionMatrix();
-	const XMMATRIX projection{ XMLoadFloat4x4(&matrix) };
-	return view * projection;
 }
 
 Float3 FocusPointCameraController::GetCameraPosition() const
@@ -190,8 +113,8 @@ void FocusPointCameraController::KeyboardRotation()
 	constexpr float maxYawSpeed = 100.f; //degrees/sec
 	const float pitchSpeed = maxPitchSpeed * Globals::DeltaTime;
 	const float yawSpeed = maxYawSpeed * Globals::DeltaTime;
-	const float pitch = static_cast<float>(m_Keyboard.IsDown(VK_UP) - m_Keyboard.IsDown(VK_DOWN)) * pitchSpeed;
-	const float yaw = static_cast<float>(m_Keyboard.IsDown(VK_LEFT) - m_Keyboard.IsDown(VK_RIGHT)) * yawSpeed;
+	const float pitch = static_cast<float>(Globals::pKeyboard->IsDown(VK_UP) - Globals::pKeyboard->IsDown(VK_DOWN)) * pitchSpeed;
+	const float yaw = static_cast<float>(Globals::pKeyboard->IsDown(VK_LEFT) - Globals::pKeyboard->IsDown(VK_RIGHT)) * yawSpeed;
 	m_Yaw += yaw;
 	m_Pitch += pitch;
 }
@@ -199,7 +122,7 @@ void FocusPointCameraController::KeyboardRotation()
 void FocusPointCameraController::MouseRotation()
 {
 	constexpr float radiansPerPixel = Constants::PI / 10;
-	const Int2& mouseDelta = m_Mouse.GetMovement();
+	const Int2& mouseDelta = Globals::pMouse->GetMovement();
 	m_Yaw += static_cast<float>(mouseDelta.x) * -radiansPerPixel;
 	m_Pitch += static_cast<float>(mouseDelta.y) * radiansPerPixel;
 }

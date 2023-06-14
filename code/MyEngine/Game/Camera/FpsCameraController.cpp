@@ -3,121 +3,67 @@
 
 #include "Camera.h"
 
-Game::FpsCameraController::FpsCameraController(const Camera& camera,
-	const App::Win32::Window::Keyboard& keyboard,
-	const App::Win32::Mouse& mouse)
-	: m_Keyboard{ keyboard }
-	, m_Mouse{ mouse }
-	, m_Camera{ camera }
+FpsCameraController::FpsCameraController(Camera& camera)
+	: m_Camera{ camera }
 	, m_LookAroundSpeed{ 0.25, 0.25 }
 	, m_Pitch{ 0 }
 	, m_Yaw{ 0 }
 {
 }
 
-void Game::FpsCameraController::Update()
+void FpsCameraController::Update()
 {
-	const Math::Int2& mouseDelta = m_Mouse.GetMovement();
+	const Int2& mouseDelta = Globals::pMouse->GetMovement();
 	m_Yaw += static_cast<float>(mouseDelta.x) * -m_LookAroundSpeed.x;
 	m_Pitch += static_cast<float>(mouseDelta.y) * m_LookAroundSpeed.y;
 	if (m_Pitch > 90)
 		m_Pitch = 90;
 	else if (m_Pitch < -90)
 		m_Pitch = -90;
+
+	//CAMERA
+	m_Camera.SetRotation(m_Pitch * Constants::TO_RAD, m_Yaw * Constants::TO_RAD);
+	m_Camera.SetPosition(m_Position);
 }
 
-DirectX::XMMATRIX Game::FpsCameraController::GetProjectionMatrix() const
-{
-	return m_Camera.GetXmProjectionMatrix();
-}
-
-DirectX::XMMATRIX Game::FpsCameraController::GetWorldMatrix() const
-{
-	const float pitchRad = m_Pitch * Math::Constants::TO_RAD;
-	const float pitchCos = cosf(pitchRad);
-	const float pitchSin = sinf(pitchRad);
-
-	const float yawRad = m_Yaw * Math::Constants::TO_RAD;
-	const float yawCos = cosf(yawRad);
-	const float yawSin = sinf(yawRad);
-
-	constexpr float xy = 0;
-	const float xx = yawCos;
-	const float xz = yawSin;
-
-	const float yx = -yawSin * pitchSin;
-	const float yy = pitchCos;
-	const float yz = yawCos * pitchSin;
-
-	const float zx = -yawSin * pitchCos;
-	const float zy = -pitchSin;
-	const float zz = yawCos * pitchCos;
-
-	return {
-		xx,xy,xz,0,
-		yx,yy,yz,0,
-		zx,zy,zz,0,
-		m_Position.x, m_Position.y, m_Position.z, 1
-	};
-}
-
-DirectX::XMMATRIX Game::FpsCameraController::GetViewMatrix() const
-{
-	return XMMatrixInverse(nullptr, GetWorldMatrix());
-}
-
-DirectX::XMMATRIX Game::FpsCameraController::GetViewProjectionMatrix() const
-{
-	using namespace DirectX;
-	const XMMATRIX view{ XMMatrixInverse(nullptr, GetWorldMatrix()) };
-	const XMMATRIX projection{ m_Camera.GetXmProjectionMatrix() };
-	return view * projection;
-}
-
-Math::Float3 Game::FpsCameraController::GetCameraPosition() const
-{
-	return m_Position;
-}
-
-Game::Transform Game::FpsCameraController::GetTransform() const
-{
-	const float pitchRad = m_Pitch * Math::Constants::TO_RAD;
-	const float yawRad = m_Yaw * Math::Constants::TO_RAD;
-
-	return Transform{
-		m_Position,
-			Math::Quaternion::FromAxis({0,1,0},-yawRad) * Math::Quaternion::FromAxis({1,0,0},pitchRad)
-	};
-}
-
-void Game::FpsCameraController::SetPositionXz(const Math::Float2& position)
+void FpsCameraController::SetPositionXz(const Float2& position)
 {
 	m_Position.x = position.x;
 	m_Position.z = position.y;
 }
 
-void Game::FpsCameraController::MoveRelative(const Math::Float3& movement)
+void FpsCameraController::MoveRelative(const Float3& movement)
 {
-	const float yawRad = m_Yaw * Math::Constants::TO_RAD;
+	const float yawRad = m_Yaw * Constants::TO_RAD;
 	const float yawCos = cosf(yawRad);
 	const float yawSin = sinf(yawRad);
 	constexpr float xy = 0;
 	const float xx = yawCos;
 	const float xz = yawSin;
 
-	m_Position += Math::Float3{ xx,xy,xz } *movement.x;
-	m_Position += Math::Float3{ -xz,xy,xx } *movement.z;
+	m_Position += Float3{ xx, xy, xz } *movement.x;
+	m_Position += Float3{ -xz, xy, xx } *movement.z;
 	m_Position.y += movement.y;
 }
 
-Math::Float2 Game::FpsCameraController::GetXzForward() const
+Float2 FpsCameraController::GetXzForward() const
 {
-	const float yawRad = m_Yaw * Math::Constants::TO_RAD;
+	const float yawRad = m_Yaw * Constants::TO_RAD;
 	return { sinf(yawRad), cosf(yawRad) };
 }
 
-Math::Float3 Game::FpsCameraController::GetXzForward3() const
+Float3 FpsCameraController::GetXzForward3() const
 {
-	const float yawRad = m_Yaw * Math::Constants::TO_RAD;
+	const float yawRad = m_Yaw * Constants::TO_RAD;
 	return { sinf(yawRad), 0, cosf(yawRad) };
+}
+
+Transform FpsCameraController::GetTransform() const
+{
+	const float pitchRad = m_Pitch * Constants::TO_RAD;
+	const float yawRad = m_Yaw * Constants::TO_RAD;
+
+	return Transform{
+		m_Position,
+		Quaternion::FromAxis({0,1,0},-yawRad) * Quaternion::FromAxis({1,0,0},pitchRad) };
 }

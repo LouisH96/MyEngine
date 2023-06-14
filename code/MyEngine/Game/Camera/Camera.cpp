@@ -3,46 +3,111 @@
 
 #include "Math/Constants.h"
 
-Game::Camera::Camera(Math::Int2 windowSize, float fov, float near, float far)
-	: m_Near{ near }
+Camera::Camera(Int2 windowSize, float fov, float near, float far)
+	: m_World{ Float4X4::GetIdentity() }
+	, m_View{ Float4X4::GetIdentity() }
+	, m_Near{ near }
 	, m_Far{ far }
 {
 	SetFieldOfView(fov);
 	OnWindowResized(windowSize);
 }
 
-void Game::Camera::OnWindowResized(Math::Int2 windowSize)
+void Camera::OnWindowResized(Int2 windowSize)
 {
 	m_InvAspectRatio = static_cast<float>(windowSize.y) / static_cast<float>(windowSize.x);
 	UpdateProjectionMatrix();
 }
 
-void Game::Camera::SetFieldOfView(float angle)
+void Camera::Update()
 {
-	m_FovValue = 1.f / (angle / 2 * Math::Constants::TO_RAD);
+	const Float3 right{ m_World.GetRow0().Xyz() };
+	const Float3 up{ m_World.GetRow1().Xyz() };
+	const Float3 forward{ m_World.GetRow2().Xyz() };
+	const Float3 invPos{ -m_World.GetRow3().Xyz() };
+
+	m_View.SetCol0(right);
+	m_View.SetCol1(up);
+	m_View.SetCol2(forward);
+	m_View.SetRow3({
+		right.Dot(invPos),
+		up.Dot(invPos),
+		forward.Dot(invPos)
+		});
+
+	m_ViewProjection = m_View * m_Projection;
+}
+
+void Camera::SetFieldOfView(float angle)
+{
+	m_FovValue = 1.f / (angle / 2 * Constants::TO_RAD);
 	UpdateProjectionMatrix();
 }
 
-const DirectX::XMMATRIX& Game::Camera::GetXmProjectionMatrix() const
+void Camera::SetPosition(const Float3& position)
 {
-	return DirectX::XMLoadFloat4x4(&m_DxProjectionMatrix);
+	m_World.SetRow3(position);
 }
 
-void Game::Camera::UpdateProjectionMatrix()
+void Camera::SetRight(const Float3& right)
+{
+	m_World.SetRow0(right);
+}
+
+void Camera::SetUp(const Float3& up)
+{
+	m_World.SetRow1(up);
+}
+
+void Camera::SetForward(const Float3& forward)
+{
+	m_World.SetRow2(forward);
+}
+
+/**
+ * \brief in radians
+ */
+void Camera::SetRotation(float pitch, float yaw)
+{
+	const float pitchCos = cosf(pitch);
+	const float pitchSin = sinf(pitch);
+
+	const float yawCos = cosf(yaw);
+	const float yawSin = sinf(yaw);
+
+	m_World.SetCol0({ yawCos, -yawSin * pitchSin, -yawSin * pitchCos });
+	m_World.SetCol1({ 0, pitchCos, -pitchSin });
+	m_World.SetCol2({ yawSin, yawCos * pitchSin, yawCos * pitchCos });
+}
+
+const Float3& Camera::GetRight() const
+{
+	return m_World.GetRow0().Xyz();
+}
+
+const Float3& Camera::GetUp() const
+{
+	return m_World.GetRow1().Xyz();
+}
+
+const Float3& Camera::GetForward() const
+{
+	return m_World.GetRow2().Xyz();
+}
+
+Float3 Camera::GetPosition() const
+{
+	return m_World.GetRow3().Xyz();
+}
+
+void Camera::UpdateProjectionMatrix()
 {
 	const float a = m_Far / (m_Far - m_Near);
 	const float b = -(m_Far * m_Near) / (m_Far - m_Near);
-	m_ProjectionMatrix = {
+	m_Projection = {
 		{m_InvAspectRatio * m_FovValue, 0,0,0},
 		{0,m_FovValue, 0,0},
 		{0,0,a,b},
 		{0,0,1,0}
-	};
-	m_DxProjectionMatrix =
-	{
-		m_InvAspectRatio * m_FovValue,0,0,0,
-		0,m_FovValue,0,0,
-		0,0,a,1,
-		0,0,b,0
 	};
 }
