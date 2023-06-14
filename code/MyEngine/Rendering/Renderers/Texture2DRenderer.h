@@ -43,6 +43,8 @@ namespace MyEngine
 			void Add(int idx, const Instance& instance);
 			int Add(Texture&& texture, const Instance& instance);
 
+			Texture& GetTexture(int idx);
+
 		private:
 			using Vertex = V_Pos2Uv;
 

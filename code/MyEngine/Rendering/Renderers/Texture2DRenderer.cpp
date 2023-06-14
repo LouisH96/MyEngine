@@ -47,3 +47,8 @@ int Rendering::Texture2DRenderer::Add(Texture&& texture, const Instance& instanc
 	Add(idx, instance);
 	return idx;
 }
+
+Rendering::Texture& Rendering::Texture2DRenderer::GetTexture(int idx)
+{
+	return m_Textures[idx];
+}
