@@ -5,6 +5,7 @@
 #include "Rendering/DrawData/InstanceList.h"
 #include "Rendering/DrawData/VertexList.h"
 #include "Rendering/State/Shader.h"
+#include "Rendering/Structs/Instances.h"
 
 namespace MyEngine
 {
@@ -52,14 +53,7 @@ namespace MyEngine
 
 		private:
 			using Vertex = V_Pos2Uv;
-			struct Instance
-			{
-				Float2 PositionOffset;
-				Float2 Size;
-				Float2 UvScale;
-				Float2 UvOffset;
-				Float3 Color;
-			};
+			using Instance = I_Pos2UvCol;
 			static constexpr int VERTICES_PER_RECT = 6;
 			static const InputLayout::Element ELEMENTS[];
 

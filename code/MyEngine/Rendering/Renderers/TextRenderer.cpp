@@ -67,8 +67,8 @@ void Rendering::TextRenderer::OnCanvasResize(const Int2& newSize)
 	{
 		const RectFloat rect
 		{
-			(m_Instances[i].PositionOffset + Float2{1,1}).Scaled(scale) - Float2{1, 1},
-			m_Instances[i].Size.Scaled(scale)
+			(m_Instances[i].posOffset + Float2{1,1}).Scaled(scale) - Float2{1, 1},
+			m_Instances[i].posScale.Scaled(scale)
 		};
 		Replace(i, rect);
 	}
@@ -77,10 +77,10 @@ void Rendering::TextRenderer::OnCanvasResize(const Int2& newSize)
 		const RectFloat rect
 		{
 			{
-				m_Instances[i].PositionOffset.x * scale.x,
-				(m_Instances[i].PositionOffset.y + 1) * scale.y - 1
+				m_Instances[i].posOffset.x * scale.x,
+				(m_Instances[i].posOffset.y + 1) * scale.y - 1
 			},
-			m_Instances[i].Size.Scaled(scale)
+			m_Instances[i].posScale.Scaled(scale)
 		};
 		Replace(i, rect);
 	}
@@ -206,8 +206,8 @@ void Rendering::TextRenderer::Add(int idx, const RectFloat& rect, const RectFloa
 
 void Rendering::TextRenderer::Replace(int idx, const RectFloat& rect)
 {
-	m_Instances[idx].PositionOffset = rect.GetLeftBot();
-	m_Instances[idx].Size = rect.GetSize();
+	m_Instances[idx].posOffset = rect.GetLeftBot();
+	m_Instances[idx].posScale = rect.GetSize();
 }
 
 int Rendering::TextRenderer::ToVertexIdx(TextRendererElementId id) const
