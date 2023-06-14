@@ -119,6 +119,7 @@
     <ClCompile Include="Rendering\State\DepthStencilState.cpp" />
     <ClCompile Include="Framework\GameFrame.cpp" />
     <ClCompile Include="Rendering\Structs\Instances.cpp" />
+    <ClCompile Include="Rendering\Renderers\Texture2DRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -273,6 +274,7 @@
     <ClInclude Include="Math\Rects.h" />
     <ClInclude Include="Framework\GameFrame.h" />
     <ClInclude Include="Rendering\Structs\Instances.h" />
+    <ClInclude Include="Rendering\Renderers\Texture2DRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
