@@ -20,6 +20,7 @@ namespace MyEngine
 
 			//---| Functions |---
 			void Add(const T& value);
+			void Add(T&& value);
 			void Insert(int idx, const T& value);
 			void InsertEmpty(int idx, int amount);
 
@@ -38,6 +39,8 @@ namespace MyEngine
 			T* m_pData;
 			int m_Capacity;
 			int m_Size;
+
+			void IncreaseCapacity();
 		};
 
 		template <typename T>
@@ -99,14 +102,16 @@ namespace MyEngine
 		void List<T>::Add(const T& value)
 		{
 			if (m_Size == m_Capacity)
-			{
-				m_Capacity *= 2;
-				T* pNew = new T[m_Capacity];
-				memcpy(pNew, m_pData, sizeof(T) * m_Size);
-				delete[] m_pData;
-				m_pData = pNew;
-			}
+				IncreaseCapacity();
 			m_pData[m_Size++] = value;
+		}
+
+		template <typename T>
+		void List<T>::Add(T&& value)
+		{
+			if (m_Size == m_Capacity)
+				IncreaseCapacity();
+			m_pData[m_Size++] = std::move(value);
 		}
 
 		template <typename T>
@@ -143,7 +148,7 @@ namespace MyEngine
 			T* pNew = new T[m_Capacity];
 			memcpy(pNew, m_pData, idx * sizeof(T));
 			memcpy(&pNew[idx + amount], &m_pData[idx], (m_Size - idx) * sizeof(T));
-			delete[] m_pData;
+			delete m_pData;
 			m_pData = pNew;
 			m_Size = newSize;
 		}
@@ -164,6 +169,16 @@ namespace MyEngine
 		void List<T>::Clear()
 		{
 			m_Size = 0;
+		}
+
+		template <typename T>
+		void List<T>::IncreaseCapacity()
+		{
+			m_Capacity *= 2;
+			T* pNew = new T[m_Capacity];
+			memcpy(pNew, m_pData, sizeof(T) * m_Size);
+			delete m_pData;
+			m_pData = pNew;
 		}
 	}
 }
