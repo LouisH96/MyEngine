@@ -5,6 +5,11 @@
 
 using namespace DirectX;
 
+Rendering::CB_CamMat::CB_CamMat(const Float4X4& viewProjection)
+	: CameraMatrix{ viewProjection }
+{
+}
+
 Rendering::CB_CamMat::CB_CamMat(const DirectX::XMMATRIX& viewProjection)
 	: CameraMatrix{ viewProjection }
 {

@@ -20,6 +20,7 @@ namespace MyEngine
 			Float4X4 CameraMatrix{};
 
 			CB_CamMat() = default;
+			explicit CB_CamMat(const Float4X4& viewProjection);
 			explicit CB_CamMat(const DirectX::XMMATRIX& viewProjection);
 			explicit CB_CamMat(const DirectX::XMFLOAT4X4& viewProjection);
 			explicit CB_CamMat(const Float3& position, const DirectX::XMMATRIX& viewProjection);
