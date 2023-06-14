@@ -2,6 +2,7 @@
 #include <dxgiformat.h>
 #include <wincodec.h>
 
+struct ID3D11Texture2D;
 struct ID3D11ShaderResourceView;
 
 namespace MyEngine
@@ -13,9 +14,9 @@ namespace MyEngine
 		{
 		public:
 			Texture(const std::wstring& path);
-			Texture(Image* pImage);
-			Texture(Image& image);
-			Texture();
+			Texture(Image* pImage, bool dynamic = false);
+			Texture(Image& image, bool dynamic = false);
+			Texture() = default;
 			~Texture();
 			Texture(const Texture& other) = delete;
 			Texture& operator=(const Texture& other) = delete;
@@ -26,7 +27,10 @@ namespace MyEngine
 			void ActivatePs() const;
 			void Activate() const;
 
+			void Update(const Image& image);
+
 		private:
+			ID3D11Texture2D* m_pTexture{};
 			ID3D11ShaderResourceView* m_pShaderResourceView{};
 
 			static DXGI_FORMAT GetDXGIFormatFromWICFormat(WICPixelFormatGUID& wicFormatGuid);

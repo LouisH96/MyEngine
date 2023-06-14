@@ -171,7 +171,7 @@ Rendering::Texture::Texture(const std::wstring& path)
 	delete[] pImageData;
 }
 
-Rendering::Texture::Texture(Image* pImage)
+Rendering::Texture::Texture(Image* pImage, bool dynamic)
 {
 	D3D11_TEXTURE2D_DESC desc{};
 	desc.Width = pImage->GetWidth();
@@ -181,17 +181,16 @@ Rendering::Texture::Texture(Image* pImage)
 	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	desc.SampleDesc.Count = 1;
 	desc.SampleDesc.Quality = 0;
-	desc.Usage = D3D11_USAGE_IMMUTABLE;
+	desc.Usage = dynamic ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_IMMUTABLE;
 	desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-	desc.CPUAccessFlags = 0;
+	desc.CPUAccessFlags = dynamic ? D3D11_CPU_ACCESS_WRITE : 0u;
 	desc.MiscFlags = 0;
 
 	D3D11_SUBRESOURCE_DATA initData{};
 	initData.SysMemPitch = pImage->GetBytesPerRow();
 	initData.pSysMem = pImage->GetData();
 
-	ID3D11Texture2D* pTexture{};
-	HRESULT hr = Globals::pGpu->GetDevice().CreateTexture2D(&desc, &initData, &pTexture);
+	HRESULT hr = Globals::pGpu->GetDevice().CreateTexture2D(&desc, &initData, &m_pTexture);
 	if (FAILED(hr))
 	{
 		Logger::PrintError("Failed creating Texture2D");
@@ -203,43 +202,41 @@ Rendering::Texture::Texture(Image* pImage)
 	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = 1;
 
-	hr = Globals::pGpu->GetDevice().CreateShaderResourceView(pTexture, &srvDesc, &m_pShaderResourceView);
+	hr = Globals::pGpu->GetDevice().CreateShaderResourceView(m_pTexture, &srvDesc, &m_pShaderResourceView);
 	if (FAILED(hr))
 	{
 		Logger::PrintError("Failed to create shaderResource");
 		return;
 	}
-
-	pTexture->Release();
 }
 
-Rendering::Texture::Texture(Image& image)
-	: Texture{ &image }
-{
-}
-
-Rendering::Texture::Texture()
-	: m_pShaderResourceView{ nullptr }
+Rendering::Texture::Texture(Image& image, bool dynamic)
+	: Texture{ &image, dynamic }
 {
 }
 
 Rendering::Texture::~Texture()
 {
-	if (m_pShaderResourceView)
-		m_pShaderResourceView->Release();
+	if (m_pTexture) m_pTexture->Release();
+	if (m_pShaderResourceView) m_pShaderResourceView->Release();
 	m_pShaderResourceView = nullptr;
+	m_pTexture = nullptr;
 }
 
 Rendering::Texture::Texture(Texture&& other) noexcept
-	: m_pShaderResourceView{ other.m_pShaderResourceView }
+	: m_pTexture{ other.m_pTexture }
+	, m_pShaderResourceView{ other.m_pShaderResourceView }
 {
+	other.m_pTexture = nullptr;
 	other.m_pShaderResourceView = nullptr;
 }
 
 Rendering::Texture& Rendering::Texture::operator=(Texture&& other) noexcept
 {
 	if (&other == this) return *this;
+	m_pTexture = other.m_pTexture;
 	m_pShaderResourceView = other.m_pShaderResourceView;
+	other.m_pTexture = nullptr;
 	other.m_pShaderResourceView = nullptr;
 	return *this;
 }
@@ -258,6 +255,15 @@ void Rendering::Texture::Activate() const
 {
 	Globals::pGpu->GetContext().PSSetShaderResources(0, 1, &m_pShaderResourceView);
 	Globals::pGpu->GetContext().VSSetShaderResources(0, 1, &m_pShaderResourceView);
+}
+
+void Rendering::Texture::Update(const Image& image)
+{
+	D3D11_MAPPED_SUBRESOURCE mappedResource{};
+	const HRESULT result{ Globals::pGpu->GetContext().Map(m_pTexture, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource) };
+	if (FAILED(result)) Logger::PrintError("Failed mapping texture");
+	memcpy(mappedResource.pData, image.GetData(), image.GetBytesPerRow() * image.GetHeight());
+	Globals::pGpu->GetContext().Unmap(m_pTexture, 0);
 }
 
 DXGI_FORMAT Rendering::Texture::GetDXGIFormatFromWICFormat(WICPixelFormatGUID& wicFormatGuid)
