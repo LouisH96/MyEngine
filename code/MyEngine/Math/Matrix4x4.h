@@ -36,11 +36,23 @@ namespace MyEngine
 			void SetRow3(const Vector4<T>& row);
 			void SetRow(int idx, const Vector4<T>& row);
 
+			void SetRow0(const Vector3<T>& row);
+			void SetRow1(const Vector3<T>& row);
+			void SetRow2(const Vector3<T>& row);
+			void SetRow3(const Vector3<T>& row);
+			void SetRow(int idx, const Vector3<T>& row);
+
 			void SetCol0(const Vector4<T>& col);
 			void SetCol1(const Vector4<T>& col);
 			void SetCol2(const Vector4<T>& col);
 			void SetCol3(const Vector4<T>& col);
 			void SetCol(int idx, const Vector4<T>& col);
+
+			void SetCol0(const Vector3<T>& col);
+			void SetCol1(const Vector3<T>& col);
+			void SetCol2(const Vector3<T>& col);
+			void SetCol3(const Vector3<T>& col);
+			void SetCol(int idx, const Vector3<T>& col);
 
 			//---| Get |---
 			Vector4<T> GetRow0() const;
@@ -87,7 +99,7 @@ namespace MyEngine
 				{matrix.r[0].m128_f32[1], matrix.r[1].m128_f32[1], matrix.r[2].m128_f32[1], matrix.r[3].m128_f32[1]},
 				{matrix.r[0].m128_f32[2], matrix.r[1].m128_f32[2], matrix.r[2].m128_f32[2], matrix.r[3].m128_f32[2]},
 				{matrix.r[0].m128_f32[3], matrix.r[1].m128_f32[3], matrix.r[2].m128_f32[3], matrix.r[3].m128_f32[3]},
-		}
+			}
 		{
 		}
 
@@ -98,7 +110,7 @@ namespace MyEngine
 				{matrix._12 ,matrix._22, matrix._32, matrix._42},
 				{matrix._13 ,matrix._23, matrix._33, matrix._43},
 				{matrix._14 ,matrix._24, matrix._34, matrix._44},
-		}
+			}
 		{
 		}
 
@@ -148,6 +160,46 @@ namespace MyEngine
 		}
 
 		template <typename T>
+		void Matrix4X4<T>::SetRow0(const Vector3<T>& row)
+		{
+			m_Cols[0].x = row.x;
+			m_Cols[1].x = row.y;
+			m_Cols[2].x = row.z;
+		}
+
+		template <typename T>
+		void Matrix4X4<T>::SetRow1(const Vector3<T>& row)
+		{
+			m_Cols[0].y = row.x;
+			m_Cols[1].y = row.y;
+			m_Cols[2].y = row.z;
+		}
+
+		template <typename T>
+		void Matrix4X4<T>::SetRow2(const Vector3<T>& row)
+		{
+			m_Cols[0].z = row.x;
+			m_Cols[1].z = row.y;
+			m_Cols[2].z = row.z;
+		}
+
+		template <typename T>
+		void Matrix4X4<T>::SetRow3(const Vector3<T>& row)
+		{
+			m_Cols[0].w = row.x;
+			m_Cols[1].w = row.y;
+			m_Cols[2].w = row.z;
+		}
+
+		template <typename T>
+		void Matrix4X4<T>::SetRow(int idx, const Vector3<T>& row)
+		{
+			m_Cols[0][idx] = row.x;
+			m_Cols[1][idx] = row.y;
+			m_Cols[2][idx] = row.z;
+		}
+
+		template <typename T>
 		void Matrix4X4<T>::SetCol0(const Vector4<T>& col)
 		{
 			m_Cols[0] = col;
@@ -173,6 +225,36 @@ namespace MyEngine
 
 		template <typename T>
 		void Matrix4X4<T>::SetCol(int idx, const Vector4<T>& col)
+		{
+			m_Cols[idx] = col;
+		}
+
+		template <typename T>
+		void Matrix4X4<T>::SetCol0(const Vector3<T>& col)
+		{
+			m_Cols[0] = col;
+		}
+
+		template <typename T>
+		void Matrix4X4<T>::SetCol1(const Vector3<T>& col)
+		{
+			m_Cols[1] = col;
+		}
+
+		template <typename T>
+		void Matrix4X4<T>::SetCol2(const Vector3<T>& col)
+		{
+			m_Cols[2] = col;
+		}
+
+		template <typename T>
+		void Matrix4X4<T>::SetCol3(const Vector3<T>& col)
+		{
+			m_Cols[3] = col;
+		}
+
+		template <typename T>
+		void Matrix4X4<T>::SetCol(int idx, const Vector3<T>& col)
 		{
 			m_Cols[idx] = col;
 		}
