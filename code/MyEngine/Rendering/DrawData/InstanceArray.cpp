@@ -1,6 +1,11 @@
 #include "pch.h"
 #include "InstanceArray.h"
 
+Rendering::InstanceArray::InstanceArray()
+	: m_pBuffers{ nullptr, nullptr }
+{
+}
+
 Rendering::InstanceArray::~InstanceArray()
 {
 	if (m_pBuffers[0]) m_pBuffers[0]->Release();

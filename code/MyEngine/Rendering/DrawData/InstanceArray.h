@@ -11,7 +11,7 @@ namespace MyEngine
 		{
 		public:
 			//---| Constructor/Destructor |---
-			InstanceArray() = default;
+			InstanceArray();
 			template<typename Vertex>
 			InstanceArray(const Vertex* pVertices, unsigned nrVertices, unsigned instanceStride, unsigned instancesCapacity = 5, bool verticesImmutable = true, bool instancesImmutable = true);
 			template<typename Vertex, typename Instance>
