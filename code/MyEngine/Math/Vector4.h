@@ -39,6 +39,9 @@ namespace MyEngine
 			T& operator[](int idx);
 			T operator[](int idx) const;
 
+			Vector4& operator=(const Vector2<T>& vector2);
+			Vector4& operator=(const Vector3<T>& vector3);
+
 			T Get(int i) const;
 			void Set(T f, int i);
 			void Inverse();
@@ -81,6 +84,20 @@ namespace MyEngine
 		T Vector4<T>::operator[](int idx) const
 		{
 			return reinterpret_cast<const T*>(&x)[idx];
+		}
+
+		template <typename T>
+		Vector4<T>& Vector4<T>::operator=(const Vector2<T>& vector2)
+		{
+			reinterpret_cast<Vector2<T>&>(x) = vector2;
+			return *this;
+		}
+
+		template <typename T>
+		Vector4<T>& Vector4<T>::operator=(const Vector3<T>& vector3)
+		{
+			reinterpret_cast<Vector3<T>&>(x) = vector3;
+			return *this;
 		}
 
 		template <typename T> T Vector4<T>::Get(int i) const { return *(&x + i); }
