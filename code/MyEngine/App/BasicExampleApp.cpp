@@ -29,7 +29,7 @@ void App::BasicExampleApp::Run()
 	//APP
 	Window& window = *new Window(L"Window");
 	Gpu& gpu = *new Gpu(window);
-	Canvas& canvas = *gpu.MakeCanvas();
+	Canvas& canvas = *new Canvas(window);
 
 	//MESH
 	struct Vertex

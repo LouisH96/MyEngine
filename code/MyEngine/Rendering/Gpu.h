@@ -32,8 +32,6 @@ namespace MyEngine
 
 			void Release();
 
-			Canvas* MakeCanvas();
-
 			ID3D11Device& GetDevice() const { return *m_pDevice; }
 			ID3D11DeviceContext& GetContext() const { return *m_pContext; }
 

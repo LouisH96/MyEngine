@@ -33,7 +33,7 @@ namespace MyEngine
 			Window window{ windowName, options };
 			Gpu gpu{ window };
 			Globals::pGpu = &gpu;
-			Canvas& canvas{ *gpu.MakeCanvas() };
+			Canvas canvas{ window };
 			Globals::pKeyboard = &window.GetKeyboard();
 			Globals::pMouse = &window.GetMouse();
 
@@ -64,7 +64,6 @@ namespace MyEngine
 
 			//DELETE
 			app.Release();
-			delete& canvas;
 		}
 	}
 }

@@ -27,11 +27,6 @@ void Rendering::Gpu::Release()
 	SAFE_RELEASE(m_pDevice);
 }
 
-Rendering::Canvas* Rendering::Gpu::MakeCanvas()
-{
-	return new Canvas(m_Window);
-}
-
 void Rendering::Gpu::Init()
 {
 	UINT createDeviceFlags = 0;

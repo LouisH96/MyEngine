@@ -42,7 +42,7 @@ namespace MyEngine
 			Window window{ windowName };
 			Gpu gpu{ window };
 			Globals::pGpu = &gpu;
-			Canvas& canvas{ *gpu.MakeCanvas() };
+			Canvas canvas{ window };
 
 			//CAMERA
 			Camera camera{ window.GetClientSize() };
@@ -89,7 +89,6 @@ namespace MyEngine
 
 			//DELETE
 			app.Release();
-			delete& canvas;
 		}
 	}
 }
