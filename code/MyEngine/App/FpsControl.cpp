@@ -37,6 +37,7 @@ void MyEngine::App::FpsControl::Wait()
 		m_NrFramesThisSec++;
 
 	m_DurationLastFrame = (now - m_BeginPrevFrame).count() * Time::CLOCK_UNIT_TO_SEC;
+	Globals::DeltaTime = m_DurationLastFrame;
 	m_BeginPrevFrame = now;
 	m_BeginPrevUpdate = newUpdateBegin;
 	std::this_thread::sleep_until(newUpdateBegin);
@@ -60,6 +61,7 @@ void App::FpsControl::NoWait()
 		m_NrFramesThisSec++;
 
 	m_DurationLastFrame = (now - m_BeginPrevFrame).count() * Time::CLOCK_UNIT_TO_SEC;
+	Globals::DeltaTime = m_DurationLastFrame;
 	m_BeginPrevFrame = now;
 	m_BeginPrevUpdate = now;
 }

@@ -11,10 +11,7 @@ namespace MyEngine
 			class Window;
 		}
 	}
-}
 
-namespace MyEngine
-{
 	namespace Rendering
 	{
 		class Canvas;

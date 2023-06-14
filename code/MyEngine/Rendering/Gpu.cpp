@@ -14,6 +14,9 @@ Rendering::Gpu::Gpu(App::Win32::Window& window)
 	: m_Window{ window }
 {
 	Init();
+
+	if (Globals::pGpu) Logger::PrintError("A second gpu is made");
+	Globals::pGpu = this;
 }
 
 Rendering::Gpu::~Gpu()
