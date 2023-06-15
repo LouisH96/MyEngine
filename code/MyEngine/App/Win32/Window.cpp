@@ -99,8 +99,10 @@ void App::Win32::Window::Init(const std::wstring& title, const Options& options)
 	ShowCursor(!m_CursorFpsMode);
 
 	//GLOBALS
+	if (Globals::pWindow) Logger::PrintError("Global window already set");
 	if (Globals::pMouse) Logger::PrintError("A second mouse is made");
 	if (Globals::pKeyboard) Logger::PrintError("A second keyboard is made");
+	Globals::pWindow = this;
 	Globals::pMouse = &m_Mouse;
 	Globals::pKeyboard = &m_Keyboard;
 }

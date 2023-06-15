@@ -4,6 +4,14 @@
 
 namespace MyEngine
 {
+	namespace App
+	{
+		namespace Win32
+		{
+			class Window;
+		}
+	}
+
 	namespace Rendering
 	{
 		class Canvas;
@@ -14,6 +22,7 @@ namespace MyEngine
 	{
 	public:
 		static float DeltaTime;
+		static App::Win32::Window* pWindow;
 		static const App::Win32::Keyboard_MsgListener* pKeyboard;
 		static const App::Win32::Mouse* pMouse;
 
