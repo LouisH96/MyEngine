@@ -51,6 +51,26 @@ void Rendering::Image::SetColor(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
 		SetRowColor(i, r, g, b, a);
 }
 
+void Rendering::Image::SetColorR(int idx, uint8_t r)
+{
+	m_pData[idx * 4] = r;
+}
+
+void Rendering::Image::SetColorG(int idx, uint8_t g)
+{
+	m_pData[idx * 4 + 1] = g;
+}
+
+void Rendering::Image::SetColorB(int idx, uint8_t b)
+{
+	m_pData[idx * 4 + 2] = b;
+}
+
+void Rendering::Image::SetColorR(int col, int row, uint8_t r)
+{
+	SetColorR(row * m_Width + col, r);
+}
+
 void Rendering::Image::SetColor(int col, int row, uint8_t r, uint8_t g, uint8_t b, uint8_t a) const
 {
 	uint8_t* pColor{ &m_pData[(row * m_Width + col) * 4] };
