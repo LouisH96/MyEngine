@@ -35,6 +35,7 @@ namespace MyEngine
 
 			void OnWindowResized(Math::Int2 newSize);
 			const Int2& GetSize() const { return m_Size; }
+			float GetAspectRatio() const { return Float::Cast(m_Size.x) / m_Size.y; }
 
 		private:
 			IDXGISwapChain1* m_pSwapChain{};

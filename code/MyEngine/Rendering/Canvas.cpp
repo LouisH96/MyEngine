@@ -14,6 +14,9 @@ Rendering::Canvas::Canvas(App::Win32::Window& window)
 	InitRenderTarget();
 	InitDepthStencil();
 	SetViewPort();
+
+	if (Globals::pCanvas) Logger::PrintError("Global canvas already set");
+	Globals::pCanvas = this;
 }
 
 void Rendering::Canvas::Activate() const
