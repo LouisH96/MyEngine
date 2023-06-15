@@ -18,6 +18,7 @@ namespace MyEngine
 
 			static int Ceil(const T& value);
 			static int Floor(const T& value);
+			static int Round(const T& value);
 			static T Clamp(const T& value, const T& min, const T& max);
 			static T Max();
 			static T Min();
@@ -61,6 +62,12 @@ namespace MyEngine
 		int Scalar<T>::Floor(const T& value)
 		{
 			return floor(value);
+		}
+
+		template <typename T>
+		int Scalar<T>::Round(const T& value)
+		{
+			return static_cast<int>(round(value));
 		}
 
 		template <typename T>
