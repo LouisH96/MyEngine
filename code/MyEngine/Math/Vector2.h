@@ -51,7 +51,7 @@ namespace MyEngine
 			T LengthSq() const;
 			void Normalize();
 			Vector2<T> Normalized() const;
-			float Cross(const Vector2<T>& o);
+			float Cross(const Vector2& o) const;
 			Vector2<int> Floored() const;
 			Vector2<int> Ceiled() const;
 
@@ -184,7 +184,7 @@ namespace MyEngine
 		}
 
 		template <typename T>
-		float Vector2<T>::Cross(const Vector2<T>& o)
+		float Vector2<T>::Cross(const Vector2& o) const
 		{
 			return (x * o.y) - (y * o.x);
 		}
