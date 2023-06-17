@@ -17,5 +17,14 @@ namespace MyEngine
 			static const InputLayout::Element ELEMENTS[];
 			static constexpr int NR_ELEMENTS = 5 + 2;
 		};
+		struct I_ModelMatrices
+		{
+			Float4X4 model;
+			Float4X4 invTranModel;
+			Float4X4 modelViewProj;
+
+			static const InputLayout::Element ELEMENTS[];
+			static constexpr int NR_ELEMENTS = 3 * 4 + 3;
+		};
 	}
 }
