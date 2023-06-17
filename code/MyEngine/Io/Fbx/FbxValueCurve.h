@@ -34,7 +34,8 @@ namespace MyEngine
 			//Times & values should be sorted
 			template <typename T>
 			FbxValueCurve<T>::FbxValueCurve(const Wrapping::AnimationCurve& curve)
-				: m_Times{ curve.KeyTimes }
+				: m_DefaultValue{}
+				, m_Times{ curve.KeyTimes }
 				, m_Values{ curve.KeyValueFloats }
 			{
 				if (m_Times.GetSize() != m_Values.GetSize())
