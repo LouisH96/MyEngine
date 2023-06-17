@@ -38,6 +38,13 @@ namespace MyEngine
 			explicit CB_CamMatPos(const Float3& position, const DirectX::XMMATRIX& viewProjection, const Transform& transform);
 			explicit CB_CamMatPos(const Float3& position, const Float4X4& viewProjection, const Transform& transform);
 		};
+		struct CB_CamPos
+		{
+			Float3 CameraPos;
+			float padding = 0;
+
+			explicit CB_CamPos(const Float3& position);
+		};
 		struct CB_ModelBuffer
 		{
 			Float4X4 ModelMatrix{};
