@@ -24,6 +24,8 @@ namespace MyEngine
 			void Draw() override;
 			void Add(const Instance& instance);
 			void Insert(const Instance& instance, int idx);
+			void EnsureCapacity(int minCapacity);
+			void SetCount(int count);
 
 			unsigned GetSize() const { return m_CpuInstances.GetSizeU(); }
 			Instance& operator[](unsigned idx);
@@ -87,6 +89,20 @@ namespace MyEngine
 		{
 			m_Changed = true;
 			m_CpuInstances.Insert(idx, instance);
+		}
+
+		template <typename Vertex, typename Instance>
+		void InstanceList<Vertex, Instance>::EnsureCapacity(int minCapacity)
+		{
+			m_DrawBatch.EnsureInstanceCapacity(minCapacity, false);
+		}
+
+		//will take care of capacity
+		template <typename Vertex, typename Instance>
+		void InstanceList<Vertex, Instance>::SetCount(int count)
+		{
+			m_Changed = true;
+			m_CpuInstances.SetSize(count);
 		}
 
 		template <typename Vertex, typename Instance>
