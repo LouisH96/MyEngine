@@ -34,13 +34,15 @@ namespace MyEngine
 			int GetCapacity() const { return m_Capacity; }
 			unsigned GetCapacityU() const { return static_cast<unsigned>(m_Capacity); }
 			bool IsEmpty() const { return m_Size == 0; }
+			void SetSize(int size);
+			void EnsureCapacity(unsigned minCapacity);
 
 		private:
 			T* m_pData;
 			int m_Capacity;
 			int m_Size;
 
-			void IncreaseCapacity();
+			void SetCapacity(int capacity);
 		};
 
 		template <typename T>
@@ -102,7 +104,7 @@ namespace MyEngine
 		void List<T>::Add(const T& value)
 		{
 			if (m_Size == m_Capacity)
-				IncreaseCapacity();
+				SetCapacity(m_Capacity * 2);
 			m_pData[m_Size++] = value;
 		}
 
@@ -110,7 +112,7 @@ namespace MyEngine
 		void List<T>::Add(T&& value)
 		{
 			if (m_Size == m_Capacity)
-				IncreaseCapacity();
+				SetCapacity(m_Capacity * 2);
 			m_pData[m_Size++] = std::move(value);
 		}
 
@@ -172,9 +174,24 @@ namespace MyEngine
 		}
 
 		template <typename T>
-		void List<T>::IncreaseCapacity()
+		void List<T>::SetSize(int size)
 		{
-			m_Capacity *= 2;
+			if (size > m_Capacity) SetCapacity(size);
+			m_Size = size;
+		}
+
+		template <typename T>
+		void List<T>::EnsureCapacity(unsigned minCapacity)
+		{
+			if (m_Capacity >= minCapacity) return;
+			SetCapacity(minCapacity);
+		}
+
+		//should be bigger than current size
+		template <typename T>
+		void List<T>::SetCapacity(int capacity)
+		{
+			m_Capacity = capacity;
 			T* pNew = new T[m_Capacity];
 			memcpy(pNew, m_pData, sizeof(T) * m_Size);
 			delete m_pData;
