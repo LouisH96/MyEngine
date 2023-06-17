@@ -3,7 +3,6 @@
 #include "Rendering/DrawData/IndexedVertexArray.h"
 #include "Rendering/State/InputLayout.h"
 #include "Rendering/State/Shader.h"
-#include "Rendering/Structs/ConstantBufferTypes.h"
 
 namespace MyEngine
 {
@@ -20,10 +19,10 @@ namespace MyEngine
 		class DebugSpheres
 		{
 		public:
-			explicit DebugSpheres(Rendering::Gpu& gpu);
+			explicit DebugSpheres();
 			~DebugSpheres() = default;
 
-			void Render(const Rendering::Gpu& gpu, const Float3& cameraPosition, const Float4X4& viewProjection);
+			void Render();
 
 			void DrawSphere(const Float3& position, const Float3& color, float size);
 

@@ -35,7 +35,7 @@ namespace MyEngine
 			TextureRenderer& operator=(TextureRenderer&& other) noexcept = delete;
 
 			//---| Loop |---
-			void Render(const Float3& cameraPosition, const Float4X4& viewProjection);
+			void Render();
 
 			//---| Operations |---
 			void AddMesh(const Array<Vertex>& vertices, const Array<int>& indices, const std::wstring& texturePath);
@@ -82,12 +82,11 @@ namespace MyEngine
 		}
 
 		template <typename Vertex, typename CamData>
-		void TextureRenderer<Vertex, CamData>::Render(const Float3& cameraPosition,
-			const Float4X4& viewProjection)
+		void TextureRenderer<Vertex, CamData>::Render()
 		{
 			m_DepthStencilState.Activate();
 			m_Sampler.ActivatePs();
-			m_ConstantBuffer.Update(CamData{ cameraPosition, viewProjection });
+			m_ConstantBuffer.Update(CamData{ Globals::pCamera->GetPosition(), Globals::pCamera->GetViewProjection()});
 			m_ConstantBuffer.Activate();
 			m_RasterizerState.Activate();
 			m_InputLayout.Activate();

@@ -2,6 +2,7 @@
 #include "R_LambertLight_Col.h"
 
 #include "Framework/Resources.h"
+#include "Game/Camera/Camera.h"
 #include "Rendering/State/Mesh.h"
 
 Rendering::R_LambertLight_Col::R_LambertLight_Col(bool isWireframe)
@@ -12,7 +13,7 @@ Rendering::R_LambertLight_Col::R_LambertLight_Col(bool isWireframe)
 {
 }
 
-void Rendering::R_LambertLight_Col::Render(const Float3& cameraPosition, const Float4X4& viewProjection)
+void Rendering::R_LambertLight_Col::Render()
 {
 	using namespace DirectX;
 	m_DepthStencilState.Activate();
@@ -23,7 +24,7 @@ void Rendering::R_LambertLight_Col::Render(const Float3& cameraPosition, const F
 	m_Shader.Activate();
 	for (int i = 0; i < m_Entries.GetSize(); i++)
 	{
-		m_CameraConstantBuffer.Update(CB_CamMatPos{ cameraPosition, viewProjection });
+		m_CameraConstantBuffer.Update(CB_CamMatPos{ Globals::pCamera->GetPosition(), Globals::pCamera->GetViewProjection()});
 		m_CameraConstantBuffer.Activate();
 		m_Entries[i]->Activate();
 		m_Entries[i]->Draw();

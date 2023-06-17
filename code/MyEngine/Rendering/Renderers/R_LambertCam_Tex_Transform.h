@@ -1,14 +1,12 @@
 #pragma once
-#include <Rendering/Structs/VertexTypes.h>
+#include <Rendering/State/BlendState.h>
+#include <Rendering/State/DepthStencilState.h>
+#include <Rendering/State/RasterizerState.h>
+#include <Rendering/State/SamplerState.h>
 #include <Rendering/Structs/ConstantBufferTypes.h>
-
+#include <Rendering/Structs/VertexTypes.h>
 #include "Rendering/State/ConstantBuffer.h"
 #include "Rendering/State/Shader.h"
-#include <Rendering\State\RasterizerState.h>
-#include <Rendering\State\BlendState.h>
-#include <Rendering\State\SamplerState.h>
-
-#include "Rendering/State/DepthStencilState.h"
 
 namespace MyEngine
 {
@@ -36,7 +34,7 @@ namespace MyEngine
 			R_LambertCam_Tex_Transform& operator=(R_LambertCam_Tex_Transform&& other) noexcept = delete;
 
 			//---| Loop |---
-			void Render(const Float3& cameraPosition, const Float4X4& viewProjection);
+			void Render();
 
 			//---| Operations |---
 			void AddEntry(Mesh& mesh, Texture& texture, Transform& transform);

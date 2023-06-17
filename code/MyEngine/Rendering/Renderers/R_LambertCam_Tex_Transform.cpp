@@ -2,6 +2,7 @@
 #include "R_LambertCam_Tex_Transform.h"
 
 #include "Framework/Resources.h"
+#include "Game/Camera/Camera.h"
 #include "Rendering/State/Mesh.h"
 #include "Rendering/State/Texture.h"
 
@@ -12,7 +13,7 @@ Rendering::R_LambertCam_Tex_Transform::R_LambertCam_Tex_Transform()
 {
 }
 
-void Rendering::R_LambertCam_Tex_Transform::Render(const Float3& cameraPosition, const Float4X4& viewProjection)
+void Rendering::R_LambertCam_Tex_Transform::Render()
 {
 	using namespace DirectX;
 	m_DepthStencilState.Activate();
@@ -23,7 +24,7 @@ void Rendering::R_LambertCam_Tex_Transform::Render(const Float3& cameraPosition,
 	m_Shader.Activate();
 	for (int i = 0; i < m_Entries.GetSize(); i++)
 	{
-		m_CameraConstantBuffer.Update(CB_CamMatPos{ cameraPosition, viewProjection, *m_Entries[i].pTransform });
+		m_CameraConstantBuffer.Update(CB_CamMatPos{ Globals::pCamera->GetPosition(), Globals::pCamera->GetViewProjection(), *m_Entries[i].pTransform});
 		m_CameraConstantBuffer.Activate();
 		m_ModelConstantBuffer.Update(CB_ModelBuffer{ *m_Entries[i].pTransform });
 		m_ModelConstantBuffer.Activate(1);

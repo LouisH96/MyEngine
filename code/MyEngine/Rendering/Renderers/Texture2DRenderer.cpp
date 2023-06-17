@@ -10,7 +10,7 @@ Rendering::Texture2DRenderer::Texture2DRenderer()
 {
 }
 
-void Rendering::Texture2DRenderer::Render(const Camera& camera)
+void Rendering::Texture2DRenderer::Render()
 {
 	if (m_Textures.GetSize() == 0) return;
 	m_DepthStencilState.Activate();

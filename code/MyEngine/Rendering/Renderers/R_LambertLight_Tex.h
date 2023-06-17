@@ -36,7 +36,7 @@ namespace MyEngine
 			R_LambertLight_Tex& operator=(R_LambertLight_Tex&& other) noexcept = delete;
 
 			//---| Loop |---
-			void Render(const Float3& cameraPosition, const Float4X4& viewProjection);
+			void Render();
 
 			//---| Operations |---
 			void AddEntry(Mesh& mesh, Texture& texture);

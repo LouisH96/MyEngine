@@ -6,6 +6,7 @@
 #include <Rendering/State/Shader.h>
 #include <Rendering/State/RasterizerState.h>
 
+#include "Game/Camera/Camera.h"
 #include "Rendering/State/DepthStencilState.h"
 
 namespace MyEngine
@@ -38,8 +39,7 @@ namespace MyEngine
 			BasicRenderer& operator=(BasicRenderer&& other) noexcept = delete;
 
 			//---| Loop |---
-			void Render(const Float3& cameraPosition, const DirectX::XMMATRIX& viewProjection);
-			void Render(const Float3& cameraPosition, const Float4X4& viewProjection);
+			void Render();
 
 			//---| Operations |---
 			void AddMesh(const Array<Vertex>& vertices, const Array<int>& indices);
@@ -76,28 +76,10 @@ namespace MyEngine
 		}
 
 		template <typename Vertex, typename CamData>
-		void BasicRenderer<Vertex, CamData>::Render(const Math::Float3& cameraPosition, const DirectX::XMMATRIX& viewProjection)
+		void BasicRenderer<Vertex, CamData>::Render()
 		{
 			m_DepthStencilState.Activate();
-			m_ConstantBuffer.Update(CamData{ cameraPosition, viewProjection });
-			m_ConstantBuffer.Activate();
-			m_RasterizerState.Activate();
-			m_InputLayout.Activate();
-			m_BlendState.Activate();
-			m_Shader.Activate();
-			for (int i = 0; i < m_Meshes.GetSize(); i++)
-			{
-				m_Meshes[i]->Activate();
-				m_Meshes[i]->Draw();
-			}
-		}
-
-		template <typename Vertex, typename CamData>
-		void BasicRenderer<Vertex, CamData>::Render(const Math::Float3& cameraPosition,
-			const Math::Float4X4& viewProjection)
-		{
-			m_DepthStencilState.Activate();
-			m_ConstantBuffer.Update(CamData{ cameraPosition, viewProjection });
+			m_ConstantBuffer.Update(CamData{ Globals::pCamera->GetPosition(), Globals::pCamera->GetViewProjection()});
 			m_ConstantBuffer.Activate();
 			m_RasterizerState.Activate();
 			m_InputLayout.Activate();

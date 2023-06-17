@@ -17,7 +17,7 @@ const InputLayout::Element DebugSpheres::ELEMENTS[] =
 	{"INST_SIZE", InputLayout::ElementType::Float, 1, InputLayout::SlotClass::PerInstance}
 };
 
-DebugSpheres::DebugSpheres(Gpu& gpu)
+DebugSpheres::DebugSpheres()
 	: m_InputLayout{ ELEMENTS, static_cast<int>(sizeof(ELEMENTS) / sizeof(InputLayout::Element)) }
 	, m_Shader{ Resources::GlobalShader(L"LambertCam_Inst_Col_Pos.hlsl") }
 {
@@ -41,7 +41,7 @@ DebugSpheres::DebugSpheres(Gpu& gpu)
 		true, false, true };
 }
 
-void DebugSpheres::Render(const Gpu& gpu, const Float3& cameraPosition, const Float4X4& viewProjection)
+void DebugSpheres::Render()
 {
 	if (m_Spheres.GetSize() == 0) return;
 	if (m_Spheres.GetSize() > m_Vertices.GetInstancesSize())

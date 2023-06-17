@@ -46,6 +46,7 @@ namespace MyEngine
 
 			//CAMERA
 			Camera camera{ window.GetClientSize() };
+			Globals::pCamera = &camera;
 			FocusPointCameraController cameraController{ camera };
 
 			//FPS

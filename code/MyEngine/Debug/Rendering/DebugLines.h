@@ -11,9 +11,9 @@ namespace MyEngine
 		class DebugLines
 		{
 		public:
-			explicit DebugLines(const Rendering::Gpu& gpu);
+			explicit DebugLines();
 
-			void Render(const Rendering::Gpu& gpu);
+			void Render();
 
 			void DrawLine(const Float3& begin, const Float3& end, const Float3& color);
 			void DrawRay(const Float3& origin, const Float3& displacement, const Float3& color);

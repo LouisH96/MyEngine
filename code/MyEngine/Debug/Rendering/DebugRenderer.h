@@ -37,9 +37,9 @@ namespace MyEngine
 			DebugRenderer& operator=(const DebugRenderer& other) = delete;
 			DebugRenderer& operator=(DebugRenderer&& other) noexcept = delete;
 
-			static void Init(Rendering::Gpu& gpu);
+			static void Init();
 			static void Release();
-			static void Render(const Float3& cameraPosition, const Float4X4& viewProjection);
+			static void Render();
 
 			static void AddSphere(const Float3& position, const Float3& color, float radius);
 			static void AddSpheres(const Array<Float3>& positions, const Float3& color, float radius);
@@ -68,7 +68,6 @@ namespace MyEngine
 
 			//---| General |---
 			static DebugRenderer* m_pStatic;
-			Rendering::Gpu& m_Gpu;
 
 			//---| RenderState |---
 			Rendering::DepthStencilState m_DepthStencilState;
@@ -86,11 +85,11 @@ namespace MyEngine
 			Array<Rendering::Mesh*> m_Meshes{};
 
 			//---| Init |---
-			DebugRenderer(Rendering::Gpu& gpu);
+			DebugRenderer();
 			~DebugRenderer();
 
 			//---| Loop |---
-			void Class_Render(const Float3& cameraPosition, const Float4X4& viewProjection);
+			void Class_Render();
 
 			//---| Operations |---
 			void Class_AddSphere(const Float3& position, const Float3& color, float radius);

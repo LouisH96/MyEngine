@@ -3,7 +3,7 @@
 
 #include "Framework/Resources.h"
 
-DebugLines::DebugLines(const Rendering::Gpu& gpu)
+DebugLines::DebugLines()
 	: m_InputLayout{ Vertex::ELEMENTS, Vertex::NR_ELEMENTS }
 	, m_Shader{ Resources::GlobalShader(L"unlit.hlsl") }
 	, m_VertexList{ 5, Rendering::PrimitiveTopology::LineList }
@@ -11,7 +11,7 @@ DebugLines::DebugLines(const Rendering::Gpu& gpu)
 
 }
 
-void DebugLines::Render(const Rendering::Gpu& gpu)
+void DebugLines::Render()
 {
 	m_InputLayout.Activate();
 	m_Shader.Activate();

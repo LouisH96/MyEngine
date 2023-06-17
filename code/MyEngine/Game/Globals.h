@@ -4,6 +4,11 @@
 
 namespace MyEngine
 {
+	namespace Game
+	{
+		class Camera;
+	}
+
 	namespace App
 	{
 		namespace Win32
@@ -28,5 +33,6 @@ namespace MyEngine
 
 		static Rendering::Gpu* pGpu;
 		static const Rendering::Canvas* pCanvas;
+		static Game::Camera* pCamera;
 	};
 }

@@ -42,6 +42,7 @@ namespace MyEngine
 
 			//APP
 			Camera camera{ window.GetClientSize() };
+			Globals::pCamera = &camera;
 			T app{ CoreServices{window, canvas, fpsControl, camera} };
 
 			//LOOP
