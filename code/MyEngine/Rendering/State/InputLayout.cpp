@@ -17,7 +17,7 @@ Rendering::InputLayout::InputLayout(const Element* pElements, int nrElements)
 		const Element& element = pElements[i];
 
 		dxElement.SemanticName = element.Semantic.c_str();
-		dxElement.SemanticIndex = 0;
+		dxElement.SemanticIndex = element.SemanticIndex;
 		dxElement.Format = ToDxFormat(element.Type);
 		dxElement.InputSlot = element.InputSlot;
 		dxElement.AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
@@ -51,6 +51,7 @@ Rendering::InputLayout::InputLayout(const Element* pElements, int nrElements)
 		if (pBlob)
 			pBlob->Release();
 		Logger::PrintError(error);
+		std::cout << "Shader: \n" << dummyShaderText << std::endl;
 	}
 
 	//INPUTLAYOUT
@@ -94,6 +95,7 @@ DXGI_FORMAT Rendering::InputLayout::ToDxFormat(ElementType type)
 {
 	switch (type)
 	{
+	case ElementType::Float4: return DXGI_FORMAT_R32G32B32A32_FLOAT;
 	case ElementType::Float3: return DXGI_FORMAT_R32G32B32_FLOAT;
 	case ElementType::Float2: return DXGI_FORMAT_R32G32_FLOAT;
 	case ElementType::Float: return DXGI_FORMAT_R32_FLOAT;
@@ -120,7 +122,10 @@ std::string Rendering::InputLayout::CreateDummyShaderString(const Element* pElem
 	for (int i = 0; i < nrElements; i++)
 	{
 		const Element& element = pElements[i];
-		ss << ToTypeString(element.Type) << " var" << i << ": " << element.Semantic << ";\n";
+		ss << ToTypeString(element.Type) << " var" << i << ": " << element.Semantic;
+		if (element.SemanticIndex != 0)
+			ss << element.SemanticIndex;
+		ss << ";\n";
 	}
 	ss << "};\n";
 	ss << "struct Pixel{float4 pos : VS_POSITION;};\n";
@@ -132,6 +137,7 @@ std::string Rendering::InputLayout::ToTypeString(ElementType type)
 {
 	switch (type)
 	{
+	case ElementType::Float4: return "float4";
 	case ElementType::Float3: return "float3";
 	case ElementType::Float2: return "float2";
 	case ElementType::Float: return "float";

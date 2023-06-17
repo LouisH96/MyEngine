@@ -11,7 +11,7 @@ namespace MyEngine
 		public:
 			enum class ElementType
 			{
-				Float3, Float2, Float
+				Float4, Float3, Float2, Float
 			};
 			enum class SlotClass
 			{
@@ -23,6 +23,7 @@ namespace MyEngine
 				const ElementType Type{};
 				const int InputSlot{ 0 };
 				const SlotClass SlotClass{ SlotClass::PerVertex };
+				const int SemanticIndex{ 0 };
 			};
 
 			template<typename T> static InputLayout FromType();
