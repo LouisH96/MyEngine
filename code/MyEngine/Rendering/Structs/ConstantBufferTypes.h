@@ -41,7 +41,6 @@ namespace MyEngine
 		struct CB_ModelBuffer
 		{
 			Float4X4 ModelMatrix{};
-			Float4X4 InvTransposeModelMatrix{};
 
 			CB_ModelBuffer() = default;
 			explicit CB_ModelBuffer(const Transform& transform);

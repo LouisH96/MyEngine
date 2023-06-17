@@ -76,7 +76,8 @@ namespace MyEngine
 		void Mesh::Update(const Array<T>& data)
 		{
 			D3D11_MAPPED_SUBRESOURCE mappedResource{};
-			Globals::pGpu->GetContext().Map(m_pVertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+			const HRESULT result{ Globals::pGpu->GetContext().Map(m_pVertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource) };
+			if (FAILED(result)) Logger::PrintError("[Mesh] Failed mapping vertex-buffer");
 			memcpy(mappedResource.pData, data.GetData(), sizeof(T)*data.GetSize() );
 			Globals::pGpu->GetContext().Unmap(m_pVertexBuffer, 0);
 		}

@@ -23,11 +23,6 @@ const Rendering::InputLayout::Element Rendering::I_ModelMatrices::ELEMENTS[] =
 	{"INST_MODEL", InputLayout::ElementType::Float4, 1, InputLayout::SlotClass::PerInstance, 2},
 	{"INST_MODEL", InputLayout::ElementType::Float4, 1, InputLayout::SlotClass::PerInstance, 3},
 
-	{"INST_INV_TRANS_MODEL", InputLayout::ElementType::Float4, 1, InputLayout::SlotClass::PerInstance, 0},
-	{"INST_INV_TRANS_MODEL", InputLayout::ElementType::Float4, 1, InputLayout::SlotClass::PerInstance, 1},
-	{"INST_INV_TRANS_MODEL", InputLayout::ElementType::Float4, 1, InputLayout::SlotClass::PerInstance, 2},
-	{"INST_INV_TRANS_MODEL", InputLayout::ElementType::Float4, 1, InputLayout::SlotClass::PerInstance, 3},
-
 	{"INST_MODEL_VIEW_PROJECTION", InputLayout::ElementType::Float4, 1, InputLayout::SlotClass::PerInstance, 0},
 	{"INST_MODEL_VIEW_PROJECTION", InputLayout::ElementType::Float4, 1, InputLayout::SlotClass::PerInstance, 1},
 	{"INST_MODEL_VIEW_PROJECTION", InputLayout::ElementType::Float4, 1, InputLayout::SlotClass::PerInstance, 2},

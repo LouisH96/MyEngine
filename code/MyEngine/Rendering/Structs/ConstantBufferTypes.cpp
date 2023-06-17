@@ -36,6 +36,5 @@ Rendering::CB_CamPos::CB_CamPos(const Float3& position)
 
 Rendering::CB_ModelBuffer::CB_ModelBuffer(const Game::Transform& transform)
 	: ModelMatrix{ transform.AsMatrix() }
-	, InvTransposeModelMatrix{ transform.GetTransposeInverse() }
 {
 }
