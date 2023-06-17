@@ -13,7 +13,7 @@ bool Gui::GuiRenderer::ElementId::operator==(const ElementId& other) const
 
 Gui::GuiRenderer::GuiRenderer()
 	: m_InputLayout{ Rendering::InputLayout::FromType<Vertex>() }
-	, m_Shader{ Framework::Resources::GlobalShader(L"Gui.hlsl") }
+	, m_Shader{ Resources::GlobalShader(L"Gui.hlsl") }
 	, m_CanvasSize{ Globals::pCanvas->GetSize() }
 {
 }

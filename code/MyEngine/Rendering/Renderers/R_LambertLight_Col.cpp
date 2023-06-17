@@ -7,7 +7,7 @@
 Rendering::R_LambertLight_Col::R_LambertLight_Col(bool isWireframe)
 	: m_RasterizerState{ isWireframe }
 	, m_InputLayout{ Vertex::ELEMENTS, Vertex::NR_ELEMENTS }
-	, m_Shader{ Framework::Resources::GlobalShader(L"LambertLight_Col.hlsl") }
+	, m_Shader{ Resources::GlobalShader(L"LambertLight_Col.hlsl") }
 	, m_Entries{ 0 }
 {
 }

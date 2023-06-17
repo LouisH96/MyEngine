@@ -17,11 +17,11 @@
 
 Rendering::FpsDisplay::FpsDisplay(Canvas& canvas, App::Win32::Window& window)
 	: m_Canvas(canvas)
-	, m_Shader(Framework::Resources::GlobalShader(L"screenSpace.hlsl"))
+	, m_Shader(Resources::GlobalShader(L"screenSpace.hlsl"))
 	, m_InputLayout( V_Pos2Uv::ELEMENTS, V_Pos2Uv::NR_ELEMENTS)
 	, m_Vertices{ 6 }
 {
-	const std::wstring fontPath = Framework::Resources::Global(L"Fonts\\ShortBaby.ttf");
+	const std::wstring fontPath = Resources::Global(L"Fonts\\ShortBaby.ttf");
 	std::ifstream stream{ fontPath, std::ios::binary };
 	const Io::TtfReader reader{ stream };
 	const Io::Ttf::Glyph glyphs[NR_NUMBERS]

@@ -7,7 +7,7 @@
 
 Rendering::R_LambertCam_Tex::R_LambertCam_Tex()
 	: m_InputLayout{ Vertex::ELEMENTS, Vertex::NR_ELEMENTS }
-	, m_Shader{ Framework::Resources::GlobalShader(L"LambertCam_Tex.hlsl") }
+	, m_Shader{ Resources::GlobalShader(L"LambertCam_Tex.hlsl") }
 	, m_Entries{ 0 }
 {
 }

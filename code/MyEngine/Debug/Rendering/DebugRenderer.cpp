@@ -151,7 +151,7 @@ void DebugRenderer::DrawSphere(const Float3& position, const Float3& color, floa
 DebugRenderer::DebugRenderer(Rendering::Gpu& gpu)
 	: m_Gpu(gpu)
 	, m_InputLayout(Vertex::ELEMENTS, Vertex::NR_ELEMENTS)
-	, m_Shader(Framework::Resources::GlobalShader(L"lambertCamDir.hlsl"))
+	, m_Shader(Resources::GlobalShader(L"lambertCamDir.hlsl"))
 	, m_pLineRenderer(Rendering::RendererFactory::CreateUnlitRenderer())
 	, m_SpheresRenderer{ gpu }
 	, m_LinesRenderer2{ gpu }

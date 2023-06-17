@@ -22,7 +22,7 @@ bool Rendering::TextRenderer::TextRendererElementId::operator==(const TextRender
 
 Rendering::TextRenderer::TextRenderer()
 	: m_InputLayout{ InputLayout::FromType<Instance>() }
-	, m_Shader{ Framework::Resources::GlobalShader(L"Font_Inst.hlsl") }
+	, m_Shader{ Resources::GlobalShader(L"Font_Inst.hlsl") }
 	, m_DepthStencilState{ false }
 	, m_CanvasSize{ Globals::pCanvas->GetSize() }
 {

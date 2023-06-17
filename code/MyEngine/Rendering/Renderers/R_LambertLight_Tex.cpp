@@ -7,7 +7,7 @@
 
 Rendering::R_LambertLight_Tex::R_LambertLight_Tex()
 	: m_InputLayout{ Vertex::ELEMENTS, Vertex::NR_ELEMENTS }
-	, m_Shader{ Framework::Resources::GlobalShader(L"LambertLight_Tex.hlsl") }
+	, m_Shader{ Resources::GlobalShader(L"LambertLight_Tex.hlsl") }
 	, m_Entries{ 0 }
 {
 }

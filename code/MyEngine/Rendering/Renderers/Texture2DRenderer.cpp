@@ -6,7 +6,7 @@
 
 Rendering::Texture2DRenderer::Texture2DRenderer()
 	: m_InputLayout{ InputLayout::FromType<Instance>() }
-	, m_Shader{ Framework::Resources::GlobalShader(L"Font_Inst.hlsl") }
+	, m_Shader{ Resources::GlobalShader(L"Font_Inst.hlsl") }
 {
 }
 
