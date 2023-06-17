@@ -44,7 +44,7 @@ Io::Fbx::Wrapping::AnimationCurveNode::AnimationCurveNode(Reading::FbxObject& ob
 		m_Value.shortValue = props.GetShort(0);
 		break;
 	case NodeType::FocalLength:
-		m_Value.shortValue = props.GetDouble(0);
+		m_Value.vectorValue.x = props.GetDouble(0);
 		break;
 	default:break;
 	}
@@ -107,9 +107,16 @@ void Io::Fbx::Wrapping::AnimationCurveNode::Print() const
 	case NodeType::Visibility:
 		std::cout << "Visibility: " << m_Value.boolValue << std::endl;
 		break;
+	case NodeType::FilmboxTypeId:
+		std::cout << "FilmboxTypeId: " << m_Value.shortValue << std::endl;
+		break;
+	case NodeType::FocalLength: 
+		std::cout << "FocalLength: " << m_Value.vectorValue.x << std::endl;
+		break;
+	default:
 	case NodeType::Other:
 		std::cout << "Other" << std::endl;
-	default:;
+		break;
 	}
 }
 
