@@ -36,6 +36,7 @@ void Camera::Update()
 		});
 
 	m_ViewProjection = m_View * m_Projection;
+	m_Position = m_World.GetRow3().Xyz();
 }
 
 void Camera::SetFieldOfView(float angle)
@@ -93,11 +94,6 @@ const Float3& Camera::GetUp() const
 const Float3& Camera::GetForward() const
 {
 	return m_World.GetRow2().Xyz();
-}
-
-Float3 Camera::GetPosition() const
-{
-	return m_World.GetRow3().Xyz();
 }
 
 void Camera::UpdateProjectionMatrix()

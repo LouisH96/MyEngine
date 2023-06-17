@@ -30,13 +30,14 @@ namespace MyEngine
 			const Float4X4& GetView() const { return m_View; }
 			const Float4X4& GetViewProjection() const { return m_ViewProjection; }
 
-			Float3 GetPosition() const;
+			const Float3& GetPosition() const { return m_Position; }
 
 		private:
 			Float4X4 m_Projection{};
 			Float4X4 m_World{};
 			Float4X4 m_View{};
 			Float4X4 m_ViewProjection{};
+			Float3 m_Position{};
 
 			float m_InvAspectRatio{};
 			float m_FovValue{};
