@@ -4,13 +4,11 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MyEngine", "code\MyEngine\MyEngine.vcxproj", "{A022E896-D2D1-4445-960F-440E17870DA2}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTest", "code\UnitTest\UnitTest.vcxproj", "{F369D3A3-E1D9-4E27-983F-5BE34E39FD16}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{3CF7746F-EBD2-463D-8DF2-C755C70045FF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shaders", "Shaders", "{B3D2FEC9-2E72-4C84-AD6C-0FEC8118BC0F}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\..\..\..\..\VirtualWorld\resources\Shaders\shader.hlsl = ..\..\..\..\..\..\VirtualWorld\resources\Shaders\shader.hlsl
+		..\..\..\resources\Shaders\shader.hlsl = ..\..\..\resources\Shaders\shader.hlsl
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExampleApp", "code\ExampleApp\ExampleApp.vcxproj", "{529D120B-798E-42F8-99EE-0BA76CF64FF6}"
@@ -28,10 +26,6 @@ Global
 		{A022E896-D2D1-4445-960F-440E17870DA2}.Debug|x64.Build.0 = Debug|x64
 		{A022E896-D2D1-4445-960F-440E17870DA2}.Release|x64.ActiveCfg = Release|x64
 		{A022E896-D2D1-4445-960F-440E17870DA2}.Release|x64.Build.0 = Release|x64
-		{F369D3A3-E1D9-4E27-983F-5BE34E39FD16}.Debug|x64.ActiveCfg = Debug|x64
-		{F369D3A3-E1D9-4E27-983F-5BE34E39FD16}.Debug|x64.Build.0 = Debug|x64
-		{F369D3A3-E1D9-4E27-983F-5BE34E39FD16}.Release|x64.ActiveCfg = Release|x64
-		{F369D3A3-E1D9-4E27-983F-5BE34E39FD16}.Release|x64.Build.0 = Release|x64
 		{529D120B-798E-42F8-99EE-0BA76CF64FF6}.Debug|x64.ActiveCfg = Debug|x64
 		{529D120B-798E-42F8-99EE-0BA76CF64FF6}.Debug|x64.Build.0 = Debug|x64
 		{529D120B-798E-42F8-99EE-0BA76CF64FF6}.Release|x64.ActiveCfg = Release|x64

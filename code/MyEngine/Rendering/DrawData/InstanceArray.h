@@ -1,6 +1,8 @@
 #pragma once
-#include "../State/ConstantBuffer.h"
 #include "IDrawData.h"
+#include <Rendering/Dx/DxHelper.h>
+
+struct ID3D11Buffer;
 
 namespace MyEngine
 {

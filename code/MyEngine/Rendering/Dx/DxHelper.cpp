@@ -112,7 +112,7 @@ void MyEngine::Rendering::Dx::DxHelper::CreateVertexBufferView(ID3D11Device& dev
 }
 
 void MyEngine::Rendering::Dx::DxHelper::CreateIndexBuffer(ID3D11Device& device, ID3D11Buffer*& pIndexBuffer,
-	const int* pInitIndices, int nrInitIndices)
+                                                          const int* pInitIndices, int nrInitIndices)
 {
 	D3D11_BUFFER_DESC desc{};
 	desc.Usage = D3D11_USAGE_DEFAULT;

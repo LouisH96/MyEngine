@@ -1,5 +1,7 @@
 #pragma once
-#include "Rendering/State/ConstantBuffer.h"
+#include <Rendering/Dx/DxHelper.h>
+
+struct ID3D11Buffer;
 
 namespace MyEngine
 {

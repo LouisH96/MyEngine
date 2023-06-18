@@ -5,9 +5,8 @@
 #include <bitset>
 #include <vector>
 
-#include "DataStructures/Array.h"
 #include "ToString.h"
-#include "Math/Vectors.h"
+#include "../Math/Vectors.h"
 
 namespace MyEngine
 {
