@@ -15,7 +15,7 @@ namespace MyEngine
 
 			//combined with V_Pos2Uv
 			static const InputLayout::Element ELEMENTS[];
-			static constexpr int NR_ELEMENTS = 5 + 2;
+			static constexpr int NR_ELEMENTS = 5;
 		};
 		struct I_ModelMatrices
 		{
@@ -23,7 +23,7 @@ namespace MyEngine
 			Float4X4 modelViewProj;
 
 			static const InputLayout::Element ELEMENTS[];
-			static constexpr int NR_ELEMENTS = 2 + 3;
+			static constexpr int NR_ELEMENTS = 2;
 		};
 	}
 }

@@ -20,13 +20,14 @@ namespace MyEngine
 			};
 			struct Element
 			{
-				const std::string& Semantic{};
-				const ElementType Type{};
-				const int InputSlot{ 0 };
-				const SlotClass SlotClass{ SlotClass::PerVertex };
+				std::string Semantic{};
+				ElementType Type{};
+				int InputSlot{ 0 };
+				SlotClass SlotClass{ SlotClass::PerVertex };
 			};
 
 			template<typename T> static InputLayout FromType();
+			template<typename Vertex, typename Instance> static InputLayout FromTypes();
 
 			InputLayout(const Element* pElements, int nrElements);
 			~InputLayout();
@@ -53,6 +54,15 @@ namespace MyEngine
 		InputLayout InputLayout::FromType()
 		{
 			return { T::ELEMENTS, T::NR_ELEMENTS };
+		}
+
+		template <typename Vertex, typename Instance>
+		InputLayout InputLayout::FromTypes()
+		{
+			Array<Element> elements{Vertex::NR_ELEMENTS + Instance::NR_ELEMENTS};
+			for (int i = 0; i < Vertex::NR_ELEMENTS; i++) elements[i] = Vertex::ELEMENTS[i];
+			for (int i = 0; i < Instance::NR_ELEMENTS; i++) elements[i + Vertex::NR_ELEMENTS] = Instance::ELEMENTS[i];
+			return { elements.GetData(), elements.GetSize() };
 		}
 	}
 }
