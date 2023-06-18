@@ -10,15 +10,15 @@
 #include <Rendering/State/Mesh.h>
 #include <Rendering/State/Texture.h>
 #include <Rendering/Structs/VertexTypes.h>
+
 #include "Image.h"
 
 #undef min
 #undef max
 
-Rendering::FpsDisplay::FpsDisplay(Canvas& canvas, App::Win32::Window& window)
-	: m_Canvas(canvas)
-	, m_Shader(Resources::GlobalShader(L"screenSpace.hlsl"))
-	, m_InputLayout( V_Pos2Uv::ELEMENTS, V_Pos2Uv::NR_ELEMENTS)
+Rendering::FpsDisplay::FpsDisplay()
+	: m_Shader(Resources::GlobalShader(L"screenSpace.hlsl"))
+	, m_InputLayout(V_Pos2Uv::ELEMENTS, V_Pos2Uv::NR_ELEMENTS)
 	, m_Vertices{ 6 }
 {
 	const std::wstring fontPath = Resources::Global(L"Fonts\\ShortBaby.ttf");
@@ -39,8 +39,8 @@ Rendering::FpsDisplay::FpsDisplay(Canvas& canvas, App::Win32::Window& window)
 
 	constexpr float margin = 10.f;
 	m_ScreenSpaceMargin = {
-		margin / window.GetClientWidth(),
-		margin / window.GetClientHeight()
+		margin / Globals::pWindow->GetClientWidth(),
+		margin / Globals::pWindow->GetClientHeight()
 	};
 
 	float xPos = -1.f + m_ScreenSpaceMargin.x;
@@ -50,14 +50,14 @@ Rendering::FpsDisplay::FpsDisplay(Canvas& canvas, App::Win32::Window& window)
 		const int pixelsInWidth{ static_cast<int>(ceil(glyph.GetSize().x * pixelsPerUnit)) };
 		const int pixelsInHeight{ static_cast<int>(ceil(glyph.GetSize().y * pixelsPerUnit)) };
 
-		const Io::Ttf::FontRasterizer rasterizer{ glyph, pixelsInWidth,pixelsInHeight };
+		const Io::Ttf::FontRasterizer rasterizer{ glyph, pixelsInWidth, pixelsInHeight };
 		Image* pImage = rasterizer.MakeImage({ 1,1,0 });
 		Texture* pTexture = new Texture(pImage);
 		delete pImage;
 
 		m_Sizes[i] = {
-			static_cast<float>(pixelsInWidth) / window.GetClientWidth(),
-			static_cast<float>(pixelsInHeight) / window.GetClientHeight()
+			static_cast<float>(pixelsInWidth) / Globals::pWindow->GetClientWidth(),
+			static_cast<float>(pixelsInHeight) / Globals::pWindow->GetClientHeight()
 		};
 		const Float2 screenSpacePos{
 			xPos, 1.f - m_Sizes[i].y - m_ScreenSpaceMargin.y
@@ -110,7 +110,7 @@ void Rendering::FpsDisplay::Render()
 	}
 }
 
-void Rendering::FpsDisplay::OnWindowResized(DirectX::XMINT2 newSize)
+void Rendering::FpsDisplay::OnWindowResized(const Int2& newSize)
 {
 }
 

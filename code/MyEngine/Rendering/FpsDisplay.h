@@ -7,36 +7,25 @@
 
 namespace MyEngine
 {
-	namespace App
-	{
-		namespace Win32
-		{
-			class Window;
-		}
-	}
 	namespace Rendering
 	{
 		class Texture;
 		class Mesh;
-		class Image;
-		class Canvas;
-		class TextRenderer;
 
 		class FpsDisplay
 		{
 		public:
-			FpsDisplay(Canvas& canvas, App::Win32::Window& window);
+			FpsDisplay();
 			~FpsDisplay();
 			
 			void Render();
-			void OnWindowResized(DirectX::XMINT2 newSize);
+			void OnWindowResized(const Int2& newSize);
 
 			void SetFps(int fps) { m_Fps = fps; }
 
 		private:
 			//---| MEMBERS |---
 			static constexpr int NR_NUMBERS = 10;
-			Canvas& m_Canvas;
 			BlendState m_BlendState;
 			RasterizerState m_RasterizerState;
 			SamplerState m_Sampler;
