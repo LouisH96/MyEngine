@@ -18,13 +18,6 @@ const Rendering::InputLayout::Element Rendering::I_ModelMatrices::ELEMENTS[] =
 	{"NORMAL", InputLayout::ElementType::Float3},
 	{"TEXCOORD", InputLayout::ElementType::Float2},
 
-	{"INST_MODEL", InputLayout::ElementType::Float4, 1, InputLayout::SlotClass::PerInstance, 0},
-	{"INST_MODEL", InputLayout::ElementType::Float4, 1, InputLayout::SlotClass::PerInstance, 1},
-	{"INST_MODEL", InputLayout::ElementType::Float4, 1, InputLayout::SlotClass::PerInstance, 2},
-	{"INST_MODEL", InputLayout::ElementType::Float4, 1, InputLayout::SlotClass::PerInstance, 3},
-
-	{"INST_MODEL_VIEW_PROJECTION", InputLayout::ElementType::Float4, 1, InputLayout::SlotClass::PerInstance, 0},
-	{"INST_MODEL_VIEW_PROJECTION", InputLayout::ElementType::Float4, 1, InputLayout::SlotClass::PerInstance, 1},
-	{"INST_MODEL_VIEW_PROJECTION", InputLayout::ElementType::Float4, 1, InputLayout::SlotClass::PerInstance, 2},
-	{"INST_MODEL_VIEW_PROJECTION", InputLayout::ElementType::Float4, 1, InputLayout::SlotClass::PerInstance, 3},
+	{"INST_MODEL", InputLayout::ElementType::Float4X4, 1, InputLayout::SlotClass::PerInstance},
+	{"INST_MODEL_VIEW_PROJECTION", InputLayout::ElementType::Float4X4, 1, InputLayout::SlotClass::PerInstance}
 };

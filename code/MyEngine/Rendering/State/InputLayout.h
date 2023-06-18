@@ -11,6 +11,7 @@ namespace MyEngine
 		public:
 			enum class ElementType
 			{
+				Float4X4,
 				Float4, Float3, Float2, Float
 			};
 			enum class SlotClass
@@ -23,7 +24,6 @@ namespace MyEngine
 				const ElementType Type{};
 				const int InputSlot{ 0 };
 				const SlotClass SlotClass{ SlotClass::PerVertex };
-				const int SemanticIndex{ 0 };
 			};
 
 			template<typename T> static InputLayout FromType();
@@ -44,6 +44,9 @@ namespace MyEngine
 			static D3D11_INPUT_CLASSIFICATION ToDx(SlotClass slotClass);
 			static std::string CreateDummyShaderString(const Element* pElements, int nrElements);
 			static std::string ToTypeString(ElementType type);
+			static unsigned ToNrDxElements(ElementType type);
+			static void AddDxElements(D3D11_INPUT_ELEMENT_DESC*& dxElements, const Element& element);
+			static Array<D3D11_INPUT_ELEMENT_DESC> ToDxDescriptions(const Element* pElements, int nrElements);
 		};
 
 		template <typename T>

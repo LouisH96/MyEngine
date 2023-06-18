@@ -23,7 +23,7 @@ namespace MyEngine
 			Float4X4 modelViewProj;
 
 			static const InputLayout::Element ELEMENTS[];
-			static constexpr int NR_ELEMENTS = 2 * 4 + 3;
+			static constexpr int NR_ELEMENTS = 2 + 3;
 		};
 	}
 }

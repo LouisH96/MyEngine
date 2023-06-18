@@ -3,27 +3,13 @@
 
 #include <d3dcompiler.h>
 #include <sstream>
-
-#include "../Dx/DxHelper.h"
-#include "../Gpu.h"
+#include <Rendering/Dx/DxHelper.h>
 
 Rendering::InputLayout::InputLayout(const Element* pElements, int nrElements)
 {
 	//CREATE INPUT_ELEMENT_DESC
-	D3D11_INPUT_ELEMENT_DESC* pDxElements = new D3D11_INPUT_ELEMENT_DESC[nrElements];
-	for (int i = 0; i < nrElements; i++)
-	{
-		D3D11_INPUT_ELEMENT_DESC& dxElement = pDxElements[i];
-		const Element& element = pElements[i];
+	const Array<D3D11_INPUT_ELEMENT_DESC> dxDescriptions{ToDxDescriptions(pElements, nrElements)};
 
-		dxElement.SemanticName = element.Semantic.c_str();
-		dxElement.SemanticIndex = element.SemanticIndex;
-		dxElement.Format = ToDxFormat(element.Type);
-		dxElement.InputSlot = element.InputSlot;
-		dxElement.AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
-		dxElement.InputSlotClass = ToDx(element.SlotClass);
-		dxElement.InstanceDataStepRate = element.SlotClass == SlotClass::PerInstance ? 1 : 0;
-	}
 	//CREATE COMPILED BLOB
 	UINT flags = D3DCOMPILE_ENABLE_STRICTNESS;
 #if defined( DEBUG ) || defined( _DEBUG )
@@ -56,7 +42,7 @@ Rendering::InputLayout::InputLayout(const Element* pElements, int nrElements)
 
 	//INPUTLAYOUT
 	result = Globals::pGpu->GetDevice().CreateInputLayout(
-		pDxElements, nrElements,
+		dxDescriptions.GetData(), dxDescriptions.GetSize(),
 		pBlob->GetBufferPointer(), pBlob->GetBufferSize(),
 		&m_pInputLayout);
 	if (FAILED(result))
@@ -64,7 +50,6 @@ Rendering::InputLayout::InputLayout(const Element* pElements, int nrElements)
 
 	SAFE_RELEASE(pBlob);
 	SAFE_RELEASE(pErrorBlob);
-	delete[] pDxElements;
 }
 
 Rendering::InputLayout::~InputLayout()
@@ -119,13 +104,20 @@ std::string Rendering::InputLayout::CreateDummyShaderString(const Element* pElem
 {
 	std::stringstream ss;
 	ss << "struct Vertex{\n";
+	int iVar = 0;
 	for (int i = 0; i < nrElements; i++)
 	{
 		const Element& element = pElements[i];
-		ss << ToTypeString(element.Type) << " var" << i << ": " << element.Semantic;
-		if (element.SemanticIndex != 0)
-			ss << element.SemanticIndex;
-		ss << ";\n";
+		switch (element.Type)
+		{
+		case ElementType::Float4X4:
+			for (int iRow = 0; iRow < 4; iRow++)
+				ss << ToTypeString(ElementType::Float4) << " var" << iVar++ << ": " << element.Semantic << iRow << ";\n";
+			break;
+		default:
+			ss << ToTypeString(element.Type) << " var" << iVar++ << ": " << element.Semantic << ";\n";
+			break;
+		}
 	}
 	ss << "};\n";
 	ss << "struct Pixel{float4 pos : VS_POSITION;};\n";
@@ -145,4 +137,53 @@ std::string Rendering::InputLayout::ToTypeString(ElementType type)
 		Logger::PrintError("ElementType not supported");
 		return "";
 	}
+}
+
+unsigned Rendering::InputLayout::ToNrDxElements(ElementType type)
+{
+	switch (type)
+	{
+	case ElementType::Float4X4: return 4;
+	default: return 1;
+	}
+}
+
+void Rendering::InputLayout::AddDxElements(D3D11_INPUT_ELEMENT_DESC*& dxElements, const Element& element)
+{
+	DXGI_FORMAT dxFormat;
+	switch (element.Type)
+	{
+	case ElementType::Float4X4:
+		dxFormat = ToDxFormat(ElementType::Float4);
+		break;
+	default:
+		dxFormat = ToDxFormat(element.Type);
+		break;
+	}
+
+	for (int i = 0; i < ToNrDxElements(element.Type); i++)
+	{
+		dxElements->SemanticName = element.Semantic.c_str();
+		dxElements->SemanticIndex = i;
+		dxElements->Format = dxFormat;
+		dxElements->InputSlot = element.InputSlot;
+		dxElements->AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
+		dxElements->InputSlotClass = ToDx(element.SlotClass);
+		dxElements->InstanceDataStepRate = element.SlotClass == SlotClass::PerInstance ? 1 : 0;
+		dxElements++;
+	}
+}
+
+Array<D3D11_INPUT_ELEMENT_DESC> Rendering::InputLayout::ToDxDescriptions(const Element* pElements, int nrElements)
+{
+	unsigned nrDxElements{ 0 };
+	for (int i = 0; i < nrElements; i++)
+		nrDxElements += ToNrDxElements(pElements[i].Type);
+
+	Array<D3D11_INPUT_ELEMENT_DESC> dxElements{nrDxElements};
+	D3D11_INPUT_ELEMENT_DESC* pDesc{ dxElements.GetData() };
+	for (int i = 0; i < nrElements; i++)
+		AddDxElements(pDesc, pElements[i]);
+
+	return dxElements;
 }
