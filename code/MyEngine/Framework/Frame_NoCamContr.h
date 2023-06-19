@@ -58,8 +58,9 @@ namespace MyEngine
 					canvas.OnWindowResized(window.GetClientSize());
 
 				//APP
-				app.Update();
+				app.EarlyUpdate();
 				camera.Update();
+				app.Update();
 				app.Render();
 			}
 
