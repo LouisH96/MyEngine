@@ -24,6 +24,12 @@ Game::Transform::Transform(const Double4X4& matrix)
 	Rotation = Quaternion{ matrix };
 }
 
+Transform::Transform(const Float4X4& matrix)
+{
+	Position = matrix.GetRow3().Xyz();
+	Rotation = Quaternion{ matrix };
+}
+
 Game::Transform& Game::Transform::operator=(const DirectX::XMMATRIX& matrix)
 {
 	XMVECTOR scale;
