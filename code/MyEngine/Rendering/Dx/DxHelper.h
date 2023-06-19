@@ -80,7 +80,7 @@ namespace MyEngine
 
 				const HRESULT result = Globals::pGpu->GetDevice().CreateBuffer(&desc, pDataResource, &pBuffer);
 				if (FAILED(result))
-					throw std::exception("DxHelper::CreateDynamicConstantBuffer");
+					Logger::PrintError("DxHelper::CreateDynamicConstantBuffer");
 			}
 
 			template <typename T>
@@ -94,7 +94,7 @@ namespace MyEngine
 				const D3D11_SUBRESOURCE_DATA dataResource{ &initData };
 				const HRESULT result = Globals::pGpu->GetDevice().CreateBuffer(&desc, &dataResource, &pBuffer);
 				if (FAILED(result))
-					throw std::exception("DxHelper::CreateImmutableConstantBuffer");
+					Logger::PrintError("DxHelper::CreateImmutableConstantBuffer");
 			}
 
 			template <typename T>
@@ -128,11 +128,11 @@ namespace MyEngine
 
 				HRESULT result = Globals::pGpu->GetDevice().CreateBuffer(&bufferDesc, &resource, &pBuffer);
 				if (FAILED(result))
-					throw std::exception("DxHelper::CreateStructuredBuffer - Buffer");
+					Logger::PrintError("DxHelper::CreateStructuredBuffer - Buffer");
 
 				result = Globals::pGpu->GetDevice().CreateUnorderedAccessView(pBuffer, &viewDesc, &pView);
 				if (FAILED(result))
-					throw std::exception("DxHelper::CreateStructuredBuffer - View");
+					Logger::PrintError("DxHelper::CreateStructuredBuffer - View");
 			}
 
 			template <typename T>
@@ -230,11 +230,11 @@ namespace MyEngine
 
 				HRESULT result = Globals::pGpu->GetDevice().CreateBuffer(&bufferDesc, &resource, &pBuffer);
 				if (FAILED(result))
-					throw std::exception("DxHelper::CreateRwStructuredBuffer - Buffer");
+					Logger::PrintError("DxHelper::CreateRwStructuredBuffer - Buffer");
 
 				result = Globals::pGpu->GetDevice().CreateShaderResourceView(pBuffer, &viewDesc, &pView);
 				if (FAILED(result))
-					throw std::exception("DxHelper::CreateRwStructuredBuffer - View");
+					Logger::PrintError("DxHelper::CreateRwStructuredBuffer - View");
 			}
 		}
 	}

@@ -85,7 +85,7 @@ void Rendering::Canvas::InitSwapChain(const App::Win32::Window& window)
 	GetFactory2(pDevice2, pAdapter, pFactory);
 
 	if (pFactory->CreateSwapChainForHwnd(&Globals::pGpu->GetDevice(), window.GetWindowHandle(), &desc, nullptr, nullptr, &m_pSwapChain) != S_OK)
-		throw std::exception("Canvas::InitSwapChain");
+		Logger::PrintError("Canvas::InitSwapChain");
 
 	pFactory->Release();
 	pAdapter->Release();
@@ -154,13 +154,13 @@ void Rendering::Canvas::GetFactory2(IDXGIDevice2*& pDevice2, IDXGIAdapter*& pAda
 {
 	HRESULT hr = Globals::pGpu->GetDevice().QueryInterface(__uuidof(IDXGIDevice2), reinterpret_cast<void**>(&pDevice2));
 	if (FAILED(hr))
-		throw std::exception("Canvas::GetFactory2::Device2");
+		Logger::PrintError("Canvas::GetFactory2::Device2");
 
 	hr = pDevice2->GetParent(__uuidof(IDXGIAdapter), reinterpret_cast<void**>(&pAdapter));
 	if (FAILED(hr))
-		throw std::exception("Canvas::GetFactory2::Adapter");
+		Logger::PrintError("Canvas::GetFactory2::Adapter");
 
 	hr = pAdapter->GetParent(__uuidof(IDXGIFactory2), reinterpret_cast<void**>(&pFactory));
 	if (FAILED(hr))
-		throw std::exception("Canvas::GetFactory2::Factory");
+		Logger::PrintError("Canvas::GetFactory2::Factory");
 }

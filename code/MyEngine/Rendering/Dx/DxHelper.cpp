@@ -17,7 +17,7 @@ void MyEngine::Rendering::Dx::DxHelper::CreateVertexShader(const std::wstring& p
 		&pVertexShader);
 
 	if (!SUCCEEDED(hr))
-		throw std::exception("DxHelper::CreateVertexShader - Error");
+		Logger::PrintError("DxHelper::CreateVertexShader - Error");
 }
 
 void MyEngine::Rendering::Dx::DxHelper::CreatePixelShader(const std::wstring& path, const std::string& functionName,
@@ -33,7 +33,7 @@ void MyEngine::Rendering::Dx::DxHelper::CreatePixelShader(const std::wstring& pa
 		&pVertexShader);
 
 	if (!SUCCEEDED(hr))
-		throw std::exception("DxHelper::CreatePixelShader - Error");
+		Logger::PrintError("DxHelper::CreatePixelShader - Error");
 }
 
 void MyEngine::Rendering::Dx::DxHelper::CreateComputeShader(const std::wstring& path, const std::string& functionName,
@@ -49,7 +49,7 @@ void MyEngine::Rendering::Dx::DxHelper::CreateComputeShader(const std::wstring& 
 		&pShader);
 
 	if (!SUCCEEDED(hr))
-		throw std::exception("DxHelper::CreateComputeShader - Error");
+		Logger::PrintError("DxHelper::CreateComputeShader - Error");
 }
 
 void MyEngine::Rendering::Dx::DxHelper::CompileFromFile(const std::wstring& path, const std::string& functionName, ID3DBlob*& pBlob)

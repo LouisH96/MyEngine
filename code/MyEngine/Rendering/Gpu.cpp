@@ -4,7 +4,6 @@
 #include <d3d11.h>
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
-#include <exception>
 
 #include "Canvas.h"
 #include "Dx/DxHelper.h"
@@ -42,6 +41,6 @@ void Rendering::Gpu::Init()
 
 	//if (D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, createDeviceFlags, featureLevelArray, 2, D3D11_SDK_VERSION, &d, &m_pSwapChain, &m_pDevice, &featureLevel, &m_pContext) != S_OK)
 	if (D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, createDeviceFlags, featureLevelArray, 2, D3D11_SDK_VERSION, &m_pDevice, &featureLevel, &m_pContext) != S_OK)
-		throw std::exception("CreateDeviceD3D failed");
+		Logger::PrintError("CreateDeviceD3D failed");
 
 }
