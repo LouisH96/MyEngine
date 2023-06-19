@@ -134,6 +134,7 @@
     <ClCompile Include="Io\Fbx\FbxTransformCurve.cpp" />
     <ClCompile Include="Rendering\DrawData\VertexArray.cpp" />
     <ClCompile Include="Rendering\Renderers\Texture2DRenderer.cpp" />
+    <ClCompile Include="Game\WorldMatrix.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataStructures\List.h" />
@@ -291,6 +292,7 @@
     <ClInclude Include="Rendering\DrawData\VertexArray.h" />
     <ClInclude Include="Rendering\DrawData\VertexList.h" />
     <ClInclude Include="Rendering\Renderers\Texture2DRenderer.h" />
+    <ClInclude Include="Game\WorldMatrix.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

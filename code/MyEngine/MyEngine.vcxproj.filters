@@ -121,6 +121,7 @@
     <ClCompile Include="Rendering\Structs\Instances.cpp" />
     <ClCompile Include="Rendering\Renderers\Texture2DRenderer.cpp" />
     <ClCompile Include="Rendering\DrawData\InstanceIdxArray.cpp" />
+    <ClCompile Include="Game\WorldMatrix.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -278,6 +279,7 @@
     <ClInclude Include="Rendering\Renderers\Texture2DRenderer.h" />
     <ClInclude Include="Rendering\DrawData\InstanceIdxArray.h" />
     <ClInclude Include="Rendering\DrawData\InstanceIdxList.h" />
+    <ClInclude Include="Game\WorldMatrix.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
