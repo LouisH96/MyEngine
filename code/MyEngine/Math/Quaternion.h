@@ -14,6 +14,7 @@ namespace MyEngine
 			Quaternion();
 			Quaternion(const Float3& real, float complex);
 			explicit Quaternion(const Double4X4& matrix);
+			explicit Quaternion(const Float4X4& matrix);
 			~Quaternion() = default;
 			static Quaternion FromAxis(const Float3& rotationAxis, float rotation);
 			static Quaternion FromForward(const Float3& forward);
