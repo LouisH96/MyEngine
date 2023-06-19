@@ -32,13 +32,13 @@ namespace MyEngine
 		template <typename Data>
 		ConstantBuffer<Data>::ConstantBuffer()
 		{
-			Dx::DxHelper::CreateDynamicConstantBuffer<Data>(Globals::pGpu->GetDevice(), m_pBuffer);
+			Dx::DxHelper::CreateDynamicConstantBuffer<Data>(m_pBuffer);
 		}
 
 		template <typename Data>
 		ConstantBuffer<Data>::ConstantBuffer(const Data& initData)
 		{
-			Dx::DxHelper::CreateDynamicConstantBuffer<Data>(Globals::pGpu->GetDevice(), m_pBuffer, initData);
+			Dx::DxHelper::CreateDynamicConstantBuffer<Data>(m_pBuffer, initData);
 		}
 
 		template <typename Data>
@@ -69,7 +69,7 @@ namespace MyEngine
 		template <typename Data>
 		void ConstantBuffer<Data>::Update(const Data& newData) const
 		{
-			Dx::DxHelper::UpdateBuffer(Globals::pGpu->GetContext(), *m_pBuffer, newData);
+			Dx::DxHelper::UpdateBuffer(*m_pBuffer, newData);
 		}
 	}
 }

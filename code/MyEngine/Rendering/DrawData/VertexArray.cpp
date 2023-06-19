@@ -11,7 +11,7 @@ Rendering::VertexArray::VertexArray(int stride, int initCount, bool immutable,
 	, m_Count{ static_cast<unsigned>(initCount) }
 	, m_Topology{ PrimitiveTopologyUtils::ToDx(topology) }
 {
-	Dx::DxHelper::CreateVertexBuffer<char>(*Globals::pGpu, m_pBuffer, initCount * stride, immutable);
+	Dx::DxHelper::CreateVertexBuffer<char>(m_pBuffer, initCount * stride, immutable);
 }
 
 MyEngine::Rendering::VertexArray::~VertexArray()
@@ -69,7 +69,7 @@ void Rendering::VertexArray::SetCapacity(unsigned capacity, bool immutable)
 {
 	if (m_Capacity == capacity) return;
 	m_pBuffer->Release();
-	Dx::DxHelper::CreateVertexBuffer(*Globals::pGpu, m_pBuffer, m_Stride, capacity, immutable);
+	Dx::DxHelper::CreateVertexBuffer(m_pBuffer, m_Stride, capacity, immutable);
 	m_Capacity = capacity;
 }
 

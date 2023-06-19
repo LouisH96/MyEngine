@@ -74,9 +74,9 @@ namespace MyEngine
 			, m_DrawCountInstances{ static_cast<unsigned>(nrInstances) }
 			, m_DrawCountIndices{ static_cast<unsigned>(nrIndices) }
 		{
-			Dx::DxHelper::CreateVertexBuffer(*Globals::pGpu, m_pBuffers[IDX_VERTICES], pVertices, nrVertices, verticesImmutable);
-			Dx::DxHelper::CreateInstanceBuffer(*Globals::pGpu, m_pBuffers[IDX_INSTANCES], pInstances, nrInstances, instancesImmutable);
-			Dx::DxHelper::CreateIndexBuffer(*Globals::pGpu, m_pBuffers[IDX_INDICES], pIndices, nrIndices, indicesImmutable);
+			Dx::DxHelper::CreateVertexBuffer(m_pBuffers[IDX_VERTICES], pVertices, nrVertices, verticesImmutable);
+			Dx::DxHelper::CreateInstanceBuffer(m_pBuffers[IDX_INSTANCES], pInstances, nrInstances, instancesImmutable);
+			Dx::DxHelper::CreateIndexBuffer(m_pBuffers[IDX_INDICES], pIndices, nrIndices, indicesImmutable);
 		}
 
 		template <typename Vertex, typename Instance>
@@ -114,7 +114,7 @@ namespace MyEngine
 		void IndexedVertexArray::RecreateInstancesWithCapacity(const List<T>& list, bool immutable)
 		{
 			m_pBuffers[IDX_INSTANCES]->Release();
-			Dx::DxHelper::CreateInstanceBuffer(*Globals::pGpu, m_pBuffers[IDX_INSTANCES], list.GetData(), list.GetCapacity(), immutable);
+			Dx::DxHelper::CreateInstanceBuffer(m_pBuffers[IDX_INSTANCES], list.GetData(), list.GetCapacity(), immutable);
 			m_Sizes[IDX_INSTANCES] = list.GetCapacity();
 		}
 	}

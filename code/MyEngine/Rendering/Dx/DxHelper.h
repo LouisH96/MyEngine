@@ -10,7 +10,6 @@
 
 #define SAFE_RELEASE(x){if(x){(x)->Release();(x)=nullptr;}}
 
-struct ID3D11Device;
 struct ID3D11VertexShader;
 struct ID3D11PixelShader;
 
@@ -23,51 +22,51 @@ namespace MyEngine
 			class DxHelper
 			{
 			public:
-				static void CreateVertexShader(ID3D11Device& device, const std::wstring& path, const std::string& functionName, ID3D11VertexShader*& pVertexShader);
-				static void CreatePixelShader(ID3D11Device& device, const std::wstring& path, const std::string& functionName, ID3D11PixelShader*& pVertexShader);
-				static void CreateComputeShader(ID3D11Device& device, const std::wstring& path, const std::string& functionName, ID3D11ComputeShader*& pShader);
+				static void CreateVertexShader(const std::wstring& path, const std::string& functionName, ID3D11VertexShader*& pVertexShader);
+				static void CreatePixelShader(const std::wstring& path, const std::string& functionName, ID3D11PixelShader*& pVertexShader);
+				static void CreateComputeShader(const std::wstring& path, const std::string& functionName, ID3D11ComputeShader*& pShader);
 				static void CompileFromFile(const std::wstring& path, const std::string& functionName, ID3DBlob*& pBlob);
 
-				static void CreateVertexBufferView(ID3D11Device& device, ID3D11Buffer*& pVertexBuffer, ID3D11UnorderedAccessView*& pView);
-				static void CreateIndexBuffer(ID3D11Device& device, ID3D11Buffer*& pIndexBuffer, const int* pInitIndices, int nrInitIndices);
-				static void CreateIndexBuffer(const Gpu& gpu, ID3D11Buffer*& pIndexBuffer, const int* pIndices, int nrIndices, bool immutable);
-				static void CreateIndexBuffer(const Gpu& gpu, ID3D11Buffer*& pIndexBuffer, const Ds::Array<int>& indices, bool immutable);
+				static void CreateVertexBufferView(ID3D11Buffer*& pVertexBuffer, ID3D11UnorderedAccessView*& pView);
+				static void CreateIndexBuffer(ID3D11Buffer*& pIndexBuffer, const int* pInitIndices, int nrInitIndices);
+				static void CreateIndexBuffer(ID3D11Buffer*& pIndexBuffer, const int* pIndices, int nrIndices, bool immutable);
+				static void CreateIndexBuffer(ID3D11Buffer*& pIndexBuffer, const Ds::Array<int>& indices, bool immutable);
 
 				template <typename T>
-				static void CreateDynamicConstantBuffer(ID3D11Device& device, ID3D11Buffer*& pBuffer, T* pInitData = nullptr);
+				static void CreateDynamicConstantBuffer(ID3D11Buffer*& pBuffer, T* pInitData = nullptr);
 				template <typename T>
-				static void CreateImmutableConstantBuffer(ID3D11Device& device, ID3D11Buffer*& pBuffer, T& initData = nullptr);
+				static void CreateImmutableConstantBuffer(ID3D11Buffer*& pBuffer, T& initData = nullptr);
 
 				template <typename T>
-				static void UpdateBuffer(ID3D11DeviceContext& context, ID3D11Buffer& buffer, const T& bufferContent);
+				static void UpdateBuffer(ID3D11Buffer& buffer, const T& bufferContent);
 
 				template <typename T>
-				static void CreateRwStructuredBuffer(ID3D11Device& device, ID3D11Buffer*& pBuffer, ID3D11UnorderedAccessView*& pView, T* pInitData, size_t nrInitElems);
+				static void CreateRwStructuredBuffer(ID3D11Buffer*& pBuffer, ID3D11UnorderedAccessView*& pView, T* pInitData, size_t nrInitElems);
 				template <typename T>
-				static void CreateRwStructuredBuffer(ID3D11Device& device, ID3D11Buffer*& pBuffer, ID3D11UnorderedAccessView*& pView, const std::vector<T>& initData);
+				static void CreateRwStructuredBuffer(ID3D11Buffer*& pBuffer, ID3D11UnorderedAccessView*& pView, const std::vector<T>& initData);
 
 				template <typename T>
-				static void CreateStructuredBuffer(ID3D11Device& device, ID3D11Buffer*& pBuffer, ID3D11ShaderResourceView*& pView, T* pInitData, size_t nrInitElems);
+				static void CreateStructuredBuffer(ID3D11Buffer*& pBuffer, ID3D11ShaderResourceView*& pView, T* pInitData, size_t nrInitElems);
 				template <typename T>
-				static void CreateStructuredBuffer(ID3D11Device& device, ID3D11Buffer*& pBuffer, ID3D11ShaderResourceView*& pView, const std::vector<T>& initData);
+				static void CreateStructuredBuffer(ID3D11Buffer*& pBuffer, ID3D11ShaderResourceView*& pView, const std::vector<T>& initData);
 
-				static void CreateVertexBuffer(const Gpu& gpu, ID3D11Buffer*& pBuffer, unsigned stride, int length, bool immutable);
+				static void CreateVertexBuffer(ID3D11Buffer*& pBuffer, unsigned stride, int length, bool immutable);
 				template<typename T>
-				static void CreateVertexBuffer(const Gpu& gpu, ID3D11Buffer*& pBuffer, int length, bool immutable);
+				static void CreateVertexBuffer(ID3D11Buffer*& pBuffer, int length, bool immutable);
 				template<typename T>
-				static void CreateVertexBuffer(const Gpu& gpu, ID3D11Buffer*& pBuffer, const T* pData, int length, bool immutable);
+				static void CreateVertexBuffer(ID3D11Buffer*& pBuffer, const T* pData, int length, bool immutable);
 				template<typename T>
-				static void CreateVertexBuffer(const Gpu& gpu, ID3D11Buffer*& pBuffer, const Ds::Array<T>& data, bool immutable);
+				static void CreateVertexBuffer(ID3D11Buffer*& pBuffer, const Ds::Array<T>& data, bool immutable);
 				template<typename T>
-				static void CreateVertexBuffer(const Gpu& gpu, ID3D11Buffer*& pBuffer, const Ds::List<T>& data, bool immutable);
+				static void CreateVertexBuffer(ID3D11Buffer*& pBuffer, const Ds::List<T>& data, bool immutable);
 				template<typename T>
-				static void CreateInstanceBuffer(const Gpu& gpu, ID3D11Buffer*& pBuffer, const T* pData, int length, bool immutable);
+				static void CreateInstanceBuffer(ID3D11Buffer*& pBuffer, const T* pData, int length, bool immutable);
 				template<typename T>
-				static void CreateInstanceBuffer(const Gpu& gpu, ID3D11Buffer*& pBuffer, const Ds::Array<T>& data, bool immutable);
+				static void CreateInstanceBuffer(ID3D11Buffer*& pBuffer, const Ds::Array<T>& data, bool immutable);
 			};
 
 			template <typename T>
-			void DxHelper::CreateDynamicConstantBuffer(ID3D11Device& device, ID3D11Buffer*& pBuffer, T* pInitData)
+			void DxHelper::CreateDynamicConstantBuffer(ID3D11Buffer*& pBuffer, T* pInitData)
 			{
 				const D3D11_BUFFER_DESC desc
 				{
@@ -79,13 +78,13 @@ namespace MyEngine
 					? &dataResource
 					: nullptr };
 
-				const HRESULT result = device.CreateBuffer(&desc, pDataResource, &pBuffer);
+				const HRESULT result = Globals::pGpu->GetDevice().CreateBuffer(&desc, pDataResource, &pBuffer);
 				if (FAILED(result))
 					throw std::exception("DxHelper::CreateDynamicConstantBuffer");
 			}
 
 			template <typename T>
-			void DxHelper::CreateImmutableConstantBuffer(ID3D11Device& device, ID3D11Buffer*& pBuffer, T& initData)
+			void DxHelper::CreateImmutableConstantBuffer(ID3D11Buffer*& pBuffer, T& initData)
 			{
 				const D3D11_BUFFER_DESC desc
 				{
@@ -93,23 +92,23 @@ namespace MyEngine
 					0, 0, 0
 				};
 				const D3D11_SUBRESOURCE_DATA dataResource{ &initData };
-				const HRESULT result = device.CreateBuffer(&desc, &dataResource, &pBuffer);
+				const HRESULT result = Globals::pGpu->GetDevice().CreateBuffer(&desc, &dataResource, &pBuffer);
 				if (FAILED(result))
 					throw std::exception("DxHelper::CreateImmutableConstantBuffer");
 			}
 
 			template <typename T>
-			void DxHelper::UpdateBuffer(ID3D11DeviceContext& context, ID3D11Buffer& buffer, const T& bufferContent)
+			void DxHelper::UpdateBuffer(ID3D11Buffer& buffer, const T& bufferContent)
 			{
 				D3D11_MAPPED_SUBRESOURCE mappedResource{};
-				context.Map(&buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+				Globals::pGpu->GetContext().Map(&buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 				T& mappedContent = *static_cast<T*>(mappedResource.pData);
 				mappedContent = bufferContent;
-				context.Unmap(&buffer, 0);
+				Globals::pGpu->GetContext().Unmap(&buffer, 0);
 			}
 
 			template <typename T>
-			void DxHelper::CreateRwStructuredBuffer(ID3D11Device& device, ID3D11Buffer*& pBuffer,
+			void DxHelper::CreateRwStructuredBuffer(ID3D11Buffer*& pBuffer,
 				ID3D11UnorderedAccessView*& pView, T* pInitData, size_t nrInitElems)
 			{
 				const D3D11_BUFFER_DESC bufferDesc
@@ -127,31 +126,31 @@ namespace MyEngine
 				};
 				const D3D11_SUBRESOURCE_DATA resource{ pInitData };
 
-				HRESULT result = device.CreateBuffer(&bufferDesc, &resource, &pBuffer);
+				HRESULT result = Globals::pGpu->GetDevice().CreateBuffer(&bufferDesc, &resource, &pBuffer);
 				if (FAILED(result))
 					throw std::exception("DxHelper::CreateStructuredBuffer - Buffer");
 
-				result = device.CreateUnorderedAccessView(pBuffer, &viewDesc, &pView);
+				result = Globals::pGpu->GetDevice().CreateUnorderedAccessView(pBuffer, &viewDesc, &pView);
 				if (FAILED(result))
 					throw std::exception("DxHelper::CreateStructuredBuffer - View");
 			}
 
 			template <typename T>
-			void DxHelper::CreateRwStructuredBuffer(ID3D11Device& device, ID3D11Buffer*& pBuffer,
+			void DxHelper::CreateRwStructuredBuffer(ID3D11Buffer*& pBuffer,
 				ID3D11UnorderedAccessView*& pView, const std::vector<T>& initData)
 			{
-				CreateRwStructuredBuffer(device, pBuffer, pView, initData.data(), initData.size());
+				CreateRwStructuredBuffer(Globals::pGpu->GetDevice(), pBuffer, pView, initData.data(), initData.size());
 			}
 
 			template <typename T>
-			void DxHelper::CreateStructuredBuffer(ID3D11Device& device, ID3D11Buffer*& pBuffer,
+			void DxHelper::CreateStructuredBuffer(ID3D11Buffer*& pBuffer,
 				ID3D11ShaderResourceView*& pView, const std::vector<T>& initData)
 			{
-				CreateStructuredBuffer(device, pBuffer, pView, initData.data(), initData.size());
+				CreateStructuredBuffer(Globals::pGpu->GetDevice(), pBuffer, pView, initData.data(), initData.size());
 			}
 
 			template <typename T>
-			void DxHelper::CreateVertexBuffer(const Gpu& gpu, ID3D11Buffer*& pBuffer, int length, bool immutable)
+			void DxHelper::CreateVertexBuffer(ID3D11Buffer*& pBuffer, int length, bool immutable)
 			{
 				const D3D11_BUFFER_DESC desc
 				{
@@ -161,13 +160,13 @@ namespace MyEngine
 					immutable ? 0 : D3D11_CPU_ACCESS_WRITE,
 					0, sizeof(T)
 				};
-				const HRESULT result{ gpu.GetDevice().CreateBuffer(&desc, nullptr, &pBuffer) };
+				const HRESULT result{ Globals::pGpu->GetDevice().CreateBuffer(&desc, nullptr, &pBuffer) };
 				if (FAILED(result))
 					Logger::PrintError("Failed creating Vertex-Buffer");
 			}
 
 			template <typename T>
-			void DxHelper::CreateVertexBuffer(const Gpu& gpu, ID3D11Buffer*& pBuffer, const T* pData, int length,
+			void DxHelper::CreateVertexBuffer(ID3D11Buffer*& pBuffer, const T* pData, int length,
 				bool immutable)
 			{
 				const D3D11_BUFFER_DESC desc
@@ -179,41 +178,40 @@ namespace MyEngine
 					0, sizeof(T)
 				};
 				const D3D11_SUBRESOURCE_DATA initData{ pData,0,0 };
-				const HRESULT result{ gpu.GetDevice().CreateBuffer(&desc, &initData, &pBuffer) };
+				const HRESULT result{ Globals::pGpu->GetDevice().CreateBuffer(&desc, &initData, &pBuffer) };
 				if (FAILED(result))
 					Logger::PrintError("Failed creating Vertex-Buffer");
 			}
 
 			template <typename T>
-			void DxHelper::CreateVertexBuffer(const Gpu& gpu, ID3D11Buffer*& pBuffer, const Ds::List<T>& data, bool immutable)
+			void DxHelper::CreateVertexBuffer(ID3D11Buffer*& pBuffer, const Ds::List<T>& data, bool immutable)
 			{
-				CreateVertexBuffer(gpu, pBuffer, data.GetData(), data.GetSize(), immutable);
+				CreateVertexBuffer(pBuffer, data.GetData(), data.GetSize(), immutable);
 			}
 
 			template <typename T>
-			void DxHelper::CreateVertexBuffer(const Gpu& gpu, ID3D11Buffer*& pBuffer, const Ds::Array<T>& data,
+			void DxHelper::CreateVertexBuffer(ID3D11Buffer*& pBuffer, const Ds::Array<T>& data,
 				bool immutable)
 			{
-				CreateVertexBuffer(gpu, pBuffer, data.GetData(), data.GetSize(), immutable);
+				CreateVertexBuffer(pBuffer, data.GetData(), data.GetSize(), immutable);
 			}
 
 			template <typename T>
-			void DxHelper::CreateInstanceBuffer(const Gpu& gpu, ID3D11Buffer*& pBuffer, const T* pData, int length,
+			void DxHelper::CreateInstanceBuffer(ID3D11Buffer*& pBuffer, const T* pData, int length,
 				bool immutable)
 			{
-				CreateVertexBuffer(gpu, pBuffer, pData, length, immutable);
+				CreateVertexBuffer(pBuffer, pData, length, immutable);
 			}
 
 			template <typename T>
-			void DxHelper::CreateInstanceBuffer(const Gpu& gpu, ID3D11Buffer*& pBuffer, const Ds::Array<T>& data,
+			void DxHelper::CreateInstanceBuffer(ID3D11Buffer*& pBuffer, const Ds::Array<T>& data,
 				bool immutable)
 			{
-				CreateInstanceBuffer(gpu, pBuffer, data, immutable);
+				CreateInstanceBuffer(pBuffer, data, immutable);
 			}
 
 			template <typename T>
-			void DxHelper::CreateStructuredBuffer(ID3D11Device& device, ID3D11Buffer*& pBuffer,
-				ID3D11ShaderResourceView*& pView, T* pInitData, size_t nrInitElems)
+			void DxHelper::CreateStructuredBuffer(ID3D11Buffer*& pBuffer, ID3D11ShaderResourceView*& pView, T* pInitData, size_t nrInitElems)
 			{
 				const D3D11_BUFFER_DESC bufferDesc
 				{
@@ -230,11 +228,11 @@ namespace MyEngine
 				};
 				const D3D11_SUBRESOURCE_DATA resource{ pInitData };
 
-				HRESULT result = device.CreateBuffer(&bufferDesc, &resource, &pBuffer);
+				HRESULT result = Globals::pGpu->GetDevice().CreateBuffer(&bufferDesc, &resource, &pBuffer);
 				if (FAILED(result))
 					throw std::exception("DxHelper::CreateRwStructuredBuffer - Buffer");
 
-				result = device.CreateShaderResourceView(pBuffer, &viewDesc, &pView);
+				result = Globals::pGpu->GetDevice().CreateShaderResourceView(pBuffer, &viewDesc, &pView);
 				if (FAILED(result))
 					throw std::exception("DxHelper::CreateRwStructuredBuffer - View");
 			}

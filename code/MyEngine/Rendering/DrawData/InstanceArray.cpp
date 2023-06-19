@@ -52,7 +52,7 @@ void Rendering::InstanceArray::Draw(unsigned instanceCount) const
 void Rendering::InstanceArray::SetInstanceCapacity(unsigned capacity, bool immutable)
 {
 	m_pBuffers[IDX_INSTANCES]->Release();
-	Dx::DxHelper::CreateVertexBuffer(*Globals::pGpu, m_pBuffers[IDX_INSTANCES], m_Strides[IDX_INSTANCES], static_cast<int>(capacity), immutable);
+	Dx::DxHelper::CreateVertexBuffer(m_pBuffers[IDX_INSTANCES], m_Strides[IDX_INSTANCES], static_cast<int>(capacity), immutable);
 	m_Capacities[IDX_INSTANCES] = capacity;
 }
 

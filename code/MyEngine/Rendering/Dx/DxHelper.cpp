@@ -4,13 +4,13 @@
 #include <d3d11.h>
 #include <d3dcompiler.h>
 
-void MyEngine::Rendering::Dx::DxHelper::CreateVertexShader(ID3D11Device& device, const std::wstring& path, const std::string& functionName,
+void MyEngine::Rendering::Dx::DxHelper::CreateVertexShader(const std::wstring& path, const std::string& functionName,
 	ID3D11VertexShader*& pVertexShader)
 {
 	ID3D10Blob* pBlob{};
 	CompileFromFile(path, functionName, pBlob);
 
-	const HRESULT hr = device.CreateVertexShader(
+	const HRESULT hr = Globals::pGpu->GetDevice().CreateVertexShader(
 		pBlob->GetBufferPointer(),
 		pBlob->GetBufferSize(),
 		nullptr,
@@ -20,13 +20,13 @@ void MyEngine::Rendering::Dx::DxHelper::CreateVertexShader(ID3D11Device& device,
 		throw std::exception("DxHelper::CreateVertexShader - Error");
 }
 
-void MyEngine::Rendering::Dx::DxHelper::CreatePixelShader(ID3D11Device& device, const std::wstring& path, const std::string& functionName,
+void MyEngine::Rendering::Dx::DxHelper::CreatePixelShader(const std::wstring& path, const std::string& functionName,
 	ID3D11PixelShader*& pVertexShader)
 {
 	ID3D10Blob* pBlob{};
 	CompileFromFile(path, functionName, pBlob);
 
-	const HRESULT hr = device.CreatePixelShader(
+	const HRESULT hr = Globals::pGpu->GetDevice().CreatePixelShader(
 		pBlob->GetBufferPointer(),
 		pBlob->GetBufferSize(),
 		nullptr,
@@ -36,13 +36,13 @@ void MyEngine::Rendering::Dx::DxHelper::CreatePixelShader(ID3D11Device& device, 
 		throw std::exception("DxHelper::CreatePixelShader - Error");
 }
 
-void MyEngine::Rendering::Dx::DxHelper::CreateComputeShader(ID3D11Device& device, const std::wstring& path, const std::string& functionName,
+void MyEngine::Rendering::Dx::DxHelper::CreateComputeShader(const std::wstring& path, const std::string& functionName,
 	ID3D11ComputeShader*& pShader)
 {
 	ID3D10Blob* pBlob{};
 	CompileFromFile(path, functionName, pBlob);
 
-	const HRESULT hr = device.CreateComputeShader(
+	const HRESULT hr = Globals::pGpu->GetDevice().CreateComputeShader(
 		pBlob->GetBufferPointer(),
 		pBlob->GetBufferSize(),
 		nullptr,
@@ -94,8 +94,7 @@ void MyEngine::Rendering::Dx::DxHelper::CompileFromFile(const std::wstring& path
 	}
 }
 
-void MyEngine::Rendering::Dx::DxHelper::CreateVertexBufferView(ID3D11Device& device, ID3D11Buffer*& pVertexBuffer,
-	ID3D11UnorderedAccessView*& pView)
+void MyEngine::Rendering::Dx::DxHelper::CreateVertexBufferView(ID3D11Buffer*& pVertexBuffer, ID3D11UnorderedAccessView*& pView)
 {
 	D3D11_BUFFER_DESC descBuf = {};
 	pVertexBuffer->GetDesc(&descBuf);
@@ -108,11 +107,10 @@ void MyEngine::Rendering::Dx::DxHelper::CreateVertexBufferView(ID3D11Device& dev
 	uavDesc.Format = DXGI_FORMAT_R32_TYPELESS;
 	uavDesc.Buffer.NumElements = descBuf.ByteWidth / 4;
 
-	device.CreateUnorderedAccessView(pVertexBuffer, &uavDesc, &pView);
+	Globals::pGpu->GetDevice().CreateUnorderedAccessView(pVertexBuffer, &uavDesc, &pView);
 }
 
-void MyEngine::Rendering::Dx::DxHelper::CreateIndexBuffer(ID3D11Device& device, ID3D11Buffer*& pIndexBuffer,
-                                                          const int* pInitIndices, int nrInitIndices)
+void MyEngine::Rendering::Dx::DxHelper::CreateIndexBuffer(ID3D11Buffer*& pIndexBuffer, const int* pInitIndices, int nrInitIndices)
 {
 	D3D11_BUFFER_DESC desc{};
 	desc.Usage = D3D11_USAGE_DEFAULT;
@@ -126,13 +124,12 @@ void MyEngine::Rendering::Dx::DxHelper::CreateIndexBuffer(ID3D11Device& device, 
 	initData.SysMemPitch = 0;
 	initData.SysMemSlicePitch = 0;
 
-	const HRESULT result = device.CreateBuffer(&desc, &initData, &pIndexBuffer);
+	const HRESULT result = Globals::pGpu->GetDevice().CreateBuffer(&desc, &initData, &pIndexBuffer);
 	if (FAILED(result))
 		Logger::PrintError("CreateIndexBuffer");
 }
 
-void Rendering::Dx::DxHelper::CreateIndexBuffer(const Gpu& gpu, ID3D11Buffer*& pIndexBuffer, const int* pIndices, int nrIndices,
-	bool immutable)
+void Rendering::Dx::DxHelper::CreateIndexBuffer(ID3D11Buffer*& pIndexBuffer, const int* pIndices, int nrIndices, bool immutable)
 {
 	D3D11_BUFFER_DESC desc{};
 	desc.Usage = immutable ? D3D11_USAGE_IMMUTABLE : D3D11_USAGE_DYNAMIC;
@@ -143,17 +140,17 @@ void Rendering::Dx::DxHelper::CreateIndexBuffer(const Gpu& gpu, ID3D11Buffer*& p
 
 	const D3D11_SUBRESOURCE_DATA initData{ pIndices,0,0 };
 
-	const HRESULT result = gpu.GetDevice().CreateBuffer(&desc, &initData, &pIndexBuffer);
+	const HRESULT result = Globals::pGpu->GetDevice().CreateBuffer(&desc, &initData, &pIndexBuffer);
 	if (FAILED(result))
 		Logger::PrintError("Failed creating index-buffer");
 }
 
-void Rendering::Dx::DxHelper::CreateIndexBuffer(const Gpu& gpu, ID3D11Buffer*& pIndexBuffer, const Array<int>& indices, bool immutable)
+void Rendering::Dx::DxHelper::CreateIndexBuffer(ID3D11Buffer*& pIndexBuffer, const Array<int>& indices, bool immutable)
 {
-	CreateIndexBuffer(gpu, pIndexBuffer, indices.GetData(), indices.GetSize(), immutable);
+	CreateIndexBuffer(pIndexBuffer, indices.GetData(), indices.GetSize(), immutable);
 }
 
-void Rendering::Dx::DxHelper::CreateVertexBuffer(const Gpu& gpu, ID3D11Buffer*& pBuffer, unsigned stride, int length,
+void Rendering::Dx::DxHelper::CreateVertexBuffer(ID3D11Buffer*& pBuffer, unsigned stride, int length,
 	bool immutable)
 {
 	const D3D11_BUFFER_DESC desc
@@ -164,7 +161,7 @@ void Rendering::Dx::DxHelper::CreateVertexBuffer(const Gpu& gpu, ID3D11Buffer*& 
 		immutable ? 0u : D3D11_CPU_ACCESS_WRITE,
 		0, stride
 	};
-	const HRESULT result{ gpu.GetDevice().CreateBuffer(&desc, nullptr, &pBuffer) };
+	const HRESULT result{ Globals::pGpu->GetDevice().CreateBuffer(&desc, nullptr, &pBuffer) };
 	if (FAILED(result))
 		Logger::PrintError("Failed creating Vertex-Buffer");
 }

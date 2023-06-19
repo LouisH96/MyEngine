@@ -22,7 +22,7 @@ void Rendering::Shader::Activate() const
 
 void Rendering::Shader::InitShaders(const std::wstring& fullPath)
 {
-	Dx::DxHelper::CreateVertexShader(Globals::pGpu->GetDevice(), fullPath, "vs_main", m_pVertexShader);
-	Dx::DxHelper::CreatePixelShader(Globals::pGpu->GetDevice(), fullPath, "ps_main", m_pPixelShader);
+	Dx::DxHelper::CreateVertexShader(fullPath, "vs_main", m_pVertexShader);
+	Dx::DxHelper::CreatePixelShader(fullPath, "ps_main", m_pPixelShader);
 }
 

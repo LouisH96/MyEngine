@@ -61,8 +61,8 @@ namespace MyEngine
 			, m_Counts{ nrVertices, 0 }
 			, m_Capacities{ nrVertices, instancesCapacity }
 		{
-			Dx::DxHelper::CreateVertexBuffer(*Globals::pGpu, m_pBuffers[IDX_VERTICES], pVertices, nrVertices, verticesImmutable);
-			Dx::DxHelper::CreateVertexBuffer(*Globals::pGpu, m_pBuffers[IDX_INSTANCES], instanceStride, instancesCapacity, instancesImmutable);;
+			Dx::DxHelper::CreateVertexBuffer(m_pBuffers[IDX_VERTICES], pVertices, nrVertices, verticesImmutable);
+			Dx::DxHelper::CreateVertexBuffer(m_pBuffers[IDX_INSTANCES], instanceStride, instancesCapacity, instancesImmutable);;
 		}
 
 		template <typename Vertex, typename Instance>
@@ -73,15 +73,15 @@ namespace MyEngine
 			, m_Counts{ nrVertices, nrInstances }
 			, m_Capacities{ nrVertices, nrInstances }
 		{
-			Dx::DxHelper::CreateVertexBuffer(*Globals::pGpu, m_pBuffers[IDX_VERTICES], pVertices, nrVertices, verticesImmutable);
-			Dx::DxHelper::CreateInstanceBuffer(*Globals::pGpu, m_pBuffers[IDX_INSTANCES], pInstances, nrInstances, instancesImmutable);
+			Dx::DxHelper::CreateVertexBuffer(m_pBuffers[IDX_VERTICES], pVertices, nrVertices, verticesImmutable);
+			Dx::DxHelper::CreateInstanceBuffer(m_pBuffers[IDX_INSTANCES], pInstances, nrInstances, instancesImmutable);
 		}
 
 		template <typename Vertex>
 		void InstanceArray::SetVertices(const Vertex* pVertices, unsigned nrVertices, bool immutable)
 		{
 			if (m_pBuffers[IDX_VERTICES]) m_pBuffers[IDX_VERTICES]->Release();
-			Dx::DxHelper::CreateVertexBuffer(*Globals::pGpu, m_pBuffers[IDX_VERTICES], pVertices, nrVertices, immutable);
+			Dx::DxHelper::CreateVertexBuffer(m_pBuffers[IDX_VERTICES], pVertices, nrVertices, immutable);
 			m_Counts[IDX_VERTICES] = nrVertices;
 		}
 
@@ -89,7 +89,7 @@ namespace MyEngine
 		void InstanceArray::SetInstances(const Instance* pInstances, unsigned nrInstances, bool immutable)
 		{
 			if (m_pBuffers[IDX_INSTANCES]) m_pBuffers[IDX_INSTANCES]->Release();
-			Dx::DxHelper::CreateInstanceBuffer(*Globals::pGpu, m_pBuffers[IDX_INSTANCES], pInstances, nrInstances, immutable);
+			Dx::DxHelper::CreateInstanceBuffer(m_pBuffers[IDX_INSTANCES], pInstances, nrInstances, immutable);
 			m_Counts[IDX_INSTANCES] = nrInstances;
 		}
 

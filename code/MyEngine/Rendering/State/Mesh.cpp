@@ -13,7 +13,7 @@ Mesh::Mesh(unsigned vertexStride, const void* pVertices, int nrVertices, const i
 	, m_fpDraw(&Mesh::DrawIndexed)
 {
 	InitVertexBuffer(pVertices, immutable);
-	Dx::DxHelper::CreateIndexBuffer(Globals::pGpu->GetDevice(), m_pIndexBuffer, pIndices, nrIndices);
+	Dx::DxHelper::CreateIndexBuffer(m_pIndexBuffer, pIndices, nrIndices);
 }
 
 Mesh::Mesh(unsigned vertexStride, const void* pVertices, int nrVertices, Topology topology, bool immutable)
