@@ -60,9 +60,9 @@ namespace MyEngine
 			, m_Counts{ nrVertices, 0, nrIndices }
 			, m_Capacities{ nrVertices, instanceCapacity, nrIndices }
 		{
-			Dx::DxHelper::CreateVertexBuffer(*Globals::pGpu, m_pBuffers[IDX_VERTICES], pVertices, nrVertices, true);
-			Dx::DxHelper::CreateIndexBuffer(*Globals::pGpu, m_pBuffers[IDX_INDICES], pIndices, nrIndices, true);
-			Dx::DxHelper::CreateVertexBuffer(*Globals::pGpu, m_pBuffers[IDX_INSTANCES], instanceStride, instanceCapacity, !dynamicInstances);
+			Dx::DxHelper::CreateVertexBuffer(m_pBuffers[IDX_VERTICES], pVertices, nrVertices, true);
+			Dx::DxHelper::CreateIndexBuffer(m_pBuffers[IDX_INDICES], pIndices, nrIndices, true);
+			Dx::DxHelper::CreateVertexBuffer(m_pBuffers[IDX_INSTANCES], instanceStride, instanceCapacity, !dynamicInstances);
 		}
 
 		template <typename Vertex, typename Instance>
@@ -73,9 +73,9 @@ namespace MyEngine
 			, m_Counts{ nrVertices, nrInstances, nrIndices }
 			, m_Capacities{ nrVertices, nrInstances, nrIndices }
 		{
-			Dx::DxHelper::CreateVertexBuffer(*Globals::pGpu, m_pBuffers[IDX_VERTICES], pVertices, nrVertices, true);
-			Dx::DxHelper::CreateIndexBuffer(*Globals::pGpu, m_pBuffers[IDX_INDICES], pIndices, nrIndices, true);
-			Dx::DxHelper::CreateVertexBuffer(*Globals::pGpu, m_pBuffers[IDX_INSTANCES], pInstances, nrInstances, !dynamicInstances);
+			Dx::DxHelper::CreateVertexBuffer(m_pBuffers[IDX_VERTICES], pVertices, nrVertices, true);
+			Dx::DxHelper::CreateIndexBuffer(m_pBuffers[IDX_INDICES], pIndices, nrIndices, true);
+			Dx::DxHelper::CreateVertexBuffer(m_pBuffers[IDX_INSTANCES], pInstances, nrInstances, !dynamicInstances);
 		}
 
 		template <typename Instance>

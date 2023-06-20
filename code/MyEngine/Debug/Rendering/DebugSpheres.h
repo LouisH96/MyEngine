@@ -1,16 +1,8 @@
 #pragma once
-#include "DataStructures/List.h"
-#include "Rendering/DrawData/IndexedVertexArray.h"
+#include "Rendering/DrawData/InstanceIdxList.h"
 #include "Rendering/State/InputLayout.h"
 #include "Rendering/State/Shader.h"
-
-namespace MyEngine
-{
-	namespace Rendering
-	{
-		class Mesh;
-	}
-}
+#include "Rendering/Structs/VertexTypes.h"
 
 namespace MyEngine
 {
@@ -27,7 +19,8 @@ namespace MyEngine
 			void DrawSphere(const Float3& position, const Float3& color, float size);
 
 		private:
-			struct InstanceData
+			using Vertex = Rendering::V_PosNor;
+			struct Instance
 			{
 				Float3 Position;
 				Float3 Color;
@@ -37,8 +30,7 @@ namespace MyEngine
 			Rendering::Shader m_Shader;
 			static const Rendering::InputLayout::Element ELEMENTS[];
 
-			List<InstanceData> m_Spheres{};
-			Rendering::IndexedVertexArray m_Vertices;
+			Rendering::InstanceIdxList<Vertex, Instance> m_Spheres;
 		};
 	}
 }

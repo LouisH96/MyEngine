@@ -3,8 +3,8 @@
 
 #include <Framework/Resources.h>
 #include <Generation/Shapes.h>
+#include <Rendering/DrawData/InstanceIdxList.h>
 #include <Rendering/State/InputLayout.h>
-#include <Rendering/State/Mesh.h>
 
 using namespace Rendering;
 
@@ -19,10 +19,8 @@ const InputLayout::Element DebugSpheres::ELEMENTS[] =
 
 DebugSpheres::DebugSpheres()
 	: m_InputLayout{ ELEMENTS, static_cast<int>(sizeof(ELEMENTS) / sizeof(InputLayout::Element)) }
-	, m_Shader{ Resources::GlobalShader(L"LambertCam_Inst_Col_Pos.hlsl") }
+	, m_Shader{ Resources::GlobalShader(L"Debug_Spheres.hlsl") }
 {
-	using Vertex = V_PosNor;
-
 	//VERTEX BUFFER
 	const Sphere sphere{ {0,0,0}, 1 };
 	Array<Float3> positions{};
@@ -34,26 +32,19 @@ DebugSpheres::DebugSpheres()
 		vertices[i] = Vertex{ positions[i], normals[i] };
 
 	//INSTANCE BUFFER
-	m_Vertices = IndexedVertexArray{
-		vertices.GetData(), vertices.GetSize(),
-		m_Spheres.GetData(), m_Spheres.GetCapacity(),
-		indices.GetData(), indices.GetSize(),
-		true, false, true };
+	m_Spheres = InstanceIdxList<Vertex, Instance>{
+		vertices.GetData(), vertices.GetSizeU(),
+		indices.GetData(), indices.GetSizeU() };
 }
 
 void DebugSpheres::Render()
 {
-	if (m_Spheres.GetSize() == 0) return;
-	if (m_Spheres.GetSize() > m_Vertices.GetInstancesSize())
-		m_Vertices.RecreateInstancesWithCapacity(m_Spheres, false);
-	else
-		m_Vertices.UpdateInstancesData(m_Spheres);
-	m_Vertices.SetInstancesDrawCount(m_Spheres.GetSize());
-	m_Spheres.Clear();
+	if (m_Spheres.IsEmpty()) return;
 
 	m_InputLayout.Activate();
 	m_Shader.Activate();
-	m_Vertices.Draw();
+	m_Spheres.Draw();
+	m_Spheres.Clear();
 }
 
 void DebugSpheres::DrawSphere(const Float3& position, const Float3& color, float size)

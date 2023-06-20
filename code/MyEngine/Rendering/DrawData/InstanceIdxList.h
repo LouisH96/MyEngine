@@ -26,6 +26,8 @@ namespace MyEngine
 			void Insert(const Instance& instance, int idx);
 			void EnsureCapacity(int minCapacity);
 			void SetCount(int count);
+			bool IsEmpty() const;
+			void Clear();
 
 			Instance& operator[](unsigned idx);
 			const Instance& operator[](unsigned idx) const;
@@ -39,7 +41,7 @@ namespace MyEngine
 		template <typename Vertex, typename Instance>
 		InstanceIdxList<Vertex, Instance>::InstanceIdxList(const Vertex* pVertices, unsigned nrVertices,
 			const int* pIndices, unsigned nrIndices)
-			: m_GpuInstances{ pVertices, nrVertices, pIndices, nrIndices, 5, true }
+			: m_GpuInstances{ pVertices, nrVertices, pIndices, nrIndices, sizeof(Instance), 5, true }
 		{
 		}
 
@@ -102,6 +104,19 @@ namespace MyEngine
 		{
 			m_Changed = true;
 			m_CpuInstances.SetSize(count);
+		}
+
+		template <typename Vertex, typename Instance>
+		bool InstanceIdxList<Vertex, Instance>::IsEmpty() const
+		{
+			return m_CpuInstances.IsEmpty();
+		}
+
+		template <typename Vertex, typename Instance>
+		void InstanceIdxList<Vertex, Instance>::Clear()
+		{
+			m_Changed = true;
+			m_CpuInstances.Clear();
 		}
 
 		template <typename Vertex, typename Instance>

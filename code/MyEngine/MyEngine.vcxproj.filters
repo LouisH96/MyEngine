@@ -107,7 +107,6 @@
     <ClCompile Include="Io\Fbx\FbxTransformCurve.cpp" />
     <ClCompile Include="Debug\Rendering\DebugSpheres.cpp" />
     <ClCompile Include="Rendering\DrawData\InstanceArray.cpp" />
-    <ClCompile Include="Rendering\DrawData\IndexedVertexArray.cpp" />
     <ClCompile Include="Debug\Rendering\DebugLines.cpp" />
     <ClCompile Include="Rendering\DrawData\VertexArray.cpp" />
     <ClCompile Include="Rendering\State\PrimitiveTopology.cpp" />
@@ -257,7 +256,6 @@
     <ClInclude Include="Debug\Rendering\DebugSpheres.h" />
     <ClInclude Include="Rendering\DrawData\IDrawData.h" />
     <ClInclude Include="Rendering\DrawData\InstanceArray.h" />
-    <ClInclude Include="Rendering\DrawData\IndexedVertexArray.h" />
     <ClInclude Include="DataStructures\List.h" />
     <ClInclude Include="Debug\Rendering\DebugLines.h" />
     <ClInclude Include="Rendering\DrawData\VertexArray.h" />

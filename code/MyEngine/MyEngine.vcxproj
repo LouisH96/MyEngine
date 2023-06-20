@@ -23,7 +23,6 @@
     <ClCompile Include="Io\Fbx\FbxAnimationLayer.cpp" />
     <ClCompile Include="Gui\GuiRenderer.cpp" />
     <ClCompile Include="Rendering\State\PrimitiveTopology.cpp" />
-    <ClCompile Include="Rendering\DrawData\IndexedVertexArray.cpp" />
     <ClCompile Include="Rendering\DrawData\InstanceArray.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\CollectionExclusive.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\FbxWrapMaterial.cpp" />
@@ -158,7 +157,6 @@
     <ClInclude Include="Io\Fbx\FbxAnimationLayer.h" />
     <ClInclude Include="Gui\GuiRenderer.h" />
     <ClInclude Include="Rendering\State\PrimitiveTopology.h" />
-    <ClInclude Include="Rendering\DrawData\IndexedVertexArray.h" />
     <ClInclude Include="Rendering\DrawData\InstanceArray.h" />
     <ClInclude Include="Io\Fbx\Wrapping\CollectionExclusive.h" />
     <ClInclude Include="Io\Fbx\Wrapping\FbxWrapMaterial.h" />
