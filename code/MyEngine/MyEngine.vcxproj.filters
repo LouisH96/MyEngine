@@ -122,6 +122,7 @@
     <ClCompile Include="Rendering\DrawData\InstanceIdxArray.cpp" />
     <ClCompile Include="Game\WorldMatrix.cpp" />
     <ClCompile Include="Rendering\Renderers\R_LambertCam_Tex_Tran_Inst.cpp" />
+    <ClCompile Include="Rendering\DrawData\VertexIdxArray.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -280,6 +281,8 @@
     <ClInclude Include="Rendering\DrawData\InstanceIdxList.h" />
     <ClInclude Include="Game\WorldMatrix.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertCam_Tex_Tran_Inst.h" />
+    <ClInclude Include="Rendering\DrawData\VertexIdxArray.h" />
+    <ClInclude Include="Rendering\DrawData\VertexIdxList.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

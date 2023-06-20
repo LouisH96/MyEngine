@@ -135,6 +135,7 @@
     <ClCompile Include="Rendering\DrawData\VertexArray.cpp" />
     <ClCompile Include="Rendering\Renderers\Texture2DRenderer.cpp" />
     <ClCompile Include="Game\WorldMatrix.cpp" />
+    <ClCompile Include="Rendering\DrawData\VertexIdxArray.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataStructures\List.h" />
@@ -293,6 +294,8 @@
     <ClInclude Include="Rendering\DrawData\VertexList.h" />
     <ClInclude Include="Rendering\Renderers\Texture2DRenderer.h" />
     <ClInclude Include="Game\WorldMatrix.h" />
+    <ClInclude Include="Rendering\DrawData\VertexIdxArray.h" />
+    <ClInclude Include="Rendering\DrawData\VertexIdxList.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
