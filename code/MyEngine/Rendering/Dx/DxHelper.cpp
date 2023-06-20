@@ -110,6 +110,18 @@ void MyEngine::Rendering::Dx::DxHelper::CreateVertexBufferView(ID3D11Buffer*& pV
 	Globals::pGpu->GetDevice().CreateUnorderedAccessView(pVertexBuffer, &uavDesc, &pView);
 }
 
+void Rendering::Dx::DxHelper::CreateIndexBuffer(ID3D11Buffer*& pIndexBuffer, unsigned nrIndices, bool immutable)
+{
+	D3D11_BUFFER_DESC desc{};
+	desc.Usage = immutable ? D3D11_USAGE_IMMUTABLE : D3D11_USAGE_DYNAMIC;
+	desc.ByteWidth = sizeof(int) * nrIndices;
+	desc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	desc.CPUAccessFlags = immutable ? 0 : D3D11_CPU_ACCESS_WRITE;
+	desc.MiscFlags = 0;
+	const HRESULT result{ Globals::pGpu->GetDevice().CreateBuffer(&desc, nullptr, &pIndexBuffer) };
+	if (FAILED(result))Logger::PrintError("[DxHelper::CreateIndexBuffer] Failed creating index-buffer");
+}
+
 void MyEngine::Rendering::Dx::DxHelper::CreateIndexBuffer(ID3D11Buffer*& pIndexBuffer, const int* pInitIndices, int nrInitIndices)
 {
 	D3D11_BUFFER_DESC desc{};

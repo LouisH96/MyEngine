@@ -28,6 +28,7 @@ namespace MyEngine
 				static void CompileFromFile(const std::wstring& path, const std::string& functionName, ID3DBlob*& pBlob);
 
 				static void CreateVertexBufferView(ID3D11Buffer*& pVertexBuffer, ID3D11UnorderedAccessView*& pView);
+				static void CreateIndexBuffer(ID3D11Buffer*& pIndexBuffer, unsigned nrIndices, bool immutable);
 				static void CreateIndexBuffer(ID3D11Buffer*& pIndexBuffer, const int* pInitIndices, int nrInitIndices);
 				static void CreateIndexBuffer(ID3D11Buffer*& pIndexBuffer, const int* pIndices, int nrIndices, bool immutable);
 				static void CreateIndexBuffer(ID3D11Buffer*& pIndexBuffer, const Ds::Array<int>& indices, bool immutable);
