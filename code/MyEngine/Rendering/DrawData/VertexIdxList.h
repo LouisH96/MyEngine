@@ -28,8 +28,9 @@ namespace MyEngine
 
 			//---| Functions |---
 			void Draw(unsigned idx = 0);
-			void AddVertices(const Vertex* pVertices, unsigned nrVertices);
-			void AddIndices(const int* pIndices, unsigned nrIndices);
+			void Add(
+				const Vertex* pVertices, unsigned nrVertices,
+				const int* pIndices, unsigned nrIndices);
 
 		private:
 			List<Vertex> m_CpuVertices;
@@ -73,17 +74,15 @@ namespace MyEngine
 		}
 
 		template <typename Vertex>
-		void VertexIdxList<Vertex>::AddVertices(const Vertex* pVertices, unsigned nrVertices)
+		void VertexIdxList<Vertex>::Add(const Vertex* pVertices, unsigned nrVertices, const int* pIndices,
+			unsigned nrIndices)
 		{
+			m_Changed = true;
+			const unsigned oldSize{ m_CpuVertices.GetSizeU() };
 			m_CpuVertices.Add(pVertices, nrVertices);
-			m_Changed = true;
-		}
-
-		template <typename Vertex>
-		void VertexIdxList<Vertex>::AddIndices(const int* pIndices, unsigned nrIndices)
-		{
-			m_CpuIndices.Add(pIndices, nrIndices);
-			m_Changed = true;
+			m_CpuIndices.EnsureCapacity(m_CpuIndices.GetSizeU() + nrIndices);
+			for (int i = 0; i < nrIndices; i++)
+				m_CpuIndices.Add(pIndices[i] + oldSize);
 		}
 	}
 }
