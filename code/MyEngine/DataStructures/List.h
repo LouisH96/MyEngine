@@ -21,6 +21,7 @@ namespace MyEngine
 			//---| Functions |---
 			void Add(const T& value);
 			void Add(T&& value);
+			void Add(const T* pValue, unsigned nrValues);
 			void Insert(int idx, const T& value);
 			void InsertEmpty(int idx, int amount);
 
@@ -114,6 +115,15 @@ namespace MyEngine
 			if (m_Size == m_Capacity)
 				SetCapacity(m_Capacity * 2);
 			m_pData[m_Size++] = std::move(value);
+		}
+
+		template <typename T>
+		void List<T>::Add(const T* pValue, unsigned nrValues)
+		{
+			const unsigned newSize{ m_Size + nrValues };
+			if (newSize > m_Capacity) SetCapacity(newSize * 2);
+			memcpy(&m_pData[m_Size], pValue, nrValues * sizeof(T));
+			m_Size = newSize;
 		}
 
 		template <typename T>
