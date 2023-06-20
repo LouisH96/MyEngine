@@ -19,6 +19,7 @@ namespace MyEngine
 			Float4X4 CameraMatrix{};
 
 			CB_CamMat() = default;
+			explicit CB_CamMat(const Camera& camera);
 			explicit CB_CamMat(const Float4X4& viewProjection);
 			explicit CB_CamMat(const Float3& position ,const Float4X4& viewProjection);
 		};
@@ -28,6 +29,7 @@ namespace MyEngine
 			Float3 CameraPos;
 			float padding = 0;
 
+			explicit CB_CamMatPos(const Camera& camera);
 			explicit CB_CamMatPos(const Float3& position, const Float4X4& matrix);
 			explicit CB_CamMatPos(const Float3& position, const Float4X4& viewProjection, const Transform& transform);
 		};

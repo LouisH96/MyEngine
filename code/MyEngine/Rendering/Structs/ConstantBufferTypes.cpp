@@ -2,8 +2,14 @@
 #include "ConstantBufferTypes.h"
 
 #include "Game/Transform.h"
+#include "Game/Camera/Camera.h"
 
 using namespace DirectX;
+
+Rendering::CB_CamMat::CB_CamMat(const Camera& camera)
+	: CameraMatrix{ camera.GetViewProjection() }
+{
+}
 
 Rendering::CB_CamMat::CB_CamMat(const Float4X4& viewProjection)
 	: CameraMatrix{ viewProjection }
@@ -12,6 +18,12 @@ Rendering::CB_CamMat::CB_CamMat(const Float4X4& viewProjection)
 
 Rendering::CB_CamMat::CB_CamMat(const Math::Float3& position, const Math::Float4X4& viewProjection)
 	: CameraMatrix{ viewProjection }
+{
+}
+
+Rendering::CB_CamMatPos::CB_CamMatPos(const Camera& camera)
+	: CameraMatrix{ camera.GetViewProjection() }
+	, CameraPos{ camera.GetPosition() }
 {
 }
 
