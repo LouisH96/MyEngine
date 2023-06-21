@@ -22,6 +22,8 @@ namespace MyEngine
 			void Add(const T& value);
 			void Add(T&& value);
 			void Add(const T* pValue, unsigned nrValues);
+			void Add(const T& value1, const T& value2);
+			void Add(const T& value1, const T& value2, const T& value3);
 			void Insert(int idx, const T& value);
 			void InsertEmpty(int idx, int amount);
 
@@ -37,6 +39,7 @@ namespace MyEngine
 			bool IsEmpty() const { return m_Size == 0; }
 			void SetSize(int size);
 			void EnsureCapacity(unsigned minCapacity);
+			void EnsureIncrease(unsigned increase);
 
 		private:
 			T* m_pData;
@@ -127,6 +130,23 @@ namespace MyEngine
 		}
 
 		template <typename T>
+		void List<T>::Add(const T& value1, const T& value2)
+		{
+			EnsureIncrease(2);
+			m_pData[m_Size++] = value1;
+			m_pData[m_Size++] = value2;
+		}
+
+		template <typename T>
+		void List<T>::Add(const T& value1, const T& value2, const T& value3)
+		{
+			EnsureIncrease(3);
+			m_pData[m_Size++] = value1;
+			m_pData[m_Size++] = value2;
+			m_pData[m_Size++] = value3;
+		}
+
+		template <typename T>
 		void List<T>::Insert(int idx, const T& value)
 		{
 			if (m_Size == m_Capacity)
@@ -195,6 +215,12 @@ namespace MyEngine
 		{
 			if (m_Capacity >= minCapacity) return;
 			SetCapacity(minCapacity);
+		}
+
+		template <typename T>
+		void List<T>::EnsureIncrease(unsigned increase)
+		{
+			EnsureCapacity(m_Capacity + increase);
 		}
 
 		//should be bigger than current size
