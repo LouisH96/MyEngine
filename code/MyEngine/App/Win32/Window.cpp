@@ -19,7 +19,7 @@ App::Win32::Window::Window(const std::wstring& title, IExtraWinProc& extraWinPro
 }
 
 App::Win32::Window::Window(const std::wstring& title, const Int2& clientSize,
-                           Options options)
+	Options options)
 	: m_ClientSize(clientSize.x, clientSize.y)
 	, m_pExtraWinProc{ nullptr }
 {
@@ -27,7 +27,7 @@ App::Win32::Window::Window(const std::wstring& title, const Int2& clientSize,
 }
 
 App::Win32::Window::Window(const std::wstring& title, const Int2& clientSize,
-                           IExtraWinProc& extraWinProc, Options options)
+	IExtraWinProc& extraWinProc, Options options)
 	: m_ClientSize(clientSize.x, clientSize.y)
 	, m_pExtraWinProc{ &extraWinProc }
 {
@@ -42,7 +42,6 @@ App::Win32::Window::~Window()
 void App::Win32::Window::Init(const std::wstring& title, const Options& options)
 {
 	//options
-	m_CursorFpsMode = options.CursorFpsMode;
 	if (options.ClientSize.x > 0) m_ClientSize.x = options.ClientSize.x;
 	if (options.ClientSize.y > 0) m_ClientSize.y = options.ClientSize.y;
 
@@ -96,7 +95,7 @@ void App::Win32::Window::Init(const std::wstring& title, const Options& options)
 	);
 	SetWindowLongPtr(m_WindowHandle, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 	ShowWindow(m_WindowHandle, true);
-	ShowCursor(!m_CursorFpsMode);
+	SetCursorFocusMode(options.CursorFocusMode);
 
 	//GLOBALS
 	if (Globals::pWindow) Logger::PrintError("Global window already set");
@@ -113,6 +112,15 @@ void App::Win32::Window::Release()
 	//simply PostMessage with wm_quit would work probably, but normally this shouldn't be closed like this
 }
 
+void App::Win32::Window::SetCursorFocusMode(bool cursorFocused)
+{
+	m_CursorFocusMode = cursorFocused;
+	if (m_CursorFocusMode)
+		while (ShowCursor(false) >= 0) {}
+	else
+		while (ShowCursor(true) < 0) {}
+}
+
 void App::Win32::Window::HandleMessages()
 {
 	m_IsResized = false;
@@ -126,7 +134,7 @@ void App::Win32::Window::HandleMessages()
 
 	m_Mouse.PostChange();
 
-	if (m_CursorFpsMode && m_HasFocus)
+	if (m_CursorFocusMode && m_HasFocus)
 	{
 		tagPOINT pos{ m_ClientSize.x / 2,m_ClientSize.y / 2 };
 		m_Mouse.SetPos({ pos.x, pos.y });

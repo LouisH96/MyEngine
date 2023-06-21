@@ -23,7 +23,7 @@ namespace MyEngine
 				{
 					bool FullRedrawOnScale{ false };
 					HBRUSH BackgroundBrush{ nullptr };
-					bool CursorFpsMode{ false };
+					bool CursorFocusMode{ false };
 					Int2 ClientSize{ -1,-1 };
 				};
 
@@ -51,6 +51,7 @@ namespace MyEngine
 				DirectX::XMINT2 AskClientSize_WinApi() const;
 				HWND GetWindowHandle()const { return m_WindowHandle; }
 				float GetAspectRatio() const { return static_cast<float>(m_ClientSize.x) / m_ClientSize.y; }
+				void SetCursorFocusMode(bool cursorFocused);
 
 				//messages
 				void HandleMessages();
@@ -71,7 +72,7 @@ namespace MyEngine
 				bool m_IsDestroyed{ false };
 				bool m_IsResized{ false };
 				bool m_HasFocus{ true };
-				bool m_CursorFpsMode{ false };
+				bool m_CursorFocusMode{ false };
 
 				friend LRESULT CALLBACK::win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam);
 				friend LRESULT CALLBACK::win32_window_proc_extra(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam);
