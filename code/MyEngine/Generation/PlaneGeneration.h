@@ -2,6 +2,7 @@
 #include "DataStructures/List.h"
 #include "Math/Rects.h"
 #include "Rendering/Structs/VertexTypes.h"
+#include "Shapes/Line.h"
 
 namespace MyEngine
 {
@@ -45,6 +46,11 @@ namespace MyEngine
 			static void Create(
 				const Float3& right, const Float3& up, const Float3& normal,
 				const Float3& leftBot, const Float2& size, const Float3& color,
+				List<Rendering::V_PosColNorm>& vertices, List<int>& indices);
+			static void Create(
+				const Float3& leftBot, const Float3& leftTop,
+				const Float3& rightTop, const Float3& rightBot,
+				const Float3& color,
 				List<Rendering::V_PosColNorm>& vertices, List<int>& indices);
 		};
 	}

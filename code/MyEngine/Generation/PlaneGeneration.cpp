@@ -43,7 +43,7 @@ Rendering::Mesh* Generation::PlaneGeneration::MeshTowardsZMin(const Float3& left
 }
 
 void Generation::PlaneGeneration::TowardXMin(const Float3& leftBot, const Float2& size, const Float3& color,
-                                             List<Rendering::V_PosColNorm>& vertices, List<int>& indices)
+	List<Rendering::V_PosColNorm>& vertices, List<int>& indices)
 {
 	const Float3 right{ 0,0,1 };
 	const Float3 up{ 0,1,0 };
@@ -117,6 +117,25 @@ void Generation::PlaneGeneration::Create(
 	const Float3 leftTop{ leftBot + up * size.y };
 	const Float3 rightTop{ leftTop + right * size.x };
 	const Float3 rightBot{ leftBot + right * size.x };
+
+	vertices.Add({ leftBot, color, normal });
+	vertices.Add({ leftTop, color, normal });
+	vertices.Add({ rightTop, color, normal });
+	vertices.Add({ rightBot, color, normal });
+
+	indices.Add(firstIdx, firstIdx + 1, firstIdx + 2);
+	indices.Add(firstIdx, firstIdx + 2, firstIdx + 3);
+}
+
+void Generation::PlaneGeneration::Create(
+	const Float3& leftBot, const Float3& leftTop,
+	const Float3& rightTop, const Float3& rightBot, const Float3& color,
+	List<Rendering::V_PosColNorm>& vertices, List<int>& indices)
+{
+	vertices.EnsureIncrease(4);
+	indices.EnsureIncrease(3 * 2);
+	const int firstIdx{ vertices.GetSize() };
+	const Float3 normal{ Float3{leftTop - leftBot}.Cross({rightBot - leftBot}).Normalized() };
 
 	vertices.Add({ leftBot, color, normal });
 	vertices.Add({ leftTop, color, normal });
