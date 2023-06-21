@@ -16,6 +16,7 @@
     <ClCompile Include="Debug\Rendering\DebugSpheres.cpp" />
     <ClCompile Include="Framework\GameFrame.cpp" />
     <ClCompile Include="Shapes\Line.cpp" />
+    <ClCompile Include="Shapes\Quad.cpp" />
     <ClCompile Include="Rendering\DrawData\InstanceIdxArray.cpp" />
     <ClCompile Include="Rendering\Structs\Instances.cpp" />
     <ClCompile Include="Rendering\State\DepthStencilState.cpp" />
@@ -147,6 +148,8 @@
     <ClInclude Include="Debug\Rendering\DebugLines.h" />
     <ClInclude Include="Debug\Rendering\DebugSpheres.h" />
     <ClInclude Include="Framework\GameFrame.h" />
+    <ClInclude Include="Shapes\Line.h" />
+    <ClInclude Include="Shapes\Quad.h" />
     <ClInclude Include="Rendering\DrawData\InstanceIdxArray.h" />
     <ClInclude Include="Rendering\DrawData\InstanceIdxList.h" />
     <ClInclude Include="Rendering\Structs\Instances.h" />
