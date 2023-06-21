@@ -8,8 +8,8 @@ Rendering::VertexIdxArray::VertexIdxArray()
 
 Rendering::VertexIdxArray::~VertexIdxArray()
 {
-	if (m_pBuffers[IDX_VERTICES]) m_pBuffers[IDX_VERTICES];
-	if (m_pBuffers[IDX_INDICES]) m_pBuffers[IDX_INDICES];
+	if (m_pBuffers[IDX_VERTICES]) m_pBuffers[IDX_VERTICES]->Release();
+	if (m_pBuffers[IDX_INDICES]) m_pBuffers[IDX_INDICES]->Release();
 	m_pBuffers[IDX_VERTICES] = nullptr;
 	m_pBuffers[IDX_INDICES] = nullptr;
 }
