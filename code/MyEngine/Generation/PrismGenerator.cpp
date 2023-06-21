@@ -94,24 +94,39 @@ void Generation::PrismGenerator::ConnectSides(
 }
 
 void Generation::PrismGenerator::Connect(const RectFloat* pRects, const float* pHeightSteps, unsigned nrRects, const Float3& color,
-	List<Rendering::V_PosColNorm>& vertices, List<int>& indices, const Float3& offset)
+	List<Rendering::V_PosColNorm>& vertices, List<int>& indices,
+	const Float3& offset, bool capBegin, bool capEnd)
 {
-	const unsigned nrSides = 4 * (nrRects - 1);
+	const unsigned nrSides = 4 * (nrRects - 1) + capBegin ? 1 : 0 + capEnd ? 1 : 0;
 	vertices.EnsureIncrease(4 * nrSides);
 	indices.EnsureIncrease(6 * nrSides);
 
 	float height{ pHeightSteps[0] };
+	if (capBegin)
+	{
+		const RectFloat& rect{ pRects[0] };
+		PlaneGeneration::TowardYMax(
+			Float3{ rect.GetLeft(), height, rect.GetTop()} + offset, rect.GetSize(),
+			color, vertices, indices);
+	}
 	for (int i = 1; i < nrRects; i++)
 	{
 		const RectFloat& bottomRect{ pRects[i - 1] };
 		const RectFloat& topRect{ pRects[i] };
 		const Quad quadBottom{
-			Float3{bottomRect.GetLeftBot().x, height, bottomRect.GetLeftBot().y},
+			Float3{bottomRect.GetLeft(), height, bottomRect.GetBottom()},
 			{1,0,0},{0,0,1},bottomRect.GetSize() };
 		height += pHeightSteps[i];
 		const Quad quadTop{
-			Float3{topRect.GetLeftBot().x, height, topRect.GetLeftBot().y},
+			Float3{topRect.GetLeft(), height, topRect.GetBottom()},
 			{1,0,0},{0,0,1}, topRect.GetSize() };
 		ConnectSides(quadBottom, quadTop, color, vertices, indices, offset);
+	}
+	if(capEnd)
+	{
+		const RectFloat& rect{ pRects[nrRects - 1] };
+		PlaneGeneration::TowardYMin(
+			Float3{ rect.GetLeft(), height, rect.GetBottom() } + offset, rect.GetSize(),
+			color, vertices, indices);
 	}
 }

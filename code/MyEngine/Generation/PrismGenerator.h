@@ -43,7 +43,8 @@ namespace MyEngine
 
 			static void Connect(
 				const RectFloat* pRects, const float* pHeightSteps, unsigned nrRects, const Float3& color,
-				List<Rendering::V_PosColNorm>& vertices, List<int>& indices, const Float3& offset = {});
+				List<Rendering::V_PosColNorm>& vertices, List<int>& indices,
+				const Float3& offset = {}, bool capBegin = false, bool capEnd = false);
 		};
 	}
 }
