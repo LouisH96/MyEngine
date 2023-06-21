@@ -41,3 +41,88 @@ Rendering::Mesh* Generation::PlaneGeneration::MeshTowardsZMin(const Float3& left
 {
 	return Rendering::Mesh::Create(TowardsZMin(leftBottom, size));
 }
+
+void Generation::PlaneGeneration::TowardXMin(const Float3& leftBot, const Float2& size, const Float3& color,
+                                             List<Rendering::V_PosColNorm>& vertices, List<int>& indices)
+{
+	const Float3 right{ 0,0,1 };
+	const Float3 up{ 0,1,0 };
+	const Float3 normal{ 1,0,0 };
+	Create(right, up, normal, leftBot, size, color, vertices, indices);
+}
+
+void Generation::PlaneGeneration::TowardXMax(const Float3& leftBot, const Float2& size, const Float3& color,
+	List<Rendering::V_PosColNorm>& vertices, List<int>& indices)
+{
+	const Float3 right{ 0,0,-1 };
+	const Float3 up{ 0,1,0 };
+	const Float3 normal{ -1,0,0 };
+	Create(right, up, normal, leftBot, size, color, vertices, indices);
+}
+
+void Generation::PlaneGeneration::TowardYMin(const Float3& leftBot, const Float2& size, const Float3& color,
+	List<Rendering::V_PosColNorm>& vertices, List<int>& indices)
+{
+	const Float3 right{ 1,0,0 };
+	const Float3 up{ 0,0,1 };
+	const Float3 normal{ 0,1,0 };
+	Create(right, up, normal, leftBot, size, color, vertices, indices);
+}
+
+void Generation::PlaneGeneration::TowardYMax(const Float3& leftBot, const Float2& size, const Float3& color,
+	List<Rendering::V_PosColNorm>& vertices, List<int>& indices)
+{
+	const Float3 right{ 1,0,0 };
+	const Float3 up{ 0,0,-1 };
+	const Float3 normal{ 0,-1,0 };
+	Create(right, up, normal, leftBot, size, color, vertices, indices);
+}
+
+void Generation::PlaneGeneration::TowardZMin(const Float3& leftBot, const Float2& size, const Float3& color,
+	List<Rendering::V_PosColNorm>& vertices, List<int>& indices)
+{
+	const Float3 right{ -1,0,0 };
+	const Float3 up{ 0,1,0 };
+	const Float3 normal{ 0,0,1 };
+	Create(right, up, normal, leftBot, size, color, vertices, indices);
+}
+
+void Generation::PlaneGeneration::TowardZMax(const Float3& leftBot, const Float2& size, const Float3& color,
+	List<Rendering::V_PosColNorm>& vertices, List<int>& indices)
+{
+	const Float3 right{ 1,0,0 };
+	const Float3 up{ 0,1,0 };
+	const Float3 normal{ 0,0,-1 };
+	Create(right, up, normal, leftBot, size, color, vertices, indices);
+}
+
+void Generation::PlaneGeneration::Create(
+	const Float3& right, const Float3& up,
+	const Float3& leftBot, const Float2& size, const Float3& color,
+	List<Rendering::V_PosColNorm>& vertices, List<int>& indices)
+{
+	Create(right, up, up.Cross(right).Normalized(), leftBot, size, color, vertices, indices);
+}
+
+void Generation::PlaneGeneration::Create(
+	const Float3& right, const Float3& up, const Float3& normal,
+	const Float3& leftBot, const Float2& size, const Float3& color,
+	List<Rendering::V_PosColNorm>& vertices, List<int>& indices)
+{
+	vertices.EnsureIncrease(4);
+	indices.EnsureIncrease(3 * 2);
+
+	const int firstIdx{ vertices.GetSize() };
+
+	const Float3 leftTop{ leftBot + up * size.y };
+	const Float3 rightTop{ leftTop + right * size.x };
+	const Float3 rightBot{ leftBot + right * size.x };
+
+	vertices.Add({ leftBot, color, normal });
+	vertices.Add({ leftTop, color, normal });
+	vertices.Add({ rightTop, color, normal });
+	vertices.Add({ rightBot, color, normal });
+
+	indices.Add(firstIdx, firstIdx + 1, firstIdx + 2);
+	indices.Add(firstIdx, firstIdx + 2, firstIdx + 3);
+}
