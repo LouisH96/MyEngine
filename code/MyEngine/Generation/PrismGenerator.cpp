@@ -92,3 +92,26 @@ void Generation::PrismGenerator::ConnectSides(
 	ConnectLeft(quadBot, quadTop, color, vertices, indices, offset);
 	ConnectRight(quadBot, quadTop, color, vertices, indices, offset);
 }
+
+void Generation::PrismGenerator::Connect(const RectFloat* pRects, const float* pHeightSteps, unsigned nrRects, const Float3& color,
+	List<Rendering::V_PosColNorm>& vertices, List<int>& indices, const Float3& offset)
+{
+	const unsigned nrSides = 4 * (nrRects - 1);
+	vertices.EnsureIncrease(4 * nrSides);
+	indices.EnsureIncrease(6 * nrSides);
+
+	float height{ 0 };
+	for (int i = 1; i < nrRects; i++)
+	{
+		const RectFloat& bottomRect{ pRects[i - 1] };
+		const RectFloat& topRect{ pRects[i] };
+		const Quad quadBottom{
+			Float3{bottomRect.GetLeftBot().x, height, bottomRect.GetLeftBot().y} + offset,
+			{1,0,0},{0,0,1},bottomRect.GetSize() };
+		height += pHeightSteps[i - 1];
+		const Quad quadTop{
+			Float3{topRect.GetLeftBot().x, height, topRect.GetLeftBot().y} + offset,
+			{1,0,0},{0,0,1}, topRect.GetSize() };
+		ConnectSides(quadBottom, quadTop, color, vertices, indices, offset);
+	}
+}

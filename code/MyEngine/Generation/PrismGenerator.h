@@ -1,5 +1,6 @@
 #pragma once
 #include "DataStructures/List.h"
+#include "Math/Rects.h"
 #include "Rendering/Structs/VertexTypes.h"
 
 namespace MyEngine
@@ -38,6 +39,10 @@ namespace MyEngine
 				List<Rendering::V_PosColNorm>& vertices, List<int>& indices, const Float3& offset = {});
 			static void ConnectBot(
 				const Quad& quadBot, const Quad& quadTop, const Float3& color,
+				List<Rendering::V_PosColNorm>& vertices, List<int>& indices, const Float3& offset = {});
+
+			static void Connect(
+				const RectFloat* pRects, const float* pHeightSteps, unsigned nrRects, const Float3& color,
 				List<Rendering::V_PosColNorm>& vertices, List<int>& indices, const Float3& offset = {});
 		};
 	}
