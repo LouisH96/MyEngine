@@ -124,6 +124,9 @@
     <ClCompile Include="Rendering\Renderers\R_LambertCam_Tex_Tran_Inst.cpp" />
     <ClCompile Include="Rendering\DrawData\VertexIdxArray.cpp" />
     <ClCompile Include="Generation\CubeGenerator.cpp" />
+    <ClCompile Include="Shapes\Quad.cpp" />
+    <ClCompile Include="Generation\PrismGenerator.cpp" />
+    <ClCompile Include="Shapes\Line.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -285,6 +288,9 @@
     <ClInclude Include="Rendering\DrawData\VertexIdxArray.h" />
     <ClInclude Include="Rendering\DrawData\VertexIdxList.h" />
     <ClInclude Include="Generation\CubeGenerator.h" />
+    <ClInclude Include="Shapes\Quad.h" />
+    <ClInclude Include="Generation\PrismGenerator.h" />
+    <ClInclude Include="Shapes\Line.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

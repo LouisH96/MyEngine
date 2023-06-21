@@ -13,6 +13,7 @@
 #include <Game/Globals.h>
 #include <Game/Transform.h>
 #include <Shapes/Sphere.h>
+#include <App/Win32/KeyCodes.h>
 
 using namespace MyEngine;
 using namespace Game;
