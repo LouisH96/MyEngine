@@ -291,6 +291,7 @@
     <ClInclude Include="Shapes\Quad.h" />
     <ClInclude Include="Generation\PrismGenerator.h" />
     <ClInclude Include="Shapes\Line.h" />
+    <ClInclude Include="App\Win32\KeyCodes.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

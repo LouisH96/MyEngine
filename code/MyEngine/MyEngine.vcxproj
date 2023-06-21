@@ -15,6 +15,7 @@
     <ClCompile Include="Debug\Rendering\DebugLines.cpp" />
     <ClCompile Include="Debug\Rendering\DebugSpheres.cpp" />
     <ClCompile Include="Framework\GameFrame.cpp" />
+    <ClCompile Include="Shapes\Line.cpp" />
     <ClCompile Include="Rendering\DrawData\InstanceIdxArray.cpp" />
     <ClCompile Include="Rendering\Structs\Instances.cpp" />
     <ClCompile Include="Rendering\State\DepthStencilState.cpp" />
