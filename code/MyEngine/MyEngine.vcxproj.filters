@@ -123,6 +123,7 @@
     <ClCompile Include="Game\WorldMatrix.cpp" />
     <ClCompile Include="Rendering\Renderers\R_LambertCam_Tex_Tran_Inst.cpp" />
     <ClCompile Include="Rendering\DrawData\VertexIdxArray.cpp" />
+    <ClCompile Include="Generation\CubeGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -283,6 +284,7 @@
     <ClInclude Include="Rendering\Renderers\R_LambertCam_Tex_Tran_Inst.h" />
     <ClInclude Include="Rendering\DrawData\VertexIdxArray.h" />
     <ClInclude Include="Rendering\DrawData\VertexIdxList.h" />
+    <ClInclude Include="Generation\CubeGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

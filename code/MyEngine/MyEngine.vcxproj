@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Generation\CubeGenerator.cpp" />
     <ClCompile Include="Debug\Rendering\DebugLines.cpp" />
     <ClCompile Include="Debug\Rendering\DebugSpheres.cpp" />
     <ClCompile Include="Framework\GameFrame.cpp" />
@@ -138,6 +139,7 @@
     <ClCompile Include="Rendering\DrawData\VertexIdxArray.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Generation\CubeGenerator.h" />
     <ClInclude Include="DataStructures\List.h" />
     <ClInclude Include="DataStructures\SortedList.h" />
     <ClInclude Include="Debug\Rendering\DebugLines.h" />
