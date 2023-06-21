@@ -106,11 +106,11 @@ void Generation::PrismGenerator::Connect(const RectFloat* pRects, const float* p
 		const RectFloat& bottomRect{ pRects[i - 1] };
 		const RectFloat& topRect{ pRects[i] };
 		const Quad quadBottom{
-			Float3{bottomRect.GetLeftBot().x, height, bottomRect.GetLeftBot().y} + offset,
+			Float3{bottomRect.GetLeftBot().x, height, bottomRect.GetLeftBot().y},
 			{1,0,0},{0,0,1},bottomRect.GetSize() };
 		height += pHeightSteps[i - 1];
 		const Quad quadTop{
-			Float3{topRect.GetLeftBot().x, height, topRect.GetLeftBot().y} + offset,
+			Float3{topRect.GetLeftBot().x, height, topRect.GetLeftBot().y},
 			{1,0,0},{0,0,1}, topRect.GetSize() };
 		ConnectSides(quadBottom, quadTop, color, vertices, indices, offset);
 	}
