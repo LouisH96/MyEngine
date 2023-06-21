@@ -100,7 +100,7 @@ void Generation::PrismGenerator::Connect(const RectFloat* pRects, const float* p
 	vertices.EnsureIncrease(4 * nrSides);
 	indices.EnsureIncrease(6 * nrSides);
 
-	float height{ 0 };
+	float height{ pHeightSteps[0] };
 	for (int i = 1; i < nrRects; i++)
 	{
 		const RectFloat& bottomRect{ pRects[i - 1] };
@@ -108,7 +108,7 @@ void Generation::PrismGenerator::Connect(const RectFloat* pRects, const float* p
 		const Quad quadBottom{
 			Float3{bottomRect.GetLeftBot().x, height, bottomRect.GetLeftBot().y},
 			{1,0,0},{0,0,1},bottomRect.GetSize() };
-		height += pHeightSteps[i - 1];
+		height += pHeightSteps[i];
 		const Quad quadTop{
 			Float3{topRect.GetLeftBot().x, height, topRect.GetLeftBot().y},
 			{1,0,0},{0,0,1}, topRect.GetSize() };
