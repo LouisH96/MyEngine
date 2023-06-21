@@ -28,8 +28,11 @@ namespace MyEngine
 			Float3 GetLeftTopBack() const { return m_Origin + Float3{0, m_Size.y, 0}; }
 			Float3 GetRightBotBack() const { return m_Origin + Float3{m_Size.x, 0, 0}; };
 			Float3 GetRightBotFront() const { return m_Origin + Float3{m_Size.x, 0, m_Size.z}; }
-
 			Float3 GetRightTopFront() const { return m_Origin + m_Size; }
+
+			float GetLeft() const { return m_Origin.x; }
+			float GetTop() const { return m_Origin.y + m_Size.y; }
+			float GetBack() const { return m_Origin.z; }
 
 			Float2 GetXySize() const { return { m_Size.x, m_Size.y }; }
 			Float2 GetXzSize() const { return { m_Size.x, m_Size.z }; }
