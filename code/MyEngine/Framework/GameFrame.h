@@ -46,14 +46,16 @@ namespace MyEngine
 			Gpu gpu{ window };
 			Canvas canvas{ window };
 
+			//CAMERA
+			Camera camera{ window.GetClientSize() };
+			Globals::pCamera = &camera;
+
 			//FPS
-			FpsControl fpsControl{ 200 };
-			FpsDisplay fpsDisplay{ canvas, window };
-			fpsControl.SetFpsDisplay(fpsDisplay);
+			FpsDisplay fpsDisplay{ };
+			FpsControl fpsControl{ 200, &fpsDisplay };
 
 			//GAME
-			Camera camera{ window.GetClientSize() };
-			T app{ GameServices{window, canvas, fpsControl, camera} };
+			T app{  };
 
 			//LOOP
 			while (!window.IsDestroyed())
@@ -67,11 +69,13 @@ namespace MyEngine
 				{
 					canvas.OnWindowResized(window.GetClientSize());
 					app.OnWindowResized(window.GetClientSize());
+					camera.OnWindowResized(window.GetClientSize());
 				}
 
 				//UPDATE
-				app.Update();
+				app.EarlyUpdate();
 				camera.Update();
+				app.Update();
 
 				//RENDER
 				canvas.BeginPaint();
@@ -79,9 +83,6 @@ namespace MyEngine
 				fpsDisplay.Render();
 				canvas.Present();
 			}
-
-			//DELETE
-			app.Release();
 		}
 	}
 }
