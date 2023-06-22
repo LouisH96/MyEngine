@@ -116,7 +116,6 @@
     <ClCompile Include="Rendering\Font\FontAtlas.cpp" />
     <ClCompile Include="Generation\PlaneGeneration.cpp" />
     <ClCompile Include="Rendering\State\DepthStencilState.cpp" />
-    <ClCompile Include="Framework\GameFrame.cpp" />
     <ClCompile Include="Rendering\Structs\Instances.cpp" />
     <ClCompile Include="Rendering\Renderers\Texture2DRenderer.cpp" />
     <ClCompile Include="Rendering\DrawData\InstanceIdxArray.cpp" />

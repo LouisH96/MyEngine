@@ -11,20 +11,6 @@ namespace MyEngine
 {
 	namespace Framework
 	{
-		class GameServices
-		{
-		public:
-			GameServices(App::Win32::Window& window,
-				Rendering::Canvas& canvas,
-				App::FpsControl& fpsControl,
-				Camera& camera);
-
-			App::Win32::Window& Window;
-			Rendering::Canvas& Canvas;
-			App::FpsControl& FpsControl;
-			Camera& Camera;
-		};
-
 		class GameFrame
 		{
 		public:
@@ -51,11 +37,11 @@ namespace MyEngine
 			Globals::pCamera = &camera;
 
 			//FPS
-			FpsDisplay fpsDisplay{ };
+			FpsDisplay fpsDisplay{};
 			FpsControl fpsControl{ 200, &fpsDisplay };
 
 			//GAME
-			T app{  };
+			T app{};
 
 			//LOOP
 			while (!window.IsDestroyed())
@@ -68,8 +54,8 @@ namespace MyEngine
 				if (window.IsResized())
 				{
 					canvas.OnWindowResized(window.GetClientSize());
-					app.OnWindowResized(window.GetClientSize());
 					camera.OnWindowResized(window.GetClientSize());
+					app.OnWindowResized(window.GetClientSize());
 				}
 
 				//UPDATE

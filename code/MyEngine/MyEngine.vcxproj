@@ -14,7 +14,6 @@
     <ClCompile Include="Generation\CubeGenerator.cpp" />
     <ClCompile Include="Debug\Rendering\DebugLines.cpp" />
     <ClCompile Include="Debug\Rendering\DebugSpheres.cpp" />
-    <ClCompile Include="Framework\GameFrame.cpp" />
     <ClCompile Include="Generation\PrismGenerator.cpp" />
     <ClCompile Include="Shapes\Line.cpp" />
     <ClCompile Include="Shapes\Quad.cpp" />
