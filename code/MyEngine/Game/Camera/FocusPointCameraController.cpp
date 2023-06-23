@@ -10,6 +10,11 @@
 using namespace App::Win32;
 using namespace Math;
 
+FocusPointCameraController::FocusPointCameraController()
+	: FocusPointCameraController{ *Globals::pCamera }
+{
+}
+
 FocusPointCameraController::FocusPointCameraController(Camera& camera)
 	: m_Camera(camera)
 	, m_ScrollSpeed(-1.f)

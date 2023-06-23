@@ -8,6 +8,7 @@ namespace MyEngine
 		class FocusPointCameraController
 		{
 		public:
+			FocusPointCameraController();
 			explicit FocusPointCameraController(Camera& camera);
 			void Update();
 
