@@ -71,6 +71,11 @@ void Rendering::VertexArray::Draw() const
 	Globals::pGpu->GetContext().Draw(m_Count, 0);
 }
 
+void Rendering::VertexArray::Draw(unsigned offset, unsigned count) const
+{
+	Globals::pGpu->GetContext().Draw(count, offset);
+}
+
 void Rendering::VertexArray::SetOffset(unsigned offset)
 {
 	m_Offset = offset;

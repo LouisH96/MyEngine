@@ -37,6 +37,7 @@ namespace MyEngine
 			void Activate() const;
 			void Activate(int idx) const;
 			void Draw() const;
+			void Draw(unsigned offset, unsigned count) const;
 
 			unsigned int GetOffset() const { return m_Offset; }
 			unsigned int GetCapacity() const { return m_Capacity; }
