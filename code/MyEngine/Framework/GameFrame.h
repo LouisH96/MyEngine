@@ -2,6 +2,7 @@
 #include "CppFramework.h"
 #include "App/FpsControl.h"
 #include "App/Win32/Window.h"
+#include "Debug/Rendering/DebugRenderer.h"
 #include "Game/Camera/Camera.h"
 #include "Rendering/Canvas.h"
 #include "Rendering/FpsDisplay.h"
@@ -40,6 +41,9 @@ namespace MyEngine
 			FpsDisplay fpsDisplay{};
 			FpsControl fpsControl{ 200, &fpsDisplay };
 
+			//RENDERING
+			DebugRenderer::Init();
+
 			//GAME
 			T app{};
 
@@ -67,8 +71,11 @@ namespace MyEngine
 				canvas.BeginPaint();
 				app.Render();
 				fpsDisplay.Render();
+				DebugRenderer::Render();
 				canvas.Present();
 			}
+
+			DebugRenderer::Release();
 		}
 	}
 }
