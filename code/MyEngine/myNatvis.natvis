@@ -20,5 +20,15 @@
 			</ArrayItems>
 		</Expand>
 	</Type>
+	
+	<Type Name="MyEngine::Ds::List&lt;*&gt;">
+		<DisplayString>{{ size={m_Size} }}</DisplayString>
+		<Expand>
+			<ArrayItems>
+				<Size>m_Size</Size>
+				<ValuePointer>m_pData</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
 
 </AutoVisualizer>
