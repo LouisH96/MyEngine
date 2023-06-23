@@ -30,6 +30,10 @@ namespace MyEngine
 			unsigned GetSize() const { return m_CpuInstances.GetSizeU(); }
 			Instance& operator[](unsigned idx);
 			const Instance& operator[](unsigned idx) const;
+			const Instance& First() const { return m_CpuInstances.First(); }
+			const Instance& Last() const { return m_CpuInstances.Last(); }
+			Instance& First();
+			Instance& Last();
 
 		private:
 			InstanceArray m_DrawBatch;
@@ -116,6 +120,20 @@ namespace MyEngine
 		const Instance& InstanceList<Vertex, Instance>::operator[](unsigned idx) const
 		{
 			return m_CpuInstances[idx];
+		}
+
+		template <typename Vertex, typename Instance>
+		Instance& InstanceList<Vertex, Instance>::First()
+		{
+			m_Changed = true;
+			return m_CpuInstances.First();
+		}
+
+		template <typename Vertex, typename Instance>
+		Instance& InstanceList<Vertex, Instance>::Last()
+		{
+			m_Changed = true;
+			return m_CpuInstances.Last();
 		}
 	}
 }

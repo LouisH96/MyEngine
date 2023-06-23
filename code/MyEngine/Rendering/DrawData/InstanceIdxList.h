@@ -31,6 +31,10 @@ namespace MyEngine
 
 			Instance& operator[](unsigned idx);
 			const Instance& operator[](unsigned idx) const;
+			const Instance& First() const { return m_CpuInstances.First(); }
+			const Instance& Last() const { return m_CpuInstances.Last(); }
+			Instance& First();
+			Instance& Last();
 
 		private:
 			InstanceIdxArray m_GpuInstances;
@@ -130,6 +134,20 @@ namespace MyEngine
 		const Instance& InstanceIdxList<Vertex, Instance>::operator[](unsigned idx) const
 		{
 			return m_CpuInstances[idx];
+		}
+
+		template <typename Vertex, typename Instance>
+		Instance& InstanceIdxList<Vertex, Instance>::First()
+		{
+			m_Changed = true;
+			return m_CpuInstances.First();
+		}
+
+		template <typename Vertex, typename Instance>
+		Instance& InstanceIdxList<Vertex, Instance>::Last()
+		{
+			m_Changed = true;
+			return m_CpuInstances.Last();
 		}
 	}
 }
