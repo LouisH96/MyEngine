@@ -10,6 +10,7 @@ DebugRenderer* DebugRenderer::m_pStatic = nullptr;
 
 void DebugRenderer::Init()
 {
+	if (m_pStatic) Logger::PrintError("Static DebugRenderer already assigned");
 	m_pStatic = new DebugRenderer();
 }
 
