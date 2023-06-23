@@ -9,8 +9,6 @@ D3D11_PRIMITIVE_TOPOLOGY Rendering::PrimitiveTopologyUtils::ToDx(PrimitiveTopolo
 	case PrimitiveTopology::LineStrip: return D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP;
 	case PrimitiveTopology::LineList: return D3D11_PRIMITIVE_TOPOLOGY_LINELIST;
 	default:
-	case PrimitiveTopology::Unknown:
-		Logger::PrintError("Unknown PrimitiveTopology");
-		return D3D11_PRIMITIVE_TOPOLOGY_UNDEFINED;
+	case PrimitiveTopology::Unknown: return D3D11_PRIMITIVE_TOPOLOGY_UNDEFINED;
 	}
 }
