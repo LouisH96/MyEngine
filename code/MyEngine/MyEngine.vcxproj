@@ -40,7 +40,6 @@
     <ClCompile Include="Io\Fbx\Wrapping\NodeAttribute.cpp" />
     <ClCompile Include="Io\Fbx\FbxJoint.cpp" />
     <ClCompile Include="Physics\CollisionDetection.cpp" />
-    <ClCompile Include="Framework\CoreServices.cpp" />
     <ClCompile Include="Game\Camera\FpsCameraController.cpp" />
     <ClCompile Include="Game\Camera\Camera.cpp" />
     <ClCompile Include="Io\Ascii\AsciiWriter.cpp" />
@@ -181,11 +180,8 @@
     <ClInclude Include="Physics\CollisionDetection.h" />
     <ClInclude Include="DataStructures\GridArray.h" />
     <ClInclude Include="Game\Camera\FpsCameraController.h" />
-    <ClInclude Include="Framework\CoreServices.h" />
-    <ClInclude Include="Framework\Frame_NoCamContr.h" />
     <ClInclude Include="Game\Camera\Camera.h" />
     <ClInclude Include="Io\Ascii\AsciiWriter.h" />
-    <ClInclude Include="Framework\BasicAppFrame.h" />
     <ClInclude Include="Framework\CppFramework.h" />
     <ClInclude Include="Math\Quaternion.h" />
     <ClInclude Include="Math\Matrix4x4.h" />

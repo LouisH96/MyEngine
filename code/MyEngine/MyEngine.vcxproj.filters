@@ -87,7 +87,6 @@
     <ClCompile Include="Game\Camera\FpsCameraController.cpp" />
     <ClCompile Include="Rendering\Renderers\R_LambertCam_Tex.cpp" />
     <ClCompile Include="Rendering\Renderers\R_LambertLight_Tex.cpp" />
-    <ClCompile Include="Framework\CoreServices.cpp" />
     <ClCompile Include="Rendering\Renderers\R_LambertLight_Col.cpp" />
     <ClCompile Include="Physics\CollisionDetection.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\Pose.cpp" />
@@ -223,15 +222,12 @@
     <ClInclude Include="Io\Fbx\Wrapping\Model.h" />
     <ClInclude Include="Io\Fbx\Reading\Properties70.h" />
     <ClInclude Include="Shapes\Capsule.h" />
-    <ClInclude Include="Framework\BasicAppFrame.h" />
     <ClInclude Include="Io\Ascii\AsciiWriter.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertCam_Tex_Transform.h" />
     <ClInclude Include="Game\Transform.h" />
     <ClInclude Include="Math\Quaternion.h" />
     <ClInclude Include="Math\Vector4.h" />
     <ClInclude Include="Game\Camera\Camera.h" />
-    <ClInclude Include="Framework\Frame_NoCamContr.h" />
-    <ClInclude Include="Framework\CoreServices.h" />
     <ClInclude Include="Game\Camera\FpsCameraController.h" />
     <ClInclude Include="Math\Matrix4x4.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertCam_Tex.h" />
