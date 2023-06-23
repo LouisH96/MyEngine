@@ -162,13 +162,13 @@ namespace MyEngine
 				T* pNew = new T[m_Capacity];
 				std::move(&m_pData[0], &m_pData[idx], &pNew[0]);
 				pNew[idx] = value;
-				std::move(&m_pData[idx], &m_pData[m_Size - idx], &pNew[idx + 1]);
+				std::move(&m_pData[idx], &m_pData[m_Size], &pNew[idx+1]);
 				delete[] m_pData;
 				m_pData = pNew;
 				m_Size++;
 				return;
 			}
-			std::move(&m_pData[idx], &m_pData[m_Size - idx], &m_pData[idx+1]);
+			std::move_backward(&m_pData[idx], &m_pData[m_Size], &m_pData[m_Size + 1]);
 			m_pData[idx] = value;
 			m_Size++;
 		}
