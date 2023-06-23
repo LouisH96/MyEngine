@@ -15,7 +15,7 @@ namespace MyEngine
 		{
 		public:
 			//---| Constructor/Destructor |---
-			VertexArray() = default;
+			VertexArray();
 			template<typename Vertex>
 			VertexArray(
 				const Vertex* pInitData, int initSize,
@@ -69,7 +69,7 @@ namespace MyEngine
 			, m_Count{ static_cast<unsigned>(initSize) }
 			, m_Topology{ PrimitiveTopologyUtils::ToDx(topology) }
 		{
-			Dx::DxHelper::CreateVertexBuffer(*Globals::pGpu, m_pBuffer, pInitData, initSize, immutable);
+			Dx::DxHelper::CreateVertexBuffer(m_pBuffer, pInitData, initSize, immutable);
 		}
 
 		template <typename T>

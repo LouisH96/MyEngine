@@ -2,10 +2,20 @@
 #include "VertexArray.h"
 
 
-Rendering::VertexArray::VertexArray(int stride, int initCount, bool immutable,
-                                    PrimitiveTopology topology)
+Rendering::VertexArray::VertexArray()
 	: m_pBuffer{ nullptr }
-	, m_Stride{ static_cast<unsigned>(stride)}
+	, m_Stride{ 0 }
+	, m_Offset{ 0 }
+	, m_Capacity{ 0 }
+	, m_Count{ 0 }
+	, m_Topology{ PrimitiveTopologyUtils::ToDx(PrimitiveTopology::Unknown) }
+{
+}
+
+Rendering::VertexArray::VertexArray(int stride, int initCount, bool immutable,
+	PrimitiveTopology topology)
+	: m_pBuffer{ nullptr }
+	, m_Stride{ static_cast<unsigned>(stride) }
 	, m_Offset{ 0 }
 	, m_Capacity{ static_cast<unsigned>(initCount) }
 	, m_Count{ static_cast<unsigned>(initCount) }
@@ -17,6 +27,7 @@ Rendering::VertexArray::VertexArray(int stride, int initCount, bool immutable,
 MyEngine::Rendering::VertexArray::~VertexArray()
 {
 	if (m_pBuffer) m_pBuffer->Release();
+	m_pBuffer = nullptr;
 }
 
 Rendering::VertexArray::VertexArray(VertexArray&& other) noexcept
