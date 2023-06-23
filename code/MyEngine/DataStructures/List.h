@@ -60,6 +60,9 @@ namespace MyEngine
 		List<T>::~List()
 		{
 			delete[] m_pData;
+			m_pData = nullptr;
+			m_Capacity = 0;
+			m_Size = 0;
 		}
 
 		template <typename T>
@@ -68,7 +71,7 @@ namespace MyEngine
 			, m_Capacity{ other.m_Capacity }
 			, m_Size{ other.m_Size }
 		{
-			memcpy(m_pData, other.m_pData, sizeof(T) * m_Size);
+			std::copy(&other.m_pData[0], &other.m_pData[other.m_Size], &m_pData[0]);
 		}
 
 		template <typename T>
@@ -78,6 +81,8 @@ namespace MyEngine
 			, m_Size{ other.m_Size }
 		{
 			other.m_pData = nullptr;
+			other.m_Capacity = 0;
+			other.m_Size = 0;
 		}
 
 		template <typename T>
@@ -85,8 +90,8 @@ namespace MyEngine
 		{
 			if (&other == this) return *this;
 			delete[] m_pData;
-			m_pData = new T[other.m_Size];
-			memcpy(m_pData, other.m_pData, sizeof(T) * other.m_Size);
+			m_pData = new T[other.m_Capacity];
+			std::copy(&other.m_pData[0], &other.m_pData[other.m_Size], &m_pData[0]);
 			m_Capacity = other.m_Capacity;
 			m_Size = other.m_Size;
 			return *this;
@@ -98,9 +103,11 @@ namespace MyEngine
 			if (&other == this) return *this;
 			delete[] m_pData;
 			m_pData = other.m_pData;
-			other.m_pData = nullptr;
 			m_Capacity = other.m_Capacity;
 			m_Size = other.m_Size;
+			other.m_pData = nullptr;
+			other.m_Capacity = 0;
+			other.m_Size = 0;
 			return *this;
 		}
 
@@ -125,7 +132,7 @@ namespace MyEngine
 		{
 			const unsigned newSize{ m_Size + nrValues };
 			if (newSize > m_Capacity) SetCapacity(newSize * 2);
-			memcpy(&m_pData[m_Size], pValue, nrValues * sizeof(T));
+			std::copy(&pValue[0], &pValue[nrValues], &m_pData[m_Size]);
 			m_Size = newSize;
 		}
 
@@ -153,15 +160,15 @@ namespace MyEngine
 			{
 				m_Capacity *= 2;
 				T* pNew = new T[m_Capacity];
-				memcpy(pNew, m_pData, idx * sizeof(T));
+				std::move(&m_pData[0], &m_pData[idx], &pNew[0]);
 				pNew[idx] = value;
-				memcpy(&pNew[idx + 1], &m_pData[idx], (m_Size - idx) * sizeof(T));
-				delete m_pData;
+				std::move(&m_pData[idx], &m_pData[m_Size - idx], &pNew[idx + 1]);
+				delete[] m_pData;
 				m_pData = pNew;
 				m_Size++;
 				return;
 			}
-			memcpy(&m_pData[idx], &m_pData[idx + 1], (m_Size - idx) * sizeof(T));
+			std::move(&m_pData[idx], &m_pData[m_Size - idx], &m_pData[idx+1]);
 			m_pData[idx] = value;
 			m_Size++;
 		}
@@ -172,15 +179,15 @@ namespace MyEngine
 			const int newSize = m_Size + amount;
 			if (newSize <= m_Capacity)
 			{
-				memcpy(&m_pData[idx + amount], &m_pData[idx], (m_Size - idx) * sizeof(T));
+				std::move(&m_pData[idx], &m_pData[m_Size], &m_pData[idx + 1]);
 				m_Size = newSize;
 				return;
 			}
 			m_Capacity = newSize * 2;
 			T* pNew = new T[m_Capacity];
-			memcpy(pNew, m_pData, idx * sizeof(T));
-			memcpy(&pNew[idx + amount], &m_pData[idx], (m_Size - idx) * sizeof(T));
-			delete m_pData;
+			std::move(&m_pData[0], &m_pData[idx], &pNew[0]);
+			std::move(&m_pData[idx], &m_pData[m_Size], &pNew[idx + amount]);
+			delete[] m_pData;
 			m_pData = pNew;
 			m_Size = newSize;
 		}
@@ -200,6 +207,8 @@ namespace MyEngine
 		template <typename T>
 		void List<T>::Clear()
 		{
+			for (int i = 0; i < m_Size; i++)
+				m_pData[i].~T();
 			m_Size = 0;
 		}
 
@@ -229,8 +238,8 @@ namespace MyEngine
 		{
 			m_Capacity = capacity;
 			T* pNew = new T[m_Capacity];
-			memcpy(pNew, m_pData, sizeof(T) * m_Size);
-			delete m_pData;
+			std::move(&m_pData[0], &m_pData[m_Size], &pNew[0]);
+			delete[] m_pData;
 			m_pData = pNew;
 		}
 	}
