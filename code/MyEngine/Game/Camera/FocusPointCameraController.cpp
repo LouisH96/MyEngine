@@ -31,8 +31,6 @@ void FocusPointCameraController::Update()
 	//ROTATION
 	if (Globals::pMouse->IsRightBtnDown())
 		MouseRotation();
-	else
-		KeyboardRotation();
 
 	//TRANSLATION
 	const float maxVerSpeed = m_VerticalSpeed * Globals::DeltaTime;
@@ -110,18 +108,6 @@ Float3 FocusPointCameraController::GetCameraPosition() const
 		-zx * m_Distance + m_FocusPoint.x,
 		-zy * m_Distance + m_FocusPoint.y,
 		-zz * m_Distance + m_FocusPoint.z };
-}
-
-void FocusPointCameraController::KeyboardRotation()
-{
-	constexpr float maxPitchSpeed = 100.f; //degrees/sec
-	constexpr float maxYawSpeed = 100.f; //degrees/sec
-	const float pitchSpeed = maxPitchSpeed * Globals::DeltaTime;
-	const float yawSpeed = maxYawSpeed * Globals::DeltaTime;
-	const float pitch = static_cast<float>(Globals::pKeyboard->IsDown(VK_UP) - Globals::pKeyboard->IsDown(VK_DOWN)) * pitchSpeed;
-	const float yaw = static_cast<float>(Globals::pKeyboard->IsDown(VK_LEFT) - Globals::pKeyboard->IsDown(VK_RIGHT)) * yawSpeed;
-	m_Yaw += yaw;
-	m_Pitch += pitch;
 }
 
 void FocusPointCameraController::MouseRotation()

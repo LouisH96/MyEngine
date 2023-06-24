@@ -35,7 +35,6 @@ namespace MyEngine
 			float m_Yaw;
 			float m_Distance;
 
-			void KeyboardRotation();
 			void MouseRotation();
 		};
 	}
