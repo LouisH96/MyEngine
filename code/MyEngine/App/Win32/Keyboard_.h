@@ -1,4 +1,5 @@
 #pragma once
+#include "KeyCodes.h"
 #include "Math/Constants.h"
 #include "Math/Vectors.h"
 
@@ -15,6 +16,7 @@ namespace MyEngine
 				bool IsDown(char c) const;
 
 				Math::Float2 GetWasdInput(float scale) const;
+				Math::Int2 GetArrowInput() const;
 				int GetInput(char positive, char negative) const;
 			};
 
@@ -32,6 +34,14 @@ namespace MyEngine
 				input.y = static_cast<float>(IsDown('Z') - IsDown('S')) * scale;
 				if (input.x != 0 && input.y != 0) input *= Math::Constants::DIVSQR2;
 				return input;
+			}
+
+			template <class T>
+			Math::Int2 Keyboard_<T>::GetArrowInput() const
+			{
+				return{
+					IsDown(KeyCodes::ARROW_RIGHT) - IsDown(KeyCodes::ARROW_LEFT),
+					IsDown(KeyCodes::ARROW_UP) - IsDown(KeyCodes::ARROW_DOWN) };
 			}
 
 			template <class T>

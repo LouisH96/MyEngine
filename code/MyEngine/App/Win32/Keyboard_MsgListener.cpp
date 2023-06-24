@@ -38,6 +38,13 @@ bool App::Win32::Keyboard_MsgListener::IsReleased(char c) const
 	return !isDown && wasDown;
 }
 
+Int2 App::Win32::Keyboard_MsgListener::GetPressedArrowInput() const
+{
+	return{
+		IsPressed(KeyCodes::ARROW_RIGHT) - IsPressed(KeyCodes::ARROW_LEFT),
+		IsPressed(KeyCodes::ARROW_UP) - IsPressed(KeyCodes::ARROW_DOWN) };
+}
+
 void App::Win32::Keyboard_MsgListener::KeyUp(char c)
 {
 	const int iPack = c / PACK_SIZE;
