@@ -39,6 +39,25 @@ namespace MyEngine
 				const Float3& leftBot, const Float2& size, const Float3& color,
 				List<Rendering::V_PosColNorm>& vertices, List<int>& indices);
 
+			static void TowardXMin(
+				const Float2& size, const Float3& color,
+				List<Rendering::V_PosColNorm>& vertices, List<int>& indices);
+			static void TowardXMax(
+				const Float2& size, const Float3& color,
+				List<Rendering::V_PosColNorm>& vertices, List<int>& indices);
+			static void TowardYMin(
+				const Float2& size, const Float3& color,
+				List<Rendering::V_PosColNorm>& vertices, List<int>& indices);
+			static void TowardYMax(
+				const Float2& size, const Float3& color,
+				List<Rendering::V_PosColNorm>& vertices, List<int>& indices);
+			static void TowardZMin(
+				const Float2& size, const Float3& color,
+				List<Rendering::V_PosColNorm>& vertices, List<int>& indices);
+			static void TowardZMax(
+				const Float2& size, const Float3& color,
+				List<Rendering::V_PosColNorm>& vertices, List<int>& indices);
+
 			static void Create(
 				const Float3& right, const Float3& up,
 				const Float3& leftBot, const Float2& size, const Float3& color,

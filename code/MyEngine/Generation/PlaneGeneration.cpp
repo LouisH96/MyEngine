@@ -96,6 +96,42 @@ void Generation::PlaneGeneration::TowardZMax(const Float3& leftBot, const Float2
 	Create(right, up, normal, leftBot, size, color, vertices, indices);
 }
 
+void Generation::PlaneGeneration::TowardXMin(const Float2& size, const Float3& color,
+	List<Rendering::V_PosColNorm>& vertices, List<int>& indices)
+{
+	TowardXMin({ 0, -size.y / 2, -size.x / 2 }, size, color, vertices, indices);
+}
+
+void Generation::PlaneGeneration::TowardXMax(const Float2& size, const Float3& color,
+	List<Rendering::V_PosColNorm>& vertices, List<int>& indices)
+{
+	TowardXMax({ 0, -size.y / 2, size.x / 2 }, size, color, vertices, indices);
+}
+
+void Generation::PlaneGeneration::TowardYMin(const Float2& size, const Float3& color,
+	List<Rendering::V_PosColNorm>& vertices, List<int>& indices)
+{
+	TowardYMin({ -size.x / 2, 0, -size.y / 2 }, size, color, vertices, indices);
+}
+
+void Generation::PlaneGeneration::TowardYMax(const Float2& size, const Float3& color,
+	List<Rendering::V_PosColNorm>& vertices, List<int>& indices)
+{
+	TowardYMax({ -size.x / 2, 0, size.y / 2 }, size, color, vertices, indices);
+}
+
+void Generation::PlaneGeneration::TowardZMin(const Float2& size, const Float3& color,
+	List<Rendering::V_PosColNorm>& vertices, List<int>& indices)
+{
+	TowardZMin({ size.x / 2, -size.y / 2, 0 }, size, color, vertices, indices);
+}
+
+void Generation::PlaneGeneration::TowardZMax(const Float2& size, const Float3& color,
+	List<Rendering::V_PosColNorm>& vertices, List<int>& indices)
+{
+	TowardZMax({ -size.x / 2, -size.y / 2, 0 }, size, color, vertices, indices);
+}
+
 void Generation::PlaneGeneration::Create(
 	const Float3& right, const Float3& up,
 	const Float3& leftBot, const Float2& size, const Float3& color,
