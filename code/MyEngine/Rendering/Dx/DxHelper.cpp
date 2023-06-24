@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "DxHelper.h"
 
+#include <comdef.h>
 #include <d3d11.h>
 #include <d3dcompiler.h>
 
@@ -82,15 +83,18 @@ void MyEngine::Rendering::Dx::DxHelper::CompileFromFile(const std::wstring& path
 		&pErrorBlob);
 
 	if (FAILED(hr)) {
-		std::string error = "DxHelper::CompileFromFile - " + functionName;
+		std::stringstream ss{};
+		ss << "[DxHelper::CompileFromFile]\n";
+		ss << "\t[Path: " << std::string{path.begin(), path.end()} << "]\n";
+		ss << "\t[HResult: " << GetHResultString(hr) << "]\n";
 		if (pErrorBlob)
 		{
-			error = static_cast<char*>(pErrorBlob->GetBufferPointer());
+			ss << "\t" << static_cast<char*>(pErrorBlob->GetBufferPointer());
 			pErrorBlob->Release();
 		}
 		if (pBlob)
 			pBlob->Release();
-		Logger::PrintError(error.c_str());
+		Logger::PrintError(ss.str());
 	}
 }
 
@@ -176,4 +180,11 @@ void Rendering::Dx::DxHelper::CreateVertexBuffer(ID3D11Buffer*& pBuffer, unsigne
 	const HRESULT result{ Globals::pGpu->GetDevice().CreateBuffer(&desc, nullptr, &pBuffer) };
 	if (FAILED(result))
 		Logger::PrintError("Failed creating Vertex-Buffer");
+}
+
+std::string Rendering::Dx::DxHelper::GetHResultString(const HRESULT& result)
+{
+	const _com_error error{ result };
+	const std::wstring wString = { error.ErrorMessage() };
+	return{ wString.begin(), wString.end() };
 }

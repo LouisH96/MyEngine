@@ -64,6 +64,8 @@ namespace MyEngine
 				static void CreateInstanceBuffer(ID3D11Buffer*& pBuffer, const T* pData, int length, bool immutable);
 				template<typename T>
 				static void CreateInstanceBuffer(ID3D11Buffer*& pBuffer, const Ds::Array<T>& data, bool immutable);
+
+				static std::string GetHResultString(const HRESULT& result);
 			};
 
 			template <typename T>
