@@ -59,6 +59,8 @@ namespace MyEngine
 			static Vector3 FromXz(const Math::Vector2<T>& xz);
 			static Vector3 FromDxVector(const DirectX::XMVECTOR& vector);
 
+			static Vector3 TowardZMax(const Vector2<T>& xy, float z = 0);
+
 			T x, y, z;
 			static constexpr int NR_AXIS = 3;
 		};
@@ -216,7 +218,7 @@ namespace MyEngine
 		Vector3<T> Vector3<T>::Color(const T& r, const T& g, const T& b)
 		{
 			const T scale{ 1 / static_cast<T>(255) };
-			return { r * scale, g * scale , b* scale};
+			return { r * scale, g * scale , b * scale };
 		}
 
 		template <typename T>
@@ -231,6 +233,12 @@ namespace MyEngine
 			Vector3 v{};
 			XMStoreFloat3(reinterpret_cast<DirectX::XMFLOAT3*>(&v.x), vector);
 			return v;
+		}
+
+		template <typename T>
+		Vector3<T> Vector3<T>::TowardZMax(const Vector2<T>& xy, float z)
+		{
+			return { xy.x, xy.y, z };
 		}
 	}
 }
