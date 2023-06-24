@@ -22,6 +22,7 @@ namespace MyEngine
 			const Vector3<T>& GetRight() const { return m_Right; } //should be normalized
 			const Vector3<T>& GetUp() const { return m_Up; } //should be normalized
 			const Vector3<T>& GetNormal() const { return m_Normal; } //should be normalized
+			const Vector2<T>& GetSize() const { return m_Size; }
 
 			Vector3<T>& GetLeftBot() { return m_LeftBot; }
 
@@ -31,8 +32,8 @@ namespace MyEngine
 
 			void MoveLocal(const Vector2<T>& translation, float alongNormal);
 
-			Rect3 Compressed(const Vector2<T>& compression) const;
-			Rect3 Expanded(const Vector2<T>& expansion) const;
+			Rect3 Compressed(const Vector2<T>& compression, T alongNormal = 0) const;
+			Rect3 Expanded(const Vector2<T>& expansion, T alongNormal = 0) const;
 
 			static Rect3 FromXyCenter(const Vector2<T>& center, const Vector2<T>& size, T depth = 0);
 
@@ -74,18 +75,18 @@ namespace MyEngine
 		}
 
 		template <typename T>
-		Rect3<T> Rect3<T>::Compressed(const Vector2<T>& compression) const
+		Rect3<T> Rect3<T>::Compressed(const Vector2<T>& compression, T alongNormal) const
 		{
 			return {
-				m_LeftBot + m_Right * compression.x / 2 + m_Up * compression.y / 2,
+				m_LeftBot + m_Right * compression.x / 2 + m_Up * compression.y / 2 + m_Normal * alongNormal,
 				m_Right, m_Up, m_Normal, m_Size - compression };
 		}
 
 		template <typename T>
-		Rect3<T> Rect3<T>::Expanded(const Vector2<T>& expansion) const
+		Rect3<T> Rect3<T>::Expanded(const Vector2<T>& expansion, T alongNormal) const
 		{
 			return {
-				m_LeftBot - m_Right * expansion.x / 2 - m_Up * expansion.y / 2,
+				m_LeftBot - m_Right * expansion.x / 2 - m_Up * expansion.y / 2 + m_Normal * alongNormal,
 				m_Right, m_Up, m_Normal, m_Size + expansion };
 		}
 
