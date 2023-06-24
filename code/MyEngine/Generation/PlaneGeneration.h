@@ -3,6 +3,7 @@
 #include "Math/Rects.h"
 #include "Rendering/Structs/VertexTypes.h"
 #include "Shapes/Line.h"
+#include "Shapes/Rect3.h"
 
 namespace MyEngine
 {
@@ -70,6 +71,10 @@ namespace MyEngine
 				const Float3& leftBot, const Float3& leftTop,
 				const Float3& rightTop, const Float3& rightBot,
 				const Float3& color,
+				List<Rendering::V_PosColNorm>& vertices, List<int>& indices);
+
+			static void CreateBorder(
+				const Rect3Float& outer, const Rect3Float& inner, const Float3& color,
 				List<Rendering::V_PosColNorm>& vertices, List<int>& indices);
 		};
 	}

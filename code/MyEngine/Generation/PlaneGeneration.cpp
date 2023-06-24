@@ -181,3 +181,36 @@ void Generation::PlaneGeneration::Create(
 	indices.Add(firstIdx, firstIdx + 1, firstIdx + 2);
 	indices.Add(firstIdx, firstIdx + 2, firstIdx + 3);
 }
+
+void Generation::PlaneGeneration::CreateBorder(const Rect3Float& outer, const Rect3Float& inner, const Float3& color,
+	List<Rendering::V_PosColNorm>& vertices, List<int>& indices)
+{
+	//left
+	Create(
+		outer.GetLeftBot(),
+		outer.GetLeftTop(),
+		inner.GetLeftTop(),
+		inner.GetLeftBot(),
+		color, vertices, indices);
+	//right
+	Create(
+		inner.GetRightBot(),
+		inner.GetRightTop(),
+		outer.GetRightTop(),
+		outer.GetRightBot(),
+		color, vertices, indices);
+	//top
+	Create(
+		inner.GetLeftTop(),
+		outer.GetLeftTop(),
+		outer.GetRightTop(),
+		inner.GetRightTop(),
+		color, vertices, indices);
+	//bot
+	Create(
+		outer.GetLeftBot(),
+		inner.GetLeftBot(),
+		inner.GetRightBot(),
+		outer.GetRightBot(),
+		color, vertices, indices);
+}
