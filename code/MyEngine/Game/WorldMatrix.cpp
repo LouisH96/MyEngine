@@ -49,3 +49,10 @@ void WorldMatrix::SetPosition(Float4X4& world, const Float3& position)
 {
 	world.SetRow3(position);
 }
+
+Float4X4 WorldMatrix::Translation(const Float3& translation)
+{
+	Float4X4 m{ Float4X4::GetIdentity() };
+	SetPosition(m, translation);
+	return m;
+}
