@@ -28,6 +28,8 @@ namespace MyEngine
 			void SetCount(int count);
 			bool IsEmpty() const;
 			void Clear();
+			int GetSize() const { return m_CpuInstances.GetSize(); }
+			unsigned GetSizeU() const { return m_CpuInstances.GetSizeU(); }
 
 			Instance& operator[](unsigned idx);
 			const Instance& operator[](unsigned idx) const;
