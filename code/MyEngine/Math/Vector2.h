@@ -60,6 +60,8 @@ namespace MyEngine
 			bool IsLeftBelow(const Vector2& comparedTo) const;
 			bool IsRightBelow(const Vector2& comparedTo) const;
 
+			static Vector2 Bounds(const Vector2* pData, unsigned count);
+
 			T x, y;
 		};
 
@@ -217,6 +219,22 @@ namespace MyEngine
 		bool Vector2<T>::IsRightBelow(const Vector2& comparedTo) const
 		{
 			return x > comparedTo.x && y < comparedTo.y;
+		}
+
+		template <typename T>
+		Vector2<T> Vector2<T>::Bounds(const Vector2* pData, unsigned count)
+		{
+			Vector2 min{std::numeric_limits<T>::max()};
+			Vector2 max{std::numeric_limits<T>::lowest()};
+			for (unsigned i = 0; i < count; i++)
+			{
+				const Vector2& element{ pData[i] };
+				if (element.x < min.x) min.x = element.x;
+				if (element.y < min.y) min.y = element.y;
+				if (element.x > max.x) max.x = element.x;
+				if (element.y > max.y) max.y = element.y;
+			}
+			return max - min;
 		}
 
 		template <typename T>
