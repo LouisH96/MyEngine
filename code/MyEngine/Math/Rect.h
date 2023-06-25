@@ -1,6 +1,9 @@
 #pragma once
 #include "Math/Vector2.h"
 
+#undef min
+#undef max
+
 namespace MyEngine
 {
 	namespace Math
@@ -40,9 +43,16 @@ namespace MyEngine
 			Rect Expanded(const Vector4<T>& expand) const; //left, up, right, bot
 			void Compress(const Vector4<T>& compress); //left, up, right, bot
 			Rect Compressed(const Vector4<T>& compress) const; //left, up, right, bot
+			void Move(const Vector2<T>& movement);
+			Rect Moved(const Vector2<T>& movement) const;
 
 			Vector2<T> Clamped(const Vector2<T>& vector) const;
 			void Clamp(Vector2<T>& vector) const;
+
+			Rect ClampedPos(const Rect& rect) const;
+			void ClampPos(Rect& rect) const;
+
+			static Rect Bounds(const Vector2<T>* pData, unsigned count);
 
 		private:
 			Vector2<T> m_LeftBot;
@@ -100,19 +110,64 @@ namespace MyEngine
 		}
 
 		template <typename T>
+		void Rect<T>::Move(const Vector2<T>& movement)
+		{
+			m_LeftBot += movement;
+		}
+
+		template <typename T>
+		Rect<T> Rect<T>::Moved(const Vector2<T>& movement) const
+		{
+			return{ m_LeftBot += movement, m_Size };
+		}
+
+		template <typename T>
 		Vector2<T> Rect<T>::Clamped(const Vector2<T>& vector) const
 		{
 			return {
-				Scalar<T>::Clamp(vector.x, m_LeftBot.x, m_LeftBot.x + m_Size.x),
-				Scalar<T>::Clamp(vector.y, m_LeftBot.y, m_LeftBot.y + m_Size.y)
+				Scalar<T>::Clamp(vector.x, m_LeftBot.x, m_LeftBot.x + m_Size.x - 1),
+				Scalar<T>::Clamp(vector.y, m_LeftBot.y, m_LeftBot.y + m_Size.y - 1)
 			};
 		}
 
 		template <typename T>
 		void Rect<T>::Clamp(Vector2<T>& vector) const
 		{
-			vector.x = Scalar<T>::Clamp(vector.x, m_LeftBot.x, m_LeftBot.x + m_Size.x);
-			vector.y = Scalar<T>::Clamp(vector.y, m_LeftBot.y, m_LeftBot.y + m_Size.y);
+			vector.x = Scalar<T>::Clamp(vector.x, m_LeftBot.x, m_LeftBot.x + m_Size.x - 1);
+			vector.y = Scalar<T>::Clamp(vector.y, m_LeftBot.y, m_LeftBot.y + m_Size.y - 1);
+		}
+
+		template <typename T>
+		Rect<T> Rect<T>::ClampedPos(const Rect& rect) const
+		{
+			return { {
+					Scalar<T>::Clamp(rect.m_LeftBot.x, m_LeftBot.x, m_LeftBot.x + m_Size.x - rect.m_Size.x - 1),
+					Scalar<T>::Clamp(rect.m_LeftBot.y, m_LeftBot.y, m_LeftBot.y + m_Size.y - rect.m_Size.y - 1)
+				}, m_Size };
+		}
+
+		template <typename T>
+		void Rect<T>::ClampPos(Rect& rect) const
+		{
+			rect.m_LeftBot.x = Scalar<T>::Clamp(rect.m_LeftBot.x, m_LeftBot.x, m_LeftBot.x + m_Size.x - rect.m_Size.x - 1);
+			rect.m_LeftBot.y = Scalar<T>::Clamp(rect.m_LeftBot.y, m_LeftBot.y, m_LeftBot.y + m_Size.y - rect.m_Size.y - 1);
+		}
+
+		template <typename T>
+		Rect<T> Rect<T>::Bounds(const Vector2<T>* pData, unsigned count)
+		{
+			//store min in LeftBot & max in Size
+			Rect bounds{ {std::numeric_limits<T>::max()}, {std::numeric_limits<T>::lowest()} };
+			for (unsigned i = 0; i < count; i++)
+			{
+				const Vector2<T>& element{ pData[i] };
+				if (element.x < bounds.m_LeftBot.x) bounds.m_LeftBot.x = element.x;
+				if (element.y < bounds.m_LeftBot.y) bounds.m_LeftBot.y = element.y;
+				if (element.x > bounds.m_Size.x) bounds.m_Size.x = element.x;
+				if (element.y > bounds.m_Size.y) bounds.m_Size.y = element.y;
+			}
+			bounds.m_Size -= bounds.m_LeftBot;
+			return bounds;
 		}
 	}
 }
