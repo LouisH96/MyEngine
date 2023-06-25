@@ -41,6 +41,9 @@ namespace MyEngine
 			void Compress(const Vector4<T>& compress); //left, up, right, bot
 			Rect Compressed(const Vector4<T>& compress) const; //left, up, right, bot
 
+			Vector2<T> Clamped(const Vector2<T>& vector) const;
+			void Clamp(Vector2<T>& vector) const;
+
 		private:
 			Vector2<T> m_LeftBot;
 			Vector2<T> m_Size;
@@ -94,6 +97,22 @@ namespace MyEngine
 				{m_LeftBot.x + compress.x, m_LeftBot.y + compress.w},
 				{m_Size.x - compress.x - compress.z, m_Size.y - compress.y - compress.w}
 			};
+		}
+
+		template <typename T>
+		Vector2<T> Rect<T>::Clamped(const Vector2<T>& vector) const
+		{
+			return {
+				Scalar<T>::Clamp(vector.x, m_LeftBot.x, m_LeftBot.x + m_Size.x),
+				Scalar<T>::Clamp(vector.y, m_LeftBot.y, m_LeftBot.y + m_Size.y)
+			};
+		}
+
+		template <typename T>
+		void Rect<T>::Clamp(Vector2<T>& vector) const
+		{
+			vector.x = Scalar<T>::Clamp(vector.x, m_LeftBot.x, m_LeftBot.x + m_Size.x);
+			vector.y = Scalar<T>::Clamp(vector.y, m_LeftBot.y, m_LeftBot.y + m_Size.y);
 		}
 	}
 }
