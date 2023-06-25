@@ -14,6 +14,9 @@ namespace MyEngine
 			Algorithms() = delete;
 
 			template<typename T>
+			static T GetMin(const Array<T>& a);
+
+			template<typename T>
 			static T GetBiggest(const Ds::Array<T>& array);
 
 			template<typename T>
@@ -22,6 +25,16 @@ namespace MyEngine
 			template<typename T>
 			static void SortSmallToBig(Array<T>& array);
 		};
+
+		template <typename T>
+		T Algorithms::GetMin(const Array<T>& a)
+		{
+			T smallest = a[0];
+			for (int i = 1; i < a.GetSize(); i++)
+				if (a[i] < smallest)
+					smallest = a[i];
+			return smallest;
+		}
 
 		template <typename T>
 		T Algorithms::GetBiggest(const Ds::Array<T>& a)
