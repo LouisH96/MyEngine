@@ -60,7 +60,8 @@ namespace MyEngine
 			bool IsLeftBelow(const Vector2& comparedTo) const;
 			bool IsRightBelow(const Vector2& comparedTo) const;
 
-			static Vector2 Bounds(const Vector2* pData, unsigned count);
+			static Vector2 GetSize(const Vector2* pData, unsigned count);
+			static void GetBounds(const Vector2* pData, unsigned count, Vector2& min, Vector2& max);
 
 			T x, y;
 		};
@@ -70,7 +71,7 @@ namespace MyEngine
 		template <typename T> Vector2<T>::Vector2(T both) : x{ both }, y{ both } {}
 
 		template <typename T> template <typename O>
-		Vector2<T>::Vector2(const Vector2<O>& other) : x{static_cast<T>(other.x)} , y{static_cast<T>(other.y)} {}
+		Vector2<T>::Vector2(const Vector2<O>& other) : x{ static_cast<T>(other.x) }, y{ static_cast<T>(other.y) } {}
 		template <typename T> template <typename O>
 		Vector2<T>::Vector2(Vector2<O>&& other) noexcept : x{ static_cast<T>(other.x) }, y{ static_cast<T>(other.y) } {}
 
@@ -222,10 +223,18 @@ namespace MyEngine
 		}
 
 		template <typename T>
-		Vector2<T> Vector2<T>::Bounds(const Vector2* pData, unsigned count)
+		Vector2<T> Vector2<T>::GetSize(const Vector2* pData, unsigned count)
 		{
-			Vector2 min{std::numeric_limits<T>::max()};
-			Vector2 max{std::numeric_limits<T>::lowest()};
+			Vector2 min, max;
+			GetBounds(pData, count, min, max);
+			return max - min;
+		}
+
+		template <typename T>
+		void Vector2<T>::GetBounds(const Vector2* pData, unsigned count, Vector2& min, Vector2& max)
+		{
+			min = std::numeric_limits<T>::max();
+			max = std::numeric_limits<T>::lowest();
 			for (unsigned i = 0; i < count; i++)
 			{
 				const Vector2& element{ pData[i] };
@@ -234,7 +243,6 @@ namespace MyEngine
 				if (element.x > max.x) max.x = element.x;
 				if (element.y > max.y) max.y = element.y;
 			}
-			return max - min;
 		}
 
 		template <typename T>
