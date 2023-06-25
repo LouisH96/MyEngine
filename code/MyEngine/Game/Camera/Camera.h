@@ -7,7 +7,7 @@ namespace MyEngine
 		class Camera
 		{
 		public:
-			explicit Camera(Int2 windowSize, float fov = 90, float near = .01f, float far = 200);
+			explicit Camera(Int2 windowSize, float fov = 60, float near = .01f, float far = 200);
 
 			void OnWindowResized(Int2 windowSize);
 			void Update();
@@ -31,6 +31,8 @@ namespace MyEngine
 			const Float4X4& GetViewProjection() const { return m_ViewProjection; }
 
 			const Float3& GetPosition() const { return m_Position; }
+			float GetHalfFov() const; //in radians
+			float GetTanHalfFov() const { return m_TanHalfFov; }
 
 		private:
 			Float4X4 m_Projection{};
@@ -39,8 +41,8 @@ namespace MyEngine
 			Float4X4 m_ViewProjection{};
 			Float3 m_Position{};
 
-			float m_InvAspectRatio{};
-			float m_FovValue{};
+			float m_AspectRatio{};
+			float m_TanHalfFov{};
 			float m_Near;
 			float m_Far;
 

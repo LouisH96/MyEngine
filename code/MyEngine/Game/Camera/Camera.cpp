@@ -15,7 +15,7 @@ Camera::Camera(Int2 windowSize, float fov, float near, float far)
 
 void Camera::OnWindowResized(Int2 windowSize)
 {
-	m_InvAspectRatio = static_cast<float>(windowSize.y) / static_cast<float>(windowSize.x);
+	m_AspectRatio = static_cast<float>(windowSize.x) / static_cast<float>(windowSize.y);
 	UpdateProjectionMatrix();
 }
 
@@ -41,7 +41,7 @@ void Camera::Update()
 
 void Camera::SetFieldOfView(float angle)
 {
-	m_FovValue = 1.f / (angle / 2 * Constants::TO_RAD);
+	m_TanHalfFov = tan(angle / 2 * Constants::TO_RAD);
 	UpdateProjectionMatrix();
 }
 
@@ -96,13 +96,18 @@ const Float3& Camera::GetForward() const
 	return m_World.GetRow2().Xyz();
 }
 
+float Camera::GetHalfFov() const
+{
+	return atan(m_TanHalfFov);
+}
+
 void Camera::UpdateProjectionMatrix()
 {
 	const float a = m_Far / (m_Far - m_Near);
 	const float b = -(m_Far * m_Near) / (m_Far - m_Near);
 	m_Projection = {
-		{m_InvAspectRatio * m_FovValue, 0,0,0},
-		{0,m_FovValue, 0,0},
+		{1 / (m_AspectRatio * m_TanHalfFov), 0,0,0},
+		{0,1 / m_TanHalfFov, 0,0},
 		{0,0,a,b},
 		{0,0,1,0}
 	};
