@@ -1,8 +1,10 @@
 #pragma once
 #include "Math/Rects.h"
+#include "Rendering/DrawData/InstanceList.h"
 #include "Rendering/DrawData/VertexList.h"
 #include "Rendering/State/DepthStencilState.h"
 #include "Rendering/State/Shader.h"
+#include "Rendering/Structs/Instances.h"
 #include "Rendering/Structs/VertexTypes.h"
 
 namespace MyEngine
@@ -38,25 +40,21 @@ namespace MyEngine
 
 			ElementId GetUnderMouse() const;
 			void ChangeColor(ElementId id, const Float3& color);
-			void ChangePositionX(ElementId id, int x);
+			void SetOffsetX(ElementId id, int xPixels);
 
 		private:
-			static constexpr int VERTICES_PER_RECT = 6;
-			using Vertex = Rendering::V_Pos2Col;
+			using Vertex = Rendering::V_Pos2;
+			using Instance = Rendering::I_Pos2Col;
+
 			Rendering::DepthStencilState m_DepthStencilState;
 			Rendering::InputLayout m_InputLayout;
 			Rendering::Shader m_Shader;
 
 			Int2 m_CanvasSize;
-			Rendering::VertexList<Vertex> m_Vertices;
+			Rendering::InstanceList<Vertex, Instance> m_Instances;
 			List<Float2> m_Pivots{}; //Elements point at pivot is attached to screens point at pivot
 
-			void Add(int idx, const RectFloat& rect, const Float3& color);
-			void Replace(int idx, const RectFloat& rect);
-			RectFloat GetNdcRect(int idx);
-
-			static int ToVertexId(ElementId id);
-			static ElementId ToElementId(int vertexId);
+			void AddNdc(int idx, const RectFloat& rect, const Float3& color);
 
 			Float2 MouseInClip() const;
 			static float ToClipAlignMin(int screenPos, float screenSize);

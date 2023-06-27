@@ -12,10 +12,19 @@ bool Gui::GuiRenderer::ElementId::operator==(const ElementId& other) const
 }
 
 Gui::GuiRenderer::GuiRenderer()
-	: m_InputLayout{ Rendering::InputLayout::FromType<Vertex>() }
+	: m_InputLayout{ Rendering::InputLayout::FromTypes<Vertex, Instance>() }
 	, m_Shader{ Resources::GlobalShader(L"Gui.hlsl") }
 	, m_CanvasSize{ Globals::pCanvas->GetSize() }
 {
+	Array<Vertex> vertices{6};
+	vertices[0].pos = { -.5f,-.5f };
+	vertices[1].pos = { -.5f,.5f };
+	vertices[2].pos = { .5f,.5f };
+
+	vertices[3].pos = { -.5f,-.5f };
+	vertices[4].pos = { .5f,.5f };
+	vertices[5].pos = { .5f,-.5f };
+	m_Instances = { vertices.GetData(), vertices.GetSizeU() };
 }
 
 void Gui::GuiRenderer::OnCanvasResize(const Int2& newSize)
@@ -27,15 +36,14 @@ void Gui::GuiRenderer::OnCanvasResize(const Int2& newSize)
 	};
 	m_CanvasSize = newSize;
 
-	for (int i = 0; i < m_Vertices.GetSize(); i += VERTICES_PER_RECT)
+	for (int i = 0; i < m_Instances.GetSize(); i++)
 	{
-		const Float2& pivot{ m_Pivots[i / VERTICES_PER_RECT] };
-		RectFloat ndcRect{ GetNdcRect(i) };
-		const Float2 pivotToLeftBot{ ndcRect.GetLeftBot() - pivot };
+		const Float2& pivot{ m_Pivots[i] };
+		Instance& instance{ m_Instances[i] };
 
-		ndcRect.SetLeftBot(pivot + pivotToLeftBot.Scaled(scale));
-		ndcRect.SetSize(ndcRect.GetSize().Scaled(scale));
-		Replace(i, ndcRect);
+		const Float2 pivotToCenter{ instance.offset - pivot };
+		instance.offset = pivot + pivotToCenter.Scaled(scale);
+		instance.size.Scale(scale);
 	}
 }
 
@@ -44,7 +52,7 @@ void Gui::GuiRenderer::Render()
 	m_DepthStencilState.Activate();
 	m_InputLayout.Activate();
 	m_Shader.Activate();
-	m_Vertices.Draw();
+	m_Instances.Draw();
 }
 
 //offset & size in pixels
@@ -55,12 +63,13 @@ Gui::GuiRenderer::ElementId Gui::GuiRenderer::Add(const Float2& pivot, const Int
 	const Float2 canvasScale{ 1.f / Float::Cast(m_CanvasSize.x), 1.f / Float::Cast(m_CanvasSize.y) };
 	const Float2 offsetNdc{ Float2{offset * 2}.Scaled(canvasScale) };
 	const Float2 halfSizeNdc{ Float2{size}.Scaled(canvasScale) };
-	const Float2 leftBotNdc{ pivot - halfSizeNdc - halfSizeNdc.Scaled(pivot) + offsetNdc };
 
-	const int vertexIdx{ m_Vertices.GetSize() };
-	Add(vertexIdx, { leftBotNdc, halfSizeNdc * 2 }, color);
+	const Float2 leftBotNdc{ pivot - halfSizeNdc.Scaled(pivot) + offsetNdc };
+
+	const int vertexIdx{ static_cast<int>(m_Instances.GetSize()) };
+	AddNdc(vertexIdx, { leftBotNdc, halfSizeNdc * 2 }, color);
 	m_Pivots.Add(pivot);
-	return ToElementId(vertexIdx);
+	return ElementId{ vertexIdx };
 }
 
 Gui::GuiRenderer::ElementId Gui::GuiRenderer::AddCenterBottom(const Int2& offset, const Int2& size, const Float3& color)
@@ -71,91 +80,44 @@ Gui::GuiRenderer::ElementId Gui::GuiRenderer::AddCenterBottom(const Int2& offset
 Gui::GuiRenderer::ElementId Gui::GuiRenderer::GetUnderMouse() const
 {
 	const Float2 mouse{ MouseInClip() };
-	for (int i = m_Vertices.GetSize() - VERTICES_PER_RECT; i >= 0; i -= VERTICES_PER_RECT)
+	for (int i = m_Instances.GetSize() - 1; i >= 0; i--)
 	{
-		const Float2& botLeft{ m_Vertices[i].pos };
+		const Float2 botLeft{ m_Instances[i].offset - m_Instances[i].size * .5 };
 		if (!mouse.IsRightAbove(botLeft)) continue;
-		const Float2& topRight{ m_Vertices[i + VERTICES_PER_RECT - 1].pos };
+		const Float2 topRight{ botLeft + m_Instances[i].size };
 		if (!mouse.IsLeftBelow(topRight)) continue;
-		return ToElementId(i);
+		return ElementId{ i };
 	}
 	return ElementId{ -1 };
 }
 
 void Gui::GuiRenderer::ChangeColor(ElementId id, const Float3& color)
 {
-	int vertexId{ ToVertexId(id) };
-	m_Vertices[vertexId++].col = color;
-	m_Vertices[vertexId++].col = color;
-	m_Vertices[vertexId++].col = color;
-
-	m_Vertices[vertexId++].col = color;
-	m_Vertices[vertexId++].col = color;
-	m_Vertices[vertexId].col = color;
+	m_Instances[id.GetId()].color = color;
 }
 
-void Gui::GuiRenderer::ChangePositionX(ElementId id, int x)
+void Gui::GuiRenderer::SetOffsetX(ElementId id, int xPixels)
 {
-	int vertexId{ ToVertexId(id) };
-	const float newX = ToClipAlignCenter(x, m_CanvasSize.x);
-	const float change{ newX - m_Vertices[vertexId].pos.x };
+	const Float2& pivot{ m_Pivots[id.GetId()] };
+	Instance& instance{ m_Instances[id.GetId()] };
 
-	m_Vertices[vertexId++].pos.x += change;
-	m_Vertices[vertexId++].pos.x += change;
-	m_Vertices[vertexId++].pos.x += change;
+	const float localOffset{ instance.size.x * .5f * pivot.x };
+	const float globalOffset{ Float::Cast(xPixels) / m_CanvasSize.x * 2.f };
 
-	m_Vertices[vertexId++].pos.x += change;
-	m_Vertices[vertexId++].pos.x += change;
-	m_Vertices[vertexId].pos.x += change;
+	instance.offset.x = pivot.x - localOffset + globalOffset;
 }
 
-void Gui::GuiRenderer::Add(int idx, const RectFloat& rect, const Float3& color)
+void Gui::GuiRenderer::AddNdc(int idx, const RectFloat& rect, const Float3& color)
 {
-	List<Vertex>& list{m_Vertices.GetList()};
-	list.InsertEmpty(idx, VERTICES_PER_RECT);
-
-	list[idx++] = { rect.GetLeftBot(), color };
-	list[idx++] = { rect.GetLeftTop(), color };
-	list[idx++] = { rect.GetRightBot(), color };
-
-	list[idx++] = { rect.GetRightBot(), color };
-	list[idx++] = { rect.GetLeftTop(), color };
-	list[idx] = { rect.GetRightTop(), color };
-}
-
-void Gui::GuiRenderer::Replace(int idx, const RectFloat& rect)
-{
-	m_Vertices[idx++].pos = rect.GetLeftBot();
-	m_Vertices[idx++].pos = rect.GetLeftTop();
-	m_Vertices[idx++].pos = rect.GetRightBot();
-
-	m_Vertices[idx++].pos = rect.GetRightBot();
-	m_Vertices[idx++].pos = rect.GetLeftTop();
-	m_Vertices[idx].pos = rect.GetRightTop();
-}
-
-RectFloat Gui::GuiRenderer::GetNdcRect(int idx)
-{
-	return {
-		m_Vertices[idx].pos,
-		m_Vertices[idx + VERTICES_PER_RECT - 1].pos - m_Vertices[idx].pos
-	};
+	m_Instances.Insert({
+		rect.GetLeftBot(), rect.GetSize(), color
+		}, idx);
 }
 
 Float2 Gui::GuiRenderer::MouseInClip() const
 {
 	const Int2& mouseInt{ Globals::pMouse->GetPos() };
 	return Float2{ mouseInt }.Divided(m_CanvasSize).Scaled({ 2,-2 }) - Float2{1, -1};
-}
-
-int Gui::GuiRenderer::ToVertexId(ElementId id)
-{
-	return id.GetId() * VERTICES_PER_RECT;
-}
-
-Gui::GuiRenderer::ElementId Gui::GuiRenderer::ToElementId(int vertexId)
-{
-	return ElementId{ vertexId / VERTICES_PER_RECT };
 }
 
 float Gui::GuiRenderer::ToClipAlignMin(int screenPos, float screenSize)
