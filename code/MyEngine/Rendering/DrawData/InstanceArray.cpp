@@ -13,7 +13,8 @@ Rendering::InstanceArray::~InstanceArray()
 }
 
 Rendering::InstanceArray::InstanceArray(InstanceArray&& other) noexcept
-	: m_pBuffers{ other.m_pBuffers[0], other.m_pBuffers[1] }
+	: m_Topology{ other.m_Topology }
+	, m_pBuffers{ other.m_pBuffers[0], other.m_pBuffers[1] }
 	, m_Strides{ other.m_Strides[0], other.m_Strides[1] }
 	, m_Offsets{ other.m_Offsets[0], other.m_Offsets[1] }
 	, m_Counts{ other.m_Counts[0], other.m_Counts[1] }
@@ -26,6 +27,7 @@ Rendering::InstanceArray::InstanceArray(InstanceArray&& other) noexcept
 Rendering::InstanceArray& Rendering::InstanceArray::operator=(InstanceArray&& other) noexcept
 {
 	if (&other == this) return *this;
+	m_Topology = other.m_Topology;
 	m_pBuffers[0] = other.m_pBuffers[0]; m_pBuffers[1] = other.m_pBuffers[1];
 	m_Counts[0] = other.m_Counts[0]; m_Counts[1] = other.m_Counts[1];
 	m_Strides[0] = other.m_Strides[0]; m_Strides[1] = other.m_Strides[1];
@@ -38,14 +40,14 @@ Rendering::InstanceArray& Rendering::InstanceArray::operator=(InstanceArray&& ot
 void Rendering::InstanceArray::Draw()
 {
 	Globals::pGpu->GetContext().IASetVertexBuffers(0, 2, m_pBuffers, m_Strides, m_Offsets);
-	Globals::pGpu->GetContext().IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	Globals::pGpu->GetContext().IASetPrimitiveTopology(m_Topology);
 	Globals::pGpu->GetContext().DrawInstanced(m_Counts[IDX_VERTICES], m_Counts[IDX_INSTANCES], 0, 0);
 }
 
 void Rendering::InstanceArray::Draw(unsigned instanceCount) const
 {
 	Globals::pGpu->GetContext().IASetVertexBuffers(0, 2, m_pBuffers, m_Strides, m_Offsets);
-	Globals::pGpu->GetContext().IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	Globals::pGpu->GetContext().IASetPrimitiveTopology(m_Topology);
 	Globals::pGpu->GetContext().DrawInstanced(m_Counts[IDX_VERTICES], instanceCount, 0, 0);
 }
 

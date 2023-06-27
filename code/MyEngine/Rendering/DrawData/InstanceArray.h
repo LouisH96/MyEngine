@@ -2,6 +2,8 @@
 #include "IDrawData.h"
 #include <Rendering/Dx/DxHelper.h>
 
+#include "Rendering/State/PrimitiveTopology.h"
+
 struct ID3D11Buffer;
 
 namespace MyEngine
@@ -15,9 +17,17 @@ namespace MyEngine
 			//---| Constructor/Destructor |---
 			InstanceArray();
 			template<typename Vertex>
-			InstanceArray(const Vertex* pVertices, unsigned nrVertices, unsigned instanceStride, unsigned instancesCapacity = 5, bool verticesImmutable = true, bool instancesImmutable = true);
+			InstanceArray(
+				const Vertex* pVertices, unsigned nrVertices,
+				unsigned instanceStride, unsigned instancesCapacity = 5,
+				bool verticesImmutable = true, bool instancesImmutable = true,
+				PrimitiveTopology topology = PrimitiveTopology::TriangleList);
 			template<typename Vertex, typename Instance>
-			InstanceArray(const Vertex* pVertices, unsigned nrVertices, const Instance* pInstances, unsigned nrInstances, bool verticesImmutable = true, bool instancesImmutable = true);
+			InstanceArray(
+				const Vertex* pVertices, unsigned nrVertices,
+				const Instance* pInstances, unsigned nrInstances,
+				bool verticesImmutable = true, bool instancesImmutable = true,
+				PrimitiveTopology topology = PrimitiveTopology::TriangleList);
 			~InstanceArray() override;
 
 			//---| Copy/Move |---
@@ -47,6 +57,7 @@ namespace MyEngine
 			static constexpr int IDX_VERTICES = 0;
 
 			static constexpr int IDX_INSTANCES = 1;
+			D3D11_PRIMITIVE_TOPOLOGY m_Topology;
 			ID3D11Buffer* m_pBuffers[NR_BUFFERS];
 			unsigned m_Strides[NR_BUFFERS];
 			unsigned m_Offsets[NR_BUFFERS];
@@ -55,8 +66,13 @@ namespace MyEngine
 		};
 
 		template <typename Vertex>
-		InstanceArray::InstanceArray(const Vertex* pVertices, unsigned nrVertices, unsigned instanceStride, unsigned instancesCapacity, bool verticesImmutable, bool instancesImmutable)
-			: m_Strides{ sizeof(Vertex), instanceStride }
+		InstanceArray::InstanceArray(
+			const Vertex* pVertices, unsigned nrVertices,
+			unsigned instanceStride, unsigned instancesCapacity,
+			bool verticesImmutable, bool instancesImmutable,
+			PrimitiveTopology topology)
+			: m_Topology{ PrimitiveTopologyUtils::ToDx(topology) }
+			, m_Strides{ sizeof(Vertex), instanceStride }
 			, m_Offsets{ 0,0 }
 			, m_Counts{ nrVertices, 0 }
 			, m_Capacities{ nrVertices, instancesCapacity }
@@ -66,9 +82,13 @@ namespace MyEngine
 		}
 
 		template <typename Vertex, typename Instance>
-		InstanceArray::InstanceArray(const Vertex* pVertices, unsigned nrVertices, const Instance* pInstances, unsigned nrInstances,
-			bool verticesImmutable, bool instancesImmutable)
-			: m_Strides{ sizeof(Vertex), sizeof(Instance) }
+		InstanceArray::InstanceArray(
+			const Vertex* pVertices, unsigned nrVertices,
+			const Instance* pInstances, unsigned nrInstances,
+			bool verticesImmutable, bool instancesImmutable,
+			PrimitiveTopology topology)
+			: m_Topology{ PrimitiveTopologyUtils::ToDx(topology) }
+			, m_Strides{ sizeof(Vertex), sizeof(Instance) }
 			, m_Offsets{ 0,0 }
 			, m_Counts{ nrVertices, nrInstances }
 			, m_Capacities{ nrVertices, nrInstances }

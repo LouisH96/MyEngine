@@ -11,7 +11,9 @@ namespace MyEngine
 		public:
 			//---| Constructor/Destructor |---
 			InstanceList() = default;
-			InstanceList(const Vertex* pVertices, unsigned nrVertices);
+			InstanceList(
+				const Vertex* pVertices, unsigned nrVertices,
+				PrimitiveTopology topology = PrimitiveTopology::TriangleList);
 			~InstanceList() override = default;
 
 			//---| Copy/Move |---
@@ -42,8 +44,10 @@ namespace MyEngine
 		};
 
 		template <typename Vertex, typename Instance>
-		InstanceList<Vertex, Instance>::InstanceList(const Vertex* pVertices, unsigned nrVertices)
-			: m_DrawBatch{ pVertices, nrVertices, sizeof(Instance), 5, true, false }
+		InstanceList<Vertex, Instance>::InstanceList(
+			const Vertex* pVertices, unsigned nrVertices,
+			PrimitiveTopology topology)
+			: m_DrawBatch{ pVertices, nrVertices, sizeof(Instance), 5, true, false, topology }
 		{
 		}
 
