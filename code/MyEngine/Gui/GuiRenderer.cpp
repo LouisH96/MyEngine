@@ -16,15 +16,12 @@ Gui::GuiRenderer::GuiRenderer()
 	, m_Shader{ Resources::GlobalShader(L"Gui.hlsl") }
 	, m_CanvasSize{ Globals::pCanvas->GetSize() }
 {
-	Array<Vertex> vertices{6};
+	Array<Vertex> vertices{4};
 	vertices[0].pos = { -.5f,-.5f };
 	vertices[1].pos = { -.5f,.5f };
-	vertices[2].pos = { .5f,.5f };
-
-	vertices[3].pos = { -.5f,-.5f };
-	vertices[4].pos = { .5f,.5f };
-	vertices[5].pos = { .5f,-.5f };
-	m_Instances = { vertices.GetData(), vertices.GetSizeU() };
+	vertices[2].pos = { .5f,-.5f };
+	vertices[3].pos = { .5f,.5f };
+	m_Instances = { vertices.GetData(), vertices.GetSizeU(), Rendering::PrimitiveTopology::TriangleStrip };
 }
 
 void Gui::GuiRenderer::OnCanvasResize(const Int2& newSize)
