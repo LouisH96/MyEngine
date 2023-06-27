@@ -5,6 +5,14 @@ namespace MyEngine
 {
 	namespace Rendering
 	{
+		//---| 2D POSITION  |---
+		struct V_Pos2
+		{
+			Float2 pos;
+
+			static const InputLayout::Element ELEMENTS[];
+			static const int NR_ELEMENTS;
+		};
 		struct V_Pos2Col
 		{
 			Float2 pos;
@@ -21,6 +29,8 @@ namespace MyEngine
 			static const InputLayout::Element ELEMENTS[];
 			static constexpr int NR_ELEMENTS = 2;
 		};
+
+		//---| 3D POSITION |---
 		struct V_PosNor
 		{
 			Float3 Position{};
