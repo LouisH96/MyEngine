@@ -7,13 +7,13 @@ namespace MyEngine
 	{
 		enum class PrimitiveTopology
 		{
-			TriangleList, LineStrip, LineList, Unknown
+			TriangleList, TriangleStrip, LineStrip, LineList, Unknown
 		};
 
 		class PrimitiveTopologyUtils
 		{
 		public:
-			static  D3D11_PRIMITIVE_TOPOLOGY ToDx(PrimitiveTopology topology);
+			static D3D11_PRIMITIVE_TOPOLOGY ToDx(PrimitiveTopology topology);
 		};
 	}
 }
