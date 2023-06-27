@@ -38,8 +38,8 @@ namespace MyEngine
 			ElementId Add(const Float2& pivot, const Int2& offset, const Int2& size, const Float3& color);
 			ElementId AddCenterBottom(const Int2& offset, const Int2& size, const Float3& color);
 
-			ElementId GetUnderMouse() const;
-			void ChangeColor(ElementId id, const Float3& color);
+			ElementId GetElementUnderMouse() const;
+			void SetColor(ElementId id, const Float3& color);
 			void SetOffsetX(ElementId id, int xPixels);
 
 		private:
@@ -56,14 +56,9 @@ namespace MyEngine
 
 			void AddNdc(int idx, const RectFloat& rect, const Float3& color);
 
-			Float2 MouseInClip() const;
-			static float ToClipAlignMin(int screenPos, float screenSize);
-			static float ToClipAlignCenter(int screenPos, float screenSize);
-			static float SizeToClip(int size, float screenSize);
-			static Float2 SizeToClip(const Int2& size, const Float2& screenSize);
-
-			static Float2 GetPivotPoint(const Float2& pivot, const RectFloat& rect);
-			static Float2 GetLeftBottom(const Float2& pivot, const Float2& pivotPos, const RectFloat& rect);
+			Float2 GetMouseNdc() const;
+			Float2 ScreenSpaceToNdc(const Int2& point) const;
+			Float2 ScreenSpaceToNdc(const Float2& point) const;
 		};
 	}
 }

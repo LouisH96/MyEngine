@@ -74,9 +74,9 @@ Gui::GuiRenderer::ElementId Gui::GuiRenderer::AddCenterBottom(const Int2& offset
 	return Add({ 0,-1 }, offset, size, color);
 }
 
-Gui::GuiRenderer::ElementId Gui::GuiRenderer::GetUnderMouse() const
+Gui::GuiRenderer::ElementId Gui::GuiRenderer::GetElementUnderMouse() const
 {
-	const Float2 mouse{ MouseInClip() };
+	const Float2 mouse{ GetMouseNdc() };
 	for (int i = m_Instances.GetSize() - 1; i >= 0; i--)
 	{
 		const Float2 botLeft{ m_Instances[i].offset - m_Instances[i].size * .5 };
@@ -88,7 +88,7 @@ Gui::GuiRenderer::ElementId Gui::GuiRenderer::GetUnderMouse() const
 	return ElementId{ -1 };
 }
 
-void Gui::GuiRenderer::ChangeColor(ElementId id, const Float3& color)
+void Gui::GuiRenderer::SetColor(ElementId id, const Float3& color)
 {
 	m_Instances[id.GetId()].color = color;
 }
@@ -111,41 +111,17 @@ void Gui::GuiRenderer::AddNdc(int idx, const RectFloat& rect, const Float3& colo
 		}, idx);
 }
 
-Float2 Gui::GuiRenderer::MouseInClip() const
+Float2 Gui::GuiRenderer::GetMouseNdc() const
 {
-	const Int2& mouseInt{ Globals::pMouse->GetPos() };
-	return Float2{ mouseInt }.Divided(m_CanvasSize).Scaled({ 2,-2 }) - Float2{1, -1};
+	return ScreenSpaceToNdc(Globals::pMouse->GetPos());
 }
 
-float Gui::GuiRenderer::ToClipAlignMin(int screenPos, float screenSize)
+Float2 Gui::GuiRenderer::ScreenSpaceToNdc(const Int2& point) const
 {
-	return static_cast<float>(screenPos) / screenSize * 2 - 1;
+	return Float2{ point.Scaled({2,-2}) }.Divided(m_CanvasSize) - Float2{1, -1};
 }
 
-float Gui::GuiRenderer::ToClipAlignCenter(int screenPos, float screenSize)
+Float2 Gui::GuiRenderer::ScreenSpaceToNdc(const Float2& point) const
 {
-	return static_cast<float>(screenPos) / screenSize * 2;
-}
-
-float Gui::GuiRenderer::SizeToClip(int size, float screenSize)
-{
-	return static_cast<float>(size) / screenSize * 2;
-}
-
-Float2 Gui::GuiRenderer::SizeToClip(const Int2& size, const Float2& screenSize)
-{
-	return {
-		static_cast<float>(size.x) / screenSize.x * 2,
-		static_cast<float>(size.y) / screenSize.y * 2
-	};
-}
-
-Float2 Gui::GuiRenderer::GetPivotPoint(const Float2& pivot, const RectFloat& rect)
-{
-	return rect.GetLeftBot() + rect.GetSize().Scaled((pivot + 1) / 2);
-}
-
-Float2 Gui::GuiRenderer::GetLeftBottom(const Float2& pivot, const Float2& pivotPos, const RectFloat& rect)
-{
-	return (pivotPos - (pivot + 1) / 2).Scaled(rect.GetSize());
+	return point.Divided(m_CanvasSize).Scaled({ 2,-2 }) - Float2{1, -1};
 }
