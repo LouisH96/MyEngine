@@ -33,8 +33,8 @@ namespace MyEngine
 			void OnCanvasResize(const Int2& newSize);
 			void Render();
 
-			ElementId AddLeftBottom(const RectInt& rectangle, const Float3& color);
-			ElementId AddCenterBottom(const RectInt& rectangle, const Float3& color);
+			ElementId Add(const Float2& pivot, const Int2& offset, const Int2& size, const Float3& color);
+			ElementId AddCenterBottom(const Int2& offset, const Int2& size, const Float3& color);
 
 			ElementId GetUnderMouse() const;
 			void ChangeColor(ElementId id, const Float3& color);
@@ -49,17 +49,23 @@ namespace MyEngine
 
 			Int2 m_CanvasSize;
 			Rendering::VertexList<Vertex> m_Vertices;
-			int m_CenterBottomAnchoredIdx; //begin of vertices anchored to center-bottom (before is anchored to left-bottom)
+			List<Float2> m_Pivots{}; //Elements point at pivot is attached to screens point at pivot
 
 			void Add(int idx, const RectFloat& rect, const Float3& color);
 			void Replace(int idx, const RectFloat& rect);
+			RectFloat GetNdcRect(int idx);
+
+			static int ToVertexId(ElementId id);
+			static ElementId ToElementId(int vertexId);
 
 			Float2 MouseInClip() const;
-			int ToVertexId(ElementId id) const;
 			static float ToClipAlignMin(int screenPos, float screenSize);
 			static float ToClipAlignCenter(int screenPos, float screenSize);
 			static float SizeToClip(int size, float screenSize);
 			static Float2 SizeToClip(const Int2& size, const Float2& screenSize);
+
+			static Float2 GetPivotPoint(const Float2& pivot, const RectFloat& rect);
+			static Float2 GetLeftBottom(const Float2& pivot, const Float2& pivotPos, const RectFloat& rect);
 		};
 	}
 }
