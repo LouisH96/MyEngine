@@ -14,7 +14,7 @@ bool Gui::GuiRenderer::ElementId::operator==(const ElementId& other) const
 Gui::GuiRenderer::GuiRenderer()
 	: m_InputLayout{ Rendering::InputLayout::FromTypes<Vertex, Instance>() }
 	, m_Shader{ Resources::GlobalShader(L"Gui.hlsl") }
-	, m_CanvasSize{ Globals::pCanvas->GetSize() }
+	, m_InvCanvasSize{ Float2{1}.Divided(Globals::pCanvas->GetSize()) }
 {
 	Array<Vertex> vertices{4};
 	vertices[0].pos = { -.5f,-.5f };
@@ -26,12 +26,9 @@ Gui::GuiRenderer::GuiRenderer()
 
 void Gui::GuiRenderer::OnCanvasResize(const Int2& newSize)
 {
-	const Float2 scale
-	{
-		m_CanvasSize.x / newSize.x,
-		m_CanvasSize.y / newSize.y
-	};
-	m_CanvasSize = newSize;
+	Float2 scale{ m_InvCanvasSize };
+	m_InvCanvasSize = Float2{ 1 }.Divided(Float2{ newSize });
+	scale = m_InvCanvasSize.Divided(scale); // old/new
 
 	for (int i = 0; i < m_Instances.GetSize(); i++)
 	{
@@ -57,9 +54,8 @@ void Gui::GuiRenderer::Render()
 Gui::GuiRenderer::ElementId Gui::GuiRenderer::Add(const Float2& pivot, const Float2& offset, const Float2& size,
 	const Float3& color)
 {
-	const Float2 canvasScale{ 1.f / m_CanvasSize.x, 1.f / m_CanvasSize.y };
-	const Float2 offsetNdc{ (offset * 2).Scaled(canvasScale) };
-	const Float2 halfSizeNdc{ size.Scaled(canvasScale) };
+	const Float2 offsetNdc{ (offset * 2).Scaled(m_InvCanvasSize) };
+	const Float2 halfSizeNdc{ size.Scaled(m_InvCanvasSize) };
 
 	const Float2 leftBotNdc{ pivot - halfSizeNdc.Scaled(pivot) + offsetNdc };
 
@@ -99,7 +95,7 @@ void Gui::GuiRenderer::SetOffsetX(ElementId id, float xPixels)
 	Instance& instance{ m_Instances[id.GetId()] };
 
 	const float localOffset{ instance.size.x * .5f * pivot.x };
-	const float globalOffset{ xPixels / m_CanvasSize.x * 2.f };
+	const float globalOffset{ xPixels * m_InvCanvasSize.x * 2.f };
 
 	instance.offset.x = pivot.x - localOffset + globalOffset;
 }
@@ -118,10 +114,10 @@ Float2 Gui::GuiRenderer::GetMouseNdc() const
 
 Float2 Gui::GuiRenderer::ScreenSpaceToNdc(const Int2& point) const
 {
-	return Float2{ point.Scaled({2,-2}) }.Divided(m_CanvasSize) - Float2{1, -1};
+	return Float2{ point.Scaled({2,-2}) }.Scaled(m_InvCanvasSize) - Float2{1, -1};
 }
 
 Float2 Gui::GuiRenderer::ScreenSpaceToNdc(const Float2& point) const
 {
-	return point.Divided(m_CanvasSize).Scaled({ 2,-2 }) - Float2{1, -1};
+	return point.Scaled(m_InvCanvasSize).Scaled({ 2,-2 }) - Float2{1, -1};
 }

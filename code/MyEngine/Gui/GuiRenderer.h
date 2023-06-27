@@ -31,7 +31,6 @@ namespace MyEngine
 			GuiRenderer();
 
 			//---| Operations |---
-			const Int2& GetCanvasSize() const { return m_CanvasSize; }
 			void OnCanvasResize(const Int2& newSize);
 			void Render();
 
@@ -50,7 +49,7 @@ namespace MyEngine
 			Rendering::InputLayout m_InputLayout;
 			Rendering::Shader m_Shader;
 
-			Float2 m_CanvasSize;
+			Float2 m_InvCanvasSize;
 			Rendering::InstanceList<Vertex, Instance> m_Instances;
 			List<Float2> m_Pivots{}; //Elements point at pivot is attached to screens point at pivot
 
