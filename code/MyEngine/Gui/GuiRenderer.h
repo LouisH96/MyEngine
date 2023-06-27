@@ -35,12 +35,12 @@ namespace MyEngine
 			void OnCanvasResize(const Int2& newSize);
 			void Render();
 
-			ElementId Add(const Float2& pivot, const Int2& offset, const Int2& size, const Float3& color);
-			ElementId AddCenterBottom(const Int2& offset, const Int2& size, const Float3& color);
+			ElementId Add(const Float2& pivot, const Float2& offset, const Float2& size, const Float3& color);
+			ElementId AddCenterBottom(const Float2& offset, const Float2& size, const Float3& color);
 
 			ElementId GetElementUnderMouse() const;
 			void SetColor(ElementId id, const Float3& color);
-			void SetOffsetX(ElementId id, int xPixels);
+			void SetOffsetX(ElementId id, float xPixels);
 
 		private:
 			using Vertex = Rendering::V_Pos2;
@@ -50,7 +50,7 @@ namespace MyEngine
 			Rendering::InputLayout m_InputLayout;
 			Rendering::Shader m_Shader;
 
-			Int2 m_CanvasSize;
+			Float2 m_CanvasSize;
 			Rendering::InstanceList<Vertex, Instance> m_Instances;
 			List<Float2> m_Pivots{}; //Elements point at pivot is attached to screens point at pivot
 

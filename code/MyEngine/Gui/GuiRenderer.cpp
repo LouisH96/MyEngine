@@ -28,8 +28,8 @@ void Gui::GuiRenderer::OnCanvasResize(const Int2& newSize)
 {
 	const Float2 scale
 	{
-		static_cast<float>(m_CanvasSize.x) / newSize.x,
-		static_cast<float>(m_CanvasSize.y) / newSize.y
+		m_CanvasSize.x / newSize.x,
+		m_CanvasSize.y / newSize.y
 	};
 	m_CanvasSize = newSize;
 
@@ -54,12 +54,12 @@ void Gui::GuiRenderer::Render()
 
 //offset & size in pixels
 //pivot [-1,1]
-Gui::GuiRenderer::ElementId Gui::GuiRenderer::Add(const Float2& pivot, const Int2& offset, const Int2& size,
+Gui::GuiRenderer::ElementId Gui::GuiRenderer::Add(const Float2& pivot, const Float2& offset, const Float2& size,
 	const Float3& color)
 {
-	const Float2 canvasScale{ 1.f / Float::Cast(m_CanvasSize.x), 1.f / Float::Cast(m_CanvasSize.y) };
-	const Float2 offsetNdc{ Float2{offset * 2}.Scaled(canvasScale) };
-	const Float2 halfSizeNdc{ Float2{size}.Scaled(canvasScale) };
+	const Float2 canvasScale{ 1.f / m_CanvasSize.x, 1.f / m_CanvasSize.y };
+	const Float2 offsetNdc{ (offset * 2).Scaled(canvasScale) };
+	const Float2 halfSizeNdc{ size.Scaled(canvasScale) };
 
 	const Float2 leftBotNdc{ pivot - halfSizeNdc.Scaled(pivot) + offsetNdc };
 
@@ -69,7 +69,7 @@ Gui::GuiRenderer::ElementId Gui::GuiRenderer::Add(const Float2& pivot, const Int
 	return ElementId{ vertexIdx };
 }
 
-Gui::GuiRenderer::ElementId Gui::GuiRenderer::AddCenterBottom(const Int2& offset, const Int2& size, const Float3& color)
+Gui::GuiRenderer::ElementId Gui::GuiRenderer::AddCenterBottom(const Float2& offset, const Float2& size, const Float3& color)
 {
 	return Add({ 0,-1 }, offset, size, color);
 }
@@ -93,13 +93,13 @@ void Gui::GuiRenderer::SetColor(ElementId id, const Float3& color)
 	m_Instances[id.GetId()].color = color;
 }
 
-void Gui::GuiRenderer::SetOffsetX(ElementId id, int xPixels)
+void Gui::GuiRenderer::SetOffsetX(ElementId id, float xPixels)
 {
 	const Float2& pivot{ m_Pivots[id.GetId()] };
 	Instance& instance{ m_Instances[id.GetId()] };
 
 	const float localOffset{ instance.size.x * .5f * pivot.x };
-	const float globalOffset{ Float::Cast(xPixels) / m_CanvasSize.x * 2.f };
+	const float globalOffset{ xPixels / m_CanvasSize.x * 2.f };
 
 	instance.offset.x = pivot.x - localOffset + globalOffset;
 }
