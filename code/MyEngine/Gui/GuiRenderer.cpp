@@ -118,8 +118,17 @@ void Gui::GuiRenderer::SetOffsetX(ElementId id, float xPixels)
 
 	const float localOffset{ instance.size.x * .5f * pivot.x };
 	const float globalOffset{ xPixels * m_InvCanvasSize.x * 2.f };
-
 	instance.offset.x = pivot.x - localOffset + globalOffset;
+}
+
+void Gui::GuiRenderer::SetOffsetY(ElementId id, float yPixels)
+{
+	const Float2& pivot{ m_Pivots[id.GetId()] };
+	Instance& instance{ m_Instances[id.GetId()] };
+
+	const float localOffset{ instance.size.y * .5f * pivot.y };
+	const float globalOffset{ yPixels * m_InvCanvasSize.y * 2.f };
+	instance.offset.y = pivot.y - localOffset + globalOffset;
 }
 
 Float2 Gui::GuiRenderer::GetMouseNdc() const

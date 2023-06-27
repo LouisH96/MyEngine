@@ -41,6 +41,7 @@ namespace MyEngine
 			ElementId GetElementUnderMouse() const;
 			void SetColor(ElementId id, const Float3& color);
 			void SetOffsetX(ElementId id, float xPixels);
+			void SetOffsetY(ElementId id, float yPixels);
 
 		private:
 			using Vertex = Rendering::V_Pos2;
