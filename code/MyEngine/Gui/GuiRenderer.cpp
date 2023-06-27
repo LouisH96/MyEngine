@@ -48,7 +48,7 @@ void Gui::GuiRenderer::Render()
 	m_DepthStencilState.Activate();
 	m_InputLayout.Activate();
 	m_Shader.Activate();
-	m_Instances.Draw();
+	m_Instances.Draw(m_LastElement + 1);
 }
 
 void Gui::GuiRenderer::Remove(ElementId id)
