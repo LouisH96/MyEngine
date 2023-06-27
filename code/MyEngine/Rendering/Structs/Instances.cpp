@@ -1,6 +1,14 @@
 #include "pch.h"
 #include "Instances.h"
 
+const Rendering::InputLayout::Element Rendering::I_Pos2Col::ELEMENTS[] =
+{
+	{"INST_OFFSET", InputLayout::ElementType::Float2, 1, InputLayout::SlotClass::PerInstance},
+	{"INST_SIZE", InputLayout::ElementType::Float2, 1, InputLayout::SlotClass::PerInstance},
+	{"INST_COLOR", InputLayout::ElementType::Float3, 1, InputLayout::SlotClass::PerInstance }
+};
+const int Rendering::I_Pos2Col::NR_ELEMENTS = sizeof ELEMENTS / sizeof(InputLayout::Element);
+
 const Rendering::InputLayout::Element Rendering::I_Pos2UvCol::ELEMENTS[] =
 {
 	{"INST_POS_OFFSET", InputLayout::ElementType::Float2, 1, InputLayout::SlotClass::PerInstance},

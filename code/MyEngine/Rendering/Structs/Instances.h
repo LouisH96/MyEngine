@@ -5,6 +5,15 @@ namespace MyEngine
 {
 	namespace Rendering
 	{
+		struct I_Pos2Col
+		{
+			Float2 offset;
+			Float2 size;
+			Float3 color;
+
+			static const InputLayout::Element ELEMENTS[];
+			static const int NR_ELEMENTS;
+		};
 		struct I_Pos2UvCol
 		{
 			Float2 posOffset;
