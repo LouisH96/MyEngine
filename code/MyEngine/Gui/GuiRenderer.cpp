@@ -15,6 +15,8 @@ Gui::GuiRenderer::GuiRenderer()
 	: m_InputLayout{ Rendering::InputLayout::FromTypes<Vertex, Instance>() }
 	, m_Shader{ Resources::GlobalShader(L"Gui.hlsl") }
 	, m_InvCanvasSize{ Float2{1}.Divided(Globals::pCanvas->GetSize()) }
+	, m_FirstGap{ 0 }
+	, m_LastElement{ 0 }
 {
 	Array<Vertex> vertices{4};
 	vertices[0].pos = { -.5f,-.5f };
@@ -49,6 +51,16 @@ void Gui::GuiRenderer::Render()
 	m_Instances.Draw();
 }
 
+void Gui::GuiRenderer::Remove(ElementId id)
+{
+	SetEmpty(m_Instances[id.GetId()]);
+	if (id.GetId() < m_FirstGap) m_FirstGap = id.GetId();
+	if (id.GetId() == m_LastElement)
+	{
+		while (--m_LastElement > m_FirstGap && IsEmpty(m_Instances[m_LastElement])) {}
+	}
+}
+
 //offset & size in pixels
 //pivot [-1,1]
 Gui::GuiRenderer::ElementId Gui::GuiRenderer::Add(const Float2& pivot, const Float2& offset, const Float2& size,
@@ -56,13 +68,22 @@ Gui::GuiRenderer::ElementId Gui::GuiRenderer::Add(const Float2& pivot, const Flo
 {
 	const Float2 offsetNdc{ (offset * 2).Scaled(m_InvCanvasSize) };
 	const Float2 halfSizeNdc{ size.Scaled(m_InvCanvasSize) };
-
 	const Float2 leftBotNdc{ pivot - halfSizeNdc.Scaled(pivot) + offsetNdc };
 
-	const int vertexIdx{ static_cast<int>(m_Instances.GetSize()) };
-	AddNdc(vertexIdx, { leftBotNdc, halfSizeNdc * 2 }, color);
-	m_Pivots.Add(pivot);
-	return ElementId{ vertexIdx };
+	const Instance instance{ leftBotNdc, halfSizeNdc * 2, color };
+
+	UpdateFirstGap();
+	if (m_FirstGap >= m_Instances.GetSize())
+	{
+		m_Instances.Add(instance);
+		m_Pivots.Add(pivot);
+		m_LastElement = m_FirstGap++;
+		return ElementId{ m_LastElement };
+	}
+	m_Instances[m_FirstGap] = instance;
+	m_Pivots[m_FirstGap] = pivot;
+	if (m_FirstGap > m_LastElement) m_LastElement = m_FirstGap;
+	return ElementId{ m_FirstGap++ };
 }
 
 Gui::GuiRenderer::ElementId Gui::GuiRenderer::AddCenterBottom(const Float2& offset, const Float2& size, const Float3& color)
@@ -73,8 +94,9 @@ Gui::GuiRenderer::ElementId Gui::GuiRenderer::AddCenterBottom(const Float2& offs
 Gui::GuiRenderer::ElementId Gui::GuiRenderer::GetElementUnderMouse() const
 {
 	const Float2 mouse{ GetMouseNdc() };
-	for (int i = m_Instances.GetSize() - 1; i >= 0; i--)
+	for (int i = m_LastElement; i >= 0; i--)
 	{
+		if (IsEmpty(m_Instances[i])) continue;
 		const Float2 botLeft{ m_Instances[i].offset - m_Instances[i].size * .5 };
 		if (!mouse.IsRightAbove(botLeft)) continue;
 		const Float2 topRight{ botLeft + m_Instances[i].size };
@@ -100,13 +122,6 @@ void Gui::GuiRenderer::SetOffsetX(ElementId id, float xPixels)
 	instance.offset.x = pivot.x - localOffset + globalOffset;
 }
 
-void Gui::GuiRenderer::AddNdc(int idx, const RectFloat& rect, const Float3& color)
-{
-	m_Instances.Insert({
-		rect.GetLeftBot(), rect.GetSize(), color
-		}, idx);
-}
-
 Float2 Gui::GuiRenderer::GetMouseNdc() const
 {
 	return ScreenSpaceToNdc(Globals::pMouse->GetPos());
@@ -120,4 +135,22 @@ Float2 Gui::GuiRenderer::ScreenSpaceToNdc(const Int2& point) const
 Float2 Gui::GuiRenderer::ScreenSpaceToNdc(const Float2& point) const
 {
 	return point.Scaled(m_InvCanvasSize).Scaled({ 2,-2 }) - Float2{1, -1};
+}
+
+void Gui::GuiRenderer::UpdateFirstGap()
+{
+	while (!IsEmpty(m_Instances[m_FirstGap])
+		&& ++m_FirstGap < m_Instances.GetSize())
+	{
+	}
+}
+
+bool Gui::GuiRenderer::IsEmpty(const Instance& instance)
+{
+	return instance.size.x == 0;
+}
+
+void Gui::GuiRenderer::SetEmpty(Instance& instance)
+{
+	instance.size.x = 0;
 }

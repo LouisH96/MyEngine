@@ -34,6 +34,7 @@ namespace MyEngine
 			void OnCanvasResize(const Int2& newSize);
 			void Render();
 
+			void Remove(ElementId id);
 			ElementId Add(const Float2& pivot, const Float2& offset, const Float2& size, const Float3& color);
 			ElementId AddCenterBottom(const Float2& offset, const Float2& size, const Float3& color);
 
@@ -52,12 +53,17 @@ namespace MyEngine
 			Float2 m_InvCanvasSize;
 			Rendering::InstanceList<Vertex, Instance> m_Instances;
 			List<Float2> m_Pivots{}; //Elements point at pivot is attached to screens point at pivot
-
-			void AddNdc(int idx, const RectFloat& rect, const Float3& color);
+			int m_FirstGap;
+			int m_LastElement;
 
 			Float2 GetMouseNdc() const;
 			Float2 ScreenSpaceToNdc(const Int2& point) const;
 			Float2 ScreenSpaceToNdc(const Float2& point) const;
+
+			void UpdateFirstGap();
+
+			static bool IsEmpty(const Instance& instance);
+			static void SetEmpty(Instance& instance);
 		};
 	}
 }
