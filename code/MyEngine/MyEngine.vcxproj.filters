@@ -288,6 +288,7 @@
     <ClInclude Include="Shapes\Line.h" />
     <ClInclude Include="App\Win32\KeyCodes.h" />
     <ClInclude Include="Shapes\Rect3.h" />
+    <ClInclude Include="DataStructures\InvalidateList.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
