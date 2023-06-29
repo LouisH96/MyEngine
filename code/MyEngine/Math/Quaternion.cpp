@@ -144,16 +144,6 @@ void Math::Quaternion::Inverse()
 	Xyz = -Xyz;
 }
 
-Math::Quaternion::Quaternion(const DirectX::XMVECTOR& vector)
-{
-	XMStoreFloat4(reinterpret_cast<DirectX::XMFLOAT4*>(&Xyz.x), vector);
-}
-
-void Math::Quaternion::operator=(const DirectX::XMVECTOR& vector)
-{
-	XMStoreFloat4(reinterpret_cast<DirectX::XMFLOAT4*>(&Xyz.x), vector);
-}
-
 void Math::Quaternion::RotateBy(const Quaternion& rotation)
 {
 	*this = rotation * *this;

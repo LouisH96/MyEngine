@@ -26,10 +26,6 @@ namespace MyEngine
 			Quaternion& operator=(const Quaternion& other) = default;
 			Quaternion& operator=(Quaternion&& other) noexcept = default;
 
-			//---| XMVECTOR |---
-			Quaternion(const DirectX::XMVECTOR& vector);
-			void operator=(const DirectX::XMVECTOR& vector);
-
 			//---| Operations |---
 			void RotateBy(const Quaternion& rotation);
 			void RotateBy(const Float3& axis, float radians);
