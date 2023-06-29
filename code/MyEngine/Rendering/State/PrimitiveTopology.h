@@ -14,6 +14,9 @@ namespace MyEngine
 		{
 		public:
 			static D3D11_PRIMITIVE_TOPOLOGY ToDx(PrimitiveTopology topology);
+
+			static void Activate(D3D11_PRIMITIVE_TOPOLOGY topology);
+			static void Activate(PrimitiveTopology topology);
 		};
 	}
 }
