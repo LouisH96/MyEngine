@@ -1,8 +1,6 @@
 #include "pch.h"
 #include "Transform.h"
 
-using namespace DirectX;
-
 Transform::Transform(const Float3& position, const Quaternion& rotation)
 	: Position{ position }
 	, Rotation{ rotation }
@@ -27,16 +25,40 @@ Transform::Transform(const Float4X4& matrix)
 
 Float4X4 Transform::AsMatrix() const
 {
-	const XMMATRIX rotation{ XMMatrixRotationQuaternion(XMLoadFloat4(reinterpret_cast<const XMFLOAT4*>(&Rotation.Xyz.x))) };
-	const XMMATRIX translation{ XMMatrixTranslationFromVector(XMLoadFloat3(reinterpret_cast<const XMFLOAT3*>(&Position))) };
-	return rotation * translation;
+	//https://danceswithcode.net/engineeringnotes/quaternions/quaternions.html
+	const float q0{ Rotation.W };
+	const float q1{ Rotation.Xyz.x };
+	const float q2{ Rotation.Xyz.y };
+	const float q3{ Rotation.Xyz.z };
+
+	const float q12{ q1 * q1 };
+	const float q22{ q2 * q2 };
+	const float q32{ q3 * q3 };
+	return {
+		{1 - 2 * q22 - 2 * q32, 2 * q1 * q2 - 2 * q0 * q3, 2 * q1 * q3 + 2 * q0 * q2, Position.x},
+		{2 * q1 * q2 + 2 * q0 * q3, 1 - 2 * q12 - 2 * q32, 2 * q2 * q3 - 2 * q0 * q1, Position.y},
+		{2 * q1 * q3 - 2 * q0 * q2,  2 * q2 * q3 + 2 * q0 * q1, 1 - 2 * q12 - 2 * q22, Position.z},
+		{0,0,0,1}
+	};
 }
 
 Float4X4 Transform::GetTransposeInverse() const
 {
-	const XMMATRIX rotation{ XMMatrixRotationQuaternion(XMLoadFloat4(reinterpret_cast<const XMFLOAT4*>(&Rotation.Xyz.x))) };
-	const XMMATRIX translation{ XMMatrixTranslationFromVector(XMLoadFloat3(reinterpret_cast<const XMFLOAT3*>(&Position))) };
-	return XMMatrixTranspose(XMMatrixInverse(nullptr, rotation * translation));
+	//not tested yet
+	const float q0{ Rotation.W };
+	const float q1{ Rotation.Xyz.x };
+	const float q2{ Rotation.Xyz.y };
+	const float q3{ Rotation.Xyz.z };
+
+	const float q12{ q1 * q1 };
+	const float q22{ q2 * q2 };
+	const float q32{ q3 * q3 };
+	return {
+		{1 - 2 * q22 - 2 * q32, 2 * q1 * q2 - 2 * q0 * q3, 2 * q1 * q3 + 2 * q0 * q2, 0},
+		{2 * q1 * q2 + 2 * q0 * q3, 1 - 2 * q12 - 2 * q32, 2 * q2 * q3 - 2 * q0 * q1, 0},
+		{2 * q1 * q3 - 2 * q0 * q2,  2 * q2 * q3 + 2 * q0 * q1, 1 - 2 * q12 - 2 * q22, 0},
+		{-Position.x, -Position.y, -Position.z,1}
+	};
 }
 
 void Transform::LookAt(const Float3& target)
