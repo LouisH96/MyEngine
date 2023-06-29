@@ -9,6 +9,16 @@ const Rendering::InputLayout::Element Rendering::I_Pos2Col::ELEMENTS[] =
 };
 const int Rendering::I_Pos2Col::NR_ELEMENTS = sizeof ELEMENTS / sizeof(InputLayout::Element);
 
+bool Rendering::I_Pos2Col::IsValid(const I_Pos2Col& inst)
+{
+	return inst.size.x != 0;
+}
+
+void Rendering::I_Pos2Col::Invalidate(I_Pos2Col& inst)
+{
+	inst.size = 0;
+}
+
 const Rendering::InputLayout::Element Rendering::I_Pos2UvCol::ELEMENTS[] =
 {
 	{"INST_POS_OFFSET", InputLayout::ElementType::Float2, 1, InputLayout::SlotClass::PerInstance},

@@ -13,6 +13,9 @@ namespace MyEngine
 
 			static const InputLayout::Element ELEMENTS[];
 			static const int NR_ELEMENTS;
+
+			static bool IsValid(const I_Pos2Col& inst);
+			static void Invalidate(I_Pos2Col& inst);
 		};
 		struct I_Pos2UvCol
 		{
