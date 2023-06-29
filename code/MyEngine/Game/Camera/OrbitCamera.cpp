@@ -1,7 +1,6 @@
 #include "pch.h"
-#include "FocusPointCameraController.h"
+#include "OrbitCamera.h"
 
-#include <DirectXMath.h>
 #include <Windows.h>
 #include <App/Win32/Mouse.h>
 #include <Game/Camera/Camera.h>
@@ -10,12 +9,12 @@
 using namespace App::Win32;
 using namespace Math;
 
-FocusPointCameraController::FocusPointCameraController()
-	: FocusPointCameraController{ *Globals::pCamera }
+OrbitCamera::OrbitCamera()
+	: OrbitCamera{ *Globals::pCamera }
 {
 }
 
-FocusPointCameraController::FocusPointCameraController(Camera& camera)
+OrbitCamera::OrbitCamera(Camera& camera)
 	: m_Camera(camera)
 	, m_ScrollSpeed(-1.f)
 	, m_HorizontalSpeed(1.f)
@@ -26,7 +25,7 @@ FocusPointCameraController::FocusPointCameraController(Camera& camera)
 {
 }
 
-void FocusPointCameraController::Update()
+void OrbitCamera::Update()
 {
 	//ROTATION
 	if (Globals::pMouse->IsRightBtnDown())
@@ -57,27 +56,27 @@ void FocusPointCameraController::Update()
 	m_Camera.SetPosition(m_Camera.GetForward() * -m_Distance + m_FocusPoint);
 }
 
-void FocusPointCameraController::SetFocusPoint(const Float3& position)
+void OrbitCamera::SetFocusPoint(const Float3& position)
 {
 	m_FocusPoint = position;
 }
 
-void FocusPointCameraController::SetPitch(float pitch)
+void OrbitCamera::SetPitch(float pitch)
 {
 	m_Pitch = pitch;
 }
 
-void FocusPointCameraController::SetYaw(float yaw)
+void OrbitCamera::SetYaw(float yaw)
 {
 	m_Yaw = yaw;
 }
 
-void FocusPointCameraController::SetDistance(float distance)
+void OrbitCamera::SetDistance(float distance)
 {
 	m_Distance = distance;
 }
 
-void FocusPointCameraController::MoveRelative(const Float3& movement)
+void OrbitCamera::MoveRelative(const Float3& movement)
 {
 	const float yawRad = m_Yaw * Constants::TO_RAD;
 	const float yawCos = cosf(yawRad);
@@ -91,7 +90,7 @@ void FocusPointCameraController::MoveRelative(const Float3& movement)
 	m_FocusPoint.y += movement.y;
 }
 
-Float3 FocusPointCameraController::GetCameraPosition() const
+Float3 OrbitCamera::GetCameraPosition() const
 {
 	const float pitchRad = m_Pitch * Constants::TO_RAD;
 	const float pitchCos = cosf(pitchRad);
@@ -110,7 +109,7 @@ Float3 FocusPointCameraController::GetCameraPosition() const
 		-zz * m_Distance + m_FocusPoint.z };
 }
 
-void FocusPointCameraController::MouseRotation()
+void OrbitCamera::MouseRotation()
 {
 	constexpr float radiansPerPixel = Constants::PI / 10;
 	const Int2& mouseDelta = Globals::pMouse->GetMovement();

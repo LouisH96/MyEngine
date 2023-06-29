@@ -5,11 +5,11 @@ namespace MyEngine
 	namespace Game
 	{
 		class Camera;
-		class FocusPointCameraController
+		class OrbitCamera
 		{
 		public:
-			FocusPointCameraController();
-			explicit FocusPointCameraController(Camera& camera);
+			OrbitCamera();
+			explicit OrbitCamera(Camera& camera);
 			void Update();
 
 			void SetFocusPoint(const Float3& position);
