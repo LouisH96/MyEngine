@@ -15,6 +15,7 @@
     <ClCompile Include="Debug\Rendering\DebugLines.cpp" />
     <ClCompile Include="Debug\Rendering\DebugSpheres.cpp" />
     <ClCompile Include="Generation\PrismGenerator.cpp" />
+    <ClCompile Include="Gui\NdcUtils.cpp" />
     <ClCompile Include="Shapes\Line.cpp" />
     <ClCompile Include="Shapes\Quad.cpp" />
     <ClCompile Include="Rendering\DrawData\InstanceIdxArray.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="Debug\Rendering\DebugSpheres.h" />
     <ClInclude Include="Framework\GameFrame.h" />
     <ClInclude Include="Generation\PrismGenerator.h" />
+    <ClInclude Include="Gui\NdcUtils.h" />
     <ClInclude Include="Rendering\Buffers\InvalidateBuffer.h" />
     <ClInclude Include="Rendering\Buffers\Buffer.h" />
     <ClInclude Include="Shapes\Rect3.h" />

@@ -3,6 +3,7 @@
 
 #include "Framework/Resources.h"
 #include "Rendering/Canvas.h"
+#include "NdcUtils.h"
 
 using namespace Rendering;
 
@@ -30,20 +31,13 @@ Gui::GuiRenderer::GuiRenderer()
 
 void Gui::GuiRenderer::OnCanvasResize(const Int2& newSize)
 {
-	Float2 scale{ m_InvCanvasSize };
-	m_InvCanvasSize = Float2{ 1 }.Divided(Float2{ newSize });
-	scale = m_InvCanvasSize.Divided(scale); // old/new
+	const Float2 scale{ NdcUtils::UpdateInvCanvasSize(newSize, m_InvCanvasSize) };
 
-	Instance* pInstance{ m_Instances.GetCpuData().GetFirst() };
+	Instance* pInstance{ m_Instances.GetFirst() };
 	for (int i = 0; i < m_Instances.GetCount(); i++, pInstance++)
 	{
 		if (!Instance::IsValid(*pInstance)) continue;
-
-		const Float2& pivot{ m_Pivots[i] };
-
-		const Float2 pivotToCenter{ pInstance->offset - pivot };
-		pInstance->offset = pivot + pivotToCenter.Scaled(scale);
-		pInstance->size.Scale(scale);
+		NdcUtils::Resize(scale, m_Pivots[i], pInstance->offset, pInstance->size);
 	}
 }
 
@@ -69,14 +63,12 @@ void Gui::GuiRenderer::Remove(ElementId id)
 Gui::GuiRenderer::ElementId Gui::GuiRenderer::Add(const Float2& pivot, const Float2& offset, const Float2& size,
 	const Float3& color)
 {
-	const Float2 offsetNdc{ (offset * 2).Scaled(m_InvCanvasSize) };
-	const Float2 halfSizeNdc{ size.Scaled(m_InvCanvasSize) };
-	const Float2 leftBotNdc{ pivot - halfSizeNdc.Scaled(pivot) + offsetNdc };
+	Instance instance{ {},{},color };
+	NdcUtils::ScreenRectToNdc(m_InvCanvasSize, offset, size, pivot, instance.offset, instance.size);
 
-	const int idx{ m_Instances.Add({ leftBotNdc, halfSizeNdc * 2, color }) };
+	const int idx{ m_Instances.Add(std::move(instance)) };
 	m_Pivots.EnsureSize(idx + 1);
 	m_Pivots[idx] = pivot;
-
 	return ElementId{ idx };
 }
 
@@ -87,7 +79,7 @@ Gui::GuiRenderer::ElementId Gui::GuiRenderer::AddCenterBottom(const Float2& offs
 
 Gui::GuiRenderer::ElementId Gui::GuiRenderer::GetElementUnderMouse() const
 {
-	const Float2 mouse{ GetMouseNdc() };
+	const Float2 mouse{ NdcUtils::GetMouseNdc(m_InvCanvasSize) };
 
 	for (int i = m_Instances.GetCpuData().GetLastIdx(); i >= m_Instances.GetCpuData().GetFirstIdx(); i--)
 	{
@@ -104,42 +96,21 @@ Gui::GuiRenderer::ElementId Gui::GuiRenderer::GetElementUnderMouse() const
 
 void Gui::GuiRenderer::SetColor(ElementId id, const Float3& color)
 {
-	m_Instances.GetCpuData().GetData()[id.GetId()].color = color;
+	m_Instances[id.GetId()].color = color;
 }
 
 void Gui::GuiRenderer::SetOffsetX(ElementId id, float xPixels)
 {
 	const Float2& pivot{ m_Pivots[id.GetId()] };
 	Instance& instance{ m_Instances[id.GetId()] };
-
-	const float localOffset{ instance.size.x * .5f * pivot.x };
-	const float globalOffset{ xPixels * m_InvCanvasSize.x * 2.f };
-	instance.offset.x = pivot.x - localOffset + globalOffset;
+	NdcUtils::SetScreenSpaceOffsetX(m_InvCanvasSize, pivot, xPixels, instance.size, instance.offset);
 }
 
 void Gui::GuiRenderer::SetOffsetY(ElementId id, float yPixels)
 {
 	const Float2& pivot{ m_Pivots[id.GetId()] };
 	Instance& instance{ m_Instances[id.GetId()] };
-
-	const float localOffset{ instance.size.y * .5f * pivot.y };
-	const float globalOffset{ yPixels * m_InvCanvasSize.y * 2.f };
-	instance.offset.y = pivot.y - localOffset + globalOffset;
-}
-
-Float2 Gui::GuiRenderer::GetMouseNdc() const
-{
-	return ScreenSpaceToNdc(Globals::pMouse->GetPos());
-}
-
-Float2 Gui::GuiRenderer::ScreenSpaceToNdc(const Int2& point) const
-{
-	return Float2{ point.Scaled({2,-2}) }.Scaled(m_InvCanvasSize) - Float2{1, -1};
-}
-
-Float2 Gui::GuiRenderer::ScreenSpaceToNdc(const Float2& point) const
-{
-	return point.Scaled(m_InvCanvasSize).Scaled({ 2,-2 }) - Float2{1, -1};
+	NdcUtils::SetScreenSpaceOffsetY(m_InvCanvasSize, pivot, yPixels, instance.size, instance.offset);
 }
 
 bool Gui::GuiRenderer::IsEmpty(const Instance& instance)

@@ -125,6 +125,7 @@
     <ClCompile Include="Shapes\Quad.cpp" />
     <ClCompile Include="Generation\PrismGenerator.cpp" />
     <ClCompile Include="Shapes\Line.cpp" />
+    <ClCompile Include="Gui\NdcUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -291,6 +292,7 @@
     <ClInclude Include="DataStructures\InvalidateList.h" />
     <ClInclude Include="Rendering\Buffers\Buffer.h" />
     <ClInclude Include="Rendering\Buffers\InvalidateBuffer.h" />
+    <ClInclude Include="Gui\NdcUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

@@ -59,10 +59,6 @@ namespace MyEngine
 			Rendering::InvalidateBuffer<Instance> m_Instances;
 			D3D11_PRIMITIVE_TOPOLOGY m_Topology;
 
-			Float2 GetMouseNdc() const;
-			Float2 ScreenSpaceToNdc(const Int2& point) const;
-			Float2 ScreenSpaceToNdc(const Float2& point) const;
-
 			static bool IsEmpty(const Instance& instance);
 			static void SetEmpty(Instance& instance);
 		};
