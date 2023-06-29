@@ -1,6 +1,7 @@
 #pragma once
 #include "Math/Rects.h"
-#include "Rendering/DrawData/InstanceList.h"
+#include "Rendering/Buffers/Buffer.h"
+#include "Rendering/Buffers/InvalidateBuffer.h"
 #include "Rendering/DrawData/VertexList.h"
 #include "Rendering/State/DepthStencilState.h"
 #include "Rendering/State/Shader.h"
@@ -52,16 +53,15 @@ namespace MyEngine
 			Rendering::Shader m_Shader;
 
 			Float2 m_InvCanvasSize;
-			Rendering::InstanceList<Vertex, Instance> m_Instances;
-			List<Float2> m_Pivots{}; //Elements point at pivot is attached to screens point at pivot
-			int m_FirstGap;
-			int m_LastElement;
+			Array<Float2> m_Pivots{}; //Elements point at pivot is attached to screens point at pivot
+
+			Rendering::Buffer<Vertex> m_Vertices;
+			Rendering::InvalidateBuffer<Instance> m_Instances;
+			D3D11_PRIMITIVE_TOPOLOGY m_Topology;
 
 			Float2 GetMouseNdc() const;
 			Float2 ScreenSpaceToNdc(const Int2& point) const;
 			Float2 ScreenSpaceToNdc(const Float2& point) const;
-
-			void UpdateFirstGap();
 
 			static bool IsEmpty(const Instance& instance);
 			static void SetEmpty(Instance& instance);

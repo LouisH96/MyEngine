@@ -4,6 +4,8 @@
 #include "Framework/Resources.h"
 #include "Rendering/Canvas.h"
 
+using namespace Rendering;
+
 Gui::GuiRenderer::ElementId::ElementId(int id) : m_Id{ id } {}
 
 bool Gui::GuiRenderer::ElementId::operator==(const ElementId& other) const
@@ -15,15 +17,15 @@ Gui::GuiRenderer::GuiRenderer()
 	: m_InputLayout{ Rendering::InputLayout::FromTypes<Vertex, Instance>() }
 	, m_Shader{ Resources::GlobalShader(L"Gui.hlsl") }
 	, m_InvCanvasSize{ Float2{1}.Divided(Globals::pCanvas->GetSize()) }
-	, m_FirstGap{ 0 }
-	, m_LastElement{ 0 }
+	, m_Instances{ 5 }
+	, m_Topology{ PrimitiveTopologyUtils::ToDx(PrimitiveTopology::TriangleStrip) }
 {
 	Array<Vertex> vertices{4};
 	vertices[0].pos = { -.5f,-.5f };
 	vertices[1].pos = { -.5f,.5f };
 	vertices[2].pos = { .5f,-.5f };
 	vertices[3].pos = { .5f,.5f };
-	m_Instances = { vertices.GetData(), vertices.GetSizeU(), Rendering::PrimitiveTopology::TriangleStrip };
+	m_Vertices = Buffer<Vertex>(vertices.GetData(), vertices.GetSizeU());
 }
 
 void Gui::GuiRenderer::OnCanvasResize(const Int2& newSize)
@@ -32,14 +34,16 @@ void Gui::GuiRenderer::OnCanvasResize(const Int2& newSize)
 	m_InvCanvasSize = Float2{ 1 }.Divided(Float2{ newSize });
 	scale = m_InvCanvasSize.Divided(scale); // old/new
 
-	for (int i = 0; i < m_Instances.GetSize(); i++)
+	Instance* pInstance{ m_Instances.GetCpuData().GetFirst() };
+	for (int i = 0; i < m_Instances.GetCount(); i++, pInstance++)
 	{
-		const Float2& pivot{ m_Pivots[i] };
-		Instance& instance{ m_Instances[i] };
+		if (!Instance::IsValid(*pInstance)) continue;
 
-		const Float2 pivotToCenter{ instance.offset - pivot };
-		instance.offset = pivot + pivotToCenter.Scaled(scale);
-		instance.size.Scale(scale);
+		const Float2& pivot{ m_Pivots[i] };
+
+		const Float2 pivotToCenter{ pInstance->offset - pivot };
+		pInstance->offset = pivot + pivotToCenter.Scaled(scale);
+		pInstance->size.Scale(scale);
 	}
 }
 
@@ -48,17 +52,16 @@ void Gui::GuiRenderer::Render()
 	m_DepthStencilState.Activate();
 	m_InputLayout.Activate();
 	m_Shader.Activate();
-	m_Instances.Draw(m_LastElement + 1);
+
+	PrimitiveTopologyUtils::Activate(m_Topology);
+	m_Vertices.ActivateVertexBuffer(0);
+	m_Instances.ActivateVertexBuffer(1);
+	m_Instances.Draw(m_Vertices.GetCapacity());
 }
 
 void Gui::GuiRenderer::Remove(ElementId id)
 {
-	SetEmpty(m_Instances[id.GetId()]);
-	if (id.GetId() < m_FirstGap) m_FirstGap = id.GetId();
-	if (id.GetId() == m_LastElement)
-	{
-		while (--m_LastElement > m_FirstGap && IsEmpty(m_Instances[m_LastElement])) {}
-	}
+	m_Instances.Remove(id.GetId());
 }
 
 //offset & size in pixels
@@ -70,20 +73,11 @@ Gui::GuiRenderer::ElementId Gui::GuiRenderer::Add(const Float2& pivot, const Flo
 	const Float2 halfSizeNdc{ size.Scaled(m_InvCanvasSize) };
 	const Float2 leftBotNdc{ pivot - halfSizeNdc.Scaled(pivot) + offsetNdc };
 
-	const Instance instance{ leftBotNdc, halfSizeNdc * 2, color };
+	const int idx{ m_Instances.Add({ leftBotNdc, halfSizeNdc * 2, color }) };
+	m_Pivots.EnsureSize(idx + 1);
+	m_Pivots[idx] = pivot;
 
-	UpdateFirstGap();
-	if (m_FirstGap >= m_Instances.GetSize())
-	{
-		m_Instances.Add(instance);
-		m_Pivots.Add(pivot);
-		m_LastElement = m_FirstGap++;
-		return ElementId{ m_LastElement };
-	}
-	m_Instances[m_FirstGap] = instance;
-	m_Pivots[m_FirstGap] = pivot;
-	if (m_FirstGap > m_LastElement) m_LastElement = m_FirstGap;
-	return ElementId{ m_FirstGap++ };
+	return ElementId{ idx };
 }
 
 Gui::GuiRenderer::ElementId Gui::GuiRenderer::AddCenterBottom(const Float2& offset, const Float2& size, const Float3& color)
@@ -94,12 +88,14 @@ Gui::GuiRenderer::ElementId Gui::GuiRenderer::AddCenterBottom(const Float2& offs
 Gui::GuiRenderer::ElementId Gui::GuiRenderer::GetElementUnderMouse() const
 {
 	const Float2 mouse{ GetMouseNdc() };
-	for (int i = m_LastElement; i >= 0; i--)
+
+	for (int i = m_Instances.GetCpuData().GetLastIdx(); i >= m_Instances.GetCpuData().GetFirstIdx(); i--)
 	{
-		if (IsEmpty(m_Instances[i])) continue;
-		const Float2 botLeft{ m_Instances[i].offset - m_Instances[i].size * .5 };
+		const Instance& instance{ m_Instances[i] };
+		if (IsEmpty(instance)) continue;
+		const Float2 botLeft{ instance.offset - instance.size * .5 };
 		if (!mouse.IsRightAbove(botLeft)) continue;
-		const Float2 topRight{ botLeft + m_Instances[i].size };
+		const Float2 topRight{ botLeft + instance.size };
 		if (!mouse.IsLeftBelow(topRight)) continue;
 		return ElementId{ i };
 	}
@@ -108,7 +104,7 @@ Gui::GuiRenderer::ElementId Gui::GuiRenderer::GetElementUnderMouse() const
 
 void Gui::GuiRenderer::SetColor(ElementId id, const Float3& color)
 {
-	m_Instances[id.GetId()].color = color;
+	m_Instances.GetCpuData().GetData()[id.GetId()].color = color;
 }
 
 void Gui::GuiRenderer::SetOffsetX(ElementId id, float xPixels)
@@ -146,20 +142,12 @@ Float2 Gui::GuiRenderer::ScreenSpaceToNdc(const Float2& point) const
 	return point.Scaled(m_InvCanvasSize).Scaled({ 2,-2 }) - Float2{1, -1};
 }
 
-void Gui::GuiRenderer::UpdateFirstGap()
-{
-	while (!IsEmpty(m_Instances[m_FirstGap])
-		&& ++m_FirstGap < m_Instances.GetSize())
-	{
-	}
-}
-
 bool Gui::GuiRenderer::IsEmpty(const Instance& instance)
 {
-	return instance.size.x == 0;
+	return !Instance::IsValid(instance);
 }
 
 void Gui::GuiRenderer::SetEmpty(Instance& instance)
 {
-	instance.size.x = 0;
+	Instance::Invalidate(instance);
 }
