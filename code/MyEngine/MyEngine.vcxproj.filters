@@ -4,7 +4,6 @@
     <ClCompile Include="Debug\Logger.cpp" />
     <ClCompile Include="Rendering\Dx\DxHelper.cpp" />
     <ClCompile Include="App\Win32\Window.cpp" />
-    <ClCompile Include="App\BasicExampleApp.cpp" />
     <ClCompile Include="App\FpsControl.cpp" />
     <ClCompile Include="Framework\Resources.cpp" />
     <ClCompile Include="Game\Camera\FocusPointCameraController.cpp" />
@@ -131,7 +130,6 @@
     <ClInclude Include="Debug\Logger.h" />
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
     <ClInclude Include="App\Win32\Window.h" />
-    <ClInclude Include="App\BasicExampleApp.h" />
     <ClInclude Include="App\FpsControl.h" />
     <ClInclude Include="App\Time.h" />
     <ClInclude Include="Framework\Resources.h" />

@@ -35,7 +35,6 @@
     <ClCompile Include="Io\Fbx\Wrapping\AnimationCurveNode.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\AnimationLayer.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\AnimationStack.cpp" />
-    <ClCompile Include="App\BasicExampleApp.cpp" />
     <ClCompile Include="App\FpsControl.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\Connection.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\NodeAttribute.cpp" />
@@ -179,7 +178,6 @@
     <ClInclude Include="Io\Fbx\Wrapping\AnimationCurveNode.h" />
     <ClInclude Include="Io\Fbx\Wrapping\AnimationLayer.h" />
     <ClInclude Include="Io\Fbx\Wrapping\AnimationStack.h" />
-    <ClInclude Include="App\BasicExampleApp.h" />
     <ClInclude Include="Io\Fbx\Wrapping\Connection.h" />
     <ClInclude Include="Io\Fbx\FbxJoint.h" />
     <ClInclude Include="Io\Fbx\Wrapping\NodeAttribute.h" />
