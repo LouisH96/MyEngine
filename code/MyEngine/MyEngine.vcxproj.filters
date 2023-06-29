@@ -289,6 +289,8 @@
     <ClInclude Include="App\Win32\KeyCodes.h" />
     <ClInclude Include="Shapes\Rect3.h" />
     <ClInclude Include="DataStructures\InvalidateList.h" />
+    <ClInclude Include="Rendering\Buffers\Buffer.h" />
+    <ClInclude Include="Rendering\Buffers\InvalidateBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
