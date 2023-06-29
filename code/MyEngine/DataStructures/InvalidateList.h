@@ -5,7 +5,8 @@ namespace MyEngine
 {
 	namespace Ds
 	{
-		template<typename Data, bool IsValid(const Data&), void Invalidate(Data&)>
+
+		template<typename Data>
 		class InvalidateList
 		{
 		public:
@@ -29,8 +30,19 @@ namespace MyEngine
 			int GetSize() const { return m_End - m_First; }
 			unsigned GetCapacity() const { return m_Capacity; }
 
+			const Data* GetData() const;
 			const Data* GetFirst() const;
+			const Data* GetLast() const;
+			const Data* GetEnd() const;
 			Data* GetFirst();
+			Data* GetLast();
+			Data* GetEnd();
+			Data* GetData();
+
+			int GetFirstIdx() const { return m_First; }
+			int GetLastIdx() const { return m_End - 1; }
+			int GetEndIdx() const { return m_End; }
+
 
 		private:
 			Data* m_pData;
@@ -47,8 +59,8 @@ namespace MyEngine
 			void UpdateGapIndicator();
 		};
 
-		template <typename Data, bool(*IsValid)(const Data&), void(*Invalidate)(Data&)>
-		InvalidateList<Data, IsValid, Invalidate>::InvalidateList(unsigned capacity)
+		template <typename Data>
+		InvalidateList<Data>::InvalidateList(unsigned capacity)
 			: m_pData{ new Data[capacity] }
 			, m_Capacity{ capacity }
 			, m_First{ 0 }, m_End{ 0 }, m_GapIndicator{ 0 }
@@ -56,8 +68,8 @@ namespace MyEngine
 		{
 		}
 
-		template <typename Data, bool(*IsValid)(const Data&), void(*Invalidate)(Data&)>
-		InvalidateList<Data, IsValid, Invalidate>::~InvalidateList()
+		template <typename Data>
+		InvalidateList<Data>::~InvalidateList()
 		{
 			delete[] m_pData;
 			m_Capacity = 0;
@@ -67,8 +79,8 @@ namespace MyEngine
 			m_Changed = true;
 		}
 
-		template <typename Data, bool(*IsValid)(const Data&), void(*Invalidate)(Data&)>
-		InvalidateList<Data, IsValid, Invalidate>::InvalidateList(const InvalidateList& other)
+		template <typename Data>
+		InvalidateList<Data>::InvalidateList(const InvalidateList& other)
 			: m_pData{ new Data[other.m_Capacity] }
 			, m_Capacity{ other.m_Capacity }
 			, m_First{ other.m_First }
@@ -79,8 +91,8 @@ namespace MyEngine
 			std::copy(&other.m_pData[m_First], &other.m_pData[other.m_End], &m_pData[m_First]);
 		}
 
-		template <typename Data, bool(*IsValid)(const Data&), void(*Invalidate)(Data&)>
-		InvalidateList<Data, IsValid, Invalidate>& InvalidateList<Data, IsValid, Invalidate>::operator=(
+		template <typename Data>
+		InvalidateList<Data>& InvalidateList<Data>::operator=(
 			const InvalidateList& other)
 		{
 			if (&other == this) return *this;
@@ -95,8 +107,8 @@ namespace MyEngine
 			return *this;
 		}
 
-		template <typename Data, bool(*IsValid)(const Data&), void(*Invalidate)(Data&)>
-		InvalidateList<Data, IsValid, Invalidate>::InvalidateList(InvalidateList&& other) noexcept
+		template <typename Data>
+		InvalidateList<Data>::InvalidateList(InvalidateList&& other) noexcept
 			: m_pData{ other.m_pData }
 			, m_Capacity{ other.m_Capacity }
 			, m_First{ other.m_First }
@@ -112,8 +124,8 @@ namespace MyEngine
 			other.m_Changed = true;
 		}
 
-		template <typename Data, bool(*IsValid)(const Data&), void(*Invalidate)(Data&)>
-		InvalidateList<Data, IsValid, Invalidate>& InvalidateList<Data, IsValid, Invalidate>::operator=(
+		template <typename Data>
+		InvalidateList<Data>& InvalidateList<Data>::operator=(
 			InvalidateList&& other) noexcept
 		{
 			if (&other == this) return *this;
@@ -132,8 +144,8 @@ namespace MyEngine
 			return *this;
 		}
 
-		template <typename Data, bool(*IsValid)(const Data&), void(*Invalidate)(Data&)>
-		int InvalidateList<Data, IsValid, Invalidate>::Add(Data&& data)
+		template <typename Data>
+		int InvalidateList<Data>::Add(Data&& data)
 		{
 #ifdef INVALIDATE_LIST_DEBUG
 			if (!IsEmpty(m_GapIndicator))
@@ -148,8 +160,8 @@ namespace MyEngine
 			return idx;
 		}
 
-		template <typename Data, bool(*IsValid)(const Data&), void(*Invalidate)(Data&)>
-		Data InvalidateList<Data, IsValid, Invalidate>::Remove(int idx)
+		template <typename Data>
+		Data InvalidateList<Data>::Remove(int idx)
 		{
 #ifdef INVALIDATE_LIST_DEBUG
 			if (idx == m_GapIndicator)
@@ -159,7 +171,7 @@ namespace MyEngine
 #endif
 			m_Changed = true;
 			const Data removed{ m_pData[idx] };
-			Invalidate(m_pData[idx]);
+			Data::Invalidate(m_pData[idx]);
 
 			if (m_End - m_First == 1)
 			{
@@ -174,39 +186,78 @@ namespace MyEngine
 			return removed;
 		}
 
-		template <typename Data, bool(*IsValid)(const Data&), void(*Invalidate)(Data&)>
-		bool InvalidateList<Data, IsValid, Invalidate>::HasChanged() const
+		template <typename Data>
+		bool InvalidateList<Data>::HasChanged() const
 		{
 			return m_Changed;
 		}
 
-		template <typename Data, bool(*IsValid)(const Data&), void(*Invalidate)(Data&)>
-		void InvalidateList<Data, IsValid, Invalidate>::ClearChangedFlag()
+		template <typename Data>
+		void InvalidateList<Data>::ClearChangedFlag()
 		{
 			m_Changed = false;
 		}
 
-		template <typename Data, bool(*IsValid)(const Data&), void(*Invalidate)(Data&)>
-		const Data* InvalidateList<Data, IsValid, Invalidate>::GetFirst() const
+		template <typename Data>
+		const Data* InvalidateList<Data>::GetData() const
+		{
+			return m_pData;
+		}
+
+		template <typename Data>
+		const Data* InvalidateList<Data>::GetFirst() const
 		{
 			return m_pData[m_First];
 		}
 
-		template <typename Data, bool(*IsValid)(const Data&), void(*Invalidate)(Data&)>
-		Data* InvalidateList<Data, IsValid, Invalidate>::GetFirst()
+		template <typename Data>
+		Data* InvalidateList<Data>::GetFirst()
 		{
 			m_Changed = true;
 			return &m_pData[m_First];
 		}
 
-		template <typename Data, bool(*IsValid)(const Data&), void(*Invalidate)(Data&)>
-		bool InvalidateList<Data, IsValid, Invalidate>::IsEmpty(int idx) const
+		template <typename Data>
+		const Data* InvalidateList<Data>::GetLast() const
 		{
-			return !IsValid(m_pData[idx]);
+			return m_pData[m_End - 1];
 		}
 
-		template <typename Data, bool(*IsValid)(const Data&), void(*Invalidate)(Data&)>
-		void InvalidateList<Data, IsValid, Invalidate>::UpdateFirstIndicator()
+		template <typename Data>
+		const Data* InvalidateList<Data>::GetEnd() const
+		{
+			return m_pData[m_End];
+		}
+
+		template <typename Data>
+		Data* InvalidateList<Data>::GetEnd()
+		{
+			m_Changed = true;
+			return m_pData[m_End];
+		}
+
+		template <typename Data>
+		Data* InvalidateList<Data>::GetData()
+		{
+			m_Changed = true;
+			return m_pData;
+		}
+
+		template <typename Data>
+		Data* InvalidateList<Data>::GetLast()
+		{
+			m_Changed = true;
+			return m_pData[m_End - 1];
+		}
+
+		template <typename Data>
+		bool InvalidateList<Data>::IsEmpty(int idx) const
+		{
+			return !Data::IsValid(m_pData[idx]);
+		}
+
+		template <typename Data>
+		void InvalidateList<Data>::UpdateFirstIndicator()
 		{
 #ifdef INVALIDATE_LIST_DEBUG
 			if (!IsEmpty(m_First))
@@ -220,8 +271,8 @@ namespace MyEngine
 #endif
 		}
 
-		template <typename Data, bool(*IsValid)(const Data&), void(*Invalidate)(Data&)>
-		void InvalidateList<Data, IsValid, Invalidate>::UpdateGapIndicator()
+		template <typename Data>
+		void InvalidateList<Data>::UpdateGapIndicator()
 		{
 			while (++m_GapIndicator < m_End)
 				if (IsEmpty(m_GapIndicator)) return;
@@ -230,8 +281,8 @@ namespace MyEngine
 				IncreaseCapacity(m_Capacity);
 		}
 
-		template <typename Data, bool(*IsValid)(const Data&), void(*Invalidate)(Data&)>
-		void InvalidateList<Data, IsValid, Invalidate>::UpdateEndIndicator()
+		template <typename Data>
+		void InvalidateList<Data>::UpdateEndIndicator()
 		{
 #ifdef INVALIDATE_LIST_DEBUG
 			if (!IsEmpty(m_End - 1))
@@ -254,8 +305,8 @@ namespace MyEngine
 			m_End = 0;
 		}
 
-		template <typename Data, bool(*IsValid)(const Data&), void(*Invalidate)(Data&)>
-		void InvalidateList<Data, IsValid, Invalidate>::IncreaseCapacity(unsigned increase)
+		template <typename Data>
+		void InvalidateList<Data>::IncreaseCapacity(unsigned increase)
 		{
 			Data* pNew = new Data[m_Capacity + increase];
 			std::move(&m_pData[m_First], &m_pData[m_End], &pNew[m_First]);
