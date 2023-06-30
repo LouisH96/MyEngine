@@ -88,7 +88,7 @@ namespace MyEngine
 		: m_Size{ other.m_Size }
 		, m_pData{ new T[m_Size.x * m_Size.y] }
 	{
-		memcpy(m_pData, other.m_pData, m_Size.x* m_Size.y * sizeof(T));
+		std::copy(other.m_pData, &other.m_pData[other.GetNrElements()], m_pData);
 	}
 
 	template <typename T>
@@ -106,7 +106,7 @@ namespace MyEngine
 		if (&other == this) return *this;
 		m_Size = other.m_Size;
 		m_pData = new T[m_Size.x * m_Size.y];
-		memcpy(m_pData, other.m_pData, m_Size.x * m_Size.y * sizeof(T));
+		std::copy(other.m_pData, &other.m_pData[other.GetNrElements()], m_pData);
 		return *this;
 	}
 
