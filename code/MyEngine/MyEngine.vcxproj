@@ -17,6 +17,7 @@
     <ClCompile Include="Generation\PrismGenerator.cpp" />
     <ClCompile Include="Gui\NdcUtils.cpp" />
     <ClCompile Include="App\ResizedEvent.cpp" />
+    <ClCompile Include="Rendering\Renderers\NdcRectRenderer.cpp" />
     <ClCompile Include="Shapes\Line.cpp" />
     <ClCompile Include="Shapes\Quad.cpp" />
     <ClCompile Include="Rendering\DrawData\InstanceIdxArray.cpp" />
@@ -153,6 +154,7 @@
     <ClInclude Include="Framework\GameFrame.h" />
     <ClInclude Include="Generation\PrismGenerator.h" />
     <ClInclude Include="Gui\NdcUtils.h" />
+    <ClInclude Include="Rendering\Renderers\NdcRectRenderer.h" />
     <ClInclude Include="Rendering\Buffers\InvalidateBuffer.h" />
     <ClInclude Include="Rendering\Buffers\Buffer.h" />
     <ClInclude Include="App\ResizedEvent.h" />

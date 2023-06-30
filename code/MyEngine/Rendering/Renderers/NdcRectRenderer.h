@@ -1,0 +1,181 @@
+#pragma once
+#include "Gui/NdcUtils.h"
+#include "Rendering/Canvas.h"
+#include "Rendering/Buffers/Buffer.h"
+#include "Rendering/Buffers/InvalidateBuffer.h"
+#include "Rendering/State/DepthStencilState.h"
+#include "Rendering/State/InputLayout.h"
+#include "Rendering/State/PrimitiveTopology.h"
+#include "Rendering/State/Shader.h"
+
+namespace MyEngine
+{
+	namespace App
+	{
+		struct ResizedEvent;
+	}
+	namespace Rendering
+	{
+		template<typename Vertex, typename Instance>
+		class NdcRectRenderer
+		{
+		public:
+			//---| Constructors/Destructor |---
+			NdcRectRenderer(const std::wstring& shader);
+
+			//---| Operations |---
+			void OnCanvasResized(const App::ResizedEvent& event);
+			void Render();
+
+			Instance& Get(int id);
+			void Remove(int id);
+			int Add(const Float2& pivot, const Float2& offset, const Float2& size);
+			int AddCenterBottom(const Float2& offset, const Float2& size);
+
+			int GetElementUnderMouse() const;
+			void SetOffset(int id, const Float2& pixels);
+			void SetOffsetX(int id, float xPixels);
+			void SetOffsetY(int id, float yPixels);
+
+		private:
+			DepthStencilState m_DepthStencilState;
+			InputLayout m_InputLayout;
+			Shader m_Shader;
+
+			Float2 m_InvCanvasSize;
+			Array<Float2> m_Pivots{}; //Elements point at pivot is attached to screens point at pivot
+
+			Buffer<Vertex> m_Vertices;
+			InvalidateBuffer<Instance> m_Instances;
+			D3D11_PRIMITIVE_TOPOLOGY m_Topology;
+
+			static bool IsEmpty(const Instance& instance);
+			static void SetEmpty(Instance& instance);
+		};
+
+		template <typename Vertex, typename Instance>
+		NdcRectRenderer<Vertex, Instance>::NdcRectRenderer(const std::wstring& shader)
+			: m_InputLayout{ InputLayout::FromTypes<Vertex, Instance>() }
+			, m_Shader{ shader }
+			, m_InvCanvasSize{ Float2{1} / Float2{Globals::pCanvas->GetSize()} }
+			, m_Instances{ 4 }
+			, m_Topology{ PrimitiveTopologyUtils::ToDx(PrimitiveTopology::TriangleStrip) }
+		{
+			Array<Vertex> vertices{4};
+			vertices[0].pos = { -.5f,-.5f };
+			vertices[1].pos = { -.5f,.5f };
+			vertices[2].pos = { .5f,-.5f };
+			vertices[3].pos = { .5f,.5f };
+			m_Vertices = Buffer<Vertex>(vertices.GetData(), vertices.GetSizeU());
+		}
+
+		template <typename Vertex, typename Instance>
+		void NdcRectRenderer<Vertex, Instance>::OnCanvasResized(const App::ResizedEvent& event)
+		{
+			const Float2 scale{ Gui::NdcUtils::UpdateInvCanvasSize(event.NewSize, m_InvCanvasSize) };
+
+			Instance* pInstance{ m_Instances.GetFirst() };
+			for (int i = 0; i < m_Instances.GetCount(); i++, pInstance++)
+			{
+				if (!Instance::IsValid(*pInstance)) continue;
+				Gui::NdcUtils::Resize(scale, m_Pivots[i], pInstance->offset, pInstance->size);
+			}
+		}
+
+		template <typename Vertex, typename Instance>
+		void NdcRectRenderer<Vertex, Instance>::Render()
+		{
+			m_DepthStencilState.Activate();
+			m_InputLayout.Activate();
+			m_Shader.Activate();
+
+			PrimitiveTopologyUtils::Activate(m_Topology);
+			m_Vertices.ActivateVertexBuffer(0);
+			m_Instances.ActivateVertexBuffer(1);
+			m_Instances.Draw(m_Vertices.GetCapacity());
+		}
+
+		template <typename Vertex, typename Instance>
+		Instance& NdcRectRenderer<Vertex, Instance>::Get(int id)
+		{
+			return m_Instances[id];
+		}
+
+		template <typename Vertex, typename Instance>
+		void NdcRectRenderer<Vertex, Instance>::Remove(int id)
+		{
+			m_Instances.Remove(id);
+		}
+
+		template <typename Vertex, typename Instance>
+		int NdcRectRenderer<Vertex, Instance>::Add(const Float2& pivot, const Float2& offset, const Float2& size)
+		{
+			Instance instance{};
+			Gui::NdcUtils::ScreenRectToNdc(m_InvCanvasSize, offset, size, pivot, instance.offset, instance.size);
+
+			const int idx{ m_Instances.Add(std::move(instance)) };
+			m_Pivots.EnsureSize(idx + 1);
+			m_Pivots[idx] = pivot;
+			return idx;
+		}
+
+		template <typename Vertex, typename Instance>
+		int NdcRectRenderer<Vertex, Instance>::AddCenterBottom(const Float2& offset, const Float2& size)
+		{
+			return Add({ 0,-1 }, offset, size);
+		}
+
+		template <typename Vertex, typename Instance>
+		int NdcRectRenderer<Vertex, Instance>::GetElementUnderMouse() const
+		{
+			const Float2 mouse{ Gui::NdcUtils::GetMouseNdc(m_InvCanvasSize) };
+			for (int i = m_Instances.GetCpuData().GetLastIdx(); i >= m_Instances.GetCpuData().GetFirstIdx(); i--)
+			{
+				const Instance& instance{ m_Instances[i] };
+				if (IsEmpty(instance)) continue;
+				const Float2 botLeft{ instance.offset - instance.size * .5 };
+				if (!mouse.IsRightAbove(botLeft)) continue;
+				const Float2 topRight{ botLeft + instance.size };
+				if (!mouse.IsLeftBelow(topRight)) continue;
+				return i;
+			}
+			return -1;
+		}
+
+		template <typename Vertex, typename Instance>
+		void NdcRectRenderer<Vertex, Instance>::SetOffset(int id, const Float2& pixels)
+		{
+			const Float2& pivot{ m_Pivots[id] };
+			Instance& instance{ m_Instances[id] };
+			Gui::NdcUtils::SetScreenSpaceOffset(m_InvCanvasSize, pivot, pixels, instance.size, instance.offset);
+		}
+
+		template <typename Vertex, typename Instance>
+		void NdcRectRenderer<Vertex, Instance>::SetOffsetX(int id, float xPixels)
+		{
+			const Float2& pivot{ m_Pivots[id] };
+			Instance& instance{ m_Instances[id] };
+			Gui::NdcUtils::SetScreenSpaceOffsetX(m_InvCanvasSize, pivot, xPixels, instance.size, instance.offset);
+		}
+
+		template <typename Vertex, typename Instance>
+		void NdcRectRenderer<Vertex, Instance>::SetOffsetY(int id, float yPixels)
+		{
+			const Float2& pivot{ m_Pivots[id] };
+			Instance& instance{ m_Instances[id] };
+			Gui::NdcUtils::SetScreenSpaceOffsetY(m_InvCanvasSize, pivot, yPixels, instance.size, instance.offset);
+		}
+
+		template <typename Vertex, typename Instance>
+		bool NdcRectRenderer<Vertex, Instance>::IsEmpty(const Instance& instance)
+		{
+			return !Instance::IsValid(instance);
+		}
+
+		template <typename Vertex, typename Instance>
+		void NdcRectRenderer<Vertex, Instance>::SetEmpty(Instance& instance)
+		{
+			Instance::Invalidate(instance);
+		}
+	}
+}
