@@ -27,12 +27,16 @@ namespace MyEngine
 
 			Vector2 operator+(const Vector2& r) const;
 			Vector2 operator-(const Vector2& r) const;
+			Vector2 operator*(const Vector2& r) const;
+			Vector2 operator/(const Vector2& r) const;
 			Vector2 operator+(const T& r) const;
 			Vector2 operator-(const T& r) const;
 			Vector2 operator*(const T& r) const;
 			Vector2 operator/(const T& r) const;
 			void operator+=(const Vector2& r);
 			void operator-=(const Vector2& r);
+			void operator*=(const Vector2& r);
+			void operator/=(const Vector2& r);
 			void operator+=(const T& r);
 			void operator-=(const T& r);
 			void operator*=(const T& r);
@@ -43,10 +47,6 @@ namespace MyEngine
 			void Set(T v, int i);
 
 			void Reverse();
-			void Scale(const Vector2<T>& r);
-			Vector2 Scaled(const Vector2& scale) const;
-			void Divide(const Vector2& divisor);
-			Vector2 Divided(const Vector2& divisor) const;
 			T Length() const;
 			T LengthSq() const;
 			void Normalize();
@@ -95,12 +95,40 @@ namespace MyEngine
 
 		template <typename T> Vector2<T> Vector2<T>::operator+(const Vector2& r) const { return { x + r.x, y + r.y }; }
 		template <typename T> Vector2<T> Vector2<T>::operator-(const Vector2& r) const { return { x - r.x, y - r.y }; }
+
+		template <typename T>
+		Vector2<T> Vector2<T>::operator*(const Vector2& r) const
+		{
+			return { x * r.x, y * r.y };
+		}
+
+		template <typename T>
+		Vector2<T> Vector2<T>::operator/(const Vector2& r) const
+		{
+			return { x / r.x, y / r.y };
+		}
+
 		template <typename T> Vector2<T> Vector2<T>::operator+(const T& r) const { return { x + r, y + r }; }
 		template <typename T> Vector2<T> Vector2<T>::operator-(const T& r) const { return { x - r, y - r }; }
 		template <typename T> Vector2<T> Vector2<T>::operator*(const T& r) const { return { x * r, y * r }; }
 		template <typename T> Vector2<T> Vector2<T>::operator/(const T& r) const { return { x / r, y / r }; }
 		template <typename T> void Vector2<T>::operator+=(const Vector2& r) { x += r.x; y += r.y; }
 		template <typename T> void Vector2<T>::operator-=(const Vector2& r) { x -= r.x; y -= r.y; }
+
+		template <typename T>
+		void Vector2<T>::operator*=(const Vector2& r)
+		{
+			x *= r.x;
+			y *= r.y;
+		}
+
+		template <typename T>
+		void Vector2<T>::operator/=(const Vector2& r)
+		{
+			x /= r.x;
+			y /= r.y;
+		}
+
 		template <typename T> void Vector2<T>::operator+=(const T& r) { x += r; y += r; }
 		template <typename T> void Vector2<T>::operator-=(const T& r) { x -= r; y -= r; }
 		template <typename T> void Vector2<T>::operator*=(const T& r) { x *= r; y *= r; }
@@ -131,32 +159,6 @@ namespace MyEngine
 		{
 			x = -x;
 			y = -y;
-		}
-
-		template <typename T>
-		void Vector2<T>::Scale(const Vector2<T>& r)
-		{
-			x *= r.x;
-			y *= r.y;
-		}
-
-		template <typename T>
-		Vector2<T> Vector2<T>::Scaled(const Vector2& scale) const
-		{
-			return { x * scale.x, y * scale.y };
-		}
-
-		template <typename T>
-		void Vector2<T>::Divide(const Vector2& divisor)
-		{
-			x /= divisor.x;
-			y /= divisor.y;
-		}
-
-		template <typename T>
-		Vector2<T> Vector2<T>::Divided(const Vector2& divisor) const
-		{
-			return { x / divisor.x, y / divisor.y };
 		}
 
 		template <typename T>

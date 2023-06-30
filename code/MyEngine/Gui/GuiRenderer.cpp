@@ -17,7 +17,7 @@ bool Gui::GuiRenderer::ElementId::operator==(const ElementId& other) const
 Gui::GuiRenderer::GuiRenderer()
 	: m_InputLayout{ Rendering::InputLayout::FromTypes<Vertex, Instance>() }
 	, m_Shader{ Resources::GlobalShader(L"Gui.hlsl") }
-	, m_InvCanvasSize{ Float2{1}.Divided(Globals::pCanvas->GetSize()) }
+	, m_InvCanvasSize{ Float2{1} / Globals::pCanvas->GetSize() }
 	, m_Instances{ 5 }
 	, m_Topology{ PrimitiveTopologyUtils::ToDx(PrimitiveTopology::TriangleStrip) }
 {
