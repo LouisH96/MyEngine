@@ -1,10 +1,17 @@
 #pragma once
-#include "App/Win32/Window.h"
-#include "App/Win32/Keyboard_MsgListener.h"
-#include "App/Win32/Mouse.h"
 
 namespace MyEngine
 {
+	namespace App
+	{
+		namespace Win32
+		{
+			class Mouse;
+			class Window;
+			class Keyboard_MsgListener;
+		}
+	}
+
 	namespace Game
 	{
 		class Camera;
@@ -15,7 +22,7 @@ namespace MyEngine
 		class Gpu;
 	}
 
-	using Keyboard = App::Win32::Window::Keyboard;
+	using Keyboard = App::Win32::Keyboard_MsgListener;
 
 	class Globals
 	{
@@ -23,7 +30,7 @@ namespace MyEngine
 
 		static float DeltaTime;
 		static App::Win32::Window* pWindow;
-		static const App::Win32::Keyboard_MsgListener* pKeyboard;
+		static const Keyboard* pKeyboard;
 		static const App::Win32::Mouse* pMouse;
 
 		static Rendering::Gpu* pGpu;

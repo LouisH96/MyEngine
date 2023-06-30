@@ -13,6 +13,8 @@
 #include <Game/Globals.h>
 #include <Game/Transform.h>
 #include <Shapes/Sphere.h>
+#include <App/Win32/Mouse.h>
+#include <App/Win32/Keyboard_MsgListener.h>
 #include <App/Win32/KeyCodes.h>
 
 using namespace MyEngine;
