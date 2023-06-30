@@ -141,7 +141,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\Win32\KeyCodes.h" />
+    <ClInclude Include="DataStructures\PtrRangeConst.h" />
     <ClInclude Include="DataStructures\InvalidateList.h" />
+    <ClInclude Include="DataStructures\PtrRange.h" />
     <ClInclude Include="Generation\CubeGenerator.h" />
     <ClInclude Include="DataStructures\List.h" />
     <ClInclude Include="DataStructures\SortedList.h" />

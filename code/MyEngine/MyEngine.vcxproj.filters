@@ -291,6 +291,8 @@
     <ClInclude Include="Rendering\Buffers\Buffer.h" />
     <ClInclude Include="Rendering\Buffers\InvalidateBuffer.h" />
     <ClInclude Include="Gui\NdcUtils.h" />
+    <ClInclude Include="DataStructures\PtrRange.h" />
+    <ClInclude Include="DataStructures\PtrRangeConst.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

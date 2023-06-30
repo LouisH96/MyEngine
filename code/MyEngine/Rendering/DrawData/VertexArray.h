@@ -2,6 +2,7 @@
 #include <d3d11.h>
 
 #include "../State/PrimitiveTopology.h"
+#include "DataStructures/PtrRangeConst.h"
 #include "Rendering/Dx/DxHelper.h"
 
 namespace MyEngine
@@ -18,7 +19,7 @@ namespace MyEngine
 			VertexArray();
 			template<typename Vertex>
 			VertexArray(
-				const Vertex* pInitData, int initSize,
+				PtrRangeConst<Vertex>&& vertices,
 				bool immutable = true,
 				PrimitiveTopology topology = PrimitiveTopology::TriangleList);
 			VertexArray(
@@ -61,16 +62,16 @@ namespace MyEngine
 
 		template <typename Vertex>
 		VertexArray::VertexArray(
-			const Vertex* pInitData, int initSize,
+			PtrRangeConst<Vertex>&& vertices,
 			bool immutable, PrimitiveTopology topology)
 			: m_pBuffer{ nullptr }
 			, m_Stride{ sizeof(Vertex) }
 			, m_Offset{ 0 }
-			, m_Capacity{ static_cast<unsigned>(initSize) }
-			, m_Count{ static_cast<unsigned>(initSize) }
+			, m_Capacity{ vertices.count }
+			, m_Count{ vertices.count }
 			, m_Topology{ PrimitiveTopologyUtils::ToDx(topology) }
 		{
-			Dx::DxHelper::CreateVertexBuffer(m_pBuffer, pInitData, initSize, immutable);
+			Dx::DxHelper::CreateVertexBuffer(m_pBuffer, vertices.pData, vertices.count, immutable);
 		}
 
 		template <typename T>
