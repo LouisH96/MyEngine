@@ -9,7 +9,7 @@ Float2 Gui::NdcUtils::GetMouseNdc(const Float2& invCanvasSize)
 
 Float2 Gui::NdcUtils::ScreenPointToNdc(const Int2& point, const Float2& invCanvasSize)
 {
-	return point * Float2{ 2,-2 } *invCanvasSize - Float2{1, -1};
+	return Float2{ point } *Float2{ 2, -2 } *invCanvasSize - Float2{1, -1};
 }
 
 Float2 Gui::NdcUtils::ScreenPointToNdc(const Float2& point, const Float2& invCanvasSize)
