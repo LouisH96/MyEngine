@@ -100,11 +100,10 @@ namespace MyEngine
 		Array<Data>& Array<Data>::operator=(const Array& other)
 		{
 			if (&other == this) return *this;
-			if (m_pData) delete[] m_pData;
+			delete[] m_pData;
+			m_pData = new Data[other.m_Size];
 			m_Size = other.m_Size;
-			m_pData = new Data[m_Size];
-			for (int i = 0; i < m_Size; i++)
-				m_pData[i] = other.m_pData[i];
+			std::copy(other.m_pData, &other.m_pData[other.m_Size], m_pData);
 			return *this;
 		}
 
@@ -112,7 +111,7 @@ namespace MyEngine
 		Array<Data>& Array<Data>::operator=(Array&& other) noexcept
 		{
 			if (&other == this) return *this;
-			if (m_pData) delete[] m_pData;
+			delete[] m_pData;
 			m_pData = other.m_pData;
 			m_Size = other.m_Size;
 			other.m_pData = nullptr;
@@ -163,8 +162,7 @@ namespace MyEngine
 		template <typename Data>
 		Array<Data>::~Array()
 		{
-			if (m_pData)
-				delete[] m_pData;
+			delete[] m_pData;
 		}
 
 		template <typename Data>
@@ -172,16 +170,15 @@ namespace MyEngine
 			: m_pData(new Data[other.m_Size])
 			, m_Size(other.m_Size)
 		{
-			for (int i = 0; i < m_Size; i++)
-				m_pData[i] = other.m_pData[i];
+			std::copy(other.m_pData, &other.m_pData[m_Size], m_pData);
 		}
 
 		template <typename Data>
-		void Array<Data>::Add(const Array<Data>& other)
+		void Array<Data>::Add(const Array& other)
 		{
 			Data* pNew = new Data[m_Size + other.m_Size];
-			for (int i = 0; i < m_Size; i++) pNew[i] = m_pData[i];
-			for (int i = 0; i < other.m_Size; i++) pNew[i + m_Size] = other.m_pData[i];
+			std::move(m_pData, &m_pData[m_Size], pNew);
+			std::copy(other.m_pData, &other.m_pData[other.m_Size], &pNew[m_Size]);
 			delete[] m_pData;
 			m_pData = pNew;
 			m_Size += other.m_Size;
@@ -191,12 +188,11 @@ namespace MyEngine
 		void Array<Data>::Add(const Data& data)
 		{
 			Data* pNew = new Data[m_Size + 1];
-			for (int i = 0; i < m_Size; i++)
-				pNew[i] = m_pData[i];
+			std::move(m_pData, &m_pData[m_Size], pNew);
 			pNew[m_Size] = data;
-			m_Size++;
 			delete[] m_pData;
 			m_pData = pNew;
+			m_Size++;
 		}
 
 		template <typename Data>
@@ -212,11 +208,7 @@ namespace MyEngine
 		template <typename Data>
 		void Array<Data>::IncreaseSizeWith(int additionalSize)
 		{
-			Data* pNew = new Data[m_Size + additionalSize];
-			memcpy(pNew, m_pData, m_Size * sizeof(Data));
-			m_Size += additionalSize;
-			delete[] m_pData;
-			m_pData = pNew;
+			IncreaseSizeTo(m_Size + additionalSize);
 		}
 
 		template <typename Data>
@@ -238,11 +230,10 @@ namespace MyEngine
 			{
 				if (m_pData[i] == value)
 				{
-					while (i <= m_Size)
-						pNew[i] = m_pData[++i];
+					std::move(&m_pData[i + 1], &m_pData[m_Size], &m_pData[i]);
 					break;
 				}
-				pNew[i] = m_pData[i];
+				pNew[i] = std::move(m_pData[i]);
 			}
 			delete[] m_pData;
 			m_pData = pNew;
@@ -252,11 +243,8 @@ namespace MyEngine
 		void Array<Data>::RemoveAt(int idx)
 		{
 			Data* pNew = new Data[--m_Size];
-			int oldIdx = 0;
-			while (oldIdx < idx)
-				pNew[oldIdx] = m_pData[oldIdx++];
-			for (int newIdx = oldIdx++; newIdx < m_Size;)
-				pNew[newIdx++] = m_pData[oldIdx++];
+			std::move(m_pData, &m_pData[idx], pNew);
+			std::move(&m_pData[idx + 1], &m_pData[m_Size], &pNew[idx]);
 			delete[] m_pData;
 			m_pData = pNew;
 		}
@@ -313,7 +301,7 @@ namespace MyEngine
 		template <typename Data>
 		void Array<Data>::CopyTo(Array& dest, int destIdx)
 		{
-			memcpy(dest.GetData()[destIdx], m_pData, m_Size * sizeof(Data));
+			std::copy(m_pData, &m_pData[m_Size], &dest.m_pData[destIdx]);
 		}
 
 		template <typename Data>
@@ -403,5 +391,5 @@ namespace MyEngine
 			std::cout << "ArrayIdx " << idx
 				<< " out of bounds[0-" << m_Size - 1 << "]\n";
 		}
-	}
-}
+		}
+		}
