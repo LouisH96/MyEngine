@@ -5,7 +5,7 @@
 #include "Rendering/DrawData/VertexList.h"
 #include "Rendering/State/DepthStencilState.h"
 #include "Rendering/State/Shader.h"
-#include "Rendering/Structs/Instances.h"
+#include "Rendering/Structs/InstanceTypes.h"
 #include "Rendering/Structs/VertexTypes.h"
 
 namespace MyEngine

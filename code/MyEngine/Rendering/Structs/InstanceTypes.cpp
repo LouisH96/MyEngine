@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "Instances.h"
+#include "InstanceTypes.h"
 
 const Rendering::InputLayout::Element Rendering::I_Pos2Col::ELEMENTS[] =
 {

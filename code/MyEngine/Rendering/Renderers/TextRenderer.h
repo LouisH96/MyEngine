@@ -5,7 +5,7 @@
 #include "Rendering/DrawData/InstanceList.h"
 #include "Rendering/DrawData/VertexList.h"
 #include "Rendering/State/Shader.h"
-#include "Rendering/Structs/Instances.h"
+#include "Rendering/Structs/InstanceTypes.h"
 
 namespace MyEngine
 {

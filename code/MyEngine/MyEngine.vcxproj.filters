@@ -114,7 +114,7 @@
     <ClCompile Include="Rendering\Font\FontAtlas.cpp" />
     <ClCompile Include="Generation\PlaneGeneration.cpp" />
     <ClCompile Include="Rendering\State\DepthStencilState.cpp" />
-    <ClCompile Include="Rendering\Structs\Instances.cpp" />
+    <ClCompile Include="Rendering\Structs\InstanceTypes.cpp" />
     <ClCompile Include="Rendering\Renderers\Texture2DRenderer.cpp" />
     <ClCompile Include="Rendering\DrawData\InstanceIdxArray.cpp" />
     <ClCompile Include="Game\WorldMatrix.cpp" />
@@ -273,7 +273,7 @@
     <ClInclude Include="Math\Scalars.h" />
     <ClInclude Include="Math\Rects.h" />
     <ClInclude Include="Framework\GameFrame.h" />
-    <ClInclude Include="Rendering\Structs\Instances.h" />
+    <ClInclude Include="Rendering\Structs\InstanceTypes.h" />
     <ClInclude Include="Rendering\Renderers\Texture2DRenderer.h" />
     <ClInclude Include="Rendering\DrawData\InstanceIdxArray.h" />
     <ClInclude Include="Rendering\DrawData\InstanceIdxList.h" />

@@ -19,7 +19,7 @@
     <ClCompile Include="Shapes\Line.cpp" />
     <ClCompile Include="Shapes\Quad.cpp" />
     <ClCompile Include="Rendering\DrawData\InstanceIdxArray.cpp" />
-    <ClCompile Include="Rendering\Structs\Instances.cpp" />
+    <ClCompile Include="Rendering\Structs\InstanceTypes.cpp" />
     <ClCompile Include="Rendering\State\DepthStencilState.cpp" />
     <ClCompile Include="Generation\PlaneGeneration.cpp" />
     <ClCompile Include="Rendering\Font\FontAtlas.cpp" />
@@ -157,7 +157,7 @@
     <ClInclude Include="Shapes\Quad.h" />
     <ClInclude Include="Rendering\DrawData\InstanceIdxArray.h" />
     <ClInclude Include="Rendering\DrawData\InstanceIdxList.h" />
-    <ClInclude Include="Rendering\Structs\Instances.h" />
+    <ClInclude Include="Rendering\Structs\InstanceTypes.h" />
     <ClInclude Include="Math\Matrices.h" />
     <ClInclude Include="Math\Rects.h" />
     <ClInclude Include="Math\Scalars.h" />
