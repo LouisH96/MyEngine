@@ -54,15 +54,22 @@ void Rendering::Canvas::Present() const
 	m_pSwapChain->Present1(0, DXGI_PRESENT_DO_NOT_WAIT, &param);
 }
 
-void Rendering::Canvas::OnWindowResized(Int2 newSize)
+App::ResizedEvent Rendering::Canvas::OnWindowResized(Int2 newSize)
 {
+	const App::ResizedEvent event
+	{
+		m_Size,
+		newSize,
+	};
 	SAFE_RELEASE(m_pDepthStencilView);
 	SAFE_RELEASE(m_pMainRenderTargetView);
 	m_Size = newSize;
-	m_pSwapChain->ResizeBuffers(0, newSize.x, newSize.y, DXGI_FORMAT_UNKNOWN, 0);
+	const HRESULT result{ m_pSwapChain->ResizeBuffers(0, newSize.x, newSize.y, DXGI_FORMAT_UNKNOWN, 0) };
+	if (FAILED(result)) Logger::PrintError("[Canvas::OnWindowResized] failed resizing buffer");
 	InitRenderTarget();
 	InitDepthStencil();
 	SetViewPort();
+	return event;
 }
 
 void Rendering::Canvas::InitSwapChain(const App::Win32::Window& window)

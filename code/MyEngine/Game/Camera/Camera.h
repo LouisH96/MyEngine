@@ -2,6 +2,11 @@
 
 namespace MyEngine
 {
+	namespace App
+	{
+		struct ResizedEvent;
+	}
+
 	namespace Game
 	{
 		class Camera
@@ -9,7 +14,7 @@ namespace MyEngine
 		public:
 			explicit Camera(Int2 windowSize, float fov = 60, float near = .01f, float far = 200);
 
-			void OnWindowResized(Int2 windowSize);
+			void OnCanvasResized(const App::ResizedEvent& event);
 			void Update();
 
 			void SetFieldOfView(float angle);

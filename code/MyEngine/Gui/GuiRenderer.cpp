@@ -29,9 +29,9 @@ Gui::GuiRenderer::GuiRenderer()
 	m_Vertices = Buffer<Vertex>(vertices.GetData(), vertices.GetSizeU());
 }
 
-void Gui::GuiRenderer::OnCanvasResize(const Int2& newSize)
+void Gui::GuiRenderer::OnCanvasResized(const App::ResizedEvent& event)
 {
-	const Float2 scale{ NdcUtils::UpdateInvCanvasSize(newSize, m_InvCanvasSize) };
+	const Float2 scale{ NdcUtils::UpdateInvCanvasSize(event.NewSize, m_InvCanvasSize) };
 
 	Instance* pInstance{ m_Instances.GetFirst() };
 	for (int i = 0; i < m_Instances.GetCount(); i++, pInstance++)

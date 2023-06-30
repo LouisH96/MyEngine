@@ -10,6 +10,14 @@
 
 namespace MyEngine
 {
+	namespace App
+	{
+		struct ResizedEvent;
+	}
+}
+
+namespace MyEngine
+{
 	namespace Gui
 	{
 		class GuiRenderer
@@ -32,7 +40,7 @@ namespace MyEngine
 			GuiRenderer();
 
 			//---| Operations |---
-			void OnCanvasResize(const Int2& newSize);
+			void OnCanvasResized(const App::ResizedEvent& event);
 			void Render();
 
 			void Remove(ElementId id);

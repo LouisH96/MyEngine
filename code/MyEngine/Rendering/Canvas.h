@@ -1,6 +1,8 @@
 #pragma once
 #include <d3d11.h>
 
+#include "App/ResizedEvent.h"
+
 struct IDXGISwapChain1;
 struct IDXGIDevice2;
 struct IDXGIFactory2;
@@ -17,23 +19,22 @@ namespace MyEngine
 
 	namespace Rendering
 	{
-		class Gpu;
-
 		class Canvas
 		{
 		public:
+			//---| Construction |---
 			Canvas(const Canvas& other) = delete;
 			Canvas(Canvas&& other) noexcept = delete;
 			Canvas& operator=(const Canvas& other) = delete;
 			Canvas& operator=(Canvas&& other) noexcept = delete;
 
-			Canvas(App::Win32::Window& window);
+			explicit Canvas(App::Win32::Window& window);
 			~Canvas();
 
 			void BeginPaint() const;
 			void Present() const;
 
-			void OnWindowResized(Math::Int2 newSize);
+			App::ResizedEvent OnWindowResized(Int2 newSize);
 			const Int2& GetSize() const { return m_Size; }
 			float GetAspectRatio() const { return Float::Cast(m_Size.x) / m_Size.y; }
 

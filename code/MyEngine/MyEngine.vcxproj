@@ -16,6 +16,7 @@
     <ClCompile Include="Debug\Rendering\DebugSpheres.cpp" />
     <ClCompile Include="Generation\PrismGenerator.cpp" />
     <ClCompile Include="Gui\NdcUtils.cpp" />
+    <ClCompile Include="App\ResizedEvent.cpp" />
     <ClCompile Include="Shapes\Line.cpp" />
     <ClCompile Include="Shapes\Quad.cpp" />
     <ClCompile Include="Rendering\DrawData\InstanceIdxArray.cpp" />
@@ -154,6 +155,7 @@
     <ClInclude Include="Gui\NdcUtils.h" />
     <ClInclude Include="Rendering\Buffers\InvalidateBuffer.h" />
     <ClInclude Include="Rendering\Buffers\Buffer.h" />
+    <ClInclude Include="App\ResizedEvent.h" />
     <ClInclude Include="Shapes\Rect3.h" />
     <ClInclude Include="Shapes\Line.h" />
     <ClInclude Include="Shapes\Quad.h" />

@@ -125,6 +125,7 @@
     <ClCompile Include="Generation\PrismGenerator.cpp" />
     <ClCompile Include="Shapes\Line.cpp" />
     <ClCompile Include="Gui\NdcUtils.cpp" />
+    <ClCompile Include="App\ResizedEvent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -293,6 +294,7 @@
     <ClInclude Include="Gui\NdcUtils.h" />
     <ClInclude Include="DataStructures\PtrRange.h" />
     <ClInclude Include="DataStructures\PtrRangeConst.h" />
+    <ClInclude Include="App\ResizedEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

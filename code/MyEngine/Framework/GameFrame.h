@@ -57,9 +57,9 @@ namespace MyEngine
 				window.HandleMessages();
 				if (window.IsResized())
 				{
-					canvas.OnWindowResized(window.GetClientSize());
-					camera.OnWindowResized(window.GetClientSize());
-					app.OnWindowResized(window.GetClientSize());
+					const ResizedEvent resizedEvent{ canvas.OnWindowResized(window.GetClientSize()) };
+					camera.OnCanvasResized(resizedEvent);
+					app.OnCanvasResized(resizedEvent);
 				}
 
 				//UPDATE

@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Camera.h"
 
+#include "App/ResizedEvent.h"
 #include "Math/Constants.h"
 
 Camera::Camera(Int2 windowSize, float fov, float near, float far)
@@ -10,12 +11,13 @@ Camera::Camera(Int2 windowSize, float fov, float near, float far)
 	, m_Far{ far }
 {
 	SetFieldOfView(fov);
-	OnWindowResized(windowSize);
+	m_AspectRatio = static_cast<float>(windowSize.x) / static_cast<float>(windowSize.y);
+	UpdateProjectionMatrix();
 }
 
-void Camera::OnWindowResized(Int2 windowSize)
+void Camera::OnCanvasResized(const App::ResizedEvent& event)
 {
-	m_AspectRatio = static_cast<float>(windowSize.x) / static_cast<float>(windowSize.y);
+	m_AspectRatio = static_cast<float>(event.NewSize.x) / static_cast<float>(event.NewSize.y);
 	UpdateProjectionMatrix();
 }
 
