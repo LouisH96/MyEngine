@@ -161,10 +161,9 @@ LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, 
 		PostQuitMessage(0);
 		break;
 	case WM_SIZE:
-		if (wParam == SIZE_MINIMIZED) break;
 		window.m_ClientSize.x = LOWORD(lParam);
 		window.m_ClientSize.y = HIWORD(lParam);
-		window.m_IsResized = true;
+		window.m_IsResized = window.m_ClientSize.x > 0 && window.m_ClientSize.y > 0;
 		break;
 	case WM_KEYDOWN:
 		window.m_Keyboard.KeyDown(static_cast<char>(wParam));
