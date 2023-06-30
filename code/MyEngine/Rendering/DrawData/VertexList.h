@@ -34,7 +34,7 @@ namespace MyEngine
 
 		private:
 			List<Vertex> m_CpuList;
-			VertexArray m_VertexArray;
+			VertexArray<Vertex> m_VertexArray;
 			bool m_Changed;
 		};
 
