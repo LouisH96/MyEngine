@@ -3,7 +3,6 @@
 
 #include "Framework/Resources.h"
 #include "Rendering/Canvas.h"
-#include "NdcUtils.h"
 
 using namespace Rendering;
 
