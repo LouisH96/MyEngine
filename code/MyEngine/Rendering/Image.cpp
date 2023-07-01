@@ -115,6 +115,11 @@ uint8_t* Rendering::Image::GetPixel(const Int2& pos)
 	return m_pData + (pos.y * m_Width + pos.x) * 4;
 }
 
+float Rendering::Image::GetAspectRatio() const
+{
+	return static_cast<float>(m_Width) / static_cast<float>(m_Height);
+}
+
 void Rendering::Image::CopyTo(Image& dest, const Int2& position) const
 {
 	if (!dest.IsInBounds(position + GetSize() - Int2{1, 1}))

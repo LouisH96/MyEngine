@@ -32,6 +32,7 @@ namespace MyEngine
 			uint8_t* GetData() const { return m_pData; }
 			uint8_t* GetPixel(const Int2& pos);
 			int GetBytesPerRow() const { return m_Width * 4; }
+			float GetAspectRatio() const;
 
 			void CopyTo(Image& dest, const Int2& position) const;
 			bool IsInBounds(const Int2& pos) const;
