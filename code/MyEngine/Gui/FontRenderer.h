@@ -1,6 +1,7 @@
 #pragma once
 #include "Rendering/Font/FontAtlasLookup.h"
 #include "Rendering/Renderers/NdcRectRenderer.h"
+#include "Rendering/State/BlendState.h"
 #include "Rendering/State/SamplerState.h"
 #include "Rendering/State/Texture.h"
 #include "Rendering/Structs/VertexTypes.h"
@@ -20,6 +21,9 @@ namespace MyEngine
 
 			void Remove(int id);
 			int Add(char c, const Float2& pivot, const Float2& offset, float height, const Float3& color);
+			int Add(char c, const Float2& pivot, const Float2& offset, float height, const Float3& color, Float2& outScreenSize);
+
+			void Add(const std::string& text, const Float2& pivot, const Float2& offset, float height, const Float3& color, float spacing = 0);
 
 		private:
 			using Vertex = Rendering::V_Pos2Uv;
@@ -29,6 +33,7 @@ namespace MyEngine
 			Rendering::Texture m_FontAtlas;
 			Rendering::DepthStencilState m_DepthStencilState;
 			Rendering::SamplerState m_SamplerState;
+			Rendering::BlendState m_BlendState;
 
 			Rendering::FontAtlasLookup m_CharLookup;
 			float m_UvXHeight;

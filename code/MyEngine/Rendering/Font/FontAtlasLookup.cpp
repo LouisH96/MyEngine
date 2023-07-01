@@ -7,16 +7,16 @@
 Rendering::FontAtlasLookup::FontAtlasLookup(Font::FontAtlas&& fontAtlas)
 	: m_Positions{ std::move(fontAtlas.GetCharacterHorPos()) }
 	, m_Heights{ std::move(fontAtlas.GetCharacterHeight()) }
-	, m_SpaceWidth{ fontAtlas.GetSpaceWidth() }
 {
-	m_ToXRatio = 1.f / GetCharUvHeight('x');
+	m_SpaceWidthRatio = fontAtlas.GetSpaceWidth() / GetCharUvWidth('x');
+	m_InvXUvHeight = 1.f / GetCharUvHeight('x');
 	m_UvWidthToHeight = Float::Cast(fontAtlas.GetImage().GetWidth()) / Float::Cast(fontAtlas.GetImage().GetHeight());
 }
 
 void Rendering::FontAtlasLookup::Lookup(char c, float xPixelHeight, RectFloat& uvRect, Float2& screenSize)
 {
 	uvRect = GetCharUvRect(c);
-	screenSize.y = uvRect.GetHeight() * m_ToXRatio * xPixelHeight;
+	screenSize.y = uvRect.GetHeight() * m_InvXUvHeight * xPixelHeight;
 	screenSize.x = uvRect.GetWidth() * m_UvWidthToHeight * screenSize.y / uvRect.GetHeight();
 }
 
@@ -45,6 +45,40 @@ RectFloat Rendering::FontAtlasLookup::GetCharUvRect(char c)
 	RectFloat rect{ {m_Positions[idx], m_Heights[idx]}, {m_Positions[idx + 1], m_Heights[idx]} };
 	rect.SetWidth(rect.GetWidth() - rect.GetLeft());
 	return rect;
+}
+
+float Rendering::FontAtlasLookup::GetUvWidth(const std::string& text)
+{
+	float width{ 0 };
+	for (const char& c : text)
+	{
+		if (c == ' ') width += GetCharUvWidth('x') * m_SpaceWidthRatio;
+		else width += GetCharUvWidth(c);
+	}
+	return width;
+}
+
+float Rendering::FontAtlasLookup::GetScreenWidth(const std::string& text, float height)
+{
+	const float xUvWidth{ GetCharUvWidth('x') };
+	const float xScreenWidth{ xUvWidth * m_UvWidthToHeight * m_InvXUvHeight * height };
+	const float textUvWidth{ GetUvWidth(text) };
+	return  textUvWidth / xUvWidth * xScreenWidth;
+}
+
+float Rendering::FontAtlasLookup::GetScreenWidth(char c, float height)
+{
+	const float xUvWidth{ GetCharUvWidth('x') };
+	const float xScreenWidth{ xUvWidth * m_UvWidthToHeight * m_InvXUvHeight * height };
+	const float textUvWidth{ GetCharUvWidth(c) };
+	return  textUvWidth / xUvWidth * xScreenWidth;
+}
+
+float Rendering::FontAtlasLookup::GetScreenSpaceWidth(float xHeight)
+{
+	const float xUvWidth{ GetCharUvWidth('x') };
+	const float xScreenWidth{ xUvWidth * m_UvWidthToHeight * m_InvXUvHeight * xHeight };
+	return xScreenWidth * m_SpaceWidthRatio;
 }
 
 int Rendering::FontAtlasLookup::CharToIdx(char c)
