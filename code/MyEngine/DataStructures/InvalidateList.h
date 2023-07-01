@@ -22,7 +22,10 @@ namespace MyEngine
 
 			//---| Functions |---
 			int Add(Data&& data);
+			int Validate(Data*& pOut);
 			Data Remove(int idx);
+			Data InvalidateAndReturn(int idx); //same are removing but doesn't deconstruct(move) the object
+			void Invalidate(int idx);
 
 			bool HasChanged() const;
 			void ClearChangedFlag();
@@ -161,7 +164,39 @@ namespace MyEngine
 		}
 
 		template <typename Data>
+		int InvalidateList<Data>::Validate(Data*& pOut)
+		{
+#ifdef INVALIDATE_LIST_DEBUG
+			if (!IsEmpty(m_GapIndicator))
+				Logger::PrintError("[InvalidateList::Add] GapIndicator is not empty");
+#endif
+			m_Changed = true;
+			const int idx{ m_GapIndicator };
+			if (idx >= m_End) m_End = idx + 1;
+			else if (idx < m_First) m_First = idx;
+			UpdateGapIndicator();
+			pOut = &m_pData[idx];
+			return idx;
+		}
+
+		template <typename Data>
 		Data InvalidateList<Data>::Remove(int idx)
+		{
+			const Data removed{ std::move(m_pData[idx]) };
+			Invalidate(idx);
+			return removed;
+		}
+
+		template <typename Data>
+		Data InvalidateList<Data>::InvalidateAndReturn(int idx)
+		{
+			const Data invalidated{ m_pData[idx] };
+			Invalidate(idx);
+			return invalidated;
+		}
+
+		template <typename Data>
+		void InvalidateList<Data>::Invalidate(int idx)
 		{
 #ifdef INVALIDATE_LIST_DEBUG
 			if (idx == m_GapIndicator)
@@ -170,7 +205,6 @@ namespace MyEngine
 				Logger::PrintError("[InvalidateList::Remove] idx is equal or bigger than end");
 #endif
 			m_Changed = true;
-			const Data removed{ m_pData[idx] };
 			Data::Invalidate(m_pData[idx]);
 
 			if (m_End - m_First == 1)
@@ -178,12 +212,11 @@ namespace MyEngine
 				m_First = 0;
 				m_End = 0;
 				m_GapIndicator = 0;
-				return removed;
+				return;
 			}
 			if (idx < m_GapIndicator) m_GapIndicator = idx;
 			if (idx == m_First) UpdateFirstIndicator();
 			else if (idx == m_End - 1) UpdateEndIndicator();
-			return removed;
 		}
 
 		template <typename Data>
