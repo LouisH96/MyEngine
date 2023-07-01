@@ -61,11 +61,7 @@ namespace MyEngine
 			, m_Instances{ 4 }
 			, m_Topology{ PrimitiveTopologyUtils::ToDx(PrimitiveTopology::TriangleStrip) }
 		{
-			Array<Vertex> vertices{4};
-			vertices[0].pos = { -.5f,-.5f };
-			vertices[1].pos = { -.5f,.5f };
-			vertices[2].pos = { .5f,-.5f };
-			vertices[3].pos = { .5f,.5f };
+			Array<Vertex> vertices{Vertex::GetCenterRect()};
 			m_Vertices = Buffer<Vertex>(vertices.GetData(), vertices.GetSizeU());
 		}
 
@@ -78,7 +74,7 @@ namespace MyEngine
 			for (int i = 0; i < m_Instances.GetCount(); i++, pInstance++)
 			{
 				if (!Instance::IsValid(*pInstance)) continue;
-				Gui::NdcUtils::Resize(scale, m_Pivots[i], pInstance->offset, pInstance->size);
+				Gui::NdcUtils::Resize(scale, m_Pivots[i], pInstance->GetCenter(), pInstance->GetSize());
 			}
 		}
 
@@ -111,7 +107,7 @@ namespace MyEngine
 		int NdcRectRenderer<Vertex, Instance>::Add(const Float2& pivot, const Float2& offset, const Float2& size)
 		{
 			Instance instance{};
-			Gui::NdcUtils::ScreenRectToNdc(m_InvCanvasSize, offset, size, pivot, instance.offset, instance.size);
+			Gui::NdcUtils::ScreenRectToNdc(m_InvCanvasSize, offset, size, pivot, instance.GetCenter(), instance.GetSize());
 
 			const int idx{ m_Instances.Add(std::move(instance)) };
 			m_Pivots.EnsureSize(idx + 1);
@@ -133,9 +129,9 @@ namespace MyEngine
 			{
 				const Instance& instance{ m_Instances[i] };
 				if (IsEmpty(instance)) continue;
-				const Float2 botLeft{ instance.offset - instance.size * .5 };
+				const Float2 botLeft{ instance.GetCenter() - instance.GetSize() * .5 };
 				if (!mouse.IsRightAbove(botLeft)) continue;
-				const Float2 topRight{ botLeft + instance.size };
+				const Float2 topRight{ botLeft + instance.GetSize() };
 				if (!mouse.IsLeftBelow(topRight)) continue;
 				return i;
 			}
@@ -147,7 +143,7 @@ namespace MyEngine
 		{
 			const Float2& pivot{ m_Pivots[id] };
 			Instance& instance{ m_Instances[id] };
-			Gui::NdcUtils::SetScreenSpaceOffset(m_InvCanvasSize, pivot, pixels, instance.size, instance.offset);
+			Gui::NdcUtils::SetScreenSpaceOffset(m_InvCanvasSize, pivot, pixels, instance.GetSize(), instance.GetCenter());
 		}
 
 		template <typename Vertex, typename Instance>
@@ -155,7 +151,7 @@ namespace MyEngine
 		{
 			const Float2& pivot{ m_Pivots[id] };
 			Instance& instance{ m_Instances[id] };
-			Gui::NdcUtils::SetScreenSpaceOffsetX(m_InvCanvasSize, pivot, xPixels, instance.size, instance.offset);
+			Gui::NdcUtils::SetScreenSpaceOffsetX(m_InvCanvasSize, pivot, xPixels, instance.GetSize(), instance.GetCenter());
 		}
 
 		template <typename Vertex, typename Instance>
@@ -163,7 +159,7 @@ namespace MyEngine
 		{
 			const Float2& pivot{ m_Pivots[id] };
 			Instance& instance{ m_Instances[id] };
-			Gui::NdcUtils::SetScreenSpaceOffsetY(m_InvCanvasSize, pivot, yPixels, instance.size, instance.offset);
+			Gui::NdcUtils::SetScreenSpaceOffsetY(m_InvCanvasSize, pivot, yPixels, instance.GetSize(), instance.GetCenter());
 		}
 
 		template <typename Vertex, typename Instance>
