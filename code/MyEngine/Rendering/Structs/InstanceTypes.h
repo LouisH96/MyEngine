@@ -16,6 +16,12 @@ namespace MyEngine
 
 			static bool IsValid(const I_Pos2Col& inst);
 			static void Invalidate(I_Pos2Col& inst);
+
+			Float2& GetCenter() { return offset; }
+			Float2& GetSize() { return size; }
+
+			const Float2& GetCenter() const { return offset; }
+			const Float2& GetSize() const { return size; }
 		};
 		struct I_Pos2UvCol
 		{
@@ -28,6 +34,15 @@ namespace MyEngine
 			//combined with V_Pos2Uv
 			static const InputLayout::Element ELEMENTS[];
 			static constexpr int NR_ELEMENTS = 5;
+
+			static bool IsValid(const I_Pos2UvCol& inst);
+			static void Invalidate(I_Pos2UvCol& inst);
+
+			Float2& GetCenter() { return posOffset; }
+			Float2& GetSize() { return posScale; }
+
+			const Float2& GetCenter() const { return posOffset; }
+			const Float2& GetSize() const { return posScale; }
 		};
 		struct I_ModelMatrices
 		{

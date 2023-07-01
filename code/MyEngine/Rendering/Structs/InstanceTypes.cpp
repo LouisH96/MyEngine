@@ -28,6 +28,16 @@ const Rendering::InputLayout::Element Rendering::I_Pos2UvCol::ELEMENTS[] =
 	{"INST_COLOR", InputLayout::ElementType::Float3, 1, InputLayout::SlotClass::PerInstance}
 };
 
+bool Rendering::I_Pos2UvCol::IsValid(const I_Pos2UvCol& inst)
+{
+	return inst.posScale.x != 0;
+}
+
+void Rendering::I_Pos2UvCol::Invalidate(I_Pos2UvCol& inst)
+{
+	inst.posScale.x = 0;
+}
+
 const Rendering::InputLayout::Element Rendering::I_ModelMatrices::ELEMENTS[] =
 {
 	{"INST_MODEL", InputLayout::ElementType::Float4X4, 1, InputLayout::SlotClass::PerInstance},
