@@ -8,3 +8,4 @@ const App::Win32::Mouse* Globals::pMouse = nullptr;
 Rendering::Gpu* Globals::pGpu = nullptr;
 const Rendering::Canvas* Globals::pCanvas = nullptr;
 Camera* Globals::pCamera = nullptr;
+Gui::FontRenderer* Globals::pFontRenderer = nullptr;

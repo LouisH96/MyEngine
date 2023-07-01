@@ -129,7 +129,6 @@
     <ClCompile Include="Io\Ttf\TableDirectory.cpp" />
     <ClCompile Include="Debug\ToString.cpp" />
     <ClCompile Include="Io\Ttf\TtfReader.cpp" />
-    <ClCompile Include="Rendering\Renderers\TextRenderer.cpp" />
     <ClCompile Include="Io\Ttf\Segment.cpp" />
     <ClCompile Include="Game\Transform.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\FbxWrapTexture.cpp" />
@@ -296,7 +295,6 @@
     <ClInclude Include="Debug\ToString.h" />
     <ClInclude Include="Io\Ttf\TtfReader.h" />
     <ClInclude Include="Io\Ttf\TtfPoint.h" />
-    <ClInclude Include="Rendering\Renderers\TextRenderer.h" />
     <ClInclude Include="Io\Ttf\Segment.h" />
     <ClInclude Include="Game\Transform.h" />
     <ClInclude Include="Math\Vector4.h" />

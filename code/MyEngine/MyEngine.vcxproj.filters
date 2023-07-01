@@ -66,7 +66,6 @@
     <ClCompile Include="Io\Ttf\LocaTable.cpp" />
     <ClCompile Include="Io\Ttf\GlyfTable.cpp" />
     <ClCompile Include="Io\Ttf\ContourOperations.cpp" />
-    <ClCompile Include="Rendering\Renderers\TextRenderer.cpp" />
     <ClCompile Include="Rendering\Image.cpp" />
     <ClCompile Include="Io\Ttf\Glyph.cpp" />
     <ClCompile Include="Io\Ttf\Contour.cpp" />
@@ -211,7 +210,6 @@
     <ClInclude Include="Io\Ttf\GlyfTable.h" />
     <ClInclude Include="Io\Ttf\TtfPoint.h" />
     <ClInclude Include="Io\Ttf\ContourOperations.h" />
-    <ClInclude Include="Rendering\Renderers\TextRenderer.h" />
     <ClInclude Include="Rendering\Image.h" />
     <ClInclude Include="Io\Ttf\Glyph.h" />
     <ClInclude Include="Io\Ttf\Contour.h" />

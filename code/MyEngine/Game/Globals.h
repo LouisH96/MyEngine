@@ -2,6 +2,11 @@
 
 namespace MyEngine
 {
+	namespace Gui
+	{
+		class FontRenderer;
+	}
+
 	namespace App
 	{
 		namespace Win32
@@ -36,5 +41,7 @@ namespace MyEngine
 		static Rendering::Gpu* pGpu;
 		static const Rendering::Canvas* pCanvas;
 		static Game::Camera* pCamera;
+
+		static Gui::FontRenderer* pFontRenderer;
 	};
 }
