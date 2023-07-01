@@ -12,6 +12,8 @@ namespace MyEngine
 
 			static const InputLayout::Element ELEMENTS[];
 			static const int NR_ELEMENTS;
+
+			static Array<V_Pos2> GetCenterRect();
 		};
 		struct V_Pos2Col
 		{
@@ -28,6 +30,8 @@ namespace MyEngine
 
 			static const InputLayout::Element ELEMENTS[];
 			static constexpr int NR_ELEMENTS = 2;
+
+			static Array<V_Pos2Uv> GetCenterRect();
 		};
 
 		//---| 3D POSITION |---
