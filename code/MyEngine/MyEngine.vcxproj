@@ -11,13 +11,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Rendering\Font\FontAtlasLookup.cpp" />
     <ClCompile Include="Generation\CubeGenerator.cpp" />
     <ClCompile Include="Debug\Rendering\DebugLines.cpp" />
     <ClCompile Include="Debug\Rendering\DebugSpheres.cpp" />
     <ClCompile Include="Generation\PrismGenerator.cpp" />
     <ClCompile Include="Gui\NdcUtils.cpp" />
     <ClCompile Include="App\ResizedEvent.cpp" />
-    <ClCompile Include="Rendering\Renderers\NdcRectRenderer.cpp" />
     <ClCompile Include="Shapes\Line.cpp" />
     <ClCompile Include="Shapes\Quad.cpp" />
     <ClCompile Include="Rendering\DrawData\InstanceIdxArray.cpp" />
@@ -140,12 +140,14 @@
     <ClCompile Include="Rendering\Renderers\Texture2DRenderer.cpp" />
     <ClCompile Include="Game\WorldMatrix.cpp" />
     <ClCompile Include="Rendering\DrawData\VertexIdxArray.cpp" />
+    <ClCompile Include="Gui\FontRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\Win32\KeyCodes.h" />
     <ClInclude Include="DataStructures\PtrRangeConst.h" />
     <ClInclude Include="DataStructures\InvalidateList.h" />
     <ClInclude Include="DataStructures\PtrRange.h" />
+    <ClInclude Include="Rendering\Font\FontAtlasLookup.h" />
     <ClInclude Include="Generation\CubeGenerator.h" />
     <ClInclude Include="DataStructures\List.h" />
     <ClInclude Include="DataStructures\SortedList.h" />
@@ -310,6 +312,7 @@
     <ClInclude Include="Game\WorldMatrix.h" />
     <ClInclude Include="Rendering\DrawData\VertexIdxArray.h" />
     <ClInclude Include="Rendering\DrawData\VertexIdxList.h" />
+    <ClInclude Include="Gui\FontRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

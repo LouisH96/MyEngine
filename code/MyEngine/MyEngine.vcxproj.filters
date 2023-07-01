@@ -126,7 +126,8 @@
     <ClCompile Include="Shapes\Line.cpp" />
     <ClCompile Include="Gui\NdcUtils.cpp" />
     <ClCompile Include="App\ResizedEvent.cpp" />
-    <ClCompile Include="Rendering\Renderers\NdcRectRenderer.cpp" />
+    <ClCompile Include="Gui\FontRenderer.cpp" />
+    <ClCompile Include="Rendering\Font\FontAtlasLookup.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug\Logger.h" />
@@ -297,6 +298,8 @@
     <ClInclude Include="DataStructures\PtrRangeConst.h" />
     <ClInclude Include="App\ResizedEvent.h" />
     <ClInclude Include="Rendering\Renderers\NdcRectRenderer.h" />
+    <ClInclude Include="Gui\FontRenderer.h" />
+    <ClInclude Include="Rendering\Font\FontAtlasLookup.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
