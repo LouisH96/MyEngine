@@ -58,6 +58,23 @@ float Rendering::FontAtlasLookup::GetUvWidth(const std::string& text)
 	return width;
 }
 
+Float2 Rendering::FontAtlasLookup::GetUvSize(const std::string& text)
+{
+	Float2 bounds{ 0 };
+	for (const char& c : text)
+	{
+		if (c == ' ')
+		{
+			bounds.x += GetCharUvWidth('x') * m_SpaceWidthRatio;
+			continue;
+		}
+		const Float2 charSize{ GetCharUvSize(c) };
+		bounds.x += charSize.x;
+		if (charSize.y > bounds.y) bounds.y = charSize.y;
+	}
+	return bounds;
+}
+
 float Rendering::FontAtlasLookup::GetScreenWidth(const std::string& text, float height)
 {
 	const float xUvWidth{ GetCharUvWidth('x') };
@@ -79,6 +96,24 @@ float Rendering::FontAtlasLookup::GetScreenSpaceWidth(float xHeight)
 	const float xUvWidth{ GetCharUvWidth('x') };
 	const float xScreenWidth{ xUvWidth * m_UvWidthToHeight * m_InvXUvHeight * xHeight };
 	return xScreenWidth * m_SpaceWidthRatio;
+}
+
+Float2 Rendering::FontAtlasLookup::GetScreenSize(const std::string& text, float height)
+{
+	const Float2 uvSize{ GetUvSize(text) };
+	Float2 screenSize;
+	screenSize.y = uvSize.y * m_InvXUvHeight * height;
+	screenSize.x = screenSize.y * uvSize.x * m_UvWidthToHeight / uvSize.y;
+	return screenSize;
+}
+
+Float2 Rendering::FontAtlasLookup::GetScreenSize(char c, float height)
+{
+	const Float2 uvSize{ GetCharUvSize(c) };
+	Float2 screenSize;
+	screenSize.y = uvSize.y * m_InvXUvHeight * height;
+	screenSize.x = screenSize.y * uvSize.x * m_UvWidthToHeight / uvSize.y;
+	return screenSize;
 }
 
 int Rendering::FontAtlasLookup::CharToIdx(char c)

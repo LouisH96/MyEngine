@@ -25,9 +25,14 @@ namespace MyEngine
 			RectFloat GetCharUvRect(char c);
 
 			float GetUvWidth(const std::string& text);
+			Float2 GetUvSize(const std::string& text);
+
 			float GetScreenWidth(const std::string& text, float height);
 			float GetScreenWidth(char c, float height);
 			float GetScreenSpaceWidth(float xHeight);
+
+			Float2 GetScreenSize(const std::string& text, float height);
+			Float2 GetScreenSize(char c, float height);
 
 		private:
 			Array<float> m_Positions{};
