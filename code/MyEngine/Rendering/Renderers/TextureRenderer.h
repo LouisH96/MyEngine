@@ -38,9 +38,13 @@ namespace MyEngine
 			void Render();
 
 			//---| Operations |---
-			void AddMesh(const Array<Vertex>& vertices, const Array<int>& indices, const std::wstring& texturePath);
-			void AddMesh(const Array<Vertex>& vertices, const std::wstring& texturePath);
-			void AddMesh(Mesh* pMesh, Texture* pTexture);
+			int AddMesh(const Array<Vertex>& vertices, const Array<int>& indices, const std::wstring& texturePath);
+			int AddMesh(const Array<Vertex>& vertices, const std::wstring& texturePath);
+			int AddMesh(Mesh* pMesh, Texture* pTexture);
+
+			void SetActive(int id, bool active);
+
+			int GetNrMeshes() const { return m_Meshes.GetSize(); }
 
 		private:
 			//---| Types |---
@@ -48,6 +52,7 @@ namespace MyEngine
 			{
 				Mesh* pMesh;
 				Texture* pTexture;
+				bool Active{ true };
 			};
 
 			//---| General |---
@@ -86,7 +91,7 @@ namespace MyEngine
 		{
 			m_DepthStencilState.Activate();
 			m_Sampler.ActivatePs();
-			m_ConstantBuffer.Update(CamData{ Globals::pCamera->GetPosition(), Globals::pCamera->GetViewProjection()});
+			m_ConstantBuffer.Update(CamData{ Globals::pCamera->GetPosition(), Globals::pCamera->GetViewProjection() });
 			m_ConstantBuffer.Activate();
 			m_RasterizerState.Activate();
 			m_InputLayout.Activate();
@@ -94,6 +99,7 @@ namespace MyEngine
 			m_Shader.Activate();
 			for (int i = 0; i < m_Meshes.GetSize(); i++)
 			{
+				if (!m_Meshes[i].Active) continue;
 				m_Meshes[i].pTexture->ActivatePs();
 				m_Meshes[i].pMesh->Activate();
 				m_Meshes[i].pMesh->Draw();
@@ -101,25 +107,34 @@ namespace MyEngine
 		}
 
 		template <typename Vertex, typename CamData>
-		void TextureRenderer<Vertex, CamData>::AddMesh(const Array<Vertex>& vertices, const Array<int>& indices, const std::wstring& texturePath)
+		int TextureRenderer<Vertex, CamData>::AddMesh(const Array<Vertex>& vertices, const Array<int>& indices, const std::wstring& texturePath)
 		{
 			Mesh* pMesh = Mesh::Create<Vertex>(vertices, indices);
 			Texture* pTexture = new Texture(texturePath);
 			m_Meshes.Add({ pMesh, pTexture });
+			return m_Meshes.GetSize() - 1;
 		}
 
 		template <typename Vertex, typename CamData>
-		void TextureRenderer<Vertex, CamData>::AddMesh(const Array<Vertex>& vertices, const std::wstring& texturePath)
+		int TextureRenderer<Vertex, CamData>::AddMesh(const Array<Vertex>& vertices, const std::wstring& texturePath)
 		{
 			Mesh* pMesh = Mesh::Create<Vertex>(vertices);
 			Texture* pTexture = new Texture(texturePath);
 			m_Meshes.Add({ pMesh, pTexture });
+			return m_Meshes.GetSize() - 1;
 		}
 
 		template <typename Vertex, typename CamData>
-		void TextureRenderer<Vertex, CamData>::AddMesh(Mesh* pMesh, Texture* pTexture)
+		int TextureRenderer<Vertex, CamData>::AddMesh(Mesh* pMesh, Texture* pTexture)
 		{
 			m_Meshes.Add({ pMesh, pTexture });
+			return m_Meshes.GetSize() - 1;
+		}
+
+		template <typename Vertex, typename CamData>
+		void TextureRenderer<Vertex, CamData>::SetActive(int id, bool active)
+		{
+			m_Meshes[id].Active = active;
 		}
 	}
 }
