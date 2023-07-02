@@ -9,6 +9,7 @@
 #include <Math/Matrices.h>
 
 #include <DataStructures/Array.h>
+#include <DataStructures/List.h>
 #include <Debug/Logger.h>
 #include <Game/Globals.h>
 #include <Game/Transform.h>
