@@ -34,6 +34,7 @@ namespace MyEngine
 			int AddRightCenter(const std::string& text, float height, const Float2& offset, const Float3& color, float spacing = 0);
 			int AddRightBot(const std::string& text, float height, const Float2& offset, const Float3& color, float spacing = 0);
 
+			Float2 GetSize(const std::string& text, float height, float spacing = 0);
 
 		private:
 			using Vertex = Rendering::V_Pos2Uv;

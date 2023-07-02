@@ -144,3 +144,8 @@ int Gui::FontRenderer::AddRightBot(const std::string& text, float height, const 
 {
 	return Add(text, { 1, -1 }, offset, height, color, spacing);
 }
+
+Float2 Gui::FontRenderer::GetSize(const std::string& text, float height, float spacing)
+{
+	return m_CharLookup.GetScreenSize(text, height);
+}
