@@ -35,6 +35,7 @@ namespace MyEngine
 			int AddRightBot(const std::string& text, float height, const Float2& offset, const Float3& color, float spacing = 0);
 
 			Float2 GetSize(const std::string& text, float height, float spacing = 0);
+			void SetColor(int id, const Float3& color);
 
 		private:
 			using Vertex = Rendering::V_Pos2Uv;

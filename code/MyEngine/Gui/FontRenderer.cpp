@@ -149,3 +149,10 @@ Float2 Gui::FontRenderer::GetSize(const std::string& text, float height, float s
 {
 	return m_CharLookup.GetScreenSize(text, height);
 }
+
+void Gui::FontRenderer::SetColor(int id, const Float3& color)
+{
+	const Entry& entry{ m_Entries.Get(id) };
+	for (int i = 0; i < entry.Characters.GetSize(); i++)
+		m_Renderer.Get(entry.Characters[i]).color = color;
+}
