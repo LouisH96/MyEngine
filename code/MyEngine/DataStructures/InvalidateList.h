@@ -42,10 +42,12 @@ namespace MyEngine
 			Data* GetEnd();
 			Data* GetData();
 
+			const Data& Get(int idx) const;
+			Data& Get(int idx);
+
 			int GetFirstIdx() const { return m_First; }
 			int GetLastIdx() const { return m_End - 1; }
 			int GetEndIdx() const { return m_End; }
-
 
 		private:
 			Data* m_pData;
@@ -274,6 +276,19 @@ namespace MyEngine
 		{
 			m_Changed = true;
 			return m_pData;
+		}
+
+		template <typename Data>
+		const Data& InvalidateList<Data>::Get(int idx) const
+		{
+			return m_pData[idx];
+		}
+
+		template <typename Data>
+		Data& InvalidateList<Data>::Get(int idx)
+		{
+			m_Changed = true;
+			return m_pData[idx];
 		}
 
 		template <typename Data>
