@@ -75,7 +75,7 @@ namespace MyEngine
 			std::stringstream ss{};
 			ss << description << "[" << array.GetSize() << "]\n";
 			for (int i = 0; i < array.GetSize(); i++)
-				ss << " [" << i << "] " << std::to_string(array[i]) << std::endl;
+				ss << " [" << i << "] " << std::to_string(array[i]);
 			Print(ss.str());
 		}
 
@@ -85,7 +85,7 @@ namespace MyEngine
 			std::stringstream ss{};
 			ss << description << "[" << array.GetSize() << "]\n";
 			for (int i = 0; i < array.GetSize(); i++)
-				ss << " [" << i << "] " << std::bitset<8 * sizeof(T)>(array[i]) << std::endl;
+				ss << " [" << i << "] " << std::bitset<8 * sizeof(T)>(array[i]);
 			Print(ss.str());
 		}
 
@@ -95,7 +95,7 @@ namespace MyEngine
 			std::stringstream ss{};
 			ss << description << "[" << vector.GetSize() << "]\n";
 			for (int i = 0; i < vector.GetSize(); i++)
-				ss << " [" << i << "] " << std::to_string(vector[i]) << std::endl;
+				ss << " [" << i << "] " << std::to_string(vector[i]);
 			Print(ss.str());
 		}
 
@@ -103,7 +103,7 @@ namespace MyEngine
 		void Logger::Print(const std::string& description, const T& value)
 		{
 			std::stringstream ss{};
-			ss << description << ": " << ToString::Convert(value) << std::endl;
+			ss << description << ": " << ToString::Convert(value);
 			Print(ss.str());
 		}
 
@@ -111,7 +111,7 @@ namespace MyEngine
 		void Logger::PrintToString(const std::string& description, const T& value)
 		{
 			std::stringstream ss{};
-			ss << description << ": " << ToString::Convert(value) << std::endl;
+			ss << description << ": " << ToString::Convert(value);
 			Print(ss.str());
 		}
 	}
