@@ -39,6 +39,9 @@ namespace MyEngine
 			void SetWidth(const T& width) { m_Size.x = width; }
 			void SetHeight(const T& height) { m_Size.y = height; }
 
+			void SetRightUsePos(const T& right);
+			void SetTopUsePos(const T& top);
+
 			void Expand(const Vector4<T>& expand); //left, up, right, bot
 			Rect Expanded(const Vector4<T>& expand) const; //left, up, right, bot
 			void Compress(const Vector4<T>& compress); //left, up, right, bot
@@ -51,6 +54,8 @@ namespace MyEngine
 
 			Rect ClampedPos(const Rect& rect) const;
 			void ClampPos(Rect& rect) const;
+
+			bool IsFullyInside(const Rect& outer) const;
 
 			static Rect Bounds(const Vector2<T>* pData, unsigned count);
 
@@ -72,6 +77,18 @@ namespace MyEngine
 
 		template<typename T> T Rect<T>::GetTopInv() const { return m_LeftBot.y - m_Size.y; }
 		template<typename T> T Rect<T>::GetRightInv() const { return m_LeftBot.x - m_Size.x; }
+
+		template <typename T>
+		void Rect<T>::SetRightUsePos(const T& right)
+		{
+			m_LeftBot.x = right - GetWidth();
+		}
+
+		template <typename T>
+		void Rect<T>::SetTopUsePos(const T& top)
+		{
+			m_LeftBot.y = top - GetHeight();
+		}
 
 		template <typename T>
 		void Rect<T>::Expand(const Vector4<T>& expand)
@@ -151,6 +168,15 @@ namespace MyEngine
 		{
 			rect.m_LeftBot.x = Scalar<T>::Clamp(rect.m_LeftBot.x, m_LeftBot.x, m_LeftBot.x + m_Size.x - rect.m_Size.x - 1);
 			rect.m_LeftBot.y = Scalar<T>::Clamp(rect.m_LeftBot.y, m_LeftBot.y, m_LeftBot.y + m_Size.y - rect.m_Size.y - 1);
+		}
+
+		template <typename T>
+		bool Rect<T>::IsFullyInside(const Rect& outer) const
+		{
+			return m_LeftBot.x >= outer.m_LeftBot.x
+				&& m_LeftBot.y >= outer.m_LeftBot.y
+				&& GetRight() <= outer.GetRight()
+				&& GetTop() <= outer.GetTop();
 		}
 
 		template <typename T>
