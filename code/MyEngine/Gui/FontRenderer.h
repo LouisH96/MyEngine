@@ -37,6 +37,8 @@ namespace MyEngine
 			Float2 GetSize(const std::string& text, float height, float spacing = 0);
 			void SetColor(int id, const Float3& color);
 
+			Float2 GetBiggestSize(const std::string* pText, unsigned count, float height, float spacing = 0);
+
 		private:
 			using Vertex = Rendering::V_Pos2Uv;
 			using Instance = Rendering::I_Pos2UvCol;

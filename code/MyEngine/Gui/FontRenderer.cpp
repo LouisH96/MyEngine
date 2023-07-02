@@ -156,3 +156,15 @@ void Gui::FontRenderer::SetColor(int id, const Float3& color)
 	for (int i = 0; i < entry.Characters.GetSize(); i++)
 		m_Renderer.Get(entry.Characters[i]).color = color;
 }
+
+Float2 Gui::FontRenderer::GetBiggestSize(const std::string* pText, unsigned count, float height, float spacing)
+{
+	Float2 biggest{};
+	for (unsigned i = 0; i < count; i++)
+	{
+		const Float2 size{ GetSize(pText[i], height, spacing) };
+		if (size.x > biggest.x) biggest.x = size.x;
+		if (size.y > biggest.y) biggest.y = size.y;
+	}
+	return biggest;
+}
