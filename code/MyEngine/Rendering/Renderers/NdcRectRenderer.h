@@ -73,7 +73,7 @@ namespace MyEngine
 			Instance* pInstance{ m_Instances.GetFirst() };
 			for (int i = 0; i < m_Instances.GetCount(); i++, pInstance++)
 			{
-				if (!Instance::IsValid(*pInstance)) continue;
+				if (!pInstance->IsValid()) continue;
 				Gui::NdcUtils::Resize(scale, m_Pivots[i], pInstance->GetCenter(), pInstance->GetSize());
 			}
 		}
@@ -165,7 +165,7 @@ namespace MyEngine
 		template <typename Vertex, typename Instance>
 		bool NdcRectRenderer<Vertex, Instance>::IsEmpty(const Instance& instance)
 		{
-			return !Instance::IsValid(instance);
+			return !instance.IsValid();
 		}
 
 		template <typename Vertex, typename Instance>

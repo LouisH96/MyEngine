@@ -47,8 +47,8 @@ namespace MyEngine
 				bool Active{ false };
 				List<int> Characters{};
 
-				static bool IsValid(const Entry& entry) { return entry.Active; }
-				static void Invalidate(Entry& entry) { entry.Active = false; }
+				bool IsValid() const { return Active; }
+				void Invalidate() { Active = false; }
 			};
 
 			Rendering::NdcRectRenderer<Vertex, Instance> m_Renderer;

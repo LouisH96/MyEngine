@@ -207,7 +207,7 @@ namespace MyEngine
 				Logger::PrintError("[InvalidateList::Remove] idx is equal or bigger than end");
 #endif
 			m_Changed = true;
-			Data::Invalidate(m_pData[idx]);
+			m_pData[idx].Invalidate();
 
 			if (m_End - m_First == 1)
 			{
@@ -301,7 +301,7 @@ namespace MyEngine
 		template <typename Data>
 		bool InvalidateList<Data>::IsEmpty(int idx) const
 		{
-			return !Data::IsValid(m_pData[idx]);
+			return !m_pData[idx].IsValid();
 		}
 
 		template <typename Data>

@@ -14,8 +14,8 @@ namespace MyEngine
 			static const InputLayout::Element ELEMENTS[];
 			static const int NR_ELEMENTS;
 
-			static bool IsValid(const I_Pos2Col& inst);
-			static void Invalidate(I_Pos2Col& inst);
+			bool IsValid() const;
+			void Invalidate();
 
 			Float2& GetCenter() { return offset; }
 			Float2& GetSize() { return size; }
@@ -35,8 +35,8 @@ namespace MyEngine
 			static const InputLayout::Element ELEMENTS[];
 			static constexpr int NR_ELEMENTS = 5;
 
-			static bool IsValid(const I_Pos2UvCol& inst);
-			static void Invalidate(I_Pos2UvCol& inst);
+			bool IsValid() const;
+			void Invalidate();
 
 			Float2& GetCenter() { return posOffset; }
 			Float2& GetSize() { return posScale; }

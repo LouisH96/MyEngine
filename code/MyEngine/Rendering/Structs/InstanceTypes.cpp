@@ -9,14 +9,14 @@ const Rendering::InputLayout::Element Rendering::I_Pos2Col::ELEMENTS[] =
 };
 const int Rendering::I_Pos2Col::NR_ELEMENTS = sizeof ELEMENTS / sizeof(InputLayout::Element);
 
-bool Rendering::I_Pos2Col::IsValid(const I_Pos2Col& inst)
+bool Rendering::I_Pos2Col::IsValid() const
 {
-	return inst.size.x != 0;
+	return size.x != 0;
 }
 
-void Rendering::I_Pos2Col::Invalidate(I_Pos2Col& inst)
+void Rendering::I_Pos2Col::Invalidate()
 {
-	inst.size = 0;
+	size = 0;
 }
 
 const Rendering::InputLayout::Element Rendering::I_Pos2UvCol::ELEMENTS[] =
@@ -28,14 +28,14 @@ const Rendering::InputLayout::Element Rendering::I_Pos2UvCol::ELEMENTS[] =
 	{"INST_COLOR", InputLayout::ElementType::Float3, 1, InputLayout::SlotClass::PerInstance}
 };
 
-bool Rendering::I_Pos2UvCol::IsValid(const I_Pos2UvCol& inst)
+bool Rendering::I_Pos2UvCol::IsValid() const
 {
-	return inst.posScale.x != 0;
+	return posScale.x != 0;
 }
 
-void Rendering::I_Pos2UvCol::Invalidate(I_Pos2UvCol& inst)
+void Rendering::I_Pos2UvCol::Invalidate()
 {
-	inst.posScale.x = 0;
+	posScale.x = 0;
 }
 
 const Rendering::InputLayout::Element Rendering::I_ModelMatrices::ELEMENTS[] =
