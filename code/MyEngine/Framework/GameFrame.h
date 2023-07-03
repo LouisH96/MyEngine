@@ -5,6 +5,7 @@
 #include "Debug/Rendering/DebugRenderer.h"
 #include "Game/Camera/Camera.h"
 #include "Gui/FontRenderer.h"
+#include "Gui/GuiRenderer.h"
 #include "Rendering/Canvas.h"
 #include "Rendering/FpsDisplay.h"
 #include "Rendering/Gpu.h"
@@ -44,6 +45,7 @@ namespace MyEngine
 
 			//RENDERING
 			DebugRenderer::Init();
+			Globals::pGuiRenderer = new Gui::GuiRenderer();
 			Globals::pFontRenderer = new Gui::FontRenderer();
 
 			//GAME
@@ -62,6 +64,7 @@ namespace MyEngine
 					const ResizedEvent resizedEvent{ canvas.OnWindowResized(window.GetClientSize()) };
 					camera.OnCanvasResized(resizedEvent);
 					app.OnCanvasResized(resizedEvent);
+					Globals::pGuiRenderer->OnCanvasResized(resizedEvent);
 					Globals::pFontRenderer->OnCanvasResized(resizedEvent);
 				}
 
@@ -73,12 +76,14 @@ namespace MyEngine
 				//RENDER
 				canvas.BeginPaint();
 				app.Render();
+				Globals::pGuiRenderer->Render();
 				Globals::pFontRenderer->Render();
 				fpsDisplay.Render();
 				DebugRenderer::Render();
 				canvas.Present();
 			}
 
+			delete Globals::pGuiRenderer;
 			delete Globals::pFontRenderer;
 			DebugRenderer::Release();
 		}

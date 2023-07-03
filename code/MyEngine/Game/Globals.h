@@ -4,6 +4,7 @@ namespace MyEngine
 {
 	namespace Gui
 	{
+		class GuiRenderer;
 		class FontRenderer;
 	}
 
@@ -42,6 +43,7 @@ namespace MyEngine
 		static const Rendering::Canvas* pCanvas;
 		static Game::Camera* pCamera;
 
+		static Gui::GuiRenderer* pGuiRenderer;
 		static Gui::FontRenderer* pFontRenderer;
 	};
 }
