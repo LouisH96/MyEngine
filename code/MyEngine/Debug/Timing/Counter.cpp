@@ -23,11 +23,11 @@ void Timing::Counter::End(const std::string& name) const
 
 	const double nrMillis = App::Time::ToMilliseconds(dur);
 	if (nrMillis < 0)
-		ss << dur.count() << " ticks\n";
+		ss << dur.count() << " ticks";
 	else if (nrMillis < 1000)
-		ss << nrMillis << " milliseconds\n";
+		ss << nrMillis << " milliseconds";
 	else
-		ss << App::Time::ToSeconds(dur) << " seconds\n";
+		ss << App::Time::ToSeconds(dur) << " seconds";
 
 	Logger::Print(ss.str());
 }
