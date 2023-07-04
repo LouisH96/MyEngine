@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Io\Ascii\AsciiWriter.cpp" />
+    <ClCompile Include="Io\Binary\BigBinReader.cpp" />
+    <ClCompile Include="Io\Binary\BitStream.cpp" />
+    <ClCompile Include="Io\Binary\DeflateDecompress.cpp" />
+    <ClCompile Include="Io\Binary\LittleEndianReader.cpp" />
+    <ClCompile Include="Io\Fbx\FbxAnimation.cpp" />
+    <ClCompile Include="Io\Fbx\FbxAnimationLayer.cpp" />
+    <ClCompile Include="Io\Fbx\FbxClass.cpp" />
+    <ClCompile Include="Io\Fbx\FbxJoint.cpp" />
+    <ClCompile Include="Io\Fbx\FbxSkeleton.cpp" />
+    <ClCompile Include="Io\Fbx\FbxTransformCurve.cpp" />
+    <ClCompile Include="Io\Fbx\Reading\FbxObject.cpp" />
+    <ClCompile Include="Io\Fbx\Reading\FbxProperty.cpp" />
+    <ClCompile Include="Io\Fbx\Reading\FbxReader.cpp" />
+    <ClCompile Include="Io\Fbx\Reading\Properties70.cpp" />
+    <ClCompile Include="Io\Fbx\Reading\Properties\FbxPropRaw.cpp" />
+    <ClCompile Include="Io\Fbx\Reading\Properties\FbxPropString.cpp" />
+    <ClCompile Include="Io\Fbx\Wrapping\AnimationCurve.cpp" />
+    <ClCompile Include="Io\Fbx\Wrapping\AnimationCurveNode.cpp" />
+    <ClCompile Include="Io\Fbx\Wrapping\AnimationLayer.cpp" />
+    <ClCompile Include="Io\Fbx\Wrapping\AnimationStack.cpp" />
+    <ClCompile Include="Io\Fbx\Wrapping\CollectionExclusive.cpp" />
+    <ClCompile Include="Io\Fbx\Wrapping\Connection.cpp" />
+    <ClCompile Include="Io\Fbx\Wrapping\Deformer.cpp" />
+    <ClCompile Include="Io\Fbx\Wrapping\FbxData.cpp" />
+    <ClCompile Include="Io\Fbx\Wrapping\FbxWrapMaterial.cpp" />
+    <ClCompile Include="Io\Fbx\Wrapping\FbxWrapTexture.cpp" />
+    <ClCompile Include="Io\Fbx\Wrapping\Geometry.cpp" />
+    <ClCompile Include="Io\Fbx\Wrapping\Model.cpp" />
+    <ClCompile Include="Io\Fbx\Wrapping\NodeAttribute.cpp" />
+    <ClCompile Include="Io\Fbx\Wrapping\Pose.cpp" />
+    <ClCompile Include="Io\Fbx\Wrapping\Video.cpp" />
+    <ClCompile Include="Io\Json\JsonArray.cpp" />
+    <ClCompile Include="Io\Json\JsonElement.cpp" />
+    <ClCompile Include="Io\Json\JsonNull.cpp" />
+    <ClCompile Include="Io\Json\JsonNumber.cpp" />
+    <ClCompile Include="Io\Json\JsonObject.cpp" />
+    <ClCompile Include="Io\Json\JsonString.cpp" />
+    <ClCompile Include="Io\Json\Streaming\JsonStreaming.cpp" />
+    <ClCompile Include="Io\Ttf\CMapTable.cpp" />
+    <ClCompile Include="Io\Ttf\Contour.cpp" />
+    <ClCompile Include="Io\Ttf\ContourOperations.cpp" />
+    <ClCompile Include="Io\Ttf\FontRasterizer.cpp" />
+    <ClCompile Include="Io\Ttf\GlyfTable.cpp" />
+    <ClCompile Include="Io\Ttf\Glyph.cpp" />
+    <ClCompile Include="Io\Ttf\HeadTable.cpp" />
+    <ClCompile Include="Io\Ttf\Intersection.cpp" />
+    <ClCompile Include="Io\Ttf\LocaTable.cpp" />
+    <ClCompile Include="Io\Ttf\OffsetSubTable.cpp" />
+    <ClCompile Include="Io\Ttf\Segment.cpp" />
+    <ClCompile Include="Io\Ttf\TableDirectory.cpp" />
+    <ClCompile Include="Io\Ttf\TtfReader.cpp" />
+    <ClCompile Include="Io\Zlib\ZlibDecompress.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Io\Ascii\AsciiWriter.h" />
+    <ClInclude Include="Io\Binary\BigBinReader.h" />
+    <ClInclude Include="Io\Binary\BitStream.h" />
+    <ClInclude Include="Io\Binary\DeflateDecompress.h" />
+    <ClInclude Include="Io\Binary\Huffman.h" />
+    <ClInclude Include="Io\Binary\LittleEndianReader.h" />
+    <ClInclude Include="Io\Fbx\FbxAnimation.h" />
+    <ClInclude Include="Io\Fbx\FbxAnimationLayer.h" />
+    <ClInclude Include="Io\Fbx\FbxClass.h" />
+    <ClInclude Include="Io\Fbx\FbxJoint.h" />
+    <ClInclude Include="Io\Fbx\FbxSkeleton.h" />
+    <ClInclude Include="Io\Fbx\FbxTransformCurve.h" />
+    <ClInclude Include="Io\Fbx\FbxValueCurve.h" />
+    <ClInclude Include="Io\Fbx\Reading\FbxObject.h" />
+    <ClInclude Include="Io\Fbx\Reading\FbxProperty.h" />
+    <ClInclude Include="Io\Fbx\Reading\FbxReader.h" />
+    <ClInclude Include="Io\Fbx\Reading\Properties70.h" />
+    <ClInclude Include="Io\Fbx\Reading\Properties\FbxPropArray.h" />
+    <ClInclude Include="Io\Fbx\Reading\Properties\FbxPropPrimitive.h" />
+    <ClInclude Include="Io\Fbx\Reading\Properties\FbxPropRaw.h" />
+    <ClInclude Include="Io\Fbx\Reading\Properties\FbxPropString.h" />
+    <ClInclude Include="Io\Fbx\Wrapping\AnimationCurve.h" />
+    <ClInclude Include="Io\Fbx\Wrapping\AnimationCurveNode.h" />
+    <ClInclude Include="Io\Fbx\Wrapping\AnimationLayer.h" />
+    <ClInclude Include="Io\Fbx\Wrapping\AnimationStack.h" />
+    <ClInclude Include="Io\Fbx\Wrapping\CollectionExclusive.h" />
+    <ClInclude Include="Io\Fbx\Wrapping\Connection.h" />
+    <ClInclude Include="Io\Fbx\Wrapping\Deformer.h" />
+    <ClInclude Include="Io\Fbx\Wrapping\FbxData.h" />
+    <ClInclude Include="Io\Fbx\Wrapping\FbxWrapMaterial.h" />
+    <ClInclude Include="Io\Fbx\Wrapping\FbxWrapTexture.h" />
+    <ClInclude Include="Io\Fbx\Wrapping\Geometry.h" />
+    <ClInclude Include="Io\Fbx\Wrapping\Model.h" />
+    <ClInclude Include="Io\Fbx\Wrapping\NodeAttribute.h" />
+    <ClInclude Include="Io\Fbx\Wrapping\Pose.h" />
+    <ClInclude Include="Io\Fbx\Wrapping\Video.h" />
+    <ClInclude Include="Io\Json\ElementType.h" />
+    <ClInclude Include="Io\Json\JsonArray.h" />
+    <ClInclude Include="Io\Json\JsonElement.h" />
+    <ClInclude Include="Io\Json\JsonNull.h" />
+    <ClInclude Include="Io\Json\JsonNumber.h" />
+    <ClInclude Include="Io\Json\JsonObject.h" />
+    <ClInclude Include="Io\Json\JsonString.h" />
+    <ClInclude Include="Io\Json\Streaming\JsonStreaming.h" />
+    <ClInclude Include="Io\Ttf\CMapTable.h" />
+    <ClInclude Include="Io\Ttf\Contour.h" />
+    <ClInclude Include="Io\Ttf\ContourOperations.h" />
+    <ClInclude Include="Io\Ttf\FontRasterizer.h" />
+    <ClInclude Include="Io\Ttf\GlyfTable.h" />
+    <ClInclude Include="Io\Ttf\Glyph.h" />
+    <ClInclude Include="Io\Ttf\HeadTable.h" />
+    <ClInclude Include="Io\Ttf\Intersection.h" />
+    <ClInclude Include="Io\Ttf\LocaTable.h" />
+    <ClInclude Include="Io\Ttf\OffsetSubTable.h" />
+    <ClInclude Include="Io\Ttf\Segment.h" />
+    <ClInclude Include="Io\Ttf\TableDirectory.h" />
+    <ClInclude Include="Io\Ttf\TtfPoint.h" />
+    <ClInclude Include="Io\Ttf\TtfReader.h" />
+    <ClInclude Include="Io\Zlib\ZlibDecompress.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{48bcbfb2-6b16-416f-b5c6-1935e47b2176}</ProjectGuid>
+    <RootNamespace>MyFiles</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)output\build\$(ProjectName)\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)output\temp\$(ProjectName)\$(Configuration)\$(Platform)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)output\build\$(ProjectName)\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)output\temp\$(ProjectName)\$(Configuration)\$(Platform)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\MyBasics;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>MyBasics.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\output\build\MyBasics\$(Configuration)\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\MyBasics;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>MyBasics.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\output\build\MyBasics\$(Configuration)\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

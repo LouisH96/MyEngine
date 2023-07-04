@@ -147,6 +147,7 @@
     <ClInclude Include="DataStructures\PtrRangeConst.h" />
     <ClInclude Include="DataStructures\SortedArray.h" />
     <ClInclude Include="DataStructures\SortedList.h" />
+    <ClInclude Include="Image.h" />
     <ClInclude Include="Logger\Logger.h" />
     <ClInclude Include="Logger\ToString.h" />
     <ClInclude Include="Math\Constants.h" />
@@ -159,10 +160,15 @@
     <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="Math\Vector4.h" />
     <ClInclude Include="Math\Vectors.h" />
+    <ClInclude Include="Transform.h" />
+    <ClInclude Include="WorldMatrix.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Image.cpp" />
     <ClCompile Include="Logger\Logger.cpp" />
     <ClCompile Include="Math\Quaternion.cpp" />
+    <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="WorldMatrix.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

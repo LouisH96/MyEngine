@@ -2,7 +2,7 @@
 #include "FontAtlasLookup.h"
 
 #include "FontAtlas.h"
-#include "Rendering/Image.h"
+#include "Image.h"
 
 Rendering::FontAtlasLookup::FontAtlasLookup(Font::FontAtlas&& fontAtlas)
 	: m_Positions{ std::move(fontAtlas.GetCharacterHorPos()) }

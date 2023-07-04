@@ -1,4 +1,5 @@
 #pragma once
+#include "Array.h"
 #include "SortedList.h"
 
 namespace MyEngine

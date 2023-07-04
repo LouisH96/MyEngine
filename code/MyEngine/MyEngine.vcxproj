@@ -24,80 +24,32 @@
     <ClCompile Include="Rendering\State\DepthStencilState.cpp" />
     <ClCompile Include="Generation\PlaneGeneration.cpp" />
     <ClCompile Include="Rendering\Font\FontAtlas.cpp" />
-    <ClCompile Include="Io\Fbx\FbxAnimation.cpp" />
-    <ClCompile Include="Io\Fbx\FbxAnimationLayer.cpp" />
     <ClCompile Include="Gui\GuiRenderer.cpp" />
     <ClCompile Include="Rendering\State\PrimitiveTopology.cpp" />
     <ClCompile Include="Rendering\DrawData\InstanceArray.cpp" />
-    <ClCompile Include="Io\Fbx\Wrapping\CollectionExclusive.cpp" />
-    <ClCompile Include="Io\Fbx\Wrapping\FbxWrapMaterial.cpp" />
-    <ClCompile Include="Io\Fbx\Wrapping\Deformer.cpp" />
-    <ClCompile Include="Io\Fbx\Wrapping\AnimationCurve.cpp" />
-    <ClCompile Include="Io\Fbx\Wrapping\AnimationCurveNode.cpp" />
-    <ClCompile Include="Io\Fbx\Wrapping\AnimationLayer.cpp" />
-    <ClCompile Include="Io\Fbx\Wrapping\AnimationStack.cpp" />
     <ClCompile Include="App\FpsControl.cpp" />
-    <ClCompile Include="Io\Fbx\Wrapping\Connection.cpp" />
-    <ClCompile Include="Io\Fbx\Wrapping\NodeAttribute.cpp" />
-    <ClCompile Include="Io\Fbx\FbxJoint.cpp" />
     <ClCompile Include="Physics\CollisionDetection.cpp" />
     <ClCompile Include="Game\Camera\FpsCameraController.cpp" />
     <ClCompile Include="Game\Camera\Camera.cpp" />
-    <ClCompile Include="Io\Ascii\AsciiWriter.cpp" />
     <ClCompile Include="Framework\CppFramework.cpp" />
     <ClCompile Include="App\Time.cpp" />
-    <ClCompile Include="Io\Fbx\Wrapping\Pose.cpp" />
     <ClCompile Include="Rendering\Renderers\R_LambertCam_Tex_Transform.cpp" />
     <ClCompile Include="Rendering\Renderers\R_LambertCam_Tex.cpp" />
     <ClCompile Include="Rendering\Renderers\R_LambertLight_Tex.cpp" />
     <ClCompile Include="Rendering\Renderers\R_LambertLight_Col.cpp" />
     <ClCompile Include="Rendering\Renderers\R_LambertCam_Tex_Tran_Inst.cpp" />
     <ClCompile Include="Geometry\Shapes\Capsule.cpp" />
-    <ClCompile Include="Io\Fbx\Reading\Properties70.cpp" />
-    <ClCompile Include="Io\Fbx\Wrapping\Geometry.cpp" />
-    <ClCompile Include="Io\Fbx\Wrapping\Model.cpp" />
     <ClCompile Include="Rendering\FpsDisplay.cpp" />
-    <ClCompile Include="Io\Ttf\Intersection.cpp" />
-    <ClCompile Include="Io\Ttf\FontRasterizer.cpp" />
-    <ClCompile Include="Io\Ttf\Contour.cpp" />
-    <ClCompile Include="Io\Ttf\Glyph.cpp" />
-    <ClCompile Include="Rendering\Image.cpp" />
-    <ClCompile Include="Io\Ttf\ContourOperations.cpp" />
-    <ClCompile Include="Io\Ttf\GlyfTable.cpp" />
-    <ClCompile Include="Io\Ttf\HeadTable.cpp" />
-    <ClCompile Include="Io\Ttf\CMapTable.cpp" />
-    <ClCompile Include="Io\Binary\BigBinReader.cpp" />
     <ClCompile Include="Generation\Shapes\ArrowGenerator.cpp" />
-    <ClCompile Include="Io\Ttf\OffsetSubTable.cpp" />
-    <ClCompile Include="Io\Ttf\LocaTable.cpp" />
     <ClCompile Include="Rendering\Gpu.cpp" />
     <ClCompile Include="Rendering\Canvas.cpp" />
     <ClCompile Include="Rendering\State\BlendState.cpp" />
     <ClCompile Include="Rendering\State\Mesh.cpp" />
     <ClCompile Include="Rendering\State\Shader.cpp" />
     <ClCompile Include="Debug\Rendering\DebugRenderer.cpp" />
-    <ClCompile Include="Io\Fbx\FbxClass.cpp" />
     <ClCompile Include="Rendering\Structs\ConstantBufferTypes.cpp" />
-    <ClCompile Include="Io\Fbx\Wrapping\FbxData.cpp" />
     <ClCompile Include="Generation\MeshUtils.cpp" />
     <ClCompile Include="Rendering\Renderers\RendererFactory.cpp" />
-    <ClCompile Include="Io\Binary\Huffman.cpp" />
-    <ClCompile Include="Io\Binary\DeflateDecompress.cpp" />
-    <ClCompile Include="Io\Binary\BitStream.cpp" />
-    <ClCompile Include="Io\Fbx\Reading\Properties\FbxPropRaw.cpp" />
-    <ClCompile Include="Io\Fbx\Reading\Properties\FbxPropString.cpp" />
-    <ClCompile Include="Io\Fbx\Reading\FbxProperty.cpp" />
-    <ClCompile Include="Io\Fbx\Reading\FbxObject.cpp" />
-    <ClCompile Include="Io\Binary\LittleEndianReader.cpp" />
-    <ClCompile Include="Io\Fbx\Reading\FbxReader.cpp" />
-    <ClCompile Include="Io\Json\Streaming\JsonStreaming.cpp" />
-    <ClCompile Include="Io\Zlib\ZlibDecompress.cpp" />
-    <ClCompile Include="Io\Json\JsonElement.cpp" />
-    <ClCompile Include="Io\Json\JsonObject.cpp" />
-    <ClCompile Include="Io\Json\JsonArray.cpp" />
-    <ClCompile Include="Io\Json\JsonString.cpp" />
-    <ClCompile Include="Io\Json\JsonNumber.cpp" />
-    <ClCompile Include="Io\Json\JsonNull.cpp" />
     <ClCompile Include="Game\Camera\OrbitCamera.cpp" />
     <ClCompile Include="Game\Globals.cpp" />
     <ClCompile Include="Rendering\Dx\DxHelper.cpp" />
@@ -121,17 +73,8 @@
     <ClCompile Include="Rendering\State\SamplerState.cpp" />
     <ClCompile Include="Rendering\State\Texture.cpp" />
     <ClCompile Include="Rendering\Structs\VertexTypes.cpp" />
-    <ClCompile Include="Io\Ttf\TableDirectory.cpp" />
-    <ClCompile Include="Io\Ttf\TtfReader.cpp" />
-    <ClCompile Include="Io\Ttf\Segment.cpp" />
-    <ClCompile Include="Game\Transform.cpp" />
-    <ClCompile Include="Io\Fbx\Wrapping\FbxWrapTexture.cpp" />
-    <ClCompile Include="Io\Fbx\Wrapping\Video.cpp" />
-    <ClCompile Include="Io\Fbx\FbxSkeleton.cpp" />
-    <ClCompile Include="Io\Fbx\FbxTransformCurve.cpp" />
     <ClCompile Include="Rendering\DrawData\VertexArray.cpp" />
     <ClCompile Include="Rendering\Renderers\Texture2DRenderer.cpp" />
-    <ClCompile Include="Game\WorldMatrix.cpp" />
     <ClCompile Include="Rendering\DrawData\VertexIdxArray.cpp" />
     <ClCompile Include="Gui\FontRenderer.cpp" />
   </ItemGroup>
@@ -161,27 +104,13 @@
     <ClInclude Include="Generation\PlaneGeneration.h" />
     <ClInclude Include="Rendering\DrawData\InstanceList.h" />
     <ClInclude Include="Rendering\Font\FontAtlas.h" />
-    <ClInclude Include="Io\Fbx\FbxAnimation.h" />
-    <ClInclude Include="Io\Fbx\FbxAnimationLayer.h" />
     <ClInclude Include="Gui\GuiRenderer.h" />
     <ClInclude Include="Rendering\State\PrimitiveTopology.h" />
     <ClInclude Include="Rendering\DrawData\InstanceArray.h" />
-    <ClInclude Include="Io\Fbx\Wrapping\CollectionExclusive.h" />
-    <ClInclude Include="Io\Fbx\Wrapping\FbxWrapMaterial.h" />
-    <ClInclude Include="Io\Fbx\Wrapping\Deformer.h" />
-    <ClInclude Include="Io\Fbx\Wrapping\AnimationCurve.h" />
-    <ClInclude Include="Io\Fbx\Wrapping\AnimationCurveNode.h" />
-    <ClInclude Include="Io\Fbx\Wrapping\AnimationLayer.h" />
-    <ClInclude Include="Io\Fbx\Wrapping\AnimationStack.h" />
-    <ClInclude Include="Io\Fbx\Wrapping\Connection.h" />
-    <ClInclude Include="Io\Fbx\FbxJoint.h" />
-    <ClInclude Include="Io\Fbx\Wrapping\NodeAttribute.h" />
     <ClInclude Include="Physics\CollisionDetection.h" />
     <ClInclude Include="Game\Camera\FpsCameraController.h" />
     <ClInclude Include="Game\Camera\Camera.h" />
-    <ClInclude Include="Io\Ascii\AsciiWriter.h" />
     <ClInclude Include="Framework\CppFramework.h" />
-    <ClInclude Include="Io\Fbx\Wrapping\Pose.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertCam_Tex_Transform.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertCam_Tex.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertLight_Tex.h" />
@@ -189,23 +118,8 @@
     <ClInclude Include="Rendering\DrawData\IDrawData.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertCam_Tex_Tran_Inst.h" />
     <ClInclude Include="Geometry\Shapes\Capsule.h" />
-    <ClInclude Include="Io\Fbx\Reading\Properties70.h" />
-    <ClInclude Include="Io\Fbx\Wrapping\Geometry.h" />
-    <ClInclude Include="Io\Fbx\Wrapping\Model.h" />
     <ClInclude Include="Rendering\FpsDisplay.h" />
-    <ClInclude Include="Io\Ttf\Intersection.h" />
-    <ClInclude Include="Io\Ttf\FontRasterizer.h" />
-    <ClInclude Include="Io\Ttf\Contour.h" />
-    <ClInclude Include="Io\Ttf\Glyph.h" />
-    <ClInclude Include="Rendering\Image.h" />
-    <ClInclude Include="Io\Ttf\ContourOperations.h" />
-    <ClInclude Include="Io\Ttf\GlyfTable.h" />
-    <ClInclude Include="Io\Ttf\HeadTable.h" />
-    <ClInclude Include="Io\Ttf\CMapTable.h" />
-    <ClInclude Include="Io\Binary\BigBinReader.h" />
     <ClInclude Include="Generation\Shapes\ArrowGenerator.h" />
-    <ClInclude Include="Io\Ttf\OffsetSubTable.h" />
-    <ClInclude Include="Io\Ttf\LocaTable.h" />
     <ClInclude Include="Rendering\State\Shader.h" />
     <ClInclude Include="Rendering\State\Mesh.h" />
     <ClInclude Include="Rendering\Gpu.h" />
@@ -214,31 +128,10 @@
     <ClInclude Include="Rendering\State\ConstantBuffer.h" />
     <ClInclude Include="Rendering\State\BlendState.h" />
     <ClInclude Include="Debug\Rendering\DebugRenderer.h" />
-    <ClInclude Include="Io\Fbx\FbxClass.h" />
     <ClInclude Include="Rendering\Structs\ConstantBufferTypes.h" />
-    <ClInclude Include="Io\Fbx\Wrapping\FbxData.h" />
     <ClInclude Include="Generation\MeshUtils.h" />
     <ClInclude Include="Rendering\Renderers\RendererFactory.h" />
     <ClInclude Include="Rendering\Renderers\BasicRenderer.h" />
-    <ClInclude Include="Io\Binary\Huffman.h" />
-    <ClInclude Include="Io\Binary\DeflateDecompress.h" />
-    <ClInclude Include="Io\Binary\BitStream.h" />
-    <ClInclude Include="Io\Fbx\Reading\Properties\FbxPropArray.h" />
-    <ClInclude Include="Io\Fbx\Reading\Properties\FbxPropPrimitive.h" />
-    <ClInclude Include="Io\Fbx\Reading\Properties\FbxPropRaw.h" />
-    <ClInclude Include="Io\Fbx\Reading\Properties\FbxPropString.h" />
-    <ClInclude Include="Io\Fbx\Reading\FbxProperty.h" />
-    <ClInclude Include="Io\Fbx\Reading\FbxObject.h" />
-    <ClInclude Include="Io\Binary\LittleEndianReader.h" />
-    <ClInclude Include="Io\Fbx\Reading\FbxReader.h" />
-    <ClInclude Include="Io\Json\Streaming\JsonStreaming.h" />
-    <ClInclude Include="Io\Json\ElementType.h" />
-    <ClInclude Include="Io\Json\JsonElement.h" />
-    <ClInclude Include="Io\Json\JsonObject.h" />
-    <ClInclude Include="Io\Json\JsonArray.h" />
-    <ClInclude Include="Io\Json\JsonString.h" />
-    <ClInclude Include="Io\Json\JsonNumber.h" />
-    <ClInclude Include="Io\Json\JsonNull.h" />
     <ClInclude Include="Game\Globals.h" />
     <ClInclude Include="Game\Camera\OrbitCamera.h" />
     <ClInclude Include="App\FpsControl.h" />
@@ -261,25 +154,13 @@
     <ClInclude Include="Generation\Shapes.h" />
     <ClInclude Include="Geometry\Shapes\Sphere.h" />
     <ClInclude Include="Debug\Timing\Counter.h" />
-    <ClInclude Include="Io\Zlib\ZlibDecompress.h" />
     <ClInclude Include="Rendering\Renderers\TextureRenderer.h" />
     <ClInclude Include="Rendering\State\SamplerState.h" />
     <ClInclude Include="Rendering\State\Texture.h" />
     <ClInclude Include="Rendering\Structs\VertexTypes.h" />
-    <ClInclude Include="Io\Ttf\TableDirectory.h" />
-    <ClInclude Include="Io\Ttf\TtfReader.h" />
-    <ClInclude Include="Io\Ttf\TtfPoint.h" />
-    <ClInclude Include="Io\Ttf\Segment.h" />
-    <ClInclude Include="Game\Transform.h" />
-    <ClInclude Include="Io\Fbx\Wrapping\FbxWrapTexture.h" />
-    <ClInclude Include="Io\Fbx\Wrapping\Video.h" />
-    <ClInclude Include="Io\Fbx\FbxSkeleton.h" />
-    <ClInclude Include="Io\Fbx\FbxValueCurve.h" />
-    <ClInclude Include="Io\Fbx\FbxTransformCurve.h" />
     <ClInclude Include="Rendering\DrawData\VertexArray.h" />
     <ClInclude Include="Rendering\DrawData\VertexList.h" />
     <ClInclude Include="Rendering\Renderers\Texture2DRenderer.h" />
-    <ClInclude Include="Game\WorldMatrix.h" />
     <ClInclude Include="Rendering\DrawData\VertexIdxArray.h" />
     <ClInclude Include="Rendering\DrawData\VertexIdxList.h" />
     <ClInclude Include="Gui\FontRenderer.h" />
@@ -342,7 +223,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\MyBasics\;$(ProjectDir);$(VCInstallDir)UnitTest\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\MyFiles\;$(ProjectDir)..\MyBasics\;$(ProjectDir);$(VCInstallDir)UnitTest\include</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
@@ -360,6 +241,12 @@
       <Command>
       </Command>
     </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>MyFiles.lib</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\output\build\MyFiles\Debug\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -369,7 +256,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\MyBasics\;$(ProjectDir);$(VCInstallDir)UnitTest\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\MyFiles\;$(ProjectDir)..\MyBasics\;$(ProjectDir);$(VCInstallDir)UnitTest\include</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
@@ -389,6 +276,12 @@
       <Command>
       </Command>
     </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>MyFiles.lib</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\output\build\MyFiles\Debug\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

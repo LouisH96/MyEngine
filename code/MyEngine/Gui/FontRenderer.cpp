@@ -2,7 +2,7 @@
 #include "FontRenderer.h"
 
 #include "Framework/Resources.h"
-#include "Rendering/Image.h"
+#include "Image.h"
 #include "Rendering/Font/FontAtlas.h"
 
 using namespace Rendering;
