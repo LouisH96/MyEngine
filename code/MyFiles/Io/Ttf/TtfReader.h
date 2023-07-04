@@ -15,12 +15,13 @@ namespace MyEngine
 {
 	namespace Io
 	{
-		class TtfReader
+		class MY_FILES_API TtfReader
 		{
 		public:
-			MY_FILES_API explicit TtfReader(std::istream& stream);
-			MY_FILES_API Array<Array<Ttf::TtfPoint>> GetPoints(unsigned char c) const;
-			MY_FILES_API Ttf::Glyph GetGlyph(char character) const;
+			explicit TtfReader(std::istream& stream);
+			~TtfReader() = default;
+			Array<Array<Ttf::TtfPoint>> GetPoints(unsigned char c) const;
+			Ttf::Glyph GetGlyph(char character) const;
 
 		private:
 			//---| Members |---

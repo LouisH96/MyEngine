@@ -1,7 +1,7 @@
 #pragma once
 #include "FbxSkeleton.h"
-#include "Wrapping/FbxData.h"
 #include "FbxAnimation.h"
+#include "MyFilesGlobals.h"
 
 namespace MyEngine
 {
@@ -14,7 +14,7 @@ namespace MyEngine
 				class FbxData;
 			}
 
-			class FbxClass
+			class MY_FILES_API FbxClass
 			{
 			public:
 				//---| Types |---
