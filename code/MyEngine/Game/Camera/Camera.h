@@ -12,7 +12,7 @@ namespace MyEngine
 		class Camera
 		{
 		public:
-			explicit Camera(Int2 windowSize, float fov = 60, float near = .01f, float far = 200);
+			explicit Camera(Int2 windowSize, float fov = 60, float nearPlane = .01f, float farPlane = 200);
 
 			void OnCanvasResized(const App::ResizedEvent& event);
 			void Update();

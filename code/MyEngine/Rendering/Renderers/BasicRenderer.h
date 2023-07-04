@@ -11,14 +11,6 @@
 
 namespace MyEngine
 {
-	namespace Game
-	{
-		class Camera;
-	}
-}
-
-namespace MyEngine
-{
 	namespace Rendering
 	{
 		template<typename Vertex, typename CamData>

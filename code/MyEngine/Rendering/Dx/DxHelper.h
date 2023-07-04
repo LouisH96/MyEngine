@@ -4,8 +4,6 @@
 #include <string>
 #include <vector>
 
-#include "../../DataStructures/Array.h"
-#include "../../DataStructures/List.h"
 #include "Rendering/Gpu.h"
 
 #define SAFE_RELEASE(x){if(x){(x)->Release();(x)=nullptr;}}
@@ -31,7 +29,7 @@ namespace MyEngine
 				static void CreateIndexBuffer(ID3D11Buffer*& pIndexBuffer, unsigned nrIndices, bool immutable);
 				static void CreateIndexBuffer(ID3D11Buffer*& pIndexBuffer, const int* pInitIndices, int nrInitIndices);
 				static void CreateIndexBuffer(ID3D11Buffer*& pIndexBuffer, const int* pIndices, int nrIndices, bool immutable);
-				static void CreateIndexBuffer(ID3D11Buffer*& pIndexBuffer, const Ds::Array<int>& indices, bool immutable);
+				static void CreateIndexBuffer(ID3D11Buffer*& pIndexBuffer, const Array<int>& indices, bool immutable);
 
 				template <typename T>
 				static void CreateDynamicConstantBuffer(ID3D11Buffer*& pBuffer, T* pInitData = nullptr);
@@ -59,13 +57,13 @@ namespace MyEngine
 				template<typename T>
 				static void CreateVertexBuffer(ID3D11Buffer*& pBuffer, const T* pData, int length, bool immutable);
 				template<typename T>
-				static void CreateVertexBuffer(ID3D11Buffer*& pBuffer, const Ds::Array<T>& data, bool immutable);
+				static void CreateVertexBuffer(ID3D11Buffer*& pBuffer, const Array<T>& data, bool immutable);
 				template<typename T>
-				static void CreateVertexBuffer(ID3D11Buffer*& pBuffer, const Ds::List<T>& data, bool immutable);
+				static void CreateVertexBuffer(ID3D11Buffer*& pBuffer, const List<T>& data, bool immutable);
 				template<typename T>
 				static void CreateInstanceBuffer(ID3D11Buffer*& pBuffer, const T* pData, int length, bool immutable);
 				template<typename T>
-				static void CreateInstanceBuffer(ID3D11Buffer*& pBuffer, const Ds::Array<T>& data, bool immutable);
+				static void CreateInstanceBuffer(ID3D11Buffer*& pBuffer, const Array<T>& data, bool immutable);
 
 				static std::string GetHResultString(const HRESULT& result);
 			};
@@ -199,13 +197,13 @@ namespace MyEngine
 			}
 
 			template <typename T>
-			void DxHelper::CreateVertexBuffer(ID3D11Buffer*& pBuffer, const Ds::List<T>& data, bool immutable)
+			void DxHelper::CreateVertexBuffer(ID3D11Buffer*& pBuffer, const List<T>& data, bool immutable)
 			{
 				CreateVertexBuffer(pBuffer, data.GetData(), data.GetSize(), immutable);
 			}
 
 			template <typename T>
-			void DxHelper::CreateVertexBuffer(ID3D11Buffer*& pBuffer, const Ds::Array<T>& data,
+			void DxHelper::CreateVertexBuffer(ID3D11Buffer*& pBuffer, const Array<T>& data,
 				bool immutable)
 			{
 				CreateVertexBuffer(pBuffer, data.GetData(), data.GetSize(), immutable);
@@ -219,7 +217,7 @@ namespace MyEngine
 			}
 
 			template <typename T>
-			void DxHelper::CreateInstanceBuffer(ID3D11Buffer*& pBuffer, const Ds::Array<T>& data,
+			void DxHelper::CreateInstanceBuffer(ID3D11Buffer*& pBuffer, const Array<T>& data,
 				bool immutable)
 			{
 				CreateInstanceBuffer(pBuffer, data, immutable);

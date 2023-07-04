@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Debug\Logger.cpp" />
     <ClCompile Include="Rendering\Dx\DxHelper.cpp" />
     <ClCompile Include="App\Win32\Window.cpp" />
     <ClCompile Include="App\FpsControl.cpp" />
@@ -54,7 +53,6 @@
     <ClCompile Include="Rendering\Structs\VertexTypes.cpp" />
     <ClCompile Include="Io\Fbx\FbxClass.cpp" />
     <ClCompile Include="Generation\Shapes\ArrowGenerator.cpp" />
-    <ClCompile Include="Debug\ToString.cpp" />
     <ClCompile Include="Io\Ttf\TtfReader.cpp" />
     <ClCompile Include="Io\Binary\BigBinReader.cpp" />
     <ClCompile Include="Io\Ttf\OffsetSubTable.cpp" />
@@ -125,7 +123,6 @@
     <ClCompile Include="Geometry\Shapes\Cube.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Debug\Logger.h" />
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
     <ClInclude Include="App\Win32\Window.h" />
     <ClInclude Include="App\FpsControl.h" />
@@ -153,7 +150,6 @@
     <ClInclude Include="Rendering\State\BlendState.h" />
     <ClInclude Include="Rendering\State\RasterizerState.h" />
     <ClInclude Include="Generation\Shapes.h" />
-    <ClInclude Include="DataStructures\Array.h" />
     <ClInclude Include="Geometry\Shapes\Sphere.h" />
     <ClInclude Include="Io\Json\JsonElement.h" />
     <ClInclude Include="Io\Json\ElementType.h" />
@@ -162,7 +158,6 @@
     <ClInclude Include="Io\Json\JsonString.h" />
     <ClInclude Include="Io\Json\JsonNumber.h" />
     <ClInclude Include="Io\Json\JsonNull.h" />
-    <ClInclude Include="DataStructures\DsUtils.h" />
     <ClInclude Include="Geometry\PointUtils.h" />
     <ClInclude Include="Debug\Timing\Counter.h" />
     <ClInclude Include="Io\Json\Streaming\JsonStreaming.h" />
@@ -178,7 +173,6 @@
     <ClInclude Include="Io\Binary\BitStream.h" />
     <ClInclude Include="Io\Binary\DeflateDecompress.h" />
     <ClInclude Include="Io\Binary\Huffman.h" />
-    <ClInclude Include="DataStructures\Algorithms.h" />
     <ClInclude Include="Rendering\Renderers\BasicRenderer.h" />
     <ClInclude Include="Generation\MeshUtils.h" />
     <ClInclude Include="Rendering\Renderers\RendererFactory.h" />
@@ -191,7 +185,6 @@
     <ClInclude Include="Rendering\Structs\VertexTypes.h" />
     <ClInclude Include="Io\Fbx\FbxClass.h" />
     <ClInclude Include="Generation\Shapes\ArrowGenerator.h" />
-    <ClInclude Include="Debug\ToString.h" />
     <ClInclude Include="Io\Ttf\TtfReader.h" />
     <ClInclude Include="Io\Binary\BigBinReader.h" />
     <ClInclude Include="Io\Ttf\OffsetSubTable.h" />
@@ -220,7 +213,6 @@
     <ClInclude Include="Game\Camera\FpsCameraController.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertCam_Tex.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertLight_Tex.h" />
-    <ClInclude Include="DataStructures\GridArray.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertLight_Col.h" />
     <ClInclude Include="Physics\CollisionDetection.h" />
     <ClInclude Include="Io\Fbx\Wrapping\Pose.h" />
@@ -237,14 +229,11 @@
     <ClInclude Include="Io\Fbx\Wrapping\CollectionExclusive.h" />
     <ClInclude Include="Io\Fbx\FbxJoint.h" />
     <ClInclude Include="Io\Fbx\FbxSkeleton.h" />
-    <ClInclude Include="DataStructures\SortedList.h" />
     <ClInclude Include="Io\Fbx\FbxValueCurve.h" />
-    <ClInclude Include="DataStructures\SortedArray.h" />
     <ClInclude Include="Io\Fbx\FbxTransformCurve.h" />
     <ClInclude Include="Debug\Rendering\DebugSpheres.h" />
     <ClInclude Include="Rendering\DrawData\IDrawData.h" />
     <ClInclude Include="Rendering\DrawData\InstanceArray.h" />
-    <ClInclude Include="DataStructures\List.h" />
     <ClInclude Include="Debug\Rendering\DebugLines.h" />
     <ClInclude Include="Rendering\DrawData\VertexArray.h" />
     <ClInclude Include="Rendering\State\PrimitiveTopology.h" />
@@ -271,12 +260,9 @@
     <ClInclude Include="Geometry\Shapes\Line.h" />
     <ClInclude Include="App\Win32\KeyCodes.h" />
     <ClInclude Include="Geometry\Shapes\Rect3.h" />
-    <ClInclude Include="DataStructures\InvalidateList.h" />
     <ClInclude Include="Rendering\Buffers\Buffer.h" />
     <ClInclude Include="Rendering\Buffers\InvalidateBuffer.h" />
     <ClInclude Include="Gui\NdcUtils.h" />
-    <ClInclude Include="DataStructures\PtrRange.h" />
-    <ClInclude Include="DataStructures\PtrRangeConst.h" />
     <ClInclude Include="App\ResizedEvent.h" />
     <ClInclude Include="Rendering\Renderers\NdcRectRenderer.h" />
     <ClInclude Include="Gui\FontRenderer.h" />

@@ -104,7 +104,6 @@
     <ClCompile Include="App\Win32\Keyboard_StateReader.cpp" />
     <ClCompile Include="App\Win32\Keyboard_MsgListener.cpp" />
     <ClCompile Include="Rendering\State\InputLayout.cpp" />
-    <ClCompile Include="Debug\Logger.cpp" />
     <ClCompile Include="App\Win32\Window.cpp" />
     <ClCompile Include="Framework\Resources.cpp" />
     <ClCompile Include="App\Win32\Mouse.cpp" />
@@ -123,7 +122,6 @@
     <ClCompile Include="Rendering\State\Texture.cpp" />
     <ClCompile Include="Rendering\Structs\VertexTypes.cpp" />
     <ClCompile Include="Io\Ttf\TableDirectory.cpp" />
-    <ClCompile Include="Debug\ToString.cpp" />
     <ClCompile Include="Io\Ttf\TtfReader.cpp" />
     <ClCompile Include="Io\Ttf\Segment.cpp" />
     <ClCompile Include="Game\Transform.cpp" />
@@ -139,16 +137,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\Win32\KeyCodes.h" />
-    <ClInclude Include="DataStructures\PtrRangeConst.h" />
-    <ClInclude Include="DataStructures\InvalidateList.h" />
-    <ClInclude Include="DataStructures\PtrRange.h" />
     <ClInclude Include="Geometry\Shapes\Cube.h" />
     <ClInclude Include="Geometry\Shapes\Rect.h" />
     <ClInclude Include="Geometry\Shapes\Rects.h" />
     <ClInclude Include="Rendering\Font\FontAtlasLookup.h" />
     <ClInclude Include="Generation\CubeGenerator.h" />
-    <ClInclude Include="DataStructures\List.h" />
-    <ClInclude Include="DataStructures\SortedList.h" />
     <ClInclude Include="Debug\Rendering\DebugLines.h" />
     <ClInclude Include="Debug\Rendering\DebugSpheres.h" />
     <ClInclude Include="Framework\GameFrame.h" />
@@ -184,7 +177,6 @@
     <ClInclude Include="Io\Fbx\FbxJoint.h" />
     <ClInclude Include="Io\Fbx\Wrapping\NodeAttribute.h" />
     <ClInclude Include="Physics\CollisionDetection.h" />
-    <ClInclude Include="DataStructures\GridArray.h" />
     <ClInclude Include="Game\Camera\FpsCameraController.h" />
     <ClInclude Include="Game\Camera\Camera.h" />
     <ClInclude Include="Io\Ascii\AsciiWriter.h" />
@@ -228,7 +220,6 @@
     <ClInclude Include="Generation\MeshUtils.h" />
     <ClInclude Include="Rendering\Renderers\RendererFactory.h" />
     <ClInclude Include="Rendering\Renderers\BasicRenderer.h" />
-    <ClInclude Include="DataStructures\Algorithms.h" />
     <ClInclude Include="Io\Binary\Huffman.h" />
     <ClInclude Include="Io\Binary\DeflateDecompress.h" />
     <ClInclude Include="Io\Binary\BitStream.h" />
@@ -239,8 +230,6 @@
     <ClInclude Include="Io\Fbx\Reading\FbxProperty.h" />
     <ClInclude Include="Io\Fbx\Reading\FbxObject.h" />
     <ClInclude Include="Io\Binary\LittleEndianReader.h" />
-    <ClInclude Include="DataStructures\Array.h" />
-    <ClInclude Include="DataStructures\DsUtils.h" />
     <ClInclude Include="Io\Fbx\Reading\FbxReader.h" />
     <ClInclude Include="Io\Json\Streaming\JsonStreaming.h" />
     <ClInclude Include="Io\Json\ElementType.h" />
@@ -260,7 +249,6 @@
     <ClInclude Include="App\Win32\Keyboard_MsgListener.h" />
     <ClInclude Include="Rendering\State\InputLayout.h" />
     <ClInclude Include="Geometry\PointUtils.h" />
-    <ClInclude Include="Debug\Logger.h" />
     <ClInclude Include="App\Win32\Window.h" />
     <ClInclude Include="App\Time.h" />
     <ClInclude Include="Framework\Resources.h" />
@@ -279,7 +267,6 @@
     <ClInclude Include="Rendering\State\Texture.h" />
     <ClInclude Include="Rendering\Structs\VertexTypes.h" />
     <ClInclude Include="Io\Ttf\TableDirectory.h" />
-    <ClInclude Include="Debug\ToString.h" />
     <ClInclude Include="Io\Ttf\TtfReader.h" />
     <ClInclude Include="Io\Ttf\TtfPoint.h" />
     <ClInclude Include="Io\Ttf\Segment.h" />
@@ -288,7 +275,6 @@
     <ClInclude Include="Io\Fbx\Wrapping\Video.h" />
     <ClInclude Include="Io\Fbx\FbxSkeleton.h" />
     <ClInclude Include="Io\Fbx\FbxValueCurve.h" />
-    <ClInclude Include="DataStructures\SortedArray.h" />
     <ClInclude Include="Io\Fbx\FbxTransformCurve.h" />
     <ClInclude Include="Rendering\DrawData\VertexArray.h" />
     <ClInclude Include="Rendering\DrawData\VertexList.h" />

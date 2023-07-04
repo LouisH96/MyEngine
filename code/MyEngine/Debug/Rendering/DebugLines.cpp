@@ -3,7 +3,7 @@
 
 #include "Framework/Resources.h"
 
-DebugLines::DebugLines()
+Debug::DebugLines::DebugLines()
 	: m_InputLayout{ Vertex::ELEMENTS, Vertex::NR_ELEMENTS }
 	, m_Shader{ Resources::GlobalShader(L"unlit.hlsl") }
 	, m_VertexList{ 5, Rendering::PrimitiveTopology::LineList }
@@ -11,7 +11,7 @@ DebugLines::DebugLines()
 
 }
 
-void DebugLines::Render()
+void Debug::DebugLines::Render()
 {
 	m_InputLayout.Activate();
 	m_Shader.Activate();
@@ -19,13 +19,13 @@ void DebugLines::Render()
 	m_VertexList.Clear();
 }
 
-void DebugLines::DrawLine(const Float3& begin, const Float3& end, const Float3& color)
+void Debug::DebugLines::DrawLine(const Float3& begin, const Float3& end, const Float3& color)
 {
 	m_VertexList.Add({ begin, color });
 	m_VertexList.Add({ end, color });
 }
 
-void DebugLines::DrawRay(const Float3& origin, const Float3& displacement, const Float3& color)
+void Debug::DebugLines::DrawRay(const Float3& origin, const Float3& displacement, const Float3& color)
 {
 	m_VertexList.Add({ origin, color });
 	m_VertexList.Add({ origin + displacement, color });

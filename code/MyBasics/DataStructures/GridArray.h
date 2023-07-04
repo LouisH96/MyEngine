@@ -1,6 +1,5 @@
 #pragma once
 
-
 namespace MyEngine
 {
 	template<typename T>

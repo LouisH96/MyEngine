@@ -4,11 +4,11 @@
 #include "App/ResizedEvent.h"
 #include "Math/Constants.h"
 
-Camera::Camera(Int2 windowSize, float fov, float near, float far)
+Camera::Camera(Int2 windowSize, float fov, float nearPlane, float farPlane)
 	: m_World{ Float4X4::GetIdentity() }
 	, m_View{ Float4X4::GetIdentity() }
-	, m_Near{ near }
-	, m_Far{ far }
+	, m_Near{ nearPlane }
+	, m_Far{ farPlane }
 {
 	SetFieldOfView(fov);
 	m_AspectRatio = static_cast<float>(windowSize.x) / static_cast<float>(windowSize.y);

@@ -11,8 +11,21 @@
     <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="Math\Vector4.h" />
     <ClInclude Include="Math\Vectors.h" />
+    <ClInclude Include="Logger\Logger.h" />
+    <ClInclude Include="Logger\ToString.h" />
+    <ClInclude Include="DataStructures\Algorithms.h" />
+    <ClInclude Include="DataStructures\Array.h" />
+    <ClInclude Include="DataStructures\DsUtils.h" />
+    <ClInclude Include="DataStructures\GridArray.h" />
+    <ClInclude Include="DataStructures\InvalidateList.h" />
+    <ClInclude Include="DataStructures\List.h" />
+    <ClInclude Include="DataStructures\PtrRange.h" />
+    <ClInclude Include="DataStructures\PtrRangeConst.h" />
+    <ClInclude Include="DataStructures\SortedArray.h" />
+    <ClInclude Include="DataStructures\SortedList.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Math\Quaternion.cpp" />
+    <ClCompile Include="Logger\Logger.cpp" />
   </ItemGroup>
 </Project>

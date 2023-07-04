@@ -15,9 +15,9 @@ void Generation::Shapes::GenerateCubeBuffers(const Cube& cube, Array<Float3>& po
 	constexpr int indicesPerSide = trianglesPerSide * 3;
 	constexpr int nrSides = 6;
 	constexpr int nrVertices = pointsPerSide * nrSides;
-	positions = Ds::Array<Float3>{ nrVertices };
-	normals = Ds::Array<Float3>{ nrVertices };
-	indices = Ds::Array<int>{ indicesPerSide * nrSides };
+	positions = Array<Float3>{ nrVertices };
+	normals = Array<Float3>{ nrVertices };
+	indices = Array<int>{ indicesPerSide * nrSides };
 
 	for (int iAxis = 0; iAxis < Float3::NR_AXIS; iAxis++)
 	{

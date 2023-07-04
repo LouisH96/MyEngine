@@ -2,6 +2,7 @@
 #include "InputLayout.h"
 
 #include <d3dcompiler.h>
+
 #include <sstream>
 #include <Rendering/Dx/DxHelper.h>
 

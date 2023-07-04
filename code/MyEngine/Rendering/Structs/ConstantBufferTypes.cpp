@@ -4,8 +4,6 @@
 #include "Game/Transform.h"
 #include "Game/Camera/Camera.h"
 
-using namespace DirectX;
-
 Rendering::CB_CamMat::CB_CamMat(const Camera& camera)
 	: CameraMatrix{ camera.GetViewProjection() }
 {

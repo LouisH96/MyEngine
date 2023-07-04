@@ -22,9 +22,9 @@ namespace MyEngine
 			Mesh& operator=(Mesh&& other) noexcept = delete;
 
 			template<typename Vertex>
-			static Mesh* Create(const Ds::Array<Vertex>& vertices, const Ds::Array<int>& indices, Topology topology = Topology::TriangleList, bool immutable = true);
+			static Mesh* Create(const Array<Vertex>& vertices, const Array<int>& indices, Topology topology = Topology::TriangleList, bool immutable = true);
 			template<typename Vertex>
-			static Mesh* Create(const Ds::Array<Vertex>& vertices, Topology topology = Topology::TriangleList, bool immutable = true);
+			static Mesh* Create(const Array<Vertex>& vertices, Topology topology = Topology::TriangleList, bool immutable = true);
 			~Mesh();
 
 			template<typename T>
@@ -60,14 +60,14 @@ namespace MyEngine
 		};
 
 		template <typename Vertex>
-		Mesh* Mesh::Create(const Ds::Array<Vertex>& vertices, const Ds::Array<int>& indices, Topology topology,
+		Mesh* Mesh::Create(const Array<Vertex>& vertices, const Array<int>& indices, Topology topology,
 			bool immutable)
 		{
 			return new Mesh(sizeof(Vertex), vertices.GetData(), vertices.GetSize(), indices.GetData(), indices.GetSize(), topology, immutable);
 		}
 
 		template <typename Vertex>
-		Mesh* Mesh::Create(const Ds::Array<Vertex>& vertices, Topology topology, bool immutable)
+		Mesh* Mesh::Create(const Array<Vertex>& vertices, Topology topology, bool immutable)
 		{
 			return new Mesh(sizeof(Vertex), vertices.GetData(), vertices.GetSize(), topology, immutable);
 		}

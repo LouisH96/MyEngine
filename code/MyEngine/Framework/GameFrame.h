@@ -1,14 +1,14 @@
 #pragma once
 #include "CppFramework.h"
 #include "App/FpsControl.h"
-#include "App/Win32/Window.h"
-#include "Debug/Rendering/DebugRenderer.h"
 #include "Game/Camera/Camera.h"
+#include "Debug/Rendering/DebugRenderer.h"
 #include "Gui/FontRenderer.h"
 #include "Gui/GuiRenderer.h"
 #include "Rendering/Canvas.h"
 #include "Rendering/FpsDisplay.h"
 #include "Rendering/Gpu.h"
+#include "App/Win32/Window.h"
 
 namespace MyEngine
 {

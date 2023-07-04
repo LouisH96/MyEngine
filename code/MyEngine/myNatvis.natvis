@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
 
-	<Type Name="MyEngine::Ds::Array&lt;*&gt;">
+	<Type Name="MyEngine::Array&lt;*&gt;">
 		<DisplayString>{{ size={m_Size} }}</DisplayString>
 		<Expand>
 			<ArrayItems>
@@ -11,7 +11,7 @@
 		</Expand>
 	</Type>
 	
-	<Type Name="MyEngine::Ds::SortedList&lt;*&gt;">
+	<Type Name="MyEngine::SortedList&lt;*&gt;">
 		<DisplayString>{{ size={m_Size} }}</DisplayString>
 		<Expand>
 			<ArrayItems>
@@ -21,7 +21,7 @@
 		</Expand>
 	</Type>
 	
-	<Type Name="MyEngine::Ds::List&lt;*&gt;">
+	<Type Name="MyEngine::List&lt;*&gt;">
 		<DisplayString>{{ size={m_Size} }}</DisplayString>
 		<Expand>
 			<ArrayItems>

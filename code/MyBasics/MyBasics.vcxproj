@@ -112,6 +112,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -126,6 +127,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -135,6 +137,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="DataStructures\Algorithms.h" />
+    <ClInclude Include="DataStructures\Array.h" />
+    <ClInclude Include="DataStructures\DsUtils.h" />
+    <ClInclude Include="DataStructures\GridArray.h" />
+    <ClInclude Include="DataStructures\InvalidateList.h" />
+    <ClInclude Include="DataStructures\List.h" />
+    <ClInclude Include="DataStructures\PtrRange.h" />
+    <ClInclude Include="DataStructures\PtrRangeConst.h" />
+    <ClInclude Include="DataStructures\SortedArray.h" />
+    <ClInclude Include="DataStructures\SortedList.h" />
+    <ClInclude Include="Logger\Logger.h" />
+    <ClInclude Include="Logger\ToString.h" />
     <ClInclude Include="Math\Constants.h" />
     <ClInclude Include="Math\Matrices.h" />
     <ClInclude Include="Math\Matrix4x4.h" />
@@ -147,6 +161,7 @@
     <ClInclude Include="Math\Vectors.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Logger\Logger.cpp" />
     <ClCompile Include="Math\Quaternion.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
