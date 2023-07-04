@@ -1,7 +1,5 @@
 #pragma once
-#include <Math/Vector4.h>
-
-#include "DataStructures/Array.h"
+#include "Vector4.h"
 
 namespace MyEngine
 {
@@ -18,16 +16,12 @@ namespace MyEngine
 			static Matrix4X4 FromRows(const Vector4<T>& row0, const Vector4<T>& row1, const Vector4<T>& row2, const Vector4<T>& row3);
 			static Matrix4X4 FromCols(const Vector4<T>& col0, const Vector4<T>& col1, const Vector4<T>& col2, const Vector4<T>& col3);
 			static Matrix4X4 FromRowMajor(const T* pValue);
-			static Matrix4X4 FromRowMajor(const Ds::Array<T>& array);
 			static Matrix4X4 FromColMajor(const T* pValue);
-			static Matrix4X4 FromColMajor(const Ds::Array<T>& array);
 
 			//---| Constructor/Destructor |---
 			Matrix4X4() = default;
 			~Matrix4X4() = default;
 			Matrix4X4(const Vector4<T>& col0, const Vector4<T>& col1, const Vector4<T>& col2, const Vector4<T>& col3);
-			Matrix4X4(const DirectX::XMMATRIX& matrix);
-			Matrix4X4(const DirectX::XMFLOAT4X4& matrix);
 
 			//---| Set |---
 			void SetRow0(const Vector4<T>& row);
@@ -89,28 +83,6 @@ namespace MyEngine
 		Matrix4X4<T>::Matrix4X4(const Vector4<T>& col0, const Vector4<T>& col1, const Vector4<T>& col2,
 			const Vector4<T>& col3)
 			: m_Cols{ col0, col1, col2, col3 }
-		{
-		}
-
-		template <typename T>
-		Matrix4X4<T>::Matrix4X4(const DirectX::XMMATRIX& matrix)
-			: m_Cols{
-				{matrix.r[0].m128_f32[0], matrix.r[1].m128_f32[0], matrix.r[2].m128_f32[0], matrix.r[3].m128_f32[0]},
-				{matrix.r[0].m128_f32[1], matrix.r[1].m128_f32[1], matrix.r[2].m128_f32[1], matrix.r[3].m128_f32[1]},
-				{matrix.r[0].m128_f32[2], matrix.r[1].m128_f32[2], matrix.r[2].m128_f32[2], matrix.r[3].m128_f32[2]},
-				{matrix.r[0].m128_f32[3], matrix.r[1].m128_f32[3], matrix.r[2].m128_f32[3], matrix.r[3].m128_f32[3]},
-			}
-		{
-		}
-
-		template <typename T>
-		Matrix4X4<T>::Matrix4X4(const DirectX::XMFLOAT4X4& matrix)
-			: m_Cols{
-				{matrix._11 ,matrix._21, matrix._31, matrix._41},
-				{matrix._12 ,matrix._22, matrix._32, matrix._42},
-				{matrix._13 ,matrix._23, matrix._33, matrix._43},
-				{matrix._14 ,matrix._24, matrix._34, matrix._44},
-			}
 		{
 		}
 
@@ -452,18 +424,6 @@ namespace MyEngine
 				{*(pValue + 4 * 0 + 2), *(pValue + 4 * 1 + 2), *(pValue + 4 * 2 + 2), *(pValue + 4 * 3 + 2) },
 				{*(pValue + 4 * 0 + 3), *(pValue + 4 * 1 + 3), *(pValue + 4 * 2 + 3), *(pValue + 4 * 3 + 3) },
 			};
-		}
-
-		template <typename T>
-		Matrix4X4<T> Matrix4X4<T>::FromRowMajor(const Ds::Array<T>& array)
-		{
-			return FromRowMajor(array.GetData());
-		}
-
-		template <typename T>
-		Matrix4X4<T> Matrix4X4<T>::FromColMajor(const Ds::Array<T>& array)
-		{
-			return FromColMajor(array.GetData());
 		}
 
 		template <typename T>

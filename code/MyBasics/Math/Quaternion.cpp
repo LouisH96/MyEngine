@@ -1,13 +1,16 @@
-#include "pch.h"
 #include "Quaternion.h"
 
-Math::Quaternion::Quaternion()
+#include "Constants.h"
+
+using namespace MyEngine::Math;
+
+Quaternion::Quaternion()
 	: Xyz{ 0, 0, 0 }
 	, W{ 1 }
 {
 }
 
-Math::Quaternion::Quaternion(const Float3& real, float complex)
+Quaternion::Quaternion(const Float3& real, float complex)
 	: Xyz{ real }
 	, W{ complex }
 {
@@ -85,19 +88,19 @@ Quaternion::Quaternion(const Float4X4& matrix)
 			W = t;
 		}
 	}
-	const float s{ (0.5f / sqrt(t)) };
+	const float s{ (0.5f / sqrtf(t)) };
 	Xyz *= s;
 	W *= s;
 }
 
-Math::Quaternion Math::Quaternion::FromAxis(const Float3& rotationAxis, float rotation)
+Quaternion Quaternion::FromAxis(const Float3& rotationAxis, float rotation)
 {
 	const float cosHalf{ cosf(rotation / 2) };
 	const float sinHalf{ sinf(rotation / 2) };
 	return Quaternion{ rotationAxis * sinHalf, cosHalf };
 }
 
-Math::Quaternion Math::Quaternion::FromForward(const Float3& forward)
+Quaternion Quaternion::FromForward(const Float3& forward)
 {
 	const Float3 axis{ Float3{0,0,1}.Cross(forward).Normalized() };
 	const float cos{ Float3{0,0,1}.Dot(forward) };
@@ -122,63 +125,63 @@ Quaternion Quaternion::FromEulerDegrees(const Float3& eulers)
 		cr* cp* cy + sr * sp * sy };
 }
 
-Math::Quaternion Math::Quaternion::operator*(const Quaternion& other) const
+Quaternion Quaternion::operator*(const Quaternion& other) const
 {
 	return { {
 			Xyz.Cross(other.Xyz) + other.Xyz * W + Xyz * other.W
 		}, W * other.W - Xyz.Dot(other.Xyz) };
 }
-void Math::Quaternion::operator*=(const Quaternion& other)
+void Quaternion::operator*=(const Quaternion& other)
 {
 	Xyz = Xyz.Cross(other.Xyz) + other.Xyz * W + Xyz * other.W;
 	W = W * other.W - Xyz.Dot(other.Xyz);
 }
 
-Math::Quaternion Math::Quaternion::operator-() const
+Quaternion Quaternion::operator-() const
 {
 	return { -Xyz, W };
 }
 
-void Math::Quaternion::Inverse()
+void Quaternion::Inverse()
 {
 	Xyz = -Xyz;
 }
 
-void Math::Quaternion::RotateBy(const Quaternion& rotation)
+void Quaternion::RotateBy(const Quaternion& rotation)
 {
 	*this = rotation * *this;
 	Normalize();
 }
 
-void Math::Quaternion::RotateBy(const Float3& axis, float radians)
+void Quaternion::RotateBy(const Float3& axis, float radians)
 {
 	RotateBy(FromAxis(axis, radians));
 }
 
-void Math::Quaternion::RotatePoint(Float3& point) const
+void Quaternion::RotatePoint(Float3& point) const
 {
 	point = (*this * Quaternion{ point, 0 } *-*this).Xyz;
 }
 
-Math::Float3 Math::Quaternion::GetRotatedPoint(const Float3& point) const
+Float3 Quaternion::GetRotatedPoint(const Float3& point) const
 {
 	return (*this * Quaternion{ point, 0 } *-*this).Xyz;
 }
 
-Math::Quaternion Math::Quaternion::Normalized() const
+Quaternion Quaternion::Normalized() const
 {
 	const float invLength{ 1.f / GetLength() };
 	return { Xyz * invLength, W * invLength };
 }
 
-void Math::Quaternion::Normalize()
+void Quaternion::Normalize()
 {
 	const float invLength{ 1.f / GetLength() };
 	Xyz *= invLength;
 	W *= invLength;
 }
 
-Math::Float3 Math::Quaternion::GetForward() const
+Float3 Quaternion::GetForward() const
 {
 	return{
 		2 * (Xyz.x * Xyz.z + W * Xyz.y),
@@ -186,12 +189,12 @@ Math::Float3 Math::Quaternion::GetForward() const
 		1 - 2 * (Xyz.x * Xyz.x + Xyz.y * Xyz.y) };
 }
 
-float Math::Quaternion::GetLength() const
+float Quaternion::GetLength() const
 {
 	return sqrtf(Xyz.x * Xyz.x + Xyz.y * Xyz.y + Xyz.z * Xyz.z + W * W);
 }
 
-Math::Float3 Math::Quaternion::GetUp() const
+Float3 Quaternion::GetUp() const
 {
 	return{
 		2 * (Xyz.x * Xyz.y - W * Xyz.z),
@@ -199,11 +202,10 @@ Math::Float3 Math::Quaternion::GetUp() const
 		2 * (Xyz.y * Xyz.z + W * Xyz.x) };
 }
 
-Math::Float3 Math::Quaternion::GetRight() const
+Float3 Quaternion::GetRight() const
 {
 	return{
 		(1 - 2 * (Xyz.y * Xyz.y + Xyz.z * Xyz.z)),
 		2 * (Xyz.x * Xyz.y + W * Xyz.z),
 		2 * (Xyz.x * Xyz.z - W * Xyz.y) };
 }
-

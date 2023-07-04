@@ -135,6 +135,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Math\Constants.h" />
+    <ClInclude Include="Math\Cube.h" />
+    <ClInclude Include="Math\Matrices.h" />
+    <ClInclude Include="Math\Matrix4x4.h" />
+    <ClInclude Include="Math\Quaternion.h" />
+    <ClInclude Include="Math\Rect.h" />
+    <ClInclude Include="Math\Rects.h" />
+    <ClInclude Include="Math\Scalar.h" />
+    <ClInclude Include="Math\Scalars.h" />
+    <ClInclude Include="Math\Vector2.h" />
+    <ClInclude Include="Math\Vector3.h" />
+    <ClInclude Include="Math\Vector4.h" />
+    <ClInclude Include="Math\Vectors.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Math\Cube.cpp" />
+    <ClCompile Include="Math\Quaternion.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

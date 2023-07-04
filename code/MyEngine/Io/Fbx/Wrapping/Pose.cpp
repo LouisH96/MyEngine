@@ -16,6 +16,7 @@ Io::Fbx::Wrapping::Pose::Pose(Reading::FbxObject& poseObject)
 		Reading::FbxObject& readNode{ *nodes[iNode] };
 		Node& dataNode{ Nodes[iNode] };
 		dataNode.Id = readNode.GetChild("Node")->GetProperty(0)->AsPrimitive<int64_t>().GetValue();
-		dataNode.Matrix = Double4X4::FromRowMajor(readNode.GetChild("Matrix")->GetProperty(0)->AsArray<double>().GetValues());
+		const Array<double>& array{readNode.GetChild("Matrix")->GetProperty(0)->AsArray<double>().GetValues()};
+		dataNode.Matrix = Double4X4::FromRowMajor(array.GetData());
 	}
 }

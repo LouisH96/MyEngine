@@ -22,7 +22,6 @@
     <ClCompile Include="Rendering\State\BlendState.cpp" />
     <ClCompile Include="Rendering\State\RasterizerState.cpp" />
     <ClCompile Include="Generation\Shapes.cpp" />
-    <ClCompile Include="Math\Cube.cpp" />
     <ClCompile Include="Shapes\Sphere.cpp" />
     <ClCompile Include="Io\Json\JsonElement.cpp" />
     <ClCompile Include="Io\Json\JsonObject.cpp" />
@@ -80,7 +79,6 @@
     <ClCompile Include="Io\Ascii\AsciiWriter.cpp" />
     <ClCompile Include="Rendering\Renderers\R_LambertCam_Tex_Transform.cpp" />
     <ClCompile Include="Game\Transform.cpp" />
-    <ClCompile Include="Math\Quaternion.cpp" />
     <ClCompile Include="Game\Camera\Camera.cpp" />
     <ClCompile Include="Game\Camera\FpsCameraController.cpp" />
     <ClCompile Include="Rendering\Renderers\R_LambertCam_Tex.cpp" />
@@ -136,7 +134,6 @@
     <ClInclude Include="App\Time.h" />
     <ClInclude Include="Framework\Resources.h" />
     <ClInclude Include="Game\Camera\OrbitCamera.h" />
-    <ClInclude Include="Math\Constants.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Game\Globals.h" />
     <ClInclude Include="App\Win32\Screen.h" />
@@ -158,8 +155,6 @@
     <ClInclude Include="Rendering\State\BlendState.h" />
     <ClInclude Include="Rendering\State\RasterizerState.h" />
     <ClInclude Include="Generation\Shapes.h" />
-    <ClInclude Include="Math\Rect.h" />
-    <ClInclude Include="Math\Cube.h" />
     <ClInclude Include="DataStructures\Array.h" />
     <ClInclude Include="Shapes\Sphere.h" />
     <ClInclude Include="Io\Json\JsonElement.h" />
@@ -169,7 +164,6 @@
     <ClInclude Include="Io\Json\JsonString.h" />
     <ClInclude Include="Io\Json\JsonNumber.h" />
     <ClInclude Include="Io\Json\JsonNull.h" />
-    <ClInclude Include="Math\Vector2.h" />
     <ClInclude Include="DataStructures\DsUtils.h" />
     <ClInclude Include="Math\Geometry\PointUtils.h" />
     <ClInclude Include="Debug\Timing\Counter.h" />
@@ -214,7 +208,6 @@
     <ClInclude Include="Io\Ttf\Glyph.h" />
     <ClInclude Include="Io\Ttf\Contour.h" />
     <ClInclude Include="Io\Ttf\Segment.h" />
-    <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="Io\Ttf\FontRasterizer.h" />
     <ClInclude Include="Io\Ttf\Intersection.h" />
     <ClInclude Include="Rendering\FpsDisplay.h" />
@@ -225,11 +218,8 @@
     <ClInclude Include="Io\Ascii\AsciiWriter.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertCam_Tex_Transform.h" />
     <ClInclude Include="Game\Transform.h" />
-    <ClInclude Include="Math\Quaternion.h" />
-    <ClInclude Include="Math\Vector4.h" />
     <ClInclude Include="Game\Camera\Camera.h" />
     <ClInclude Include="Game\Camera\FpsCameraController.h" />
-    <ClInclude Include="Math\Matrix4x4.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertCam_Tex.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertLight_Tex.h" />
     <ClInclude Include="DataStructures\GridArray.h" />
@@ -262,17 +252,12 @@
     <ClInclude Include="Rendering\State\PrimitiveTopology.h" />
     <ClInclude Include="Gui\GuiRenderer.h" />
     <ClInclude Include="Rendering\DrawData\VertexList.h" />
-    <ClInclude Include="Math\Scalar.h" />
     <ClInclude Include="Io\Fbx\FbxAnimation.h" />
     <ClInclude Include="Io\Fbx\FbxAnimationLayer.h" />
     <ClInclude Include="Rendering\Font\FontAtlas.h" />
     <ClInclude Include="Generation\PlaneGeneration.h" />
     <ClInclude Include="Rendering\DrawData\InstanceList.h" />
     <ClInclude Include="Rendering\State\DepthStencilState.h" />
-    <ClInclude Include="Math\Vectors.h" />
-    <ClInclude Include="Math\Matrices.h" />
-    <ClInclude Include="Math\Scalars.h" />
-    <ClInclude Include="Math\Rects.h" />
     <ClInclude Include="Framework\GameFrame.h" />
     <ClInclude Include="Rendering\Structs\InstanceTypes.h" />
     <ClInclude Include="Rendering\Renderers\Texture2DRenderer.h" />

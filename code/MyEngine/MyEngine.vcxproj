@@ -47,7 +47,6 @@
     <ClCompile Include="Io\Ascii\AsciiWriter.cpp" />
     <ClCompile Include="Framework\CppFramework.cpp" />
     <ClCompile Include="App\Time.cpp" />
-    <ClCompile Include="Math\Quaternion.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\Pose.cpp" />
     <ClCompile Include="Rendering\Renderers\R_LambertCam_Tex_Transform.cpp" />
     <ClCompile Include="Rendering\Renderers\R_LambertCam_Tex.cpp" />
@@ -101,7 +100,6 @@
     <ClCompile Include="Io\Json\JsonString.cpp" />
     <ClCompile Include="Io\Json\JsonNumber.cpp" />
     <ClCompile Include="Io\Json\JsonNull.cpp" />
-    <ClCompile Include="Math\Cube.cpp" />
     <ClCompile Include="Game\Camera\OrbitCamera.cpp" />
     <ClCompile Include="Game\Globals.cpp" />
     <ClCompile Include="Rendering\Dx\DxHelper.cpp" />
@@ -165,10 +163,6 @@
     <ClInclude Include="Rendering\DrawData\InstanceIdxArray.h" />
     <ClInclude Include="Rendering\DrawData\InstanceIdxList.h" />
     <ClInclude Include="Rendering\Structs\InstanceTypes.h" />
-    <ClInclude Include="Math\Matrices.h" />
-    <ClInclude Include="Math\Rects.h" />
-    <ClInclude Include="Math\Scalars.h" />
-    <ClInclude Include="Math\Vectors.h" />
     <ClInclude Include="Rendering\State\DepthStencilState.h" />
     <ClInclude Include="Generation\PlaneGeneration.h" />
     <ClInclude Include="Rendering\DrawData\InstanceList.h" />
@@ -194,15 +188,12 @@
     <ClInclude Include="Game\Camera\Camera.h" />
     <ClInclude Include="Io\Ascii\AsciiWriter.h" />
     <ClInclude Include="Framework\CppFramework.h" />
-    <ClInclude Include="Math\Quaternion.h" />
-    <ClInclude Include="Math\Matrix4x4.h" />
     <ClInclude Include="Io\Fbx\Wrapping\Pose.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertCam_Tex_Transform.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertCam_Tex.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertLight_Tex.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertLight_Col.h" />
     <ClInclude Include="Rendering\DrawData\IDrawData.h" />
-    <ClInclude Include="Math\Scalar.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertCam_Tex_Tran_Inst.h" />
     <ClInclude Include="Shapes\Capsule.h" />
     <ClInclude Include="Io\Fbx\Reading\Properties70.h" />
@@ -222,7 +213,6 @@
     <ClInclude Include="Generation\Shapes\ArrowGenerator.h" />
     <ClInclude Include="Io\Ttf\OffsetSubTable.h" />
     <ClInclude Include="Io\Ttf\LocaTable.h" />
-    <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="Rendering\State\Shader.h" />
     <ClInclude Include="Rendering\State\Mesh.h" />
     <ClInclude Include="Rendering\Gpu.h" />
@@ -259,7 +249,6 @@
     <ClInclude Include="Io\Json\JsonString.h" />
     <ClInclude Include="Io\Json\JsonNumber.h" />
     <ClInclude Include="Io\Json\JsonNull.h" />
-    <ClInclude Include="Math\Cube.h" />
     <ClInclude Include="Game\Globals.h" />
     <ClInclude Include="Game\Camera\OrbitCamera.h" />
     <ClInclude Include="App\FpsControl.h" />
@@ -274,7 +263,6 @@
     <ClInclude Include="App\Win32\Window.h" />
     <ClInclude Include="App\Time.h" />
     <ClInclude Include="Framework\Resources.h" />
-    <ClInclude Include="Math\Constants.h" />
     <ClInclude Include="App\Win32\Mouse.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="App\Win32\Screen.h" />
@@ -282,9 +270,7 @@
     <ClInclude Include="App\Wrappers\Dx\RendererD2D.h" />
     <ClInclude Include="Rendering\State\RasterizerState.h" />
     <ClInclude Include="Generation\Shapes.h" />
-    <ClInclude Include="Math\Rect.h" />
     <ClInclude Include="Shapes\Sphere.h" />
-    <ClInclude Include="Math\Vector2.h" />
     <ClInclude Include="Debug\Timing\Counter.h" />
     <ClInclude Include="Io\Zlib\ZlibDecompress.h" />
     <ClInclude Include="Rendering\Renderers\TextureRenderer.h" />
@@ -297,7 +283,6 @@
     <ClInclude Include="Io\Ttf\TtfPoint.h" />
     <ClInclude Include="Io\Ttf\Segment.h" />
     <ClInclude Include="Game\Transform.h" />
-    <ClInclude Include="Math\Vector4.h" />
     <ClInclude Include="Io\Fbx\Wrapping\FbxWrapTexture.h" />
     <ClInclude Include="Io\Fbx\Wrapping\Video.h" />
     <ClInclude Include="Io\Fbx\FbxSkeleton.h" />
@@ -370,7 +355,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(VCInstallDir)UnitTest\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\MyBasics\;$(ProjectDir);$(VCInstallDir)UnitTest\include</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
@@ -397,7 +382,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(VCInstallDir)UnitTest\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\MyBasics\;$(ProjectDir);$(VCInstallDir)UnitTest\include</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>

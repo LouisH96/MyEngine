@@ -1,5 +1,5 @@
 #pragma once
-#include "Math/Vector2.h"
+#include "Vector2.h"
 
 #undef min
 #undef max

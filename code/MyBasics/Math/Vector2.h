@@ -1,4 +1,6 @@
 #pragma once
+#include <limits>
+
 namespace MyEngine
 {
 	namespace Math

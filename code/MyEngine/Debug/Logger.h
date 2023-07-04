@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "ToString.h"
-#include "../Math/Vectors.h"
+#include <Math/Vectors.h>
 
 namespace MyEngine
 {

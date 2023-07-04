@@ -1,6 +1,4 @@
 #pragma once
-#include <DirectXMath.h>
-
 #include "Vector2.h"
 
 namespace MyEngine
@@ -57,7 +55,6 @@ namespace MyEngine
 			//will normalize [0,255] to [0,1]
 			static Vector3 Color(const T& r, const T& g, const T& b);
 			static Vector3 FromXz(const Math::Vector2<T>& xz);
-			static Vector3 FromDxVector(const DirectX::XMVECTOR& vector);
 
 			static Vector3 TowardZMax(const Vector2<T>& xy, float z = 0);
 
@@ -225,14 +222,6 @@ namespace MyEngine
 		Vector3<T> Vector3<T>::FromXz(const Math::Vector2<T>& xz)
 		{
 			return { xz.x, 0, xz.y };
-		}
-
-		template <typename T>
-		Vector3<T> Vector3<T>::FromDxVector(const DirectX::XMVECTOR& vector)
-		{
-			Vector3 v{};
-			XMStoreFloat3(reinterpret_cast<DirectX::XMFLOAT3*>(&v.x), vector);
-			return v;
 		}
 
 		template <typename T>
