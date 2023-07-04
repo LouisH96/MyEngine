@@ -119,3 +119,8 @@ MyEngine::Rendering::Image* MyEngine::Io::Ttf::FontRasterizer::MakeImage(const F
 	}
 	return pImage;
 }
+
+void MyEngine::Io::Ttf::FontRasterizer::DeleteImage(Rendering::Image* pImage)
+{
+	delete pImage;
+}

@@ -11,8 +11,6 @@
 #include <Rendering/State/Texture.h>
 #include <Rendering/Structs/VertexTypes.h>
 
-#include "Image.h"
-
 #undef min
 #undef max
 
@@ -53,7 +51,7 @@ Rendering::FpsDisplay::FpsDisplay()
 		const Io::Ttf::FontRasterizer rasterizer{ glyph, pixelsInWidth, pixelsInHeight };
 		Image* pImage = rasterizer.MakeImage({ 1,1,0 });
 		Texture* pTexture = new Texture(pImage);
-		delete pImage;
+		rasterizer.DeleteImage(pImage);
 
 		m_Sizes[i] = {
 			static_cast<float>(pixelsInWidth) / Globals::pWindow->GetClientWidth(),

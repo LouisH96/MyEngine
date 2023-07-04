@@ -72,7 +72,7 @@ void Rendering::Font::FontAtlas::DrawGlyphStep(const Io::Ttf::Glyph& glyph, int 
 {
 	const Int2 sizeInPixels{ (glyph.GetSize() * ttfToPixels).Ceiled() };
 	const FontRasterizer rasterizer{ glyph, sizeInPixels };
-	const Image* pGlyphImage{ rasterizer.MakeImage({1,1,1}) };
+	Image* pGlyphImage{ rasterizer.MakeImage({1,1,1}) };
 	pGlyphImage->CopyTo(*m_pImage, { static_cast<int>(m_CharacterHorPos[idx]), 0 });
-	delete pGlyphImage;
+	FontRasterizer::DeleteImage(pGlyphImage);
 }

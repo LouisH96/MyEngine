@@ -15,16 +15,19 @@ namespace MyEngine
 		{
 			class Glyph;
 
-			class FontRasterizer
+			class MY_FILES_API FontRasterizer
 			{
 			public:
-				MY_FILES_API explicit FontRasterizer(const Glyph& glyph, const Int2& sizeInPixels);
-				MY_FILES_API explicit FontRasterizer(const Glyph& glyph, int nrCols, int nrRows);
+				explicit FontRasterizer(const Glyph& glyph, const Int2& sizeInPixels);
+				explicit FontRasterizer(const Glyph& glyph, int nrCols, int nrRows);
+				~FontRasterizer() = default;
 
-				MY_FILES_API void DrawBounds(const Float3& color, const Float3& offset) const;
-				MY_FILES_API void DrawGrid(const Float3& offset, const Float3& color) const;
-				MY_FILES_API void DrawIntersections(const Float3& offset, const Float2& bounds) const;
-				MY_FILES_API Rendering::Image* MakeImage(const Float3& fillColor) const;
+				void DrawBounds(const Float3& color, const Float3& offset) const;
+				void DrawGrid(const Float3& offset, const Float3& color) const;
+				void DrawIntersections(const Float3& offset, const Float2& bounds) const;
+				Rendering::Image* MakeImage(const Float3& fillColor) const;
+
+				static void DeleteImage(Rendering::Image* pImage);
 
 			private:
 				const Glyph& m_Glyph;
