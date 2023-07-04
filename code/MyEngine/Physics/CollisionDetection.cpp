@@ -1,10 +1,11 @@
 #include "pch.h"
 #include "CollisionDetection.h"
 
-using namespace Math;
+#include "Generation/Shapes.h"
+#include "Geometry/Shapes/Sphere.h"
 
-bool Physics::CollisionDetection::Detect(const Math::Float3& from, const Math::Float3& to,
-	const Array<Math::Float3>& vertices, const Array<Math::Float3>& triangleNormals, Collision& collision)
+bool Physics::CollisionDetection::Detect(const Float3& from, const Float3& to,
+                                         const Array<Float3>& vertices, const Array<Float3>& triangleNormals, Collision& collision)
 {
 	float rayLength;
 	const Float3 ray{ (to - from).Normalized(rayLength) };
@@ -99,8 +100,8 @@ bool Physics::CollisionDetection::IsPlanePointInTriangle(const Float3& point,
 }
 
 float Physics::CollisionDetection::GetTime(
-	const Math::Float3& v0, const Math::Float3& normal,
-	const Math::Float3& rayOrigin, const Math::Float3& rayDir)
+	const Float3& v0, const Float3& normal,
+	const Float3& rayOrigin, const Float3& rayDir)
 {
 	const Float3 planeToOrigin{ rayOrigin - v0 };
 	const float heightDiff{ planeToOrigin.Dot(normal) };

@@ -17,7 +17,7 @@ namespace MyEngine
 			static T GetMin(const Array<T>& a);
 
 			template<typename T>
-			static T GetBiggest(const Ds::Array<T>& array);
+			static T GetBiggest(const Array<T>& array);
 
 			template<typename T>
 			static void GetMinAndMax(const Array<T>& array, T& min, T& max);
@@ -37,7 +37,7 @@ namespace MyEngine
 		}
 
 		template <typename T>
-		T Algorithms::GetBiggest(const Ds::Array<T>& a)
+		T Algorithms::GetBiggest(const Array<T>& a)
 		{
 			T biggest = a[0];
 			for (int i = 1; i < a.GetSize(); i++)

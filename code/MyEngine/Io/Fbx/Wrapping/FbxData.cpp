@@ -5,8 +5,6 @@
 #include "../Reading/FbxObject.h"
 #include "../Reading/FbxReader.h"
 
-using namespace Math;
-
 Io::Fbx::Wrapping::FbxData::FbxData(const std::wstring& fbxPath)
 	: FbxData(Fbx::Reading::FbxReader{ fbxPath })
 {}

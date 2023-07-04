@@ -3,10 +3,7 @@
 
 namespace MyEngine
 {
-	namespace Math
-	{
-		using Int = Scalar<int>;
-		using Float = Scalar<float>;
-		using Double = Scalar<double>;
-	}
+	using Int = Scalar<int>;
+	using Float = Scalar<float>;
+	using Double = Scalar<double>;
 }

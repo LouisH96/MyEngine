@@ -3,8 +3,6 @@
 
 //#define MESH_UTILS_DEBUG
 
-using namespace Math;
-
 void Generation::MeshUtils::CapCircle(int nrPoints, int arrayOffset, int valueOffset, Array<int>& indices)
 {
 	if (nrPoints % 2 != 0)

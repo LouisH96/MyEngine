@@ -2,9 +2,10 @@
 #include "CubeGenerator.h"
 
 #include "PlaneGeneration.h"
+#include "Geometry/Shapes/Cube.h"
 
 void Generation::CubeGenerator::FrontPlane(const Cube& cube, const Float3& color,
-	List<Rendering::V_PosColNorm>& vertices, List<int>& indices, const Float3& offset)
+                                           List<Rendering::V_PosColNorm>& vertices, List<int>& indices, const Float3& offset)
 {
 	const Float3 leftBot{ cube.GetRightBotFront() + offset };
 	const Float2 size{ cube.GetXySize() };

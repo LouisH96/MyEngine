@@ -22,9 +22,9 @@ namespace MyEngine
 			void SetColorB(int idx, uint8_t b);
 			void SetColorR(int col, int row, uint8_t r);
 			void SetColor(int col, int row, uint8_t r, uint8_t g, uint8_t b, uint8_t a) const;
-			void SetColor(int col, int row, const Math::Float3& color, float a = 1.f) const;
+			void SetColor(int col, int row, const Float3& color, float a = 1.f) const;
 			void SetRowColor(int row, uint8_t r, uint8_t g, uint8_t b, uint8_t a);
-			void SetRowColor(int row, const Math::Float3& color, float a = 1.f);
+			void SetRowColor(int row, const Float3& color, float a = 1.f);
 
 			int GetWidth() const { return m_Width; }
 			int GetHeight() const { return m_Height; }

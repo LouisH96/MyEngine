@@ -3,10 +3,9 @@
 
 #include "Generation/MeshUtils.h"
 #include "Math/Constants.h"
-#include "Math/Geometry/PointUtils.h"
 
 
-void Generation::ArrowGenerator::CreatePivotArrows(Array<Rendering::V_PosColNorm>& vertices, Array<int>& indices, int nrSides, const Math::Float3& origin, float scale)
+void Generation::ArrowGenerator::CreatePivotArrows(Array<Rendering::V_PosColNorm>& vertices, Array<int>& indices, int nrSides, const Float3& origin, float scale)
 {
 	using namespace Rendering;
 	constexpr float lineRadius = .05f;
@@ -16,8 +15,8 @@ void Generation::ArrowGenerator::CreatePivotArrows(Array<Rendering::V_PosColNorm
 	indices = { arrowGenerator.GetNrIndices() * 2 };
 
 	//GET ARROW MODEL
-	Array<Math::Float3> positions{ };
-	Array<Math::Float3> normals{};
+	Array<Float3> positions{ };
+	Array<Float3> normals{};
 	Array<int> tempIndices{};
 
 	arrowGenerator.Generate(positions, normals, tempIndices);
@@ -99,7 +98,7 @@ int Generation::ArrowGenerator::GetNrTriangles() const
 
 float Generation::ArrowGenerator::GetAngleStep() const
 {
-	return Math::Constants::PI / static_cast<float>(m_NrSides) * 2.f;
+	return Constants::PI / static_cast<float>(m_NrSides) * 2.f;
 }
 
 int Generation::ArrowGenerator::GetSectionLength(VertexSection section) const
@@ -150,10 +149,9 @@ int Generation::ArrowGenerator::GetSectionBegin(TriangleSection section) const
 	return begin;
 }
 
-void Generation::ArrowGenerator::Generate(Array<Math::Float3>& vertexPoints, Array<Math::Float3>& vertexNormals,
+void Generation::ArrowGenerator::Generate(Array<Float3>& vertexPoints, Array<Float3>& vertexNormals,
 	Array<int>& indices) const
 {
-	using namespace Math;
 	vertexPoints = { GetNrVertices() };
 	vertexNormals = { GetNrVertices() };
 	indices = { GetNrTriangles() * 3 };

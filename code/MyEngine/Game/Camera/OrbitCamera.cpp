@@ -7,7 +7,6 @@
 #include <Math/Constants.h>
 
 using namespace App::Win32;
-using namespace Math;
 
 OrbitCamera::OrbitCamera()
 	: OrbitCamera{ *Globals::pCamera }

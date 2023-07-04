@@ -1,14 +1,11 @@
 #pragma once
 #include "DataStructures/List.h"
-#include "Math/Rects.h"
 #include "Rendering/Structs/VertexTypes.h"
+#include <Geometry/Shapes/Rects.h>
 
 namespace MyEngine
 {
-	namespace Shapes
-	{
-		struct Quad;
-	}
+	struct Quad;
 
 	namespace Generation
 	{

@@ -1,5 +1,5 @@
 #pragma once
-#include "Math/Rects.h"
+#include "Geometry/Shapes/Rects.h"
 
 namespace MyEngine
 {

@@ -1,9 +1,8 @@
 #pragma once
 #include "DataStructures/List.h"
-#include "Math/Rects.h"
+#include "Geometry/Shapes/Rect3.h"
+#include "Geometry/Shapes/Rects.h"
 #include "Rendering/Structs/VertexTypes.h"
-#include "Shapes/Line.h"
-#include "Shapes/Rect3.h"
 
 namespace MyEngine
 {

@@ -16,7 +16,7 @@ Rendering::CB_CamMat::CB_CamMat(const Float4X4& viewProjection)
 {
 }
 
-Rendering::CB_CamMat::CB_CamMat(const Math::Float3& position, const Math::Float4X4& viewProjection)
+Rendering::CB_CamMat::CB_CamMat(const Float3& position, const Float4X4& viewProjection)
 	: CameraMatrix{ viewProjection }
 {
 }
@@ -27,13 +27,13 @@ Rendering::CB_CamMatPos::CB_CamMatPos(const Camera& camera)
 {
 }
 
-Rendering::CB_CamMatPos::CB_CamMatPos(const Math::Float3& position, const Math::Float4X4& matrix)
+Rendering::CB_CamMatPos::CB_CamMatPos(const Float3& position, const Float4X4& matrix)
 	: CameraMatrix{ matrix }
 	, CameraPos{ position }
 {
 }
 
-Rendering::CB_CamMatPos::CB_CamMatPos(const Math::Float3& position, const Math::Float4X4& viewProjection,
+Rendering::CB_CamMatPos::CB_CamMatPos(const Float3& position, const Float4X4& viewProjection,
 	const Game::Transform& transform)
 
 	: CameraMatrix{ transform.AsMatrix() * viewProjection }

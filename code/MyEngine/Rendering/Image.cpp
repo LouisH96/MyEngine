@@ -11,7 +11,7 @@ Rendering::Image::Image(int width, int height)
 }
 
 Rendering::Image::Image(const Float2& size)
-	: Image{ FloatMath::Ceil(size.x), FloatMath::Ceil(size.y) }
+	: Image{ Float::Ceil(size.x), Float::Ceil(size.y) }
 {
 }
 
@@ -80,7 +80,7 @@ void Rendering::Image::SetColor(int col, int row, uint8_t r, uint8_t g, uint8_t 
 	pColor[3] = a;
 }
 
-void Rendering::Image::SetColor(int col, int row, const Math::Float3& color, float a) const
+void Rendering::Image::SetColor(int col, int row, const Float3& color, float a) const
 {
 	uint8_t* pColor{ &m_pData[(row * m_Width + col) * 4] };
 	pColor[0] = static_cast<uint8_t>(color.x * 255.f);
@@ -101,7 +101,7 @@ void Rendering::Image::SetRowColor(int row, uint8_t r, uint8_t g, uint8_t b, uin
 	}
 }
 
-void Rendering::Image::SetRowColor(int row, const Math::Float3& color, float a)
+void Rendering::Image::SetRowColor(int row, const Float3& color, float a)
 {
 	const uint8_t r{ static_cast<uint8_t>(color.x * 255.f) };
 	const uint8_t g{ static_cast<uint8_t>(color.y * 255.f) };

@@ -2,7 +2,7 @@
 
 #include "Constants.h"
 
-using namespace MyEngine::Math;
+using namespace MyEngine;
 
 Quaternion::Quaternion()
 	: Xyz{ 0, 0, 0 }

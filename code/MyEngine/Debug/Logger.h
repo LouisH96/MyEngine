@@ -23,10 +23,10 @@ namespace MyEngine
 			static void Print(const DirectX::XMFLOAT3& vector);
 			static void PrintXYZ(const DirectX::XMVECTOR& vector);
 			static void PrintXYZ(const float* x);
-			static void PrintXYZ(const Math::Float3& vector);
-			static void PrintXYZ(const std::string& prefix, const Math::Float3& vector);
-			static void PrintXY(const Math::Int2& vector);
-			static void PrintXY(const std::string& prefix, const Math::Int2& vector);
+			static void PrintXYZ(const Float3& vector);
+			static void PrintXYZ(const std::string& prefix, const Float3& vector);
+			static void PrintXY(const Int2& vector);
+			static void PrintXY(const std::string& prefix, const Int2& vector);
 
 			static void PrintError(const std::string& message);
 			static void PrintWarning(const std::string& message);
@@ -35,8 +35,8 @@ namespace MyEngine
 			static std::string ToString(const DirectX::XMFLOAT3& vector);
 			static std::string ToStringXYZ(const DirectX::XMVECTOR& vector);
 			static std::string ToStringXYZ(const float* x);
-			static std::string ToStringXYZ(const Math::Float3& vector);
-			static std::string ToStringXY(const Math::Int2& vector);
+			static std::string ToStringXYZ(const Float3& vector);
+			static std::string ToStringXY(const Int2& vector);
 
 			template <typename T>
 			static void ToStringPrint(const T& value);

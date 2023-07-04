@@ -9,20 +9,20 @@ Io::Fbx::Reading::Properties70::Properties70(const FbxObject& object)
 {
 }
 
-Math::Float3 Io::Fbx::Reading::Properties70::GetFloat3(const std::string& name) const
+Float3 Io::Fbx::Reading::Properties70::GetFloat3(const std::string& name) const
 {
 	const FbxObject& object{ *GetProperty(name) };
-	return Math::Float3{
+	return Float3{
 		static_cast<float>(object.GetProperty(object.GetNrProperties() - 3)->AsPrimitive<double>().GetValue()),
 		static_cast<float>(object.GetProperty(object.GetNrProperties() - 2)->AsPrimitive<double>().GetValue()),
 		static_cast<float>(object.GetProperty(object.GetNrProperties() - 1)->AsPrimitive<double>().GetValue())
 	};
 }
 
-Math::Double3 Io::Fbx::Reading::Properties70::GetDouble3(const std::string& name) const
+Double3 Io::Fbx::Reading::Properties70::GetDouble3(const std::string& name) const
 {
 	const FbxObject& object{ *GetProperty(name) };
-	return Math::Double3{
+	return Double3{
 		object.GetProperty(object.GetNrProperties() - 3)->AsPrimitive<double>().GetValue(),
 		object.GetProperty(object.GetNrProperties() - 2)->AsPrimitive<double>().GetValue(),
 		object.GetProperty(object.GetNrProperties() - 1)->AsPrimitive<double>().GetValue()
@@ -47,22 +47,22 @@ std::string Io::Fbx::Reading::Properties70::GetString(const std::string& name) c
 	return object.GetProperty(object.GetNrProperties() - 1)->AsString();
 }
 
-Math::Float3 Io::Fbx::Reading::Properties70::GetFloat3(const std::string& name, const Math::Float3& fallback) const
+Float3 Io::Fbx::Reading::Properties70::GetFloat3(const std::string& name, const Float3& fallback) const
 {
 	const FbxObject* pObject{ GetPropertyOptional(name) };
 	if (pObject == nullptr) return fallback;
-	return Math::Float3{
+	return Float3{
 		static_cast<float>(pObject->GetProperty(pObject->GetNrProperties() - 3)->AsPrimitive<double>().GetValue()),
 		static_cast<float>(pObject->GetProperty(pObject->GetNrProperties() - 2)->AsPrimitive<double>().GetValue()),
 		static_cast<float>(pObject->GetProperty(pObject->GetNrProperties() - 1)->AsPrimitive<double>().GetValue())
 	};
 }
 
-Math::Double3 Io::Fbx::Reading::Properties70::GetDouble3(const std::string& name, const Math::Double3& fallback) const
+Double3 Io::Fbx::Reading::Properties70::GetDouble3(const std::string& name, const Double3& fallback) const
 {
 	const FbxObject* pObject{ GetPropertyOptional(name) };
 	if (pObject == nullptr) return fallback;
-	return Math::Double3{
+	return Double3{
 		pObject->GetProperty(pObject->GetNrProperties() - 3)->AsPrimitive<double>().GetValue(),
 		pObject->GetProperty(pObject->GetNrProperties() - 2)->AsPrimitive<double>().GetValue(),
 		pObject->GetProperty(pObject->GetNrProperties() - 1)->AsPrimitive<double>().GetValue()

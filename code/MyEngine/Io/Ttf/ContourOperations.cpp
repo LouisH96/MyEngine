@@ -10,16 +10,16 @@
 #undef max;
 #undef min;
 
-void Io::Ttf::ContourOperations::GetBounds(const Array<Array<TtfPoint>>& points, Math::Vector2<int16_t>& min,
-	Math::Vector2<int16_t>& max)
+void Io::Ttf::ContourOperations::GetBounds(const Array<Array<TtfPoint>>& points, Vector2<int16_t>& min,
+	Vector2<int16_t>& max)
 {
 	GetBounds(points[0], min, max, true);
 	for (int i = 1; i < points.GetSize(); i++)
 		GetBounds(points[i], min, max, false);
 }
 
-void Io::Ttf::ContourOperations::GetBounds(const Array<TtfPoint>& points, Math::Vector2<int16_t>& min,
-	Math::Vector2<int16_t>& max, bool initMinMax)
+void Io::Ttf::ContourOperations::GetBounds(const Array<TtfPoint>& points, Vector2<int16_t>& min,
+	Vector2<int16_t>& max, bool initMinMax)
 {
 	if (initMinMax)
 	{
@@ -38,7 +38,7 @@ void Io::Ttf::ContourOperations::GetBounds(const Array<TtfPoint>& points, Math::
 }
 
 
-Array<Math::Double2> Io::Ttf::ContourOperations::ToPoints(const Array<TtfPoint>& contourPoints, int nrPointsPerSegment)
+Array<Double2> Io::Ttf::ContourOperations::ToPoints(const Array<TtfPoint>& contourPoints, int nrPointsPerSegment)
 {
 	if (nrPointsPerSegment < 2)
 	{
@@ -61,7 +61,7 @@ Array<Math::Double2> Io::Ttf::ContourOperations::ToPoints(const Array<TtfPoint>&
 	}
 
 	//
-	Array<Math::Double2> points{ nrPoints };
+	Array<Double2> points{ nrPoints };
 	int iPoint = 0;
 	int iContour = 0;
 	while (iContour < contourPoints.GetSize())
@@ -72,9 +72,9 @@ Array<Math::Double2> Io::Ttf::ContourOperations::ToPoints(const Array<TtfPoint>&
 			continue;
 		}
 
-		const Math::Double2 controlPoint = contourPoints[iContour].position;
-		const Math::Double2 prevPoint = points[iPoint - 1];
-		Math::Double2 nextPoint;
+		const Double2 controlPoint = contourPoints[iContour].position;
+		const Double2 prevPoint = points[iPoint - 1];
+		Double2 nextPoint;
 		if (contourPoints[iContour + 1].isOnCurve)
 		{
 			nextPoint = contourPoints[iContour + 1].position;
@@ -89,18 +89,18 @@ Array<Math::Double2> Io::Ttf::ContourOperations::ToPoints(const Array<TtfPoint>&
 		const float alphaStep = 1.f / (nrPointsPerSegment - 1);
 		for (int iStep = 1; iStep < nrPointsPerSegment; iStep++)
 		{
-			const Math::Double2 stepPoint = CalculatePoint(prevPoint, controlPoint, nextPoint, iStep * alphaStep);
+			const Double2 stepPoint = CalculatePoint(prevPoint, controlPoint, nextPoint, iStep * alphaStep);
 			points[iPoint++] = stepPoint;
 		}
 	}
 	return points;
 }
 
-Array<Math::Double2> Io::Ttf::ContourOperations::ToPoints(const Segment& segment, int nrPoints)
+Array<Double2> Io::Ttf::ContourOperations::ToPoints(const Segment& segment, int nrPoints)
 {
 	if (segment.IsLinear())
 	{
-		Array<Math::Double2> points{ 2 };
+		Array<Double2> points{ 2 };
 		points[0] = { segment.GetBegin() };
 		points[1] = { segment.GetEnd() };
 		return points;
@@ -110,7 +110,7 @@ Array<Math::Double2> Io::Ttf::ContourOperations::ToPoints(const Segment& segment
 		Logger::PrintError("Need at least 2 points for segment");
 		return {};
 	}
-	Array<Math::Double2> points{ nrPoints };
+	Array<Double2> points{ nrPoints };
 	const float alphaStep{ 1.f / (nrPoints - 1) };
 	points[0] = segment.GetBegin();
 	for (int i = 1; i < nrPoints; i++)
@@ -118,7 +118,7 @@ Array<Math::Double2> Io::Ttf::ContourOperations::ToPoints(const Segment& segment
 	return points;
 }
 
-Array<Math::Double2> Io::Ttf::ContourOperations::ToPoints(const Contour& contour, int nrPointsForCurve)
+Array<Double2> Io::Ttf::ContourOperations::ToPoints(const Contour& contour, int nrPointsForCurve)
 {
 	int nrPoints = 1;
 	for (int i = 0; i < contour.GetSegments().GetSize(); i++)
@@ -127,7 +127,7 @@ Array<Math::Double2> Io::Ttf::ContourOperations::ToPoints(const Contour& contour
 		else
 			nrPoints += nrPointsForCurve - 1;
 
-	Array<Math::Double2> points{ nrPoints };
+	Array<Double2> points{ nrPoints };
 	int iPoint = 0;
 	for (int iSegment = 0; iSegment < contour.GetSegments().GetSize(); iSegment++)
 	{
@@ -135,7 +135,7 @@ Array<Math::Double2> Io::Ttf::ContourOperations::ToPoints(const Contour& contour
 			points[iPoint++] = contour.GetSegments()[iSegment].GetBegin();
 		else
 		{
-			const Array<Math::Double2> segmentPoints{ ToPoints(contour.GetSegments()[iSegment], nrPointsForCurve) };
+			const Array<Double2> segmentPoints{ ToPoints(contour.GetSegments()[iSegment], nrPointsForCurve) };
 			for (int iSegmentPoint = 0; iSegmentPoint < segmentPoints.GetSize() - 1; iSegmentPoint++)
 				points[iPoint++] = segmentPoints[iSegmentPoint];
 		}
@@ -186,9 +186,9 @@ Array<Io::Ttf::Segment> Io::Ttf::ContourOperations::ToSegments(const Array<TtfPo
 		}
 		else
 		{
-			const Math::Double2 prevPoint = iSegment == 0 ? Math::Double2{ contourPoints[0].position } : segments[iSegment - 1].GetEnd();
-			const Math::Double2 controlPoint = contourPoints[i].position;
-			Math::Double2 nextPoint;
+			const Double2 prevPoint = iSegment == 0 ? Double2{ contourPoints[0].position } : segments[iSegment - 1].GetEnd();
+			const Double2 controlPoint = contourPoints[i].position;
+			Double2 nextPoint;
 			if (contourPoints[i + 1].isOnCurve)
 			{
 				nextPoint = contourPoints[i + 1].position;
@@ -196,7 +196,7 @@ Array<Io::Ttf::Segment> Io::Ttf::ContourOperations::ToSegments(const Array<TtfPo
 			}
 			else
 			{
-				nextPoint = (controlPoint + Math::Double2{ contourPoints[i + 1].position }) / 2;
+				nextPoint = (controlPoint + Double2{ contourPoints[i + 1].position }) / 2;
 				i++;
 			}
 			segments[iSegment++] = { prevPoint, controlPoint, nextPoint };
@@ -240,7 +240,7 @@ Rendering::Image* Io::Ttf::ContourOperations::MakeImage(const TtfReader& reader,
 {
 	Glyph glyph{ reader.GetGlyph(character) };
 
-	const Math::Double2 size{ glyph.GetSize() };
+	const Double2 size{ glyph.GetSize() };
 	const double scale{ size.x > size.y ? 1.0 / size.x : 1.0 / size.y };
 	glyph.Scale(scale);
 
@@ -264,14 +264,14 @@ void Io::Ttf::ContourOperations::Rasterize(const Glyph& glyph, Rendering::Image&
 		 * debug vis
 		 *for (int iIntersection = 0; iIntersection < intersections.GetSize(); iIntersection++)
 		{
-			const Math::Float3 color{ intersections[iIntersection].isClockwise
-				? Math::Float3{0,0,0}
-				: Math::Float3{1,1,1} };
+			const Float3 color{ intersections[iIntersection].isClockwise
+				? Float3{0,0,0}
+				: Float3{1,1,1} };
 
-			DebugRenderer::AddSphere(Math::Float3{ intersections[iIntersection].distance, y, 0.00f }, color, 0.01f);
+			DebugRenderer::AddSphere(Float3{ intersections[iIntersection].distance, y, 0.00f }, color, 0.01f);
 		}
 
-		DebugRenderer::AddLine(Math::Float3{ 0,y,-0.01f }, Math::Float3{ 1,y,-0.01f }, Math::Float3{ 1,0,0 });*/
+		DebugRenderer::AddLine(Float3{ 0,y,-0.01f }, Float3{ 1,y,-0.01f }, Float3{ 1,0,0 });*/
 
 		int windingCounter = 0; //zero-winding
 		int lastCol = 0;
@@ -290,8 +290,8 @@ void Io::Ttf::ContourOperations::Rasterize(const Glyph& glyph, Rendering::Image&
 	}
 }
 
-Math::Float2 Io::Ttf::ContourOperations::CalculatePoint(const Math::Float2& p0, const Math::Float2& p1,
-	const Math::Float2& p2, float alpha)
+Float2 Io::Ttf::ContourOperations::CalculatePoint(const Float2& p0, const Float2& p1,
+	const Float2& p2, float alpha)
 {
 	const float invAlpha = 1 - alpha;
 	return p0 * (invAlpha * invAlpha)
@@ -299,7 +299,7 @@ Math::Float2 Io::Ttf::ContourOperations::CalculatePoint(const Math::Float2& p0, 
 		+ p2 * (alpha * alpha);
 }
 
-Math::Float2 Io::Ttf::ContourOperations::CalculatePoint(const Segment& segment, float alpha)
+Float2 Io::Ttf::ContourOperations::CalculatePoint(const Segment& segment, float alpha)
 {
 	const float invAlpha = 1 - alpha;
 	return segment.GetBegin() * (invAlpha * invAlpha)
@@ -323,12 +323,12 @@ void Io::Ttf::ContourOperations::AddIntersectionsCurve(const Segment& curve, dou
 	//const bool isClockwise{ (curve.p2 - curve.p0).Cross(curve.p1 - curve.p0) > 0 };
 	if (result1 >= 0 && result1 <= 1)
 	{
-		const Math::Float2 point{ CalculatePoint(curve, result1) };
+		const Float2 point{ CalculatePoint(curve, result1) };
 		intersections.push_back({ point.x, true });
 	}
 	if (result2 >= 0 && result2 <= 1)
 	{
-		const Math::Float2 point{ CalculatePoint(curve, result2) };
+		const Float2 point{ CalculatePoint(curve, result2) };
 		intersections.push_back({ point.x, false });
 	}
 }
@@ -342,7 +342,7 @@ void Io::Ttf::ContourOperations::AddIntersectionsLinear(const Segment& linear, d
 	const double result{ (height - linear.GetBegin().y) / divisor };
 	if (result >= 0 && result <= 1)
 	{
-		const Math::Float2 point{ linear.GetBegin() + (linear.GetEnd() - linear.GetBegin()) * result };
+		const Float2 point{ linear.GetBegin() + (linear.GetEnd() - linear.GetBegin()) * result };
 		intersections.push_back({ point.x, linear.GetEnd().y > linear.GetBegin().y });
 	}
 }

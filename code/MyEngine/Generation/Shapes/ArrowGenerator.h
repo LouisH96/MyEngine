@@ -23,7 +23,7 @@ namespace MyEngine
 			};
 
 			//---| Static Functions |---
-			static void CreatePivotArrows(Array<Rendering::V_PosColNorm>& vertices, Array<int>& indices, int nrSides = 6, const Math::Float3& origin = {}, float scale = 1);
+			static void CreatePivotArrows(Array<Rendering::V_PosColNorm>& vertices, Array<int>& indices, int nrSides = 6, const Float3& origin = {}, float scale = 1);
 
 			//---| Class |---
 			ArrowGenerator(int nrSides, bool capLineEnd, float lineLength, float lineRadius, float arrowLength, float arrowRadius);
@@ -40,7 +40,7 @@ namespace MyEngine
 			int GetSectionLength(TriangleSection section) const;
 			int GetSectionBegin(TriangleSection section) const;
 
-			void Generate(Array<Math::Float3>& vertexPoints, Array<Math::Float3>& vertexNormals, Array<int>& indices) const;
+			void Generate(Array<Float3>& vertexPoints, Array<Float3>& vertexNormals, Array<int>& indices) const;
 
 		private:
 			const int m_NrSides;

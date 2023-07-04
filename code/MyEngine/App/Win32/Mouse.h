@@ -35,9 +35,9 @@ namespace MyEngine
 				bool IsRightBtnPressed() const;
 				bool IsRightBtnReleased() const;
 
-				void SetPos(Math::Int2 position);
-				const Math::Int2& GetPos() const { return m_Pos; }
-				const Math::Int2& GetMovement() const { return m_Movement; }
+				void SetPos(Int2 position);
+				const Int2& GetPos() const { return m_Pos; }
+				const Int2& GetMovement() const { return m_Movement; }
 				float GetScroll() const { return m_Scroll; }
 
 			private:
@@ -45,8 +45,8 @@ namespace MyEngine
 				static constexpr int RIGHT_MASK = 2;
 				static constexpr int MIDDLE_MASK = 4;
 				static constexpr int NR_BUTTONS = 3;
-				Math::Int2 m_Pos{0, 0};
-				Math::Int2 m_Movement{0, 0};
+				Int2 m_Pos{0, 0};
+				Int2 m_Movement{0, 0};
 				float m_Scroll{ 0 };
 				int m_State{ 0 };
 			};

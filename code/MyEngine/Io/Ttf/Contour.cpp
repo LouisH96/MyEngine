@@ -9,7 +9,7 @@ Io::Ttf::Contour::Contour(const Array<TtfPoint>& ttfPoints)
 {
 }
 
-void Io::Ttf::Contour::Translate(const Math::Double2& translation)
+void Io::Ttf::Contour::Translate(const Double2& translation)
 {
 	for (int i = 0; i < m_Segments.GetSize(); i++)
 		m_Segments[i].Translate(translation);
@@ -29,13 +29,13 @@ void Io::Ttf::Contour::AddIntersections(std::vector<Intersection>& intersections
 		m_Segments[i].AddIntersectionPoints(intersections, height);
 }
 
-void Io::Ttf::Contour::DebugDraw(const Math::Float3& color, const Math::Float3& offset, int pointsPerCurve) const
+void Io::Ttf::Contour::DebugDraw(const Float3& color, const Float3& offset, int pointsPerCurve) const
 {
 	int nrPoints = 1;
 	for (int i = 0; i < m_Segments.GetSize(); i++)
 		nrPoints += m_Segments[i].IsLinear() ? 1 : pointsPerCurve - 1;
 
-	Array<Math::Double2> points{ nrPoints };
+	Array<Double2> points{ nrPoints };
 	int iPoint = 0;
 	for (int iSegment = 0; iSegment < m_Segments.GetSize(); iSegment++)
 	{
@@ -51,17 +51,16 @@ void Io::Ttf::Contour::DebugDraw(const Math::Float3& color, const Math::Float3& 
 		}
 	}
 
-	Array<Math::Float3> drawPoints{ points.GetSize() };
+	Array<Float3> drawPoints{ points.GetSize() };
 	for (int i = 0; i < drawPoints.GetSize(); i++)
-		drawPoints[i] = Math::Float3{ static_cast<float>(points[i].x) + offset.x, static_cast<float>(points[i].y) + offset.y, offset.z };
+		drawPoints[i] = Float3{ static_cast<float>(points[i].x) + offset.x, static_cast<float>(points[i].y) + offset.y, offset.z };
 	DebugRenderer::AddLine(drawPoints, color);
 }
 
-void Io::Ttf::Contour::DebugDrawSegments(const Math::Float3& offset, int pointsPerCurve) const
+void Io::Ttf::Contour::DebugDrawSegments(const Float3& offset, int pointsPerCurve) const
 {
-	using namespace Math;
-	const Math::Float3 color1{ 0,0,0 };
-	const Math::Float3 color2{ 1,1,1 };
+	const Float3 color1{ 0,0,0 };
+	const Float3 color2{ 1,1,1 };
 
 	const Float3 firstPoint{ static_cast<float>(m_Segments[0].GetBegin().x) + offset.x, static_cast<float>(m_Segments[0].GetBegin().y) + offset.y, offset.z };
 	DebugRenderer::AddSphere(firstPoint, color1, 0.01f);

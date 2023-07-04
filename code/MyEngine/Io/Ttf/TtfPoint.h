@@ -10,7 +10,7 @@ namespace MyEngine
 		{
 			struct TtfPoint
 			{
-				Math::Vector2<int16_t> position{};
+				Vector2<int16_t> position{};
 				bool isOnCurve{};
 			};
 		}

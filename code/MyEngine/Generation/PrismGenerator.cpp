@@ -2,10 +2,10 @@
 #include "PrismGenerator.h"
 
 #include "PlaneGeneration.h"
-#include "Shapes/Quad.h"
+#include "Geometry/Shapes/Quad.h"
 
 void Generation::PrismGenerator::Create(const Quad& quadBot, const Quad& quadTop, const Float3& color,
-	List<Rendering::V_PosColNorm>& vertices, List<int>& indices, const Float3& offset)
+                                        List<Rendering::V_PosColNorm>& vertices, List<int>& indices, const Float3& offset)
 {
 	vertices.EnsureIncrease(4 * 6);
 	indices.EnsureIncrease(6 * 6);

@@ -22,7 +22,7 @@ namespace MyEngine
 				bool IsPressed(char c) const;
 				bool IsReleased(char c) const;
 
-				Math::Int2 GetPressedArrowInput() const;
+				Int2 GetPressedArrowInput() const;
 
 			private:
 				static constexpr unsigned NR_KEYS = 256;

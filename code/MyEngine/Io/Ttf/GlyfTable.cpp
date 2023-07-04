@@ -19,8 +19,8 @@ Io::Ttf::Glyph Io::Ttf::GlyfTable::GetGlyph(const Bin::BigBinReader& reader, uin
 {
 	int16_t minX, minY, maxX, maxY;
 	const Array<Array<TtfPoint>> points{ GetContours(reader, glyphOffset, minX, maxX, minY, maxY) };
-	const Math::Double2 minBounds{ static_cast<double>(minX), static_cast<double>(minY) };
-	const Math::Double2 maxBounds{ static_cast<double>(maxX), static_cast<double>(maxY) };
+	const Double2 minBounds{ static_cast<double>(minX), static_cast<double>(minY) };
+	const Double2 maxBounds{ static_cast<double>(maxX), static_cast<double>(maxY) };
 	return Glyph{ points, minBounds, maxBounds };
 }
 

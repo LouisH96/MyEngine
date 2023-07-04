@@ -12,10 +12,10 @@ namespace MyEngine
 		{
 		public:
 			template<typename T>
-			static std::string Convert(const Math::Vector2<T>& value);
+			static std::string Convert(const Vector2<T>& value);
 
 			template<typename T>
-			static std::string Convert(const Math::Vector3<T>& value);
+			static std::string Convert(const Vector3<T>& value);
 
 			template<typename T>
 			static std::string Convert(const Ds::Array<T>& value);
@@ -26,7 +26,7 @@ namespace MyEngine
 
 
 		template <typename T>
-		std::string ToString::Convert(const Math::Vector2<T>& value)
+		std::string ToString::Convert(const Vector2<T>& value)
 		{
 			std::stringstream ss{};
 			ss << "[";
@@ -36,7 +36,7 @@ namespace MyEngine
 		}
 
 		template <typename T>
-		std::string ToString::Convert(const Math::Vector3<T>& value)
+		std::string ToString::Convert(const Vector3<T>& value)
 		{
 			std::stringstream ss{};
 			ss << '[';

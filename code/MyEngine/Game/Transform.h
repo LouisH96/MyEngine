@@ -9,20 +9,20 @@ namespace MyEngine
 		{
 		public:
 			Transform() = default;
-			Transform(const Math::Float3& position, const Math::Quaternion& rotation);
-			explicit Transform(const Math::Double4X4& matrix);
-			explicit Transform(const Math::Float4X4& matrix);
+			Transform(const Float3& position, const Quaternion& rotation);
+			explicit Transform(const Double4X4& matrix);
+			explicit Transform(const Float4X4& matrix);
 
-			Math::Float3 Position{};
-			Math::Quaternion Rotation{};
+			Float3 Position{};
+			Quaternion Rotation{};
 
-			Math::Float4X4 AsMatrix() const;
-			Math::Float4X4 GetTransposeInverse() const;
+			Float4X4 AsMatrix() const;
+			Float4X4 GetTransposeInverse() const;
 
-			void LookAt(const Math::Float3& target);
+			void LookAt(const Float3& target);
 
-			Math::Float3 WorldToLocal(const Math::Float3& worldPoint) const;
-			Math::Float3 LocalToWorld(const Math::Float3& localPoint) const;
+			Float3 WorldToLocal(const Float3& worldPoint) const;
+			Float3 LocalToWorld(const Float3& localPoint) const;
 
 			void SetRelativeTo(const Transform& parent);
 			Transform GetRelativeTo(const Transform& parent) const;

@@ -5,7 +5,6 @@
 #include "Wrapping/Model.h"
 #include "DataStructures/DsUtils.h"
 
-using namespace Math;
 using namespace Io::Fbx::Wrapping;
 
 Io::Fbx::FbxClass::FbxClass(const std::wstring& path)

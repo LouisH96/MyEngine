@@ -3,14 +3,13 @@
 
 #include <Generation/Shapes/ArrowGenerator.h>
 #include "DataStructures/Array.h"
+#include "Geometry/Shapes/Cube.h"
+#include "Geometry/Shapes/Sphere.h"
 #include "Math/Constants.h"
-#include "Math/Cube.h"
-#include "Shapes/Sphere.h"
 
-void Generation::Shapes::GenerateCubeBuffers(const Math::Cube& cube, Ds::Array<Math::Float3>& positions,
-                                             Ds::Array<Math::Float3>& normals, Ds::Array<int>& indices)
+void Generation::Shapes::GenerateCubeBuffers(const Cube& cube, Array<Float3>& positions,
+                                             Array<Float3>& normals, Array<int>& indices)
 {
-	using namespace Math;
 	constexpr int trianglesPerSide = 2;
 	constexpr int pointsPerSide = 4;
 	constexpr int indicesPerSide = trianglesPerSide * 3;
@@ -77,7 +76,7 @@ void Generation::Shapes::GenerateCubeBuffers(const Math::Cube& cube, Ds::Array<M
 
 }
 
-void Generation::Shapes::GenerateSphereBuffers(const MyEngine::Shapes::Sphere& sphere, int nrCols, int nrRows, Array<Float3>& positions,
+void Generation::Shapes::GenerateSphereBuffers(const Sphere& sphere, int nrCols, int nrRows, Array<Float3>& positions,
 	Array<Float3>& normals, Array<int>& indices)
 {
 	const float anglePerCol = Constants::PI / (static_cast<float>(nrCols) / 2);

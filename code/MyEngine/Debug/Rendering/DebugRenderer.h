@@ -103,16 +103,15 @@ namespace MyEngine
 		};
 
 		template <typename T>
-		void DebugRenderer::AddRect(const Math::Vector2<T>& min, const Math::Vector2<T>& max, const Math::Float3& offset, const Math::Float3& color)
+		void DebugRenderer::AddRect(const Vector2<T>& min, const Vector2<T>& max, const Float3& offset, const Float3& color)
 		{
 			m_pStatic->Class_AddRect(min, max, offset, color);
 		}
 
 		template <typename T>
-		void DebugRenderer::Class_AddRect(const Math::Vector2<T>& min, const Math::Vector2<T>& max, const Math::Float3& offset,
-			const Math::Float3& color)
+		void DebugRenderer::Class_AddRect(const Vector2<T>& min, const Vector2<T>& max, const Float3& offset,
+			const Float3& color)
 		{
-			using namespace Math;
 			const float left{ static_cast<float>(min.x) + offset.x };
 			const float right{ static_cast<float>(max.x) + offset.x };
 			const float bot{ static_cast<float>(min.y) + offset.y };

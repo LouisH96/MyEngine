@@ -6,6 +6,8 @@
 #include <Rendering/DrawData/InstanceIdxList.h>
 #include <Rendering/State/InputLayout.h>
 
+#include "Geometry/Shapes/Sphere.h"
+
 using namespace Rendering;
 
 const InputLayout::Element DebugSpheres::ELEMENTS[] =

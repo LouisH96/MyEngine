@@ -6,6 +6,8 @@
 #include <Rendering/State/Mesh.h>
 #include <Rendering/Structs/VertexTypes.h>
 
+#include "Geometry/Shapes/Sphere.h"
+
 DebugRenderer* DebugRenderer::m_pStatic = nullptr;
 
 void DebugRenderer::Init()
@@ -34,12 +36,12 @@ void DebugRenderer::AddSpheres(const Array<Float3>& positions, const Float3& col
 	m_pStatic->Class_AddSpheres(positions, color, radius);
 }
 
-void DebugRenderer::AddLine(const Math::Float3& begin, const Math::Float3& end, const Math::Float3& color)
+void DebugRenderer::AddLine(const Float3& begin, const Float3& end, const Float3& color)
 {
 	m_pStatic->Class_AddLine(begin, end, color);
 }
 
-void DebugRenderer::AddLine(const Array<Math::Float3>& points, const Math::Float3& color)
+void DebugRenderer::AddLine(const Array<Float3>& points, const Float3& color)
 {
 	m_pStatic->Class_AddLine(points, color);
 }
@@ -54,7 +56,7 @@ void DebugRenderer::DrawRay(const Float3& origin, const Float3& displacement, co
 	m_pStatic->m_LinesRenderer2.DrawRay(origin, displacement, color);
 }
 
-void DebugRenderer::AddRay(const Math::Float3& origin, const Math::Float3& displacement, const Math::Float3& color)
+void DebugRenderer::AddRay(const Float3& origin, const Float3& displacement, const Float3& color)
 {
 	Array<LineVertex> vertices{ 2 };
 	vertices[0] = { origin, color };
@@ -62,14 +64,14 @@ void DebugRenderer::AddRay(const Math::Float3& origin, const Math::Float3& displ
 	m_pStatic->m_pLineRenderer->AddMesh(Rendering::Mesh::Create(vertices, Rendering::Topology::LineStrip));
 }
 
-void DebugRenderer::AddRect(const Math::Float3& leftTop, const Math::Float3& rightTop, const Math::Float3& rightBot,
-	const Math::Float3& leftBot, const Math::Float3& color)
+void DebugRenderer::AddRect(const Float3& leftTop, const Float3& rightTop, const Float3& rightBot,
+	const Float3& leftBot, const Float3& color)
 {
 	m_pStatic->Class_AddRect(leftTop, rightTop, rightBot, leftBot, color);
 }
 
-void DebugRenderer::AddGridXy(const Math::Float3& offset, const Math::Float2& bounds, int nrCols, int nrRows,
-	const Math::Float3& color)
+void DebugRenderer::AddGridXy(const Float3& offset, const Float2& bounds, int nrCols, int nrRows,
+	const Float3& color)
 {
 	const float bot{ offset.y };
 	const float top{ bot + bounds.y };
@@ -201,7 +203,7 @@ void DebugRenderer::Class_AddSpheres(const Array<Float3>& positions, const Float
 		Class_AddSphere(positions[i], color, radius);
 }
 
-void DebugRenderer::Class_AddLine(const Math::Float3& begin, const Math::Float3& end, const Math::Float3& color) const
+void DebugRenderer::Class_AddLine(const Float3& begin, const Float3& end, const Float3& color) const
 {
 	Array<LineVertex> vertices{ 2 };
 	vertices[0] = { begin, color };
@@ -209,7 +211,7 @@ void DebugRenderer::Class_AddLine(const Math::Float3& begin, const Math::Float3&
 	m_pLineRenderer->AddMesh(Rendering::Mesh::Create(vertices, Rendering::Topology::LineStrip));
 }
 
-void DebugRenderer::Class_AddLine(const Array<Math::Float3>& points, const Math::Float3& color) const
+void DebugRenderer::Class_AddLine(const Array<Float3>& points, const Float3& color) const
 {
 	Array<LineVertex> vertices{ points.GetSize() };
 	for (int i = 0; i < points.GetSize(); i++)
@@ -217,8 +219,8 @@ void DebugRenderer::Class_AddLine(const Array<Math::Float3>& points, const Math:
 	m_pLineRenderer->AddMesh(Rendering::Mesh::Create(vertices, Rendering::Topology::LineStrip));
 }
 
-void DebugRenderer::Class_AddRect(const Math::Float3& leftTop, const Math::Float3& rightTop,
-	const Math::Float3& rightBot, const Math::Float3& leftBot, const Math::Float3& color) const
+void DebugRenderer::Class_AddRect(const Float3& leftTop, const Float3& rightTop,
+	const Float3& rightBot, const Float3& leftBot, const Float3& color) const
 {
 	Array<LineVertex> vertices{ 5 };
 	vertices[0] = { leftTop, color }; vertices[1] = { rightTop, color };

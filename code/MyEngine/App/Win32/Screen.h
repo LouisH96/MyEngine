@@ -1,5 +1,5 @@
 #pragma once
-#include "Math/Rects.h"
+#include "Geometry/Shapes/Rects.h"
 
 namespace MyEngine
 {
@@ -11,12 +11,12 @@ namespace MyEngine
 			{
 			private:
 				static Screen m_Instance;
-				Math::RectInt m_Rect;
+				RectInt m_Rect;
 				Screen();
 
 			public:
 				static const Screen& GetInstance() { return m_Instance; }
-				const Math::RectInt& GetRect() const { return m_Rect; }
+				const RectInt& GetRect() const { return m_Rect; }
 			};
 		}
 	}

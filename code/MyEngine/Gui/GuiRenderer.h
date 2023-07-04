@@ -1,11 +1,5 @@
 #pragma once
-#include "Math/Rects.h"
-#include "Rendering/Buffers/Buffer.h"
-#include "Rendering/Buffers/InvalidateBuffer.h"
-#include "Rendering/DrawData/VertexList.h"
 #include "Rendering/Renderers/NdcRectRenderer.h"
-#include "Rendering/State/DepthStencilState.h"
-#include "Rendering/State/Shader.h"
 #include "Rendering/Structs/InstanceTypes.h"
 #include "Rendering/Structs/VertexTypes.h"
 
@@ -15,10 +9,7 @@ namespace MyEngine
 	{
 		struct ResizedEvent;
 	}
-}
 
-namespace MyEngine
-{
 	namespace Gui
 	{
 		class GuiRenderer

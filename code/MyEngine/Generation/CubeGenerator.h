@@ -1,10 +1,11 @@
 #pragma once
 #include "DataStructures/List.h"
-#include "Math/Cube.h"
 #include "Rendering/Structs/VertexTypes.h"
 
 namespace MyEngine
 {
+	class Cube;
+
 	namespace Generation
 	{
 		class CubeGenerator
