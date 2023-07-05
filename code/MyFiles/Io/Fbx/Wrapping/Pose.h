@@ -34,6 +34,12 @@ namespace MyEngine
 					//---| Constructor |---
 					Pose() = default;
 					explicit Pose(Reading::FbxObject& poseObject);
+					~Pose() = default;
+
+					Pose(const Pose& other) = delete;
+					Pose& operator=(const Pose& other) = delete;
+					Pose(Pose&& other) = default;
+					Pose& operator=(Pose&& other) = default;
 
 					//---| Fields |---
 					std::string Name;
