@@ -52,5 +52,16 @@ namespace MyEngine
 			static const InputLayout::Element ELEMENTS[];
 			static constexpr int NR_ELEMENTS = 2;
 		};
+		struct I_PosCol
+		{
+			Float3 pos;
+			Float3 col;
+
+			static const InputLayout::Element ELEMENTS[];
+			static constexpr int NR_ELEMENTS = 2;
+
+			bool IsValid() const;
+			void Invalidate();
+		};
 	}
 }

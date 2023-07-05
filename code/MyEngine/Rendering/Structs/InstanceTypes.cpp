@@ -43,3 +43,19 @@ const Rendering::InputLayout::Element Rendering::I_ModelMatrices::ELEMENTS[] =
 	{"INST_MODEL", InputLayout::ElementType::Float4X4, 1, InputLayout::SlotClass::PerInstance},
 	{"INST_MODEL_VIEW_PROJECTION", InputLayout::ElementType::Float4X4, 1, InputLayout::SlotClass::PerInstance}
 };
+
+const Rendering::InputLayout::Element Rendering::I_PosCol::ELEMENTS[] =
+{
+	{"INST_POS", InputLayout::ElementType::Float3, 1, InputLayout::SlotClass::PerInstance},
+	{"INST_COLOR", InputLayout::ElementType::Float3, 1, InputLayout::SlotClass::PerInstance}
+};
+
+bool Rendering::I_PosCol::IsValid() const
+{
+	return pos.y >= 8192.f;
+}
+
+void Rendering::I_PosCol::Invalidate()
+{
+	pos.y = 8192.f;
+}
