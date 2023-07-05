@@ -5,6 +5,8 @@
 #include <vector>
 
 #include "Rendering/Gpu.h"
+#include <DataStructures/Array.h>
+#include <DataStructures/List.h>
 
 #define SAFE_RELEASE(x){if(x){(x)->Release();(x)=nullptr;}}
 
