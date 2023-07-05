@@ -14,9 +14,16 @@ namespace MyEngine
 				class FbxObject
 				{
 				public:
+					//---| Construction |---
 					FbxObject(std::istream& stream, uint8_t version, bool isRoot = false);
 					~FbxObject();
 
+					FbxObject(const FbxObject& other) = delete;
+					FbxObject& operator= (const FbxObject& other) = delete;
+					FbxObject(FbxObject&& other) = default;
+					FbxObject& operator= (FbxObject&& other) = default;
+
+					//---| Functions |---
 					std::streampos GetEnd() const { return m_End; }
 
 					void Print(bool compact = true, int nrTabs = 0) const;
