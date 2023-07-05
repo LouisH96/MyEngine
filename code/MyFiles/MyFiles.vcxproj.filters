@@ -115,6 +115,5 @@
     <ClInclude Include="Io\Ttf\TtfPoint.h" />
     <ClInclude Include="Io\Ttf\TtfReader.h" />
     <ClInclude Include="Io\Zlib\ZlibDecompress.h" />
-    <ClInclude Include="MyFilesGlobals.h" />
   </ItemGroup>
 </Project>
