@@ -16,9 +16,17 @@ namespace MyEngine
 			class FbxAnimation
 			{
 			public:
+				//---| Construction |---
 				FbxAnimation() = default;
 				explicit FbxAnimation(const Wrapping::AnimationStack& animationStack);
+				~FbxAnimation() = default;
 
+				FbxAnimation(const FbxAnimation& other) = delete;
+				FbxAnimation& operator= (const FbxAnimation& other) = delete;
+				FbxAnimation(FbxAnimation&& other) = default;
+				FbxAnimation& operator= (FbxAnimation&& other) = default;
+
+				//---| Functions |---
 				const Array<FbxAnimationLayer>& GetLayers() const { return m_Layers; }
 				int GetNrLayers() const { return m_Layers.GetSize(); }
 
