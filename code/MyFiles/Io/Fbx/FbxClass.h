@@ -1,7 +1,6 @@
 #pragma once
 #include "FbxSkeleton.h"
 #include "FbxAnimation.h"
-#include "MyFilesGlobals.h"
 
 namespace MyEngine
 {
@@ -14,7 +13,7 @@ namespace MyEngine
 				class FbxData;
 			}
 
-			class MY_FILES_API FbxClass
+			class FbxClass
 			{
 			public:
 				//---| Types |---
@@ -29,14 +28,16 @@ namespace MyEngine
 					Float3 RotationOffset{};
 				};
 
-				//---| Class |---
+				//---| Construction |---
 				FbxClass(const std::wstring& path);
 				~FbxClass() = default;
+
 				FbxClass(const FbxClass& other) = delete;
 				FbxClass(FbxClass&& other) noexcept = delete;
 				FbxClass& operator=(const FbxClass& other) = delete;
 				FbxClass& operator=(FbxClass&& other) noexcept = delete;
 
+				//---| Functions |---
 				const Geometry& GetGeometry(int idx) const { return m_Geometries[idx]; }
 				Geometry& GetGeometry(int idx) { return m_Geometries[idx]; }
 				const Array<Geometry>& GetGeometries() const { return m_Geometries; }

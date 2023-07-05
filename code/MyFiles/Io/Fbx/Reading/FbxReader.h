@@ -14,9 +14,16 @@ namespace MyEngine
 				class FbxReader
 				{
 				public:
+					//---| Construction |---
 					FbxReader(const std::wstring& path);
 					~FbxReader();
 
+					FbxReader(const FbxReader& other) = delete;
+					FbxReader& operator=(const FbxReader& other) = delete;
+					FbxReader(FbxReader&& other) = default;
+					FbxReader& operator=(FbxReader&& other) = default;
+
+					//---| Functions |---
 					const FbxObject& GetRoot() const { return *m_pRoot; }
 					FbxObject& GetRoot() { return *m_pRoot; }
 

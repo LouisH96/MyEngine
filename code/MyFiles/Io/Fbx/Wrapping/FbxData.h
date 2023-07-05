@@ -30,9 +30,17 @@ namespace MyEngine
 				class FbxData
 				{
 				public:
-					FbxData(const std::wstring& fbxPath);
+					//---| Construction |---
+					FbxData(const std::wstring& path);
 					FbxData(Reading::FbxReader&& reader);
+					~FbxData() = default;
 
+					FbxData(const FbxData& other) = delete;
+					FbxData& operator= (const FbxData& other) = delete;
+					FbxData(FbxData&& other) = delete;
+					FbxData& operator=(FbxData&& other) = delete;
+
+					//---| Functions |---
 					const Geometry& GetGeometry(int idx) const { return m_Geometries[idx]; }
 					const Array<Geometry>& GetGeometries() const { return m_Geometries; }
 					Geometry& GetGeometry(int idx) { return m_Geometries[idx]; }

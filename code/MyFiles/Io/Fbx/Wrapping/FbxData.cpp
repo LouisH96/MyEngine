@@ -5,8 +5,8 @@
 #include "../Reading/FbxReader.h"
 #include "Logger/Logger.h"
 
-MyEngine::Io::Fbx::Wrapping::FbxData::FbxData(const std::wstring& fbxPath)
-	: FbxData(Fbx::Reading::FbxReader{ fbxPath })
+MyEngine::Io::Fbx::Wrapping::FbxData::FbxData(const std::wstring& path)
+	: FbxData{ Reading::FbxReader{ path } }
 {}
 
 MyEngine::Io::Fbx::Wrapping::FbxData::FbxData(Reading::FbxReader&& reader)
@@ -532,7 +532,7 @@ void MyEngine::Io::Fbx::Wrapping::FbxData::HandleModelConnection(Model& childMod
 	}
 
 	CollectionExclusive* pCollection{ FindCollection(connection.ParentId) };
-	if(pCollection)
+	if (pCollection)
 	{
 		childModel.SetCollection(*pCollection);
 		pCollection->AddModel(childModel);
@@ -624,7 +624,7 @@ void MyEngine::Io::Fbx::Wrapping::FbxData::HandleAnimationCurveNodeConnection(An
 	}
 
 	NodeAttribute* pNodeAttribute{ FindNodeAttribute(connection.ParentId) };
-	if(pNodeAttribute)
+	if (pNodeAttribute)
 	{
 		childAnimationCurveNode.AddNodeAttribute(*pNodeAttribute);
 		pNodeAttribute->AddAnimationCurveNode(childAnimationCurveNode);
