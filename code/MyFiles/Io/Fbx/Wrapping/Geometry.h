@@ -23,9 +23,17 @@ namespace MyEngine
 				class Geometry
 				{
 				public:
+					//---| Construction |---
 					Geometry() = default;
 					explicit Geometry(Reading::FbxObject& geometryObject);
+					~Geometry() = default;
 
+					Geometry(const Geometry& other) = delete;
+					Geometry& operator=(const Geometry& other) = delete;
+					Geometry(Geometry&& other) = default;
+					Geometry& operator= (Geometry&& other) = default;
+
+					//---| Functions |---
 					const int64_t& GetId() const { return m_Id; }
 					Array<Float3>& GetPoints() { return m_Points; }
 					Array<Float3>& GetNormals() { return m_Normals; }
