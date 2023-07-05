@@ -34,6 +34,7 @@ namespace MyEngine
 
 			void ActivateVertexBuffer(unsigned slot);
 			void Draw(unsigned nrVertices) const;
+			void DrawIdx(unsigned nrIndices) const;
 
 		private:
 			Buffer<Data> m_GpuBuffer;
@@ -74,7 +75,13 @@ namespace MyEngine
 		template <typename Data>
 		void InvalidateBuffer<Data>::Draw(unsigned nrVertices) const
 		{
-			Globals::pGpu->GetContext().DrawInstanced(nrVertices, GetCount(), 0, 0);
+			Globals::pGpu->GetContext().DrawInstanced(nrVertices, GetCount(), 0, m_CpuBuffer.GetFirstIdx());
+		}
+
+		template <typename Data>
+		void InvalidateBuffer<Data>::DrawIdx(unsigned nrIndices) const
+		{
+			Globals::pGpu->GetContext().DrawIndexedInstanced(nrIndices, GetCount(), 0, 0, m_CpuBuffer.GetFirstIdx());
 		}
 	}
 }
