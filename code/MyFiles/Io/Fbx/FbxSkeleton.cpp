@@ -18,15 +18,3 @@ MyEngine::Io::Fbx::FbxSkeleton::FbxSkeleton(const Wrapping::FbxData& fbxData, co
 		m_RootJoints[0] = FbxJoint{ *pRoot, fbxData, fbxClass };
 	}
 }
-
-void MyEngine::Io::Fbx::FbxSkeleton::AddToDebugRenderer(const FbxAnimationLayer& layer, float scale, float sphereSize) const
-{
-	for (int i = 0; i < m_RootJoints.GetSize(); i++)
-		m_RootJoints[i].AddToDebugRender(layer, scale, sphereSize);
-}
-
-void MyEngine::Io::Fbx::FbxSkeleton::AddToDebugRenderer(const FbxAnimationLayer& layer, const int64_t& time, float scale, float sphereSize) const
-{
-	for (int i = 0; i < m_RootJoints.GetSize(); i++)
-		m_RootJoints[i].AddToDebugRender(layer, time, scale, sphereSize);
-}

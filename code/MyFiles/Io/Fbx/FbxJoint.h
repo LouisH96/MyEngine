@@ -32,11 +32,16 @@ namespace MyEngine
 				FbxJoint& operator=(const FbxJoint& other) = delete;
 				FbxJoint& operator=(FbxJoint&& other) noexcept;
 
-				void AddToDebugRender(float sphereSize = .05f) const;
-				void AddToDebugRender(const Game::Transform& parent, float sphereSize = .05f) const;
+				//---| Functions |---
+				const FbxTransformCurve* FindCurve(const FbxAnimationLayer& layer) const;
 
-				void AddToDebugRender(const FbxAnimationLayer& layer, const int64_t& time, float scale = 1, float sphereSize = .05f) const;
-				void AddToDebugRender(const FbxAnimationLayer& layer, const int64_t& time, const Game::Transform& parent, float scale = 1, float sphereSize = .05f) const;
+				const Quaternion& GetPreRotation() const { return m_PreRotation; }
+				const Quaternion& GetPostRotation() const { return m_PostRotation; }
+
+				const Array<FbxJoint>& GetChildren() const { return m_Children; }
+
+				bool HasParent() const { return m_pParent; }
+				const FbxJoint& GetParent() const { return *m_pParent; }
 
 			private:
 				std::string m_Name;
@@ -49,8 +54,6 @@ namespace MyEngine
 				Float3 m_LocalTranslation;
 				Quaternion m_PreRotation;
 				Quaternion m_PostRotation;
-
-				const FbxTransformCurve* FindCurve(const FbxAnimationLayer& layer) const;
 			};
 		}
 	}

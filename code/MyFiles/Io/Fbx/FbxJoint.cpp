@@ -84,60 +84,6 @@ Io::Fbx::FbxJoint& Io::Fbx::FbxJoint::operator=(FbxJoint&& other) noexcept
 	return *this;
 }
 
-void Io::Fbx::FbxJoint::AddToDebugRender(float sphereSize) const
-{
-	AddToDebugRender({}, sphereSize);
-}
-
-void Io::Fbx::FbxJoint::AddToDebugRender(const Transform& parent, float sphereSize) const
-{
-	//todo:
-	Logger::PrintError("Not supported");
-
-	/*const Game::Transform world{Game::Transform::LocalToWorld(m_LocalTransform, parent) };
-
-	if (m_pParent)
-	{
-		DebugRenderer::AddLine(world.Position, parent.Position, { 1,0,0 });
-	}
-
-	DebugRenderer::AddSphere(world.Position, { 1,0,0 }, sphereSize);
-	for (int i = 0; i < m_Children.GetSize(); i++)
-	{
-		m_Children[i].AddToDebugRender(world, sphereSize);
-	}*/
-}
-
-void Io::Fbx::FbxJoint::AddToDebugRender(const FbxAnimationLayer& layer, const int64_t& time, float scale, float sphereSize) const
-{
-	AddToDebugRender(layer, time, {}, scale, sphereSize);
-}
-
-void Io::Fbx::FbxJoint::AddToDebugRender(const FbxAnimationLayer& layer, const int64_t& time, const Transform& parent, float scale, float sphereSize) const
-{
-	//todo:
-	Logger::PrintError("Not supported");
-
-	/*const FbxTransformCurve* pCurve{ FindCurve(layer) };
-	if (!pCurve)
-		Logger::PrintError("Curve for layer not found");
-	const Transform current{ pCurve->AtTime(time) };
-
-	Transform world{ parent };
-	world = Transform::LocalToWorld({ current.Position, {} }, world);
-	world = Transform::LocalToWorld({ {}, m_PreRotation }, world);
-	world = Transform::LocalToWorld({ {}, current.Rotation }, world);
-	world = Transform::LocalToWorld({ {}, m_PostRotation }, world);
-
-	const Float3 position{ world.Position * scale };
-	if (m_pParent)
-		DebugRenderer::DrawLine(position, parent.Position * scale, { 0,0,1 });
-
-	DebugRenderer::DrawSphere(position, { 0,0,1 }, sphereSize);
-	for (int i = 0; i < m_Children.GetSize(); i++)
-		m_Children[i].AddToDebugRender(layer, time, world, scale, sphereSize);*/
-}
-
 const Io::Fbx::FbxTransformCurve* Io::Fbx::FbxJoint::FindCurve(const FbxAnimationLayer& layer) const
 {
 	for (int i = 0; i < m_Curves.GetSize(); i++)

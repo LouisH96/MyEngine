@@ -26,8 +26,7 @@ namespace MyEngine
 				FbxSkeleton& operator=(const FbxSkeleton& other) = delete;
 				FbxSkeleton& operator=(FbxSkeleton&& other) noexcept = default;
 
-				void AddToDebugRenderer(const FbxAnimationLayer& layer, float scale = 1,  float sphereSize = .005f) const;
-				void AddToDebugRenderer(const FbxAnimationLayer& layer, const int64_t& time, float scale = 1, float sphereSize = .005f) const;
+				const Array<FbxJoint>& GetRootJoints() const { return m_RootJoints; }
 
 			private:
 				Array<FbxJoint> m_RootJoints;
