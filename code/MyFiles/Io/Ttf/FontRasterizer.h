@@ -1,6 +1,5 @@
 #pragma once
 #include "Math/Vectors.h"
-#include "MyFilesGlobals.h"
 
 namespace MyEngine
 {
@@ -15,7 +14,7 @@ namespace MyEngine
 		{
 			class Glyph;
 
-			class MY_FILES_API FontRasterizer
+			class FontRasterizer
 			{
 			public:
 				explicit FontRasterizer(const Glyph& glyph, const Int2& sizeInPixels);
