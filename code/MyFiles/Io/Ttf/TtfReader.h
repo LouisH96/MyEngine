@@ -15,7 +15,7 @@ namespace MyEngine
 {
 	namespace Io
 	{
-		class MY_FILES_API TtfReader
+		class TtfReader
 		{
 		public:
 			explicit TtfReader(std::istream& stream);
