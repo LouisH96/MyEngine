@@ -9,6 +9,7 @@ namespace MyEngine
 		class FpsCameraController
 		{
 		public:
+			FpsCameraController();
 			explicit FpsCameraController(Camera& camera);
 			void Update();
 

@@ -3,6 +3,11 @@
 
 #include "Camera.h"
 
+FpsCameraController::FpsCameraController()
+	: FpsCameraController{ *Globals::pCamera }
+{
+}
+
 FpsCameraController::FpsCameraController(Camera& camera)
 	: m_Camera{ camera }
 	, m_LookAroundSpeed{ 0.25, 0.25 }
