@@ -39,16 +39,7 @@ void FpsCameraController::SetPositionXz(const Float2& position)
 
 void FpsCameraController::MoveRelative(const Float3& movement)
 {
-	const float yawRad = m_Yaw * Constants::TO_RAD;
-	const float yawCos = cosf(yawRad);
-	const float yawSin = sinf(yawRad);
-	constexpr float xy = 0;
-	const float xx = yawCos;
-	const float xz = yawSin;
-
-	m_Position += Float3{ xx, xy, xz } *movement.x;
-	m_Position += Float3{ -xz, xy, xx } *movement.z;
-	m_Position.y += movement.y;
+	m_Position += GetRelativeMovement(movement);
 }
 
 Float2 FpsCameraController::GetXzForward() const
@@ -71,4 +62,26 @@ Transform FpsCameraController::GetTransform() const
 	return Transform{
 		m_Position,
 		Quaternion::FromAxis({0,1,0},-yawRad) * Quaternion::FromAxis({1,0,0},pitchRad) };
+}
+
+Float3 FpsCameraController::GetRelativeMovement(const Float2& movement) const
+{
+	const float yawRad = m_Yaw * Constants::TO_RAD;
+	const float yawCos = cosf(yawRad);
+	const float yawSin = sinf(yawRad);
+	constexpr float xy = 0;
+	const float xx = yawCos;
+	const float xz = yawSin;
+	return Float3{ xx, xy, xz } *movement.x + Float3{ -xz, xy, xx } *movement.y;
+}
+
+Float3 FpsCameraController::GetRelativeMovement(const Float3& movement) const
+{
+	const float yawRad = m_Yaw * Constants::TO_RAD;
+	const float yawCos = cosf(yawRad);
+	const float yawSin = sinf(yawRad);
+	constexpr float xy = 0;
+	const float xx = yawCos;
+	const float xz = yawSin;
+	return Float3{ xx, xy, xz } *movement.x + Float3{ -xz, xy, xx } *movement.z + Float3{0, movement.y, 0};
 }
