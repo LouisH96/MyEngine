@@ -85,6 +85,7 @@ DXGI_FORMAT Rendering::InputLayout::ToDxFormat(ElementType type)
 	case ElementType::Float3: return DXGI_FORMAT_R32G32B32_FLOAT;
 	case ElementType::Float2: return DXGI_FORMAT_R32G32_FLOAT;
 	case ElementType::Float: return DXGI_FORMAT_R32_FLOAT;
+	case ElementType::UInt: return DXGI_FORMAT_R32_UINT;
 	default:
 		Logger::PrintError("ElementType not supported");
 		return DXGI_FORMAT_UNKNOWN;
@@ -134,6 +135,7 @@ std::string Rendering::InputLayout::ToTypeString(ElementType type)
 	case ElementType::Float3: return "float3";
 	case ElementType::Float2: return "float2";
 	case ElementType::Float: return "float";
+	case ElementType::UInt: return "uint";
 	default:
 		Logger::PrintError("ElementType not supported");
 		return "";

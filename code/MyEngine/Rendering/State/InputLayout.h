@@ -12,7 +12,8 @@ namespace MyEngine
 			enum class ElementType
 			{
 				Float4X4,
-				Float4, Float3, Float2, Float
+				Float4, Float3, Float2, Float,
+				UInt
 			};
 			enum class SlotClass
 			{
