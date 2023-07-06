@@ -1,5 +1,6 @@
 #pragma once
 #include "Vector2.h"
+#include "Scalars.h"
 
 namespace MyEngine
 {
@@ -14,6 +15,9 @@ namespace MyEngine
 		Vector3(Vector3&& other) noexcept = default;
 		Vector3& operator=(const Vector3& other) = default;
 		Vector3& operator=(Vector3&& other) noexcept = default;
+
+		template<typename O>
+		explicit Vector3(const Vector3<O>& other);
 
 		Vector3 operator+(const Vector3& r) const;
 		Vector3 operator-(const Vector3& r) const;
@@ -37,6 +41,8 @@ namespace MyEngine
 		void Reverse();
 		void Scale(const Vector3& r);
 		Vector3 Scaled(const Vector3& scale) const;
+		void Divide(const Vector3& r);
+		Vector3 Divided(const Vector3& r) const;
 		T Length() const;
 		T LengthSq() const;
 		void Normalize();
@@ -64,6 +70,16 @@ namespace MyEngine
 	template <typename T> Vector3<T>::Vector3(T x, T y, T z) : x{ x }, y{ y }, z{ z } {}
 
 	template <typename T> Vector3<T>::Vector3(T all) : x{ all }, y{ all }, z{ all } {}
+
+	template <typename T>
+	template <typename O>
+	Vector3<T>::Vector3(const Vector3<O>& other)
+		: x{ Scalar<T>::Cast(other.x) }
+		, y{ Scalar<T>::Cast(other.y) }
+		, z{ Scalar<T>::Cast(other.z) }
+	{
+	}
+
 	template <typename T> Vector3<T> Vector3<T>::operator+(const Vector3& r) const { return { x + r.x, y + r.y, z + r.z }; }
 	template <typename T> Vector3<T> Vector3<T>::operator-(const Vector3& r) const { return { x - r.x, y - r.y, z - r.z }; }
 	template <typename T> Vector3<T> Vector3<T>::operator+(const T& r) const { return { x + r, y + r, z + r }; }
@@ -120,6 +136,20 @@ namespace MyEngine
 	Vector3<T> Vector3<T>::Scaled(const Vector3& scale) const
 	{
 		return { x * scale.x, y * scale.y, z * scale.z };
+	}
+
+	template <typename T>
+	void Vector3<T>::Divide(const Vector3& r)
+	{
+		x /= r.x;
+		y /= r.y;
+		z /= r.z;
+	}
+
+	template <typename T>
+	Vector3<T> Vector3<T>::Divided(const Vector3& r) const
+	{
+		return { x / r.x, y / r.y, z / r.z };
 	}
 
 	template <typename T>
