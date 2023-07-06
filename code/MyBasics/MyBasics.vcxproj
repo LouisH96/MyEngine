@@ -150,6 +150,7 @@
   <ItemGroup>
     <ClInclude Include="DataStructures\Algorithms.h" />
     <ClInclude Include="DataStructures\Array.h" />
+    <ClInclude Include="DataStructures\CubeArray.h" />
     <ClInclude Include="DataStructures\DsUtils.h" />
     <ClInclude Include="DataStructures\GridArray.h" />
     <ClInclude Include="DataStructures\InvalidateList.h" />
