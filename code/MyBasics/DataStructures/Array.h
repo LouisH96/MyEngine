@@ -49,6 +49,7 @@ namespace MyEngine
 		int GetSize() const { return m_Size; }
 		unsigned int GetSizeU() const { return static_cast<unsigned int>(m_Size); }
 		bool IsEmpty() const { return m_Size == 0; }
+		bool Any() const { return m_Size > 0; }
 
 		//---| Functions: Search |---
 		template<typename F> Data* First(const F&& func);
