@@ -75,7 +75,7 @@ namespace MyEngine
 		template <typename Data>
 		void InvalidateBuffer<Data>::Draw(unsigned nrVertices) const
 		{
-			Globals::pGpu->GetContext().DrawInstanced(nrVertices, GetCount(), 0, m_CpuBuffer.GetFirstIdx());
+			Globals::pGpu->GetContext().DrawInstanced(nrVertices, GetCount(), 0, 0);
 		}
 
 		template <typename Data>
