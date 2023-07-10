@@ -16,7 +16,7 @@ bool Rendering::I_Pos2Col::IsValid() const
 
 void Rendering::I_Pos2Col::Invalidate()
 {
-	size = 0;
+	size.x = 0;
 }
 
 const Rendering::InputLayout::Element Rendering::I_Pos2UvCol::ELEMENTS[] =
