@@ -39,6 +39,11 @@ namespace MyEngine
 		Data* GetEnd();
 		Data* GetData();
 
+		const Data* SeeData() const;
+		const Data* SeeFirst() const;
+		const Data* SeeLast() const;
+		const Data* SeeEnd() const;
+
 		const Data& Get(int idx) const;
 		Data& Get(int idx);
 
@@ -239,7 +244,7 @@ namespace MyEngine
 	template <typename Data>
 	const Data* InvalidateList<Data>::GetFirst() const
 	{
-		return m_pData[m_First];
+		return &m_pData[m_First];
 	}
 
 	template <typename Data>
@@ -273,6 +278,30 @@ namespace MyEngine
 	{
 		m_Changed = true;
 		return m_pData;
+	}
+
+	template <typename Data>
+	const Data* InvalidateList<Data>::SeeData() const
+	{
+		return m_pData;
+	}
+
+	template <typename Data>
+	const Data* InvalidateList<Data>::SeeFirst() const
+	{
+		return &m_pData[m_First];
+	}
+
+	template <typename Data>
+	const Data* InvalidateList<Data>::SeeLast() const
+	{
+		return &m_pData[m_End-1];
+	}
+
+	template <typename Data>
+	const Data* InvalidateList<Data>::SeeEnd() const
+	{
+		return &m_pData[m_End];
 	}
 
 	template <typename Data>

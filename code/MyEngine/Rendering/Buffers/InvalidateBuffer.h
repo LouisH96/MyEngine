@@ -67,7 +67,7 @@ namespace MyEngine
 			{
 				m_CpuBuffer.ClearChangedFlag();
 				m_GpuBuffer.EnsureCapacity(m_CpuBuffer.GetCapacity());
-				m_GpuBuffer.CopyData(m_CpuBuffer.GetFirst(), m_CpuBuffer.GetSize());
+				m_GpuBuffer.CopyData(m_CpuBuffer.SeeFirst(), m_CpuBuffer.GetSize());
 			}
 			m_GpuBuffer.Activate(slot);
 		}
