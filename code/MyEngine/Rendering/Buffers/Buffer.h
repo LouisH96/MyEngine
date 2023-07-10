@@ -26,8 +26,9 @@ namespace MyEngine
 			//---| Functions |---
 			void EnsureCapacity(unsigned minCapacity);
 			void CopyData(const Data* pData, unsigned count);
-			void ActivateVertexBuffer(unsigned slot) const;
+			void Activate(unsigned slot) const;
 			unsigned GetCapacity() const { return m_Capacity; }
+			void Draw();
 
 		private:
 			ID3D11Buffer* m_pBuffer;
@@ -110,11 +111,17 @@ namespace MyEngine
 		}
 
 		template <typename Data>
-		void Buffer<Data>::ActivateVertexBuffer(unsigned slot) const
+		void Buffer<Data>::Activate(unsigned slot) const
 		{
 			const unsigned stride{ sizeof(Data) };
 			constexpr unsigned offset{ 0 }; //todo: required?
 			Globals::pGpu->GetContext().IASetVertexBuffers(slot, 1, &m_pBuffer, &stride, &offset);
+		}
+
+		template <typename Data>
+		void Buffer<Data>::Draw()
+		{
+			Globals::pGpu->GetContext().Draw(m_Capacity, 0);
 		}
 	}
 }

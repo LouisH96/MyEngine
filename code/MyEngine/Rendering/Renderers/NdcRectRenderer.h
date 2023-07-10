@@ -86,7 +86,7 @@ namespace MyEngine
 			m_Shader.Activate();
 
 			PrimitiveTopologyUtils::Activate(m_Topology);
-			m_Vertices.ActivateVertexBuffer(0);
+			m_Vertices.Activate(0);
 			m_Instances.ActivateVertexBuffer(1);
 			m_Instances.Draw(m_Vertices.GetCapacity());
 		}

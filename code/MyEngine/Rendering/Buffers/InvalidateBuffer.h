@@ -69,7 +69,7 @@ namespace MyEngine
 				m_GpuBuffer.EnsureCapacity(m_CpuBuffer.GetCapacity());
 				m_GpuBuffer.CopyData(m_CpuBuffer.GetFirst(), m_CpuBuffer.GetSize());
 			}
-			m_GpuBuffer.ActivateVertexBuffer(slot);
+			m_GpuBuffer.Activate(slot);
 		}
 
 		template <typename Data>
