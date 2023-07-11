@@ -1,19 +1,22 @@
-#include "pch.h"
 #include "Counter.h"
 
 #include <sstream>
 
-Timing::Counter::Counter()
+#include "Logger/Logger.h"
+
+using namespace MyEngine::Timing;
+
+Counter::Counter()
 	: m_Begin(App::Time::Clock::now())
 {
 }
 
-void Timing::Counter::Begin()
+void Counter::Begin()
 {
-	m_Begin =App::Time::Clock::now();
+	m_Begin = App::Time::Clock::now();
 }
 
-void Timing::Counter::End(const std::string& name) const
+void Counter::End(const std::string& name) const
 {
 	const auto now = App::Time::Clock::now();
 	const auto dur = now - m_Begin;

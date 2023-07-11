@@ -22,8 +22,6 @@
     <ClCompile Include="Rendering\State\RasterizerState.cpp" />
     <ClCompile Include="Generation\Shapes.cpp" />
     <ClCompile Include="Geometry\Shapes\Sphere.cpp" />
-    <ClCompile Include="Debug\Timing\Counter.cpp" />
-    <ClCompile Include="App\Time.cpp" />
     <ClCompile Include="Generation\MeshUtils.cpp" />
     <ClCompile Include="Rendering\State\Shader.cpp" />
     <ClCompile Include="Rendering\State\Mesh.cpp" />
@@ -70,7 +68,6 @@
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
     <ClInclude Include="App\Win32\Window.h" />
     <ClInclude Include="App\FpsControl.h" />
-    <ClInclude Include="App\Time.h" />
     <ClInclude Include="Framework\Resources.h" />
     <ClInclude Include="Game\Camera\OrbitCamera.h" />
     <ClInclude Include="pch.h" />
@@ -96,7 +93,6 @@
     <ClInclude Include="Generation\Shapes.h" />
     <ClInclude Include="Geometry\Shapes\Sphere.h" />
     <ClInclude Include="Geometry\PointUtils.h" />
-    <ClInclude Include="Debug\Timing\Counter.h" />
     <ClInclude Include="Rendering\Renderers\BasicRenderer.h" />
     <ClInclude Include="Generation\MeshUtils.h" />
     <ClInclude Include="Rendering\Renderers\RendererFactory.h" />

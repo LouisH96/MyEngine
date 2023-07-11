@@ -41,7 +41,6 @@
     <ClCompile Include="Game\Camera\FpsCameraController.cpp" />
     <ClCompile Include="Game\Camera\Camera.cpp" />
     <ClCompile Include="Framework\CppFramework.cpp" />
-    <ClCompile Include="App\Time.cpp" />
     <ClCompile Include="Rendering\Renderers\R_LambertCam_Tex_Transform.cpp" />
     <ClCompile Include="Rendering\Renderers\R_LambertCam_Tex.cpp" />
     <ClCompile Include="Rendering\Renderers\R_LambertLight_Tex.cpp" />
@@ -80,7 +79,6 @@
     <ClCompile Include="Rendering\State\RasterizerState.cpp" />
     <ClCompile Include="Generation\Shapes.cpp" />
     <ClCompile Include="Geometry\Shapes\Sphere.cpp" />
-    <ClCompile Include="Debug\Timing\Counter.cpp" />
     <ClCompile Include="Rendering\State\SamplerState.cpp" />
     <ClCompile Include="Rendering\State\Texture.cpp" />
     <ClCompile Include="Rendering\Structs\VertexTypes.cpp" />
@@ -155,7 +153,6 @@
     <ClInclude Include="Rendering\State\InputLayout.h" />
     <ClInclude Include="Geometry\PointUtils.h" />
     <ClInclude Include="App\Win32\Window.h" />
-    <ClInclude Include="App\Time.h" />
     <ClInclude Include="Framework\Resources.h" />
     <ClInclude Include="App\Win32\Mouse.h" />
     <ClInclude Include="pch.h" />
@@ -165,7 +162,6 @@
     <ClInclude Include="Rendering\State\RasterizerState.h" />
     <ClInclude Include="Generation\Shapes.h" />
     <ClInclude Include="Geometry\Shapes\Sphere.h" />
-    <ClInclude Include="Debug\Timing\Counter.h" />
     <ClInclude Include="Rendering\Renderers\TextureRenderer.h" />
     <ClInclude Include="Rendering\State\SamplerState.h" />
     <ClInclude Include="Rendering\State\Texture.h" />

@@ -27,6 +27,8 @@
     <ClInclude Include="WorldMatrix.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="DataStructures\CubeArray.h" />
+    <ClInclude Include="Timing\Counter.h" />
+    <ClInclude Include="Timing\Time.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Math\Quaternion.cpp" />
@@ -34,5 +36,7 @@
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="WorldMatrix.cpp" />
     <ClCompile Include="Image.cpp" />
+    <ClCompile Include="Timing\Counter.cpp" />
+    <ClCompile Include="Timing\Time.cpp" />
   </ItemGroup>
 </Project>

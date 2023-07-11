@@ -1,7 +1,7 @@
 #pragma once
 #include <chrono>
 
-#include "Time.h"
+#include "Timing/Time.h"
 
 namespace MyEngine
 {

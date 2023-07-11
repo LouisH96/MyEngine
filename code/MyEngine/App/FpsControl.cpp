@@ -1,12 +1,12 @@
 #include "pch.h"
 #include "FpsControl.h"
 
-#include <cmath>
 #include <thread>
 
 #include "Rendering/FpsDisplay.h"
+#include "Timing/Time.h"
 
-MyEngine::App::FpsControl::FpsControl(float desiredFps, Rendering::FpsDisplay* pDisplay)
+App::FpsControl::FpsControl(float desiredFps, Rendering::FpsDisplay* pDisplay)
 	: m_pDisplay(pDisplay)
 	, m_DesiredInterval{ static_cast<int>(std::roundf(Time::SEC_TO_CLOCK_UNIT / desiredFps)) }
 {
@@ -17,7 +17,7 @@ MyEngine::App::FpsControl::FpsControl(float desiredFps, Rendering::FpsDisplay* p
 	m_DurationLastFrame = m_DesiredInterval.count() * Time::SEC_TO_CLOCK_UNIT;
 }
 
-void MyEngine::App::FpsControl::Wait()
+void App::FpsControl::Wait()
 {
 	const Time::TimePoint now{ Time::Clock::now() };
 	const Time::Duration updateDuration{ now - m_BeginPrevUpdate };

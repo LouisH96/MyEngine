@@ -160,6 +160,7 @@
     <ClInclude Include="DataStructures\SortedArray.h" />
     <ClInclude Include="DataStructures\SortedList.h" />
     <ClInclude Include="Image.h" />
+    <ClInclude Include="Timing\Counter.h" />
     <ClInclude Include="Logger\Logger.h" />
     <ClInclude Include="Logger\ToString.h" />
     <ClInclude Include="Math\Constants.h" />
@@ -172,13 +173,16 @@
     <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="Math\Vector4.h" />
     <ClInclude Include="Math\Vectors.h" />
+    <ClInclude Include="Timing\Time.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="WorldMatrix.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Image.cpp" />
+    <ClCompile Include="Timing\Counter.cpp" />
     <ClCompile Include="Logger\Logger.cpp" />
     <ClCompile Include="Math\Quaternion.cpp" />
+    <ClCompile Include="Timing\Time.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="WorldMatrix.cpp" />
   </ItemGroup>
