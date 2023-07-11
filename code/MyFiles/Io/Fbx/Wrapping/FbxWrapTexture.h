@@ -11,7 +11,7 @@ namespace MyEngine
 		{
 			namespace Reading
 			{
-				class FbxObject;
+				class FbxElement;
 			}
 
 			namespace Wrapping
@@ -23,7 +23,7 @@ namespace MyEngine
 				{
 				public:
 					FbxWrapTexture() = default;
-					explicit FbxWrapTexture(Reading::FbxObject& object);
+					explicit FbxWrapTexture(Reading::FbxElement& object);
 
 					int64_t Id;
 

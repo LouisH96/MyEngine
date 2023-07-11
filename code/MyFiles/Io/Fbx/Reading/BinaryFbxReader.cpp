@@ -7,6 +7,8 @@
 #include "Io/Binary/LittleEndianReader.h"
 #include "Logger/Logger.h"
 
+//https://code.blender.org/2013/08/fbx-binary-file-format-specification/
+
 using namespace MyEngine;
 using namespace Io;
 using namespace Binary;

@@ -2,16 +2,16 @@
 
 #include "AnimationCurveNode.h"
 #include "AnimationLayer.h"
-#include "Io/Fbx/Reading/FbxObject.h"
+#include "Io/Fbx/Reading/FbxElement.h"
 #include "Io/Fbx/Reading/Properties/FbxPropPrimitive.h"
 #include "Io/Fbx/Reading/Properties70.h"
 #include "Logger/Logger.h"
 
-MyEngine::Io::Fbx::Wrapping::Model::Model(Reading::FbxObject& modelObject)
-	: m_Id(modelObject.GetProperty(0)->AsPrimitive<int64_t>().GetValue())
-	, m_Name(modelObject.GetProperty(1)->AsString())
-	, m_TypeName(modelObject.GetProperty(2)->AsString())
-	, m_Version(modelObject.GetChild(0).GetProperty(0)->AsPrimitive<int>().GetValue())
+MyEngine::Io::Fbx::Wrapping::Model::Model(Reading::FbxElement& modelObject)
+	: m_Id(modelObject.GetProperty(0).AsPrimitive<int64_t>().GetValue())
+	, m_Name(modelObject.GetProperty(1).AsString())
+	, m_TypeName(modelObject.GetProperty(2).AsString())
+	, m_Version(modelObject.GetChild(0).GetProperty(0).AsPrimitive<int>().GetValue())
 {
 	const Reading::Properties70 properties{ modelObject.GetChild(1) };
 	m_PreRotation = properties.GetFloat3("PreRotation", {});

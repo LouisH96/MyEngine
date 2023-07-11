@@ -9,7 +9,7 @@ namespace MyEngine
 		{
 			namespace Reading
 			{
-				class FbxObject;
+				class FbxElement;
 			}
 
 			namespace Wrapping
@@ -20,7 +20,7 @@ namespace MyEngine
 				{
 				public:
 					Connection() = default;
-					explicit Connection(Reading::FbxObject& readerObject);
+					explicit Connection(Reading::FbxElement& readerObject);
 
 					std::string Relation; //'OO' (object-object) or 'OP' (object-property)
 					int64_t ChildId{};

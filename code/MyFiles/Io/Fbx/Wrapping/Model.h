@@ -12,7 +12,7 @@ namespace MyEngine
 			namespace Reading
 			{
 				class Properties70;
-				class FbxObject;
+				class FbxElement;
 			}
 
 			namespace Wrapping
@@ -27,7 +27,7 @@ namespace MyEngine
 				{
 				public:
 					Model() = default;
-					Model(Reading::FbxObject& modelObject);
+					Model(Reading::FbxElement& modelObject);
 
 					const int64_t& GetId() const { return m_Id; }
 					const std::string& GetName() const { return m_Name; }

@@ -12,12 +12,12 @@ namespace MyEngine
 			namespace Reading
 			{
 				class FbxProperty;
-				class FbxObject;
+				class FbxElement;
 
 				class Properties70
 				{
 				public:
-					explicit Properties70(const FbxObject& object);
+					explicit Properties70(const FbxElement& object);
 
 					Float3 GetFloat3(const std::string& name) const;
 					Float3 GetFloat3(const std::string& name, const Float3& fallback) const;
@@ -36,13 +36,13 @@ namespace MyEngine
 					double GetDouble(int idx) const;
 					short GetShort(int idx) const;
 
-					const FbxObject* GetProperty(const std::string& name) const;
-					const FbxObject* GetPropertyOptional(const std::string& name) const;
+					const FbxElement* GetProperty(const std::string& name) const;
+					const FbxElement* GetPropertyOptional(const std::string& name) const;
 
 					void Print(bool compact = true, int nrTabs = 0) const;
 
 				private:
-					const FbxObject& m_Object;
+					const FbxElement& m_Object;
 				};
 			}
 		}

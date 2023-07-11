@@ -14,7 +14,7 @@ namespace MyEngine
 		{
 			namespace Reading
 			{
-				class FbxObject;
+				class FbxElement;
 			}
 
 			namespace Wrapping
@@ -41,7 +41,7 @@ namespace MyEngine
 
 					//---| Constructor/Destructor |---
 					AnimationCurveNode() = default;
-					explicit AnimationCurveNode(Reading::FbxObject& object);
+					explicit AnimationCurveNode(Reading::FbxElement& object);
 
 					//---| Functions |---
 					void AddNodeAttribute(const NodeAttribute& nodeAttribute);

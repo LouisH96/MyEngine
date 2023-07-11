@@ -13,7 +13,7 @@ namespace MyEngine
 		{
 			namespace Reading
 			{
-				class FbxObject;
+				class FbxElement;
 			}
 
 			namespace Wrapping
@@ -33,7 +33,7 @@ namespace MyEngine
 
 					//---| Constructor |---
 					Pose() = default;
-					explicit Pose(Reading::FbxObject& poseObject);
+					explicit Pose(Reading::FbxElement& poseObject);
 					~Pose() = default;
 
 					Pose(const Pose& other) = delete;

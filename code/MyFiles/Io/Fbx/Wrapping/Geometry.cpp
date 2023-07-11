@@ -1,11 +1,11 @@
 #include "Geometry.h"
 
-#include "Io/Fbx/Reading/FbxObject.h"
+#include "Io/Fbx/Reading/FbxElement.h"
 #include "Io/Fbx/Reading/Properties/FbxPropArray.h"
 #include "Logger/Logger.h"
 
-MyEngine::Io::Fbx::Wrapping::Geometry::Geometry(Reading::FbxObject& geometryObject)
-	: m_Id{geometryObject.GetProperty(0)->AsPrimitive<int64_t>().GetValue()}
+MyEngine::Io::Fbx::Wrapping::Geometry::Geometry(Reading::FbxElement& geometryObject)
+	: m_Id{geometryObject.GetProperty(0).AsPrimitive<int64_t>().GetValue()}
 {
 	LoadPoints(geometryObject);
 	LoadNormals(geometryObject);
@@ -25,10 +25,10 @@ void MyEngine::Io::Fbx::Wrapping::Geometry::AddDeformer(const Deformer& deformer
 	m_Deformers.Add(&deformer);
 }
 
-void MyEngine::Io::Fbx::Wrapping::Geometry::LoadPoints(const Reading::FbxObject& geometryObject)
+void MyEngine::Io::Fbx::Wrapping::Geometry::LoadPoints(const Reading::FbxElement& geometryObject)
 {
-	const Reading::FbxObject& verticesObject{ *geometryObject.GetChild("Vertices") };
-	const Array<double>& coordArray{ verticesObject.GetProperty(0)->AsArray<double>().GetValues() };
+	const Reading::FbxElement& verticesObject{ *geometryObject.GetChild("Vertices") };
+	const Array<double>& coordArray{ verticesObject.GetProperty(0).AsArray<double>().GetValues() };
 	m_Points = { coordArray.GetSize() / 3 };
 	const double* pCoord = &coordArray[0];
 	for (int i = 0; i < m_Points.GetSize(); i++)
@@ -38,11 +38,11 @@ void MyEngine::Io::Fbx::Wrapping::Geometry::LoadPoints(const Reading::FbxObject&
 			static_cast<float>(*pCoord++) };
 }
 
-void MyEngine::Io::Fbx::Wrapping::Geometry::LoadNormals(const Reading::FbxObject& geometryObject)
+void MyEngine::Io::Fbx::Wrapping::Geometry::LoadNormals(const Reading::FbxElement& geometryObject)
 {
-	const Reading::FbxObject& layerElementNormalObject{ *geometryObject.GetChild("LayerElementNormal") };
-	const Reading::FbxObject& normalsObject{ *layerElementNormalObject.GetChild("Normals") };
-	const Array<double>& normalDoublesArray{ normalsObject.GetProperty(0)->AsArray<double>().GetValues() };
+	const Reading::FbxElement& layerElementNormalObject{ *geometryObject.GetChild("LayerElementNormal") };
+	const Reading::FbxElement& normalsObject{ *layerElementNormalObject.GetChild("Normals") };
+	const Array<double>& normalDoublesArray{ normalsObject.GetProperty(0).AsArray<double>().GetValues() };
 	m_Normals = { normalDoublesArray.GetSize() / 3 };
 	const double* pNormalsDouble = &normalDoublesArray[0];
 	for (int i = 0; i < m_Normals.GetSize(); i++)
@@ -54,18 +54,18 @@ void MyEngine::Io::Fbx::Wrapping::Geometry::LoadNormals(const Reading::FbxObject
 	}
 }
 
-void MyEngine::Io::Fbx::Wrapping::Geometry::LoadIndices(Reading::FbxObject& geometryObject)
+void MyEngine::Io::Fbx::Wrapping::Geometry::LoadIndices(Reading::FbxElement& geometryObject)
 {
-	Reading::FbxObject& indicesObject{ *geometryObject.GetChild("PolygonVertexIndex") };
-	Array<int>& indices{ indicesObject.GetProperty(0)->AsArray<int>().GetValues() };
+	Reading::FbxElement& indicesObject{ *geometryObject.GetChild("PolygonVertexIndex") };
+	Array<int>& indices{ indicesObject.GetProperty(0).AsArray<int>().GetValues() };
 	m_Indices = std::move(indices);
 }
 
-void MyEngine::Io::Fbx::Wrapping::Geometry::LoadUvs(const Reading::FbxObject& geometryObject)
+void MyEngine::Io::Fbx::Wrapping::Geometry::LoadUvs(const Reading::FbxElement& geometryObject)
 {
-	const Reading::FbxObject& layerElementUvObject{ *geometryObject.GetChild("LayerElementUV") };
-	const Array<double>& uvValues{ layerElementUvObject.GetChild("UV")->GetProperty(0)->AsArray<double>().GetValues() };
-	const Array<int>& uvIndices{ layerElementUvObject.GetChild("UVIndex")->GetProperty(0)->AsArray<int>().GetValues() };
+	const Reading::FbxElement& layerElementUvObject{ *geometryObject.GetChild("LayerElementUV") };
+	const Array<double>& uvValues{ layerElementUvObject.GetChild("UV")->GetProperty(0).AsArray<double>().GetValues() };
+	const Array<int>& uvIndices{ layerElementUvObject.GetChild("UVIndex")->GetProperty(0).AsArray<int>().GetValues() };
 	m_Uvs = { uvIndices.GetSize() };
 
 	for (int i = 0; i < uvIndices.GetSize(); i++)

@@ -33,7 +33,6 @@
     <ClCompile Include="Io\Fbx\FbxJoint.cpp" />
     <ClCompile Include="Io\Fbx\FbxSkeleton.cpp" />
     <ClCompile Include="Io\Fbx\FbxTransformCurve.cpp" />
-    <ClCompile Include="Io\Fbx\Reading\FbxObject.cpp" />
     <ClCompile Include="Io\Fbx\Reading\FbxProperty.cpp" />
     <ClCompile Include="Io\Fbx\Reading\FbxReader.cpp" />
     <ClCompile Include="Io\Fbx\Reading\Properties70.cpp" />
@@ -93,7 +92,6 @@
     <ClInclude Include="Io\Fbx\FbxSkeleton.h" />
     <ClInclude Include="Io\Fbx\FbxTransformCurve.h" />
     <ClInclude Include="Io\Fbx\FbxValueCurve.h" />
-    <ClInclude Include="Io\Fbx\Reading\FbxObject.h" />
     <ClInclude Include="Io\Fbx\Reading\FbxProperty.h" />
     <ClInclude Include="Io\Fbx\Reading\FbxReader.h" />
     <ClInclude Include="Io\Fbx\Reading\Properties70.h" />

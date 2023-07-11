@@ -12,7 +12,7 @@ namespace MyEngine
 		{
 			namespace Reading
 			{
-				class FbxObject;
+				class FbxElement;
 			}
 
 			namespace Wrapping
@@ -24,7 +24,7 @@ namespace MyEngine
 				{
 				public:
 					AnimationLayer() = default;
-					explicit AnimationLayer(Reading::FbxObject& object);
+					explicit AnimationLayer(Reading::FbxElement& object);
 
 					int64_t Id;
 					std::string Name;

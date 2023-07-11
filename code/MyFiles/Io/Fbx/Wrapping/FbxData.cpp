@@ -1,18 +1,21 @@
 #include "FbxData.h"
 
 #include "Video.h"
-#include "../Reading/FbxObject.h"
 #include "../Reading/FbxReader.h"
+#include "Io/Fbx/Reading/FbxFile.h"
 #include "Logger/Logger.h"
 
-MyEngine::Io::Fbx::Wrapping::FbxData::FbxData(const std::wstring& path)
-	: FbxData{ Reading::FbxReader{ path } }
+using namespace MyEngine::Io::Fbx::Wrapping;
+using namespace MyEngine::Io::Fbx::Reading;
+
+FbxData::FbxData(const std::wstring& path)
+	: FbxData{FbxReader::Read(path) }
 {}
 
-MyEngine::Io::Fbx::Wrapping::FbxData::FbxData(Reading::FbxReader&& reader)
+FbxData::FbxData(FbxFile data)
 {
-	const Reading::FbxObject& objects{ *reader.GetRoot().GetChild("Objects") };
-	const Reading::FbxObject& connections{ *reader.GetRoot().GetChild("Connections") };
+	FbxElement& objects{ *data.GetRoot().GetChild("Objects") };
+	FbxElement& connections{ *data.GetRoot().GetChild("Connections") };
 
 	//reader.GetRoot().Print();
 
@@ -34,7 +37,7 @@ MyEngine::Io::Fbx::Wrapping::FbxData::FbxData(Reading::FbxReader&& reader)
 	HandleConnections();
 }
 
-MyEngine::Array<MyEngine::Io::Fbx::Wrapping::Model> MyEngine::Io::Fbx::Wrapping::FbxData::GetModelsOfType(const std::string& typeName) const
+MyEngine::Array<Model> FbxData::GetModelsOfType(const std::string& typeName) const
 {
 	int count{ 0 };
 	for (int i = 0; i < m_Models.GetSize(); i++)
@@ -50,12 +53,12 @@ MyEngine::Array<MyEngine::Io::Fbx::Wrapping::Model> MyEngine::Io::Fbx::Wrapping:
 	return models;
 }
 
-MyEngine::Array<MyEngine::Io::Fbx::Wrapping::Model> MyEngine::Io::Fbx::Wrapping::FbxData::GetLimbNodes() const
+MyEngine::Array<Model> FbxData::GetLimbNodes() const
 {
 	return GetModelsOfType("LimbNode");
 }
 
-const MyEngine::Io::Fbx::Wrapping::Model* MyEngine::Io::Fbx::Wrapping::FbxData::GetARootLimbNode() const
+const Model* FbxData::GetARootLimbNode() const
 {
 	for (int iModel = 0; iModel < m_Models.GetSize(); iModel++)
 	{
@@ -78,7 +81,7 @@ const MyEngine::Io::Fbx::Wrapping::Model* MyEngine::Io::Fbx::Wrapping::FbxData::
 	return nullptr;
 }
 
-MyEngine::Io::Fbx::Wrapping::Geometry* MyEngine::Io::Fbx::Wrapping::FbxData::FindGeometry(const int64_t& id)
+Geometry* FbxData::FindGeometry(const int64_t& id)
 {
 	for (int i = 0; i < m_Geometries.GetSize(); i++)
 		if (m_Geometries[i].GetId() == id)
@@ -86,7 +89,7 @@ MyEngine::Io::Fbx::Wrapping::Geometry* MyEngine::Io::Fbx::Wrapping::FbxData::Fin
 	return nullptr;
 }
 
-MyEngine::Io::Fbx::Wrapping::Model* MyEngine::Io::Fbx::Wrapping::FbxData::FindModel(const int64_t& id)
+Model* FbxData::FindModel(const int64_t& id)
 {
 	for (int i = 0; i < m_Models.GetSize(); i++)
 		if (m_Models[i].GetId() == id)
@@ -94,7 +97,7 @@ MyEngine::Io::Fbx::Wrapping::Model* MyEngine::Io::Fbx::Wrapping::FbxData::FindMo
 	return nullptr;
 }
 
-MyEngine::Io::Fbx::Wrapping::NodeAttribute* MyEngine::Io::Fbx::Wrapping::FbxData::FindNodeAttribute(const int64_t& id)
+NodeAttribute* FbxData::FindNodeAttribute(const int64_t& id)
 {
 	for (int i = 0; i < m_NodeAttributes.GetSize(); i++)
 		if (m_NodeAttributes[i].Id == id)
@@ -102,7 +105,7 @@ MyEngine::Io::Fbx::Wrapping::NodeAttribute* MyEngine::Io::Fbx::Wrapping::FbxData
 	return nullptr;
 }
 
-MyEngine::Io::Fbx::Wrapping::Deformer* MyEngine::Io::Fbx::Wrapping::FbxData::FindDeformer(const int64_t& id)
+Deformer* FbxData::FindDeformer(const int64_t& id)
 {
 	for (int i = 0; i < m_Deformers.GetSize(); i++)
 		if (m_Deformers[i].Id == id)
@@ -110,7 +113,7 @@ MyEngine::Io::Fbx::Wrapping::Deformer* MyEngine::Io::Fbx::Wrapping::FbxData::Fin
 	return nullptr;
 }
 
-MyEngine::Io::Fbx::Wrapping::Pose::Node* MyEngine::Io::Fbx::Wrapping::FbxData::FindPoseNode(const int64_t& id)
+Pose::Node* FbxData::FindPoseNode(const int64_t& id)
 {
 	for (int i = 0; i < m_BindPose.Nodes.GetSize(); i++)
 		if (m_BindPose.Nodes[i].Id == id)
@@ -118,7 +121,7 @@ MyEngine::Io::Fbx::Wrapping::Pose::Node* MyEngine::Io::Fbx::Wrapping::FbxData::F
 	return nullptr;
 }
 
-MyEngine::Io::Fbx::Wrapping::AnimationStack* MyEngine::Io::Fbx::Wrapping::FbxData::FindAnimationStack(const int64_t& id)
+AnimationStack* FbxData::FindAnimationStack(const int64_t& id)
 {
 	for (int i = 0; i < m_AnimationStacks.GetSize(); i++)
 		if (m_AnimationStacks[i].Id == id)
@@ -126,7 +129,7 @@ MyEngine::Io::Fbx::Wrapping::AnimationStack* MyEngine::Io::Fbx::Wrapping::FbxDat
 	return nullptr;
 }
 
-MyEngine::Io::Fbx::Wrapping::AnimationLayer* MyEngine::Io::Fbx::Wrapping::FbxData::FindAnimationLayer(const int64_t& id)
+AnimationLayer* FbxData::FindAnimationLayer(const int64_t& id)
 {
 	for (int i = 0; i < m_AnimationLayers.GetSize(); i++)
 		if (m_AnimationLayers[i].Id == id)
@@ -134,7 +137,7 @@ MyEngine::Io::Fbx::Wrapping::AnimationLayer* MyEngine::Io::Fbx::Wrapping::FbxDat
 	return nullptr;
 }
 
-MyEngine::Io::Fbx::Wrapping::AnimationCurve* MyEngine::Io::Fbx::Wrapping::FbxData::FindAnimationCurve(const int64_t& id)
+AnimationCurve* FbxData::FindAnimationCurve(const int64_t& id)
 {
 	for (int i = 0; i < m_AnimationCurves.GetSize(); i++)
 		if (m_AnimationCurves[i].Id == id)
@@ -142,7 +145,7 @@ MyEngine::Io::Fbx::Wrapping::AnimationCurve* MyEngine::Io::Fbx::Wrapping::FbxDat
 	return nullptr;
 }
 
-MyEngine::Io::Fbx::Wrapping::AnimationCurveNode* MyEngine::Io::Fbx::Wrapping::FbxData::FindAnimationCurveNode(const int64_t& id)
+AnimationCurveNode* FbxData::FindAnimationCurveNode(const int64_t& id)
 {
 	for (int i = 0; i < m_AnimationCurveNodes.GetSize(); i++)
 		if (m_AnimationCurveNodes[i].Id == id)
@@ -150,7 +153,7 @@ MyEngine::Io::Fbx::Wrapping::AnimationCurveNode* MyEngine::Io::Fbx::Wrapping::Fb
 	return nullptr;
 }
 
-MyEngine::Io::Fbx::Wrapping::Video* MyEngine::Io::Fbx::Wrapping::FbxData::FindVideo(const int64_t& id)
+Video* FbxData::FindVideo(const int64_t& id)
 {
 	for (int i = 0; i < m_Videos.GetSize(); i++)
 		if (m_Videos[i].Id == id)
@@ -158,7 +161,7 @@ MyEngine::Io::Fbx::Wrapping::Video* MyEngine::Io::Fbx::Wrapping::FbxData::FindVi
 	return nullptr;
 }
 
-MyEngine::Io::Fbx::Wrapping::FbxWrapTexture* MyEngine::Io::Fbx::Wrapping::FbxData::FindTexture(const int64_t& id)
+FbxWrapTexture* FbxData::FindTexture(const int64_t& id)
 {
 	for (int i = 0; i < m_Textures.GetSize(); i++)
 		if (m_Textures[i].Id == id)
@@ -166,7 +169,7 @@ MyEngine::Io::Fbx::Wrapping::FbxWrapTexture* MyEngine::Io::Fbx::Wrapping::FbxDat
 	return nullptr;
 }
 
-MyEngine::Io::Fbx::Wrapping::FbxWrapMaterial* MyEngine::Io::Fbx::Wrapping::FbxData::FindMaterial(const int64_t& id)
+FbxWrapMaterial* FbxData::FindMaterial(const int64_t& id)
 {
 	for (int i = 0; i < m_Materials.GetSize(); i++)
 		if (m_Materials[i].Id == id)
@@ -174,7 +177,7 @@ MyEngine::Io::Fbx::Wrapping::FbxWrapMaterial* MyEngine::Io::Fbx::Wrapping::FbxDa
 	return nullptr;
 }
 
-MyEngine::Io::Fbx::Wrapping::CollectionExclusive* MyEngine::Io::Fbx::Wrapping::FbxData::FindCollection(const int64_t& id)
+CollectionExclusive* FbxData::FindCollection(const int64_t& id)
 {
 	for (int i = 0; i < m_Collections.GetSize(); i++)
 		if (m_Collections[i].Id == id)
@@ -182,7 +185,7 @@ MyEngine::Io::Fbx::Wrapping::CollectionExclusive* MyEngine::Io::Fbx::Wrapping::F
 	return nullptr;
 }
 
-const MyEngine::Io::Fbx::Wrapping::Geometry* MyEngine::Io::Fbx::Wrapping::FbxData::FindGeometry(const int64_t& id) const
+const Geometry* FbxData::FindGeometry(const int64_t& id) const
 {
 	for (int i = 0; i < m_Geometries.GetSize(); i++)
 		if (m_Geometries[i].GetId() == id)
@@ -190,7 +193,7 @@ const MyEngine::Io::Fbx::Wrapping::Geometry* MyEngine::Io::Fbx::Wrapping::FbxDat
 	return nullptr;
 }
 
-const MyEngine::Io::Fbx::Wrapping::Deformer* MyEngine::Io::Fbx::Wrapping::FbxData::FindDeformer(const int64_t& id) const
+const Deformer* FbxData::FindDeformer(const int64_t& id) const
 {
 	for (int i = 0; i < m_Deformers.GetSize(); i++)
 		if (m_Deformers[i].Id == id)
@@ -198,7 +201,7 @@ const MyEngine::Io::Fbx::Wrapping::Deformer* MyEngine::Io::Fbx::Wrapping::FbxDat
 	return nullptr;
 }
 
-const MyEngine::Io::Fbx::Wrapping::Pose::Node* MyEngine::Io::Fbx::Wrapping::FbxData::FindPoseNode(const int64_t& id) const
+const Pose::Node* FbxData::FindPoseNode(const int64_t& id) const
 {
 	for (int i = 0; i < m_BindPose.Nodes.GetSize(); i++)
 		if (m_BindPose.Nodes[i].Id == id)
@@ -206,7 +209,7 @@ const MyEngine::Io::Fbx::Wrapping::Pose::Node* MyEngine::Io::Fbx::Wrapping::FbxD
 	return nullptr;
 }
 
-const MyEngine::Io::Fbx::Wrapping::AnimationStack* MyEngine::Io::Fbx::Wrapping::FbxData::FindAnimationStack(const int64_t& id) const
+const AnimationStack* FbxData::FindAnimationStack(const int64_t& id) const
 {
 	for (int i = 0; i < m_AnimationStacks.GetSize(); i++)
 		if (m_AnimationStacks[i].Id == id)
@@ -214,7 +217,7 @@ const MyEngine::Io::Fbx::Wrapping::AnimationStack* MyEngine::Io::Fbx::Wrapping::
 	return nullptr;
 }
 
-const MyEngine::Io::Fbx::Wrapping::AnimationLayer* MyEngine::Io::Fbx::Wrapping::FbxData::FindAnimationLayer(const int64_t& id) const
+const AnimationLayer* FbxData::FindAnimationLayer(const int64_t& id) const
 {
 	for (int i = 0; i < m_AnimationLayers.GetSize(); i++)
 		if (m_AnimationLayers[i].Id == id)
@@ -222,7 +225,7 @@ const MyEngine::Io::Fbx::Wrapping::AnimationLayer* MyEngine::Io::Fbx::Wrapping::
 	return nullptr;
 }
 
-const MyEngine::Io::Fbx::Wrapping::AnimationCurve* MyEngine::Io::Fbx::Wrapping::FbxData::FindAnimationCurve(const int64_t& id) const
+const AnimationCurve* FbxData::FindAnimationCurve(const int64_t& id) const
 {
 	for (int i = 0; i < m_AnimationCurves.GetSize(); i++)
 		if (m_AnimationCurves[i].Id == id)
@@ -230,7 +233,7 @@ const MyEngine::Io::Fbx::Wrapping::AnimationCurve* MyEngine::Io::Fbx::Wrapping::
 	return nullptr;
 }
 
-const MyEngine::Io::Fbx::Wrapping::Video* MyEngine::Io::Fbx::Wrapping::FbxData::FindVideo(const int64_t& id) const
+const Video* FbxData::FindVideo(const int64_t& id) const
 {
 	for (int i = 0; i < m_Videos.GetSize(); i++)
 		if (m_Videos[i].Id == id)
@@ -238,7 +241,7 @@ const MyEngine::Io::Fbx::Wrapping::Video* MyEngine::Io::Fbx::Wrapping::FbxData::
 	return nullptr;
 }
 
-const MyEngine::Io::Fbx::Wrapping::FbxWrapTexture* MyEngine::Io::Fbx::Wrapping::FbxData::FindTexture(const int64_t& id) const
+const FbxWrapTexture* FbxData::FindTexture(const int64_t& id) const
 {
 	for (int i = 0; i < m_Textures.GetSize(); i++)
 		if (m_Textures[i].Id == id)
@@ -246,7 +249,7 @@ const MyEngine::Io::Fbx::Wrapping::FbxWrapTexture* MyEngine::Io::Fbx::Wrapping::
 	return nullptr;
 }
 
-const MyEngine::Io::Fbx::Wrapping::FbxWrapMaterial* MyEngine::Io::Fbx::Wrapping::FbxData::FindMaterial(const int64_t& id) const
+const FbxWrapMaterial* FbxData::FindMaterial(const int64_t& id) const
 {
 	for (int i = 0; i < m_Materials.GetSize(); i++)
 		if (m_Materials[i].Id == id)
@@ -254,7 +257,7 @@ const MyEngine::Io::Fbx::Wrapping::FbxWrapMaterial* MyEngine::Io::Fbx::Wrapping:
 	return nullptr;
 }
 
-const MyEngine::Io::Fbx::Wrapping::CollectionExclusive* MyEngine::Io::Fbx::Wrapping::FbxData::FindCollection(const int64_t& id) const
+const CollectionExclusive* FbxData::FindCollection(const int64_t& id) const
 {
 	for (int i = 0; i < m_Collections.GetSize(); i++)
 		if (m_Collections[i].Id == id)
@@ -262,7 +265,7 @@ const MyEngine::Io::Fbx::Wrapping::CollectionExclusive* MyEngine::Io::Fbx::Wrapp
 	return nullptr;
 }
 
-const MyEngine::Io::Fbx::Wrapping::AnimationCurveNode* MyEngine::Io::Fbx::Wrapping::FbxData::FindAnimationCurveNode(const int64_t& id) const
+const AnimationCurveNode* FbxData::FindAnimationCurveNode(const int64_t& id) const
 {
 	for (int i = 0; i < m_AnimationCurveNodes.GetSize(); i++)
 		if (m_AnimationCurveNodes[i].Id == id)
@@ -270,7 +273,7 @@ const MyEngine::Io::Fbx::Wrapping::AnimationCurveNode* MyEngine::Io::Fbx::Wrappi
 	return nullptr;
 }
 
-const MyEngine::Io::Fbx::Wrapping::Model* MyEngine::Io::Fbx::Wrapping::FbxData::FindModel(const int64_t& id) const
+const Model* FbxData::FindModel(const int64_t& id) const
 {
 	for (int i = 0; i < m_Models.GetSize(); i++)
 		if (m_Models[i].GetId() == id)
@@ -278,7 +281,7 @@ const MyEngine::Io::Fbx::Wrapping::Model* MyEngine::Io::Fbx::Wrapping::FbxData::
 	return nullptr;
 }
 
-const MyEngine::Io::Fbx::Wrapping::NodeAttribute* MyEngine::Io::Fbx::Wrapping::FbxData::FindNodeAttribute(const int64_t& id) const
+const NodeAttribute* FbxData::FindNodeAttribute(const int64_t& id) const
 {
 	for (int i = 0; i < m_NodeAttributes.GetSize(); i++)
 		if (m_NodeAttributes[i].Id == id)
@@ -286,12 +289,12 @@ const MyEngine::Io::Fbx::Wrapping::NodeAttribute* MyEngine::Io::Fbx::Wrapping::F
 	return nullptr;
 }
 
-MyEngine::Array<const MyEngine::Io::Fbx::Wrapping::Model*> MyEngine::Io::Fbx::Wrapping::FbxData::GetChildren(const Model& model) const
+MyEngine::Array<const Model*> FbxData::GetChildren(const Model& model) const
 {
 	return GetChildren(model.GetId());
 }
 
-MyEngine::Array<const MyEngine::Io::Fbx::Wrapping::Model*> MyEngine::Io::Fbx::Wrapping::FbxData::GetChildren(const int64_t& id) const
+MyEngine::Array<const Model*> FbxData::GetChildren(const int64_t& id) const
 {
 	Array<const Model*> children{ 0 };
 	for (int i = 0; i < m_Connections.GetSize(); i++)
@@ -306,120 +309,120 @@ MyEngine::Array<const MyEngine::Io::Fbx::Wrapping::Model*> MyEngine::Io::Fbx::Wr
 	return children;
 }
 
-void MyEngine::Io::Fbx::Wrapping::FbxData::ReadGeometry(const Reading::FbxObject& objectsObject)
+void FbxData::ReadGeometry(FbxElement& objectsObject)
 {
-	const std::vector<Reading::FbxObject*> geometries{ objectsObject.GetChildren("Geometry") };
-	m_Geometries = { static_cast<int>(geometries.size()) };
-	for (int i = 0; i < geometries.size(); i++)
+	const List<FbxElement*> geometries{ objectsObject.GetChildren("Geometry") };
+	m_Geometries = { geometries.GetSizeU() };
+	for (unsigned i = 0; i < geometries.GetSizeU(); i++)
 		m_Geometries[i] = Geometry{ *geometries[i] };
 }
 
-void MyEngine::Io::Fbx::Wrapping::FbxData::ReadModels(const Reading::FbxObject& objectsObject)
+void FbxData::ReadModels(FbxElement& objectsObject)
 {
-	const std::vector<Reading::FbxObject*> models{ objectsObject.GetChildren("Model") };
-	m_Models = { static_cast<int>(models.size()) };
+	const List<FbxElement*> models{ objectsObject.GetChildren("Model") };
+	m_Models = { models.GetSizeU() };
 	for (int i = 0; i < m_Models.GetSize(); i++)
 		m_Models[i] = Model{ *models[i] };
 }
 
-void MyEngine::Io::Fbx::Wrapping::FbxData::ReadNodeAttributes(const Reading::FbxObject& objectsObject)
+void FbxData::ReadNodeAttributes(FbxElement& objectsObject)
 {
-	const std::vector<Reading::FbxObject*> nodeAttributes{ objectsObject.GetChildren("NodeAttribute") };
-	m_NodeAttributes = { static_cast<int>(nodeAttributes.size()) };
+	const List<FbxElement*> nodeAttributes{ objectsObject.GetChildren("NodeAttribute") };
+	m_NodeAttributes = { nodeAttributes.GetSizeU() };
 	for (int i = 0; i < m_NodeAttributes.GetSize(); i++)
 		m_NodeAttributes[i] = NodeAttribute{ *nodeAttributes[i] };
 }
 
-void MyEngine::Io::Fbx::Wrapping::FbxData::ReadDeformers(const Reading::FbxObject& objectsObject)
+void FbxData::ReadDeformers(FbxElement& objectsObject)
 {
-	const std::vector<Reading::FbxObject*> deformers{ objectsObject.GetChildren("Deformer") };
-	m_Deformers = { static_cast<int>(deformers.size()) };
+	const List<FbxElement*> deformers{ objectsObject.GetChildren("Deformer") };
+	m_Deformers = { deformers.GetSizeU() };
 	for (int i = 0; i < m_Deformers.GetSize(); i++)
 		m_Deformers[i] = Deformer{ *deformers[i] };
 }
 
-void MyEngine::Io::Fbx::Wrapping::FbxData::ReadPoses(const Reading::FbxObject& objectsObject)
+void FbxData::ReadPoses(FbxElement& objectsObject)
 {
-	const std::vector<Reading::FbxObject*> poses{ objectsObject.GetChildren("Pose") };
-	if (poses.size() > 1) Logger::PrintWarning("Doesn't support multiple poses");
-	if (poses.size() > 0)
+	const List<FbxElement*> poses{ objectsObject.GetChildren("Pose") };
+	if (poses.GetSizeU() > 1) Logger::PrintWarning("Doesn't support multiple poses");
+	if (poses.GetSizeU() > 0)
 		m_BindPose = Pose{ *poses[0] };
 }
 
-void MyEngine::Io::Fbx::Wrapping::FbxData::ReadConnections(const Reading::FbxObject& connectionsObject)
+void FbxData::ReadConnections(FbxElement& connectionsObject)
 {
-	const std::vector<Reading::FbxObject*> readerConnections{ connectionsObject.GetChildren() };
-	m_Connections = { readerConnections.size() };
-	for (int i = 0; i < readerConnections.size(); i++)
-		m_Connections[i] = Connection{ *readerConnections[i] };
+	List<FbxElement>& readerConnections{ connectionsObject.GetChildren() };
+	m_Connections = { readerConnections.GetSizeU() };
+	for (int i = 0; i < readerConnections.GetSizeU(); i++)
+		m_Connections[i] = Connection{ readerConnections[i] };
 }
 
-void MyEngine::Io::Fbx::Wrapping::FbxData::ReadAnimationStack(const Reading::FbxObject& objectsObject)
+void FbxData::ReadAnimationStack(FbxElement& objectsObject)
 {
-	const std::vector<Reading::FbxObject*> readerAnimationStacks{ objectsObject.GetChildren("AnimationStack") };
-	m_AnimationStacks = { readerAnimationStacks.size() };
-	for (int i = 0; i < readerAnimationStacks.size(); i++)
+	const List<FbxElement*> readerAnimationStacks{ objectsObject.GetChildren("AnimationStack") };
+	m_AnimationStacks = { readerAnimationStacks.GetSizeU() };
+	for (int i = 0; i < readerAnimationStacks.GetSizeU(); i++)
 		m_AnimationStacks[i] = AnimationStack{ *readerAnimationStacks[i] };
 }
 
-void MyEngine::Io::Fbx::Wrapping::FbxData::ReadAnimationLayers(const Reading::FbxObject& objectsObject)
+void FbxData::ReadAnimationLayers(FbxElement& objectsObject)
 {
-	const std::vector<Reading::FbxObject*> readerAnimationLayers{ objectsObject.GetChildren("AnimationLayer") };
-	if (readerAnimationLayers.empty())return;
-	m_AnimationLayers = { readerAnimationLayers.size() };
+	const List<FbxElement*> readerAnimationLayers{ objectsObject.GetChildren("AnimationLayer") };
+	if (readerAnimationLayers.IsEmpty())return;
+	m_AnimationLayers = { readerAnimationLayers.GetSizeU() };
 	for (int i = 0; i < m_AnimationLayers.GetSize(); i++)
 		m_AnimationLayers[i] = AnimationLayer{ *readerAnimationLayers[i] };
 }
 
-void MyEngine::Io::Fbx::Wrapping::FbxData::ReadAnimationCurveNodes(const Reading::FbxObject& objectsObject)
+void FbxData::ReadAnimationCurveNodes(FbxElement& objectsObject)
 {
-	const std::vector<Reading::FbxObject*> curveNodeObjects{ objectsObject.GetChildren("AnimationCurveNode") };
-	m_AnimationCurveNodes = { curveNodeObjects.size() };
+	const List<FbxElement*> curveNodeObjects{ objectsObject.GetChildren("AnimationCurveNode") };
+	m_AnimationCurveNodes = { curveNodeObjects.GetSizeU() };
 	for (int i = 0; i < m_AnimationCurveNodes.GetSize(); i++)
 		m_AnimationCurveNodes[i] = AnimationCurveNode{ *curveNodeObjects[i] };
 }
 
-void MyEngine::Io::Fbx::Wrapping::FbxData::ReadAnimationCurves(const Reading::FbxObject& objectsObject)
+void FbxData::ReadAnimationCurves(FbxElement& objectsObject)
 {
-	const std::vector<Reading::FbxObject*> objects{ objectsObject.GetChildren("AnimationCurve") };
-	m_AnimationCurves = { objects.size() };
+	const List<FbxElement*> objects{ objectsObject.GetChildren("AnimationCurve") };
+	m_AnimationCurves = { objects.GetSizeU() };
 	for (int i = 0; i < m_AnimationCurves.GetSize(); i++)
 		m_AnimationCurves[i] = AnimationCurve{ *objects[i] };
 }
 
-void MyEngine::Io::Fbx::Wrapping::FbxData::ReadTextures(const Reading::FbxObject& objectsObject)
+void FbxData::ReadTextures(FbxElement& objectsObject)
 {
-	const std::vector<Reading::FbxObject*> objects{ objectsObject.GetChildren("Texture") };
-	m_Textures = { objects.size() };
+	const List<FbxElement*> objects{ objectsObject.GetChildren("Texture") };
+	m_Textures = { objects.GetSizeU() };
 	for (int i = 0; i < m_Textures.GetSize(); i++)
 		m_Textures[i] = FbxWrapTexture{ *objects[i] };
 }
 
-void MyEngine::Io::Fbx::Wrapping::FbxData::ReadVideos(const Reading::FbxObject& objectsObject)
+void FbxData::ReadVideos(FbxElement& objectsObject)
 {
-	const std::vector<Reading::FbxObject*> objects{ objectsObject.GetChildren("Video") };
-	m_Videos = { objects.size() };
+	const List<FbxElement*> objects{ objectsObject.GetChildren("Video") };
+	m_Videos = { objects.GetSizeU() };
 	for (int i = 0; i < m_Videos.GetSize(); i++)
 		m_Videos[i] = Video{ *objects[i] };
 }
 
-void MyEngine::Io::Fbx::Wrapping::FbxData::ReadMaterial(const Reading::FbxObject& objectsObject)
+void FbxData::ReadMaterial(FbxElement& objectsObject)
 {
-	const std::vector<Reading::FbxObject*> objects{ objectsObject.GetChildren("Material") };
-	m_Materials = { objects.size() };
+	const List<FbxElement*> objects{ objectsObject.GetChildren("Material") };
+	m_Materials = { objects.GetSizeU() };
 	for (int i = 0; i < m_Materials.GetSize(); i++)
 		m_Materials[i] = FbxWrapMaterial{ *objects[i] };
 }
 
-void MyEngine::Io::Fbx::Wrapping::FbxData::ReadCollections(const Reading::FbxObject& objectsObject)
+void FbxData::ReadCollections(FbxElement& objectsObject)
 {
-	const std::vector<Reading::FbxObject*> objects{ objectsObject.GetChildren("CollectionExclusive") };
-	m_Collections = { objects.size() };
+	const List<FbxElement*> objects{ objectsObject.GetChildren("CollectionExclusive") };
+	m_Collections = { objects.GetSizeU() };
 	for (int i = 0; i < m_Collections.GetSize(); i++)
 		m_Collections[i] = CollectionExclusive{ *objects[i] };
 }
 
-void MyEngine::Io::Fbx::Wrapping::FbxData::HandleConnections()
+void FbxData::HandleConnections()
 {
 	for (int iConnection = 0; iConnection < m_Connections.GetSize(); iConnection++)
 	{
@@ -500,7 +503,7 @@ void MyEngine::Io::Fbx::Wrapping::FbxData::HandleConnections()
 	}
 }
 
-void MyEngine::Io::Fbx::Wrapping::FbxData::HandleGeometryConnection(Geometry& geometry, const Connection& connection)
+void FbxData::HandleGeometryConnection(Geometry& geometry, const Connection& connection)
 {
 	Model* pModel{ FindModel(connection.ParentId) };
 	if (pModel)
@@ -512,7 +515,7 @@ void MyEngine::Io::Fbx::Wrapping::FbxData::HandleGeometryConnection(Geometry& ge
 	PrintUnhandledConnectionError(FindTypeName(connection.ParentId), "Geometry");
 }
 
-void MyEngine::Io::Fbx::Wrapping::FbxData::HandleModelConnection(Model& childModel, const Connection& connection)
+void FbxData::HandleModelConnection(Model& childModel, const Connection& connection)
 {
 	if (connection.ParentId == 0) return;
 
@@ -542,8 +545,8 @@ void MyEngine::Io::Fbx::Wrapping::FbxData::HandleModelConnection(Model& childMod
 	PrintUnhandledConnectionError(FindTypeName(connection.ParentId), connection.ParentId, "Model", connection.ChildId);
 }
 
-void MyEngine::Io::Fbx::Wrapping::FbxData::HandleNodeAttributeConnection(NodeAttribute& nodeAttribute,
-	const Connection& connection)
+void FbxData::HandleNodeAttributeConnection(NodeAttribute& nodeAttribute,
+                                            const Connection& connection)
 {
 	Model* pModel{ FindModel(connection.ParentId) };
 	if (pModel)
@@ -556,7 +559,7 @@ void MyEngine::Io::Fbx::Wrapping::FbxData::HandleNodeAttributeConnection(NodeAtt
 	PrintUnhandledConnectionError(FindTypeName(connection.ParentId), "NodeAttribute");
 }
 
-void MyEngine::Io::Fbx::Wrapping::FbxData::HandleDeformerConnection(Deformer& childDeformer, const Connection& connection)
+void FbxData::HandleDeformerConnection(Deformer& childDeformer, const Connection& connection)
 {
 	Deformer* pParentDeformer{ FindDeformer(connection.ParentId) };
 	if (pParentDeformer)
@@ -577,8 +580,8 @@ void MyEngine::Io::Fbx::Wrapping::FbxData::HandleDeformerConnection(Deformer& ch
 	PrintUnhandledConnectionError(FindTypeName(connection.ParentId), "Deformer");
 }
 
-void MyEngine::Io::Fbx::Wrapping::FbxData::HandleAnimationLayerConnection(AnimationLayer& animationLayer,
-	const Connection& connection)
+void FbxData::HandleAnimationLayerConnection(AnimationLayer& animationLayer,
+                                             const Connection& connection)
 {
 	AnimationStack* pAnimationStack{ FindAnimationStack(connection.ParentId) };
 	if (pAnimationStack)
@@ -591,7 +594,7 @@ void MyEngine::Io::Fbx::Wrapping::FbxData::HandleAnimationLayerConnection(Animat
 	PrintUnhandledConnectionError(FindTypeName(connection.ParentId), "AnimationLayer");
 }
 
-void MyEngine::Io::Fbx::Wrapping::FbxData::HandleAnimationCurveConnection(AnimationCurve& animationCurve, const Connection& connection)
+void FbxData::HandleAnimationCurveConnection(AnimationCurve& animationCurve, const Connection& connection)
 {
 	AnimationCurveNode* pAnimationCurveNode{ FindAnimationCurveNode(connection.ParentId) };
 	if (pAnimationCurveNode)
@@ -604,8 +607,8 @@ void MyEngine::Io::Fbx::Wrapping::FbxData::HandleAnimationCurveConnection(Animat
 	PrintUnhandledConnectionError(FindTypeName(connection.ParentId), "AnimationCurve");
 }
 
-void MyEngine::Io::Fbx::Wrapping::FbxData::HandleAnimationCurveNodeConnection(AnimationCurveNode& childAnimationCurveNode,
-	const Connection& connection)
+void FbxData::HandleAnimationCurveNodeConnection(AnimationCurveNode& childAnimationCurveNode,
+                                                 const Connection& connection)
 {
 	Model* pModel{ FindModel(connection.ParentId) };
 	if (pModel)
@@ -634,7 +637,7 @@ void MyEngine::Io::Fbx::Wrapping::FbxData::HandleAnimationCurveNodeConnection(An
 	PrintUnhandledConnectionError(FindTypeName(connection.ParentId), "AnimationCurveNode");
 }
 
-void MyEngine::Io::Fbx::Wrapping::FbxData::HandleVideoConnection(Video& video, const Connection& connection)
+void FbxData::HandleVideoConnection(Video& video, const Connection& connection)
 {
 	FbxWrapTexture* pTexture{ FindTexture(connection.ParentId) };
 	if (pTexture)
@@ -647,7 +650,7 @@ void MyEngine::Io::Fbx::Wrapping::FbxData::HandleVideoConnection(Video& video, c
 	PrintUnhandledConnectionError(FindTypeName(connection.ParentId), "Video");
 }
 
-void MyEngine::Io::Fbx::Wrapping::FbxData::HandleTextureConnection(FbxWrapTexture& texture, const Connection& connection)
+void FbxData::HandleTextureConnection(FbxWrapTexture& texture, const Connection& connection)
 {
 	FbxWrapMaterial* pMaterial{ FindMaterial(connection.ParentId) };
 	if (pMaterial)
@@ -660,7 +663,7 @@ void MyEngine::Io::Fbx::Wrapping::FbxData::HandleTextureConnection(FbxWrapTextur
 	PrintUnhandledConnectionError(FindTypeName(connection.ParentId), "Texture");
 }
 
-void MyEngine::Io::Fbx::Wrapping::FbxData::HandleMaterialConnection(FbxWrapMaterial& material, const Connection& connection)
+void FbxData::HandleMaterialConnection(FbxWrapMaterial& material, const Connection& connection)
 {
 	Model* pModel{ FindModel(connection.ParentId) };
 	if (pModel)
@@ -673,7 +676,7 @@ void MyEngine::Io::Fbx::Wrapping::FbxData::HandleMaterialConnection(FbxWrapMater
 	PrintUnhandledConnectionError(FindTypeName(connection.ParentId), "Material");
 }
 
-std::string MyEngine::Io::Fbx::Wrapping::FbxData::FindTypeName(const int64_t& id) const
+std::string FbxData::FindTypeName(const int64_t& id) const
 {
 	if (FindAnimationStack(id)) return "AnimationStack";
 	if (FindGeometry(id)) return "Geometry";
@@ -690,14 +693,14 @@ std::string MyEngine::Io::Fbx::Wrapping::FbxData::FindTypeName(const int64_t& id
 	return "Unknown type";
 }
 
-void MyEngine::Io::Fbx::Wrapping::FbxData::PrintUnhandledConnectionError(const std::string& parentType,
-	const std::string& childType)
+void FbxData::PrintUnhandledConnectionError(const std::string& parentType,
+                                            const std::string& childType)
 {
 	Logger::PrintError(childType + " has an unsupported connection to a parent " + parentType);
 }
 
-void MyEngine::Io::Fbx::Wrapping::FbxData::PrintUnhandledConnectionError(const std::string& parentType, const int64_t& parentId,
-	const std::string& childType, const int64_t& childId)
+void FbxData::PrintUnhandledConnectionError(const std::string& parentType, const int64_t& parentId,
+                                            const std::string& childType, const int64_t& childId)
 {
 	Logger::PrintError(childType + "(" + ToString::Convert(childId)
 		+ ") has an unsupported connection to a parent " + parentType + "(" + ToString::Convert(parentId) + ")");

@@ -11,7 +11,7 @@ namespace MyEngine
 		{
 			namespace Reading
 			{
-				class FbxObject;
+				class FbxElement;
 			}
 
 			namespace Wrapping
@@ -22,7 +22,7 @@ namespace MyEngine
 				{
 				public:
 					AnimationCurve() = default;
-					explicit AnimationCurve(Reading::FbxObject& object);
+					explicit AnimationCurve(Reading::FbxElement& object);
 
 					int64_t Id;
 					double Default;

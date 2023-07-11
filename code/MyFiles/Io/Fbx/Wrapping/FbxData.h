@@ -12,6 +12,7 @@
 #include "NodeAttribute.h"
 #include "Pose.h"
 #include "Video.h"
+#include "Io/Fbx/Reading/FbxFile.h"
 
 namespace MyEngine
 {
@@ -21,8 +22,7 @@ namespace MyEngine
 		{
 			namespace Reading
 			{
-				class FbxObject;
-				class FbxReader;
+				class FbxElement;
 			}
 
 			namespace Wrapping
@@ -31,8 +31,8 @@ namespace MyEngine
 				{
 				public:
 					//---| Construction |---
-					FbxData(const std::wstring& path);
-					FbxData(Reading::FbxReader&& reader);
+					explicit FbxData(const std::wstring& path);
+					explicit FbxData(Reading::FbxFile data);
 					~FbxData() = default;
 
 					FbxData(const FbxData& other) = delete;
@@ -105,20 +105,20 @@ namespace MyEngine
 					Array<FbxWrapMaterial> m_Materials{};
 					Array<CollectionExclusive> m_Collections{};
 
-					void ReadGeometry(const Reading::FbxObject& objectsObject);
-					void ReadModels(const Reading::FbxObject& objectsObject);
-					void ReadNodeAttributes(const Reading::FbxObject& objectsObject);
-					void ReadDeformers(const Reading::FbxObject& objectsObject);
-					void ReadPoses(const Reading::FbxObject& objectsObject);
-					void ReadConnections(const Reading::FbxObject& connectionsObject);
-					void ReadAnimationStack(const Reading::FbxObject& objectsObject);
-					void ReadAnimationLayers(const Reading::FbxObject& objectsObject);
-					void ReadAnimationCurveNodes(const Reading::FbxObject& objectsObject);
-					void ReadAnimationCurves(const Reading::FbxObject& objectsObject);
-					void ReadTextures(const Reading::FbxObject& objectsObject);
-					void ReadVideos(const Reading::FbxObject& objectsObject);
-					void ReadMaterial(const Reading::FbxObject& objectsObject);
-					void ReadCollections(const Reading::FbxObject& objectsObject);
+					void ReadGeometry(Reading::FbxElement& objectsObject);
+					void ReadModels(Reading::FbxElement& objectsObject);
+					void ReadNodeAttributes(Reading::FbxElement& objectsObject);
+					void ReadDeformers(Reading::FbxElement& objectsObject);
+					void ReadPoses(Reading::FbxElement& objectsObject);
+					void ReadConnections(Reading::FbxElement& connectionsObject);
+					void ReadAnimationStack(Reading::FbxElement& objectsObject);
+					void ReadAnimationLayers(Reading::FbxElement& objectsObject);
+					void ReadAnimationCurveNodes(Reading::FbxElement& objectsObject);
+					void ReadAnimationCurves(Reading::FbxElement& objectsObject);
+					void ReadTextures(Reading::FbxElement& objectsObject);
+					void ReadVideos(Reading::FbxElement& objectsObject);
+					void ReadMaterial(Reading::FbxElement& objectsObject);
+					void ReadCollections(Reading::FbxElement& objectsObject);
 
 					void HandleConnections();
 					void HandleGeometryConnection(Geometry& geometry, const Connection& connection);

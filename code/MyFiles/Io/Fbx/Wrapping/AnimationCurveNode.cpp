@@ -1,12 +1,12 @@
 #include "AnimationCurveNode.h"
 
-#include "Io/Fbx/Reading/FbxObject.h"
+#include "Io/Fbx/Reading/FbxElement.h"
 #include "Io/Fbx/Reading/Properties/FbxPropPrimitive.h"
 #include "Logger/Logger.h"
 
-MyEngine::Io::Fbx::Wrapping::AnimationCurveNode::AnimationCurveNode(Reading::FbxObject& object)
-	: Id{ object.GetProperty(0)->AsPrimitive<int64_t>().GetValue() }
-	, m_NodeType{ GetNodeType(object.GetProperty(1)->AsString()) }
+MyEngine::Io::Fbx::Wrapping::AnimationCurveNode::AnimationCurveNode(Reading::FbxElement& object)
+	: Id{ object.GetProperty(0).AsPrimitive<int64_t>().GetValue() }
+	, m_NodeType{ GetNodeType(object.GetProperty(1).AsString()) }
 {
 	const Reading::Properties70 props{ object.GetChild(0) };
 	switch (m_NodeType)

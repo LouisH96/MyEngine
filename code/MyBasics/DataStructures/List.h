@@ -26,7 +26,10 @@ namespace MyEngine
 		void InsertEmpty(int idx, int amount);
 
 		const T& operator[](int idx) const;
+		const T& operator[](unsigned idx) const;
 		T& operator[](int idx);
+		T& operator[](unsigned idx);
+
 		void Clear();
 
 		const T* GetData() const { return m_pData; }
@@ -202,7 +205,19 @@ namespace MyEngine
 	}
 
 	template <typename T>
+	const T& List<T>::operator[](unsigned idx) const
+	{
+		return m_pData[idx];
+	}
+
+	template <typename T>
 	T& List<T>::operator[](int idx)
+	{
+		return m_pData[idx];
+	}
+
+	template <typename T>
+	T& List<T>::operator[](unsigned idx)
 	{
 		return m_pData[idx];
 	}

@@ -12,7 +12,7 @@ namespace MyEngine
 		{
 			namespace Reading
 			{
-				class FbxObject;
+				class FbxElement;
 			}
 
 			namespace Wrapping
@@ -24,11 +24,11 @@ namespace MyEngine
 				{
 				public:
 					NodeAttribute() = default;
-					explicit NodeAttribute(Reading::FbxObject& object);
+					explicit NodeAttribute(Reading::FbxElement& object);
 
 					int64_t Id;
 					std::string Type;
-					Reading::FbxObject* pProperties70; //temp
+					Reading::FbxElement* pProperties70; //temp
 
 					void SetParentModel(const Model& parentModel);
 					void AddAnimationCurveNode(const AnimationCurveNode& animationCurveNode);

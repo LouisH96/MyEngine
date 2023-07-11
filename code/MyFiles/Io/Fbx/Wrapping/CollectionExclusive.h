@@ -12,7 +12,7 @@ namespace MyEngine
 		{
 			namespace Reading
 			{
-				class FbxObject;
+				class FbxElement;
 			}
 
 			namespace Wrapping
@@ -23,7 +23,7 @@ namespace MyEngine
 				{
 				public:
 					CollectionExclusive() = default;
-					explicit CollectionExclusive(Reading::FbxObject& object);
+					explicit CollectionExclusive(Reading::FbxElement& object);
 
 					int64_t Id;
 					std::string String1;

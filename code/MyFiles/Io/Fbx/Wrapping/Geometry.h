@@ -12,7 +12,7 @@ namespace MyEngine
 		{
 			namespace Reading
 			{
-				class FbxObject;
+				class FbxElement;
 			}
 
 			namespace Wrapping
@@ -25,7 +25,7 @@ namespace MyEngine
 				public:
 					//---| Construction |---
 					Geometry() = default;
-					explicit Geometry(Reading::FbxObject& geometryObject);
+					explicit Geometry(Reading::FbxElement& geometryObject);
 					~Geometry() = default;
 
 					Geometry(const Geometry& other) = delete;
@@ -58,10 +58,10 @@ namespace MyEngine
 					const Model* m_pRootModel{};
 					Array<const Deformer*> m_Deformers{};
 
-					void LoadPoints(const Reading::FbxObject& geometryObject);
-					void LoadNormals(const Reading::FbxObject& geometryObject);
-					void LoadIndices(Reading::FbxObject& geometryObject);
-					void LoadUvs(const Reading::FbxObject& geometryObject);
+					void LoadPoints(const Reading::FbxElement& geometryObject);
+					void LoadNormals(const Reading::FbxElement& geometryObject);
+					void LoadIndices(Reading::FbxElement& geometryObject);
+					void LoadUvs(const Reading::FbxElement& geometryObject);
 				};
 			}
 		}

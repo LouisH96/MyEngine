@@ -37,10 +37,12 @@ namespace MyEngine
 
 		//---| Functions: Get Element |---
 		Data& operator[](int idx);
+		Data& operator[](unsigned idx);
 		Data& Last();
 		Data& First();
 		Data* GetData() { return m_pData; }
 		const Data& operator[](int idx) const;
+		const Data& operator[](unsigned idx) const;
 		const Data& Last() const;
 		const Data& First() const;
 		const Data* GetData() const { return m_pData; }
@@ -260,7 +262,25 @@ namespace MyEngine
 	}
 
 	template <typename Data>
+	const Data& Array<Data>::operator[](unsigned idx) const
+	{
+#ifdef ARRAY_DEBUG
+		DoBoundsCheck(idx);
+#endif
+		return m_pData[idx];
+	}
+
+	template <typename Data>
 	Data& Array<Data>::operator[](int idx)
+	{
+#ifdef ARRAY_DEBUG
+		DoBoundsCheck(idx);
+#endif
+		return m_pData[idx];
+	}
+
+	template <typename Data>
+	Data& Array<Data>::operator[](unsigned idx)
 	{
 #ifdef ARRAY_DEBUG
 		DoBoundsCheck(idx);
