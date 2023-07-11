@@ -15,7 +15,7 @@ namespace MyEngine
 				class BinaryFbxReader
 				{
 				public:
-					static FbxFile Read(const std::wstring& path);
+					static FbxFile Read(std::istream& stream);
 
 				private:
 					struct ElementInfo

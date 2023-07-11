@@ -2,6 +2,11 @@
 
 #include "Logger/Logger.h"
 
+MyEngine::Io::Fbx::Reading::FbxFile::FbxFile(bool isBinary)
+	: m_IsBinary(isBinary)
+{
+}
+
 void MyEngine::Io::Fbx::Reading::FbxFile::SetVersion(uint32_t version)
 {
 	if (version != 7300 &&

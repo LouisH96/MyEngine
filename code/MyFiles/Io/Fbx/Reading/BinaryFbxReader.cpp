@@ -14,18 +14,10 @@ using namespace Io;
 using namespace Binary;
 using namespace Fbx::Reading;
 
-FbxFile BinaryFbxReader::Read(const std::wstring& path)
+FbxFile BinaryFbxReader::Read(std::istream& stream)
 {
 	//create output
-	FbxFile file{};
-	file.SetIsBinary(true);
-
-	std::ifstream stream{path, std::ifstream::binary};
-	if (!stream.is_open())
-	{
-		Logger::PrintError("[BinaryFbxReader] could not open file");
-		return file;
-	}
+	FbxFile file{ true };
 
 	//read header
 	const std::string fileType{LittleEndianReader::String(stream, 21) };

@@ -14,6 +14,9 @@ namespace MyEngine
 				class FbxFile
 				{
 				public:
+					explicit FbxFile(bool isBinary);
+					FbxFile() = default;
+
 					void SetVersion(uint32_t version);
 					uint32_t GetVersion() const { return m_Version; }
 
