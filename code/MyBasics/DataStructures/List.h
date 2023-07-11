@@ -117,7 +117,7 @@ namespace MyEngine
 	void List<T>::Add(const T& value)
 	{
 		if (m_Size == m_Capacity)
-			SetCapacity(m_Capacity * 2);
+			SetCapacity(m_Capacity * 2 + 1);
 		m_pData[m_Size++] = value;
 	}
 
@@ -125,7 +125,7 @@ namespace MyEngine
 	void List<T>::Add(T&& value)
 	{
 		if (m_Size == m_Capacity)
-			SetCapacity(m_Capacity * 2);
+			SetCapacity(m_Capacity * 2 + 1);
 		m_pData[m_Size++] = std::move(value);
 	}
 
