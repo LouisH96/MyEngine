@@ -65,6 +65,18 @@ namespace MyEngine
 		return value ? "true" : "false";
 	}
 
+	template<>
+	inline std::string ToString::Convert(const std::string& string)
+	{
+		return string;
+	}
+
+	template<>
+	inline std::string ToString::Convert(const char& c)
+	{
+		return { c };
+	}
+
 	template<typename T>
 	inline std::string ToString::Convert(const T& value)
 	{
