@@ -2,6 +2,7 @@
 
 #include <fstream>
 
+#include "AsciiFbxReader.h"
 #include "BinaryFbxReader.h"
 #include "FbxFile.h"
 #include "Logger/Logger.h"
@@ -14,5 +15,9 @@ MyEngine::Io::Fbx::Reading::FbxFile MyEngine::Io::Fbx::Reading::FbxReader::Read(
 		Logger::PrintError("[BinaryFbxReader] could not open file");
 		return {};
 	}
-	return BinaryFbxReader::Read(stream);
+
+	if (stream.peek() == ';')
+		return AsciiFbxReader::Read(stream);
+	else
+		return BinaryFbxReader::Read(stream);
 }

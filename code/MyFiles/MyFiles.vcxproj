@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Io\Fbx\Reading\AsciiFbxReader.cpp" />
     <ClCompile Include="Io\Fbx\Reading\FbxFile.cpp" />
     <ClCompile Include="Io\Fbx\Reading\FbxElement.cpp" />
     <ClCompile Include="Io\Fbx\Reading\BinaryFbxReader.cpp" />
@@ -76,6 +77,7 @@
     <ClCompile Include="Io\Zlib\ZlibDecompress.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Io\Fbx\Reading\AsciiFbxReader.h" />
     <ClInclude Include="Io\Fbx\Reading\FbxFile.h" />
     <ClInclude Include="Io\Fbx\Reading\FbxElement.h" />
     <ClInclude Include="Io\Fbx\Reading\BinaryFbxReader.h" />
