@@ -29,6 +29,7 @@ namespace MyEngine
 					//---| Functions |---
 					void SetName(std::string name);
 					void AddProperty(FbxProperty* pProperty);
+					void EnsurePropertyCapacity(unsigned minCapacity);
 
 					FbxElement& CreateChild();
 

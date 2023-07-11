@@ -65,6 +65,7 @@ BinaryFbxReader::ElementInfo BinaryFbxReader::ReadElementInfo(std::istream& stre
 void BinaryFbxReader::ReadProperties(std::istream& stream, FbxElement& parent, const ElementInfo& info,
 	const FbxFile& file)
 {
+	parent.EnsurePropertyCapacity(static_cast<unsigned>(info.NrProperties));
 	for (unsigned i = 0; i < info.NrProperties; i++)
 		parent.AddProperty(FbxProperty::Read(stream));
 }

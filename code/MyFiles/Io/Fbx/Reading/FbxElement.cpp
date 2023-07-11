@@ -38,6 +38,11 @@ void MyEngine::Io::Fbx::Reading::FbxElement::AddProperty(FbxProperty* pProperty)
 	m_Properties.Add(pProperty);
 }
 
+void MyEngine::Io::Fbx::Reading::FbxElement::EnsurePropertyCapacity(unsigned minCapacity)
+{
+	m_Properties.EnsureCapacity(minCapacity);
+}
+
 MyEngine::Io::Fbx::Reading::FbxElement& MyEngine::Io::Fbx::Reading::FbxElement::CreateChild()
 {
 	m_Children.Add({});
