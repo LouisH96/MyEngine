@@ -15,9 +15,6 @@ MyEngine::Io::Fbx::Reading::FbxReader::FbxReader(const std::wstring& path)
 		return;
 	}
 
-	m_Stream.seekg(0, std::ios_base::end);
-	const auto end = m_Stream.tellg();
-	m_Stream.seekg(0, std::ios_base::beg);
 	const uint8_t version = ReadHeader();
 	m_pRoot = new FbxObject(m_Stream, version, true);
 }
