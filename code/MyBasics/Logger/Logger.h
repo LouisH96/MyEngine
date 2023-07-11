@@ -49,8 +49,8 @@ namespace MyEngine
 		template<typename T>
 		static void PrintToString(const std::string& description, const T& value);
 
-	private:
 		static void SetColorWhite();
+	private:
 		static void SetColorYellow();
 		static void SetColorRed();
 		static void SetColor(short attribute);

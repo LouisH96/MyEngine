@@ -16,6 +16,7 @@ Framework::CppFramework::CppFramework()
 #endif
 #endif
 	Resources::Init();
+	Logger::SetColorWhite();
 }
 
 Framework::CppFramework::~CppFramework()
