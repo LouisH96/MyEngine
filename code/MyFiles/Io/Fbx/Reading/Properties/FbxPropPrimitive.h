@@ -18,6 +18,7 @@ namespace MyEngine
 				{
 				public:
 					FbxPropPrimitive(std::istream& s);
+					explicit FbxPropPrimitive(T value);
 
 					T GetValue() const { return m_Value; }
 					void Print(bool compact, int nrTabs) const override;
@@ -32,6 +33,13 @@ namespace MyEngine
 					: m_Value(Read(s))
 				{
 				}
+
+				template <typename T>
+				FbxPropPrimitive<T>::FbxPropPrimitive(T value)
+					: m_Value{ value }
+				{
+				}
+
 				template<typename T>
 				inline void FbxPropPrimitive<T>::Print(bool compact, int nrTabs) const
 				{

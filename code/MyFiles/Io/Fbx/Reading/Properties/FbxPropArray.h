@@ -22,6 +22,7 @@ namespace MyEngine
 				{
 				public:
 					FbxPropArray(std::istream& stream);
+					FbxPropArray() = default;
 
 					const Array<T>& GetValues() const { return m_Values; }
 					Array<T>& GetValues() { return m_Values; }

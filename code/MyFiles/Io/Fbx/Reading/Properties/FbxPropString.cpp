@@ -10,6 +10,11 @@ MyEngine::Io::Fbx::Reading::FbxPropString::FbxPropString(std::istream& stream)
 {
 }
 
+MyEngine::Io::Fbx::Reading::FbxPropString::FbxPropString(std::string string)
+	: m_String{ static_cast<std::string&&>(string) }
+{
+}
+
 void MyEngine::Io::Fbx::Reading::FbxPropString::Print(bool compact, int nrTabs) const
 {
 	BeginPrint(nrTabs);

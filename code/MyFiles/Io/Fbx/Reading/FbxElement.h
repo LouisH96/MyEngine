@@ -56,6 +56,7 @@ namespace MyEngine
 
 					//---| Other |---
 					const std::string& GetName() const { return m_Name; }
+					std::string& GetName() { return m_Name; }
 					void Print(bool compact = true, unsigned nrTabs = 0) const;
 
 				private:

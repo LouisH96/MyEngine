@@ -15,6 +15,7 @@ namespace MyEngine
 				{
 				public:
 					FbxPropString(std::istream& stream);
+					explicit FbxPropString(std::string string);
 
 					void Print(bool compact, int nrTabs) const override;
 					const std::string& GetValue() const { return m_String; }
