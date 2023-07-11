@@ -23,7 +23,7 @@ namespace MyEngine
 					Array<Float3> Points{};
 					Array<Float3> Normals{};
 					Array<Float2> Uvs{};
-					Array<int> Indices{};
+					Array<unsigned> Indices{};
 					Float3 RotationPivot{};
 					Float3 RotationOffset{};
 				};

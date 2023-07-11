@@ -57,15 +57,21 @@ void MyEngine::Io::Fbx::Wrapping::Geometry::LoadNormals(const Reading::FbxElemen
 void MyEngine::Io::Fbx::Wrapping::Geometry::LoadIndices(Reading::FbxElement& geometryObject)
 {
 	Reading::FbxElement& indicesObject{ *geometryObject.GetChild("PolygonVertexIndex") };
-	Array<int>& indices{ indicesObject.GetProperty(0).AsArray<int>().GetValues() };
+	indicesObject.EnsureArrayPropertyType<unsigned>(0);
+	Array<unsigned>& indices{ indicesObject.GetProperty(0).AsArray<unsigned>().GetValues() };
+
 	m_Indices = std::move(indices);
 }
 
-void MyEngine::Io::Fbx::Wrapping::Geometry::LoadUvs(const Reading::FbxElement& geometryObject)
+void MyEngine::Io::Fbx::Wrapping::Geometry::LoadUvs(Reading::FbxElement& geometryObject)
 {
-	const Reading::FbxElement& layerElementUvObject{ *geometryObject.GetChild("LayerElementUV") };
+	Reading::FbxElement& layerElementUvObject{ *geometryObject.GetChild("LayerElementUV") };
 	const Array<double>& uvValues{ layerElementUvObject.GetChild("UV")->GetProperty(0).AsArray<double>().GetValues() };
-	const Array<int>& uvIndices{ layerElementUvObject.GetChild("UVIndex")->GetProperty(0).AsArray<int>().GetValues() };
+
+	Reading::FbxElement& uvIndexElement{*layerElementUvObject.GetChild("UVIndex")};
+	uvIndexElement.EnsureArrayPropertyType<unsigned>(0);
+
+	const Array<unsigned>& uvIndices{ uvIndexElement.GetProperty(0).AsArray<unsigned>().GetValues() };
 	m_Uvs = { uvIndices.GetSize() };
 
 	for (int i = 0; i < uvIndices.GetSize(); i++)

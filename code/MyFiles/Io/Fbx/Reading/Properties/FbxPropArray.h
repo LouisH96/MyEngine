@@ -27,6 +27,8 @@ namespace MyEngine
 					const Array<T>& GetValues() const { return m_Values; }
 					Array<T>& GetValues() { return m_Values; }
 
+					void SetArray(Array<T>&& newArray);
+
 					void Print(bool compact, int nrTabs) const override;
 				private:
 					Array<T> m_Values;
@@ -47,6 +49,13 @@ namespace MyEngine
 					else
 						HandleUncompressed(stream, nrElements);
 				}
+
+				template <typename T>
+				void FbxPropArray<T>::SetArray(Array<T>&& newArray)
+				{
+					m_Values = newArray;
+				}
+
 				template<typename T>
 				inline void FbxPropArray<T>::Print(bool compact, int nrTabs) const
 				{

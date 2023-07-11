@@ -44,7 +44,7 @@ void AsciiFbxReader::SkipUseless(AsciiReader& reader)
 void AsciiFbxReader::ReadElement(AsciiReader& reader, FbxElement& element)
 {
 	element.SetName(reader.GetUntil(':'));
-	Logger::Print("New element", element.GetName());
+	//Logger::Print("New element", element.GetName());
 
 	ReadProperties(reader, element);
 	ReadChildren(reader, element);

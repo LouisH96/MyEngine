@@ -33,7 +33,6 @@ namespace MyEngine
 					std::string& AsString();
 					template<typename T> FbxPropPrimitive<T>& AsPrimitive();
 					template<typename T> FbxPropArray<T>& AsArray();
-
 				protected:
 					void BeginPrint(int nrTabs) const;
 				};
