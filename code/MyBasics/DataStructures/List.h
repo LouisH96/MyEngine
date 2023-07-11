@@ -42,6 +42,7 @@ namespace MyEngine
 		void SetSize(int size);
 		void EnsureCapacity(unsigned minCapacity);
 		void EnsureIncrease(unsigned increase);
+		void DeleteAll();
 
 	private:
 		T* m_pData;
@@ -232,6 +233,13 @@ namespace MyEngine
 	void List<T>::EnsureIncrease(unsigned increase)
 	{
 		EnsureCapacity(m_Capacity + increase);
+	}
+
+	template <typename T>
+	void List<T>::DeleteAll()
+	{
+		for (unsigned i = 0; i < m_Size; i++)
+			delete m_pData[i];
 	}
 
 	//should be bigger than current size
