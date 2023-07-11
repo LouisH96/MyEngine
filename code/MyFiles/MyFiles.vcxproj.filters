@@ -54,6 +54,9 @@
     <ClCompile Include="Io\Ttf\TableDirectory.cpp" />
     <ClCompile Include="Io\Ttf\TtfReader.cpp" />
     <ClCompile Include="Io\Zlib\ZlibDecompress.cpp" />
+    <ClCompile Include="Io\Fbx\Reading\BinaryFbxReader.cpp" />
+    <ClCompile Include="Io\Fbx\Reading\FbxElement.cpp" />
+    <ClCompile Include="Io\Fbx\Reading\FbxFile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Io\Ascii\AsciiWriter.h" />
@@ -115,5 +118,8 @@
     <ClInclude Include="Io\Ttf\TtfPoint.h" />
     <ClInclude Include="Io\Ttf\TtfReader.h" />
     <ClInclude Include="Io\Zlib\ZlibDecompress.h" />
+    <ClInclude Include="Io\Fbx\Reading\BinaryFbxReader.h" />
+    <ClInclude Include="Io\Fbx\Reading\FbxElement.h" />
+    <ClInclude Include="Io\Fbx\Reading\FbxFile.h" />
   </ItemGroup>
 </Project>
