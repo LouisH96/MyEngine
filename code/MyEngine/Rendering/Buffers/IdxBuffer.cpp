@@ -7,6 +7,11 @@ Rendering::IdxBuffer::IdxBuffer()
 {
 }
 
+Rendering::IdxBuffer::IdxBuffer(PtrRangeConst<int> indices)
+	: IdxBuffer{ indices.pData, indices.count }
+{
+}
+
 Rendering::IdxBuffer::IdxBuffer(const int* pData, unsigned count)
 	: m_pBuffer{ nullptr }
 	, m_Capacity{ count }

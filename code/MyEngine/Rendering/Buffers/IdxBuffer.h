@@ -11,6 +11,7 @@ namespace MyEngine
 		public:
 			//---| Construction |---
 			IdxBuffer();
+			explicit IdxBuffer(PtrRangeConst<int> indices);
 			explicit IdxBuffer(const int* pData, unsigned count);
 			~IdxBuffer();
 

@@ -13,6 +13,7 @@ namespace MyEngine
 		public:
 			//---| Construction |---
 			Buffer();
+			explicit Buffer(PtrRangeConst<Data> data, bool dynamic);
 			explicit Buffer(unsigned initCapacity, bool dynamic = true);
 			explicit Buffer(const Data* pData, unsigned count, bool dynamic = true);
 			~Buffer();
@@ -41,6 +42,12 @@ namespace MyEngine
 			: m_pBuffer{ nullptr }
 			, m_Capacity(0)
 			, m_IsDynamic(false)
+		{
+		}
+
+		template <typename Data>
+		Buffer<Data>::Buffer(PtrRangeConst<Data> data, bool dynamic)
+			: Buffer{ data.pData, data.count, dynamic }
 		{
 		}
 
