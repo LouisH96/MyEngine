@@ -23,6 +23,8 @@ namespace MyEngine
 			void Activate() const;
 			unsigned GetCapacity() const { return m_Capacity; }
 
+			void Draw() const;
+
 		private:
 			ID3D11Buffer* m_pBuffer;
 			unsigned m_Capacity;

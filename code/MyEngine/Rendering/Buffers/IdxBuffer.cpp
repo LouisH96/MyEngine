@@ -47,3 +47,8 @@ void Rendering::IdxBuffer::Activate() const
 {
 	Globals::pGpu->GetContext().IASetIndexBuffer(m_pBuffer, DXGI_FORMAT_R32_UINT, 0);
 }
+
+void Rendering::IdxBuffer::Draw() const
+{
+	Globals::pGpu->GetContext().DrawIndexed(m_Capacity, 0, 0);
+}
