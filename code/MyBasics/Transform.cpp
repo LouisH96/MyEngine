@@ -91,6 +91,12 @@ MyEngine::Game::Transform MyEngine::Game::Transform::GetRelativeTo(const Transfo
 	};
 }
 
+void MyEngine::Game::Transform::MoveRelativeXz(const Float2& xy)
+{
+	Position += Rotation.GetRight() * xy.x;
+	Position += Rotation.GetForward() * xy.y;
+}
+
 MyEngine::Game::Transform MyEngine::Game::Transform::WorldToLocal(const Transform& world, const Transform& parent)
 {
 	return{

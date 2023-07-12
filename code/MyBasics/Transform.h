@@ -27,6 +27,8 @@ namespace MyEngine
 			void SetRelativeTo(const Transform& parent);
 			Transform GetRelativeTo(const Transform& parent) const;
 
+			void MoveRelativeXz(const Float2& xy);
+
 			static Transform WorldToLocal(const Transform& world, const Transform& parent);
 			static Transform LocalToWorld(const Transform& local, const Transform& parent);
 		};
