@@ -22,6 +22,7 @@ namespace MyEngine
 		void Add(const T* pValue, unsigned nrValues);
 		void Add(const T& value1, const T& value2);
 		void Add(const T& value1, const T& value2, const T& value3);
+		void Add(const List& list);
 		void Insert(int idx, const T& value);
 		void InsertEmpty(int idx, int amount);
 
@@ -157,6 +158,14 @@ namespace MyEngine
 		m_pData[m_Size++] = value1;
 		m_pData[m_Size++] = value2;
 		m_pData[m_Size++] = value3;
+	}
+
+	template <typename T>
+	void List<T>::Add(const List& list)
+	{
+		EnsureIncrease(list.GetSizeU());
+		std::copy(list.GetData(), &list.GetData()[list.GetSize()], &m_pData[m_Size]);
+		m_Size += list.GetSize();
 	}
 
 	template <typename T>
