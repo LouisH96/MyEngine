@@ -77,14 +77,20 @@ void MyEngine::Io::Fbx::Wrapping::AnimationCurveNode::SetAnimationLayer(const An
 MyEngine::Io::Fbx::Wrapping::AnimationCurveNode::NodeType MyEngine::Io::Fbx::Wrapping::AnimationCurveNode::GetNodeType(
 	const std::string& typeName)
 {
-	if (typeName == "lockInfluenceWeights") return NodeType::LockInfluenceWeights;
-	if (typeName == "Visibility") return NodeType::Visibility;
-	if (typeName == "T") return NodeType::Translation;
-	if (typeName == "R") return NodeType::Rotation;
-	if (typeName == "S") return NodeType::Scale;
-	if (typeName == "filmboxTypeID") return NodeType::FilmboxTypeId;
-	if (typeName == "FocalLength") return NodeType::FocalLength;
-	Logger::PrintWarning("Unknown AnimationCurveNode type: " + typeName);
+	//clean
+	const std::string prefix{"AnimCurveNode::"};
+	std::string cleaned{typeName};
+	if(typeName.rfind(prefix, 0) == 0)
+		cleaned = cleaned.substr(prefix.size());
+
+	if (cleaned == "lockInfluenceWeights") return NodeType::LockInfluenceWeights;
+	if (cleaned == "Visibility") return NodeType::Visibility;
+	if (cleaned == "T") return NodeType::Translation;
+	if (cleaned == "R") return NodeType::Rotation;
+	if (cleaned == "S") return NodeType::Scale;
+	if (cleaned == "filmboxTypeID") return NodeType::FilmboxTypeId;
+	if (cleaned == "FocalLength") return NodeType::FocalLength;
+	Logger::PrintWarning("Unknown AnimationCurveNode type: " + cleaned);
 	return NodeType::Other;
 }
 
