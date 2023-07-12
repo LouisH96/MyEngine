@@ -19,12 +19,12 @@ namespace MyEngine
 				explicit FbxValueCurve(const T& defaultValue);
 				explicit FbxValueCurve(const Wrapping::AnimationCurve& curve);
 
-				T ValueAtTime(const int64_t& time) const;
+				T ValueAtTime(const uint64_t& time) const;
 				void ScaleValues(float scale);
 
 			private:
 				T m_DefaultValue;
-				SortedArray<int64_t> m_Times;
+				SortedArray<uint64_t> m_Times;
 				Array<T> m_Values;
 			};
 
@@ -48,7 +48,7 @@ namespace MyEngine
 			}
 
 			template <typename T>
-			T FbxValueCurve<T>::ValueAtTime(const int64_t& time) const
+			T FbxValueCurve<T>::ValueAtTime(const uint64_t& time) const
 			{
 				if (m_Times.GetSize() == 0) return m_DefaultValue;
 

@@ -28,7 +28,7 @@ MyEngine::Io::Fbx::FbxTransformCurve::FbxTransformCurve(const Wrapping::Model& l
 	m_ScaleCurves[0].ScaleValues(-1);
 }
 
-MyEngine::Game::Transform MyEngine::Io::Fbx::FbxTransformCurve::AtTime(const int64_t& time) const
+MyEngine::Game::Transform MyEngine::Io::Fbx::FbxTransformCurve::AtTime(const uint64_t& time) const
 {
 	const Float3 translation{
 		m_TranslationCurves[0].ValueAtTime(time),

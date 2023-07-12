@@ -31,6 +31,8 @@ namespace MyEngine
 					int GetInt(const std::string& name, int fallback) const;
 					int64_t GetInt64(const std::string& name) const;
 					int64_t GetInt64(const std::string& name, int64_t fallback) const;
+					uint64_t GetUInt64(const std::string& name) const;
+					uint64_t GetUInt64(const std::string& name, uint64_t fallback) const;
 					std::string GetString(const std::string& name) const;
 					std::string GetString(const std::string& name, const std::string& fallback) const;
 					double GetDouble(int idx) const;

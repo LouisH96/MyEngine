@@ -66,6 +66,15 @@ namespace MyEngine
 					template<typename T>
 					bool EnsureArrayPropertyType(unsigned propertyIdx);
 
+					template<typename T>
+					void MovePropertyTo(unsigned propertyIdx, Array<T>& target);
+
+					template<typename T>
+					void CopyPropertyTo(unsigned propertyIdx, T& target) const;
+
+					template<typename T>
+					void CopyLastPropertyTo(T& target) const;
+
 				private:
 					std::string m_Name{};
 					List<FbxElement> m_Children{0};
@@ -73,6 +82,12 @@ namespace MyEngine
 
 					template<typename Old, typename New>
 					void ReplaceArrayProperty(unsigned propIdx);
+
+					template<typename Source, typename Target>
+					bool TryCopyArrayProperty(const FbxProperty* pProperty, Array<Target>& target);
+
+					template<typename Source, typename Target>
+					bool TryCopyValue(const FbxProperty* pProperty, Target& target) const;
 				};
 
 				template <typename T>
@@ -92,6 +107,52 @@ namespace MyEngine
 					return true;
 				}
 
+				template <typename T>
+				void FbxElement::MovePropertyTo(unsigned propertyIdx, Array<T>& target)
+				{
+					FbxProperty* pProperty{ m_Properties[propertyIdx] };
+
+					//check if correct type
+					FbxPropArray<T>* pCorrectType{dynamic_cast<FbxPropArray<T>*>(pProperty)};
+					if (pCorrectType)
+					{
+						target = std::move(pCorrectType->GetValues());
+						return;
+					}
+
+					//try others
+					if (TryCopyArrayProperty<double, T>(pProperty, target)) return;
+
+					//error
+					Logger::PrintError("[FbxElement::MovePropertyTo] unsupported source type");
+				}
+
+				template <typename T>
+				void FbxElement::CopyPropertyTo(unsigned propertyIdx, T& target) const
+				{
+					FbxProperty* pProperty{ m_Properties[propertyIdx] };
+
+					//check if correct type
+					FbxPropPrimitive<T>* pCorrectType{dynamic_cast<FbxPropPrimitive<T>*>(pProperty)};
+					if (pCorrectType)
+					{
+						target = pCorrectType->GetValue();
+						return;
+					}
+
+					//try other
+					if (TryCopyValue<double>(pProperty, target)) return;
+
+					//error
+					Logger::PrintError("[FbxElement::CopyPropertyTo] unsupported source type");
+				}
+
+				template <typename T>
+				void FbxElement::CopyLastPropertyTo(T& target) const
+				{
+					CopyPropertyTo(m_Properties.GetSizeU() - 1, target);
+				}
+
 				template <typename Old, typename New>
 				void FbxElement::ReplaceArrayProperty(unsigned propIdx)
 				{
@@ -102,12 +163,37 @@ namespace MyEngine
 
 					for (unsigned i = 0; i < newArray.GetSizeU(); i++)
 						newArray[i] = static_cast<New>(oldArray[i]);
-					
+
 					FbxPropArray<New>* pNew{new FbxPropArray<New>()};
 					pNew->SetArray(std::move(newArray));
 
 					m_Properties[propIdx] = pNew;
 					delete pOld;
+				}
+
+				template <typename Source, typename Target>
+				bool FbxElement::TryCopyArrayProperty(const FbxProperty* pProperty, Array<Target>& target)
+				{
+					const FbxPropArray<Source>* pCast{dynamic_cast<const FbxPropArray<Source>*>(pProperty)};
+					if (!pCast) return false;
+
+					const Array<Source>& source{pCast->GetValues()};
+
+					target = { source.GetSizeU() };
+					for (unsigned i = 0; i < source.GetSizeU(); i++)
+						target[i] = static_cast<Target>(source[i]);
+
+					return true;
+				}
+
+				template <typename Source, typename Target>
+				bool FbxElement::TryCopyValue(const FbxProperty* pProperty, Target& target) const
+				{
+					const FbxPropPrimitive<Source>* pCast{dynamic_cast<const FbxPropPrimitive<Source>*>(pProperty)};
+					if (!pCast) return false;
+
+					target = pCast->GetValue();
+					return true;
 				}
 			}
 		}

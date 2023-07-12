@@ -30,18 +30,18 @@ namespace MyEngine
 				const Array<FbxAnimationLayer>& GetLayers() const { return m_Layers; }
 				int GetNrLayers() const { return m_Layers.GetSize(); }
 
-				const int64_t& GetLocalStart() const { return m_LocalStart; }
-				const int64_t& GetLocalStop() const { return m_LocalStop; }
-				const int64_t& GetReferenceStart() const { return m_ReferenceStart; }
-				const int64_t& GetReferenceStop() const { return m_ReferenceStop; }
+				const uint64_t& GetLocalStart() const { return m_LocalStart; }
+				const uint64_t& GetLocalStop() const { return m_LocalStop; }
+				const uint64_t& GetReferenceStart() const { return m_ReferenceStart; }
+				const uint64_t& GetReferenceStop() const { return m_ReferenceStop; }
 
 			private:
 				std::string m_Name;
 				int64_t m_Id;
-				int64_t m_LocalStart;
-				int64_t m_LocalStop;
-				int64_t m_ReferenceStart;
-				int64_t m_ReferenceStop;
+				uint64_t m_LocalStart;
+				uint64_t m_LocalStop;
+				uint64_t m_ReferenceStart;
+				uint64_t m_ReferenceStop;
 
 				Array<FbxAnimationLayer> m_Layers;
 			};

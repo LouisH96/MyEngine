@@ -22,7 +22,7 @@ namespace MyEngine
 				FbxTransformCurve() = default;
 				explicit FbxTransformCurve(const Wrapping::Model& limbNode, const FbxAnimationLayer& layer);
 
-				Game::Transform AtTime(const int64_t& time) const;
+				Game::Transform AtTime(const uint64_t& time) const;
 				bool IsInLayer(const FbxAnimationLayer& layer) const;
 
 			private:

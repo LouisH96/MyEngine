@@ -27,11 +27,11 @@ namespace MyEngine
 					int64_t Id;
 					double Default;
 					int KeyVer;
-					Array<int64_t> KeyTimes;
+					Array<uint64_t> KeyTimes;
 					Array<float> KeyValueFloats;
-					Array<int> KeyAttrFlags;
+					Array<unsigned> KeyAttrFlags;
 					Array<float> KeyAttrDataFloat;
-					Array<int> KeyAttrRefCount;
+					Array<unsigned> KeyAttrRefCount;
 
 					void SetAnimationCurveNode(const AnimationCurveNode& animationCurveNode);
 

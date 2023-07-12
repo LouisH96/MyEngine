@@ -27,10 +27,10 @@ namespace MyEngine
 
 					int64_t Id{};
 					std::string Name{};
-					int64_t LocalStart{};
-					int64_t LocalStop{};
-					int64_t ReferenceStart{};
-					int64_t ReferenceStop{};
+					uint64_t LocalStart{};
+					uint64_t LocalStop{};
+					uint64_t ReferenceStart{};
+					uint64_t ReferenceStop{};
 
 					void AddAnimationLayer(const AnimationLayer& animationLayer);
 					const Array<const AnimationLayer*>& GetAnimationLayers() const { return m_AnimationLayers; }

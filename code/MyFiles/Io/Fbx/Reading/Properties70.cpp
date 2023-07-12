@@ -111,6 +111,23 @@ int64_t MyEngine::Io::Fbx::Reading::Properties70::GetInt64(const std::string& na
 	return pObject->GetLastProperty().AsPrimitive<int64_t>().GetValue();
 }
 
+uint64_t MyEngine::Io::Fbx::Reading::Properties70::GetUInt64(const std::string& name) const
+{
+	const FbxElement& object{ *GetProperty(name) };
+	uint64_t result;
+	object.CopyLastPropertyTo(result);
+	return result;
+}
+
+uint64_t MyEngine::Io::Fbx::Reading::Properties70::GetUInt64(const std::string& name, uint64_t fallback) const
+{
+	const FbxElement* pObject{ GetPropertyOptional(name) };
+	if (pObject == nullptr) return fallback;
+	uint64_t result;
+	pObject->CopyLastPropertyTo(result);
+	return result;
+}
+
 std::string MyEngine::Io::Fbx::Reading::Properties70::GetString(const std::string& name, const std::string& fallback) const
 {
 	const FbxElement* pObject{ GetPropertyOptional(name) };
