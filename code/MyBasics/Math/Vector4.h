@@ -52,6 +52,7 @@ namespace MyEngine
 
 		//---| Cast |---
 		Vector3<T> Xyz() const;
+		Vector3<T>& Xyz();
 	};
 
 	template <typename T> Vector4<T>::Vector4() : x{ 0 }, y{ 0 }, z{ 0 }, w{ 0 } {}
@@ -124,5 +125,11 @@ namespace MyEngine
 	Vector3<T> Vector4<T>::Xyz() const
 	{
 		return{ x,y,z };
+	}
+
+	template <typename T>
+	Vector3<T>& Vector4<T>::Xyz()
+	{
+		return reinterpret_cast<Vector3<T>&>(x);
 	}
 }
