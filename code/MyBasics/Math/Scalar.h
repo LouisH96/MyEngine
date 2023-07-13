@@ -18,6 +18,8 @@ namespace MyEngine
 		static int Floor(const T& value);
 		static int Round(const T& value);
 		static T Clamp(const T& value, const T& min, const T& max);
+		static T Max(const T& a, const T& b);
+		static T Min(const T& a, const T& b);
 		static T Max();
 		static T Min();
 	};
@@ -74,6 +76,18 @@ namespace MyEngine
 		if (value <= min) return min;
 		if (value >= max) return max;
 		return value;
+	}
+
+	template <typename T>
+	T Scalar<T>::Max(const T& a, const T& b)
+	{
+		return a >= b ? a : b;
+	}
+
+	template <typename T>
+	T Scalar<T>::Min(const T& a, const T& b)
+	{
+		return a <= b ? a : b;
 	}
 
 	template <typename T>
