@@ -32,6 +32,7 @@ namespace MyEngine
 		float GetLeft() const { return m_Origin.x; }
 		float GetTop() const { return m_Origin.y + m_Size.y; }
 		float GetBack() const { return m_Origin.z; }
+		float GetFront() const { return m_Origin.z + m_Size.z; }
 
 		Float2 GetXySize() const { return { m_Size.x, m_Size.y }; }
 		Float2 GetXzSize() const { return { m_Size.x, m_Size.z }; }
