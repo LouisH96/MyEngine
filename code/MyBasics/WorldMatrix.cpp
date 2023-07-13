@@ -62,3 +62,12 @@ void MyEngine::Game::WorldMatrix::Translate(Float4X4& m, const Float3& translati
 	m[1].w += translation.y;
 	m[2].w += translation.z;
 }
+
+void MyEngine::Game::WorldMatrix::SetPitchRotation(Float4X4& m, float pitch)
+{
+	const float cosPitch{ cosf(pitch) };
+	const float sinPitch{ sinf(pitch) };
+	m[0].Xyz() = { 1,0,0 };
+	m[1].Xyz() = { 0, cosPitch, -sinPitch };
+	m[2].Xyz() = { 0, sinPitch, cosPitch };
+}

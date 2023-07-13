@@ -23,6 +23,8 @@ namespace MyEngine
 			static Float4X4 Translation(const Float3& translation);
 
 			static void Translate(Float4X4& m, const Float3& translation);
+
+			static void SetPitchRotation(Float4X4& m ,float pitch);
 		};
 	}
 }
