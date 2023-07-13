@@ -11,6 +11,7 @@ namespace MyEngine
 	public:
 		PtrRangeConst(const Array<Data>& source);
 		PtrRangeConst(const List<Data>& source);
+		PtrRangeConst(const Data* pData, unsigned count);
 
 		Data const* pData;
 		unsigned count;
@@ -27,6 +28,13 @@ namespace MyEngine
 	PtrRangeConst<Data>::PtrRangeConst(const List<Data>& source)
 		: pData{ source.GetData() }
 		, count{ source.GetSizeU() }
+	{
+	}
+
+	template <typename Data>
+	PtrRangeConst<Data>::PtrRangeConst(const Data* pData, unsigned count)
+		: pData{ pData }
+		, count{ count }
 	{
 	}
 }
