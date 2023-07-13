@@ -14,6 +14,8 @@ namespace MyEngine
 			void Begin();
 			void End(const std::string& name) const;
 
+			float GetMs() const;
+
 		private:
 			App::Time::TimePoint m_Begin{};
 		};
