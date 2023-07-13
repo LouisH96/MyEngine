@@ -55,3 +55,10 @@ MyEngine::Float4X4 MyEngine::Game::WorldMatrix::Translation(const Float3& transl
 	SetPosition(m, translation);
 	return m;
 }
+
+void MyEngine::Game::WorldMatrix::Translate(Float4X4& m, const Float3& translation)
+{
+	m[0].w += translation.x;
+	m[1].w += translation.y;
+	m[2].w += translation.z;
+}

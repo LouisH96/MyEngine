@@ -21,6 +21,8 @@ namespace MyEngine
 
 			static void SetPosition(Float4X4& world, const Float3& position);
 			static Float4X4 Translation(const Float3& translation);
+
+			static void Translate(Float4X4& m, const Float3& translation);
 		};
 	}
 }
