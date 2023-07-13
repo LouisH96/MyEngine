@@ -25,6 +25,15 @@ void Debug::DebugLines::DrawLine(const Float3& begin, const Float3& end, const F
 	m_VertexList.Add({ end, color });
 }
 
+void DebugLines::DrawLine(const Float3* pData, unsigned count, const Float3& color)
+{
+	for (unsigned i = 0; i + 1 < count; i++)
+	{
+		m_VertexList.Add({ pData[i], color });
+		m_VertexList.Add({ pData[i + 1], color });
+	}
+}
+
 void Debug::DebugLines::DrawRay(const Float3& origin, const Float3& displacement, const Float3& color)
 {
 	m_VertexList.Add({ origin, color });

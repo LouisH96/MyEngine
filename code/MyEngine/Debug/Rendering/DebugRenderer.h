@@ -48,18 +48,20 @@ namespace MyEngine
 			static void AddLine(const Array<Float3>& points, const Float3& color);
 
 			static void DrawLine(const Float3& begin, const Float3& end, const Float3& color);
+			static void DrawLine(PtrRangeConst<Float3> points, const Float3& color);
 			static void DrawRay(const Float3& origin, const Float3& displacement, const Float3& color);
 
 			static void AddRay(const Float3& origin, const Float3& displacement, const Float3& color);
 
 			static void AddRect(const Float3& leftTop, const Float3& rightTop, const Float3& rightBot, const Float3& leftBot, const
-			                    Float3& color);;
+				Float3& color);;
 			template<typename T> static void AddRect(const Vector2<T>& min, const Vector2<T>& max, const Float3& offset, const
-			                                         Float3& color);
+				Float3& color);
 
 			static void AddGridXy(const Float3& offset, const Float2& bounds, int nrCols, int nrRows, const Float3& color);
 
 			static void DrawSphere(const Float3& position, const Float3& color, float radius);
+
 
 		private:
 			using Vertex = Rendering::V_PosColNorm;
@@ -96,10 +98,8 @@ namespace MyEngine
 			void Class_AddSpheres(const Array<Float3>& positions, const Float3& color, float radius);
 			void Class_AddLine(const Float3& begin, const Float3& end, const Float3& color) const;
 			void Class_AddLine(const Array<Float3>& points, const Float3& color) const;
-			void Class_AddRect(const Float3& leftTop, const Float3& rightTop, const Float3& rightBot, const Float3& leftBot, const
-			                   Float3& color) const;
-			template<typename T> void Class_AddRect(const Vector2<T>& min, const Vector2<T>& max, const Float3& offset, const
-			                                        Float3& color);
+			void Class_AddRect(const Float3& leftTop, const Float3& rightTop, const Float3& rightBot, const Float3& leftBot, const Float3& color) const;
+			template<typename T> void Class_AddRect(const Vector2<T>& min, const Vector2<T>& max, const Float3& offset, const Float3& color);
 		};
 
 		template <typename T>
