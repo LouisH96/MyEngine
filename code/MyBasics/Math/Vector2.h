@@ -52,6 +52,7 @@ namespace MyEngine
 		void Normalize();
 		Vector2<T> Normalized() const;
 		float Cross(const Vector2& o) const;
+		float Dot(const Vector2& o) const;
 		Vector2<int> Floored() const;
 		Vector2<int> Ceiled() const;
 
@@ -192,6 +193,12 @@ namespace MyEngine
 	float Vector2<T>::Cross(const Vector2& o) const
 	{
 		return (x * o.y) - (y * o.x);
+	}
+
+	template <typename T>
+	float Vector2<T>::Dot(const Vector2& o) const
+	{
+		return x * o.x + y * o.y;
 	}
 
 	template <typename T>
