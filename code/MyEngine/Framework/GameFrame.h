@@ -39,14 +39,14 @@ namespace MyEngine
 			Camera camera{ window.GetClientSize() };
 			Globals::pCamera = &camera;
 
-			//FPS
-			FpsDisplay fpsDisplay{};
-			FpsControl fpsControl{ 200, &fpsDisplay };
-
 			//RENDERING
 			DebugRenderer::Init();
 			Globals::pGuiRenderer = new Gui::GuiRenderer();
 			Globals::pFontRenderer = new Gui::FontRenderer();
+
+			//FPS
+			FpsDisplay fpsDisplay{};
+			FpsControl fpsControl{ 1000, &fpsDisplay };
 
 			//GAME
 			T app{};
@@ -55,7 +55,7 @@ namespace MyEngine
 			while (!window.IsDestroyed())
 			{
 				//FPS
-				fpsControl.NoWait();
+				fpsControl.Wait();
 
 				//WINDOW MESSAGES
 				window.HandleMessages();
