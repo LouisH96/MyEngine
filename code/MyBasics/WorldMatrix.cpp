@@ -20,6 +20,17 @@ float MyEngine::Game::WorldMatrix::GetZPosition(const Float4X4& world)
 	return world[2][3];
 }
 
+MyEngine::Float2 MyEngine::Game::WorldMatrix::GetPositionXz(const Float4X4& world)
+{
+	return { world[0][3], world[2][3] };
+}
+
+void MyEngine::Game::WorldMatrix::SetPositionXz(Float4X4& world, const Float2& xz)
+{
+	world[0][3] = xz.x;
+	world[2][3] = xz.y;
+}
+
 void MyEngine::Game::WorldMatrix::SetRotation(Float4X4& world, const Float3& forward)
 {
 	const Float3 right{ Float3{0,1,0}.Cross(forward).Normalized() };
@@ -42,6 +53,24 @@ MyEngine::Float3 MyEngine::Game::WorldMatrix::GetUp(const Float4X4& world)
 MyEngine::Float3 MyEngine::Game::WorldMatrix::GetForward(const Float4X4& world)
 {
 	return { world[0][2], world[1][2], world[2][2] };
+}
+
+MyEngine::Float2 MyEngine::Game::WorldMatrix::GetForwardXz(const Float4X4& world)
+{
+	return { world[0][2], world[2][2] };
+}
+
+float MyEngine::Game::WorldMatrix::GetYaw(const Float4X4& world)
+{
+	return -atan2f(world[2][0], world[0][0]);
+}
+
+void MyEngine::Game::WorldMatrix::SetYaw(Float4X4& world, float yaw)
+{
+	const float c{ cosf(yaw) };
+	const float s{ sinf(yaw) };
+	world[0].Xyz() = { c, 0, s }; //xAxis.x, yAxis.x, zAxis.x
+	world[2].Xyz() = { -s, 0, c }; //xAxis.z, yAxis.z, zAxis.z
 }
 
 void MyEngine::Game::WorldMatrix::SetPosition(Float4X4& world, const Float3& position)

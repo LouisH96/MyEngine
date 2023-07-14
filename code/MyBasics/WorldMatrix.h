@@ -6,6 +6,7 @@ namespace MyEngine
 {
 	namespace Game
 	{
+		//should have no scale
 		class WorldMatrix
 		{
 		public:
@@ -14,10 +15,17 @@ namespace MyEngine
 			static float GetYPosition(const Float4X4& world);
 			static float GetZPosition(const Float4X4& world);
 
+			static Float2 GetPositionXz(const Float4X4& world);
+			static void SetPositionXz(Float4X4& world, const Float2& xz);
+
 			static void SetRotation(Float4X4& world, const Float3& forward);
 			static Float3 GetRight(const Float4X4& world);
 			static Float3 GetUp(const Float4X4& world);
 			static Float3 GetForward(const Float4X4& world);
+			static Float2 GetForwardXz(const Float4X4& world);
+
+			static float GetYaw(const Float4X4& world);
+			static void SetYaw(Float4X4& world, float yaw);
 
 			static void SetPosition(Float4X4& world, const Float3& position);
 			static Float4X4 Translation(const Float3& translation);
