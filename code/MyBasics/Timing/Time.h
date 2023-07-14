@@ -17,6 +17,8 @@ namespace MyEngine
 
 			static double ToSeconds(const Duration& duration);
 			static double ToMilliseconds(const Duration& duration);
+
+			static Duration DurationFromSeconds(float seconds);
 		};
 	}
 }
