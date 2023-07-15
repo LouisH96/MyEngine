@@ -26,6 +26,7 @@ namespace MyEngine
 			FpsControl(float desiredFps, Rendering::FpsDisplay* pDisplay = nullptr);
 			~FpsControl() = default;
 
+			void Reset();
 			void Wait(); //Frame should be build after this wait
 			void NoWait();
 			float GetDurationLastFrame() const { return m_DurationLastFrame; }

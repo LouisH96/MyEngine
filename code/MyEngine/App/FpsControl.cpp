@@ -17,6 +17,14 @@ App::FpsControl::FpsControl(float desiredFps, Rendering::FpsDisplay* pDisplay)
 	m_DurationLastFrame = m_DesiredInterval.count() * Time::SEC_TO_CLOCK_UNIT;
 }
 
+void App::FpsControl::Reset()
+{
+	const Time::TimePoint now{ Time::Clock::now() };
+	m_BeginPrevFrame = now;
+	m_BeginPrevUpdate = now;
+	m_EndCurrentSecond = now + Time::SEC_DURATION;
+}
+
 void App::FpsControl::Wait()
 {
 	const Time::TimePoint now{ Time::Clock::now() };
@@ -37,7 +45,7 @@ void App::FpsControl::Wait()
 		m_NrFramesThisSec++;
 
 	m_DurationLastFrame = (now - m_BeginPrevFrame).count() * Time::CLOCK_UNIT_TO_SEC;
-	Globals::DeltaTime = m_DurationLastFrame;
+	Globals::DeltaTime = m_DurationLastFrame > .1f ? .1f : m_DurationLastFrame;
 	m_BeginPrevFrame = now;
 	m_BeginPrevUpdate = newUpdateBegin;
 	std::this_thread::sleep_until(newUpdateBegin);

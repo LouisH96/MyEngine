@@ -52,6 +52,7 @@ namespace MyEngine
 			T app{};
 
 			//LOOP
+			fpsControl.Reset();
 			while (!window.IsDestroyed())
 			{
 				//FPS
