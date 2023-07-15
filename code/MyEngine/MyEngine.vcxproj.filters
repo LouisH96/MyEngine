@@ -63,6 +63,7 @@
     <ClCompile Include="Rendering\Font\FontAtlasLookup.cpp" />
     <ClCompile Include="Geometry\Shapes\Cube.cpp" />
     <ClCompile Include="Rendering\Buffers\IdxBuffer.cpp" />
+    <ClCompile Include="Other\Random.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -149,6 +150,7 @@
     <ClInclude Include="Geometry\Shapes\Rect.h" />
     <ClInclude Include="Geometry\Shapes\Rects.h" />
     <ClInclude Include="Rendering\Buffers\IdxBuffer.h" />
+    <ClInclude Include="Other\Random.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
