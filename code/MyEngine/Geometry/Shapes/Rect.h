@@ -56,6 +56,8 @@ namespace MyEngine
 
 		bool IsFullyInside(const Rect& outer) const;
 
+		Float2 GetPointRelative(const Float2& ratio) const;
+
 		static Rect Bounds(const Vector2<T>* pData, unsigned count);
 
 	private:
@@ -182,6 +184,12 @@ namespace MyEngine
 			&& m_LeftBot.y >= outer.m_LeftBot.y
 			&& GetRight() <= outer.GetRight()
 			&& GetTop() <= outer.GetTop();
+	}
+
+	template <typename T>
+	Float2 Rect<T>::GetPointRelative(const Float2& ratio) const
+	{
+		return m_LeftBot + m_Size * ratio;
 	}
 
 	template <typename T>
