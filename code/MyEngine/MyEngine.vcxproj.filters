@@ -64,6 +64,7 @@
     <ClCompile Include="Geometry\Shapes\Cube.cpp" />
     <ClCompile Include="Rendering\Buffers\IdxBuffer.cpp" />
     <ClCompile Include="Other\Random.cpp" />
+    <ClCompile Include="Geometry\Shapes\Cone.cpp" />
     <ClCompile Include="Generation\SphereGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -152,6 +153,7 @@
     <ClInclude Include="Geometry\Shapes\Rects.h" />
     <ClInclude Include="Rendering\Buffers\IdxBuffer.h" />
     <ClInclude Include="Other\Random.h" />
+    <ClInclude Include="Geometry\Shapes\Cone.h" />
     <ClInclude Include="Generation\SphereGenerator.h" />
   </ItemGroup>
   <ItemGroup>
