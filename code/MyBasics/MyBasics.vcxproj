@@ -160,6 +160,7 @@
     <ClInclude Include="DataStructures\SortedArray.h" />
     <ClInclude Include="DataStructures\SortedList.h" />
     <ClInclude Include="Image.h" />
+    <ClInclude Include="Timing\Interval.h" />
     <ClInclude Include="Timing\Counter.h" />
     <ClInclude Include="Logger\Logger.h" />
     <ClInclude Include="Logger\ToString.h" />
@@ -179,6 +180,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Image.cpp" />
+    <ClCompile Include="Timing\Interval.cpp" />
     <ClCompile Include="Timing\Counter.cpp" />
     <ClCompile Include="Logger\Logger.cpp" />
     <ClCompile Include="Math\Quaternion.cpp" />
