@@ -61,6 +61,11 @@ void DebugRenderer::DrawRay(const Float3& origin, const Float3& displacement, co
 	m_pStatic->m_LinesRenderer2.DrawRay(origin, displacement, color);
 }
 
+void DebugRenderer::DrawRay(const Ray& ray, const Float3& color)
+{
+	m_pStatic->m_LinesRenderer2.DrawRay(ray, color);
+}
+
 void DebugRenderer::AddRay(const Float3& origin, const Float3& displacement, const Float3& color)
 {
 	Array<LineVertex> vertices{ 2 };

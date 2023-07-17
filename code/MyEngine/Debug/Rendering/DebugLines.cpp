@@ -39,3 +39,8 @@ void Debug::DebugLines::DrawRay(const Float3& origin, const Float3& displacement
 	m_VertexList.Add({ origin, color });
 	m_VertexList.Add({ origin + displacement, color });
 }
+
+void DebugLines::DrawRay(const Ray& ray, const Float3& color)
+{
+	DrawRay(ray.Origin, ray.Direction * ray.Length, color);
+}
