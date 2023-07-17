@@ -7,6 +7,7 @@ namespace MyEngine
 	class Sphere
 	{
 	public:
+		Sphere() = default;
 		Sphere(const Float3& center, float radius);
 
 		void SetCenter(const Float3& center);
