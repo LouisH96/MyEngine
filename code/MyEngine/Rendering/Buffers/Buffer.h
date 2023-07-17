@@ -26,6 +26,7 @@ namespace MyEngine
 
 			//---| Functions |---
 			void EnsureCapacity(unsigned minCapacity);
+			void CopyData(PtrRangeConst<Data> data);
 			void CopyData(const Data* pData, unsigned count);
 			void Activate(unsigned slot) const;
 			unsigned GetCapacity() const { return m_Capacity; }
@@ -109,6 +110,12 @@ namespace MyEngine
 			if (minCapacity <= m_Capacity) return;
 			m_pBuffer->Release();
 			Dx::DxHelper::CreateVertexBuffer(m_pBuffer, sizeof(Data), minCapacity, !m_IsDynamic);
+		}
+
+		template <typename Data>
+		void Buffer<Data>::CopyData(PtrRangeConst<Data> data)
+		{
+			CopyData(data.pData, data.count);
 		}
 
 		template <typename Data>
