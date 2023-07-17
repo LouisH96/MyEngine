@@ -1,4 +1,5 @@
 #pragma once
+#include "Geometry/Shapes/Ray.h"
 
 namespace MyEngine
 {
@@ -38,6 +39,9 @@ namespace MyEngine
 			const Float3& GetPosition() const { return m_Position; }
 			float GetHalfFov() const; //in radians
 			float GetTanHalfFov() const { return m_TanHalfFov; }
+
+			Ray GetMouseRay(float rayLength = 1);
+			Ray GetRay(const Int2& pixel, float rayLength = 1) const;
 
 		private:
 			Float4X4 m_Projection{};

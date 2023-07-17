@@ -3,6 +3,7 @@
 
 #include "App/ResizedEvent.h"
 #include "Math/Constants.h"
+#include "Rendering/Canvas.h"
 
 Camera::Camera(Int2 windowSize, float fov, float nearPlane, float farPlane)
 	: m_World{ Float4X4::GetIdentity() }
@@ -101,6 +102,37 @@ const Float3& Camera::GetForward() const
 float Camera::GetHalfFov() const
 {
 	return atan(m_TanHalfFov);
+}
+
+Ray Camera::GetMouseRay(float rayLength)
+{
+	return GetRay(Globals::pMouse->GetPos(), rayLength);
+}
+
+Ray Camera::GetRay(const Int2& pixel, float rayLength) const
+{
+	constexpr float depth{ .065f };
+	const float verScale{ depth * m_TanHalfFov };
+	const float horScale{ verScale * m_AspectRatio };
+	const float y{ (static_cast<float>(pixel.y) / static_cast<float>(Globals::pCanvas->GetSize().y) * 2.f - 1.f) };
+	const float x{ (static_cast<float>(pixel.x) / static_cast<float>(Globals::pCanvas->GetSize().x) * 2.f - 1.f) };
+
+	const Float3 forward{ GetForward() };
+	const Float3 right{ GetRight() };
+	const Float3 up{ GetUp() };
+	Float3 direction{ forward };
+
+	const float yaw{ atanf(m_TanHalfFov * m_AspectRatio * x) };
+	const float pitch{ atanf(m_TanHalfFov * y * cos(yaw)) };
+	Float3 pitchAxis{ right };
+
+	Quaternion rotation{ Quaternion::FromAxis(up, yaw) };
+	rotation.RotatePoint(direction);
+	rotation.RotatePoint(pitchAxis);
+	rotation = Quaternion::FromAxis(pitchAxis, pitch);
+	rotation.RotatePoint(direction);
+
+	return { GetPosition() + forward * depth + right * x * horScale - up * y * verScale, direction, rayLength };
 }
 
 void Camera::UpdateProjectionMatrix()
