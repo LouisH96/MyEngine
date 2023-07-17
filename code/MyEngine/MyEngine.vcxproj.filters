@@ -66,6 +66,7 @@
     <ClCompile Include="Other\Random.cpp" />
     <ClCompile Include="Geometry\Shapes\Cone.cpp" />
     <ClCompile Include="Generation\SphereGenerator.cpp" />
+    <ClCompile Include="Physics\Collisions\LineSphereCollision.cpp" />
     <ClCompile Include="Geometry\Shapes\Ray.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -156,6 +157,7 @@
     <ClInclude Include="Other\Random.h" />
     <ClInclude Include="Geometry\Shapes\Cone.h" />
     <ClInclude Include="Generation\SphereGenerator.h" />
+    <ClInclude Include="Physics\Collisions\LineSphereCollision.h" />
     <ClInclude Include="Geometry\Shapes\Ray.h" />
   </ItemGroup>
   <ItemGroup>
