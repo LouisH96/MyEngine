@@ -31,6 +31,7 @@ namespace MyEngine
 			void Add(
 				const Vertex* pVertices, unsigned nrVertices,
 				const int* pIndices, unsigned nrIndices);
+			void Clear();
 
 		private:
 			List<Vertex> m_CpuVertices;
@@ -83,6 +84,14 @@ namespace MyEngine
 			m_CpuIndices.EnsureCapacity(m_CpuIndices.GetSizeU() + nrIndices);
 			for (int i = 0; i < nrIndices; i++)
 				m_CpuIndices.Add(pIndices[i] + oldSize);
+		}
+
+		template <typename Vertex>
+		void VertexIdxList<Vertex>::Clear()
+		{
+			m_Changed = true;
+			m_CpuVertices.Clear();
+			m_CpuIndices.Clear();
 		}
 	}
 }
