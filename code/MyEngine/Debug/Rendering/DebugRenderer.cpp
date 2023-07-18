@@ -166,6 +166,11 @@ void DebugRenderer::DrawSphere(const Float3& position, const Float3& color, floa
 	m_pStatic->m_SpheresRenderer.DrawSphere(position, color, radius);
 }
 
+void DebugRenderer::DrawSphere(const Sphere& sphere, const Float3& color)
+{
+	m_pStatic->m_SpheresRenderer.DrawSphere(sphere, color);
+}
+
 void DebugRenderer::DrawCube(const Cube& cube, const Float3& color)
 {
 	m_pStatic->m_CubeRenderer.Draw(cube, color);
@@ -198,8 +203,8 @@ void DebugRenderer::Class_Render()
 		m_Meshes[i]->Activate();
 		m_Meshes[i]->Draw();
 	}
-	m_SpheresRenderer.Render();
 	m_CubeRenderer.Render();
+	m_SpheresRenderer.Render();
 	m_pLineRenderer->Render();
 	m_LinesRenderer2.Render();
 }

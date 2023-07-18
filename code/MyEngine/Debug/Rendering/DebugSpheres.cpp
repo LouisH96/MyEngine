@@ -53,3 +53,8 @@ void DebugSpheres::DrawSphere(const Float3& position, const Float3& color, float
 {
 	m_Spheres.Add({ position, color, size });
 }
+
+void DebugSpheres::DrawSphere(const Sphere& sphere, const Float3& color)
+{
+	m_Spheres.Add({ sphere.GetCenter(), color, sphere.GetRadius() });
+}

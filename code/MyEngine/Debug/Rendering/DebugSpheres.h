@@ -6,6 +6,11 @@
 
 namespace MyEngine
 {
+	class Sphere;
+}
+
+namespace MyEngine
+{
 	namespace Debug
 	{
 		class DebugSpheres
@@ -17,6 +22,7 @@ namespace MyEngine
 			void Render();
 
 			void DrawSphere(const Float3& position, const Float3& color, float size);
+			void DrawSphere(const Sphere& sphere, const Float3& color);
 
 		private:
 			using Vertex = Rendering::V_PosNor;

@@ -14,6 +14,7 @@
 
 namespace MyEngine
 {
+	class Sphere;
 	class Cube;
 	struct Line;
 
@@ -67,6 +68,7 @@ namespace MyEngine
 			static void AddGridXy(const Float3& offset, const Float2& bounds, int nrCols, int nrRows, const Float3& color);
 
 			static void DrawSphere(const Float3& position, const Float3& color, float radius);
+			static void DrawSphere(const Sphere& sphere, const Float3& color);
 
 			static void DrawCube(const Cube& cube, const Float3& color);
 
