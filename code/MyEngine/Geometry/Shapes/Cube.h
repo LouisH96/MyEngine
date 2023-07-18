@@ -38,6 +38,8 @@ namespace MyEngine
 		Float2 GetXzSize() const { return { m_Size.x, m_Size.z }; }
 		Float2 GetZySize() const { return { m_Size.z, m_Size.y }; }
 
+		void SetPosition(const Float3& position) { m_Origin = position; }
+
 		static constexpr unsigned NR_SIDES = 6;
 
 	private:
