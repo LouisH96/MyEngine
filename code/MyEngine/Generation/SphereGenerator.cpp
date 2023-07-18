@@ -11,8 +11,16 @@ unsigned Generation::SphereGenerator::GetNrVertices(unsigned nrCols, unsigned nr
 	return nrPoints;
 }
 
+unsigned Generation::SphereGenerator::GetNrIndices(unsigned nrCols, unsigned nrRows)
+{
+	const unsigned nrPoleTriangles = nrCols * 2;
+	const unsigned nrMiddleRowTriangles = nrCols * 2 * (nrRows - 2);
+	const unsigned nrTriangles = nrPoleTriangles + nrMiddleRowTriangles;
+	return nrTriangles * 3;
+}
+
 void Generation::SphereGenerator::Generate(const Sphere& sphere, unsigned nrCols, unsigned nrRows, const Float3& color,
-                                           List<Rendering::V_PosColNorm>& vertices, List<int>& indices, const Float3& offset)
+	List<Rendering::V_PosColNorm>& vertices, List<int>& indices, const Float3& offset)
 {
 	Array<Float3> positions{};
 	Array<Float3> normals{};
