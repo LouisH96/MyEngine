@@ -56,6 +56,7 @@ namespace MyEngine
 		void LimitLength(T maxLength);
 		Vector3 LimitedLength(T maxLength) const;
 
+		float Distance(const Vector3& other) const;
 		float DistanceSq(const Vector3& other) const;
 
 		//will normalize [0,255] to [0,1]
@@ -239,6 +240,12 @@ namespace MyEngine
 			y * value,
 			z * value
 		};
+	}
+
+	template <typename T>
+	float Vector3<T>::Distance(const Vector3& other) const
+	{
+		return (other - *this).Length();
 	}
 
 	template <typename T>
