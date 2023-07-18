@@ -68,6 +68,7 @@
     <ClCompile Include="Generation\SphereGenerator.cpp" />
     <ClCompile Include="Physics\Collisions\LineSphereCollision.cpp" />
     <ClCompile Include="Geometry\Shapes\Ray.cpp" />
+    <ClCompile Include="Physics\Collisions\LinePlaneCollision.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -159,6 +160,7 @@
     <ClInclude Include="Generation\SphereGenerator.h" />
     <ClInclude Include="Physics\Collisions\LineSphereCollision.h" />
     <ClInclude Include="Geometry\Shapes\Ray.h" />
+    <ClInclude Include="Physics\Collisions\LinePlaneCollision.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
