@@ -3,17 +3,17 @@
 
 namespace MyEngine
 {
-	class Cube
+	class CubeAA
 	{
 	public:
-		Cube();
-		Cube(Float3 origin, Float3 size);
-		Cube(Float3 origin, float size);
-		~Cube() = default;
-		Cube(const Cube& other) = default;
-		Cube(Cube&& other) noexcept = default;
-		Cube& operator=(const Cube& other) = default;
-		Cube& operator=(Cube&& other) noexcept = default;
+		CubeAA();
+		CubeAA(Float3 origin, Float3 size);
+		CubeAA(Float3 origin, float size);
+		~CubeAA() = default;
+		CubeAA(const CubeAA& other) = default;
+		CubeAA(CubeAA&& other) noexcept = default;
+		CubeAA& operator=(const CubeAA& other) = default;
+		CubeAA& operator=(CubeAA&& other) noexcept = default;
 
 		Float3& GetOrigin() { return m_Origin; }
 		const Float3& GetOrigin() const { return m_Origin; }

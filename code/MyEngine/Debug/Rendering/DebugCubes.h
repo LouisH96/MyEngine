@@ -3,7 +3,7 @@
 
 namespace MyEngine
 {
-	class Cube;
+	class CubeAA;
 }
 
 namespace MyEngine
@@ -17,7 +17,7 @@ namespace MyEngine
 
 			void Render();
 
-			void Draw(const Cube& cube, const Float3& color);
+			void Draw(const CubeAA& cube, const Float3& color);
 
 		private:
 			using Vertex = Rendering::V_PosColNorm;

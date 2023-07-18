@@ -61,7 +61,7 @@
     <ClCompile Include="App\ResizedEvent.cpp" />
     <ClCompile Include="Gui\FontRenderer.cpp" />
     <ClCompile Include="Rendering\Font\FontAtlasLookup.cpp" />
-    <ClCompile Include="Geometry\Shapes\Cube.cpp" />
+    <ClCompile Include="Geometry\Shapes\CubeAA.cpp" />
     <ClCompile Include="Rendering\Buffers\IdxBuffer.cpp" />
     <ClCompile Include="Other\Random.cpp" />
     <ClCompile Include="Geometry\Shapes\Cone.cpp" />
@@ -154,7 +154,7 @@
     <ClInclude Include="Rendering\Renderers\NdcRectRenderer.h" />
     <ClInclude Include="Gui\FontRenderer.h" />
     <ClInclude Include="Rendering\Font\FontAtlasLookup.h" />
-    <ClInclude Include="Geometry\Shapes\Cube.h" />
+    <ClInclude Include="Geometry\Shapes\CubeAA.h" />
     <ClInclude Include="Geometry\Shapes\Rect.h" />
     <ClInclude Include="Geometry\Shapes\Rects.h" />
     <ClInclude Include="Rendering\Buffers\IdxBuffer.h" />

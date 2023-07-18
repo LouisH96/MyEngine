@@ -15,7 +15,7 @@
 namespace MyEngine
 {
 	class Sphere;
-	class Cube;
+	class CubeAA;
 	struct Line;
 
 	//---| Forward Includes |---
@@ -70,7 +70,7 @@ namespace MyEngine
 			static void DrawSphere(const Float3& position, const Float3& color, float radius);
 			static void DrawSphere(const Sphere& sphere, const Float3& color);
 
-			static void DrawCube(const Cube& cube, const Float3& color);
+			static void DrawCube(const CubeAA& cube, const Float3& color);
 
 		private:
 			using Vertex = Rendering::V_PosColNorm;

@@ -3,11 +3,11 @@
 
 #include <Generation/Shapes/ArrowGenerator.h>
 #include "DataStructures/Array.h"
-#include "Geometry/Shapes/Cube.h"
+#include "Geometry/Shapes/CubeAA.h"
 #include "Geometry/Shapes/Sphere.h"
 #include "Math/Constants.h"
 
-void Generation::Shapes::GenerateCubeBuffers(const Cube& cube, Array<Float3>& positions,
+void Generation::Shapes::GenerateCubeBuffers(const CubeAA& cube, Array<Float3>& positions,
                                              Array<Float3>& normals, Array<int>& indices)
 {
 	constexpr int trianglesPerSide = 2;

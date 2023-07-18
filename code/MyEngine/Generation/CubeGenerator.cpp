@@ -2,9 +2,9 @@
 #include "CubeGenerator.h"
 
 #include "PlaneGeneration.h"
-#include "Geometry/Shapes/Cube.h"
+#include "Geometry/Shapes/CubeAA.h"
 
-void Generation::CubeGenerator::FrontPlane(const Cube& cube, const Float3& color,
+void Generation::CubeGenerator::FrontPlane(const CubeAA& cube, const Float3& color,
                                            List<Rendering::V_PosColNorm>& vertices, List<int>& indices, const Float3& offset)
 {
 	const Float3 leftBot{ cube.GetRightBotFront() + offset };
@@ -12,7 +12,7 @@ void Generation::CubeGenerator::FrontPlane(const Cube& cube, const Float3& color
 	PlaneGeneration::TowardZMin(leftBot, size, color, vertices, indices);
 }
 
-void Generation::CubeGenerator::BackPlane(const Cube& cube, const Float3& color,
+void Generation::CubeGenerator::BackPlane(const CubeAA& cube, const Float3& color,
 	List<Rendering::V_PosColNorm>& vertices, List<int>& indices, const Float3& offset)
 {
 	const Float3 leftBot{ cube.GetLeftBotBack() + offset };
@@ -20,7 +20,7 @@ void Generation::CubeGenerator::BackPlane(const Cube& cube, const Float3& color,
 	PlaneGeneration::TowardZMax(leftBot, size, color, vertices, indices);
 }
 
-void Generation::CubeGenerator::LeftPlane(const Cube& cube, const Float3& color,
+void Generation::CubeGenerator::LeftPlane(const CubeAA& cube, const Float3& color,
 	List<Rendering::V_PosColNorm>& vertices, List<int>& indices, const Float3& offset)
 {
 	const Float3 leftBot{ cube.GetLeftBotFront() + offset };
@@ -28,7 +28,7 @@ void Generation::CubeGenerator::LeftPlane(const Cube& cube, const Float3& color,
 	PlaneGeneration::TowardXMax(leftBot, size, color, vertices, indices);
 }
 
-void Generation::CubeGenerator::RightPlane(const Cube& cube, const Float3& color,
+void Generation::CubeGenerator::RightPlane(const CubeAA& cube, const Float3& color,
 	List<Rendering::V_PosColNorm>& vertices, List<int>& indices, const Float3& offset)
 {
 	const Float3 leftBot{ cube.GetRightBotBack() + offset };
@@ -36,7 +36,7 @@ void Generation::CubeGenerator::RightPlane(const Cube& cube, const Float3& color
 	PlaneGeneration::TowardXMin(leftBot, size, color, vertices, indices);
 }
 
-void Generation::CubeGenerator::TopPlane(const Cube& cube, const Float3& color, List<Rendering::V_PosColNorm>& vertices,
+void Generation::CubeGenerator::TopPlane(const CubeAA& cube, const Float3& color, List<Rendering::V_PosColNorm>& vertices,
 	List<int>& indices, const Float3& offset)
 {
 	const Float3 leftBot{ cube.GetLeftTopBack() + offset };
@@ -44,7 +44,7 @@ void Generation::CubeGenerator::TopPlane(const Cube& cube, const Float3& color, 
 	PlaneGeneration::TowardYMin(leftBot, size, color, vertices, indices);
 }
 
-void Generation::CubeGenerator::BottomPlane(const Cube& cube, const Float3& color,
+void Generation::CubeGenerator::BottomPlane(const CubeAA& cube, const Float3& color,
 	List<Rendering::V_PosColNorm>& vertices, List<int>& indices, const Float3& offset)
 {
 	const Float3 leftBot{ cube.GetLeftBotFront() + offset };
@@ -52,11 +52,11 @@ void Generation::CubeGenerator::BottomPlane(const Cube& cube, const Float3& colo
 	PlaneGeneration::TowardYMax(leftBot, size, color, vertices, indices);
 }
 
-void Generation::CubeGenerator::Generate(const Cube& cube, const Float3& color, List<Rendering::V_PosColNorm>& vertices,
+void Generation::CubeGenerator::Generate(const CubeAA& cube, const Float3& color, List<Rendering::V_PosColNorm>& vertices,
 	List<int>& indices, const Float3& offset)
 {
-	vertices.EnsureIncrease(4 * Cube::NR_SIDES);
-	indices.EnsureIncrease(3 * 2 * Cube::NR_SIDES);
+	vertices.EnsureIncrease(4 * CubeAA::NR_SIDES);
+	indices.EnsureIncrease(3 * 2 * CubeAA::NR_SIDES);
 
 	FrontPlane(cube, color, vertices, indices, offset);
 	BackPlane(cube, color, vertices, indices, offset);
