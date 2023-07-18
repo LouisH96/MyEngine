@@ -6,6 +6,11 @@
 
 namespace MyEngine
 {
+	struct Line;
+}
+
+namespace MyEngine
+{
 	namespace Debug
 	{
 		class DebugLines
@@ -16,6 +21,7 @@ namespace MyEngine
 			void Render();
 
 			void DrawLine(const Float3& begin, const Float3& end, const Float3& color);
+			void DrawLine(const Line& line, const Float3& color);
 			void DrawLine(const Float3* pData, unsigned count, const Float3& color);
 			void DrawRay(const Float3& origin, const Float3& displacement, const Float3& color);
 			void DrawRay(const Ray& ray, const Float3& color);

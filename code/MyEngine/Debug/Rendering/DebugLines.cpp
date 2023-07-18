@@ -2,6 +2,7 @@
 #include "DebugLines.h"
 
 #include "Framework/Resources.h"
+#include "Geometry/Shapes/Line.h"
 
 Debug::DebugLines::DebugLines()
 	: m_InputLayout{ Vertex::ELEMENTS, Vertex::NR_ELEMENTS }
@@ -23,6 +24,11 @@ void Debug::DebugLines::DrawLine(const Float3& begin, const Float3& end, const F
 {
 	m_VertexList.Add({ begin, color });
 	m_VertexList.Add({ end, color });
+}
+
+void DebugLines::DrawLine(const Line& line, const Float3& color)
+{
+	DrawLine(line.a, line.b, color);
 }
 
 void DebugLines::DrawLine(const Float3* pData, unsigned count, const Float3& color)

@@ -51,6 +51,11 @@ void DebugRenderer::DrawLine(const Float3& begin, const Float3& end, const Float
 	m_pStatic->m_LinesRenderer2.DrawLine(begin, end, color);
 }
 
+void DebugRenderer::DrawLine(const Line& line, const Float3& color)
+{
+	m_pStatic->m_LinesRenderer2.DrawLine(line, color);
+}
+
 void DebugRenderer::DrawLine(PtrRangeConst<Float3> points, const Float3& color)
 {
 	m_pStatic->m_LinesRenderer2.DrawLine(points.pData, points.count, color);

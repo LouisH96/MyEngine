@@ -5,7 +5,10 @@ namespace MyEngine
 {
 	struct Line
 	{
-		Float3 Point1;
-		Float3 Point2;
+		Float3 a;
+		Float3 b;
+
+		float GetLength() const;
+		Float3 GetDirection() const;
 	};
 }
