@@ -8,11 +8,13 @@
 #include <Rendering/Structs/VertexTypes.h>
 #include <Rendering/Renderers/RendererFactory.h>
 
+#include "DebugCubes.h"
 #include "DebugLines.h"
 #include "DebugSpheres.h"
 
 namespace MyEngine
 {
+	class Cube;
 	struct Line;
 
 	//---| Forward Includes |---
@@ -66,6 +68,7 @@ namespace MyEngine
 
 			static void DrawSphere(const Float3& position, const Float3& color, float radius);
 
+			static void DrawCube(const Cube& cube, const Float3& color);
 
 		private:
 			using Vertex = Rendering::V_PosColNorm;
@@ -86,6 +89,7 @@ namespace MyEngine
 			LineRenderer* m_pLineRenderer{};
 			DebugSpheres m_SpheresRenderer;
 			DebugLines m_LinesRenderer2;
+			DebugCubes m_CubeRenderer;
 
 			//---| Mesh |---
 			Array<Rendering::Mesh*> m_Meshes{};
