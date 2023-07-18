@@ -13,6 +13,10 @@ namespace MyEngine
 			static bool Detect(
 				const Ray& ray,
 				const Sphere& sphere);
+
+			static int Detect(
+				const Ray& ray,
+				PtrRangeConst<Sphere> spheres);
 		};
 	}
 }
