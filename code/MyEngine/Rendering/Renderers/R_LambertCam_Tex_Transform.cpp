@@ -24,7 +24,7 @@ void Rendering::R_LambertCam_Tex_Transform::Render()
 	m_Shader.Activate();
 	for (int i = 0; i < m_Entries.GetSize(); i++)
 	{
-		m_CameraConstantBuffer.Update(CB_CamMatPos{ Globals::pCamera->GetPosition(), Globals::pCamera->GetViewProjection(), *m_Entries[i].pTransform});
+		m_CameraConstantBuffer.Update(CB_CamMatPos{ Globals::pCamera->GetPosition(), Globals::pCamera->GetViewProjection()});
 		m_CameraConstantBuffer.Activate();
 		m_ModelConstantBuffer.Update(CB_ModelBuffer{ *m_Entries[i].pTransform });
 		m_ModelConstantBuffer.Activate(1);
