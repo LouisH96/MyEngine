@@ -49,6 +49,7 @@ namespace MyEngine
 		Vector3 Normalized() const;
 		void Normalize(float& length);
 		Vector3 Normalized(float& length) const;
+		Vector3 NormalizedSafe() const;
 
 		Vector3 Cross(const Vector3& other) const;
 		float Dot(const Vector3& other) const;
@@ -199,6 +200,14 @@ namespace MyEngine
 		length = Length();
 		const float scale = 1.f / length;
 		return { x * scale, y * scale, z * scale };
+	}
+
+	template <typename T>
+	Vector3<T> Vector3<T>::NormalizedSafe() const
+	{
+		const float lengthSq{ LengthSq() };
+		if (lengthSq == 0) return *this;
+		return *this / sqrtf(lengthSq);
 	}
 
 	template <typename T>
