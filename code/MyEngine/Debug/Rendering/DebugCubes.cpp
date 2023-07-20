@@ -15,6 +15,16 @@ void DebugCubes::Render()
 	m_Vertices.Clear();
 }
 
+void DebugCubes::Draw(const Cube& cube, const Float3& color)
+{
+	List<Vertex> vertices{};
+	List<int> indices{};
+	CubeGenerator::Generate(cube, color, vertices, indices);
+	m_Vertices.Add(
+		vertices.GetData(), vertices.GetSizeU(),
+		indices.GetData(), indices.GetSizeU());
+}
+
 void DebugCubes::Draw(const CubeAA& cube, const Float3& color)
 {
 	List<Vertex> vertices{};

@@ -3,6 +3,7 @@
 
 namespace MyEngine
 {
+	class Cube;
 	class CubeAA;
 }
 
@@ -17,6 +18,7 @@ namespace MyEngine
 
 			void Render();
 
+			void Draw(const Cube& cube, const Float3& color);
 			void Draw(const CubeAA& cube, const Float3& color);
 
 		private:

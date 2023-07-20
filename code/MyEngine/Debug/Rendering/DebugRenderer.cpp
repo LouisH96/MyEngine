@@ -171,6 +171,11 @@ void DebugRenderer::DrawSphere(const Sphere& sphere, const Float3& color)
 	m_pStatic->m_SpheresRenderer.DrawSphere(sphere, color);
 }
 
+void DebugRenderer::DrawCube(const Cube& cube, const Float3& color)
+{
+	m_pStatic->m_CubeRenderer.Draw(cube, color);
+}
+
 void DebugRenderer::DrawCube(const CubeAA& cube, const Float3& color)
 {
 	m_pStatic->m_CubeRenderer.Draw(cube, color);
