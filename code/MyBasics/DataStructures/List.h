@@ -23,6 +23,7 @@ namespace MyEngine
 		void Add(const T& value1, const T& value2);
 		void Add(const T& value1, const T& value2, const T& value3);
 		void Add(const List& list);
+		void AddMultipleTimes(const T& value, unsigned count);
 		void Insert(int idx, const T& value);
 		void InsertEmpty(int idx, int amount);
 
@@ -166,6 +167,14 @@ namespace MyEngine
 		EnsureIncrease(list.GetSizeU());
 		std::copy(list.GetData(), &list.GetData()[list.GetSize()], &m_pData[m_Size]);
 		m_Size += list.GetSize();
+	}
+
+	template <typename T>
+	void List<T>::AddMultipleTimes(const T& value, unsigned count)
+	{
+		EnsureIncrease(count);
+		for (unsigned i = 0; i < count; i++)
+			m_pData[m_Size++] = value;
 	}
 
 	template <typename T>
