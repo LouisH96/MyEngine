@@ -44,6 +44,7 @@ namespace MyEngine
 		Float3 GetUp() const;
 		Float3 GetForward() const;
 		float GetLength() const;
+		Float3 GetRotationAxis() const;
 
 		//---| Data |---
 		Float3 Xyz;

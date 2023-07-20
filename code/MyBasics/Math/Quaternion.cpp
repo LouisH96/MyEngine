@@ -194,6 +194,11 @@ float Quaternion::GetLength() const
 	return sqrtf(Xyz.x * Xyz.x + Xyz.y * Xyz.y + Xyz.z * Xyz.z + W * W);
 }
 
+Float3 Quaternion::GetRotationAxis() const
+{
+	return Xyz / sinf(acosf(W));
+}
+
 Float3 Quaternion::GetUp() const
 {
 	return{
