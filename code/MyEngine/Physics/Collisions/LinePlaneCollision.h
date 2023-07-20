@@ -11,6 +11,11 @@ namespace MyEngine
 				const Ray& ray,
 				float planeY,
 				Float2& hitPoint);
+
+			static bool Detect(
+				const Ray& ray,
+				const Float3& planeOrigin, const Float3& planeRight, const Float3& planeUp,
+				Float2& hitPoint);
 		};
 	}
 }
