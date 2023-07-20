@@ -12,5 +12,7 @@ namespace MyEngine
 		static constexpr char ARROW_UP = 38;
 		static constexpr char ARROW_RIGHT = 39;
 		static constexpr char ARROW_DOWN = 40;
+
+		static constexpr char F = 'F';
 	};
 }
