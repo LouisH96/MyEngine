@@ -79,8 +79,8 @@ namespace MyEngine
 				app.Render();
 				Globals::pGuiRenderer->Render();
 				Globals::pFontRenderer->Render();
-				fpsDisplay.Render();
 				DebugRenderer::Render();
+				fpsDisplay.Render();
 				canvas.Present();
 			}
 
