@@ -40,7 +40,7 @@ namespace MyEngine
 			float GetHalfFov() const; //in radians
 			float GetTanHalfFov() const { return m_TanHalfFov; }
 
-			Ray GetMouseRay(float rayLength = 1);
+			Ray GetMouseRay(float rayLength = 100);
 			Ray GetRay(const Int2& pixel, float rayLength = 1) const;
 
 		private:
