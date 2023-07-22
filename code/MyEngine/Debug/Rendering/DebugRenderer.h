@@ -19,10 +19,6 @@ namespace MyEngine
 	struct Line;
 
 	//---| Forward Includes |---
-	namespace Game
-	{
-		class FocusPointCamera;
-	}
 	namespace Rendering
 	{
 		class Mesh;

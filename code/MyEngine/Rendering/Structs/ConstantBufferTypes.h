@@ -6,7 +6,6 @@ namespace MyEngine
 	{
 		class Camera;
 		class Transform;
-		class FocusPointCamera;
 	}
 }
 

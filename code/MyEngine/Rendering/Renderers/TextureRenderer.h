@@ -9,11 +9,6 @@
 
 namespace MyEngine
 {
-	namespace Game
-	{
-		class FocusPointCamera;
-	}
-
 	namespace Rendering
 	{
 		//---| Class |---
