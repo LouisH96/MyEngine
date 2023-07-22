@@ -2,9 +2,12 @@
 #include "DebugLines.h"
 
 #include "Framework/Resources.h"
+#include "Generation/DiskGenerator.h"
 #include "Geometry/Shapes/Line.h"
 
-Debug::DebugLines::DebugLines()
+using namespace Generation;
+
+DebugLines::DebugLines()
 	: m_InputLayout{ Vertex::ELEMENTS, Vertex::NR_ELEMENTS }
 	, m_Shader{ Resources::GlobalShader(L"unlit.hlsl") }
 	, m_VertexList{ 5, Rendering::PrimitiveTopology::LineList }
@@ -12,7 +15,7 @@ Debug::DebugLines::DebugLines()
 
 }
 
-void Debug::DebugLines::Render()
+void DebugLines::Render()
 {
 	m_InputLayout.Activate();
 	m_Shader.Activate();
@@ -20,7 +23,7 @@ void Debug::DebugLines::Render()
 	m_VertexList.Clear();
 }
 
-void Debug::DebugLines::DrawLine(const Float3& begin, const Float3& end, const Float3& color)
+void DebugLines::DrawLine(const Float3& begin, const Float3& end, const Float3& color)
 {
 	m_VertexList.Add({ begin, color });
 	m_VertexList.Add({ end, color });
@@ -40,7 +43,19 @@ void DebugLines::DrawLine(const Float3* pData, unsigned count, const Float3& col
 	}
 }
 
-void Debug::DebugLines::DrawRay(const Float3& origin, const Float3& displacement, const Float3& color)
+void DebugLines::DrawLineLoop(PtrRangeConst<Float3> points, const Float3& color)
+{
+	m_VertexList.GetList().EnsureIncrease(points.count * 2);
+	for (unsigned i = 0; i + 1 < points.count; i++)
+	{
+		m_VertexList.Add({ points[i], color });
+		m_VertexList.Add({ points[i + 1], color });
+	}
+	m_VertexList.Add({ points.Last(), color });
+	m_VertexList.Add({ points.First(), color });
+}
+
+void DebugLines::DrawRay(const Float3& origin, const Float3& displacement, const Float3& color)
 {
 	m_VertexList.Add({ origin, color });
 	m_VertexList.Add({ origin + displacement, color });
@@ -49,4 +64,10 @@ void Debug::DebugLines::DrawRay(const Float3& origin, const Float3& displacement
 void DebugLines::DrawRay(const Ray& ray, const Float3& color)
 {
 	DrawRay(ray.Origin, ray.Direction * ray.Length, color);
+}
+
+void DebugLines::DrawDiskXz(const Float3& center, float radius, const Float3& color)
+{
+	const Array<Float3> points{DiskGenerator::GenerateXz(center, radius)};
+	DrawLineLoop(PtrRangeConst<Float3>{points}, color);
 }

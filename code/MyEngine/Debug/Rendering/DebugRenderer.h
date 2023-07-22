@@ -66,6 +66,8 @@ namespace MyEngine
 			static void DrawSphere(const Float3& position, const Float3& color, float radius);
 			static void DrawSphere(const Sphere& sphere, const Float3& color);
 
+			static void DrawDiskXz(const Float3& center, float radius, const Float3& color);
+
 			static void DrawCube(const Cube& cube, const Float3& color);
 			static void DrawCube(const CubeAA& cube, const Float3& color);
 
