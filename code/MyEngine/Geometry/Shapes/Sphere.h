@@ -13,6 +13,7 @@ namespace MyEngine
 		void SetCenter(const Float3& center);
 		void SetRadius(float radius);
 		const Float3& GetCenter() const { return m_Center; }
+		Float3& GetCenter() { return m_Center; }
 		float GetRadius() const { return m_Radius; }
 		float GetRadiusSq() const { return m_Radius * m_Radius; }
 
