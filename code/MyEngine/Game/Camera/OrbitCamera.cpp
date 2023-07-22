@@ -18,9 +18,9 @@ OrbitCamera::OrbitCamera(Camera& camera)
 	, m_ScrollSpeed(-1.f)
 	, m_HorizontalSpeed(1.f)
 	, m_VerticalSpeed{ 1.f }
-	, m_Pitch{ 0 }
+	, m_Pitch{ 50 }
 	, m_Yaw{ 0 }
-	, m_Distance{ 1 }
+	, m_Distance{ 5 }
 {
 }
 
