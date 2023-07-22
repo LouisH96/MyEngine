@@ -265,7 +265,9 @@ namespace MyEngine
 	template <typename T>
 	void List<T>::EnsureIncrease(unsigned increase)
 	{
-		EnsureCapacity(m_Capacity + increase);
+		const unsigned required{ m_Size + increase };
+		if (required > m_Capacity)
+			SetCapacity(required + required);
 	}
 
 	template <typename T>
