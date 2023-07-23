@@ -9,6 +9,7 @@ Rendering::FpsDisplay::FpsDisplay()
 {
 	SetText();
 }
+
 void Rendering::FpsDisplay::Render()
 {
 	Globals::pFontRenderer->Remove(m_TextId);
