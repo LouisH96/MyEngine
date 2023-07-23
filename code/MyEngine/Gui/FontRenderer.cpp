@@ -65,7 +65,7 @@ int Gui::FontRenderer::Add(const std::string& text, const Float2& pivot, const F
 	pEntry->Characters.Clear();
 
 	//calculate the total text size (used for alignment)
-	const Float2 totalSize{ m_CharLookup.GetScreenSize(text, height) };
+	const Float2 totalSize{ m_CharLookup.GetScreenSize(text, height, spacing) };
 
 	//add each character
 	const Float2 normalizedPivot{ (pivot + Float2{1,1}) / 2 };
@@ -86,7 +86,7 @@ int Gui::FontRenderer::Add(const std::string& text, const Float2& pivot, const F
 
 		currentX += charScreenSize.x * normalizedPivot.x;
 		pEntry->Characters.Add(Add(c, pivot, { currentX, offset.y + charYOffset }, color, charScreenSize, charUvRect));
-		currentX += charScreenSize.x * (1 - normalizedPivot.x);
+		currentX += charScreenSize.x * (1 - normalizedPivot.x) + spacing;
 	}
 	return idx;
 }
@@ -147,7 +147,7 @@ int Gui::FontRenderer::AddRightBot(const std::string& text, float height, const 
 
 Float2 Gui::FontRenderer::GetSize(const std::string& text, float height, float spacing)
 {
-	return m_CharLookup.GetScreenSize(text, height);
+	return m_CharLookup.GetScreenSize(text, height, spacing);
 }
 
 void Gui::FontRenderer::SetColor(int id, const Float3& color)

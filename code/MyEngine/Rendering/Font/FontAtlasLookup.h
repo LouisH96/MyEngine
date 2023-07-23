@@ -24,14 +24,14 @@ namespace MyEngine
 			Float2 GetCharUvSize(char c);
 			RectFloat GetCharUvRect(char c);
 
-			float GetUvWidth(const std::string& text);
-			Float2 GetUvSize(const std::string& text);
+			float GetUvWidth(const std::string& text, float uvSpacingWidth);
+			Float2 GetUvSize(const std::string& text, float uvSpacingWidth);
 
-			float GetScreenWidth(const std::string& text, float height);
+			float GetScreenWidth(const std::string& text, float height, float spacing);
 			float GetScreenWidth(char c, float height);
 			float GetScreenSpaceWidth(float xHeight);
 
-			Float2 GetScreenSize(const std::string& text, float height);
+			Float2 GetScreenSize(const std::string& text, float height, float spacing);
 			Float2 GetScreenSize(char c, float height);
 
 		private:

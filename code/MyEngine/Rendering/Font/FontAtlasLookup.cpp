@@ -47,18 +47,20 @@ RectFloat Rendering::FontAtlasLookup::GetCharUvRect(char c)
 	return rect;
 }
 
-float Rendering::FontAtlasLookup::GetUvWidth(const std::string& text)
+float Rendering::FontAtlasLookup::GetUvWidth(const std::string& text, float uvSpacingWidth)
 {
 	float width{ 0 };
 	for (const char& c : text)
 	{
 		if (c == ' ') width += GetCharUvWidth('x') * m_SpaceWidthRatio;
-		else width += GetCharUvWidth(c);
+		else width += GetCharUvWidth(c) + uvSpacingWidth;
 	}
+	if (text[text.size() - 1] != ' ')
+		width -= uvSpacingWidth;
 	return width;
 }
 
-Float2 Rendering::FontAtlasLookup::GetUvSize(const std::string& text)
+Float2 Rendering::FontAtlasLookup::GetUvSize(const std::string& text, float uvSpacingWidth)
 {
 	Float2 bounds{ 0 };
 	for (const char& c : text)
@@ -69,17 +71,20 @@ Float2 Rendering::FontAtlasLookup::GetUvSize(const std::string& text)
 			continue;
 		}
 		const Float2 charSize{ GetCharUvSize(c) };
-		bounds.x += charSize.x;
+		bounds.x += charSize.x + uvSpacingWidth;
 		if (charSize.y > bounds.y) bounds.y = charSize.y;
 	}
+	if (text[text.size() - 1] != ' ')
+		bounds.x -= uvSpacingWidth;
 	return bounds;
 }
 
-float Rendering::FontAtlasLookup::GetScreenWidth(const std::string& text, float height)
+float Rendering::FontAtlasLookup::GetScreenWidth(const std::string& text, float height, float spacing)
 {
 	const float xUvWidth{ GetCharUvWidth('x') };
 	const float xScreenWidth{ xUvWidth * m_UvWidthToHeight * m_InvXUvHeight * height };
-	const float textUvWidth{ GetUvWidth(text) };
+	const float uvSpacing{ spacing / xScreenWidth * xUvWidth };
+	const float textUvWidth{ GetUvWidth(text, uvSpacing) };
 	return  textUvWidth / xUvWidth * xScreenWidth;
 }
 
@@ -98,9 +103,12 @@ float Rendering::FontAtlasLookup::GetScreenSpaceWidth(float xHeight)
 	return xScreenWidth * m_SpaceWidthRatio;
 }
 
-Float2 Rendering::FontAtlasLookup::GetScreenSize(const std::string& text, float height)
+Float2 Rendering::FontAtlasLookup::GetScreenSize(const std::string& text, float height, float spacing)
 {
-	const Float2 uvSize{ GetUvSize(text) };
+	const float xUvWidth{ GetCharUvWidth('x') };
+	const float xScreenWidth{ xUvWidth * m_UvWidthToHeight * m_InvXUvHeight * height };
+	const float uvSpacing{ spacing / xScreenWidth * xUvWidth };
+	const Float2 uvSize{ GetUvSize(text, uvSpacing) };
 	Float2 screenSize;
 	screenSize.y = uvSize.y * m_InvXUvHeight * height;
 	screenSize.x = screenSize.y * uvSize.x * m_UvWidthToHeight / uvSize.y;
