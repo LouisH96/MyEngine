@@ -16,31 +16,17 @@ namespace MyEngine
 		{
 		public:
 			FpsDisplay();
-			~FpsDisplay();
+			~FpsDisplay() = default;
 			
 			void Render();
-			void OnWindowResized(const Int2& newSize);
-
 			void SetFps(int fps) { m_Fps = fps; }
 
 		private:
 			//---| MEMBERS |---
-			static constexpr int NR_NUMBERS = 10;
-			BlendState m_BlendState;
-			RasterizerState m_RasterizerState;
-			SamplerState m_Sampler;
-			Shader m_Shader;
-			InputLayout m_InputLayout;
-
-			Array<V_Pos2Uv> m_Vertices;
-			Mesh* m_pMesh{};
-			Texture* m_pTextures[NR_NUMBERS]{};
-			Float2 m_Sizes[NR_NUMBERS]{};
-			Float2 m_ScreenSpaceMargin{};
 			int m_Fps{};
+			int m_TextId{};
 
-			static void SetPos(Array<V_Pos2Uv>& vertices, const Float2& origin, const Float2& size);
-			static void InitVertices(Array<V_Pos2Uv>& vertices);
+			void SetText();
 		};
 	}
 }
