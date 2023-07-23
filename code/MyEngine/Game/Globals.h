@@ -1,5 +1,6 @@
 #pragma once
 
+
 namespace MyEngine
 {
 	namespace Gui
@@ -33,7 +34,6 @@ namespace MyEngine
 	class Globals
 	{
 	public:
-
 		static float DeltaTime;
 		static App::Win32::Window* pWindow;
 		static const Keyboard* pKeyboard;
@@ -47,3 +47,13 @@ namespace MyEngine
 		static Gui::FontRenderer* pFontRenderer;
 	};
 }
+
+#define DELTA_TIME Globals::pDeltaTime
+#define WINDOW (*Globals::pWindow)
+#define KEYBOARD (*Globals::pKeyboard)
+#define MOUSE (*Globals::pMouse)
+#define GPU (*Globals::pGpu)
+#define CANVAS (*Globals::pCanvas)
+#define CAMERA (*Globals::pCamera)
+#define GUI (*Globals::pGuiRenderer)
+#define FONT (*Globals::pFontRenderer)
