@@ -39,9 +39,16 @@ int Gui::GuiRenderer::AddCenterBottom(const Float2& offset, const Float2& size, 
 	return Add({ 0,-1 }, offset, size, color);
 }
 
-int Gui::GuiRenderer::GetElementUnderMouse() const
+int Gui::GuiRenderer::GetHovered() const
 {
 	return m_Renderer.GetElementUnderMouse();
+}
+
+int Gui::GuiRenderer::GetClicked() const
+{
+	if (MOUSE.IsLeftBtnPressed())
+		return GetHovered();
+	return -1;
 }
 
 void Gui::GuiRenderer::SetColor(int id, const Float3& color)
