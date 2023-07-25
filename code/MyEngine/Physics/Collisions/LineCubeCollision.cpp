@@ -7,13 +7,24 @@
 
 using namespace Physics;
 
-bool LineCubeCollision::Detect(const CubeAA& cube, const Line& line)
+bool LineCubeCollision::Detect(const Line& line, const CubeAA& cube)
 {
 	const float length{ line.GetLength() };
-	return Detect(cube, Ray{ line.a, (line.b - line.a) / length, length });
+	return Detect(Ray{ line.a, (line.b - line.a) / length, length }, cube);
 }
 
-bool LineCubeCollision::Detect(const CubeAA& cube, const Ray& ray)
+bool LineCubeCollision::Detect(const Line& line, const Cube& cube)
+{
+	const float length{ line.GetLength() };
+	const Float3 direction{ (line.b - line.a) / length };
+	Ray relativeRay{ line.a - cube.GetPosition(), direction, length };
+	const Quaternion inverseRotation{ -cube.GetTransform().Rotation };
+	inverseRotation.RotatePoint(relativeRay.Origin);
+	inverseRotation.RotatePoint(relativeRay.Direction);
+	return Detect(relativeRay, CubeAA{ {}, cube.GetSize() });
+}
+
+bool LineCubeCollision::Detect(const Ray& ray, const CubeAA& cube)
 {
 	if (!Float::HasOverlap(cube.GetLeft(), cube.GetRight(), ray.Origin.x, ray.GetEnd().x))
 		return false;
@@ -41,15 +52,4 @@ bool LineCubeCollision::Detect(const CubeAA& cube, const Ray& ray)
 	zA = ray.Origin.z + ray.Direction.z * distanceA;
 	zB = ray.Origin.z + ray.Direction.z * distanceB;
 	return Float::HasOverlap(cube.GetFront(), cube.GetBack(), zA, zB);
-}
-
-bool LineCubeCollision::Detect(const Line& line, const Cube& cube)
-{
-	const float length{ line.GetLength() };
-	const Float3 direction{ (line.b - line.a) / length };
-	Ray relativeRay{ line.a - cube.GetPosition(), direction, length };
-	const Quaternion inverseRotation{ -cube.GetTransform().Rotation };
-	inverseRotation.RotatePoint(relativeRay.Origin);
-	inverseRotation.RotatePoint(relativeRay.Direction);
-	return Detect(CubeAA{ {}, cube.GetSize() }, relativeRay);
 }

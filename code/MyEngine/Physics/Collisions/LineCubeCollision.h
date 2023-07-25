@@ -8,17 +8,17 @@ namespace MyEngine
 		{
 		public:
 			static bool Detect(
-				const CubeAA& cube,
-				const Line& line
+				const Line& line,
+				const CubeAA& cube
 			);
-			static bool Detect(
-				const CubeAA& cube,
-				const Ray& ray
-			);
-
 			static bool Detect(
 				const Line& line,
 				const Cube& cube
+			);
+
+			static bool Detect(
+				const Ray& ray,
+				const CubeAA& cube
 			);
 		};
 	}
