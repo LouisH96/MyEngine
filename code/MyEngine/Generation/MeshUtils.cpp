@@ -55,9 +55,6 @@ void MeshUtils::CapCircle(int nrPoints, int arrayOffset, int valueOffset, Array<
 
 void MeshUtils::CapCircle(unsigned firstVertex, unsigned nrVertices, List<int>& indices)
 {
-	if (nrVertices % 2 == 1) Logger::PrintError("[MeshUtils::CapCircle] nrVertices should be even");
-	//todo: make work with uneven nr
-
 	int i0 = 0;
 	int i1 = 1;
 	int i2 = 2;
@@ -71,7 +68,8 @@ void MeshUtils::CapCircle(unsigned firstVertex, unsigned nrVertices, List<int>& 
 		//second triangle
 		i1 = i2;
 		i2 = i0 - 1;
-		if (i2 < 0) i2 += nrVertices;
+		if (i2 < 0) i2 += static_cast<int>(nrVertices);
+		if (i1 == i2) return;
 
 		indices.Add(i0 + firstVertex);
 		indices.Add(i1 + firstVertex);
