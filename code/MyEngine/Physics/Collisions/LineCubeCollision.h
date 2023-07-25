@@ -7,7 +7,6 @@ namespace MyEngine
 		class LineCubeCollision
 		{
 		public:
-			
 			static bool Detect(
 				const CubeAA& cube,
 				const Line& line
@@ -15,6 +14,11 @@ namespace MyEngine
 			static bool Detect(
 				const CubeAA& cube,
 				const Ray& ray
+			);
+
+			static bool Detect(
+				const Line& line,
+				const Cube& cube
 			);
 		};
 	}

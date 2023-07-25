@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "LineCubeCollision.h"
 
+#include "Geometry/Shapes/Cube.h"
 #include "Geometry/Shapes/CubeAA.h"
 #include "Geometry/Shapes/Line.h"
 
@@ -40,4 +41,15 @@ bool LineCubeCollision::Detect(const CubeAA& cube, const Ray& ray)
 	zA = ray.Origin.z + ray.Direction.z * distanceA;
 	zB = ray.Origin.z + ray.Direction.z * distanceB;
 	return Float::HasOverlap(cube.GetFront(), cube.GetBack(), zA, zB);
+}
+
+bool LineCubeCollision::Detect(const Line& line, const Cube& cube)
+{
+	const float length{ line.GetLength() };
+	const Float3 direction{ (line.b - line.a) / length };
+	Ray relativeRay{ line.a - cube.GetPosition(), direction, length };
+	const Quaternion inverseRotation{ -cube.GetTransform().Rotation };
+	inverseRotation.RotatePoint(relativeRay.Origin);
+	inverseRotation.RotatePoint(relativeRay.Direction);
+	return Detect(CubeAA{ {}, cube.GetSize() }, relativeRay);
 }
