@@ -17,7 +17,8 @@ namespace MyEngine
 		static int Ceil(const T& value);
 		static int Floor(const T& value);
 		static int Round(const T& value);
-		static T Clamp(const T& value, const T& min, const T& max);
+		static T Clamped(const T& value, const T& min, const T& max);
+
 		static T Max(const T& a, const T& b);
 		static T Min(const T& a, const T& b);
 		static T Max();
@@ -43,6 +44,7 @@ namespace MyEngine
 	D Scalar<T>::LerpClamp(const T& alpha, const D& begin, const D& end)
 	{
 		return Clamp(Lerp(alpha, begin, end), begin, end);
+		return Clamped(Lerp(alpha, begin, end), begin, end);
 	}
 
 	template <typename T>
@@ -72,6 +74,7 @@ namespace MyEngine
 
 	template <typename T>
 	T Scalar<T>::Clamp(const T& value, const T& min, const T& max)
+	T Scalar<T>::Clamped(const T& value, const T& min, const T& max)
 	{
 		if (value <= min) return min;
 		if (value >= max) return max;
