@@ -30,6 +30,8 @@ namespace MyEngine
 		Float3 GetRightTopFront() const { return m_Origin + m_Size; }
 
 		float GetLeft() const { return m_Origin.x; }
+		float GetRight() const { return m_Origin.x + m_Size.x; }
+		float GetBot() const { return m_Origin.y; }
 		float GetTop() const { return m_Origin.y + m_Size.y; }
 		float GetBack() const { return m_Origin.z; }
 		float GetFront() const { return m_Origin.z + m_Size.z; }
