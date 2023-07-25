@@ -25,6 +25,7 @@
     <ClCompile Include="Geometry\Shapes\Cone.cpp" />
     <ClCompile Include="Geometry\Shapes\CubeAA.cpp" />
     <ClCompile Include="Geometry\Shapes\Line.cpp" />
+    <ClCompile Include="Physics\Collisions\LineCubeCollision.cpp" />
     <ClCompile Include="Physics\Collisions\LineOnLineCollision.cpp" />
     <ClCompile Include="Physics\Collisions\LinePlaneCollision.cpp" />
     <ClCompile Include="Physics\Collisions\LineSphereCollision.cpp" />
@@ -107,6 +108,7 @@
     <ClInclude Include="Geometry\Shapes\CubeAA.h" />
     <ClInclude Include="Geometry\Shapes\Rect.h" />
     <ClInclude Include="Geometry\Shapes\Rects.h" />
+    <ClInclude Include="Physics\Collisions\LineCubeCollision.h" />
     <ClInclude Include="Physics\Collisions\LineOnLineCollision.h" />
     <ClInclude Include="Physics\Collisions\LinePlaneCollision.h" />
     <ClInclude Include="Physics\Collisions\LineSphereCollision.h" />

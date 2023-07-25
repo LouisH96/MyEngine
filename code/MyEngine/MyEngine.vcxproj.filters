@@ -74,6 +74,7 @@
     <ClCompile Include="Debug\Rendering\DebugCubes.cpp" />
     <ClCompile Include="Geometry\Shapes\Cube.cpp" />
     <ClCompile Include="Generation\DiskGenerator.cpp" />
+    <ClCompile Include="Physics\Collisions\LineCubeCollision.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -170,6 +171,7 @@
     <ClInclude Include="Debug\Rendering\DebugCubes.h" />
     <ClInclude Include="Geometry\Shapes\Cube.h" />
     <ClInclude Include="Generation\DiskGenerator.h" />
+    <ClInclude Include="Physics\Collisions\LineCubeCollision.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
