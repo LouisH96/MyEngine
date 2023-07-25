@@ -33,6 +33,8 @@ namespace MyEngine
 		void operator/=(const T& r);
 		Vector3 operator-() const;
 
+		bool operator== (const Vector3& r) const;
+
 		T Get(int i) const;
 		void Set(T f, int i);
 
@@ -97,6 +99,12 @@ namespace MyEngine
 	template <typename T> void Vector3<T>::operator*=(const T& r) { x *= r; y *= r; z *= r; }
 	template <typename T>void Vector3<T>::operator/=(const T& r) { x /= r; y /= r; z /= r; }
 	template <typename T>Vector3<T> Vector3<T>::operator-() const { return { -x, -y, -z }; }
+
+	template <typename T>
+	bool Vector3<T>::operator==(const Vector3& r) const
+	{
+		return x == r.x && y == r.y && z == r.z;
+	}
 
 	template <typename T>
 	T Vector3<T>::Get(int i) const
