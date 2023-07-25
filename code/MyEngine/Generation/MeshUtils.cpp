@@ -3,7 +3,9 @@
 
 //#define MESH_UTILS_DEBUG
 
-void Generation::MeshUtils::CapCircle(int nrPoints, int arrayOffset, int valueOffset, Array<int>& indices)
+using namespace Generation;
+
+void MeshUtils::CapCircle(int nrPoints, int arrayOffset, int valueOffset, Array<int>& indices)
 {
 	if (nrPoints % 2 != 0)
 	{
@@ -28,7 +30,7 @@ void Generation::MeshUtils::CapCircle(int nrPoints, int arrayOffset, int valueOf
 		const int next = iPoint == nrPoints - 1 ? 0 : iPoint + 1;
 
 		//corner?
-		if (opposite == next )
+		if (opposite == next)
 		{
 			opposite++;
 			if (opposite == nrPoints)
@@ -51,7 +53,37 @@ void Generation::MeshUtils::CapCircle(int nrPoints, int arrayOffset, int valueOf
 	}
 }
 
-int Generation::MeshUtils::GetNrTrianglesToCapCircle(int nrCirclePoints)
+void MeshUtils::CapCircle(unsigned firstVertex, unsigned nrVertices, List<int>& indices)
+{
+	if (nrVertices % 2 == 1) Logger::PrintError("[MeshUtils::CapCircle] nrVertices should be even");
+	//todo: make work with uneven nr
+
+	int i0 = 0;
+	int i1 = 1;
+	int i2 = 2;
+	while (i2 != i0)
+	{
+		//first triangle
+		indices.Add(i0 + firstVertex);
+		indices.Add(i1 + firstVertex);
+		indices.Add(i2 + firstVertex);
+
+		//second triangle
+		i1 = i2;
+		i2 = i0 - 1;
+		if (i2 < 0) i2 += nrVertices;
+
+		indices.Add(i0 + firstVertex);
+		indices.Add(i1 + firstVertex);
+		indices.Add(i2 + firstVertex);
+
+		//find next
+		i0 = i2;
+		i2 = i1 + 1;
+	}
+}
+
+int MeshUtils::GetNrTrianglesToCapCircle(int nrCirclePoints)
 {
 #ifdef MESH_UTILS_DEBUG
 	AssertCapCirclePoints(nrCirclePoints);
@@ -59,7 +91,7 @@ int Generation::MeshUtils::GetNrTrianglesToCapCircle(int nrCirclePoints)
 	return nrCirclePoints - 2;
 }
 
-void Generation::MeshUtils::AssertCapCirclePoints(int nrCirclePoints)
+void MeshUtils::AssertCapCirclePoints(int nrCirclePoints)
 {
 	if (nrCirclePoints < 4)
 		Logger::PrintError("Need at least 4 points to cap a circle");
