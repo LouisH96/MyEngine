@@ -186,6 +186,11 @@ void DebugRenderer::DrawCube(const CubeAA& cube, const Float3& color)
 	m_pStatic->m_CubeRenderer.Draw(cube, color);
 }
 
+void DebugRenderer::DrawCone(const Cone& cone, const Float3& color)
+{
+	m_pStatic->m_ConeRenderer.Draw(cone, color);
+}
+
 DebugRenderer::DebugRenderer()
 	: m_InputLayout(Vertex::ELEMENTS, Vertex::NR_ELEMENTS)
 	, m_Shader(Resources::GlobalShader(L"lambertCamDir.hlsl"))
@@ -214,6 +219,7 @@ void DebugRenderer::Class_Render()
 		m_Meshes[i]->Draw();
 	}
 	m_CubeRenderer.Render();
+	m_ConeRenderer.Render();
 	m_SpheresRenderer.Render();
 	m_pLineRenderer->Render();
 	m_LinesRenderer2.Render();

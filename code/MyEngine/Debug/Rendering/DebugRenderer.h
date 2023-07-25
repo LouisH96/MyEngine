@@ -8,12 +8,14 @@
 #include <Rendering/Structs/VertexTypes.h>
 #include <Rendering/Renderers/RendererFactory.h>
 
+#include "DebugCones.h"
 #include "DebugCubes.h"
 #include "DebugLines.h"
 #include "DebugSpheres.h"
 
 namespace MyEngine
 {
+	class Cone;
 	class Sphere;
 	class CubeAA;
 	struct Line;
@@ -71,6 +73,8 @@ namespace MyEngine
 			static void DrawCube(const Cube& cube, const Float3& color);
 			static void DrawCube(const CubeAA& cube, const Float3& color);
 
+			static void DrawCone(const Cone& cone, const Float3& color);
+
 		private:
 			using Vertex = Rendering::V_PosColNorm;
 			using LineRenderer = Rendering::RendererFactory::UnlitRenderer;
@@ -91,6 +95,7 @@ namespace MyEngine
 			DebugSpheres m_SpheresRenderer;
 			DebugLines m_LinesRenderer2;
 			DebugCubes m_CubeRenderer;
+			DebugCones m_ConeRenderer;
 
 			//---| Mesh |---
 			Array<Rendering::Mesh*> m_Meshes{};
