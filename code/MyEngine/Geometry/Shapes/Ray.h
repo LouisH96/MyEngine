@@ -12,5 +12,6 @@ namespace MyEngine
 		float Length;
 
 		Float3 GetPoint(float distance) const;
+		Float3 GetEnd() const;
 	};
 }
