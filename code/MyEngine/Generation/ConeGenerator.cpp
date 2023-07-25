@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "ConeGenerator.h"
 
+#include "MeshUtils.h"
 #include "Geometry/Shapes/Cone.h"
 
 using namespace Generation;
@@ -10,9 +11,13 @@ void ConeGenerator::Generate(
 	const Cone& cone, const Float3& color, unsigned nrPoints,
 	List<V_PosColNorm>& vertices, List<int>& indices, const Float3& offset)
 {
-	vertices.EnsureIncrease(nrPoints + 1);
-	indices.EnsureIncrease(nrPoints * 3);
+	const int nrCapTriangles{ MeshUtils::GetNrTrianglesToCapCircle(nrPoints) };
+
 	const unsigned first{ vertices.GetSizeU() };
+	vertices.IncreaseSize(1 + nrPoints * 2);
+	indices.EnsureIncrease(nrPoints * 3 + nrCapTriangles * 3);
+	const unsigned firstShell{ first + 1 };
+	const unsigned firstCap{ firstShell + nrPoints };
 
 	const float coneAngle{ cone.GetAngle() };
 	const float coneCos{ cosf(coneAngle) };
@@ -24,18 +29,21 @@ void ConeGenerator::Generate(
 	const Float3 up{ cone.GetUp(right) };
 	const float angleStep{ Constants::PI2 / Float::Cast(nrPoints) };
 
-	vertices.Add({ origin, color, {} });
+	vertices[first] = { origin, color, {} };
 
-	for (float i = 0; i < Float::Cast(nrPoints); i++)
+	for (unsigned i = 0; i < Float::Cast(nrPoints); i++)
 	{
-		const float angle1{ i * angleStep };
+		const float angle{ i * angleStep };
 
-		Float3 pos1{ right * cosf(angle1) + up * sinf(angle1) };
-		const Float3 normal1{ pos1 * coneCos - cone.direction * coneSin };
-		pos1 *= cone.radius;
-		pos1 += end;
+		//shell
+		Float3 pos{ right * cosf(angle) + up * sinf(angle) };
+		const Float3 normal{ pos * coneCos - cone.direction * coneSin };
+		pos *= cone.radius;
+		pos += end;
+		vertices[firstShell + i] = { pos, color, normal };
 
-		vertices.Add(V_PosColNorm{ pos1, color, normal1 });
+		//cap
+		vertices[firstCap + i] = { pos, color, cone.direction };
 	}
 
 	for (unsigned i = 0; i < nrPoints; i++)
@@ -44,4 +52,6 @@ void ConeGenerator::Generate(
 		const unsigned idx2{ (i + 1 == nrPoints ? 0 : i + 1) + first + 1 };
 		indices.Add(first, idx2, idx1);
 	}
+
+	MeshUtils::CapCircle(firstCap, nrPoints, indices);
 }
