@@ -149,32 +149,32 @@ namespace MyEngine
 	Vector2<T> Rect<T>::Clamped(const Vector2<T>& vector) const
 	{
 		return {
-			Scalar<T>::Clamp(vector.x, m_LeftBot.x, m_LeftBot.x + m_Size.x - 1),
-			Scalar<T>::Clamp(vector.y, m_LeftBot.y, m_LeftBot.y + m_Size.y - 1)
+			Scalar<T>::Clamped(vector.x, m_LeftBot.x, m_LeftBot.x + m_Size.x - 1),
+			Scalar<T>::Clamped(vector.y, m_LeftBot.y, m_LeftBot.y + m_Size.y - 1)
 		};
 	}
 
 	template <typename T>
 	void Rect<T>::Clamp(Vector2<T>& vector) const
 	{
-		vector.x = Scalar<T>::Clamp(vector.x, m_LeftBot.x, m_LeftBot.x + m_Size.x - 1);
-		vector.y = Scalar<T>::Clamp(vector.y, m_LeftBot.y, m_LeftBot.y + m_Size.y - 1);
+		vector.x = Scalar<T>::Clamped(vector.x, m_LeftBot.x, m_LeftBot.x + m_Size.x - 1);
+		vector.y = Scalar<T>::Clamped(vector.y, m_LeftBot.y, m_LeftBot.y + m_Size.y - 1);
 	}
 
 	template <typename T>
 	Rect<T> Rect<T>::ClampedPos(const Rect& rect) const
 	{
 		return { {
-				Scalar<T>::Clamp(rect.m_LeftBot.x, m_LeftBot.x, m_LeftBot.x + m_Size.x - rect.m_Size.x - 1),
-				Scalar<T>::Clamp(rect.m_LeftBot.y, m_LeftBot.y, m_LeftBot.y + m_Size.y - rect.m_Size.y - 1)
+				Scalar<T>::Clamped(rect.m_LeftBot.x, m_LeftBot.x, m_LeftBot.x + m_Size.x - rect.m_Size.x - 1),
+				Scalar<T>::Clamped(rect.m_LeftBot.y, m_LeftBot.y, m_LeftBot.y + m_Size.y - rect.m_Size.y - 1)
 			}, m_Size };
 	}
 
 	template <typename T>
 	void Rect<T>::ClampPos(Rect& rect) const
 	{
-		rect.m_LeftBot.x = Scalar<T>::Clamp(rect.m_LeftBot.x, m_LeftBot.x, m_LeftBot.x + m_Size.x - rect.m_Size.x - 1);
-		rect.m_LeftBot.y = Scalar<T>::Clamp(rect.m_LeftBot.y, m_LeftBot.y, m_LeftBot.y + m_Size.y - rect.m_Size.y - 1);
+		rect.m_LeftBot.x = Scalar<T>::Clamped(rect.m_LeftBot.x, m_LeftBot.x, m_LeftBot.x + m_Size.x - rect.m_Size.x - 1);
+		rect.m_LeftBot.y = Scalar<T>::Clamped(rect.m_LeftBot.y, m_LeftBot.y, m_LeftBot.y + m_Size.y - rect.m_Size.y - 1);
 	}
 
 	template <typename T>
