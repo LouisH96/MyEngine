@@ -23,6 +23,10 @@ namespace MyEngine
 		static T Min(const T& a, const T& b);
 		static T Max();
 		static T Min();
+		static void MinAndMax(const T& a, const T& b, T& min, T& max);
+		static void SortAscending(T& a, T& b);
+
+		static bool HasOverlap(float a1, float a2, float b1, float b2);
 	};
 
 	template <typename T>
@@ -43,7 +47,6 @@ namespace MyEngine
 	template <typename D>
 	D Scalar<T>::LerpClamp(const T& alpha, const D& begin, const D& end)
 	{
-		return Clamp(Lerp(alpha, begin, end), begin, end);
 		return Clamped(Lerp(alpha, begin, end), begin, end);
 	}
 
@@ -73,7 +76,6 @@ namespace MyEngine
 	}
 
 	template <typename T>
-	T Scalar<T>::Clamp(const T& value, const T& min, const T& max)
 	T Scalar<T>::Clamped(const T& value, const T& min, const T& max)
 	{
 		if (value <= min) return min;
@@ -105,6 +107,38 @@ namespace MyEngine
 		return std::numeric_limits<T>().min();
 	}
 
-	using DoubleMath = Scalar<double>;
-	using FloatMath = Scalar<float>;
+	template <typename T>
+	void Scalar<T>::MinAndMax(const T& a, const T& b, T& min, T& max)
+	{
+		if (a <= b)
+		{
+			min = a;
+			max = b;
+		}
+		else
+		{
+			min = b;
+			max = a;
+		}
+	}
+
+	template <typename T>
+	void Scalar<T>::SortAscending(T& a, T& b)
+	{
+		if (a <= b) return;
+		const float temp{ a };
+		a = b;
+		b = temp;
+	}
+
+	template <typename T>
+	bool Scalar<T>::HasOverlap(float a1, float a2, float b1, float b2)
+	{
+		SortAscending(a1, a2);
+		SortAscending(b1, b2);
+
+		if (a1 <= b1)
+			return a2 >= b1;
+		return a1 <= b2;
+	}
 }
