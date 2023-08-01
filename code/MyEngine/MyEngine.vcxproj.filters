@@ -77,6 +77,7 @@
     <ClCompile Include="Physics\Collisions\LineCubeCollision.cpp" />
     <ClCompile Include="Generation\ConeGenerator.cpp" />
     <ClCompile Include="Debug\Rendering\DebugCones.cpp" />
+    <ClCompile Include="Physics\Collisions\ConeCubeCollision.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -176,6 +177,7 @@
     <ClInclude Include="Physics\Collisions\LineCubeCollision.h" />
     <ClInclude Include="Generation\ConeGenerator.h" />
     <ClInclude Include="Debug\Rendering\DebugCones.h" />
+    <ClInclude Include="Physics\Collisions\ConeCubeCollision.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
