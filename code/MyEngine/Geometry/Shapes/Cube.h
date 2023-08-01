@@ -30,6 +30,7 @@ namespace MyEngine
 		Float3 GetRightBotFront() const;
 		Float3 GetLeftBotBack() const;
 		Float3 GetLeftTopFront() const;
+		Float3 GetCenter() const;
 
 	private:
 		Transform m_Transform;

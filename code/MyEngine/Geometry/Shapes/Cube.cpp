@@ -39,3 +39,11 @@ Float3 Cube::GetLeftTopFront() const
 	return m_Transform.Position
 		+ m_Transform.Rotation.GetUp() * m_Size.y;
 }
+
+Float3 Cube::GetCenter() const
+{
+	return m_Transform.Position
+		+ m_Transform.Rotation.GetRight() * m_Size.x * .5f
+		+ m_Transform.Rotation.GetUp() * m_Size.y * .5f
+		+ m_Transform.Rotation.GetForward() * m_Size.z * .5f;
+}
