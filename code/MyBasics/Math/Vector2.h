@@ -25,6 +25,8 @@ namespace MyEngine
 		template<typename O>
 		Vector2& operator=(Vector2<O>&& other) noexcept;
 
+		bool operator==(const Vector2& other);
+
 		Vector2 operator+(const Vector2& r) const;
 		Vector2 operator-(const Vector2& r) const;
 		Vector2 operator*(const Vector2& r) const;
@@ -92,6 +94,12 @@ namespace MyEngine
 		x = static_cast<T>(other.x);
 		y = static_cast<T>(other.y);
 		return *this;
+	}
+
+	template <typename T>
+	bool Vector2<T>::operator==(const Vector2& other)
+	{
+		return x == other.x && y == other.y;
 	}
 
 	template <typename T> Vector2<T> Vector2<T>::operator+(const Vector2& r) const { return { x + r.x, y + r.y }; }
