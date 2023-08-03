@@ -6,6 +6,7 @@
 
 using namespace Physics;
 
+//unfinished
 bool ConeCubeCollision::Detect(const Cone& cone, const Cube& cube)
 {
 	constexpr float debugLineLength{ 50 };
