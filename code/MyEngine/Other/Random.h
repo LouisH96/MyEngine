@@ -11,7 +11,16 @@ namespace MyEngine
 		static float Ratio();
 		static float Range(float max);
 		static float Range(float min, float max);
+		static int Range(int last);
 		static Float2 Range(const RectFloat& rect);
+
+		template<typename T> static T Enum(T last);
 	};
+
+	template <typename T>
+	T Random::Enum(T last)
+	{
+		return static_cast<T>(Range(static_cast<int>(last)));
+	}
 }
 

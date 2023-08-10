@@ -20,6 +20,11 @@ float Random::Range(float min, float max)
 	return Float::Cast(std::rand()) / RAND_MAX * (max - min) + min;
 }
 
+int Random::Range(int last)
+{
+	return std::rand() % (last + 1);
+}
+
 Float2 Random::Range(const RectFloat& rect)
 {
 	return { Range(rect.GetLeft(), rect.GetRight()), Range(rect.GetBottom(), rect.GetTop()) };
