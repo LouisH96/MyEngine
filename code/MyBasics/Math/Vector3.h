@@ -35,6 +35,8 @@ namespace MyEngine
 
 		bool operator== (const Vector3& r) const;
 
+		T& operator[](unsigned idx);
+		const T& operator[](unsigned idx) const;
 		T Get(int i) const;
 		void Set(T f, int i);
 
@@ -65,7 +67,7 @@ namespace MyEngine
 		//will normalize [0,255] to [0,1]
 		static Vector3 Color(const T& r, const T& g, const T& b);
 		static Vector3 FromXz(const Vector2<T>& xz);
-
+		static Vector3 FromComponent(unsigned idx, T value, T otherValues);
 		static Vector3 TowardZMax(const Vector2<T>& xy, float z = 0);
 
 		T x, y, z;
@@ -104,6 +106,18 @@ namespace MyEngine
 	bool Vector3<T>::operator==(const Vector3& r) const
 	{
 		return x == r.x && y == r.y && z == r.z;
+	}
+
+	template <typename T>
+	T& Vector3<T>::operator[](unsigned idx)
+	{
+		return *(&x + idx);
+	}
+
+	template <typename T>
+	const T& Vector3<T>::operator[](unsigned idx) const
+	{
+		return *(&x + idx);
 	}
 
 	template <typename T>
@@ -282,6 +296,14 @@ namespace MyEngine
 	Vector3<T> Vector3<T>::FromXz(const Vector2<T>& xz)
 	{
 		return { xz.x, 0, xz.y };
+	}
+
+	template <typename T>
+	Vector3<T> Vector3<T>::FromComponent(unsigned idx, T value, T otherValues)
+	{
+		Vector3 v{ otherValues };
+		v[idx] = value;
+		return v;
 	}
 
 	template <typename T>
