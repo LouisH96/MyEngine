@@ -1,5 +1,6 @@
 #pragma once
 #include "DataStructures/List.h"
+#include "Geometry/Shapes/Line.h"
 #include "Geometry/Shapes/Rect3.h"
 #include "Geometry/Shapes/Rects.h"
 #include "Rendering/Structs/VertexTypes.h"
@@ -107,6 +108,11 @@ namespace MyEngine
 				const Float3& leftBot, const Float2& size,
 				List<T>& vertices, List<int>& indices
 			);
+			template<typename T>
+			static void Create_PosNor(
+				const Line& bot, const Line& top,
+				List<T>& vertices, List<int>& indices
+			);
 
 		private:
 			template<typename Vertex, unsigned Axis, int Normal>
@@ -156,6 +162,33 @@ namespace MyEngine
 			List<int>& indices)
 		{
 			TowardAxis_PosNor<T, 2, 1>(leftBot, size, vertices, indices);
+		}
+
+		template <typename Vertex>
+		void PlaneGeneration::Create_PosNor(const Line& bot, const Line& top, List<Vertex>& vertices, List<int>& indices)
+		{
+			indices.EnsureIncrease(6);
+			const int first{ vertices.GetSize() };
+			indices.Add(first, first + 1, first + 2);
+			indices.Add(first, first + 2, first + 3);
+			vertices.EnsureIncrease(4);
+
+			const Float3 normal{ ((top.a - bot.a).Cross(bot.b - bot.a).Normalized()) };
+
+			//left-bot
+			Vertex vertex{};
+			vertex.Normal = normal;
+			vertex.Position = bot.a;
+			vertices.Add(vertex);
+			//left-top
+			vertex.Position = top.a;
+			vertices.Add(vertex);
+			//right-top
+			vertex.Position = top.b;
+			vertices.Add(vertex);
+			//right-bot
+			vertex.Position = bot.b;
+			vertices.Add(vertex);
 		}
 
 		template <typename Vertex, unsigned Axis, int Normal>
