@@ -75,6 +75,115 @@ namespace MyEngine
 			static void CreateBorder(
 				const Rect3Float& outer, const Rect3Float& inner, const Float3& color,
 				List<Rendering::V_PosColNorm>& vertices, List<int>& indices);
+
+			//---| TEMPLATED |---
+			template<typename T>
+			static void TowardXMin_PosNor(
+				const Float3& leftBot, const Float2& size,
+				List<T>& vertices, List<int>& indices
+			);
+			template<typename T>
+			static void TowardXMax_PosNor(
+				const Float3& leftBot, const Float2& size,
+				List<T>& vertices, List<int>& indices
+			);
+			template<typename T>
+			static void TowardYMin_PosNor(
+				const Float3& leftBot, const Float2& size,
+				List<T>& vertices, List<int>& indices
+			);
+			template<typename T>
+			static void TowardYMax_PosNor(
+				const Float3& leftBot, const Float2& size,
+				List<T>& vertices, List<int>& indices
+			);
+			template<typename T>
+			static void TowardZMin_PosNor(
+				const Float3& leftBot, const Float2& size,
+				List<T>& vertices, List<int>& indices
+			);
+			template<typename T>
+			static void TowardZMax_PosNor(
+				const Float3& leftBot, const Float2& size,
+				List<T>& vertices, List<int>& indices
+			);
+
+		private:
+			template<typename Vertex, unsigned Axis, int Normal>
+			static void TowardAxis_PosNor(
+				const Float3& leftBot, const Float2& size,
+				List<Vertex>& vertices, List<int>& indices
+			);
 		};
+
+		template <typename T>
+		void PlaneGeneration::TowardXMin_PosNor(const Float3& leftBot, const Float2& size, List<T>& vertices,
+			List<int>& indices)
+		{
+			TowardAxis_PosNor<T, 0, -1>(leftBot, size, vertices, indices);
+		}
+
+		template <typename T>
+		void PlaneGeneration::TowardXMax_PosNor(const Float3& leftBot, const Float2& size, List<T>& vertices,
+			List<int>& indices)
+		{
+			TowardAxis_PosNor<T, 0, 1>(leftBot, size, vertices, indices);
+		}
+
+		template <typename T>
+		void PlaneGeneration::TowardYMin_PosNor(const Float3& leftBot, const Float2& size, List<T>& vertices,
+			List<int>& indices)
+		{
+			TowardAxis_PosNor<T, 1, -1>(leftBot, size, vertices, indices);
+		}
+
+		template <typename T>
+		void PlaneGeneration::TowardYMax_PosNor(const Float3& leftBot, const Float2& size,
+			List<T>& vertices, List<int>& indices)
+		{
+			TowardAxis_PosNor<T, 1, 1>(leftBot, size, vertices, indices);
+		}
+
+		template<typename T>
+		void PlaneGeneration::TowardZMin_PosNor(const Float3& leftBot, const Float2& size,
+			List<T>& vertices, List<int>& indices)
+		{
+			TowardAxis_PosNor<T, 2, -1 >(leftBot, size, vertices, indices);
+		}
+
+		template <typename T>
+		void PlaneGeneration::TowardZMax_PosNor(const Float3& leftBot, const Float2& size, List<T>& vertices,
+			List<int>& indices)
+		{
+			TowardAxis_PosNor<T, 2, 1>(leftBot, size, vertices, indices);
+		}
+
+		template <typename Vertex, unsigned Axis, int Normal>
+		void PlaneGeneration::TowardAxis_PosNor(const Float3& leftBot, const Float2& size, List<Vertex>& vertices,
+			List<int>& indices)
+		{
+			indices.EnsureIncrease(6);
+			const int first{ vertices.GetSize() };
+			indices.Add(first, first + 1, first + 2);
+			indices.Add(first, first + 2, first + 3);
+			vertices.EnsureIncrease(4);
+
+			const unsigned upAxis{ (Axis + 1) % 3 };
+			const unsigned rightAxis{ (Axis + 2) % 3 };
+			//left-bot
+			Vertex vertex{};
+			vertex.Position = leftBot;
+			vertex.Normal = Float3::FromComponent(Axis, Normal, 0);
+			vertices.Add(vertex);
+			//left-top
+			vertex.Position[upAxis] += size.y;
+			vertices.Add(vertex);
+			//right-top
+			vertex.Position[rightAxis] += size.x * Normal;
+			vertices.Add(vertex);
+			//right-bot
+			vertex.Position[upAxis] = leftBot[upAxis];
+			vertices.Add(vertex);
+		}
 	}
 }
