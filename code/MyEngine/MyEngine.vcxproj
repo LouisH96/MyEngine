@@ -101,6 +101,7 @@
     <ClCompile Include="Rendering\DrawData\VertexIdxArray.cpp" />
     <ClCompile Include="Gui\FontRenderer.cpp" />
     <ClCompile Include="Generation\SphereGenerator.cpp" />
+    <ClCompile Include="Generation\TriangleGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\Win32\KeyCodes.h" />
@@ -201,6 +202,7 @@
     <ClInclude Include="Rendering\DrawData\VertexIdxList.h" />
     <ClInclude Include="Gui\FontRenderer.h" />
     <ClInclude Include="Generation\SphereGenerator.h" />
+    <ClInclude Include="Generation\TriangleGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
