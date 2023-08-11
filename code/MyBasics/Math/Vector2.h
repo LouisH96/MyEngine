@@ -8,7 +8,7 @@ namespace MyEngine
 	{
 		Vector2();
 		Vector2(T x, T y);
-		Vector2(T both);
+		explicit Vector2(T both);
 		~Vector2() = default;
 
 		Vector2(const Vector2& other) = default;
@@ -250,8 +250,8 @@ namespace MyEngine
 	template <typename T>
 	void Vector2<T>::GetBounds(const Vector2* pData, unsigned count, Vector2& min, Vector2& max)
 	{
-		min = std::numeric_limits<T>::max();
-		max = std::numeric_limits<T>::lowest();
+		min = Vector2{ std::numeric_limits<T>::max() };
+		max = Vector2{ std::numeric_limits<T>::lowest() };
 		for (unsigned i = 0; i < count; i++)
 		{
 			const Vector2& element{ pData[i] };
