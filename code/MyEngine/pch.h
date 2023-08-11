@@ -3,6 +3,7 @@
 #undef max
 
 #include <iostream>
+#include <cmath>
 
 #include <Math/Scalars.h>
 #include <Math/Vectors.h>

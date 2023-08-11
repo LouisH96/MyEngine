@@ -2,6 +2,7 @@
 
 #undef max
 #undef min
+#include <cmath>
 
 namespace MyEngine
 {

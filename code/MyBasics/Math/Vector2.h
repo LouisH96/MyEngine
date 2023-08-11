@@ -102,8 +102,8 @@ namespace MyEngine
 		return x == other.x && y == other.y;
 	}
 
-	template <typename T> Vector2<T> Vector2<T>::operator+(const Vector2& r) const { return { x + r.x, y + r.y }; }
-	template <typename T> Vector2<T> Vector2<T>::operator-(const Vector2& r) const { return { x - r.x, y - r.y }; }
+	template <typename T> Vector2<T> Vector2<T>::operator+(const Vector2& r) const { return { static_cast<T>(x + r.x), static_cast<T>(y + r.y) }; }
+	template <typename T> Vector2<T> Vector2<T>::operator-(const Vector2& r) const { return { static_cast<T>(x - r.x), static_cast<T>(y - r.y) }; }
 
 	template <typename T>
 	Vector2<T> Vector2<T>::operator*(const Vector2& r) const
@@ -117,10 +117,10 @@ namespace MyEngine
 		return { x / r.x, y / r.y };
 	}
 
-	template <typename T> Vector2<T> Vector2<T>::operator+(const T& r) const { return { x + r, y + r }; }
-	template <typename T> Vector2<T> Vector2<T>::operator-(const T& r) const { return { x - r, y - r }; }
-	template <typename T> Vector2<T> Vector2<T>::operator*(const T& r) const { return { x * r, y * r }; }
-	template <typename T> Vector2<T> Vector2<T>::operator/(const T& r) const { return { x / r, y / r }; }
+	template <typename T> Vector2<T> Vector2<T>::operator+(const T& r) const { return { static_cast<T>(x + r), static_cast<T>(y + r) }; }
+	template <typename T> Vector2<T> Vector2<T>::operator-(const T& r) const { return { static_cast<T>(x - r), static_cast<T>(y - r) }; }
+	template <typename T> Vector2<T> Vector2<T>::operator*(const T& r) const { return { static_cast<T>(x * r), static_cast<T>(y * r) }; }
+	template <typename T> Vector2<T> Vector2<T>::operator/(const T& r) const { return { static_cast<T>(x / r), static_cast<T>(y / r) }; }
 	template <typename T> void Vector2<T>::operator+=(const Vector2& r) { x += r.x; y += r.y; }
 	template <typename T> void Vector2<T>::operator-=(const Vector2& r) { x -= r.x; y -= r.y; }
 
