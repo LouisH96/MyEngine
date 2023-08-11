@@ -73,6 +73,8 @@ namespace MyEngine
 		, m_First{ 0 }, m_End{ 0 }, m_GapIndicator{ 0 }
 		, m_Changed{ false }
 	{
+		for (unsigned i = 0; i < capacity; i++)
+			m_pData[i].Invalidate();
 	}
 
 	template <typename Data>
@@ -295,7 +297,7 @@ namespace MyEngine
 	template <typename Data>
 	const Data* InvalidateList<Data>::SeeLast() const
 	{
-		return &m_pData[m_End-1];
+		return &m_pData[m_End - 1];
 	}
 
 	template <typename Data>
@@ -387,5 +389,7 @@ namespace MyEngine
 		delete[] m_pData;
 		m_pData = pNew;
 		m_Capacity = m_Capacity + increase;
+		for (unsigned i = m_Capacity - increase; i < m_Capacity; i++)
+			m_pData[i].Invalidate();
 	}
 }
