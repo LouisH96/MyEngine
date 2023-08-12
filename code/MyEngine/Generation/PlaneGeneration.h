@@ -72,6 +72,9 @@ namespace MyEngine
 				const Float3& rightTop, const Float3& rightBot,
 				const Float3& color,
 				List<Rendering::V_PosColNorm>& vertices, List<int>& indices);
+			static void Create(
+				const Rect3Float& rect, const Float3& color,
+				List<Rendering::V_PosColNorm>& vertices, List<int>& indices);
 
 			static void CreateBorder(
 				const Rect3Float& outer, const Rect3Float& inner, const Float3& color,

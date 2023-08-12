@@ -182,8 +182,14 @@ void Generation::PlaneGeneration::Create(
 	indices.Add(firstIdx, firstIdx + 2, firstIdx + 3);
 }
 
-void Generation::PlaneGeneration::CreateBorder(const Rect3Float& outer, const Rect3Float& inner, const Float3& color,
+void Generation::PlaneGeneration::Create(const Rect3Float& rect, const Float3& color,
 	List<Rendering::V_PosColNorm>& vertices, List<int>& indices)
+{
+	Create(rect.GetRight(), rect.GetUp(), rect.GetLeftBot(), rect.GetSize(), color, vertices, indices);
+}
+
+void Generation::PlaneGeneration::CreateBorder(const Rect3Float& outer, const Rect3Float& inner, const Float3& color,
+                                               List<Rendering::V_PosColNorm>& vertices, List<int>& indices)
 {
 	//left
 	Create(
