@@ -21,6 +21,8 @@ namespace MyEngine
 		const Vector3<T>& GetUp() const { return m_Up; } //should be normalized
 		const Vector3<T>& GetNormal() const { return m_Normal; } //should be normalized
 		const Vector2<T>& GetSize() const { return m_Size; }
+		float GetWidth() const { return m_Size.x; }
+		float GetHeight() const { return m_Size.y; }
 
 		Vector3<T>& GetLeftBot() { return m_LeftBot; }
 
