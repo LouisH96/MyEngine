@@ -1,5 +1,8 @@
 #pragma once
 
+#define SORTED_LIST_DEBUG
+#include "Logger/Logger.h"
+
 namespace MyEngine
 {
 	//has unique items
@@ -21,8 +24,15 @@ namespace MyEngine
 		//---| Functions |---
 		int GetSize() const { return m_Size; }
 		const T& operator[](int idx) const;
+		const T& First() { return *m_pData; }
+		const T& Last() { return m_pData[m_Size - 1]; }
 
 		bool TryAdd(const T& newValue);
+		void Clear();
+		void RemoveSection(unsigned idx, unsigned sectionLength);
+		bool RemoveSection(const T& value, unsigned sectionLength);
+		int Find(const T& value);
+		void Edit(unsigned idx, const T& newValue);
 
 		const T* GetData() const { return m_pData; }
 
@@ -122,7 +132,7 @@ namespace MyEngine
 			{
 				m_Capacity *= 2;
 				T* pNew = new T[m_Capacity];
-				memcpy(&pNew, &m_pData[0], i * sizeof(T));
+				memcpy(pNew, &m_pData[0], i * sizeof(T));
 				pNew[i] = newValue;
 				memcpy(&pNew[i + 1], &m_pData[i], (m_Size++ - i) * sizeof(T));
 				delete[] m_pData;
@@ -143,5 +153,63 @@ namespace MyEngine
 			m_pData = pNew;
 		}
 		return true;
+	}
+
+	template <typename T>
+	void SortedList<T>::Clear()
+	{
+		m_Size = 0;
+	}
+
+	template <typename T>
+	void SortedList<T>::RemoveSection(unsigned idx, unsigned sectionLength)
+	{
+		std::move(&m_pData[idx + sectionLength], &m_pData[m_Size], &m_pData[idx]);
+		m_Size -= sectionLength;
+	}
+
+	template <typename T>
+	bool SortedList<T>::RemoveSection(const T& value, unsigned sectionLength)
+	{
+		const int i = Find(value);
+		if (i == -1)
+		{
+#ifdef SORTED_LIST_DEBUG
+			Logger::PrintError("[SortedList::RemoveSection] Value not found");
+#endif
+			return false;
+		}
+		RemoveSection(static_cast<unsigned>(i), sectionLength);
+		return true;
+	}
+
+	template <typename T>
+	int SortedList<T>::Find(const T& value)
+	{
+		for (int i = 0; i < m_Size; i++)
+			if (value == m_pData[i])
+				return i;
+		return -1;
+	}
+
+	template <typename T>
+	void SortedList<T>::Edit(unsigned idx, const T& newValue)
+	{
+		bool previousOk{ true };
+		bool nextOk{ true };
+
+		if (idx > 0)
+			previousOk = m_pData[idx - 1] < newValue;
+		if (idx + 1 < m_Size)
+			nextOk = m_pData[idx + 1] > newValue;
+
+		if(previousOk && nextOk)
+		{
+			m_pData[idx] = newValue;
+			return;
+		}
+
+		RemoveSection(idx, 1);
+		TryAdd(newValue);
 	}
 }
