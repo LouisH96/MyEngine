@@ -12,6 +12,8 @@ namespace MyEngine
 
 		void SetPosition(const Vector3<T>& leftBot) { m_LeftBot = leftBot; }
 		void SetSize(const Vector2<T>& size) { m_Size = size; }
+		void SetWidth(T width) { m_Size.x = width; }
+		void SetHeight(T height) { m_Size.y = height; }
 		void SetRight(const Vector3<T>& right) { m_Right = right; } //should be normalized
 		void SetUp(const Vector3<T>& up) { m_Up = up; } //should be normalized
 		void SetNormal(const Vector3<T>& normal) { m_Normal = normal; } //should be normalized
@@ -37,6 +39,8 @@ namespace MyEngine
 
 		Rect3 Compressed(const Vector2<T>& compression, T alongNormal = 0) const;
 		Rect3 Expanded(const Vector2<T>& expansion, T alongNormal = 0) const;
+
+		Rect3 MakeChild(const Vector2<T>& offset, const Vector2<T>& size) const;
 
 		static Rect3 FromXyCenter(const Vector2<T>& center, const Vector2<T>& size, T depth = 0);
 
@@ -106,6 +110,15 @@ namespace MyEngine
 		return {
 			m_LeftBot - m_Right * expansion.x / 2 - m_Up * expansion.y / 2 + m_Normal * alongNormal,
 			m_Right, m_Up, m_Normal, m_Size + expansion };
+	}
+
+	template <typename T>
+	Rect3<T> Rect3<T>::MakeChild(const Vector2<T>& offset, const Vector2<T>& size) const
+	{
+		return Rect3{
+			m_LeftBot + m_Right * offset.x + m_Up * offset.y,
+			m_Right, m_Up, m_Normal, size
+		};
 	}
 
 	template <typename T>
