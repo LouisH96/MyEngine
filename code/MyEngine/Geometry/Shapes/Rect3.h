@@ -31,6 +31,7 @@ namespace MyEngine
 		Float3 GetPointRelative(const Float2& ratio);
 
 		void MoveLocal(const Vector2<T>& translation, float alongNormal);
+		Rect3 MovedLocal(const Vector3<T>& translation) const;
 
 		Rect3 Compressed(const Vector2<T>& compression, T alongNormal = 0) const;
 		Rect3 Expanded(const Vector2<T>& expansion, T alongNormal = 0) const;
@@ -78,6 +79,15 @@ namespace MyEngine
 	void Rect3<T>::MoveLocal(const Vector2<T>& translation, float alongNormal)
 	{
 		m_LeftBot += m_Right * translation.x + m_Up * translation.y + m_Normal * alongNormal;
+	}
+
+	template <typename T>
+	Rect3<T> Rect3<T>::MovedLocal(const Vector3<T>& translation) const
+	{
+		return Rect3{
+			m_LeftBot + m_Right * translation.x + m_Up * translation.y - m_Normal * translation.z,
+			m_Right, m_Up, m_Normal, m_Size
+		};
 	}
 
 	template <typename T>
