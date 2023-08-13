@@ -32,7 +32,8 @@ namespace MyEngine
 		Vector3<T> GetRightBot() const { return m_LeftBot + m_Right * m_Size.x; }
 		Vector3<T> GetRightTop() const { return m_LeftBot + m_Right * m_Size.x + m_Up * m_Size.y; }
 
-		Float3 GetPointRelative(const Float2& ratio);
+		Float3 GetPoint(const Float2& offset) const;
+		Float3 GetPointRelative(const Float2& ratio) const;
 
 		void MoveLocal(const Vector2<T>& translation, float alongNormal);
 		Rect3 MovedLocal(const Vector3<T>& translation) const;
@@ -76,7 +77,13 @@ namespace MyEngine
 	}
 
 	template <typename T>
-	Float3 Rect3<T>::GetPointRelative(const Float2& ratio)
+	Float3 Rect3<T>::GetPoint(const Float2& offset) const
+	{
+		return m_LeftBot + m_Right * offset.x + m_Up * offset.y;
+	}
+
+	template <typename T>
+	Float3 Rect3<T>::GetPointRelative(const Float2& ratio) const
 	{
 		return m_LeftBot + m_Right * (m_Size.x * ratio.x) + m_Up * (m_Size.y * ratio.y);
 	}
