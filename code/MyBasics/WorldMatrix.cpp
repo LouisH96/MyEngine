@@ -92,6 +92,20 @@ void MyEngine::Game::WorldMatrix::Translate(Float4X4& m, const Float3& translati
 	m[2].w += translation.z;
 }
 
+void MyEngine::Game::WorldMatrix::TranslateRelativeX(Float4X4& m, float translation)
+{
+	m[0][3] += m[0][0] * translation;
+	m[1][3] += m[1][0] * translation;
+	m[2][3] += m[2][0] * translation;
+}
+
+void MyEngine::Game::WorldMatrix::TranslateRelativeY(Float4X4& m, float translation)
+{
+	m[0][3] += m[0][1] * translation;
+	m[1][3] += m[1][1] * translation;
+	m[2][3] += m[2][1] * translation;
+}
+
 void MyEngine::Game::WorldMatrix::SetPitchRotation(Float4X4& m, float pitch)
 {
 	const float cosPitch{ cosf(pitch) };
