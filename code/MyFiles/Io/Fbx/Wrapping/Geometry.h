@@ -25,7 +25,7 @@ namespace MyEngine
 				public:
 					//---| Construction |---
 					Geometry() = default;
-					explicit Geometry(Reading::FbxElement& geometryObject);
+					explicit Geometry(Reading::FbxElement& geometryObject, int upAxis);
 					~Geometry() = default;
 
 					Geometry(const Geometry& other) = delete;
@@ -58,7 +58,7 @@ namespace MyEngine
 					const Model* m_pRootModel{};
 					Array<const Deformer*> m_Deformers{};
 
-					void LoadPoints(const Reading::FbxElement& geometryObject);
+					void LoadPoints(const Reading::FbxElement& geometryObject, int upAxis);
 					void LoadNormals(const Reading::FbxElement& geometryObject);
 					void LoadIndices(Reading::FbxElement& geometryObject);
 					void LoadUvs(Reading::FbxElement& geometryObject);

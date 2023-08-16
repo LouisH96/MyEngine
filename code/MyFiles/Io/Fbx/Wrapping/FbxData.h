@@ -90,6 +90,9 @@ namespace MyEngine
 					Array<const Model*> GetChildren(const int64_t& id) const;
 
 				private:
+					int m_OriginalUpAxis{};
+					int m_OriginalUpAxisSign{};
+
 					Array<Geometry> m_Geometries{};
 					Array<Model> m_Models{};
 					Array<NodeAttribute> m_NodeAttributes{};
@@ -105,6 +108,7 @@ namespace MyEngine
 					Array<FbxWrapMaterial> m_Materials{};
 					Array<CollectionExclusive> m_Collections{};
 
+					void ReadInfo(Reading::FbxElement& root);
 					void ReadGeometry(Reading::FbxElement& objectsObject);
 					void ReadModels(Reading::FbxElement& objectsObject);
 					void ReadNodeAttributes(Reading::FbxElement& objectsObject);

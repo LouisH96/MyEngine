@@ -9,7 +9,7 @@ using namespace MyEngine::Io::Fbx::Wrapping;
 using namespace MyEngine::Io::Fbx::Reading;
 
 FbxData::FbxData(const std::wstring& path)
-	: FbxData{FbxReader::Read(path) }
+	: FbxData{ FbxReader::Read(path) }
 {}
 
 FbxData::FbxData(FbxFile data)
@@ -17,8 +17,9 @@ FbxData::FbxData(FbxFile data)
 	FbxElement& objects{ *data.GetRoot().GetChild("Objects") };
 	FbxElement& connections{ *data.GetRoot().GetChild("Connections") };
 
-	//reader.GetRoot().Print();
+	//data.GetRoot().Print();
 
+	ReadInfo(data.GetRoot());
 	ReadGeometry(objects);
 	ReadModels(objects);
 	ReadNodeAttributes(objects);
@@ -309,12 +310,20 @@ MyEngine::Array<const Model*> FbxData::GetChildren(const int64_t& id) const
 	return children;
 }
 
+void FbxData::ReadInfo(FbxElement& root)
+{
+	const FbxElement& globalSettings{ *root.GetChild("GlobalSettings") };
+	const Properties70 props{ *globalSettings.GetChild("Properties70") };
+	m_OriginalUpAxis = props.GetInt("OriginalUpAxis", -1);
+	m_OriginalUpAxisSign = props.GetInt("OriginalUpAxisSign", -1);
+}
+
 void FbxData::ReadGeometry(FbxElement& objectsObject)
 {
 	const List<FbxElement*> geometries{ objectsObject.GetChildren("Geometry") };
 	m_Geometries = { geometries.GetSizeU() };
 	for (unsigned i = 0; i < geometries.GetSizeU(); i++)
-		m_Geometries[i] = Geometry{ *geometries[i] };
+		m_Geometries[i] = Geometry{ *geometries[i], m_OriginalUpAxis };
 }
 
 void FbxData::ReadModels(FbxElement& objectsObject)
@@ -546,7 +555,7 @@ void FbxData::HandleModelConnection(Model& childModel, const Connection& connect
 }
 
 void FbxData::HandleNodeAttributeConnection(NodeAttribute& nodeAttribute,
-                                            const Connection& connection)
+	const Connection& connection)
 {
 	Model* pModel{ FindModel(connection.ParentId) };
 	if (pModel)
@@ -581,7 +590,7 @@ void FbxData::HandleDeformerConnection(Deformer& childDeformer, const Connection
 }
 
 void FbxData::HandleAnimationLayerConnection(AnimationLayer& animationLayer,
-                                             const Connection& connection)
+	const Connection& connection)
 {
 	AnimationStack* pAnimationStack{ FindAnimationStack(connection.ParentId) };
 	if (pAnimationStack)
@@ -608,7 +617,7 @@ void FbxData::HandleAnimationCurveConnection(AnimationCurve& animationCurve, con
 }
 
 void FbxData::HandleAnimationCurveNodeConnection(AnimationCurveNode& childAnimationCurveNode,
-                                                 const Connection& connection)
+	const Connection& connection)
 {
 	Model* pModel{ FindModel(connection.ParentId) };
 	if (pModel)
@@ -694,13 +703,13 @@ std::string FbxData::FindTypeName(const int64_t& id) const
 }
 
 void FbxData::PrintUnhandledConnectionError(const std::string& parentType,
-                                            const std::string& childType)
+	const std::string& childType)
 {
 	Logger::PrintError(childType + " has an unsupported connection to a parent " + parentType);
 }
 
 void FbxData::PrintUnhandledConnectionError(const std::string& parentType, const int64_t& parentId,
-                                            const std::string& childType, const int64_t& childId)
+	const std::string& childType, const int64_t& childId)
 {
 	Logger::PrintError(childType + "(" + ToString::Convert(childId)
 		+ ") has an unsupported connection to a parent " + parentType + "(" + ToString::Convert(parentId) + ")");

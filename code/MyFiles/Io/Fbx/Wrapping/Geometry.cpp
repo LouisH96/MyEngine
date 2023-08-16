@@ -4,10 +4,10 @@
 #include "Io/Fbx/Reading/Properties/FbxPropArray.h"
 #include "Logger/Logger.h"
 
-MyEngine::Io::Fbx::Wrapping::Geometry::Geometry(Reading::FbxElement& geometryObject)
-	: m_Id{geometryObject.GetProperty(0).AsPrimitive<int64_t>().GetValue()}
+MyEngine::Io::Fbx::Wrapping::Geometry::Geometry(Reading::FbxElement& geometryObject, int upAxis)
+	: m_Id{ geometryObject.GetProperty(0).AsPrimitive<int64_t>().GetValue() }
 {
-	LoadPoints(geometryObject);
+	LoadPoints(geometryObject, upAxis);
 	LoadNormals(geometryObject);
 	LoadIndices(geometryObject);
 	LoadUvs(geometryObject);
@@ -25,17 +25,29 @@ void MyEngine::Io::Fbx::Wrapping::Geometry::AddDeformer(const Deformer& deformer
 	m_Deformers.Add(&deformer);
 }
 
-void MyEngine::Io::Fbx::Wrapping::Geometry::LoadPoints(const Reading::FbxElement& geometryObject)
+void MyEngine::Io::Fbx::Wrapping::Geometry::LoadPoints(const Reading::FbxElement& geometryObject, int upAxis)
 {
 	const Reading::FbxElement& verticesObject{ *geometryObject.GetChild("Vertices") };
 	const Array<double>& coordArray{ verticesObject.GetProperty(0).AsArray<double>().GetValues() };
 	m_Points = { coordArray.GetSize() / 3 };
 	const double* pCoord = &coordArray[0];
-	for (int i = 0; i < m_Points.GetSize(); i++)
-		m_Points[i] = {
-			-static_cast<float>(*pCoord++),
-			static_cast<float>(*pCoord++),
-			static_cast<float>(*pCoord++) };
+
+	if (upAxis == 2)
+	{
+		for (int i = 0; i < m_Points.GetSize(); i++, pCoord += 3)
+			m_Points[i] = {
+				static_cast<float>(*pCoord),
+				static_cast<float>(*(pCoord + 2)),
+				static_cast<float>(*(pCoord + 1)) };
+	}
+	else
+	{
+		for (int i = 0; i < m_Points.GetSize(); i++)
+			m_Points[i] = {
+				-static_cast<float>(*pCoord++),
+				static_cast<float>(*pCoord++),
+				static_cast<float>(*pCoord++) };
+	}
 }
 
 void MyEngine::Io::Fbx::Wrapping::Geometry::LoadNormals(const Reading::FbxElement& geometryObject)
@@ -64,7 +76,7 @@ void MyEngine::Io::Fbx::Wrapping::Geometry::LoadIndices(Reading::FbxElement& geo
 void MyEngine::Io::Fbx::Wrapping::Geometry::LoadUvs(Reading::FbxElement& geometryObject)
 {
 	Reading::FbxElement& layerElementUvObject{ *geometryObject.GetChild("LayerElementUV") };
-	Reading::FbxElement& uvIndexElement{*layerElementUvObject.GetChild("UVIndex")};
+	Reading::FbxElement& uvIndexElement{ *layerElementUvObject.GetChild("UVIndex") };
 
 	const Array<double>& uvValues{ layerElementUvObject.GetChild("UV")->GetProperty(0).AsArray<double>().GetValues() };
 	Array<unsigned> uvIndices{};
