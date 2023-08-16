@@ -36,9 +36,9 @@ void MyEngine::Io::Fbx::Wrapping::Geometry::LoadPoints(const Reading::FbxElement
 	{
 		for (int i = 0; i < m_Points.GetSize(); i++, pCoord += 3)
 			m_Points[i] = {
-				static_cast<float>(*pCoord),
+				-static_cast<float>(*pCoord),
 				static_cast<float>(*(pCoord + 2)),
-				static_cast<float>(*(pCoord + 1)) };
+				-static_cast<float>(*(pCoord + 1)) };
 	}
 	else
 	{
