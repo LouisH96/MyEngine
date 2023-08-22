@@ -23,6 +23,7 @@ namespace MyEngine
 				{
 					bool FullRedrawOnScale{ false };
 					HBRUSH BackgroundBrush{ nullptr };
+					Float3 BackgroundColor{ Float3::Color(100, 149, 237) };
 					bool CursorFocusMode{ false };
 					Int2 ClientSize{ -1,-1 };
 				};

@@ -28,7 +28,7 @@ namespace MyEngine
 			Canvas& operator=(const Canvas& other) = delete;
 			Canvas& operator=(Canvas&& other) noexcept = delete;
 
-			explicit Canvas(App::Win32::Window& window);
+			explicit Canvas(App::Win32::Window& window, const Float3& color);
 			~Canvas();
 
 			void BeginPaint() const;
@@ -46,6 +46,7 @@ namespace MyEngine
 			ID3D11DepthStencilView* m_pDepthStencilView{};
 
 			Int2 m_Size;
+			Float4 m_Color;
 
 			void Clear() const;
 			void Activate() const;

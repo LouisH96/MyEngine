@@ -33,7 +33,7 @@ namespace MyEngine
 			CppFramework framework{};
 			Window window{ windowName, options };
 			Gpu gpu{ window };
-			Canvas canvas{ window };
+			Canvas canvas{ window, options.BackgroundColor };
 
 			//CAMERA
 			Camera camera{ window.GetClientSize() };

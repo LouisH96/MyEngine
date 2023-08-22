@@ -7,8 +7,9 @@
 #include "App/Win32/Window.h"
 #include "Gpu.h"
 
-Rendering::Canvas::Canvas(App::Win32::Window& window)
-	:m_Size{ window.GetClientSize() }
+Rendering::Canvas::Canvas(App::Win32::Window& window, const Float3& color)
+	: m_Size{ window.GetClientSize() }
+	, m_Color{ color.x, color.y, color.z, 1 }
 {
 	InitSwapChain(window);
 	InitRenderTarget();
@@ -41,10 +42,8 @@ void Rendering::Canvas::BeginPaint() const
 void Rendering::Canvas::Clear() const
 {
 	/* clear the back buffer to cornflower blue for the new frame */
-	constexpr float background_colour[4] = {
-	  0x64 / 255.0f, 0x95 / 255.0f, 0xED / 255.0f, 1.0f };
 	Globals::pGpu->GetContext().ClearRenderTargetView(
-		m_pMainRenderTargetView, background_colour);
+		m_pMainRenderTargetView,  &m_Color.x);
 	Globals::pGpu->GetContext().ClearDepthStencilView(m_pDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 }
 
@@ -157,7 +156,7 @@ void Rendering::Canvas::SetViewPort()
 }
 
 void Rendering::Canvas::GetFactory2(IDXGIDevice2*& pDevice2, IDXGIAdapter*& pAdapter,
-                                    IDXGIFactory2*& pFactory) const
+	IDXGIFactory2*& pFactory) const
 {
 	HRESULT hr = Globals::pGpu->GetDevice().QueryInterface(__uuidof(IDXGIDevice2), reinterpret_cast<void**>(&pDevice2));
 	if (FAILED(hr))
