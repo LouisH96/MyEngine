@@ -1,5 +1,7 @@
 #pragma once
 
+//#define LIST_DEBUG
+
 namespace MyEngine
 {
 	template<typename T>
@@ -49,6 +51,7 @@ namespace MyEngine
 		void EnsureIncrease(unsigned increase);
 		void DeleteAll();
 		void IncreaseSize(unsigned amount);
+		void ReduceSize(unsigned amount);
 
 	private:
 		T* m_pData;
@@ -285,6 +288,16 @@ namespace MyEngine
 		if (newSize > m_Capacity)
 			SetCapacity(newSize + newSize);
 		m_Size = newSize;
+	}
+
+	template <typename T>
+	void List<T>::ReduceSize(unsigned amount)
+	{
+#ifdef LIST_DEBUG
+		if (amount > m_Size)
+			Logger::PrintError("[List::ReduceSize] amount bigger than size");
+#endif
+		m_Size -= amount;
 	}
 
 	//should be bigger than current size
