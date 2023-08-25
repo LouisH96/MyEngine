@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Io\Csv\CsvReader.cpp" />
     <ClCompile Include="Io\Ascii\AsciiReader.cpp" />
     <ClCompile Include="Io\Fbx\Reading\AsciiFbxReader.cpp" />
     <ClCompile Include="Io\Fbx\Reading\FbxFile.cpp" />
@@ -78,6 +79,7 @@
     <ClCompile Include="Io\Zlib\ZlibDecompress.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Io\Csv\CsvReader.h" />
     <ClInclude Include="Io\Ascii\AsciiReader.h" />
     <ClInclude Include="Io\Fbx\Reading\AsciiFbxReader.h" />
     <ClInclude Include="Io\Fbx\Reading\FbxFile.h" />
