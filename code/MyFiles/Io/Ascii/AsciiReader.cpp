@@ -6,7 +6,10 @@
 
 #define ASCII_READER_DEBUG
 
-MyEngine::Io::AsciiReader::ValueType MyEngine::Io::AsciiReader::DetectValueType(std::istream& stream)
+using namespace MyEngine;
+using namespace Io;
+
+AsciiReader::ValueType AsciiReader::DetectValueType(std::istream& stream)
 {
 	const char next = static_cast<char>(stream.peek());
 
@@ -16,72 +19,181 @@ MyEngine::Io::AsciiReader::ValueType MyEngine::Io::AsciiReader::DetectValueType(
 	return Other;
 }
 
-bool MyEngine::Io::AsciiReader::IsNumber(char c)
+bool AsciiReader::IsNumber(char c)
 {
 	return c >= '0' && c <= '9';
 }
 
-std::string MyEngine::Io::AsciiReader::ReadFrom(std::istream& stream, const std::streampos& pos)
+std::string AsciiReader::ReadFrom(std::istream& stream, const std::streampos& pos)
 {
 	std::string result(stream.tellg() - pos, ' ');
-	stream.read(&result[0], result.size());  // NOLINT(readability-container-data-pointer)
+	stream.seekg(pos);
+	stream.read(&result[0], static_cast<std::streamsize>(result.size()));  // NOLINT(readability-container-data-pointer)
 	return result;
 }
 
-void MyEngine::Io::AsciiReader::Move(std::istream& stream, int amount)
+std::string AsciiReader::ReadUntil(std::istream& stream, char delim)
+{
+	const std::streampos begin{ stream.tellg() };
+
+	char next;
+	while (stream.get(next))
+	{
+		if (next == delim)
+		{
+			MoveBack(stream);
+			return ReadFrom(stream, begin);
+		}
+	}
+	Logger::PrintWarning("[AsciiReader::ReadUntil] eof before delim");
+	return "";
+}
+
+std::string AsciiReader::ReadUntil(std::istream& stream, char delim1, char orDelim2)
+{
+	const std::streampos begin{ stream.tellg() };
+
+	char next;
+	while (stream.get(next))
+	{
+		if (next == delim1 || next == orDelim2)
+		{
+			MoveBack(stream);
+			return ReadFrom(stream, begin);
+		}
+	}
+	Logger::PrintWarning("[AsciiReader::ReadUntil] eof before delim");
+	return "";
+}
+
+std::string AsciiReader::ReadUntil(char delim) const
+{
+	return ReadUntil(m_Stream, delim);
+}
+
+std::string AsciiReader::ReadUntil(char delim1, char orDelim2) const
+{
+	return ReadUntil(m_Stream, delim1, orDelim2);
+}
+
+void AsciiReader::Move(std::istream& stream, int amount)
 {
 	stream.seekg(amount, std::ios_base::cur);
 }
 
-MyEngine::Io::AsciiReader::AsciiReader(std::istream& stream)
+void AsciiReader::MoveBack(std::istream& stream, unsigned amount)
+{
+	stream.seekg(-static_cast<int>(amount), std::ios_base::cur);
+}
+
+void AsciiReader::Reset(std::istream& stream)
+{
+	stream.clear();
+	stream.seekg(0);
+}
+
+AsciiReader::AsciiReader(std::istream& stream)
 	: m_Stream{ stream }
 {
 }
 
-bool MyEngine::Io::AsciiReader::GetChar(char& c)
+bool AsciiReader::GetChar(char& c)
 {
 	m_Stream.get(c);
 	return !m_Stream.eof();
 }
 
-char MyEngine::Io::AsciiReader::GetChar()
+char AsciiReader::GetChar()
 {
 	return m_Stream.get();
 }
 
-char MyEngine::Io::AsciiReader::PeekChar()
+char AsciiReader::PeekChar()
 {
 	return static_cast<char>(m_Stream.peek());
 }
 
-std::streampos MyEngine::Io::AsciiReader::GetPos() const
+std::streampos AsciiReader::GetPos() const
 {
 	return m_Stream.tellg();
 }
 
-void MyEngine::Io::AsciiReader::Ignore(unsigned amount)
+void AsciiReader::MoveBack(unsigned amount) const
+{
+	MoveBack(m_Stream, amount);
+}
+
+void AsciiReader::Reset() const
+{
+	Reset(m_Stream);
+}
+
+void AsciiReader::Ignore(std::istream& stream, unsigned amount)
+{
+	stream.ignore(amount);
+}
+
+void AsciiReader::Ignore(std::istream& stream, char c, unsigned amount)
+{
+	while (amount > 0)
+	{
+		IgnoreUntil(stream, c);
+		amount--;
+	}
+}
+
+void AsciiReader::IgnoreUntil(std::istream& stream, char c)
+{
+	stream.ignore(std::numeric_limits<std::streamsize>::max(), c);
+}
+
+void AsciiReader::IgnoreLine(std::istream& stream)
+{
+	IgnoreUntil(stream, '\n');
+}
+
+void AsciiReader::IgnoreLines(std::istream& stream, unsigned amount)
+{
+	while (amount > 0)
+	{
+		IgnoreLine(stream);
+		amount--;
+	}
+}
+
+void AsciiReader::Ignore(unsigned amount)
 {
 	m_Stream.ignore(amount);
 }
 
-void MyEngine::Io::AsciiReader::IgnoreLine()
+void AsciiReader::Ignore(char c, unsigned amount)
 {
-	IgnoreUntil('\n');
+	Ignore(m_Stream, c, amount);
 }
 
-void MyEngine::Io::AsciiReader::IgnoreUntil(char c)
+void AsciiReader::IgnoreLine()
 {
-	m_Stream.ignore(std::numeric_limits<std::streamsize>::max(), c);
+	IgnoreLine(m_Stream);
 }
 
-std::string MyEngine::Io::AsciiReader::GetUntil(char delim)
+void AsciiReader::IgnoreLines(unsigned amount)
+{
+	IgnoreLines(m_Stream, amount);
+}
+
+void AsciiReader::IgnoreUntil(char c)
+{
+	IgnoreUntil(m_Stream, c);
+}
+
+std::string AsciiReader::GetUntil(char delim)
 {
 	std::string result{};
 	std::getline(m_Stream, result, delim);
 	return result;
 }
 
-double MyEngine::Io::AsciiReader::GetDouble(char separator)
+double AsciiReader::GetDouble(char separator)
 {
 	//negative?
 	double isNegative;
@@ -130,7 +242,7 @@ double MyEngine::Io::AsciiReader::GetDouble(char separator)
 	return number * isNegative;
 }
 
-int MyEngine::Io::AsciiReader::GetInteger()
+int AsciiReader::GetInteger()
 {
 	//negative?
 	int isNegative;
@@ -158,7 +270,7 @@ int MyEngine::Io::AsciiReader::GetInteger()
 	return number * isNegative;
 }
 
-std::string MyEngine::Io::AsciiReader::GetString()
+std::string AsciiReader::GetString()
 {
 #ifdef ASCII_READER_DEBUG
 	if (GetChar() != '"')

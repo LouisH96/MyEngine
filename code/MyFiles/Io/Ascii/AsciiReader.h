@@ -20,13 +20,34 @@ namespace MyEngine
 
 			//---| Read |---
 			static std::string ReadFrom(std::istream& stream, const std::streampos& pos);
+			static std::string ReadUntil(std::istream& stream, char delim);
+			static std::string ReadUntil(std::istream& stream, char delim1, char orDelim2);
 
 			std::string ReadFrom(const std::streampos& pos) { return ReadFrom(m_Stream, pos); }
+			std::string ReadUntil(char delim) const;
+			std::string ReadUntil(char delim1, char orDelim2) const;
 
 			//---| Other |---
 			static void Move(std::istream& stream, int amount);
+			static void MoveBack(std::istream& stream, unsigned amount = 1);
+			static void Reset(std::istream& stream);
 
 			void Move(int amount) { Move(m_Stream, amount); }
+			void MoveBack(unsigned amount = 1) const;
+			void Reset() const;
+
+			//---| Ignore |---
+			static void Ignore(std::istream& stream, unsigned amount = 1);
+			static void Ignore(std::istream& stream, char c, unsigned amount);
+			static void IgnoreUntil(std::istream& stream, char c);
+			static void IgnoreLine(std::istream& stream);
+			static void IgnoreLines(std::istream& stream, unsigned amount);
+
+			void Ignore(unsigned amount);
+			void Ignore(char c, unsigned amount);
+			void IgnoreLine();
+			void IgnoreLines(unsigned amount);
+			void IgnoreUntil(char c);
 
 			//---| Class |---
 			explicit AsciiReader(std::istream& stream);
@@ -35,9 +56,6 @@ namespace MyEngine
 			char GetChar();
 			char PeekChar();
 			std::streampos GetPos() const;
-			void Ignore(unsigned amount);
-			void IgnoreLine();
-			void IgnoreUntil(char c);
 			std::string GetUntil(char delim);
 			double GetDouble(char separator = '.');
 			int GetInteger();
