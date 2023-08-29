@@ -138,6 +138,7 @@ namespace MyEngine
 		InvalidateList&& other) noexcept
 	{
 		if (&other == this) return *this;
+		delete[] m_pData;
 		m_pData = other.m_pData;
 		m_Capacity = other.m_Capacity;
 		m_First = other.m_First;
