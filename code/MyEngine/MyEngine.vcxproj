@@ -102,6 +102,7 @@
     <ClCompile Include="Gui\FontRenderer.cpp" />
     <ClCompile Include="Generation\SphereGenerator.cpp" />
     <ClCompile Include="Generation\TriangleGenerator.cpp" />
+    <ClCompile Include="Applied\Gui\VerticalButtonList.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\Win32\KeyCodes.h" />
@@ -203,6 +204,7 @@
     <ClInclude Include="Gui\FontRenderer.h" />
     <ClInclude Include="Generation\SphereGenerator.h" />
     <ClInclude Include="Generation\TriangleGenerator.h" />
+    <ClInclude Include="Applied\Gui\VerticalButtonList.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

@@ -79,6 +79,7 @@
     <ClCompile Include="Debug\Rendering\DebugCones.cpp" />
     <ClCompile Include="Physics\Collisions\ConeCubeCollision.cpp" />
     <ClCompile Include="Generation\TriangleGenerator.cpp" />
+    <ClCompile Include="Applied\Gui\VerticalButtonList.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -180,6 +181,7 @@
     <ClInclude Include="Debug\Rendering\DebugCones.h" />
     <ClInclude Include="Physics\Collisions\ConeCubeCollision.h" />
     <ClInclude Include="Generation\TriangleGenerator.h" />
+    <ClInclude Include="Applied\Gui\VerticalButtonList.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
