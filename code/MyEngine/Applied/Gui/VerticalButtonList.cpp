@@ -4,6 +4,8 @@
 #include "Gui/FontRenderer.h"
 #include "Gui/GuiRenderer.h"
 
+#define VERTICAL_BUTTON_LIST_DEBUG
+
 using namespace Applied;
 
 VerticalButtonList::VerticalButtonList(const Settings& settings)
@@ -14,7 +16,11 @@ VerticalButtonList::VerticalButtonList(const Settings& settings)
 void VerticalButtonList::Update()
 {
 	if (!GUI.IsUnderMouse(m_InnerId))
+	{
+		if (HasHoveredButton())
+			UnsetHoveredButton();
 		return;
+	}
 
 	//Still hovered?
 	if (m_HoveredButton != -1)
@@ -166,4 +172,51 @@ void VerticalButtonList::SetDefaultColors(const Button& button) const
 	GUI.SetColor(button.borderId, m_Settings.borderColor);
 	GUI.SetColor(button.innerId, m_Settings.innerColor);
 	FONT.SetColor(button.textId, m_Settings.borderColor);
+}
+
+bool VerticalButtonList::HasHoveredButton() const
+{
+	return m_HoveredButton != -1;
+}
+
+void VerticalButtonList::SetHoveredButton(int buttonId)
+{
+#ifdef VERTICAL_BUTTON_LIST_DEBUG
+	if (HasHoveredButton())
+		Logger::PrintWarning("[VerticalButtonList::SetHoveredButton] Hovered button is already set");
+#endif
+
+	const Button& button{ GetHoveredButton() };
+	SetHoveredColors(button);
+	m_HoveredButton = buttonId;
+}
+
+void VerticalButtonList::UnsetHoveredButton()
+{
+#ifdef VERTICAL_BUTTON_LIST_DEBUG
+	if (!HasHoveredButton())
+		Logger::PrintWarning("[VerticalButtonList::UnsetHoveredButton] There is no hovered button");
+#endif
+
+	const Button& button{ GetHoveredButton() };
+	SetDefaultColors(button);
+	m_HoveredButton = -1;
+}
+
+VerticalButtonList::Button& VerticalButtonList::GetHoveredButton()
+{
+#ifdef VERTICAL_BUTTON_LIST_DEBUG
+	if (!HasHoveredButton())
+		Logger::PrintWarning("[VerticalButtonList::GetHoveredButton] There is no hovered button");
+#endif
+	return m_Buttons.GetSinceStart(m_HoveredButton);
+}
+
+const VerticalButtonList::Button& VerticalButtonList::GetHoveredButton() const
+{
+#ifdef VERTICAL_BUTTON_LIST_DEBUG
+	if (!HasHoveredButton())
+		Logger::PrintWarning("[VerticalButtonList::GetHoveredButton] There is no hovered button");
+#endif
+	return m_Buttons.GetSinceStart(m_HoveredButton);
 }

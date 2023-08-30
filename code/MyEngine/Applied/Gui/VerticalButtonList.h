@@ -55,6 +55,12 @@ namespace MyEngine
 
 			void SetHoveredColors(const Button& button) const;
 			void SetDefaultColors(const Button& button) const;
+
+			bool HasHoveredButton() const;
+			void SetHoveredButton(int buttonId);
+			void UnsetHoveredButton();
+			Button& GetHoveredButton();
+			const Button& GetHoveredButton() const;
 		};
 	}
 }
