@@ -1,4 +1,6 @@
 #pragma once
+#include <Math/Vectors.h>
+#include <Rendering/Renderers/RendererFactory.h>
 #include <Rendering/State/BlendState.h>
 #include <Rendering/State/ConstantBuffer.h>
 #include <Rendering/State/InputLayout.h>
@@ -6,7 +8,6 @@
 #include <Rendering/State/Shader.h>
 #include <Rendering/Structs/ConstantBufferTypes.h>
 #include <Rendering/Structs/VertexTypes.h>
-#include <Rendering/Renderers/RendererFactory.h>
 
 #include "DebugCones.h"
 #include "DebugCubes.h"

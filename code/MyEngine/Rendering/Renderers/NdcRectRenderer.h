@@ -1,5 +1,6 @@
 #pragma once
 #include "Gui/NdcUtils.h"
+#include "Math/Vectors.h"
 #include "Rendering/Canvas.h"
 #include "Rendering/Buffers/Buffer.h"
 #include "Rendering/Buffers/InvalidateBuffer.h"
@@ -63,7 +64,7 @@ namespace MyEngine
 			, m_Instances{ 4 }
 			, m_Topology{ PrimitiveTopologyUtils::ToDx(PrimitiveTopology::TriangleStrip) }
 		{
-			Array<Vertex> vertices{Vertex::GetCenterRect()};
+			Array<Vertex> vertices{ Vertex::GetCenterRect() };
 			m_Vertices = Buffer<Vertex>(vertices.GetData(), vertices.GetSizeU());
 		}
 
