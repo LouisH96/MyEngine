@@ -28,6 +28,7 @@ namespace MyEngine
 
 			int GetHovered() const;
 			int GetClicked() const;
+			bool IsUnderMouse(int id) const;
 
 			void SetColor(int id, const Float3& color);
 			void SetOffsetX(int id, float xPixels);
