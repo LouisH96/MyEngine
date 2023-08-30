@@ -28,10 +28,12 @@ namespace MyEngine
 			void Render();
 
 			Instance& Get(int id);
+			const Instance& Get(int id) const;
 			void Remove(int id);
 			int Add(const Float2& pivot, const Float2& offset, const Float2& size);
 			int AddCenterBottom(const Float2& offset, const Float2& size);
 
+			Float2 GetMouseNdc() const;
 			int GetElementUnderMouse() const;
 			void SetOffset(int id, const Float2& pixels);
 			void SetOffsetX(int id, float xPixels);
@@ -98,6 +100,12 @@ namespace MyEngine
 		}
 
 		template <typename Vertex, typename Instance>
+		const Instance& NdcRectRenderer<Vertex, Instance>::Get(int id) const
+		{
+			return m_Instances[id];
+		}
+
+		template <typename Vertex, typename Instance>
 		void NdcRectRenderer<Vertex, Instance>::Remove(int id)
 		{
 			m_Instances.Remove(id);
@@ -119,6 +127,12 @@ namespace MyEngine
 		int NdcRectRenderer<Vertex, Instance>::AddCenterBottom(const Float2& offset, const Float2& size)
 		{
 			return Add({ 0,-1 }, offset, size);
+		}
+
+		template <typename Vertex, typename Instance>
+		Float2 NdcRectRenderer<Vertex, Instance>::GetMouseNdc() const
+		{
+			return Gui::NdcUtils::GetMouseNdc(m_InvCanvasSize);
 		}
 
 		template <typename Vertex, typename Instance>
