@@ -21,6 +21,8 @@ namespace MyEngine
 
 			explicit VerticalButtonList(const Settings& settings = {});
 
+			void Update();
+
 			int AddButton(const std::string& text);
 			void RemoveButton(int buttonId);
 
@@ -29,6 +31,9 @@ namespace MyEngine
 			void Show();
 			void Hide();
 			void SetVisible(bool isVisible);
+
+			bool IsHovered(int buttonId) const;
+			bool IsClicked(int buttonId) const;
 
 		private:
 			struct Button
@@ -45,6 +50,11 @@ namespace MyEngine
 			InvalidateList<Button> m_Buttons;
 			int m_BorderId{ -1 };
 			int m_InnerId;
+
+			int m_HoveredButton{ -1 }; //button-id
+
+			void SetHoveredColors(const Button& button) const;
+			void SetDefaultColors(const Button& button) const;
 		};
 	}
 }

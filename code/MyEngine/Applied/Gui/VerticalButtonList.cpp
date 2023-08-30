@@ -11,6 +11,37 @@ VerticalButtonList::VerticalButtonList(const Settings& settings)
 {
 }
 
+void VerticalButtonList::Update()
+{
+	if (!GUI.IsUnderMouse(m_InnerId))
+		return;
+
+	//Still hovered?
+	if (m_HoveredButton != -1)
+	{
+		const Button& button{ m_Buttons.GetSinceStart(m_HoveredButton) };
+		if (!GUI.IsUnderMouse(button.borderId))
+		{
+			m_HoveredButton = -1;
+			SetDefaultColors(button);
+		}
+
+		return;
+	}
+
+	//Find hovered
+	for (unsigned i = 0; i < m_Buttons.GetSize(); i++)
+	{
+		const Button& button{ m_Buttons.GetSinceStart(i) };
+		if (GUI.IsUnderMouse(button.borderId))
+		{
+			m_HoveredButton = i;
+			SetHoveredColors(button);
+			return;
+		}
+	}
+}
+
 int VerticalButtonList::AddButton(const std::string& text)
 {
 	if (IsVisible())
@@ -99,6 +130,9 @@ void VerticalButtonList::Hide()
 		GUI.Remove(button.innerId);
 		FONT.Remove(button.textId);
 	}
+
+	//Hovered
+	m_HoveredButton = -1;
 }
 
 void VerticalButtonList::SetVisible(bool isVisible)
@@ -107,4 +141,29 @@ void VerticalButtonList::SetVisible(bool isVisible)
 		Show();
 	else
 		Hide();
+}
+
+bool VerticalButtonList::IsHovered(int buttonId) const
+{
+	return buttonId == m_HoveredButton;
+}
+
+bool VerticalButtonList::IsClicked(int buttonId) const
+{
+	return buttonId == m_HoveredButton &&
+		MOUSE.IsLeftBtnPressed();
+}
+
+void VerticalButtonList::SetHoveredColors(const Button& button) const
+{
+	GUI.SetColor(button.borderId, m_Settings.innerColor);
+	GUI.SetColor(button.innerId, m_Settings.borderColor);
+	FONT.SetColor(button.textId, m_Settings.innerColor);
+}
+
+void VerticalButtonList::SetDefaultColors(const Button& button) const
+{
+	GUI.SetColor(button.borderId, m_Settings.borderColor);
+	GUI.SetColor(button.innerId, m_Settings.innerColor);
+	FONT.SetColor(button.textId, m_Settings.borderColor);
 }
