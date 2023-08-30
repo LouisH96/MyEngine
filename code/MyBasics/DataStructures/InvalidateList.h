@@ -46,6 +46,8 @@ namespace MyEngine
 
 		const Data& Get(int idx) const;
 		Data& Get(int idx);
+		const Data& GetSinceStart(unsigned idx) const;
+		Data& GetSinceStart(unsigned idx);
 
 		int GetFirstIdx() const { return m_First; }
 		int GetLastIdx() const { return m_End - 1; }
@@ -318,6 +320,19 @@ namespace MyEngine
 	{
 		m_Changed = true;
 		return m_pData[idx];
+	}
+
+	template <typename Data>
+	const Data& InvalidateList<Data>::GetSinceStart(unsigned idx) const
+	{
+		return m_pData[m_First + idx];
+	}
+
+	template <typename Data>
+	Data& InvalidateList<Data>::GetSinceStart(unsigned idx)
+	{
+		m_Changed = true;
+		return m_pData[m_First + idx];
 	}
 
 	template <typename Data>
