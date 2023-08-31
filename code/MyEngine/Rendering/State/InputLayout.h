@@ -2,6 +2,8 @@
 #include <d3d11.h>
 #include <string>
 
+#include "DataStructures/Array.h"
+
 namespace MyEngine
 {
 	namespace Rendering
@@ -60,7 +62,7 @@ namespace MyEngine
 		template <typename Vertex, typename Instance>
 		InputLayout InputLayout::FromTypes()
 		{
-			Array<Element> elements{Vertex::NR_ELEMENTS + Instance::NR_ELEMENTS};
+			Array<Element> elements{ Vertex::NR_ELEMENTS + Instance::NR_ELEMENTS };
 			for (int i = 0; i < Vertex::NR_ELEMENTS; i++) elements[i] = Vertex::ELEMENTS[i];
 			for (int i = 0; i < Instance::NR_ELEMENTS; i++) elements[i + Vertex::NR_ELEMENTS] = Instance::ELEMENTS[i];
 			return { elements.GetData(), elements.GetSize() };
