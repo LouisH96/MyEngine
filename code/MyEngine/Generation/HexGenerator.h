@@ -15,6 +15,12 @@ namespace MyEngine
 				const Float3& right, const Float3& normal,
 				List<Rendering::V_PosNor>& vertices, List<int>& indices);
 
+			//origin at hex center
+			static void GenerateFlatRight(
+				const Hexagon& hex,
+				const Float3& right, const Float3& normal,
+				List<Rendering::V_PosNor>& vertices, List<int>& indices);
+
 		};
 	}
 }
