@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Geometry\Shapes\Hexagon.cpp" />
+    <ClCompile Include="Generation\HexGenerator.cpp" />
     <ClCompile Include="Physics\Collisions\ConeCubeCollision.cpp" />
     <ClCompile Include="Debug\Rendering\DebugCones.cpp" />
     <ClCompile Include="Generation\ConeGenerator.cpp" />
@@ -106,6 +108,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\Win32\KeyCodes.h" />
+    <ClInclude Include="Geometry\Shapes\Hexagon.h" />
+    <ClInclude Include="Generation\HexGenerator.h" />
     <ClInclude Include="Physics\Collisions\ConeCubeCollision.h" />
     <ClInclude Include="Debug\Rendering\DebugCones.h" />
     <ClInclude Include="Generation\ConeGenerator.h" />
