@@ -30,7 +30,9 @@ namespace MyEngine
 			void CopyData(const Data* pData, unsigned count);
 			void Activate(unsigned slot) const;
 			unsigned GetCapacity() const { return m_Capacity; }
+
 			void Draw();
+			void DrawIndexInstance(unsigned nrIndices) const;
 
 		private:
 			ID3D11Buffer* m_pBuffer;
@@ -136,6 +138,12 @@ namespace MyEngine
 		void Buffer<Data>::Draw()
 		{
 			Globals::pGpu->GetContext().Draw(m_Capacity, 0);
+		}
+
+		template <typename Data>
+		void Buffer<Data>::DrawIndexInstance(unsigned nrIndices) const
+		{
+			Globals::pGpu->GetContext().DrawIndexedInstanced(nrIndices, m_Capacity, 0, 0, 0);
 		}
 	}
 }
