@@ -46,6 +46,8 @@ namespace MyEngine
 		void SetCol3(const Vector3<T>& col);
 		void SetCol(int idx, const Vector3<T>& col);
 
+		void Set(unsigned col, unsigned row, const T& value);
+
 		//---| Get |---
 		Vector4<T> GetRow0() const;
 		Vector4<T> GetRow1() const;
@@ -227,6 +229,12 @@ namespace MyEngine
 	void Matrix4X4<T>::SetCol(int idx, const Vector3<T>& col)
 	{
 		m_Cols[idx] = col;
+	}
+
+	template <typename T>
+	void Matrix4X4<T>::Set(unsigned col, unsigned row, const T& value)
+	{
+		m_Cols[col][row] = value;
 	}
 
 	template <typename T>
