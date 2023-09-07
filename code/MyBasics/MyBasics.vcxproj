@@ -152,6 +152,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="String\Convert.h" />
     <ClInclude Include="DataStructures\Algorithms.h" />
     <ClInclude Include="DataStructures\Array.h" />
     <ClInclude Include="DataStructures\CubeArray.h" />
@@ -183,6 +184,7 @@
     <ClInclude Include="WorldMatrix.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="String\Convert.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="Timing\Interval.cpp" />
     <ClCompile Include="Timing\Counter.cpp" />
