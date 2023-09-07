@@ -30,6 +30,7 @@
     <ClInclude Include="Timing\Counter.h" />
     <ClInclude Include="Timing\Time.h" />
     <ClInclude Include="Timing\Interval.h" />
+    <ClInclude Include="String\StringUtils.h" />
     <ClInclude Include="String\Convert.h" />
   </ItemGroup>
   <ItemGroup>
@@ -41,6 +42,7 @@
     <ClCompile Include="Timing\Counter.cpp" />
     <ClCompile Include="Timing\Time.cpp" />
     <ClCompile Include="Timing\Interval.cpp" />
+    <ClCompile Include="String\StringUtils.cpp" />
     <ClCompile Include="String\Convert.cpp" />
   </ItemGroup>
 </Project>
