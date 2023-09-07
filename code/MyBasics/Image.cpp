@@ -12,7 +12,7 @@ MyEngine::Rendering::Image::Image(int width, int height)
 }
 
 MyEngine::Rendering::Image::Image(const Float2& size)
-	: Image{ Float::Ceil(size.x), Float::Ceil(size.y) }
+	: Image{ Int::Ceil(size.x), Int::Ceil(size.y) }
 {
 }
 

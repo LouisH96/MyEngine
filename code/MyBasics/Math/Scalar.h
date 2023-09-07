@@ -14,9 +14,9 @@ namespace MyEngine
 		template<typename D> static D Lerp(const T& alpha, const D& begin, const D& end);
 		template<typename D> static D LerpClamp(const T& alpha, const D& begin, const D& end);
 		template<typename D> static T Cast(const D& value);
+		template<typename D> static T Ceil(const D& value);
+		template<typename D> static T Floor(const D& value);
 
-		static int Ceil(const T& value);
-		static int Floor(const T& value);
 		static int Round(const T& value);
 		static T Clamped(const T& value, const T& min, const T& max);
 
@@ -59,15 +59,17 @@ namespace MyEngine
 	}
 
 	template <typename T>
-	int Scalar<T>::Ceil(const T& value)
+	template <typename D>
+	T Scalar<T>::Ceil(const D& value)
 	{
-		return ceil(value);
+		return static_cast<T>(ceil(value));
 	}
 
 	template <typename T>
-	int Scalar<T>::Floor(const T& value)
+	template <typename D>
+	T Scalar<T>::Floor(const D& value)
 	{
-		return floor(value);
+		return static_cast<T>(floor(value));
 	}
 
 	template <typename T>
