@@ -22,17 +22,21 @@ namespace MyEngine
 			static std::string ReadFrom(std::istream& stream, const std::streampos& pos);
 			static std::string ReadUntil(std::istream& stream, char delim);
 			static std::string ReadUntil(std::istream& stream, char delim1, char orDelim2);
+			static bool ReadLine(std::istream& stream, std::string& string);
 
-			std::string ReadFrom(const std::streampos& pos) { return ReadFrom(m_Stream, pos); }
+			std::string ReadFrom(const std::streampos& pos) const { return ReadFrom(m_Stream, pos); }
 			std::string ReadUntil(char delim) const;
 			std::string ReadUntil(char delim1, char orDelim2) const;
+			bool ReadLine(std::string& string) const;
+			std::string ReadUntilWhiteSpace() const;
 
 			//---| Other |---
 			static void Move(std::istream& stream, int amount);
 			static void MoveBack(std::istream& stream, unsigned amount = 1);
 			static void Reset(std::istream& stream);
 
-			void Move(int amount) { Move(m_Stream, amount); }
+			void Move(int amount) const { Move(m_Stream, amount); }
+			void MoveForward(unsigned amount = 1) const { Move(static_cast<int>(amount)); }
 			void MoveBack(unsigned amount = 1) const;
 			void Reset() const;
 

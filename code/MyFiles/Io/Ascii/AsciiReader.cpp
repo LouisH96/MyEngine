@@ -26,6 +26,7 @@ bool AsciiReader::IsNumber(char c)
 
 std::string AsciiReader::ReadFrom(std::istream& stream, const std::streampos& pos)
 {
+	const std::streampos temp{ stream.tellg() };
 	std::string result(stream.tellg() - pos, ' ');
 	stream.seekg(pos);
 	stream.read(&result[0], static_cast<std::streamsize>(result.size()));  // NOLINT(readability-container-data-pointer)
@@ -66,6 +67,11 @@ std::string AsciiReader::ReadUntil(std::istream& stream, char delim1, char orDel
 	return "";
 }
 
+bool AsciiReader::ReadLine(std::istream& stream, std::string& string)
+{
+	return !!std::getline(stream, string);
+}
+
 std::string AsciiReader::ReadUntil(char delim) const
 {
 	return ReadUntil(m_Stream, delim);
@@ -74,6 +80,29 @@ std::string AsciiReader::ReadUntil(char delim) const
 std::string AsciiReader::ReadUntil(char delim1, char orDelim2) const
 {
 	return ReadUntil(m_Stream, delim1, orDelim2);
+}
+
+bool AsciiReader::ReadLine(std::string& string) const
+{
+	return ReadLine(m_Stream, string);
+}
+
+std::string AsciiReader::ReadUntilWhiteSpace() const
+{
+	const std::streampos begin{ m_Stream.tellg() };
+
+	char next;
+	while (m_Stream.get(next))
+	{
+		if (next == ' ' || next == '\t' || next == '\n')
+		{
+			MoveBack();
+			std::string result{ ReadFrom(begin) };
+			Move(1);
+			return result;
+		}
+	}
+	return ReadFrom(begin);
 }
 
 void AsciiReader::Move(std::istream& stream, int amount)
