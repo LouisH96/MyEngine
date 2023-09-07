@@ -91,6 +91,35 @@ void Logger::PrintWarning(const std::string& message)
 	SetColorWhite();
 }
 
+void Logger::BeginError()
+{
+	SetColorRed();
+	std::cout << "[Error] ";
+}
+
+void Logger::EndError()
+{
+	std::cout << std::endl;
+	SetColorWhite();
+}
+
+void Logger::BeginError(const std::string& string)
+{
+	BeginError();
+	std::cout << string;
+}
+
+void Logger::ContinueError(const std::string& string)
+{
+	std::cout << string;
+}
+
+void Logger::EndError(const std::string& string)
+{
+	std::cout << string;
+	EndError();
+}
+
 std::string Logger::ToStringXY(const Int2& vector)
 {
 	std::stringstream ss{};

@@ -26,6 +26,13 @@ namespace MyEngine
 		static void PrintError(const std::string& message);
 		static void PrintWarning(const std::string& message);
 
+		static void BeginError();
+		static void EndError();
+
+		static void BeginError(const std::string& string);
+		static void ContinueError(const std::string& string);
+		static void EndError(const std::string& string);
+
 		static std::string ToString(float x, float y, float z);
 		static std::string ToStringXYZ(const float* x);
 		static std::string ToStringXYZ(const Float3& vector);
