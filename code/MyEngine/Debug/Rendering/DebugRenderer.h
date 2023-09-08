@@ -16,6 +16,7 @@
 
 namespace MyEngine
 {
+	template<typename> class Array;
 	class Cone;
 	class Sphere;
 	class CubeAA;
