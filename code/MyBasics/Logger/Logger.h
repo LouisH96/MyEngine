@@ -2,6 +2,7 @@
 #include <sstream>
 #include <string>
 #include <bitset>
+#include <intsafe.h>
 #include <vector>
 
 #include "ToString.h"
@@ -25,6 +26,8 @@ namespace MyEngine
 
 		static void PrintError(const std::string& message);
 		static void PrintWarning(const std::string& message);
+
+		static void PrintError(const std::string& first, const HRESULT& hResult);
 
 		static void BeginError();
 		static void EndError();

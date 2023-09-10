@@ -1,5 +1,6 @@
 #include "Logger.h"
 
+#include <comdef.h>
 #include <Windows.h>
 #include <iostream>
 #include <locale>
@@ -89,6 +90,14 @@ void Logger::PrintWarning(const std::string& message)
 	SetColorYellow();
 	Print(ss.str());
 	SetColorWhite();
+}
+
+void Logger::PrintError(const std::string& first, const HRESULT& hResult)
+{
+	const _com_error error{ hResult };
+	const std::wstring wString = { error.ErrorMessage() };
+	BeginError(first + " Dx(");
+	EndError(std::string{ wString.begin(), wString.end() } + ")");
 }
 
 void Logger::BeginError()
