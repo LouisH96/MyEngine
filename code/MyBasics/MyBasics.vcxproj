@@ -152,6 +152,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Math\Matrix2X2.h" />
     <ClInclude Include="String\Convert.h" />
     <ClInclude Include="DataStructures\Algorithms.h" />
     <ClInclude Include="DataStructures\Array.h" />

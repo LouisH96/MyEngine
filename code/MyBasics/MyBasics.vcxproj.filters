@@ -32,6 +32,7 @@
     <ClInclude Include="Timing\Interval.h" />
     <ClInclude Include="String\StringUtils.h" />
     <ClInclude Include="String\Convert.h" />
+    <ClInclude Include="Math\Matrix2X2.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Math\Quaternion.cpp" />
