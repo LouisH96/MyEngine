@@ -53,6 +53,8 @@ namespace MyEngine
 		void IncreaseSize(unsigned amount);
 		void ReduceSize(unsigned amount);
 
+		bool Any() const { return m_Size > 0; }
+
 	private:
 		T* m_pData;
 		int m_Capacity;
