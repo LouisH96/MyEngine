@@ -9,7 +9,7 @@
 Rendering::InputLayout::InputLayout(const Element* pElements, int nrElements)
 {
 	//CREATE INPUT_ELEMENT_DESC
-	const Array<D3D11_INPUT_ELEMENT_DESC> dxDescriptions{ToDxDescriptions(pElements, nrElements)};
+	const Array<D3D11_INPUT_ELEMENT_DESC> dxDescriptions{ ToDxDescriptions(pElements, nrElements) };
 
 	//CREATE COMPILED BLOB
 	UINT flags = D3DCOMPILE_ENABLE_STRICTNESS;
@@ -47,7 +47,7 @@ Rendering::InputLayout::InputLayout(const Element* pElements, int nrElements)
 		pBlob->GetBufferPointer(), pBlob->GetBufferSize(),
 		&m_pInputLayout);
 	if (FAILED(result))
-		Logger::PrintError("CreateInputLayout");
+		Logger::PrintError("[InputLayout::Constructor]", result);
 
 	SAFE_RELEASE(pBlob);
 	SAFE_RELEASE(pErrorBlob);
@@ -183,7 +183,7 @@ Array<D3D11_INPUT_ELEMENT_DESC> Rendering::InputLayout::ToDxDescriptions(const E
 	for (int i = 0; i < nrElements; i++)
 		nrDxElements += ToNrDxElements(pElements[i].Type);
 
-	Array<D3D11_INPUT_ELEMENT_DESC> dxElements{nrDxElements};
+	Array<D3D11_INPUT_ELEMENT_DESC> dxElements{ nrDxElements };
 	D3D11_INPUT_ELEMENT_DESC* pDesc{ dxElements.GetData() };
 	for (int i = 0; i < nrElements; i++)
 		AddDxElements(pDesc, pElements[i]);
