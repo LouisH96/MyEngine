@@ -54,6 +54,7 @@ namespace MyEngine
 		void ReduceSize(unsigned amount);
 
 		bool Any() const { return m_Size > 0; }
+		bool Empty() const { return m_Size == 0; }
 
 	private:
 		T* m_pData;
