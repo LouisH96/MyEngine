@@ -45,6 +45,7 @@ namespace MyEngine
 		Rect Expanded(const Vector4<T>& expand) const; //left, up, right, bot
 		void Compress(const Vector4<T>& compress); //left, up, right, bot
 		Rect Compressed(const Vector4<T>& compress) const; //left, up, right, bot
+		Rect Compressed(const Vector2<T>& compress) const; //width, height
 		void Move(const Vector2<T>& movement);
 		Rect Moved(const Vector2<T>& movement) const;
 
@@ -59,6 +60,7 @@ namespace MyEngine
 		Float2 GetPointRelative(const Float2& ratio) const;
 
 		static Rect Bounds(const Vector2<T>* pData, unsigned count);
+		static Rect FromCenter(const  Vector2<T>& size, const  Vector2<T>& center = {});
 
 	private:
 		Vector2<T> m_LeftBot;
@@ -131,6 +133,12 @@ namespace MyEngine
 			{m_LeftBot.x + compress.x, m_LeftBot.y + compress.w},
 			{m_Size.x - compress.x - compress.z, m_Size.y - compress.y - compress.w}
 		};
+	}
+
+	template <typename T>
+	Rect<T> Rect<T>::Compressed(const Vector2<T>& compress) const
+	{
+		return { m_LeftBot + compress / 2, m_Size - compress };
 	}
 
 	template <typename T>
@@ -207,5 +215,11 @@ namespace MyEngine
 		}
 		bounds.m_Size -= bounds.m_LeftBot;
 		return bounds;
+	}
+
+	template <typename T>
+	Rect<T> Rect<T>::FromCenter(const  Vector2<T>& size, const  Vector2<T>& center)
+	{
+		return{ -size / 2.f, size };
 	}
 }
