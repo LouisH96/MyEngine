@@ -24,6 +24,8 @@ namespace MyEngine
 		Data InvalidateAndReturn(int idx); //same are removing but doesn't deconstruct(move) the object
 		void Invalidate(int idx);
 
+		void Clear();
+
 		bool HasChanged() const;
 		void ClearChangedFlag();
 
@@ -226,6 +228,17 @@ namespace MyEngine
 		if (idx < m_GapIndicator) m_GapIndicator = idx;
 		if (idx == m_First) UpdateFirstIndicator();
 		else if (idx == m_End - 1) UpdateEndIndicator();
+	}
+
+	template <typename Data>
+	void InvalidateList<Data>::Clear()
+	{
+		m_Changed = m_First != 0 || m_End != 0;
+		for (unsigned i = m_First; i < m_End; i++)
+			m_pData[i].Invalidate();
+		m_First = 0;
+		m_End = 0;
+		m_GapIndicator = 0;
 	}
 
 	template <typename Data>
