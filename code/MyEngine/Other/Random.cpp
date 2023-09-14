@@ -29,3 +29,8 @@ Float2 Random::Range(const RectFloat& rect)
 {
 	return { Range(rect.GetLeft(), rect.GetRight()), Range(rect.GetBottom(), rect.GetTop()) };
 }
+
+Float3 Random::Color()
+{
+	return { Range(1.f), Range(1.f) , Range(1.f) };
+}

@@ -13,6 +13,7 @@ namespace MyEngine
 		static float Range(float min, float max);
 		static int Range(int last);
 		static Float2 Range(const RectFloat& rect);
+		static Float3 Color();
 
 		template<typename T> static T Enum(T last);
 	};
