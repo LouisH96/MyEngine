@@ -57,6 +57,8 @@ namespace MyEngine
 		float Dot(const Vector2& o) const;
 		Vector2<int> Floored() const;
 		Vector2<int> Ceiled() const;
+		T Distance(const Vector2& other) const;
+		T DistanceSq(const Vector2& other) const;
 
 		bool IsLeftAbove(const Vector2& comparedTo) const;
 		bool IsRightAbove(const Vector2& comparedTo) const;
@@ -219,6 +221,26 @@ namespace MyEngine
 	Vector2<int> Vector2<T>::Ceiled() const
 	{
 		return { static_cast<int>(ceil(x)), static_cast<int>(ceil(y)) };
+	}
+
+	template <typename T>
+	T Vector2<T>::Distance(const Vector2& other) const
+	{
+		float x{ other.x - x };
+		x *= x;
+		float r{ other.y - y };
+		r *= r;
+		return sqrt(r + x);
+	}
+
+	template <typename T>
+	T Vector2<T>::DistanceSq(const Vector2& other) const
+	{
+		float x{ other.x - x };
+		x *= x;
+		float r{ other.y - y };
+		r *= r;
+		return  x + r;
 	}
 
 	template <typename T>
