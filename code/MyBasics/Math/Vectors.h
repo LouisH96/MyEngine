@@ -5,6 +5,10 @@
 
 namespace MyEngine
 {
+	using Uint2 = Vector2<unsigned>;
+	using Uint3 = Vector3<unsigned>;
+	using Uint4 = Vector4<unsigned>;
+
 	using Int2 = Vector2<int>;
 	using Int3 = Vector3<int>;
 	using Int4 = Vector4<int>;
