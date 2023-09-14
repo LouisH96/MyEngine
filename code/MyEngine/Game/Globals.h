@@ -48,7 +48,7 @@ namespace MyEngine
 	};
 }
 
-#define DELTA_TIME Globals::pDeltaTime
+#define DELTA_TIME Globals::DeltaTime
 #define WINDOW (*Globals::pWindow)
 #define KEYBOARD (*Globals::pKeyboard)
 #define MOUSE (*Globals::pMouse)
