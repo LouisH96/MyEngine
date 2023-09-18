@@ -7,6 +7,8 @@ namespace MyEngine
 	class Random
 	{
 	public:
+		static void Seed();
+
 		//min & max included
 		static float Ratio();
 		static float Range(float max);

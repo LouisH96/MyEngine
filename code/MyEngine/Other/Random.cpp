@@ -5,6 +5,11 @@
 
 #include "Math/Scalars.h"
 
+void Random::Seed()
+{
+	srand(time(nullptr));
+}
+
 float Random::Ratio()
 {
 	return static_cast<float>(std::rand()) / RAND_MAX;
