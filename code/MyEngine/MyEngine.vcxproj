@@ -36,6 +36,7 @@
     <ClCompile Include="Physics\Collisions\LineSphereCollision.cpp" />
     <ClCompile Include="Other\Random.cpp" />
     <ClCompile Include="Geometry\Shapes\Ray.cpp" />
+    <ClCompile Include="Applied\Prefabs\PivotRenderer.cpp" />
     <ClCompile Include="Rendering\Buffers\IdxBuffer.cpp" />
     <ClCompile Include="Rendering\Font\FontAtlasLookup.cpp" />
     <ClCompile Include="Generation\CubeGenerator.cpp" />
@@ -126,6 +127,7 @@
     <ClInclude Include="Physics\Collisions\LineSphereCollision.h" />
     <ClInclude Include="Other\Random.h" />
     <ClInclude Include="Geometry\Shapes\Ray.h" />
+    <ClInclude Include="Applied\Prefabs\PivotRenderer.h" />
     <ClInclude Include="Rendering\Buffers\IdxBuffer.h" />
     <ClInclude Include="Rendering\Font\FontAtlasLookup.h" />
     <ClInclude Include="Generation\CubeGenerator.h" />
