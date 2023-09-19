@@ -20,6 +20,7 @@ namespace MyEngine
 		static int Round(const T& value);
 		static T Clamped(const T& value, const T& min, const T& max);
 		static T TriangleNumber(const T& value);
+		static T Sign(const T& value);
 
 		static T Max(const T& a, const T& b);
 		static T Min(const T& a, const T& b);
@@ -91,6 +92,12 @@ namespace MyEngine
 	T Scalar<T>::TriangleNumber(const T& value)
 	{
 		return static_cast<T>(value * (value + static_cast<T>(1)) * (value + static_cast<T>(2)) / static_cast<T>(6));
+	}
+
+	template <typename T>
+	T Scalar<T>::Sign(const T& value)
+	{
+		return (T{ 0 } < value) - (value < T{ 0 });
 	}
 
 	template <typename T>
