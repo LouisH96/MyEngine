@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Applied\2D\Camera2D.cpp" />
+    <ClCompile Include="Applied\2D\Camera2DController.cpp" />
     <ClCompile Include="Geometry\Shapes\Hexagon.cpp" />
     <ClCompile Include="Generation\HexGenerator.cpp" />
     <ClCompile Include="Physics\Collisions\ConeCubeCollision.cpp" />
@@ -109,6 +111,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\Win32\KeyCodes.h" />
+    <ClInclude Include="Applied\2D\Camera2D.h" />
+    <ClInclude Include="Applied\2D\Camera2DController.h" />
     <ClInclude Include="Geometry\Shapes\Hexagon.h" />
     <ClInclude Include="Generation\HexGenerator.h" />
     <ClInclude Include="Physics\Collisions\ConeCubeCollision.h" />
