@@ -32,7 +32,8 @@ void Logger::Print(const std::string& logMessage)
 void Logger::Print(const std::string& prefix, float value)
 {
 	std::stringstream ss;
-	ss << prefix << value;
+	AddPrefix(ss, prefix);
+	ss << value;
 	Print(ss.str());
 }
 
@@ -54,7 +55,7 @@ void Logger::PrintXYZ(const Float3& vector)
 void Logger::PrintXYZ(const std::string& prefix, const Float3& vector)
 {
 	std::stringstream ss;
-	ss << prefix;
+	AddPrefix(ss, prefix);
 	ss << ToStringXYZ(vector);
 	Print(ss.str());
 }
@@ -67,7 +68,7 @@ void Logger::PrintXY(const Int2& vector)
 void Logger::PrintXY(const std::string& prefix, const Int2& vector)
 {
 	std::stringstream ss;
-	ss << prefix;
+	AddPrefix(ss, prefix);
 	ss << ToStringXY(vector);
 	Print(ss.str());
 }
@@ -158,6 +159,11 @@ void Logger::SetColorRed()
 void Logger::SetColor(short attribute)
 {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), attribute);
+}
+
+void Logger::AddPrefix(std::stringstream& ss, const std::string& prefix)
+{
+	ss << prefix << ": ";
 }
 
 std::string Logger::ToStringXYZ(const float* x)

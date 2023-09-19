@@ -64,6 +64,8 @@ namespace MyEngine
 		static void SetColorYellow();
 		static void SetColorRed();
 		static void SetColor(short attribute);
+
+		static void AddPrefix(std::stringstream& ss, const std::string& prefix);
 	};
 
 	template <typename T>
