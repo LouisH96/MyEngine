@@ -21,6 +21,7 @@ namespace MyEngine
 
 			Camera2D();
 
+			void OnCanvasResized(const App::ResizedEvent& event);
 			void Update();
 
 			void AddZoom(float amount);

@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "Camera2D.h"
 
+#include "App/ResizedEvent.h"
+#include "Rendering/Canvas.h"
+
 using namespace Applied;
 
 Camera2D::DxMatrix Camera2D::DxMatrix::Identity()
@@ -17,10 +20,14 @@ Camera2D::Camera2D()
 {
 }
 
+void Camera2D::OnCanvasResized(const App::ResizedEvent& event)
+{
+}
+
 void Camera2D::Update()
 {
 	//todo: rotation
-	m_Buffer.CameraView.Matrix[0].x = 1.f / m_World.Matrix[0].x;
+	m_Buffer.CameraView.Matrix[0].x = static_cast<float>(CANVAS.GetSize().y) / (m_World.Matrix[0].x * static_cast<float>(CANVAS.GetSize().x));
 	m_Buffer.CameraView.Matrix[1].y = 1.f / m_World.Matrix[1].y;
 }
 
