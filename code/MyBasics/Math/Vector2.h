@@ -68,6 +68,8 @@ namespace MyEngine
 		static Vector2 GetSize(const Vector2* pData, unsigned count);
 		static void GetBounds(const Vector2* pData, unsigned count, Vector2& min, Vector2& max);
 
+		bool IsZero() const;
+
 		T x, y;
 	};
 
@@ -282,6 +284,12 @@ namespace MyEngine
 			if (element.x > max.x) max.x = element.x;
 			if (element.y > max.y) max.y = element.y;
 		}
+	}
+
+	template <typename T>
+	bool Vector2<T>::IsZero() const
+	{
+		return x == T{ 0 } && y == T{ 0 };
 	}
 
 	template <typename T>
