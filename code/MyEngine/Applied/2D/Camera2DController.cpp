@@ -17,6 +17,12 @@ void Camera2DController::EarlyUpdate()
 		const float scale{ Float::Sign(MOUSE.GetScroll()) * m_ZoomSpeed + 1.f };
 		m_pCamera->ScaleZoom(scale);
 	}
+
+	if (MOUSE.IsMiddleBtnDown())
+	{
+		const Float2 movement{ Float2{MOUSE.GetMovement()}*Float2{m_MoveSpeed, -m_MoveSpeed} };
+		m_pCamera->MoveScaled(-movement);
+	}
 }
 
 void Camera2DController::SetCamera(Camera2D* pCamera)

@@ -28,7 +28,9 @@ void Camera2D::Update()
 {
 	//todo: rotation
 	m_Buffer.CameraView.Matrix[0].x = static_cast<float>(CANVAS.GetSize().y) / (m_World.Matrix[0].x * static_cast<float>(CANVAS.GetSize().x));
+	m_Buffer.CameraView.Matrix[0].z = -m_World.Matrix[0].z * m_Zoom;
 	m_Buffer.CameraView.Matrix[1].y = 1.f / m_World.Matrix[1].y;
+	m_Buffer.CameraView.Matrix[1].z = -m_World.Matrix[1].z * m_Zoom;
 }
 
 void Camera2D::AddZoom(float amount)
@@ -49,4 +51,16 @@ void Camera2D::ScaleZoom(float amount)
 	m_World.Matrix[0].y *= multiplier;
 	m_World.Matrix[1].x *= multiplier;
 	m_World.Matrix[1].y *= multiplier;
+}
+
+void Camera2D::Move(const Float2& movement)
+{
+	m_World.Matrix[0].z += movement.x;
+	m_World.Matrix[1].z += movement.y;
+}
+
+void Camera2D::MoveScaled(const Float2& movement)
+{
+	m_World.Matrix[0].z += movement.x / m_Zoom;
+	m_World.Matrix[1].z += movement.y / m_Zoom;
 }

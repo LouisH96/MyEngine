@@ -26,6 +26,10 @@ namespace MyEngine
 
 			void AddZoom(float amount);
 			void ScaleZoom(float amount);
+			float GetZoom() const { return m_Zoom; }
+
+			void Move(const Float2& movement);
+			void MoveScaled(const Float2& movement); //more movement if zoomed out
 
 			const CameraBuffer& GetCameraBuffer() const { return m_Buffer; }
 

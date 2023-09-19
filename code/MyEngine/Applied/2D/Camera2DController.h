@@ -16,6 +16,7 @@ namespace MyEngine
 		private:
 			Camera2D* m_pCamera;
 			float m_ZoomSpeed{ .1f };
+			float m_MoveSpeed{ .001f };
 		};
 	}
 }
