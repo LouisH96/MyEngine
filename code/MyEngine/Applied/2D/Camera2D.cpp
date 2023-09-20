@@ -53,6 +53,16 @@ void Camera2D::ScaleZoom(float amount)
 	m_World.Matrix[1].y *= multiplier;
 }
 
+void Camera2D::SetZoom(float zoom)
+{
+	const float multiplier{ m_Zoom / zoom };
+	m_Zoom = zoom;
+	m_World.Matrix[0].x *= multiplier;
+	m_World.Matrix[0].y *= multiplier;
+	m_World.Matrix[1].x *= multiplier;
+	m_World.Matrix[1].y *= multiplier;
+}
+
 void Camera2D::Move(const Float2& movement)
 {
 	m_World.Matrix[0].z += movement.x;

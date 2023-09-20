@@ -12,6 +12,8 @@ namespace MyEngine
 			void EarlyUpdate();
 
 			void SetCamera(Camera2D* pCamera);
+			void SetMoveSpeed(float moveSpeed) { m_MoveSpeed = moveSpeed; }
+			void SetZoom(float zoom) const;
 
 		private:
 			Camera2D* m_pCamera;

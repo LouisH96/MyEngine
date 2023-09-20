@@ -29,3 +29,8 @@ void Camera2DController::SetCamera(Camera2D* pCamera)
 {
 	m_pCamera = pCamera;
 }
+
+void Camera2DController::SetZoom(float zoom) const
+{
+	m_pCamera->SetZoom(zoom);
+}
