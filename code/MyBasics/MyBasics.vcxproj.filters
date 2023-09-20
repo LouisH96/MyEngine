@@ -33,6 +33,7 @@
     <ClInclude Include="String\StringUtils.h" />
     <ClInclude Include="String\Convert.h" />
     <ClInclude Include="Math\Matrix2X2.h" />
+    <ClInclude Include="DataStructures\Adders\ArrayAdder.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Math\Quaternion.cpp" />
