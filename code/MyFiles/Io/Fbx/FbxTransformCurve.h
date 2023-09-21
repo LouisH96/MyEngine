@@ -1,6 +1,6 @@
 #pragma once
 #include "FbxValueCurve.h"
-#include "Transform.h"
+#include "Transform/Transform.h"
 
 namespace MyEngine
 {

@@ -166,7 +166,7 @@
     <ClInclude Include="DataStructures\PtrRangeConst.h" />
     <ClInclude Include="DataStructures\SortedArray.h" />
     <ClInclude Include="DataStructures\SortedList.h" />
-    <ClInclude Include="Image.h" />
+    <ClInclude Include="Image\Image.h" />
     <ClInclude Include="String\StringUtils.h" />
     <ClInclude Include="Timing\Interval.h" />
     <ClInclude Include="Timing\Counter.h" />
@@ -183,20 +183,20 @@
     <ClInclude Include="Math\Vector4.h" />
     <ClInclude Include="Math\Vectors.h" />
     <ClInclude Include="Timing\Time.h" />
-    <ClInclude Include="Transform.h" />
-    <ClInclude Include="WorldMatrix.h" />
+    <ClInclude Include="Transform\Transform.h" />
+    <ClInclude Include="Transform\WorldMatrix.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="String\Convert.cpp" />
-    <ClCompile Include="Image.cpp" />
+    <ClCompile Include="Image\Image.cpp" />
     <ClCompile Include="String\StringUtils.cpp" />
     <ClCompile Include="Timing\Interval.cpp" />
     <ClCompile Include="Timing\Counter.cpp" />
     <ClCompile Include="Logger\Logger.cpp" />
     <ClCompile Include="Math\Quaternion.cpp" />
     <ClCompile Include="Timing\Time.cpp" />
-    <ClCompile Include="Transform.cpp" />
-    <ClCompile Include="WorldMatrix.cpp" />
+    <ClCompile Include="Transform\Transform.cpp" />
+    <ClCompile Include="Transform\WorldMatrix.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

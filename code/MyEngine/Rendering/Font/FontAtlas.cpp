@@ -6,7 +6,7 @@
 #include "Framework/Resources.h"
 #include "Io/Ttf/FontRasterizer.h"
 #include "Io/Ttf/TtfReader.h"
-#include "Image.h"
+#include "Image/Image.h"
 
 using namespace Io::Ttf;
 

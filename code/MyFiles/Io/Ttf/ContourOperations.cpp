@@ -1,6 +1,6 @@
 #include "ContourOperations.h"
 
-#include "Image.h"
+#include "Image/Image.h"
 #include "TtfReader.h"
 #include "DataStructures/Algorithms.h"
 #include "DataStructures/DsUtils.h"

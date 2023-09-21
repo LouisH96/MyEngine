@@ -23,9 +23,9 @@
     <ClInclude Include="DataStructures\PtrRangeConst.h" />
     <ClInclude Include="DataStructures\SortedArray.h" />
     <ClInclude Include="DataStructures\SortedList.h" />
-    <ClInclude Include="Transform.h" />
-    <ClInclude Include="WorldMatrix.h" />
-    <ClInclude Include="Image.h" />
+    <ClInclude Include="Transform\Transform.h" />
+    <ClInclude Include="Transform\WorldMatrix.h" />
+    <ClInclude Include="Image\Image.h" />
     <ClInclude Include="DataStructures\CubeArray.h" />
     <ClInclude Include="Timing\Counter.h" />
     <ClInclude Include="Timing\Time.h" />
@@ -38,9 +38,9 @@
   <ItemGroup>
     <ClCompile Include="Math\Quaternion.cpp" />
     <ClCompile Include="Logger\Logger.cpp" />
-    <ClCompile Include="Transform.cpp" />
-    <ClCompile Include="WorldMatrix.cpp" />
-    <ClCompile Include="Image.cpp" />
+    <ClCompile Include="Transform\Transform.cpp" />
+    <ClCompile Include="Transform\WorldMatrix.cpp" />
+    <ClCompile Include="Image\Image.cpp" />
     <ClCompile Include="Timing\Counter.cpp" />
     <ClCompile Include="Timing\Time.cpp" />
     <ClCompile Include="Timing\Interval.cpp" />

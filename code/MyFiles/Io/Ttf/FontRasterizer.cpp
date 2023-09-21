@@ -1,6 +1,6 @@
 #include "FontRasterizer.h"
 
-#include "Image.h"
+#include "Image/Image.h"
 #include "Intersection.h"
 #include "Io/Ttf/Glyph.h"
 #include "Logger/Logger.h"

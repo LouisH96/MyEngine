@@ -1,10 +1,9 @@
 #include "pch.h"
 #include "Texture.h"
 
-#include <dxgi.h>
 #include <wincodec.h>
 #include <Rendering/Gpu.h>
-#include <Image.h>
+#include <Image/Image.h>
 
 Rendering::Texture::Texture(const std::wstring& path)
 {
