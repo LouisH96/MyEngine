@@ -16,8 +16,8 @@ namespace MyEngine
 		template<typename D> static T Cast(const D& value);
 		template<typename D> static T Ceil(const D& value);
 		template<typename D> static T Floor(const D& value);
+		template<typename D> static T Round(const D& value);
 
-		static int Round(const T& value);
 		static T Clamped(const T& value, const T& min, const T& max);
 		static T TriangleNumber(const T& value);
 		static T Sign(const T& value);
@@ -75,9 +75,10 @@ namespace MyEngine
 	}
 
 	template <typename T>
-	int Scalar<T>::Round(const T& value)
+	template <typename D>
+	T Scalar<T>::Round(const D& value)
 	{
-		return static_cast<int>(round(value));
+		return static_cast<T>( round(value) );
 	}
 
 	template <typename T>
