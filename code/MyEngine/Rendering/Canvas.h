@@ -36,6 +36,8 @@ namespace MyEngine
 
 			App::ResizedEvent OnWindowResized(Int2 newSize);
 			const Int2& GetSize() const { return m_Size; }
+			float GetWidthF() const { return static_cast<float>(m_Size.x); }
+			float GetHeightF() const { return static_cast<float>(m_Size.y); }
 			float GetAspectRatio() const { return Float::Cast(m_Size.x) / m_Size.y; }
 
 		private:
