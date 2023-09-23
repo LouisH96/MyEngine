@@ -35,6 +35,13 @@ int GuiRenderer::Add(const Float2& pivot, const Float2& offset, const Float2& si
 	return idx;
 }
 
+int GuiRenderer::Add(const UiRect& uiRect, const Float3& color)
+{
+	const int idx{ m_Renderer.Add(uiRect) };
+	m_Renderer.Get(idx).color = color;
+	return idx;
+}
+
 int GuiRenderer::AddCenterBottom(const Float2& offset, const Float2& size, const Float3& color)
 {
 	return Add({ 0,-1 }, offset, size, color);

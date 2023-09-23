@@ -85,6 +85,7 @@
     <ClCompile Include="Applied\Prefabs\PivotRenderer.cpp" />
     <ClCompile Include="Applied\2D\Camera2D.cpp" />
     <ClCompile Include="Applied\2D\Camera2DController.cpp" />
+    <ClCompile Include="Gui\UiRect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -192,6 +193,7 @@
     <ClInclude Include="Applied\Prefabs\PivotRenderer.h" />
     <ClInclude Include="Applied\2D\Camera2D.h" />
     <ClInclude Include="Applied\2D\Camera2DController.h" />
+    <ClInclude Include="Gui\UiRect.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

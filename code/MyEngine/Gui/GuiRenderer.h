@@ -5,6 +5,8 @@
 
 namespace MyEngine
 {
+	struct UiRect;
+
 	namespace App
 	{
 		struct ResizedEvent;
@@ -24,6 +26,7 @@ namespace MyEngine
 
 			void Remove(int id);
 			int Add(const Float2& pivot, const Float2& offset, const Float2& size, const Float3& color);
+			int Add(const UiRect& uiRect, const Float3& color);
 			int AddCenterBottom(const Float2& offset, const Float2& size, const Float3& color);
 
 			int GetHovered() const;

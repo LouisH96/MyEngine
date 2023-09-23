@@ -1,5 +1,6 @@
 #pragma once
 #include "Gui/NdcUtils.h"
+#include "Gui/UiRect.h"
 #include "Math/Vectors.h"
 #include "Rendering/Canvas.h"
 #include "Rendering/Buffers/Buffer.h"
@@ -11,6 +12,8 @@
 
 namespace MyEngine
 {
+	struct UiRect;
+
 	namespace App
 	{
 		struct ResizedEvent;
@@ -33,6 +36,7 @@ namespace MyEngine
 			void Remove(int id);
 			int Add(const Float2& pivot, const Float2& offset, const Float2& size);
 			int Add(const Float2& screenPivot, const Float2& elementPivot, const Float2& offset, const Float2& size);
+			int Add(const UiRect& uiRect);
 			int AddCenterBottom(const Float2& offset, const Float2& size);
 
 			Float2 GetMouseNdc() const;
@@ -135,6 +139,18 @@ namespace MyEngine
 			const int idx{ m_Instances.Add(std::move(instance)) };
 			m_Pivots.EnsureSize(idx + 1);
 			m_Pivots[idx] = screenPivot;
+			return idx;
+		}
+
+		template <typename Vertex, typename Instance>
+		int NdcRectRenderer<Vertex, Instance>::Add(const UiRect& uiRect)
+		{
+			Instance instance{};
+			Gui::NdcUtils::ScreenRectToNdc(m_InvCanvasSize, uiRect.Offset, uiRect.Size, uiRect.Pivot, instance.GetCenter(), instance.GetSize());
+
+			const int idx{ m_Instances.Add(std::move(instance)) };
+			m_Pivots.EnsureSize(idx + 1);
+			m_Pivots[idx] = uiRect.Pivot;
 			return idx;
 		}
 

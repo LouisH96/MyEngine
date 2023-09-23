@@ -23,6 +23,7 @@
     <ClCompile Include="Applied\2D\Camera2DController.cpp" />
     <ClCompile Include="Geometry\Shapes\Hexagon.cpp" />
     <ClCompile Include="Generation\HexGenerator.cpp" />
+    <ClCompile Include="Gui\UiRect.cpp" />
     <ClCompile Include="Physics\Collisions\ConeCubeCollision.cpp" />
     <ClCompile Include="Debug\Rendering\DebugCones.cpp" />
     <ClCompile Include="Generation\ConeGenerator.cpp" />
@@ -115,6 +116,7 @@
     <ClInclude Include="Applied\2D\Camera2DController.h" />
     <ClInclude Include="Geometry\Shapes\Hexagon.h" />
     <ClInclude Include="Generation\HexGenerator.h" />
+    <ClInclude Include="Gui\UiRect.h" />
     <ClInclude Include="Physics\Collisions\ConeCubeCollision.h" />
     <ClInclude Include="Debug\Rendering\DebugCones.h" />
     <ClInclude Include="Generation\ConeGenerator.h" />
