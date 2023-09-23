@@ -1,35 +1,36 @@
 #include "pch.h"
 #include "NdcUtils.h"
 
+using namespace Gui;
 
-Float2 Gui::NdcUtils::GetMouseNdc(const Float2& invCanvasSize)
+Float2 NdcUtils::GetMouseNdc(const Float2& invCanvasSize)
 {
 	return ScreenPointToNdc(Globals::pMouse->GetPos(), invCanvasSize);
 }
 
-Float2 Gui::NdcUtils::ScreenPointToNdc(const Int2& point, const Float2& invCanvasSize)
+Float2 NdcUtils::ScreenPointToNdc(const Int2& point, const Float2& invCanvasSize)
 {
-	return Float2{ point } *Float2{ 2, -2 } *invCanvasSize - Float2{1, -1};
+	return Float2{ point } *Float2{ 2, -2 } *invCanvasSize - Float2{ 1, -1 };
 }
 
-Float2 Gui::NdcUtils::ScreenPointToNdc(const Float2& point, const Float2& invCanvasSize)
+Float2 NdcUtils::ScreenPointToNdc(const Float2& point, const Float2& invCanvasSize)
 {
-	return point * invCanvasSize * Float2{ 2,-2 } - Float2{1, -1};
+	return point * invCanvasSize * Float2{ 2,-2 } - Float2{ 1, -1 };
 }
 
-Float2 Gui::NdcUtils::GetInvSize(const Int2& size)
+Float2 NdcUtils::GetInvSize(const Int2& size)
 {
 	return Float2{ 1 } / size;
 }
 
-Float2 Gui::NdcUtils::UpdateInvCanvasSize(const Int2& newSize, Float2& invCanvasSize)
+Float2 NdcUtils::UpdateInvCanvasSize(const Int2& newSize, Float2& invCanvasSize)
 {
 	const Float2 oldInvCanvasSize{ invCanvasSize };
 	invCanvasSize = Float2{ 1 } / newSize;
 	return invCanvasSize / oldInvCanvasSize;
 }
 
-void Gui::NdcUtils::Resize(const Float2& scale, const Float2& pivot, Float2& rectCenter, Float2& rectSize)
+void NdcUtils::Resize(const Float2& scale, const Float2& pivot, Float2& rectCenter, Float2& rectSize)
 {
 	rectCenter -= pivot;
 	rectCenter *= scale;
@@ -37,7 +38,7 @@ void Gui::NdcUtils::Resize(const Float2& scale, const Float2& pivot, Float2& rec
 	rectSize *= scale;
 }
 
-void Gui::NdcUtils::ScreenRectToNdc(const Float2& invCanvasSize, const Float2& offset, const Float2& size,
+void NdcUtils::ScreenRectToNdc(const Float2& invCanvasSize, const Float2& offset, const Float2& size,
 	const Float2& pivot, Float2& rectCenter, Float2& rectSize)
 {
 	const Float2 halfNdcSize{ size * invCanvasSize };
@@ -47,7 +48,16 @@ void Gui::NdcUtils::ScreenRectToNdc(const Float2& invCanvasSize, const Float2& o
 	rectCenter += (offset * 2) * invCanvasSize; //offset applied
 }
 
-void Gui::NdcUtils::SetScreenSpaceOffset(const Float2& invCanvasSize, const Float2& pivot,
+void NdcUtils::ScreenRectToNdc(const Float2& invCanvasSize, const Float2& canvasPivot, const Float2& offset,
+	const Float2& size, const Float2& elementPivot, Float2& rectCenter, Float2& rectSize)
+{
+	const Float2 halfNdcSize{ size * invCanvasSize };
+	rectSize = halfNdcSize * 2;
+	rectCenter += canvasPivot + offset * 2 * invCanvasSize;
+	rectCenter += halfNdcSize * elementPivot;
+}
+
+void NdcUtils::SetScreenSpaceOffset(const Float2& invCanvasSize, const Float2& pivot,
 	const Float2& screenSpaceCenter, const Float2& rectSize, Float2& center)
 {
 	const Float2 localPivot{ rectSize * .5f * pivot }; //center of rect (0,0) to rects local pivot point
@@ -55,7 +65,7 @@ void Gui::NdcUtils::SetScreenSpaceOffset(const Float2& invCanvasSize, const Floa
 	center = pivot - localPivot + ndcOffset;
 }
 
-void Gui::NdcUtils::SetScreenSpaceOffsetX(const Float2& invCanvasSize, const Float2& pivot, float screenSpaceX,
+void NdcUtils::SetScreenSpaceOffsetX(const Float2& invCanvasSize, const Float2& pivot, float screenSpaceX,
 	const Float2& rectSize, Float2& center)
 {
 	const float localPivot{ rectSize.x * .5f * pivot.x };
@@ -63,7 +73,7 @@ void Gui::NdcUtils::SetScreenSpaceOffsetX(const Float2& invCanvasSize, const Flo
 	center.x = pivot.x - localPivot + ndcOffset;
 }
 
-void Gui::NdcUtils::SetScreenSpaceOffsetY(const Float2& invCanvasSize, const Float2& pivot, float screenSpaceY,
+void NdcUtils::SetScreenSpaceOffsetY(const Float2& invCanvasSize, const Float2& pivot, float screenSpaceY,
 	const Float2& rectSize, Float2& center)
 {
 	const float localPivot{ rectSize.y * .5f * pivot.y };

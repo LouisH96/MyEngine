@@ -32,6 +32,7 @@ namespace MyEngine
 			const Instance& Get(int id) const;
 			void Remove(int id);
 			int Add(const Float2& pivot, const Float2& offset, const Float2& size);
+			int Add(const Float2& screenPivot, const Float2& elementPivot, const Float2& offset, const Float2& size);
 			int AddCenterBottom(const Float2& offset, const Float2& size);
 
 			Float2 GetMouseNdc() const;
@@ -121,6 +122,19 @@ namespace MyEngine
 			const int idx{ m_Instances.Add(std::move(instance)) };
 			m_Pivots.EnsureSize(idx + 1);
 			m_Pivots[idx] = pivot;
+			return idx;
+		}
+
+		template <typename Vertex, typename Instance>
+		int NdcRectRenderer<Vertex, Instance>::Add(const Float2& screenPivot, const Float2& elementPivot,
+			const Float2& offset, const Float2& size)
+		{
+			Instance instance{};
+			Gui::NdcUtils::ScreenRectToNdc(m_InvCanvasSize, screenPivot, offset, size, elementPivot, instance.GetCenter(), instance.GetSize());
+
+			const int idx{ m_Instances.Add(std::move(instance)) };
+			m_Pivots.EnsureSize(idx + 1);
+			m_Pivots[idx] = screenPivot;
 			return idx;
 		}
 

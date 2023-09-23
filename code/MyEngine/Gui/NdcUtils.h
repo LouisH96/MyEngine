@@ -27,6 +27,7 @@ namespace MyEngine
 			static void Resize(const Float2& scale, const Float2& pivot, Float2& rectCenter, Float2& rectSize);
 
 			static void ScreenRectToNdc(const Float2& invCanvasSize, const Float2& offset, const Float2& size, const Float2& pivot, Float2& rectCenter, Float2& rectSize);
+			static void ScreenRectToNdc(const Float2& invCanvasSize, const Float2& canvasPivot, const Float2& offset, const Float2& size, const Float2& elementPivot, Float2& rectCenter, Float2& rectSize);
 
 			static void SetScreenSpaceOffset(const Float2& invCanvasSize, const Float2& pivot, const Float2& screenSpaceCenter, const Float2& rectSize, Float2& center);
 			static void SetScreenSpaceOffsetX(const Float2& invCanvasSize, const Float2& pivot, float screenSpaceX, const Float2& rectSize,  Float2& center);
