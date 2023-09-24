@@ -46,7 +46,7 @@ void FontRenderer::Remove(int id)
 }
 
 int FontRenderer::Add(char c, const Float2& pivot, const Float2& offset, const Float3& color,
-                      const Float2& screenSize, const RectFloat& uvRect)
+	const Float2& screenSize, const RectFloat& uvRect)
 {
 	const int idx{ m_Renderer.Add(pivot, offset, screenSize) };
 	Instance& instance{ m_Renderer.Get(idx) };
@@ -57,13 +57,13 @@ int FontRenderer::Add(char c, const Float2& pivot, const Float2& offset, const F
 }
 
 int FontRenderer::Add(const std::string& text, const Float2& pivot, const Float2& offset, float height,
-                      const Float3& color, float spacing)
+	const Float3& color, float spacing)
 {
 	return Add(text, pivot, pivot, offset, height, color, spacing);
 }
 
 int FontRenderer::Add(const std::string& text, const Float2& screenPivot, const Float2& elementPivot,
-                      const Float2& offset, float height, const Float3& color, float spacing)
+	const Float2& offset, float height, const Float3& color, float spacing)
 {
 	//retrieve existing entry struct (so an existing list can be reused)
 	Entry* pEntry;
@@ -75,8 +75,8 @@ int FontRenderer::Add(const std::string& text, const Float2& screenPivot, const 
 	const Float2 totalSize{ m_CharLookup.GetScreenSize(text, height, spacing) };
 
 	//add each character
-	const Float2 normalizedPivot{ (elementPivot + Float2{1,1}) / 2 };
-	float currentX{ offset.x - totalSize.x * normalizedPivot.x };
+	const Float2 normalizedPivot{ (screenPivot + Float2{1,1}) / 2 };
+	float currentX{ offset.x - totalSize.x * (elementPivot.x + 1) / 2 };
 	for (const char c : text)
 	{
 		if (c == ' ')
@@ -99,55 +99,55 @@ int FontRenderer::Add(const std::string& text, const Float2& screenPivot, const 
 }
 
 int FontRenderer::AddLeftTop(const std::string& text, float height, const Float2& offset, const Float3& color,
-                             float spacing)
+	float spacing)
 {
 	return Add(text, { -1,1 }, offset, height, color, spacing);
 }
 
 int FontRenderer::AddLeftCenter(const std::string& text, float height, const Float2& offset, const Float3& color,
-                                float spacing)
+	float spacing)
 {
 	return Add(text, { -1, 0 }, offset, height, color, spacing);
 }
 
 int FontRenderer::AddLeftBot(const std::string& text, float height, const Float2& offset, const Float3& color,
-                             float spacing)
+	float spacing)
 {
 	return Add(text, { -1,-1 }, offset, height, color, spacing);
 }
 
 int FontRenderer::AddCenterTop(const std::string& text, float height, const Float2& offset, const Float3& color,
-                               float spacing)
+	float spacing)
 {
 	return Add(text, { 0, 1 }, offset, height, color, spacing);
 }
 
 int FontRenderer::AddCenter(const std::string& text, float height, const Float2& offset, const Float3& color,
-                            float spacing)
+	float spacing)
 {
 	return Add(text, { 0,0 }, offset, height, color, spacing);
 }
 
 int FontRenderer::AddCenterBot(const std::string& text, float height, const Float2& offset, const Float3& color,
-                               float spacing)
+	float spacing)
 {
 	return Add(text, { 0, -1 }, offset, height, color, spacing);
 }
 
 int FontRenderer::AddRightTop(const std::string& text, float height, const Float2& offset, const Float3& color,
-                              float spacing)
+	float spacing)
 {
 	return Add(text, { 1, 1 }, offset, height, color, spacing);
 }
 
 int FontRenderer::AddRightCenter(const std::string& text, float height, const Float2& offset, const Float3& color,
-                                 float spacing)
+	float spacing)
 {
 	return Add(text, { 1, 0 }, offset, height, color, spacing);
 }
 
 int FontRenderer::AddRightBot(const std::string& text, float height, const Float2& offset, const Float3& color,
-                              float spacing)
+	float spacing)
 {
 	return Add(text, { 1, -1 }, offset, height, color, spacing);
 }
