@@ -9,6 +9,7 @@ namespace MyEngine
 	public:
 		//---| Construction |---
 		explicit InvalidateList(unsigned capacity = 4);
+		explicit InvalidateList(const PtrRangeConst<Data>& range);
 		~InvalidateList();
 
 		InvalidateList(const InvalidateList& other);
@@ -79,6 +80,16 @@ namespace MyEngine
 	{
 		for (unsigned i = 0; i < capacity; i++)
 			m_pData[i].Invalidate();
+	}
+
+	template <typename Data>
+	InvalidateList<Data>::InvalidateList(const PtrRangeConst<Data>& range)
+		: m_pData{ new Data[range.count] }
+		, m_Capacity{ range.count }
+		, m_First{ 0 }, m_End{ 0 }, m_GapIndicator{ 0 }
+		, m_Changed{ true }
+	{
+		std::copy(range.First(), range.End(), m_pData);
 	}
 
 	template <typename Data>
