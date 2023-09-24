@@ -36,6 +36,11 @@ namespace MyEngine
 			void SetColor(int id, const Float3& color);
 			void SetOffsetX(int id, float xPixels);
 			void SetOffsetY(int id, float yPixels);
+			void SetHeight(int id, float newHeight);
+
+			const Float2& GetSize(int id) const;
+			float GetWidth(int id) const;
+			float GetHeight(int id) const;
 
 		private:
 			using Vertex = Rendering::V_Pos2;

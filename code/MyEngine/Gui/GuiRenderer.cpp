@@ -85,3 +85,23 @@ void GuiRenderer::SetOffsetY(int id, float yPixels)
 {
 	m_Renderer.SetOffsetY(id, yPixels);
 }
+
+void GuiRenderer::SetHeight(int id, float newHeight)
+{
+	m_Renderer.SetHeight(id, newHeight);
+}
+
+const Float2& GuiRenderer::GetSize(int id) const
+{
+	return m_Renderer.GetSize(id);
+}
+
+float GuiRenderer::GetWidth(int id) const
+{
+	return m_Renderer.GetWidth(id);
+}
+
+float GuiRenderer::GetHeight(int id) const
+{
+	return m_Renderer.GetHeight(id);
+}

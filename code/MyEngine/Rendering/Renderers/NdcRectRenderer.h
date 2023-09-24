@@ -45,6 +45,14 @@ namespace MyEngine
 			void SetOffsetX(int id, float xPixels);
 			void SetOffsetY(int id, float yPixels);
 
+			Float2 GetSize(int id) const;
+			float GetWidth(int id) const;
+			float GetHeight(int id) const;
+			void SetSize(int id, const Float2& sizeInPixels);
+			void SetWidth(int id, float widthInPixels);
+			void SetHeight(int id, float heightInPixels);
+
+
 		private:
 			DepthStencilState m_DepthStencilState;
 			InputLayout m_InputLayout;
@@ -205,6 +213,42 @@ namespace MyEngine
 			const Float2& pivot{ m_Pivots[id] };
 			Instance& instance{ m_Instances[id] };
 			Gui::NdcUtils::SetScreenSpaceOffsetY(m_InvCanvasSize, pivot, yPixels, instance.GetSize(), instance.GetCenter());
+		}
+
+		template <typename Vertex, typename Instance>
+		Float2 NdcRectRenderer<Vertex, Instance>::GetSize(int id) const
+		{
+			return m_Instances[id].size / (m_InvCanvasSize * 2);
+		}
+
+		template <typename Vertex, typename Instance>
+		float NdcRectRenderer<Vertex, Instance>::GetWidth(int id) const
+		{
+			return m_Instances[id].size.x / (m_InvCanvasSize.x * 2.f);
+		}
+
+		template <typename Vertex, typename Instance>
+		float NdcRectRenderer<Vertex, Instance>::GetHeight(int id) const
+		{
+			return m_Instances[id].size.y / (m_InvCanvasSize.y * 2.f);
+		}
+
+		template <typename Vertex, typename Instance>
+		void NdcRectRenderer<Vertex, Instance>::SetSize(int id, const Float2& sizeInPixels)
+		{
+			m_Instances[id].size = sizeInPixels * m_InvCanvasSize * 2;
+		}
+
+		template <typename Vertex, typename Instance>
+		void NdcRectRenderer<Vertex, Instance>::SetWidth(int id, float widthInPixels)
+		{
+			m_Instances[id].size.x = widthInPixels * m_InvCanvasSize.x * 2;
+		}
+
+		template <typename Vertex, typename Instance>
+		void NdcRectRenderer<Vertex, Instance>::SetHeight(int id, float heightInPixels)
+		{
+			m_Instances[id].size.y = heightInPixels * m_InvCanvasSize.y * 2;
 		}
 
 		template <typename Vertex, typename Instance>
