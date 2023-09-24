@@ -26,6 +26,7 @@ namespace MyEngine
 		const Target& operator[](unsigned idx) const;
 		const Target& First() const;
 		const Target& Last() const;
+		const Target* End() const;
 	};
 
 	template <typename Target, typename Data, const Target& (Getter)(const Data&)>
@@ -65,5 +66,11 @@ namespace MyEngine
 	const Target& PtrRangeConst<Target, Data, Getter>::Last() const
 	{
 		return (*this)[count - 1];
+	}
+
+	template <typename Target, typename Data, const Target&(* Getter)(const Data&)>
+	const Target* PtrRangeConst<Target, Data, Getter>::End() const
+	{
+		return pData[count];
 	}
 }
