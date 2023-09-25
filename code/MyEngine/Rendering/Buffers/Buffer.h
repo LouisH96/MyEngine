@@ -33,6 +33,7 @@ namespace MyEngine
 
 			void Draw();
 			void DrawIndexInstance(unsigned nrIndices) const;
+			void DrawIndexInstance(unsigned nrIndices, unsigned nrInstances, unsigned indexOffset, unsigned instanceOffset) const;
 
 		private:
 			ID3D11Buffer* m_pBuffer;
@@ -144,6 +145,13 @@ namespace MyEngine
 		void Buffer<Data>::DrawIndexInstance(unsigned nrIndices) const
 		{
 			Globals::pGpu->GetContext().DrawIndexedInstanced(nrIndices, m_Capacity, 0, 0, 0);
+		}
+
+		template <typename Data>
+		void Buffer<Data>::DrawIndexInstance(unsigned nrIndices, unsigned nrInstances, unsigned indexOffset,
+			unsigned instanceOffset) const
+		{
+			Globals::pGpu->GetContext().DrawIndexedInstanced(nrIndices, nrInstances, indexOffset, 0, instanceOffset);
 		}
 	}
 }
