@@ -166,8 +166,13 @@ void Rendering::Dx::DxHelper::CreateIndexBuffer(ID3D11Buffer*& pIndexBuffer, con
 	CreateIndexBuffer(pIndexBuffer, indices.GetData(), indices.GetSize(), immutable);
 }
 
+void Rendering::Dx::DxHelper::EndUpdateBuffer(ID3D11Buffer*& buffer)
+{
+	GPU.GetContext().Unmap(buffer, 0);
+}
+
 void Rendering::Dx::DxHelper::CreateVertexBuffer(ID3D11Buffer*& pBuffer, unsigned stride, int length,
-	bool immutable)
+                                                 bool immutable)
 {
 	const D3D11_BUFFER_DESC desc
 	{

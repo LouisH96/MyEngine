@@ -35,6 +35,9 @@ namespace MyEngine
 			void DrawIndexInstance(unsigned nrIndices) const;
 			void DrawIndexInstance(unsigned nrIndices, unsigned nrInstances, unsigned indexOffset, unsigned instanceOffset) const;
 
+			Data* StartCopyData();
+			void EndCopyData();
+
 		private:
 			ID3D11Buffer* m_pBuffer;
 			unsigned m_Capacity;
@@ -152,6 +155,19 @@ namespace MyEngine
 			unsigned instanceOffset) const
 		{
 			Globals::pGpu->GetContext().DrawIndexedInstanced(nrIndices, nrInstances, indexOffset, 0, instanceOffset);
+		}
+
+		template <typename Data>
+		Data* Buffer<Data>::StartCopyData()
+		{
+			return Dx::DxHelper::StartUpdateBuffer<Data>(m_pBuffer);
+
+		}
+
+		template <typename Data>
+		void Buffer<Data>::EndCopyData()
+		{
+			Dx::DxHelper::EndUpdateBuffer(m_pBuffer);
 		}
 	}
 }

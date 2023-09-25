@@ -42,6 +42,9 @@ namespace MyEngine
 				static void UpdateBuffer(ID3D11Buffer& buffer, const T& bufferContent);
 				template <typename T>
 				static void UpdateBuffer(ID3D11Buffer*& buffer, const T* pData, unsigned count);
+				template<typename T>
+				static T* StartUpdateBuffer(ID3D11Buffer*& buffer);
+				static void EndUpdateBuffer(ID3D11Buffer*& buffer);
 
 				template <typename T>
 				static void CreateRwStructuredBuffer(ID3D11Buffer*& pBuffer, ID3D11UnorderedAccessView*& pView, T* pInitData, size_t nrInitElems);
@@ -120,6 +123,16 @@ namespace MyEngine
 				if (FAILED(result)) Logger::PrintError("[DxHelper::UpdateBuffer] failed updating buffer");
 				std::copy(pData, &pData[count], static_cast<T*>(mapped.pData));
 				Globals::pGpu->GetContext().Unmap(buffer, 0);
+			}
+
+			template <typename T>
+			T* DxHelper::StartUpdateBuffer(ID3D11Buffer*& buffer)
+			{
+				D3D11_MAPPED_SUBRESOURCE resource{};
+				const HRESULT result{ GPU.GetContext().Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &resource) };
+				if (FAILED(result))
+					Logger::PrintError("[DxHelper::StartUpdateBuffer] failed mapping buffer");
+				return static_cast<T*>(resource.pData);
 			}
 
 			template <typename T>
