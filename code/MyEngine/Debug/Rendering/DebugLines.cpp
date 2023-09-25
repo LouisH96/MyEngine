@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "DebugLines.h"
 
+#include "DataStructures/Adders/ArrayAdder.h"
 #include "Framework/Resources.h"
 #include "Generation/DiskGenerator.h"
 #include "Geometry/Shapes/Line.h"
@@ -68,6 +69,14 @@ void DebugLines::DrawRay(const Ray& ray, const Float3& color)
 
 void DebugLines::DrawDiskXz(const Float3& center, float radius, const Float3& color)
 {
-	const Array<Float3> points{DiskGenerator::GenerateXz(center, radius)};
+	using Gen = DiskGenerator<ModelTopology::TriangleListIdx>;
+	const Gen::Options options{ radius };
+
+	Array<Float3> points{ Gen::GetNrVertices(options) };
+	Gen::Generate([center](const Float2& point)
+		{
+			return Float3{ point.x + center.x, center.y, point.y + center.z };
+		}, ArrayAdder<Float3>{points, 0}, options);
+
 	DrawLineLoop(PtrRangeConst<Float3>{points}, color);
 }

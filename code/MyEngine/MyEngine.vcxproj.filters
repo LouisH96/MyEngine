@@ -73,7 +73,6 @@
     <ClCompile Include="Geometry\Shapes\Line.cpp" />
     <ClCompile Include="Debug\Rendering\DebugCubes.cpp" />
     <ClCompile Include="Geometry\Shapes\Cube.cpp" />
-    <ClCompile Include="Generation\DiskGenerator.cpp" />
     <ClCompile Include="Physics\Collisions\LineCubeCollision.cpp" />
     <ClCompile Include="Generation\ConeGenerator.cpp" />
     <ClCompile Include="Debug\Rendering\DebugCones.cpp" />
@@ -196,6 +195,7 @@
     <ClInclude Include="Gui\UiRect.h" />
     <ClInclude Include="Generation\RectGenerator.h" />
     <ClInclude Include="Geometry\ModelTopology.h" />
+    <ClInclude Include="Generation\DiskGenerator_TriangleListIdx.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
