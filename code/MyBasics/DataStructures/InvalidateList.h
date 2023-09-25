@@ -286,20 +286,20 @@ namespace MyEngine
 	template <typename Data>
 	const Data* InvalidateList<Data>::GetLast() const
 	{
-		return m_pData[m_End - 1];
+		return &m_pData[m_End - 1];
 	}
 
 	template <typename Data>
 	const Data* InvalidateList<Data>::GetEnd() const
 	{
-		return m_pData[m_End];
+		return &m_pData[m_End];
 	}
 
 	template <typename Data>
 	Data* InvalidateList<Data>::GetEnd()
 	{
 		m_Changed = true;
-		return m_pData[m_End];
+		return &m_pData[m_End];
 	}
 
 	template <typename Data>
