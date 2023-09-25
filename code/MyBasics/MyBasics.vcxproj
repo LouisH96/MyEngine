@@ -153,6 +153,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="DataStructures\Adders\ArrayAdder.h" />
+    <ClInclude Include="DataStructures\Adders\ListAdder.h" />
     <ClInclude Include="Math\Matrix2X2.h" />
     <ClInclude Include="String\Convert.h" />
     <ClInclude Include="DataStructures\Algorithms.h" />
