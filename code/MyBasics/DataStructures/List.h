@@ -10,6 +10,7 @@ namespace MyEngine
 	public:
 		//---| Constructor/Destructor |---
 		List(int capacity = 5);
+		List(unsigned capacity);
 		~List();
 
 		//---| Move/Copy |---
@@ -19,6 +20,7 @@ namespace MyEngine
 		List& operator=(List&& other) noexcept;
 
 		//---| Functions |---
+		T& Add();
 		void Add(const T& value);
 		void Add(T&& value);
 		void Add(const T* pValue, unsigned nrValues);
@@ -70,6 +72,15 @@ namespace MyEngine
 		, m_Capacity{ capacity }
 		, m_Size{ 0 }
 	{ }
+
+	template <typename T>
+	List<T>::List(unsigned capacity)
+		: m_pData{ new T[capacity] }
+		, m_Capacity{ static_cast<int>(capacity) }
+		, m_Size{ 0 }
+	{
+
+	}
 
 	template <typename T>
 	List<T>::~List()
@@ -124,6 +135,14 @@ namespace MyEngine
 		other.m_Capacity = 0;
 		other.m_Size = 0;
 		return *this;
+	}
+
+	template <typename T>
+	T& List<T>::Add()
+	{
+		if (m_Size == m_Capacity)
+			SetCapacity(m_Capacity * 2 + 1);
+		return m_pData[m_Size++];
 	}
 
 	template <typename T>
