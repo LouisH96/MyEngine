@@ -116,6 +116,7 @@
     <ClInclude Include="Applied\2D\Camera2DController.h" />
     <ClInclude Include="Geometry\Shapes\Hexagon.h" />
     <ClInclude Include="Generation\HexGenerator.h" />
+    <ClInclude Include="Geometry\ModelTopology.h" />
     <ClInclude Include="Gui\UiRect.h" />
     <ClInclude Include="Physics\Collisions\ConeCubeCollision.h" />
     <ClInclude Include="Debug\Rendering\DebugCones.h" />
@@ -134,6 +135,7 @@
     <ClInclude Include="Other\Random.h" />
     <ClInclude Include="Geometry\Shapes\Ray.h" />
     <ClInclude Include="Applied\Prefabs\PivotRenderer.h" />
+    <ClInclude Include="Generation\RectGenerator.h" />
     <ClInclude Include="Rendering\Buffers\IdxBuffer.h" />
     <ClInclude Include="Rendering\Font\FontAtlasLookup.h" />
     <ClInclude Include="Generation\CubeGenerator.h" />

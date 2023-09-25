@@ -194,6 +194,8 @@
     <ClInclude Include="Applied\2D\Camera2D.h" />
     <ClInclude Include="Applied\2D\Camera2DController.h" />
     <ClInclude Include="Gui\UiRect.h" />
+    <ClInclude Include="Generation\RectGenerator.h" />
+    <ClInclude Include="Geometry\ModelTopology.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
