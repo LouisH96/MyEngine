@@ -1,16 +1,17 @@
 #include "pch.h"
 #include "CollisionDetection.h"
 
-#include "Generation/Shapes.h"
 #include "Geometry/Shapes/Sphere.h"
 
-bool Physics::CollisionDetection::Detect(const Float3& from, const Float3& to,
-                                         const Array<Float3>& vertices, const Array<Float3>& triangleNormals, Collision& collision)
+using namespace Physics;
+
+bool CollisionDetection::Detect(const Float3& from, const Float3& to,
+                                const Array<Float3>& vertices, const Array<Float3>& triangleNormals, Collision& collision)
 {
 	float rayLength;
 	const Float3 ray{ (to - from).Normalized(rayLength) };
 
-	for (int iVertex = 0, iTriangle = 0; iVertex < vertices.GetSize(); iVertex += 3, iTriangle++)
+	for (unsigned iVertex = 0, iTriangle = 0; iVertex < vertices.GetSize(); iVertex += 3, iTriangle++)
 	{
 		const Float3& v0{ vertices[iVertex + 0] };
 		const Float3& normal{ triangleNormals[iTriangle] };
@@ -29,14 +30,14 @@ bool Physics::CollisionDetection::Detect(const Float3& from, const Float3& to,
 	return false;
 }
 
-bool Physics::CollisionDetection::Detect(const Float3& from, const Float3& to,
-	const Array<Float3>& vertices, const Array<Float3>& triangleNormals, const Array<int>& indices, Collision& collision)
+bool CollisionDetection::Detect(const Float3& from, const Float3& to,
+                                const Array<Float3>& vertices, const Array<Float3>& triangleNormals, const Array<int>& indices, Collision& collision)
 {
 	float rayLength;
 	const Float3 ray{ (to - from).Normalized(rayLength) };
 
 	int iTriangle = 0;
-	for (int iIndex = 2; iIndex < indices.GetSize(); iIndex += 3, iTriangle++)
+	for (unsigned iIndex = 2; iIndex < indices.GetSize(); iIndex += 3, iTriangle++)
 	{
 		const Float3& v0{ vertices[indices[iIndex - 2]] };
 		const Float3& normal{ triangleNormals[iTriangle] };
@@ -55,12 +56,12 @@ bool Physics::CollisionDetection::Detect(const Float3& from, const Float3& to,
 	return false;
 }
 
-bool Physics::CollisionDetection::Detect(
+bool CollisionDetection::Detect(
 	const Sphere& sphere,
 	const Array<Float3>& vertices, const Array<Float3>& triangleNormals, const Array<int>& indices,
 	Float3& overlap)
 {
-	for (int iIndex = 2, iTriangle = 0; iIndex < indices.GetSize(); iIndex += 3, iTriangle++)
+	for (unsigned iIndex = 2, iTriangle = 0; iIndex < indices.GetSize(); iIndex += 3, iTriangle++)
 	{
 		const Float3& v2{ vertices[indices[iIndex]] };
 		const Float3& normal{ triangleNormals[iTriangle] };
@@ -78,9 +79,9 @@ bool Physics::CollisionDetection::Detect(
 	return false;
 }
 
-bool Physics::CollisionDetection::IsPlanePointInTriangle(const Float3& point,
-	const Float3& v0, const Float3& v1, const Float3& v2,
-	const Float3& triangleNormal)
+bool CollisionDetection::IsPlanePointInTriangle(const Float3& point,
+                                                const Float3& v0, const Float3& v1, const Float3& v2,
+                                                const Float3& triangleNormal)
 {
 	const Float3 edge01{ v1 - v0 };
 	const Float3 v0ToPoint{ point - v0 };
@@ -99,7 +100,7 @@ bool Physics::CollisionDetection::IsPlanePointInTriangle(const Float3& point,
 	return true;
 }
 
-float Physics::CollisionDetection::GetTime(
+float CollisionDetection::GetTime(
 	const Float3& v0, const Float3& normal,
 	const Float3& rayOrigin, const Float3& rayDir)
 {
