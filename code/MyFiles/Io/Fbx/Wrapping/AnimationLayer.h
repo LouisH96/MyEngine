@@ -26,7 +26,7 @@ namespace MyEngine
 					AnimationLayer() = default;
 					explicit AnimationLayer(Reading::FbxElement& object);
 
-					int64_t Id;
+					int64_t Id{};
 					std::string Name;
 
 					void SetAnimationStack(const AnimationStack& animationStack);

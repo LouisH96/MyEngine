@@ -25,7 +25,7 @@ namespace MyEngine
 					FbxWrapTexture() = default;
 					explicit FbxWrapTexture(Reading::FbxElement& object);
 
-					int64_t Id;
+					int64_t Id{};
 
 					void AddMaterial(const FbxWrapMaterial& material);
 					void AddLinkedVideo(const Video& video);

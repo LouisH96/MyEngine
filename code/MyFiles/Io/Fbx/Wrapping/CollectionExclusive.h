@@ -25,7 +25,7 @@ namespace MyEngine
 					CollectionExclusive() = default;
 					explicit CollectionExclusive(Reading::FbxElement& object);
 
-					int64_t Id;
+					int64_t Id{};
 					std::string String1;
 					std::string String2;
 

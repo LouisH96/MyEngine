@@ -24,7 +24,7 @@ namespace MyEngine
 					Deformer() = default;
 					Deformer(Reading::FbxElement& object);
 
-					int64_t Id;
+					int64_t Id{};
 
 					void SetParentGeometry(const Geometry& geometry);
 					void SetParentDeformer(const Deformer& deformer);
