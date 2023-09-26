@@ -27,6 +27,8 @@ namespace MyEngine
 					//--| Types |---
 					union Flags
 					{
+#pragma warning( push )
+#pragma warning( disable : 4201)
 						struct
 						{
 							uint8_t onCurve : 1;
@@ -38,6 +40,7 @@ namespace MyEngine
 							uint8_t reserved1 : 1;
 							uint8_t reserved2 : 1;
 						};
+#pragma warning( pop ) 
 						uint8_t flag;
 					};
 					int16_t nrOfContours;
