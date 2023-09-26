@@ -39,6 +39,7 @@ namespace MyEngine
 				const Int2& GetPos() const { return m_Pos; }
 				const Int2& GetMovement() const { return m_Movement; }
 				float GetScroll() const { return m_Scroll; } //positive is scroll up
+				Float2 GetPosNdc() const;
 
 			private:
 				static constexpr int LEFT_MASK = 1;

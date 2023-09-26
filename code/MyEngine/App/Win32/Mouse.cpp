@@ -3,57 +3,69 @@
 #include <Windows.h>
 #include <windowsx.h>
 
-bool App::Win32::Mouse::IsLeftBtnDown() const
+#include "Rendering/Canvas.h"
+
+using namespace App::Win32;
+
+bool Mouse::IsLeftBtnDown() const
 {
 	return m_State & LEFT_MASK;
 }
 
-bool App::Win32::Mouse::IsLeftBtnPressed() const
+bool Mouse::IsLeftBtnPressed() const
 {
 	return (m_State & (LEFT_MASK | (LEFT_MASK << NR_BUTTONS))) == LEFT_MASK;
 }
 
-bool App::Win32::Mouse::IsLeftBtnReleased() const
+bool Mouse::IsLeftBtnReleased() const
 {
 	return (m_State & (LEFT_MASK | LEFT_MASK << NR_BUTTONS)) == (LEFT_MASK << NR_BUTTONS);
 }
 
-bool App::Win32::Mouse::IsMiddleBtnDown() const
+bool Mouse::IsMiddleBtnDown() const
 {
 	return m_State & MIDDLE_MASK;
 }
 
-bool App::Win32::Mouse::IsMiddleBtnPressed() const
+bool Mouse::IsMiddleBtnPressed() const
 {
 	return (m_State & (MIDDLE_MASK | (MIDDLE_MASK << NR_BUTTONS))) == MIDDLE_MASK;
 }
 
-bool App::Win32::Mouse::IsMiddleBtnReleased() const
+bool Mouse::IsMiddleBtnReleased() const
 {
 	return (m_State & (MIDDLE_MASK | MIDDLE_MASK << NR_BUTTONS)) == (MIDDLE_MASK << NR_BUTTONS);
 }
 
-bool App::Win32::Mouse::IsRightBtnDown() const
+bool Mouse::IsRightBtnDown() const
 {
 	return m_State & RIGHT_MASK;
 }
 
-bool App::Win32::Mouse::IsRightBtnPressed() const
+bool Mouse::IsRightBtnPressed() const
 {
 	return (m_State & (RIGHT_MASK | (RIGHT_MASK << NR_BUTTONS))) == RIGHT_MASK;
 }
 
-bool App::Win32::Mouse::IsRightBtnReleased() const
+bool Mouse::IsRightBtnReleased() const
 {
 	return (m_State & (RIGHT_MASK | RIGHT_MASK << NR_BUTTONS)) == (RIGHT_MASK << NR_BUTTONS);
 }
 
-void App::Win32::Mouse::SetPos(Int2 position)
+void Mouse::SetPos(Int2 position)
 {
 	m_Pos = position;
 }
 
-void App::Win32::Mouse::PreChange()
+Float2 Mouse::GetPosNdc() const
+{
+	return{
+		(static_cast<float>(m_Pos.x) / CANVAS.GetWidthF() - .5f) * 2.f,
+		(static_cast<float>(m_Pos.y) / CANVAS.GetHeightF() - .5f) * -2.f,
+	};
+}
+
+void Mouse::PreChange()
 {
 	m_Movement = m_Pos; //temp store old position in m_Movement
 	m_Scroll = 0;
@@ -61,47 +73,47 @@ void App::Win32::Mouse::PreChange()
 	m_State |= m_State << NR_BUTTONS;
 }
 
-void App::Win32::Mouse::PostChange()
+void Mouse::PostChange()
 {
 	m_Movement = m_Pos - m_Movement;
 }
 
-void App::Win32::Mouse::OnMove(long long position)
+void Mouse::OnMove(long long position)
 {
 	m_Pos = { GET_X_LPARAM(position), GET_Y_LPARAM(position) };
 }
 
-void App::Win32::Mouse::OnScroll(float scroll)
+void Mouse::OnScroll(float scroll)
 {
 	m_Scroll = scroll;
 }
 
-void App::Win32::Mouse::OnLeftBtnPressed()
+void Mouse::OnLeftBtnPressed()
 {
 	m_State |= LEFT_MASK;
 }
 
-void App::Win32::Mouse::OnLeftBtnReleased()
+void Mouse::OnLeftBtnReleased()
 {
 	m_State &= ~LEFT_MASK;
 }
 
-void App::Win32::Mouse::OnMiddleBtnPressed()
+void Mouse::OnMiddleBtnPressed()
 {
 	m_State |= MIDDLE_MASK;
 }
 
-void App::Win32::Mouse::OnMiddleBtnReleased()
+void Mouse::OnMiddleBtnReleased()
 {
 	m_State &= ~MIDDLE_MASK;
 }
 
-void App::Win32::Mouse::OnRightBtnPressed()
+void Mouse::OnRightBtnPressed()
 {
 	m_State |= RIGHT_MASK;
 }
 
-void App::Win32::Mouse::OnRightBtnReleased()
+void Mouse::OnRightBtnReleased()
 {
 	m_State &= ~RIGHT_MASK;
 }
