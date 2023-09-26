@@ -39,7 +39,7 @@ namespace MyEngine
 	template <typename Target, typename Data, const Target& (Getter)(const Data&)>
 	PtrRangeConst<Target, Data, Getter>::PtrRangeConst(const List<Data>& source)
 		: pData{ source.GetData() }
-		, count{ source.GetSizeU() }
+		, count{ source.GetSize() }
 	{
 	}
 
