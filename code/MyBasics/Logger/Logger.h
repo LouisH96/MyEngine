@@ -79,7 +79,7 @@ namespace MyEngine
 	{
 		std::stringstream ss{};
 		ss << description << "[" << array.GetSize() << "]\n";
-		for (int i = 0; i < array.GetSize(); i++)
+		for (unsigned i = 0; i < array.GetSize(); i++)
 			ss << " [" << i << "] " << std::to_string(array[i]);
 		Print(ss.str());
 	}
@@ -89,7 +89,7 @@ namespace MyEngine
 	{
 		std::stringstream ss{};
 		ss << description << "[" << array.GetSize() << "]\n";
-		for (int i = 0; i < array.GetSize(); i++)
+		for (unsigned i = 0; i < array.GetSize(); i++)
 			ss << " [" << i << "] " << std::bitset<8 * sizeof(T)>(array[i]);
 		Print(ss.str());
 	}
@@ -99,7 +99,7 @@ namespace MyEngine
 	{
 		std::stringstream ss{};
 		ss << description << "[" << vector.GetSize() << "]\n";
-		for (int i = 0; i < vector.GetSize(); i++)
+		for (unsigned i = 0; i < vector.GetSize(); i++)
 			ss << " [" << i << "] " << std::to_string(vector[i]);
 		Print(ss.str());
 	}
