@@ -5,9 +5,10 @@
 #include "Logger/Logger.h"
 
 using namespace MyEngine;
+using namespace Io::Fbx;
 using namespace Game;
 
-Io::Fbx::FbxJoint::FbxJoint(
+FbxJoint::FbxJoint(
 	const Wrapping::Model& model,
 	const Wrapping::FbxData& fbxData,
 	const FbxClass& fbxClass)
@@ -15,10 +16,10 @@ Io::Fbx::FbxJoint::FbxJoint(
 	, m_Curves{ fbxClass.GetNrOfAnimationLayers() }
 {
 	//ANIMATION
-	for (int iAnimation = 0, iCurve = 0; iAnimation < fbxClass.GetAnimations().GetSize(); iAnimation++)
+	for (unsigned iAnimation = 0, iCurve = 0; iAnimation < fbxClass.GetAnimations().GetSize(); iAnimation++)
 	{
 		const FbxAnimation& animation{ fbxClass.GetAnimations()[iAnimation] };
-		for (int iLayer = 0; iLayer < animation.GetLayers().GetSize(); iLayer++, iCurve++)
+		for (unsigned iLayer = 0; iLayer < animation.GetLayers().GetSize(); iLayer++, iCurve++)
 			m_Curves[iCurve] = FbxTransformCurve{ model, animation.GetLayers()[iLayer] };
 	}
 
@@ -41,7 +42,7 @@ Io::Fbx::FbxJoint::FbxJoint(
 	//CHILDREN
 	const Array<const Wrapping::Model*> children{ fbxData.GetChildren(model) };
 	m_Children = { children.GetSize() };
-	for (int i = 0; i < m_Children.GetSize(); i++)
+	for (unsigned i = 0; i < m_Children.GetSize(); i++)
 	{
 		m_Children[i] = { *children[i], fbxData, fbxClass };
 		m_Children[i].m_pParent = this;
@@ -55,7 +56,7 @@ Io::Fbx::FbxJoint::FbxJoint(
 	m_PostRotation.RotateBy(postRotationX);
 }
 
-Io::Fbx::FbxJoint::FbxJoint(FbxJoint&& other) noexcept
+FbxJoint::FbxJoint(FbxJoint&& other) noexcept
 	: m_Name{ std::move(other.m_Name) }
 	, m_LocalTransform(std::move(other.m_LocalTransform))
 	, m_Children{ std::move(other.m_Children) }
@@ -65,11 +66,11 @@ Io::Fbx::FbxJoint::FbxJoint(FbxJoint&& other) noexcept
 	, m_PreRotation{ std::move(other.m_PreRotation) }
 	, m_PostRotation{ std::move(other.m_PostRotation) }
 {
-	for (int i = 0; i < m_Children.GetSize(); i++)
+	for (unsigned i = 0; i < m_Children.GetSize(); i++)
 		m_Children[i].m_pParent = this;
 }
 
-Io::Fbx::FbxJoint& Io::Fbx::FbxJoint::operator=(FbxJoint&& other) noexcept
+FbxJoint& FbxJoint::operator=(FbxJoint&& other) noexcept
 {
 	m_Name = std::move(other.m_Name);
 	m_LocalTransform = std::move(other.m_LocalTransform);
@@ -79,14 +80,14 @@ Io::Fbx::FbxJoint& Io::Fbx::FbxJoint::operator=(FbxJoint&& other) noexcept
 	m_LocalTranslation = std::move(other.m_LocalTranslation);
 	m_PreRotation = std::move(other.m_PreRotation);
 	m_PostRotation = std::move(other.m_PostRotation);
-	for (int i = 0; i < m_Children.GetSize(); i++)
+	for (unsigned i = 0; i < m_Children.GetSize(); i++)
 		m_Children[i].m_pParent = this;
 	return *this;
 }
 
-const Io::Fbx::FbxTransformCurve* Io::Fbx::FbxJoint::FindCurve(const FbxAnimationLayer& layer) const
+const FbxTransformCurve* FbxJoint::FindCurve(const FbxAnimationLayer& layer) const
 {
-	for (int i = 0; i < m_Curves.GetSize(); i++)
+	for (unsigned i = 0; i < m_Curves.GetSize(); i++)
 		if (m_Curves[i].IsInLayer(layer))
 			return &m_Curves[i];
 	return nullptr;
