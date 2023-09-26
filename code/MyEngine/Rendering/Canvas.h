@@ -39,6 +39,7 @@ namespace MyEngine
 			float GetWidthF() const { return static_cast<float>(m_Size.x); }
 			float GetHeightF() const { return static_cast<float>(m_Size.y); }
 			float GetAspectRatio() const { return Float::Cast(m_Size.x) / m_Size.y; }
+			float GetInvAspectRatio() const { return static_cast<float>(m_Size.y) / static_cast<float>(m_Size.x); }
 
 		private:
 			IDXGISwapChain1* m_pSwapChain{};
