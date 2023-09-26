@@ -18,7 +18,7 @@ Quaternion::Quaternion(const Float3& real, float complex)
 
 Quaternion::Quaternion(const Double4X4& matrix)
 {
-	https://d3cw3dd2w32x2b.cloudfront.net/wp-content/uploads/2015/01/matrix-to-quat.pdf
+	//https://d3cw3dd2w32x2b.cloudfront.net/wp-content/uploads/2015/01/matrix-to-quat.pdf
 	double t;
 	if (matrix[2][2] < 0)
 	{
@@ -26,13 +26,13 @@ Quaternion::Quaternion(const Double4X4& matrix)
 		{
 			t = 1 + matrix[0][0] - matrix[1][1] - matrix[2][2];
 			Xyz = Float3{ static_cast<float>(t), static_cast<float>(matrix[1][0] + matrix[0][1]), static_cast<float>(matrix[0][2] + matrix[2][0]) };
-			W = matrix[2][1] - matrix[1][2];
+			W = static_cast<float>(matrix[2][1] - matrix[1][2]);
 		}
 		else
 		{
 			t = 1 - matrix[0][0] + matrix[1][1] - matrix[2][2];
 			Xyz = Float3{ static_cast<float>(matrix[1][0] + matrix[0][1]), static_cast<float>(t), static_cast<float>(matrix[2][1] + matrix[1][2]) };
-			W = matrix[0][2] - matrix[2][0];
+			W = static_cast<float>(matrix[0][2] - matrix[2][0]);
 		}
 	}
 	else
@@ -41,7 +41,7 @@ Quaternion::Quaternion(const Double4X4& matrix)
 		{
 			t = 1 - matrix[0][0] - matrix[1][1] + matrix[2][2];
 			Xyz = Float3{ static_cast<float>(matrix[0][2] + matrix[2][0]), static_cast<float>(matrix[2][1] + matrix[1][2]), static_cast<float>(t) };
-			W = matrix[1][0] - matrix[0][1];
+			W = static_cast<float>(matrix[1][0] - matrix[0][1]);
 		}
 		else
 		{
