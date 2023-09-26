@@ -1,13 +1,12 @@
 #pragma once
+#include <Game/Camera/Camera.h>
 #include <Rendering/State/BlendState.h>
 #include <Rendering/State/ConstantBuffer.h>
+#include <Rendering/State/DepthStencilState.h>
 #include <Rendering/State/InputLayout.h>
 #include <Rendering/State/Mesh.h>
-#include <Rendering/State/Shader.h>
 #include <Rendering/State/RasterizerState.h>
-
-#include "Game/Camera/Camera.h"
-#include "Rendering/State/DepthStencilState.h"
+#include <Rendering/State/Shader.h>
 
 namespace MyEngine
 {
@@ -77,7 +76,7 @@ namespace MyEngine
 			m_InputLayout.Activate();
 			m_BlendState.Activate();
 			m_Shader.Activate();
-			for (int i = 0; i < m_Meshes.GetSize(); i++)
+			for (unsigned i = 0; i < m_Meshes.GetSize(); i++)
 			{
 				m_Meshes[i]->Activate();
 				m_Meshes[i]->Draw();
