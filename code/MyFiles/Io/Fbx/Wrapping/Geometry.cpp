@@ -34,7 +34,7 @@ void MyEngine::Io::Fbx::Wrapping::Geometry::LoadPoints(const Reading::FbxElement
 
 	if (upAxis == 2)
 	{
-		for (int i = 0; i < m_Points.GetSize(); i++, pCoord += 3)
+		for (unsigned i = 0; i < m_Points.GetSize(); i++, pCoord += 3)
 			m_Points[i] = {
 				-static_cast<float>(*pCoord),
 				static_cast<float>(*(pCoord + 2)),
@@ -42,7 +42,7 @@ void MyEngine::Io::Fbx::Wrapping::Geometry::LoadPoints(const Reading::FbxElement
 	}
 	else
 	{
-		for (int i = 0; i < m_Points.GetSize(); i++)
+		for (unsigned i = 0; i < m_Points.GetSize(); i++)
 			m_Points[i] = {
 				-static_cast<float>(*pCoord++),
 				static_cast<float>(*pCoord++),
@@ -57,7 +57,7 @@ void MyEngine::Io::Fbx::Wrapping::Geometry::LoadNormals(const Reading::FbxElemen
 	const Array<double>& normalDoublesArray{ normalsObject.GetProperty(0).AsArray<double>().GetValues() };
 	m_Normals = { normalDoublesArray.GetSize() / 3 };
 	const double* pNormalsDouble = &normalDoublesArray[0];
-	for (int i = 0; i < m_Normals.GetSize(); i++)
+	for (unsigned i = 0; i < m_Normals.GetSize(); i++)
 	{
 		m_Normals[i] = {
 			static_cast<float>(*pNormalsDouble++),
@@ -85,9 +85,9 @@ void MyEngine::Io::Fbx::Wrapping::Geometry::LoadUvs(Reading::FbxElement& geometr
 
 	m_Uvs = { uvIndices.GetSize() };
 
-	for (int i = 0; i < uvIndices.GetSize(); i++)
+	for (unsigned i = 0; i < uvIndices.GetSize(); i++)
 	{
-		const int index = uvIndices[i];
+		const unsigned index = uvIndices[i];
 		const double x = uvValues[index * 2];
 		const double y = uvValues[index * 2 + 1];
 		m_Uvs[i] = { static_cast<float>(x),
