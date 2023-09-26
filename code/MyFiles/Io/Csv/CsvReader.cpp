@@ -49,7 +49,7 @@ List<std::string> CsvReader::ReadColumns(unsigned column)
 		reader.IgnoreLine();
 		while (reader.PeekChar() == '\n')
 			reader.Ignore(1);
-		std::cout << values[values.GetSize() - 1] << std::endl;
+		std::cout << values[values.GetSizeS() - 1] << std::endl;
 	}
 	return values;
 }
@@ -107,7 +107,7 @@ List<std::string> CsvReader::GetColumnNames()
 void CsvReader::PrintColumnNames()
 {
 	List<std::string> names{ GetColumnNames() };
-	for (unsigned i = 0; i < names.GetSizeU(); i++)
+	for (unsigned i = 0; i < names.GetSize(); i++)
 		std::cout << names[i] << std::endl;
 }
 

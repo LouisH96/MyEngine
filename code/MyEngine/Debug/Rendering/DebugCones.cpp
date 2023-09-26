@@ -21,7 +21,7 @@ void DebugCones::Draw(const Cone& cone, const Float3& color)
 	List<int> indices{};
 	ConeGenerator::Generate(cone, color, 16, vertices, indices);
 	m_Vertices.Add(
-		vertices.GetData(), vertices.GetSizeU(),
-		indices.GetData(), indices.GetSizeU()
+		vertices.GetData(), vertices.GetSize(),
+		indices.GetData(), indices.GetSize()
 	);
 }

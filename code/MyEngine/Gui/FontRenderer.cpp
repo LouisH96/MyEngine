@@ -41,7 +41,7 @@ void FontRenderer::Remove(int id)
 	m_Entries.Invalidate(id);
 	const Entry& entry{ m_Entries.GetData()[id] };
 
-	for (int i = 0; i < entry.Characters.GetSize(); i++)
+	for (int i = 0; i < entry.Characters.GetSizeS(); i++)
 		m_Renderer.Remove(entry.Characters[i]);
 }
 
@@ -160,7 +160,7 @@ Float2 FontRenderer::GetSize(const std::string& text, float height, float spacin
 void FontRenderer::SetColor(int id, const Float3& color)
 {
 	const Entry& entry{ m_Entries.Get(id) };
-	for (int i = 0; i < entry.Characters.GetSize(); i++)
+	for (int i = 0; i < entry.Characters.GetSizeS(); i++)
 		m_Renderer.Get(entry.Characters[i]).color = color;
 }
 

@@ -148,7 +148,7 @@ void Generation::PlaneGeneration::Create(
 	vertices.EnsureIncrease(4);
 	indices.EnsureIncrease(3 * 2);
 
-	const int firstIdx{ vertices.GetSize() };
+	const int firstIdx{ vertices.GetSizeS() };
 
 	const Float3 leftTop{ leftBot + up * size.y };
 	const Float3 rightTop{ leftTop + right * size.x };
@@ -170,7 +170,7 @@ void Generation::PlaneGeneration::Create(
 {
 	vertices.EnsureIncrease(4);
 	indices.EnsureIncrease(3 * 2);
-	const int firstIdx{ vertices.GetSize() };
+	const int firstIdx{ vertices.GetSizeS() };
 	const Float3 normal{ Float3{leftTop - leftBot}.Cross({rightBot - leftBot}).Normalized() };
 
 	vertices.Add({ leftBot, color, normal });

@@ -213,7 +213,7 @@ void DebugRenderer::Class_Render()
 	m_InputLayout.Activate();
 	m_BlendState.Activate();
 	m_Shader.Activate();
-	for (int i = 0; i < m_Meshes.GetSize(); i++)
+	for (unsigned i = 0; i < m_Meshes.GetSize(); i++)
 	{
 		m_Meshes[i]->Activate();
 		m_Meshes[i]->Draw();
@@ -233,7 +233,7 @@ void DebugRenderer::Class_AddSphere(const Float3& position, const Float3& color,
 	Array<int> indices{};
 	Generation::Shapes::GenerateSphereBuffers(sphere, 10, 10, positions, normals, indices);
 	Array<Vertex> vertices{ positions.GetSize() };
-	for (int i = 0; i < positions.GetSize(); i++)
+	for (unsigned i = 0; i < positions.GetSize(); i++)
 		vertices[i] = Vertex{ positions[i], color, normals[i] };
 	m_Meshes.Add(Rendering::Mesh::Create<Vertex>(vertices, indices));
 }
@@ -241,7 +241,7 @@ void DebugRenderer::Class_AddSphere(const Float3& position, const Float3& color,
 void DebugRenderer::Class_AddSpheres(const Array<Float3>& positions, const Float3& color, float radius)
 {
 	//todo: all these spheres should be 1 mesh
-	for (int i = 0; i < positions.GetSize(); i++)
+	for (unsigned i = 0; i < positions.GetSize(); i++)
 		Class_AddSphere(positions[i], color, radius);
 }
 
@@ -256,7 +256,7 @@ void DebugRenderer::Class_AddLine(const Float3& begin, const Float3& end, const 
 void DebugRenderer::Class_AddLine(const Array<Float3>& points, const Float3& color) const
 {
 	Array<LineVertex> vertices{ points.GetSize() };
-	for (int i = 0; i < points.GetSize(); i++)
+	for (unsigned i = 0; i < points.GetSize(); i++)
 		vertices[i] = { points[i], color };
 	m_pLineRenderer->AddMesh(Rendering::Mesh::Create(vertices, Rendering::Topology::LineStrip));
 }

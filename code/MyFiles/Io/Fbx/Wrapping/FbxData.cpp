@@ -41,13 +41,13 @@ FbxData::FbxData(FbxFile data)
 MyEngine::Array<Model> FbxData::GetModelsOfType(const std::string& typeName) const
 {
 	int count{ 0 };
-	for (int i = 0; i < m_Models.GetSize(); i++)
+	for (unsigned i = 0; i < m_Models.GetSize(); i++)
 		if (m_Models[i].GetTypeName() == typeName)
 			count++;
 
 	int iModel{ 0 };
 	Array<Model> models{ count };
-	for (int i = 0; i < m_Models.GetSize(); i++)
+	for (unsigned i = 0; i < m_Models.GetSize(); i++)
 		if (m_Models[i].GetTypeName() == typeName)
 			models[iModel++] = m_Models[i];
 
@@ -61,13 +61,13 @@ MyEngine::Array<Model> FbxData::GetLimbNodes() const
 
 const Model* FbxData::GetARootLimbNode() const
 {
-	for (int iModel = 0; iModel < m_Models.GetSize(); iModel++)
+	for (unsigned iModel = 0; iModel < m_Models.GetSize(); iModel++)
 	{
 		const Model& model{ m_Models[iModel] };
 		if (model.GetTypeName() != "LimbNode") continue;
 
 		//find root connection
-		for (int iConnection = 0; iConnection < m_Connections.GetSize(); iConnection++)
+		for (unsigned iConnection = 0; iConnection < m_Connections.GetSize(); iConnection++)
 		{
 			const Connection& connection{ m_Connections[iConnection] };
 			if (connection.ChildId != model.GetId()) continue;
@@ -84,7 +84,7 @@ const Model* FbxData::GetARootLimbNode() const
 
 Geometry* FbxData::FindGeometry(const int64_t& id)
 {
-	for (int i = 0; i < m_Geometries.GetSize(); i++)
+	for (unsigned i = 0; i < m_Geometries.GetSize(); i++)
 		if (m_Geometries[i].GetId() == id)
 			return &m_Geometries[i];
 	return nullptr;
@@ -92,7 +92,7 @@ Geometry* FbxData::FindGeometry(const int64_t& id)
 
 Model* FbxData::FindModel(const int64_t& id)
 {
-	for (int i = 0; i < m_Models.GetSize(); i++)
+	for (unsigned i = 0; i < m_Models.GetSize(); i++)
 		if (m_Models[i].GetId() == id)
 			return &m_Models[i];
 	return nullptr;
@@ -100,7 +100,7 @@ Model* FbxData::FindModel(const int64_t& id)
 
 NodeAttribute* FbxData::FindNodeAttribute(const int64_t& id)
 {
-	for (int i = 0; i < m_NodeAttributes.GetSize(); i++)
+	for (unsigned i = 0; i < m_NodeAttributes.GetSize(); i++)
 		if (m_NodeAttributes[i].Id == id)
 			return &m_NodeAttributes[i];
 	return nullptr;
@@ -108,7 +108,7 @@ NodeAttribute* FbxData::FindNodeAttribute(const int64_t& id)
 
 Deformer* FbxData::FindDeformer(const int64_t& id)
 {
-	for (int i = 0; i < m_Deformers.GetSize(); i++)
+	for (unsigned i = 0; i < m_Deformers.GetSize(); i++)
 		if (m_Deformers[i].Id == id)
 			return &m_Deformers[i];
 	return nullptr;
@@ -116,7 +116,7 @@ Deformer* FbxData::FindDeformer(const int64_t& id)
 
 Pose::Node* FbxData::FindPoseNode(const int64_t& id)
 {
-	for (int i = 0; i < m_BindPose.Nodes.GetSize(); i++)
+	for (unsigned i = 0; i < m_BindPose.Nodes.GetSize(); i++)
 		if (m_BindPose.Nodes[i].Id == id)
 			return &m_BindPose.Nodes[i];
 	return nullptr;
@@ -124,7 +124,7 @@ Pose::Node* FbxData::FindPoseNode(const int64_t& id)
 
 AnimationStack* FbxData::FindAnimationStack(const int64_t& id)
 {
-	for (int i = 0; i < m_AnimationStacks.GetSize(); i++)
+	for (unsigned i = 0; i < m_AnimationStacks.GetSize(); i++)
 		if (m_AnimationStacks[i].Id == id)
 			return &m_AnimationStacks[i];
 	return nullptr;
@@ -132,7 +132,7 @@ AnimationStack* FbxData::FindAnimationStack(const int64_t& id)
 
 AnimationLayer* FbxData::FindAnimationLayer(const int64_t& id)
 {
-	for (int i = 0; i < m_AnimationLayers.GetSize(); i++)
+	for (unsigned i = 0; i < m_AnimationLayers.GetSize(); i++)
 		if (m_AnimationLayers[i].Id == id)
 			return &m_AnimationLayers[i];
 	return nullptr;
@@ -140,7 +140,7 @@ AnimationLayer* FbxData::FindAnimationLayer(const int64_t& id)
 
 AnimationCurve* FbxData::FindAnimationCurve(const int64_t& id)
 {
-	for (int i = 0; i < m_AnimationCurves.GetSize(); i++)
+	for (unsigned i = 0; i < m_AnimationCurves.GetSize(); i++)
 		if (m_AnimationCurves[i].Id == id)
 			return &m_AnimationCurves[i];
 	return nullptr;
@@ -148,7 +148,7 @@ AnimationCurve* FbxData::FindAnimationCurve(const int64_t& id)
 
 AnimationCurveNode* FbxData::FindAnimationCurveNode(const int64_t& id)
 {
-	for (int i = 0; i < m_AnimationCurveNodes.GetSize(); i++)
+	for (unsigned i = 0; i < m_AnimationCurveNodes.GetSize(); i++)
 		if (m_AnimationCurveNodes[i].Id == id)
 			return &m_AnimationCurveNodes[i];
 	return nullptr;
@@ -156,7 +156,7 @@ AnimationCurveNode* FbxData::FindAnimationCurveNode(const int64_t& id)
 
 Video* FbxData::FindVideo(const int64_t& id)
 {
-	for (int i = 0; i < m_Videos.GetSize(); i++)
+	for (unsigned i = 0; i < m_Videos.GetSize(); i++)
 		if (m_Videos[i].Id == id)
 			return &m_Videos[i];
 	return nullptr;
@@ -164,7 +164,7 @@ Video* FbxData::FindVideo(const int64_t& id)
 
 FbxWrapTexture* FbxData::FindTexture(const int64_t& id)
 {
-	for (int i = 0; i < m_Textures.GetSize(); i++)
+	for (unsigned i = 0; i < m_Textures.GetSize(); i++)
 		if (m_Textures[i].Id == id)
 			return &m_Textures[i];
 	return nullptr;
@@ -172,7 +172,7 @@ FbxWrapTexture* FbxData::FindTexture(const int64_t& id)
 
 FbxWrapMaterial* FbxData::FindMaterial(const int64_t& id)
 {
-	for (int i = 0; i < m_Materials.GetSize(); i++)
+	for (unsigned i = 0; i < m_Materials.GetSize(); i++)
 		if (m_Materials[i].Id == id)
 			return &m_Materials[i];
 	return nullptr;
@@ -180,7 +180,7 @@ FbxWrapMaterial* FbxData::FindMaterial(const int64_t& id)
 
 CollectionExclusive* FbxData::FindCollection(const int64_t& id)
 {
-	for (int i = 0; i < m_Collections.GetSize(); i++)
+	for (unsigned i = 0; i < m_Collections.GetSize(); i++)
 		if (m_Collections[i].Id == id)
 			return &m_Collections[i];
 	return nullptr;
@@ -188,7 +188,7 @@ CollectionExclusive* FbxData::FindCollection(const int64_t& id)
 
 const Geometry* FbxData::FindGeometry(const int64_t& id) const
 {
-	for (int i = 0; i < m_Geometries.GetSize(); i++)
+	for (unsigned i = 0; i < m_Geometries.GetSize(); i++)
 		if (m_Geometries[i].GetId() == id)
 			return &m_Geometries[i];
 	return nullptr;
@@ -196,7 +196,7 @@ const Geometry* FbxData::FindGeometry(const int64_t& id) const
 
 const Deformer* FbxData::FindDeformer(const int64_t& id) const
 {
-	for (int i = 0; i < m_Deformers.GetSize(); i++)
+	for (unsigned i = 0; i < m_Deformers.GetSize(); i++)
 		if (m_Deformers[i].Id == id)
 			return &m_Deformers[i];
 	return nullptr;
@@ -204,7 +204,7 @@ const Deformer* FbxData::FindDeformer(const int64_t& id) const
 
 const Pose::Node* FbxData::FindPoseNode(const int64_t& id) const
 {
-	for (int i = 0; i < m_BindPose.Nodes.GetSize(); i++)
+	for (unsigned i = 0; i < m_BindPose.Nodes.GetSize(); i++)
 		if (m_BindPose.Nodes[i].Id == id)
 			return &m_BindPose.Nodes[i];
 	return nullptr;
@@ -212,7 +212,7 @@ const Pose::Node* FbxData::FindPoseNode(const int64_t& id) const
 
 const AnimationStack* FbxData::FindAnimationStack(const int64_t& id) const
 {
-	for (int i = 0; i < m_AnimationStacks.GetSize(); i++)
+	for (unsigned i = 0; i < m_AnimationStacks.GetSize(); i++)
 		if (m_AnimationStacks[i].Id == id)
 			return &m_AnimationStacks[i];
 	return nullptr;
@@ -220,7 +220,7 @@ const AnimationStack* FbxData::FindAnimationStack(const int64_t& id) const
 
 const AnimationLayer* FbxData::FindAnimationLayer(const int64_t& id) const
 {
-	for (int i = 0; i < m_AnimationLayers.GetSize(); i++)
+	for (unsigned i = 0; i < m_AnimationLayers.GetSize(); i++)
 		if (m_AnimationLayers[i].Id == id)
 			return &m_AnimationLayers[i];
 	return nullptr;
@@ -228,7 +228,7 @@ const AnimationLayer* FbxData::FindAnimationLayer(const int64_t& id) const
 
 const AnimationCurve* FbxData::FindAnimationCurve(const int64_t& id) const
 {
-	for (int i = 0; i < m_AnimationCurves.GetSize(); i++)
+	for (unsigned i = 0; i < m_AnimationCurves.GetSize(); i++)
 		if (m_AnimationCurves[i].Id == id)
 			return &m_AnimationCurves[i];
 	return nullptr;
@@ -236,7 +236,7 @@ const AnimationCurve* FbxData::FindAnimationCurve(const int64_t& id) const
 
 const Video* FbxData::FindVideo(const int64_t& id) const
 {
-	for (int i = 0; i < m_Videos.GetSize(); i++)
+	for (unsigned i = 0; i < m_Videos.GetSize(); i++)
 		if (m_Videos[i].Id == id)
 			return &m_Videos[i];
 	return nullptr;
@@ -244,7 +244,7 @@ const Video* FbxData::FindVideo(const int64_t& id) const
 
 const FbxWrapTexture* FbxData::FindTexture(const int64_t& id) const
 {
-	for (int i = 0; i < m_Textures.GetSize(); i++)
+	for (unsigned i = 0; i < m_Textures.GetSize(); i++)
 		if (m_Textures[i].Id == id)
 			return &m_Textures[i];
 	return nullptr;
@@ -252,7 +252,7 @@ const FbxWrapTexture* FbxData::FindTexture(const int64_t& id) const
 
 const FbxWrapMaterial* FbxData::FindMaterial(const int64_t& id) const
 {
-	for (int i = 0; i < m_Materials.GetSize(); i++)
+	for (unsigned i = 0; i < m_Materials.GetSize(); i++)
 		if (m_Materials[i].Id == id)
 			return &m_Materials[i];
 	return nullptr;
@@ -260,7 +260,7 @@ const FbxWrapMaterial* FbxData::FindMaterial(const int64_t& id) const
 
 const CollectionExclusive* FbxData::FindCollection(const int64_t& id) const
 {
-	for (int i = 0; i < m_Collections.GetSize(); i++)
+	for (unsigned i = 0; i < m_Collections.GetSize(); i++)
 		if (m_Collections[i].Id == id)
 			return &m_Collections[i];
 	return nullptr;
@@ -268,7 +268,7 @@ const CollectionExclusive* FbxData::FindCollection(const int64_t& id) const
 
 const AnimationCurveNode* FbxData::FindAnimationCurveNode(const int64_t& id) const
 {
-	for (int i = 0; i < m_AnimationCurveNodes.GetSize(); i++)
+	for (unsigned i = 0; i < m_AnimationCurveNodes.GetSize(); i++)
 		if (m_AnimationCurveNodes[i].Id == id)
 			return &m_AnimationCurveNodes[i];
 	return nullptr;
@@ -276,7 +276,7 @@ const AnimationCurveNode* FbxData::FindAnimationCurveNode(const int64_t& id) con
 
 const Model* FbxData::FindModel(const int64_t& id) const
 {
-	for (int i = 0; i < m_Models.GetSize(); i++)
+	for (unsigned i = 0; i < m_Models.GetSize(); i++)
 		if (m_Models[i].GetId() == id)
 			return &m_Models[i];
 	return nullptr;
@@ -284,7 +284,7 @@ const Model* FbxData::FindModel(const int64_t& id) const
 
 const NodeAttribute* FbxData::FindNodeAttribute(const int64_t& id) const
 {
-	for (int i = 0; i < m_NodeAttributes.GetSize(); i++)
+	for (unsigned i = 0; i < m_NodeAttributes.GetSize(); i++)
 		if (m_NodeAttributes[i].Id == id)
 			return &m_NodeAttributes[i];
 	return nullptr;
@@ -298,7 +298,7 @@ MyEngine::Array<const Model*> FbxData::GetChildren(const Model& model) const
 MyEngine::Array<const Model*> FbxData::GetChildren(const int64_t& id) const
 {
 	Array<const Model*> children{ 0 };
-	for (int i = 0; i < m_Connections.GetSize(); i++)
+	for (unsigned i = 0; i < m_Connections.GetSize(); i++)
 	{
 		const Connection& connection{ m_Connections[i] };
 		if (connection.ParentId != id) continue;
@@ -321,56 +321,56 @@ void FbxData::ReadInfo(FbxElement& root)
 void FbxData::ReadGeometry(FbxElement& objectsObject)
 {
 	const List<FbxElement*> geometries{ objectsObject.GetChildren("Geometry") };
-	m_Geometries = { geometries.GetSizeU() };
-	for (unsigned i = 0; i < geometries.GetSizeU(); i++)
+	m_Geometries = { geometries.GetSize() };
+	for (unsigned i = 0; i < geometries.GetSize(); i++)
 		m_Geometries[i] = Geometry{ *geometries[i], m_OriginalUpAxis };
 }
 
 void FbxData::ReadModels(FbxElement& objectsObject)
 {
 	const List<FbxElement*> models{ objectsObject.GetChildren("Model") };
-	m_Models = { models.GetSizeU() };
-	for (int i = 0; i < m_Models.GetSize(); i++)
+	m_Models = { models.GetSize() };
+	for (unsigned i = 0; i < m_Models.GetSize(); i++)
 		m_Models[i] = Model{ *models[i] };
 }
 
 void FbxData::ReadNodeAttributes(FbxElement& objectsObject)
 {
 	const List<FbxElement*> nodeAttributes{ objectsObject.GetChildren("NodeAttribute") };
-	m_NodeAttributes = { nodeAttributes.GetSizeU() };
-	for (int i = 0; i < m_NodeAttributes.GetSize(); i++)
+	m_NodeAttributes = { nodeAttributes.GetSize() };
+	for (unsigned i = 0; i < m_NodeAttributes.GetSize(); i++)
 		m_NodeAttributes[i] = NodeAttribute{ *nodeAttributes[i] };
 }
 
 void FbxData::ReadDeformers(FbxElement& objectsObject)
 {
 	const List<FbxElement*> deformers{ objectsObject.GetChildren("Deformer") };
-	m_Deformers = { deformers.GetSizeU() };
-	for (int i = 0; i < m_Deformers.GetSize(); i++)
+	m_Deformers = { deformers.GetSize() };
+	for (unsigned i = 0; i < m_Deformers.GetSize(); i++)
 		m_Deformers[i] = Deformer{ *deformers[i] };
 }
 
 void FbxData::ReadPoses(FbxElement& objectsObject)
 {
 	const List<FbxElement*> poses{ objectsObject.GetChildren("Pose") };
-	if (poses.GetSizeU() > 1) Logger::PrintWarning("Doesn't support multiple poses");
-	if (poses.GetSizeU() > 0)
+	if (poses.GetSize() > 1) Logger::PrintWarning("Doesn't support multiple poses");
+	if (poses.GetSize() > 0)
 		m_BindPose = Pose{ *poses[0] };
 }
 
 void FbxData::ReadConnections(FbxElement& connectionsObject)
 {
 	List<FbxElement>& readerConnections{ connectionsObject.GetChildren() };
-	m_Connections = { readerConnections.GetSizeU() };
-	for (int i = 0; i < readerConnections.GetSizeU(); i++)
+	m_Connections = { readerConnections.GetSize() };
+	for (unsigned i = 0; i < readerConnections.GetSize(); i++)
 		m_Connections[i] = Connection{ readerConnections[i] };
 }
 
 void FbxData::ReadAnimationStack(FbxElement& objectsObject)
 {
 	const List<FbxElement*> readerAnimationStacks{ objectsObject.GetChildren("AnimationStack") };
-	m_AnimationStacks = { readerAnimationStacks.GetSizeU() };
-	for (int i = 0; i < readerAnimationStacks.GetSizeU(); i++)
+	m_AnimationStacks = { readerAnimationStacks.GetSize() };
+	for (unsigned i = 0; i < readerAnimationStacks.GetSize(); i++)
 		m_AnimationStacks[i] = AnimationStack{ *readerAnimationStacks[i] };
 }
 
@@ -378,62 +378,62 @@ void FbxData::ReadAnimationLayers(FbxElement& objectsObject)
 {
 	const List<FbxElement*> readerAnimationLayers{ objectsObject.GetChildren("AnimationLayer") };
 	if (readerAnimationLayers.IsEmpty())return;
-	m_AnimationLayers = { readerAnimationLayers.GetSizeU() };
-	for (int i = 0; i < m_AnimationLayers.GetSize(); i++)
+	m_AnimationLayers = { readerAnimationLayers.GetSize() };
+	for (unsigned i = 0; i < m_AnimationLayers.GetSize(); i++)
 		m_AnimationLayers[i] = AnimationLayer{ *readerAnimationLayers[i] };
 }
 
 void FbxData::ReadAnimationCurveNodes(FbxElement& objectsObject)
 {
 	const List<FbxElement*> curveNodeObjects{ objectsObject.GetChildren("AnimationCurveNode") };
-	m_AnimationCurveNodes = { curveNodeObjects.GetSizeU() };
-	for (int i = 0; i < m_AnimationCurveNodes.GetSize(); i++)
+	m_AnimationCurveNodes = { curveNodeObjects.GetSize() };
+	for (unsigned i = 0; i < m_AnimationCurveNodes.GetSize(); i++)
 		m_AnimationCurveNodes[i] = AnimationCurveNode{ *curveNodeObjects[i] };
 }
 
 void FbxData::ReadAnimationCurves(FbxElement& objectsObject)
 {
 	const List<FbxElement*> objects{ objectsObject.GetChildren("AnimationCurve") };
-	m_AnimationCurves = { objects.GetSizeU() };
-	for (int i = 0; i < m_AnimationCurves.GetSize(); i++)
+	m_AnimationCurves = { objects.GetSize() };
+	for (unsigned i = 0; i < m_AnimationCurves.GetSize(); i++)
 		m_AnimationCurves[i] = AnimationCurve{ *objects[i] };
 }
 
 void FbxData::ReadTextures(FbxElement& objectsObject)
 {
 	const List<FbxElement*> objects{ objectsObject.GetChildren("Texture") };
-	m_Textures = { objects.GetSizeU() };
-	for (int i = 0; i < m_Textures.GetSize(); i++)
+	m_Textures = { objects.GetSize() };
+	for (unsigned i = 0; i < m_Textures.GetSize(); i++)
 		m_Textures[i] = FbxWrapTexture{ *objects[i] };
 }
 
 void FbxData::ReadVideos(FbxElement& objectsObject)
 {
 	const List<FbxElement*> objects{ objectsObject.GetChildren("Video") };
-	m_Videos = { objects.GetSizeU() };
-	for (int i = 0; i < m_Videos.GetSize(); i++)
+	m_Videos = { objects.GetSize() };
+	for (unsigned i = 0; i < m_Videos.GetSize(); i++)
 		m_Videos[i] = Video{ *objects[i] };
 }
 
 void FbxData::ReadMaterial(FbxElement& objectsObject)
 {
 	const List<FbxElement*> objects{ objectsObject.GetChildren("Material") };
-	m_Materials = { objects.GetSizeU() };
-	for (int i = 0; i < m_Materials.GetSize(); i++)
+	m_Materials = { objects.GetSize() };
+	for (unsigned i = 0; i < m_Materials.GetSize(); i++)
 		m_Materials[i] = FbxWrapMaterial{ *objects[i] };
 }
 
 void FbxData::ReadCollections(FbxElement& objectsObject)
 {
 	const List<FbxElement*> objects{ objectsObject.GetChildren("CollectionExclusive") };
-	m_Collections = { objects.GetSizeU() };
-	for (int i = 0; i < m_Collections.GetSize(); i++)
+	m_Collections = { objects.GetSize() };
+	for (unsigned i = 0; i < m_Collections.GetSize(); i++)
 		m_Collections[i] = CollectionExclusive{ *objects[i] };
 }
 
 void FbxData::HandleConnections()
 {
-	for (int iConnection = 0; iConnection < m_Connections.GetSize(); iConnection++)
+	for (unsigned iConnection = 0; iConnection < m_Connections.GetSize(); iConnection++)
 	{
 		const Connection& connection{ m_Connections[iConnection] };
 

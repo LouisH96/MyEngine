@@ -21,8 +21,8 @@ void DebugCubes::Draw(const Cube& cube, const Float3& color)
 	List<int> indices{};
 	CubeGenerator::Generate(cube, color, vertices, indices);
 	m_Vertices.Add(
-		vertices.GetData(), vertices.GetSizeU(),
-		indices.GetData(), indices.GetSizeU());
+		vertices.GetData(), vertices.GetSize(),
+		indices.GetData(), indices.GetSize());
 }
 
 void DebugCubes::Draw(const CubeAA& cube, const Float3& color)
@@ -31,6 +31,6 @@ void DebugCubes::Draw(const CubeAA& cube, const Float3& color)
 	List<int> indices{};
 	CubeGenerator::Generate(cube, color, vertices, indices);
 	m_Vertices.Add(
-		vertices.GetData(), vertices.GetSizeU(),
-		indices.GetData(), indices.GetSizeU());
+		vertices.GetData(), vertices.GetSize(),
+		indices.GetData(), indices.GetSize());
 }

@@ -9,8 +9,8 @@ namespace MyEngine
 	{
 	public:
 		//---| Constructor/Destructor |---
-		List(int capacity = 5);
-		List(unsigned capacity);
+		List(unsigned capacity = 5);
+		List(int capacity);
 		~List();
 
 		//---| Move/Copy |---
@@ -43,10 +43,10 @@ namespace MyEngine
 		const T& Last() const { return m_pData[m_Size - 1]; }
 		T& First() { return m_pData[0]; }
 		T& Last() { return m_pData[m_Size - 1]; }
-		int GetSize() const { return m_Size; }
-		unsigned GetSizeU() const { return static_cast<unsigned>(m_Size); }
-		int GetCapacity() const { return m_Capacity; }
-		unsigned GetCapacityU() const { return static_cast<unsigned>(m_Capacity); }
+		int GetSizeS() const { return static_cast<int>(m_Size); }
+		unsigned GetSize() const { return m_Size; }
+		int GetCapacityS() const { return static_cast<int>(m_Capacity); }
+		unsigned GetCapacity() const { return m_Capacity; }
 		bool IsEmpty() const { return m_Size == 0; }
 		void SetSize(int size);
 		void EnsureCapacity(unsigned minCapacity);
@@ -60,8 +60,8 @@ namespace MyEngine
 
 	private:
 		T* m_pData;
-		int m_Capacity;
-		int m_Size;
+		unsigned m_Capacity;
+		unsigned m_Size;
 
 		void SetCapacity(int capacity);
 	};
@@ -69,14 +69,14 @@ namespace MyEngine
 	template <typename T>
 	List<T>::List(int capacity)
 		: m_pData{ new T[capacity] }
-		, m_Capacity{ capacity }
+		, m_Capacity{ static_cast<unsigned>(capacity) }
 		, m_Size{ 0 }
 	{ }
 
 	template <typename T>
 	List<T>::List(unsigned capacity)
 		: m_pData{ new T[capacity] }
-		, m_Capacity{ static_cast<int>(capacity) }
+		, m_Capacity{ capacity }
 		, m_Size{ 0 }
 	{
 
@@ -190,7 +190,7 @@ namespace MyEngine
 	template <typename T>
 	void List<T>::Add(const List& list)
 	{
-		EnsureIncrease(list.GetSizeU());
+		EnsureIncrease(list.GetSize());
 		std::copy(list.GetData(), &list.GetData()[list.GetSize()], &m_pData[m_Size]);
 		m_Size += list.GetSize();
 	}

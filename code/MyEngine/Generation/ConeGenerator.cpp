@@ -13,7 +13,7 @@ void ConeGenerator::Generate(
 {
 	const int nrCapTriangles{ MeshUtils::GetNrTrianglesToCapCircle(nrPoints) };
 
-	const unsigned first{ vertices.GetSizeU() };
+	const unsigned first{ vertices.GetSize() };
 	vertices.IncreaseSize(1 + nrPoints * 2);
 	indices.EnsureIncrease(nrPoints * 3 + nrCapTriangles * 3);
 	const unsigned firstShell{ first + 1 };

@@ -147,8 +147,8 @@ short MyEngine::Io::Fbx::Reading::Properties70::GetShort(int idx) const
 
 const MyEngine::Io::Fbx::Reading::FbxElement* MyEngine::Io::Fbx::Reading::Properties70::GetPropertyOptional(const std::string& name) const
 {
-	for (unsigned i = 0; i < m_Object.GetChildren().GetSizeU(); i++)
-		if (m_Object.GetChildren()[i].GetProperties().GetSizeU() > 0 //check is needed only for version 7700
+	for (unsigned i = 0; i < m_Object.GetChildren().GetSize(); i++)
+		if (m_Object.GetChildren()[i].GetProperties().GetSize() > 0 //check is needed only for version 7700
 			&& m_Object.GetChildren()[i].GetProperty(0).AsString() == name)
 			return &m_Object.GetChildren()[i];
 	return nullptr;
@@ -161,7 +161,7 @@ void MyEngine::Io::Fbx::Reading::Properties70::Print(bool compact, int nrTabs) c
 
 const MyEngine::Io::Fbx::Reading::FbxElement* MyEngine::Io::Fbx::Reading::Properties70::GetProperty(const std::string& name) const
 {
-	for (unsigned i = 0; i < m_Object.GetChildren().GetSizeU(); i++)
+	for (unsigned i = 0; i < m_Object.GetChildren().GetSize(); i++)
 		if (m_Object.GetChildren()[i].GetProperty(0).AsString() == name)
 			return &m_Object.GetChildren()[i];
 	Logger::PrintError("Property(" + name + ") not found");

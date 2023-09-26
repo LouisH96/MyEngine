@@ -28,7 +28,7 @@ void Generation::SphereGenerator::Generate(const Sphere& sphere, unsigned nrCols
 	Shapes::GenerateSphereBuffers(sphere, nrCols, nrRows, positions, normals, sphereIndices);
 
 	indices.EnsureIncrease(sphereIndices.GetSize());
-	for (unsigned i = 0, begin = vertices.GetSizeU(); i < sphereIndices.GetSize(); i++)
+	for (unsigned i = 0, begin = vertices.GetSize(); i < sphereIndices.GetSize(); i++)
 		indices.Add(sphereIndices[i] + begin);
 
 	vertices.EnsureIncrease(positions.GetSize());

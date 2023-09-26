@@ -41,7 +41,7 @@ namespace MyEngine
 					List<const FbxElement*> GetChildren(const std::string& name) const;
 					const FbxElement& GetChild(unsigned idx) const;
 					const FbxElement* GetChild(const std::string& name) const;
-					unsigned GetNrChildren() const { return m_Children.GetSizeU(); }
+					unsigned GetNrChildren() const { return m_Children.GetSize(); }
 
 					List<FbxElement>& GetChildren() { return m_Children; }
 					List<FbxElement*> GetChildren(const std::string& name);
@@ -52,7 +52,7 @@ namespace MyEngine
 					const List<FbxProperty*>& GetProperties() const { return m_Properties; }
 					const FbxProperty& GetProperty(unsigned idx) const;
 					const FbxProperty& GetLastProperty() const;
-					unsigned GetNrProperties() const { return m_Properties.GetSizeU(); }
+					unsigned GetNrProperties() const { return m_Properties.GetSize(); }
 
 					List<FbxProperty*>& GetProperties() { return m_Properties; }
 					FbxProperty& GetProperty(unsigned idx);
@@ -150,7 +150,7 @@ namespace MyEngine
 				template <typename T>
 				void FbxElement::CopyLastPropertyTo(T& target) const
 				{
-					CopyPropertyTo(m_Properties.GetSizeU() - 1, target);
+					CopyPropertyTo(m_Properties.GetSize() - 1, target);
 				}
 
 				template <typename Old, typename New>

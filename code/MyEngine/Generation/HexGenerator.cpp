@@ -11,7 +11,7 @@ void HexGenerator::Generate(
 	const Float3& right, const Float3& normal,
 	List<V_PosNor>& vertices, List<int>& indices)
 {
-	const unsigned firstIdx{ vertices.GetSizeU() };
+	const unsigned firstIdx{ vertices.GetSize() };
 	vertices.EnsureIncrease(Hexagon::NR_POINTS);
 	indices.EnsureIncrease(4 * 3);
 	const Float3 up{ (right.Cross(normal).Normalized()) };
@@ -34,7 +34,7 @@ void HexGenerator::Generate(
 void HexGenerator::GenerateFlatRight(const Hexagon& hex, const Float3& right, const Float3& normal,
 	List<Rendering::V_PosNor>& vertices, List<int>& indices)
 {
-	const unsigned firstIdx{ vertices.GetSizeU() };
+	const unsigned firstIdx{ vertices.GetSize() };
 	vertices.EnsureIncrease(Hexagon::NR_POINTS);
 	indices.EnsureIncrease(4 * 3);
 	const Float3 up{ (right.Cross(normal).Normalized()) };

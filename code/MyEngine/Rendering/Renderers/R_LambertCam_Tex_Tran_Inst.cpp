@@ -21,12 +21,12 @@ void Rendering::R_LambertCam_Tex_Tran_Inst::Render()
 	m_CameraBuffer.Update(CB_CamPos{ Globals::pCamera->GetPosition() });
 	m_CameraBuffer.Activate();
 
-	for (int iModel = 0; iModel < m_InstanceLists.GetSize(); iModel++)
+	for (int iModel = 0; iModel < m_InstanceLists.GetSizeS(); iModel++)
 	{
 		m_Textures[iModel].ActivatePs();
 		const List<const Transform*>& transformList{m_Transforms[iModel]};
 		InstanceList<Vertex, Instance>& instanceList{m_InstanceLists[iModel]};
-		for (int iInstance = 0; iInstance < transformList.GetSize(); iInstance++)
+		for (int iInstance = 0; iInstance < transformList.GetSizeS(); iInstance++)
 		{
 			const Transform& transform{ *transformList[iInstance] };
 			Instance& instance{ instanceList[iInstance] };
@@ -41,7 +41,7 @@ int Rendering::R_LambertCam_Tex_Tran_Inst::CreateModel(Texture&& texture, const 
 {
 	m_Textures.Add(std::move(texture));
 	m_InstanceLists.Add({ pVertices, nrVertices });
-	return m_InstanceLists.GetSize() - 1;
+	return m_InstanceLists.GetSizeS() - 1;
 }
 
 void Rendering::R_LambertCam_Tex_Tran_Inst::AddInstance(int modelIdx, const Transform& instanceTransform)

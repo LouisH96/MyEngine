@@ -30,7 +30,7 @@ DebugSpheres::DebugSpheres()
 	Array<int> indices{};
 	Generation::Shapes::GenerateSphereBuffers(sphere, 20, 10, positions, normals, indices);
 	Array<Vertex> vertices{ positions.GetSize() };
-	for (int i = 0; i < positions.GetSize(); i++)
+	for (unsigned i = 0; i < positions.GetSize(); i++)
 		vertices[i] = Vertex{ positions[i], normals[i] };
 
 	//INSTANCE BUFFER
