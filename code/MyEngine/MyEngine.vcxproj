@@ -329,10 +329,10 @@
       </Command>
     </PostBuildEvent>
     <Lib>
-      <AdditionalDependencies>MyBasics.lib; MyFiles.lib</AdditionalDependencies>
+      <AdditionalDependencies>MyFiles.lib</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)output\build\MyFiles\$(Configuration)\$(Platform);$(SolutionDir)output\build\MyBasics\$(Configuration)\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)output\build\MyFiles\$(Configuration)\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='PartialDebug|x64'">
@@ -361,10 +361,10 @@
       </Command>
     </PostBuildEvent>
     <Lib>
-      <AdditionalDependencies>MyBasics.lib; MyFiles.lib</AdditionalDependencies>
+      <AdditionalDependencies>MyFiles.lib</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)output\build\MyFiles\$(Configuration)\$(Platform);$(SolutionDir)output\build\MyBasics\$(Configuration)\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)output\build\MyFiles\$(Configuration)\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -397,10 +397,10 @@
       </Command>
     </PostBuildEvent>
     <Lib>
-      <AdditionalDependencies>MyBasics.lib; MyFiles.lib</AdditionalDependencies>
+      <AdditionalDependencies>MyFiles.lib</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)output\build\MyFiles\$(Configuration)\$(Platform);$(SolutionDir)output\build\MyBasics\$(Configuration)\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)output\build\MyFiles\$(Configuration)\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='PartialDebug_Release|x64'">
@@ -434,10 +434,10 @@
       </Command>
     </PostBuildEvent>
     <Lib>
-      <AdditionalDependencies>MyBasics.lib; MyFiles.lib</AdditionalDependencies>
+      <AdditionalDependencies>MyFiles.lib</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)output\build\MyFiles\$(Configuration)\$(Platform);$(SolutionDir)output\build\MyBasics\$(Configuration)\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)output\build\MyFiles\$(Configuration)\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
