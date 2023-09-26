@@ -42,18 +42,6 @@ namespace MyEngine
 				static void CopyToOutput(Array<uint16_t>& output, uint32_t startIdx, uint16_t value, uint8_t amount);
 				void ReadDynamicBlockData(const Array<uint16_t>& llCodes, const Array<uint8_t>& llCodeLengths, const Array<uint16_t>& dCodes, const Array<uint8_t>& dCodeLengths);
 				uint16_t GetNextCl(const Array<uint16_t>& codes, const Array<uint8_t>& codeLengths);
-
-			public:
-				//tests
-				static std::string GetMyTest1Input();
-				static std::string GetInternetExampleInput();
-				static std::string GetSalsaTestInput();
-				static std::string GetLongDutchSentenceTest();
-				static std::string GetLongDutchSentence2Test();
-				static std::string GetBlueTest();
-				
-				static bool ValidateInternetExampleOutput(const std::string& output);
-				static bool ValidateMyTest1Output(const std::string& output);
 			};
 		}
 	}
