@@ -6,9 +6,6 @@
 #include "DataStructures/DsUtils.h"
 #include "Logger/Logger.h"
 
-#undef max;
-#undef min;
-
 void MyEngine::Io::Ttf::ContourOperations::GetBounds(const Array<Array<TtfPoint>>& points, Vector2<int16_t>& min,
 	Vector2<int16_t>& max)
 {
