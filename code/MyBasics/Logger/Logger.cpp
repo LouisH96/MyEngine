@@ -7,6 +7,8 @@
 #include <iomanip>
 #include <sstream>
 
+#include "String/Convert.h"
+
 using namespace MyEngine;
 
 std::string Logger::GetLogLine(const std::string& logMessage)
@@ -98,7 +100,7 @@ void Logger::PrintError(const std::string& first, const HRESULT& hResult)
 	const _com_error error{ hResult };
 	const std::wstring wString = { error.ErrorMessage() };
 	BeginError(first + " Dx(");
-	EndError(std::string{ wString.begin(), wString.end() } + ")");
+	EndError(Convert::ToString(wString) + ")");
 }
 
 void Logger::BeginError()

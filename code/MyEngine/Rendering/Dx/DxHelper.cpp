@@ -5,8 +5,10 @@
 #include <d3d11.h>
 #include <d3dcompiler.h>
 
+#include "String/Convert.h"
+
 void MyEngine::Rendering::Dx::DxHelper::CreateVertexShader(const std::wstring& path, const std::string& functionName,
-	ID3D11VertexShader*& pVertexShader)
+                                                           ID3D11VertexShader*& pVertexShader)
 {
 	ID3D10Blob* pBlob{};
 	CompileFromFile(path, functionName, pBlob);
@@ -85,7 +87,7 @@ void MyEngine::Rendering::Dx::DxHelper::CompileFromFile(const std::wstring& path
 	if (FAILED(hr)) {
 		std::stringstream ss{};
 		ss << "[DxHelper::CompileFromFile]\n";
-		ss << "\t[Path: " << std::string{path.begin(), path.end()} << "]\n";
+		ss << "\t[Path: " << Convert::ToString(path) << "]\n";
 		ss << "\t[HResult: " << GetHResultString(hr) << "]\n";
 		if (pErrorBlob)
 		{
@@ -191,5 +193,5 @@ std::string Rendering::Dx::DxHelper::GetHResultString(const HRESULT& result)
 {
 	const _com_error error{ result };
 	const std::wstring wString = { error.ErrorMessage() };
-	return{ wString.begin(), wString.end() };
+	return Convert::ToString(wString);
 }

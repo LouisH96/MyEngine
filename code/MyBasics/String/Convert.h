@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 namespace MyEngine
 {
@@ -6,5 +7,6 @@ namespace MyEngine
 	{
 	public:
 		static char ToChar(unsigned oneNumber);
+		static std::string ToString(const std::wstring& wString);
 	};
 }
