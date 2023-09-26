@@ -4,12 +4,13 @@
 #include "Generation/MeshUtils.h"
 #include "Math/Constants.h"
 
+using namespace Generation;
 
-void Generation::ArrowGenerator::CreatePivotArrows(Array<Rendering::V_PosColNorm>& vertices, Array<int>& indices, int nrSides, const Float3& origin, float scale)
+void ArrowGenerator::CreatePivotArrows(Array<Rendering::V_PosColNorm>& vertices, Array<int>& indices, int nrSides, const Float3& origin, float scale)
 {
 	using namespace Rendering;
 	constexpr float lineRadius = .05f;
-	ArrowGenerator arrowGenerator{ nrSides, false, .8f, lineRadius, .2f, .1f };
+	const ArrowGenerator arrowGenerator{ nrSides, false, .8f, lineRadius, .2f, .1f };
 
 	vertices = { arrowGenerator.GetNrVertices() * 2 };
 	indices = { arrowGenerator.GetNrIndices() * 2 };
@@ -30,15 +31,15 @@ void Generation::ArrowGenerator::CreatePivotArrows(Array<Rendering::V_PosColNorm
 		positions[i + lineBeginIdx].x += diff;
 	}
 
-	for (int i = 0; i < positions.GetSize(); i++)
+	for (unsigned i = 0; i < positions.GetSize(); i++)
 		vertices[i] = V_PosColNorm{ positions[i] * scale + origin, {.8f,.1f,.1f}, normals[i] };
-	for (int i = 0; i < tempIndices.GetSize(); i++)
+	for (unsigned i = 0; i < tempIndices.GetSize(); i++)
 		indices[i] = tempIndices[i];
 
-	int idx = positions.GetSize();
+	const unsigned idx = positions.GetSize();
 
 	//rotate to Z
-	for(int i = 0; i < positions.GetSize(); i++)
+	for(unsigned i = 0; i < positions.GetSize(); i++)
 	{
 		const float oldPositionX = positions[i].x;
 		positions[i].x = positions[i].z;
@@ -50,7 +51,7 @@ void Generation::ArrowGenerator::CreatePivotArrows(Array<Rendering::V_PosColNorm
 		normals[i].y = -normals[i].y;
 	}
 	
-	for (int i = 0; i < positions.GetSize(); i++)
+	for (unsigned i = 0; i < positions.GetSize(); i++)
 		vertices[i + idx] = V_PosColNorm{ positions[i] * scale + origin, {.1f,.1f,.8f}, normals[i] };
 	for (int i = 0; i < arrowGenerator.GetNrIndices(); i++)
 		indices[i + arrowGenerator.GetNrIndices()] = tempIndices[i] + idx;
@@ -75,8 +76,8 @@ void Generation::ArrowGenerator::CreatePivotArrows(Array<Rendering::V_PosColNorm
 		indices[i + arrowGenerator.GetNrIndices() * 2] = tempIndices[i] + idx;*/
 }
 
-Generation::ArrowGenerator::ArrowGenerator(int nrSides, bool capLineEnd, float lineLength, float lineRadius,
-	float arrowLength, float arrowRadius)
+ArrowGenerator::ArrowGenerator(int nrSides, bool capLineEnd, float lineLength, float lineRadius,
+                               float arrowLength, float arrowRadius)
 	: m_NrSides{ nrSides }
 	, m_CapLineEnd{ capLineEnd }
 	, m_LineRadius{ lineRadius }
@@ -86,22 +87,22 @@ Generation::ArrowGenerator::ArrowGenerator(int nrSides, bool capLineEnd, float l
 {
 }
 
-int Generation::ArrowGenerator::GetNrVertices() const
+int ArrowGenerator::GetNrVertices() const
 {
 	return GetSectionBegin(VertexSection::Last);
 }
 
-int Generation::ArrowGenerator::GetNrTriangles() const
+int ArrowGenerator::GetNrTriangles() const
 {
 	return GetSectionBegin(TriangleSection::Last);
 }
 
-float Generation::ArrowGenerator::GetAngleStep() const
+float ArrowGenerator::GetAngleStep() const
 {
 	return Constants::PI / static_cast<float>(m_NrSides) * 2.f;
 }
 
-int Generation::ArrowGenerator::GetSectionLength(VertexSection section) const
+int ArrowGenerator::GetSectionLength(VertexSection section) const
 {
 	switch (section)
 	{
@@ -118,7 +119,7 @@ int Generation::ArrowGenerator::GetSectionLength(VertexSection section) const
 	}
 }
 
-int Generation::ArrowGenerator::GetSectionBegin(VertexSection section) const
+int ArrowGenerator::GetSectionBegin(VertexSection section) const
 {
 	int begin = 0;
 	for (int i = 0; i < static_cast<int>(section); i++)
@@ -126,7 +127,7 @@ int Generation::ArrowGenerator::GetSectionBegin(VertexSection section) const
 	return begin;
 }
 
-int Generation::ArrowGenerator::GetSectionLength(TriangleSection section) const
+int ArrowGenerator::GetSectionLength(TriangleSection section) const
 {
 	switch (section)
 	{
@@ -141,7 +142,7 @@ int Generation::ArrowGenerator::GetSectionLength(TriangleSection section) const
 	}
 }
 
-int Generation::ArrowGenerator::GetSectionBegin(TriangleSection section) const
+int ArrowGenerator::GetSectionBegin(TriangleSection section) const
 {
 	int begin = 0;
 	for (int i = 0; i < static_cast<int>(section); i++)
@@ -149,8 +150,8 @@ int Generation::ArrowGenerator::GetSectionBegin(TriangleSection section) const
 	return begin;
 }
 
-void Generation::ArrowGenerator::Generate(Array<Float3>& vertexPoints, Array<Float3>& vertexNormals,
-	Array<int>& indices) const
+void ArrowGenerator::Generate(Array<Float3>& vertexPoints, Array<Float3>& vertexNormals,
+                              Array<int>& indices) const
 {
 	vertexPoints = { GetNrVertices() };
 	vertexNormals = { GetNrVertices() };
@@ -163,8 +164,6 @@ void Generation::ArrowGenerator::Generate(Array<Float3>& vertexPoints, Array<Flo
 	{
 		const float cos = cosf(i * angleStep);
 		const float sin = sinf(i * angleStep);
-		const float arrowZ = cos * m_ArrowRadius;
-		const float arrowY = -sin * m_ArrowRadius;
 		const Float3 basicNormal{ Float3{0,-sin,cos}.Normalized() };
 
 		//LINE CAP
