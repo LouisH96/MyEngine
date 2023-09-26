@@ -1,8 +1,8 @@
 #include "FbxClass.h"
 
+#include "DataStructures/DsUtils.h"
 #include "Wrapping/FbxData.h"
 #include "Wrapping/Model.h"
-#include "DataStructures/DsUtils.h"
 
 using namespace MyEngine::Io::Fbx;
 using namespace Wrapping;
