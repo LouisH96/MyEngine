@@ -42,6 +42,7 @@ namespace MyEngine
 			CameraBuffer m_Buffer;
 
 			float m_Zoom{ 1.f };
+			float m_InvAspectRatio{ -1.f };
 		};
 	}
 }

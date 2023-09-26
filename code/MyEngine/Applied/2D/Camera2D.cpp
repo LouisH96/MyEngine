@@ -17,19 +17,20 @@ Camera2D::DxMatrix Camera2D::DxMatrix::Identity()
 
 Camera2D::Camera2D()
 	: m_World{ DxMatrix::Identity() }
+	, m_InvAspectRatio{ CANVAS.GetInvAspectRatio() }
 {
 }
 
 void Camera2D::OnCanvasResized(const App::ResizedEvent& event)
 {
+	m_InvAspectRatio = static_cast<float>(event.NewSize.y) / static_cast<float>(event.NewSize.x);
 }
 
 void Camera2D::Update()
 {
 	//todo: rotation
-	const float invAspectRatio{ CANVAS.GetInvAspectRatio() };
-	m_Buffer.CameraView.Matrix[0].x = invAspectRatio / m_World.Matrix[0].x;
-	m_Buffer.CameraView.Matrix[0].z = -m_World.Matrix[0].z * m_Zoom * invAspectRatio;
+	m_Buffer.CameraView.Matrix[0].x = m_InvAspectRatio / m_World.Matrix[0].x;
+	m_Buffer.CameraView.Matrix[0].z = -m_World.Matrix[0].z * m_Zoom * m_InvAspectRatio;
 	m_Buffer.CameraView.Matrix[1].y = 1.f / m_World.Matrix[1].y;
 	m_Buffer.CameraView.Matrix[1].z = -m_World.Matrix[1].z * m_Zoom;
 }
