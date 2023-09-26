@@ -13,14 +13,14 @@ FbxClass::FbxClass(const std::wstring& path)
 	if (data.GetARootLimbNode())
 	{
 		m_Animations = { data.GetAnimationStacks().GetSize() };
-		for (int i = 0; i < m_Animations.GetSize(); i++)
+		for (unsigned i = 0; i < m_Animations.GetSize(); i++)
 			m_Animations[i] = FbxAnimation{ data.GetAnimationStacks()[i] };
 
 		m_Skeleton = FbxSkeleton{ data, *this };
 	}
 
 	m_Geometries = { data.GetGeometries().GetSize() };
-	for (int i = 0; i < m_Geometries.GetSize(); i++)
+	for (unsigned i = 0; i < m_Geometries.GetSize(); i++)
 	{
 		Wrapping::Geometry& dataGeometry = data.GetGeometries()[i];
 		Model& dataModel = data.GetModel(i);
@@ -34,14 +34,14 @@ FbxClass::FbxClass(const std::wstring& path)
 		modelGeometry.RotationPivot = dataModel.GetRotationPivot();
 	}
 
-	for (int i = 0; i < m_Geometries.GetSize(); i++)
+	for (unsigned i = 0; i < m_Geometries.GetSize(); i++)
 		MakeTriangleList(m_Geometries[i]);
 }
 
 int FbxClass::GetNrOfAnimationLayers() const
 {
 	int total = 0;
-	for (int i = 0; i < m_Animations.GetSize(); i++)
+	for (unsigned i = 0; i < m_Animations.GetSize(); i++)
 		total += m_Animations[i].GetNrLayers();
 	return total;
 }
@@ -57,18 +57,18 @@ void FbxClass::MakeTriangleList(Geometry& geomStruct)
 	int index0 = 0;
 	int index1 = 1;
 	int index2 = 2;
-	while (index2 < geomStruct.Indices.GetSize())
+	while (index2 < static_cast<int>(geomStruct.Indices.GetSize()))
 	{
 		//fbx to right-hand side, this program lhs
 		uvs.push_back(geomStruct.Uvs[index1]);
 		uvs.push_back(geomStruct.Uvs[index0]);
 		uvs.push_back(geomStruct.Uvs[index2]);
-		const int pointIdx0 = geomStruct.Indices[index0];
-		const int pointIdx1 = geomStruct.Indices[index1];
+		const int pointIdx0 = static_cast<int>(geomStruct.Indices[index0]);
+		const int pointIdx1 = static_cast<int>(geomStruct.Indices[index1]);
 		positions.push_back(geomStruct.Points[pointIdx1]);
 		positions.push_back(geomStruct.Points[pointIdx0]);
 
-		int pointIdx2 = geomStruct.Indices[index2];
+		int pointIdx2 = static_cast<int>(geomStruct.Indices[index2]);
 		if (pointIdx2 >= 0)
 		{
 			positions.push_back(geomStruct.Points[pointIdx2]);
@@ -89,7 +89,7 @@ void FbxClass::MakeTriangleList(Geometry& geomStruct)
 
 	//create normals
 	geomStruct.Normals = { geomStruct.Points.GetSize() };
-	for (int i = 0; i < geomStruct.Points.GetSize(); i += 3)
+	for (unsigned i = 0; i < geomStruct.Points.GetSize(); i += 3)
 	{
 		const Float3& point0{ geomStruct.Points[i + 0] };
 		const Float3& point1{ geomStruct.Points[i + 1] };
