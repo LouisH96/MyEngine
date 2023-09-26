@@ -5,22 +5,21 @@
 #include "Io/Ttf/Glyph.h"
 #include "Logger/Logger.h"
 
-#undef min;
-#undef max;
+using namespace MyEngine::Io::Ttf;
 
-MyEngine::Io::Ttf::FontRasterizer::FontRasterizer(const Glyph& glyph, const Int2& sizeInPixels)
+FontRasterizer::FontRasterizer(const Glyph& glyph, const Int2& sizeInPixels)
 	: FontRasterizer{ glyph, sizeInPixels.x, sizeInPixels.y }
 {
 }
 
-MyEngine::Io::Ttf::FontRasterizer::FontRasterizer(const Glyph& glyph, int nrCols, int nrRows)
+FontRasterizer::FontRasterizer(const Glyph& glyph, int nrCols, int nrRows)
 	: m_Glyph{ glyph }
 	, m_NrCols{ nrCols }
 	, m_NrRows{ nrRows }
 {
 }
 
-void MyEngine::Io::Ttf::FontRasterizer::DrawBounds(const Float3& color, const Float3& offset) const
+void FontRasterizer::DrawBounds(const Float3& color, const Float3& offset) const
 {
 	//todo:
 	Logger::PrintError("[FontRasterizer]: DebugRenderer not in MyBasics");
@@ -28,7 +27,7 @@ void MyEngine::Io::Ttf::FontRasterizer::DrawBounds(const Float3& color, const Fl
 	//DebugRenderer::AddRect(m_Glyph.GetMinBounds(), m_Glyph.GetMaxBounds(), offset, color);
 }
 
-void MyEngine::Io::Ttf::FontRasterizer::DrawGrid(const Float3& offset, const Float3& color) const
+void FontRasterizer::DrawGrid(const Float3& offset, const Float3& color) const
 {
 	//todo:
 	Logger::PrintError("[FontRasterizer]: DebugRenderer not in MyBasics");
@@ -36,7 +35,7 @@ void MyEngine::Io::Ttf::FontRasterizer::DrawGrid(const Float3& offset, const Flo
 	//DebugRenderer::AddGridXy(offset, m_Glyph.GetSize(), m_NrCols, m_NrRows, color);
 }
 
-void MyEngine::Io::Ttf::FontRasterizer::DrawIntersections(const Float3& offset, const Float2& bounds) const
+void FontRasterizer::DrawIntersections(const Float3& offset, const Float2& bounds) const
 {
 	//todo:
 	Logger::PrintError("[FontRasterizer]: DebugRenderer not in MyBasics");
@@ -66,7 +65,7 @@ void MyEngine::Io::Ttf::FontRasterizer::DrawIntersections(const Float3& offset, 
 	}*/
 }
 
-MyEngine::Rendering::Image* MyEngine::Io::Ttf::FontRasterizer::MakeImage(const Float3& fillColor) const
+MyEngine::Rendering::Image* FontRasterizer::MakeImage(const Float3& fillColor) const
 {
 	using namespace Rendering;
 	constexpr float fillAlpha{ 1.0f };
@@ -120,7 +119,7 @@ MyEngine::Rendering::Image* MyEngine::Io::Ttf::FontRasterizer::MakeImage(const F
 	return pImage;
 }
 
-void MyEngine::Io::Ttf::FontRasterizer::DeleteImage(Rendering::Image* pImage)
+void FontRasterizer::DeleteImage(Rendering::Image* pImage)
 {
 	delete pImage;
 }
