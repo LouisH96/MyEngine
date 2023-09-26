@@ -3,32 +3,34 @@
 #include "ContourOperations.h"
 #include "Logger/Logger.h"
 
-MyEngine::Io::Ttf::Contour::Contour(const Array<TtfPoint>& ttfPoints)
+using namespace MyEngine::Io::Ttf;
+
+Contour::Contour(const Array<TtfPoint>& ttfPoints)
 	: m_Segments(ContourOperations::ToSegments(ttfPoints))
 {
 }
 
-void MyEngine::Io::Ttf::Contour::Translate(const Double2& translation)
+void Contour::Translate(const Double2& translation)
 {
-	for (int i = 0; i < m_Segments.GetSize(); i++)
+	for (unsigned i = 0; i < m_Segments.GetSize(); i++)
 		m_Segments[i].Translate(translation);
 }
 
-void MyEngine::Io::Ttf::Contour::Scale(double scale)
+void Contour::Scale(double scale)
 {
-	for (int i = 0; i < m_Segments.GetSize(); i++)
+	for (unsigned i = 0; i < m_Segments.GetSize(); i++)
 		m_Segments[i].Scale(scale);
 }
 
-void MyEngine::Io::Ttf::Contour::AddIntersections(std::vector<Intersection>& intersections, double height) const
+void Contour::AddIntersections(std::vector<Intersection>& intersections, double height) const
 {
 	//segment 14
 
-	for (int i = 0; i < m_Segments.GetSize(); i++)
+	for (unsigned i = 0; i < m_Segments.GetSize(); i++)
 		m_Segments[i].AddIntersectionPoints(intersections, height);
 }
 
-void MyEngine::Io::Ttf::Contour::DebugDraw(const Float3& color, const Float3& offset, int pointsPerCurve) const
+void Contour::DebugDraw(const Float3& color, const Float3& offset, int pointsPerCurve) const
 {
 	//todo:
 	Logger::PrintError("DebugDraw not supported in lib");
@@ -59,7 +61,7 @@ void MyEngine::Io::Ttf::Contour::DebugDraw(const Float3& color, const Float3& of
 	DebugRenderer::AddLine(drawPoints, color);*/
 }
 
-void MyEngine::Io::Ttf::Contour::DebugDrawSegments(const Float3& offset, int pointsPerCurve) const
+void Contour::DebugDrawSegments(const Float3& offset, int pointsPerCurve) const
 {
 	//todo:
 	Logger::PrintError("DebugDraw not supported in lib");
@@ -90,9 +92,9 @@ void MyEngine::Io::Ttf::Contour::DebugDrawSegments(const Float3& offset, int poi
 	//}
 }
 
-void MyEngine::Io::Ttf::Contour::DebugPrint()
+void Contour::DebugPrint()
 {
 	std::cout << "Contour:\n";
-	for (int i = 0; i < m_Segments.GetSize(); i++)
+	for (unsigned i = 0; i < m_Segments.GetSize(); i++)
 		m_Segments[i].DebugPrint();
 }
