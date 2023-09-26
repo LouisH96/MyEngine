@@ -44,7 +44,7 @@ namespace MyEngine
 				Double2 m_Begin;
 				Double2 m_End;
 				Double2 m_ControlPoint;
-				bool m_IsLinear;
+				bool m_IsLinear{};
 
 				void AddIntersectionPointsLinear(std::vector<Intersection>& intersections, double height) const;
 				void AddIntersectionPointsCurve(std::vector<Intersection>& intersections, double height) const;
