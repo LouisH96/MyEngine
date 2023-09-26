@@ -44,7 +44,7 @@ Rendering::Font::FontAtlas::FontAtlas(int xHorizontalPixels)
 	for (int i = 0; i < m_CharacterHorPos.GetSize(); i++) m_CharacterHorPos[i] *= scale.x;
 
 	//other
-	m_SpaceWidth = reader.GetGlyph(' ').GetSize().x * ttfToPixels * scale.x;
+	m_SpaceWidth = static_cast<float>(reader.GetGlyph(' ').GetSize().x) * ttfToPixels * scale.x;
 }
 
 Rendering::Font::FontAtlas::~FontAtlas()
