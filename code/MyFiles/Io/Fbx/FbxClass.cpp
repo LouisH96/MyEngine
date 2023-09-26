@@ -4,9 +4,10 @@
 #include "Wrapping/Model.h"
 #include "DataStructures/DsUtils.h"
 
-using namespace MyEngine::Io::Fbx::Wrapping;
+using namespace MyEngine::Io::Fbx;
+using namespace Wrapping;
 
-MyEngine::Io::Fbx::FbxClass::FbxClass(const std::wstring& path)
+FbxClass::FbxClass(const std::wstring& path)
 {
 	FbxData data{ path };
 	if (data.GetARootLimbNode())
@@ -37,7 +38,7 @@ MyEngine::Io::Fbx::FbxClass::FbxClass(const std::wstring& path)
 		MakeTriangleList(m_Geometries[i]);
 }
 
-int MyEngine::Io::Fbx::FbxClass::GetNrOfAnimationLayers() const
+int FbxClass::GetNrOfAnimationLayers() const
 {
 	int total = 0;
 	for (int i = 0; i < m_Animations.GetSize(); i++)
@@ -45,7 +46,7 @@ int MyEngine::Io::Fbx::FbxClass::GetNrOfAnimationLayers() const
 	return total;
 }
 
-void MyEngine::Io::Fbx::FbxClass::MakeTriangleList(Geometry& geomStruct)
+void FbxClass::MakeTriangleList(Geometry& geomStruct)
 {
 	std::vector<Float3> positions{};
 	std::vector<Float3> normals{};
