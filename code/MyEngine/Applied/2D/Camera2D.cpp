@@ -27,8 +27,9 @@ void Camera2D::OnCanvasResized(const App::ResizedEvent& event)
 void Camera2D::Update()
 {
 	//todo: rotation
-	m_Buffer.CameraView.Matrix[0].x = static_cast<float>(CANVAS.GetSize().y) / (m_World.Matrix[0].x * static_cast<float>(CANVAS.GetSize().x));
-	m_Buffer.CameraView.Matrix[0].z = -m_World.Matrix[0].z * m_Zoom / CANVAS.GetAspectRatio();
+	const float invAspectRatio{ CANVAS.GetInvAspectRatio() };
+	m_Buffer.CameraView.Matrix[0].x = invAspectRatio / m_World.Matrix[0].x;
+	m_Buffer.CameraView.Matrix[0].z = -m_World.Matrix[0].z * m_Zoom * invAspectRatio;
 	m_Buffer.CameraView.Matrix[1].y = 1.f / m_World.Matrix[1].y;
 	m_Buffer.CameraView.Matrix[1].z = -m_World.Matrix[1].z * m_Zoom;
 }
