@@ -4,13 +4,14 @@
 #include <fstream>
 
 #include "Framework/Resources.h"
+#include "Image/Image.h"
 #include "Io/Ttf/FontRasterizer.h"
 #include "Io/Ttf/TtfReader.h"
-#include "Image/Image.h"
 
+using namespace Rendering::Font;
 using namespace Io::Ttf;
 
-Rendering::Font::FontAtlas::FontAtlas(int xHorizontalPixels)
+FontAtlas::FontAtlas(int xHorizontalPixels)
 {
 	//read
 	const std::wstring fontPath = Resources::Global(L"Fonts\\ShortBaby.ttf");
@@ -47,19 +48,19 @@ Rendering::Font::FontAtlas::FontAtlas(int xHorizontalPixels)
 	m_SpaceWidth = static_cast<float>(reader.GetGlyph(' ').GetSize().x) * ttfToPixels * scale.x;
 }
 
-Rendering::Font::FontAtlas::~FontAtlas()
+FontAtlas::~FontAtlas()
 {
 	delete m_pImage;
 }
 
-Rendering::Image* Rendering::Font::FontAtlas::GetImageOwnership()
+Rendering::Image* FontAtlas::GetImageOwnership()
 {
 	Image* pReturn{ m_pImage };
 	m_pImage = nullptr;
 	return pReturn;
 }
 
-void Rendering::Font::FontAtlas::CharacterInfoStep(const Glyph& glyph, int idx, float ttfToPixels, float& highest)
+void FontAtlas::CharacterInfoStep(const Glyph& glyph, int idx, float ttfToPixels, float& highest)
 {
 	const Float2 sizeInPixels{ (glyph.GetSize() * ttfToPixels).Ceiled() };
 
@@ -68,7 +69,7 @@ void Rendering::Font::FontAtlas::CharacterInfoStep(const Glyph& glyph, int idx, 
 	m_CharacterHorPos[idx + 1] = m_CharacterHorPos[idx] + sizeInPixels.x;
 }
 
-void Rendering::Font::FontAtlas::DrawGlyphStep(const Io::Ttf::Glyph& glyph, int idx, float ttfToPixels)
+void FontAtlas::DrawGlyphStep(const Glyph& glyph, int idx, float ttfToPixels)
 {
 	const Int2 sizeInPixels{ (glyph.GetSize() * ttfToPixels).Ceiled() };
 	const FontRasterizer rasterizer{ glyph, sizeInPixels };
