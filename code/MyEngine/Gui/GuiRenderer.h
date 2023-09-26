@@ -38,7 +38,7 @@ namespace MyEngine
 			void SetOffsetY(int id, float yPixels);
 			void SetHeight(int id, float newHeight);
 
-			const Float2& GetSize(int id) const;
+			Float2 GetSize(int id) const;
 			float GetWidth(int id) const;
 			float GetHeight(int id) const;
 

@@ -91,7 +91,7 @@ void GuiRenderer::SetHeight(int id, float newHeight)
 	m_Renderer.SetHeight(id, newHeight);
 }
 
-const Float2& GuiRenderer::GetSize(int id) const
+Float2 GuiRenderer::GetSize(int id) const
 {
 	return m_Renderer.GetSize(id);
 }
