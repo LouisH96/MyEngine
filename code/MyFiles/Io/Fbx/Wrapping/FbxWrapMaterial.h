@@ -25,7 +25,7 @@ namespace MyEngine
 					FbxWrapMaterial() = default;
 					FbxWrapMaterial(Reading::FbxElement& object);
 
-					int64_t Id;
+					int64_t Id{};
 
 					void AddModel(const Model& model);
 					void AddTexture(const FbxWrapTexture& texture);

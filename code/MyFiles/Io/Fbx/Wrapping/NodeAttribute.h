@@ -26,7 +26,7 @@ namespace MyEngine
 					NodeAttribute() = default;
 					explicit NodeAttribute(Reading::FbxElement& object);
 
-					int64_t Id;
+					int64_t Id{};
 					std::string Type;
 					Reading::FbxElement* pProperties70; //temp
 
