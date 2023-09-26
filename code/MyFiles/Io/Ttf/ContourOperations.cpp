@@ -1,21 +1,24 @@
 #include "ContourOperations.h"
 
-#include "Image/Image.h"
 #include "TtfReader.h"
 #include "DataStructures/Algorithms.h"
 #include "DataStructures/DsUtils.h"
+#include "Image/Image.h"
 #include "Logger/Logger.h"
 
-void MyEngine::Io::Ttf::ContourOperations::GetBounds(const Array<Array<TtfPoint>>& points, Vector2<int16_t>& min,
-	Vector2<int16_t>& max)
+using namespace MyEngine;
+using namespace Io::Ttf;
+
+void ContourOperations::GetBounds(const Array<Array<TtfPoint>>& points, Vector2<int16_t>& min,
+                                  Vector2<int16_t>& max)
 {
 	GetBounds(points[0], min, max, true);
 	for (int i = 1; i < points.GetSize(); i++)
 		GetBounds(points[i], min, max, false);
 }
 
-void MyEngine::Io::Ttf::ContourOperations::GetBounds(const Array<TtfPoint>& points, Vector2<int16_t>& min,
-	Vector2<int16_t>& max, bool initMinMax)
+void ContourOperations::GetBounds(const Array<TtfPoint>& points, Vector2<int16_t>& min,
+                                  Vector2<int16_t>& max, bool initMinMax)
 {
 	if (initMinMax)
 	{
@@ -34,7 +37,7 @@ void MyEngine::Io::Ttf::ContourOperations::GetBounds(const Array<TtfPoint>& poin
 }
 
 
-MyEngine::Array<MyEngine::Double2> MyEngine::Io::Ttf::ContourOperations::ToPoints(const Array<TtfPoint>& contourPoints, int nrPointsPerSegment)
+Array<Double2> ContourOperations::ToPoints(const Array<TtfPoint>& contourPoints, int nrPointsPerSegment)
 {
 	if (nrPointsPerSegment < 2)
 	{
@@ -92,7 +95,7 @@ MyEngine::Array<MyEngine::Double2> MyEngine::Io::Ttf::ContourOperations::ToPoint
 	return points;
 }
 
-MyEngine::Array<MyEngine::Double2> MyEngine::Io::Ttf::ContourOperations::ToPoints(const Segment& segment, int nrPoints)
+Array<Double2> ContourOperations::ToPoints(const Segment& segment, int nrPoints)
 {
 	if (segment.IsLinear())
 	{
@@ -114,7 +117,7 @@ MyEngine::Array<MyEngine::Double2> MyEngine::Io::Ttf::ContourOperations::ToPoint
 	return points;
 }
 
-MyEngine::Array<MyEngine::Double2> MyEngine::Io::Ttf::ContourOperations::ToPoints(const Contour& contour, int nrPointsForCurve)
+Array<Double2> ContourOperations::ToPoints(const Contour& contour, int nrPointsForCurve)
 {
 	int nrPoints = 1;
 	for (int i = 0; i < contour.GetSegments().GetSize(); i++)
@@ -140,7 +143,7 @@ MyEngine::Array<MyEngine::Double2> MyEngine::Io::Ttf::ContourOperations::ToPoint
 	return points;
 }
 
-MyEngine::Array<MyEngine::Array<MyEngine::Io::Ttf::Segment>> MyEngine::Io::Ttf::ContourOperations::ToSegments(
+Array<Array<Segment>> ContourOperations::ToSegments(
 	const Array<Array<TtfPoint>>& contourPoints)
 {
 	Array<Array<Segment>> segments{ contourPoints.GetSize() };
@@ -149,7 +152,7 @@ MyEngine::Array<MyEngine::Array<MyEngine::Io::Ttf::Segment>> MyEngine::Io::Ttf::
 	return segments;
 }
 
-MyEngine::Array<MyEngine::Io::Ttf::Segment> MyEngine::Io::Ttf::ContourOperations::ToSegments(const Array<TtfPoint>& contourPoints)
+Array<Segment> ContourOperations::ToSegments(const Array<TtfPoint>& contourPoints)
 {
 	int nrSegments = 0;
 	for (int i = 1; i < contourPoints.GetSize(); i++)
@@ -201,7 +204,7 @@ MyEngine::Array<MyEngine::Io::Ttf::Segment> MyEngine::Io::Ttf::ContourOperations
 	return segments;
 }
 
-MyEngine::Array<MyEngine::Io::Ttf::Intersection> MyEngine::Io::Ttf::ContourOperations::GetIntersectionsX(const Glyph& glyph, float height)
+Array<Intersection> ContourOperations::GetIntersectionsX(const Glyph& glyph, float height)
 {
 	std::vector<Intersection> intersections{};
 	for (int iContour = 0; iContour < glyph.GetContours().GetSize(); iContour++)
@@ -218,7 +221,7 @@ MyEngine::Array<MyEngine::Io::Ttf::Intersection> MyEngine::Io::Ttf::ContourOpera
 	return DsUtils::ToArray(intersections);
 }
 
-MyEngine::Array<MyEngine::Io::Ttf::Intersection> MyEngine::Io::Ttf::ContourOperations::GetIntersectionsX(const Contour& contour, float height)
+Array<Intersection> ContourOperations::GetIntersectionsX(const Contour& contour, float height)
 {
 	std::vector<Intersection> intersections{};
 	for (int i = 0; i < contour.GetSegments().GetSize(); i++)
@@ -231,8 +234,8 @@ MyEngine::Array<MyEngine::Io::Ttf::Intersection> MyEngine::Io::Ttf::ContourOpera
 	return DsUtils::ToArray(intersections);
 }
 
-MyEngine::Rendering::Image* MyEngine::Io::Ttf::ContourOperations::MakeImage(const TtfReader& reader, char character, int imageWidth,
-                                                                            int imageHeight)
+Rendering::Image* ContourOperations::MakeImage(const TtfReader& reader, char character, int imageWidth,
+                                               int imageHeight)
 {
 	Glyph glyph{ reader.GetGlyph(character) };
 
@@ -247,7 +250,7 @@ MyEngine::Rendering::Image* MyEngine::Io::Ttf::ContourOperations::MakeImage(cons
 }
 
 //temp: contour-segment should have 0-1 scale
-void MyEngine::Io::Ttf::ContourOperations::Rasterize(const Glyph& glyph, Rendering::Image& image)
+void ContourOperations::Rasterize(const Glyph& glyph, Rendering::Image& image)
 {
 	for (int iRow = 0; iRow < image.GetHeight(); iRow++)
 	{
@@ -286,8 +289,8 @@ void MyEngine::Io::Ttf::ContourOperations::Rasterize(const Glyph& glyph, Renderi
 	}
 }
 
-MyEngine::Float2 MyEngine::Io::Ttf::ContourOperations::CalculatePoint(const Float2& p0, const Float2& p1,
-                                                                      const Float2& p2, float alpha)
+Float2 ContourOperations::CalculatePoint(const Float2& p0, const Float2& p1,
+                                         const Float2& p2, float alpha)
 {
 	const float invAlpha = 1 - alpha;
 	return p0 * (invAlpha * invAlpha)
@@ -295,7 +298,7 @@ MyEngine::Float2 MyEngine::Io::Ttf::ContourOperations::CalculatePoint(const Floa
 		+ p2 * (alpha * alpha);
 }
 
-MyEngine::Float2 MyEngine::Io::Ttf::ContourOperations::CalculatePoint(const Segment& segment, float alpha)
+Float2 ContourOperations::CalculatePoint(const Segment& segment, float alpha)
 {
 	const float invAlpha = 1 - alpha;
 	return segment.GetBegin() * (invAlpha * invAlpha)
@@ -303,8 +306,8 @@ MyEngine::Float2 MyEngine::Io::Ttf::ContourOperations::CalculatePoint(const Segm
 		+ segment.GetEnd() * (alpha * alpha);
 }
 
-void MyEngine::Io::Ttf::ContourOperations::AddIntersectionsCurve(const Segment& curve, double height,
-	std::vector<Intersection>& intersections)
+void ContourOperations::AddIntersectionsCurve(const Segment& curve, double height,
+                                              std::vector<Intersection>& intersections)
 {
 	//https://www.wolframalpha.com/input?i=solve+t%2C+y+%3D+a+*+%281-t%29%5E2+%2B+b+*+2+*%281-t%29*t+%2B+c+*+t%5E2
 	const double a{ curve.GetBegin().y };
@@ -329,8 +332,8 @@ void MyEngine::Io::Ttf::ContourOperations::AddIntersectionsCurve(const Segment& 
 	}
 }
 
-void MyEngine::Io::Ttf::ContourOperations::AddIntersectionsLinear(const Segment& linear, double height,
-	std::vector<Intersection>& intersections)
+void ContourOperations::AddIntersectionsLinear(const Segment& linear, double height,
+                                               std::vector<Intersection>& intersections)
 {
 	const double divisor{ linear.GetEnd().y - linear.GetBegin().y };
 	if (divisor == 0)
