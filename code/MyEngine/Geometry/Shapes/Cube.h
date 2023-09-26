@@ -9,7 +9,6 @@ namespace MyEngine
 
 		Cube() = default;
 		explicit Cube(const Transform& transform, const Float3& size);
-		explicit Cube(const Float3& leftBot, const Float3& right, const Float3& up, const Float3& forward, const Float3& size);
 
 		Transform& GetTransform() { return m_Transform; }
 		Float3& GetPosition() { return m_Transform.Position; }

@@ -7,14 +7,6 @@ Cube::Cube(const Transform& transform, const Float3& size)
 {
 }
 
-Cube::Cube(
-	const Float3& leftBot, const Float3& right, const Float3& up, const Float3& forward,
-	const Float3& size)
-	: m_Transform{ leftBot, {} }
-	, m_Size{ size }
-{
-}
-
 Float3 Cube::GetRightBotBack() const
 {
 	return m_Transform.Position
