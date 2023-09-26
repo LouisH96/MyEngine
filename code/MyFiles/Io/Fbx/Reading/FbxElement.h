@@ -192,7 +192,7 @@ namespace MyEngine
 					const FbxPropPrimitive<Source>* pCast{dynamic_cast<const FbxPropPrimitive<Source>*>(pProperty)};
 					if (!pCast) return false;
 
-					target = pCast->GetValue();
+					target = static_cast<Target>(pCast->GetValue());
 					return true;
 				}
 			}
