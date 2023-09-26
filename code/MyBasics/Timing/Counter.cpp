@@ -40,5 +40,5 @@ float Counter::GetMs() const
 	const auto now = App::Time::Clock::now();
 	const auto dur = now - m_Begin;
 
-	return App::Time::ToMilliseconds(dur);
+	return static_cast<float>(App::Time::ToMilliseconds(dur));
 }
