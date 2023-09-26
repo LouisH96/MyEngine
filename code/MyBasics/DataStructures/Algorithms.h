@@ -40,7 +40,7 @@ namespace MyEngine
 	T Algorithms::GetBiggest(const Array<T>& a)
 	{
 		T biggest = a[0];
-		for (int i = 1; i < a.GetSize(); i++)
+		for (unsigned i = 1; i < a.GetSize(); i++)
 			if (a[i] > biggest)
 				biggest = a[i];
 		return biggest;
@@ -61,11 +61,11 @@ namespace MyEngine
 	template <typename T>
 	void Algorithms::SortSmallToBig(Array<T>& array)
 	{
-		for (int iFirst = 0; iFirst < array.GetSize() - 1; iFirst++)
+		for (unsigned iFirst = 0; iFirst + 1 < array.GetSize(); iFirst++)
 		{
 			T value{ array[iFirst] };
-			int valueIdx{ iFirst };
-			for (int iSecond = iFirst + 1; iSecond < array.GetSize(); iSecond++)
+			unsigned valueIdx{ iFirst };
+			for (unsigned iSecond = iFirst + 1; iSecond < array.GetSize(); iSecond++)
 			{
 				if (array[iSecond] < value)
 				{
