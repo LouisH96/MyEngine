@@ -2,14 +2,16 @@
 
 #include "Io/Fbx/Wrapping/FbxData.h"
 
-MyEngine::Io::Fbx::FbxSkeleton::FbxSkeleton(const Wrapping::FbxData& fbxData, const FbxClass& fbxClass)
+using namespace MyEngine::Io::Fbx;
+
+FbxSkeleton::FbxSkeleton(const Wrapping::FbxData& fbxData, const FbxClass& fbxClass)
 {
 	const Wrapping::Model* pRoot{fbxData.GetARootLimbNode()};
 	if (pRoot->GetParentModel())
 	{
 		pRoot = pRoot->GetParentModel();
 		m_RootJoints = { pRoot->GetChildModels().GetSize() };
-		for (int i = 0; i < m_RootJoints.GetSize(); i++)
+		for (unsigned i = 0; i < m_RootJoints.GetSize(); i++)
 			m_RootJoints[i] = FbxJoint{ *pRoot->GetChildModels()[i], fbxData, fbxClass };
 	}
 	else
