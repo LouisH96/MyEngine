@@ -300,10 +300,11 @@ Float2 ContourOperations::CalculatePoint(const Float2& p0, const Float2& p1,
 
 Float2 ContourOperations::CalculatePoint(const Segment& segment, float alpha)
 {
-	const float invAlpha = 1 - alpha;
+	const double alphaD{ static_cast<double>(alpha) };
+	const double invAlpha = 1 - alphaD;
 	return segment.GetBegin() * (invAlpha * invAlpha)
-		+ segment.GetControlPoint() * (2 * invAlpha * alpha)
-		+ segment.GetEnd() * (alpha * alpha);
+		+ segment.GetControlPoint() * (2 * invAlpha * alphaD)
+		+ segment.GetEnd() * alphaD * alphaD;
 }
 
 void ContourOperations::AddIntersectionsCurve(const Segment& curve, double height,
