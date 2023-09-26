@@ -134,7 +134,7 @@ namespace MyEngine
 		: m_pData(new Data[size])
 		, m_Size(size)
 	{
-		for (int i = 0; i < m_Size; i++)
+		for (unsigned i = 0; i < m_Size; i++)
 			m_pData[i] = initValue;
 	}
 
@@ -143,7 +143,7 @@ namespace MyEngine
 		: m_pData(new Data[size])
 		, m_Size(size)
 	{
-		for (int i = 0; i < m_Size; i++)
+		for (unsigned i = 0; i < m_Size; i++)
 			m_pData[i] = initValue;
 	}
 
@@ -315,7 +315,7 @@ namespace MyEngine
 	template <typename Data>
 	void Array<Data>::DeleteAll() const
 	{
-		for (int i = 0; i < m_Size; i++)
+		for (unsigned i = 0; i < m_Size; i++)
 			delete m_pData[i];
 	}
 
