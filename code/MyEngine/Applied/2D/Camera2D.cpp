@@ -28,7 +28,7 @@ void Camera2D::Update()
 {
 	//todo: rotation
 	m_Buffer.CameraView.Matrix[0].x = static_cast<float>(CANVAS.GetSize().y) / (m_World.Matrix[0].x * static_cast<float>(CANVAS.GetSize().x));
-	m_Buffer.CameraView.Matrix[0].z = -m_World.Matrix[0].z * m_Zoom;
+	m_Buffer.CameraView.Matrix[0].z = -m_World.Matrix[0].z * m_Zoom / CANVAS.GetAspectRatio();
 	m_Buffer.CameraView.Matrix[1].y = 1.f / m_World.Matrix[1].y;
 	m_Buffer.CameraView.Matrix[1].z = -m_World.Matrix[1].z * m_Zoom;
 }
@@ -73,4 +73,18 @@ void Camera2D::MoveScaled(const Float2& movement)
 {
 	m_World.Matrix[0].z += movement.x / m_Zoom;
 	m_World.Matrix[1].z += movement.y / m_Zoom;
+}
+
+Float2 Camera2D::GetWorldPos() const
+{
+	return { m_World.Matrix[0].z, m_World.Matrix[1].z };
+}
+
+Float2 Camera2D::GetMouseWorldPos() const
+{
+	const Float2 mouseNdc{ MOUSE.GetPosNdc() };
+	return {
+		mouseNdc.x / m_Buffer.CameraView.Matrix[0].x + m_World.Matrix[0].z,
+		mouseNdc.y / m_Buffer.CameraView.Matrix[1].y + m_World.Matrix[1].z
+	};
 }

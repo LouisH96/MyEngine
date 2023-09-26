@@ -32,6 +32,9 @@ namespace MyEngine
 			void Move(const Float2& movement);
 			void MoveScaled(const Float2& movement); //more movement if zoomed out
 
+			Float2 GetWorldPos() const;
+			Float2 GetMouseWorldPos() const;
+
 			const CameraBuffer& GetCameraBuffer() const { return m_Buffer; }
 
 		private:
