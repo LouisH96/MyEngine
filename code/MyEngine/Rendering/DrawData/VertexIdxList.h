@@ -62,13 +62,13 @@ namespace MyEngine
 			if (m_Changed)
 			{
 				m_Changed = false;
-				m_GpuData.EnsureVertexCapacity(m_CpuVertices.GetSizeU(), true);
+				m_GpuData.EnsureVertexCapacity(m_CpuVertices.GetSize(), true);
 				m_GpuData.EnsureIndexCapacity(m_CpuIndices.GetSize(), true);
 
-				m_GpuData.UpdateVertices(m_CpuVertices.GetData(), m_CpuVertices.GetSizeU());
+				m_GpuData.UpdateVertices(m_CpuVertices.GetData(), m_CpuVertices.GetSize());
 				m_GpuData.UpdateIndices(m_CpuIndices.GetData(), m_CpuIndices.GetSize());
 
-				m_GpuData.SetVertexCount(m_CpuVertices.GetSizeU());
+				m_GpuData.SetVertexCount(m_CpuVertices.GetSize());
 				m_GpuData.SetIndexCount(m_CpuIndices.GetSize());
 			}
 			m_GpuData.Draw();
@@ -79,7 +79,7 @@ namespace MyEngine
 			unsigned nrIndices)
 		{
 			m_Changed = true;
-			const unsigned oldSize{ m_CpuVertices.GetSizeU() };
+			const unsigned oldSize{ m_CpuVertices.GetSize() };
 			m_CpuVertices.Add(pVertices, nrVertices);
 			m_CpuIndices.EnsureCapacity(m_CpuIndices.GetSize() + nrIndices);
 			for (int i = 0; i < nrIndices; i++)

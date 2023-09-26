@@ -79,11 +79,11 @@ namespace MyEngine
 			if (m_Changed)
 			{
 				m_Changed = false;
-				m_DrawBatch.EnsureInstanceCapacity(m_CpuInstances.GetCapacityU(), false);
+				m_DrawBatch.EnsureInstanceCapacity(m_CpuInstances.GetCapacity(), false);
 				m_DrawBatch.UpdateInstances(m_CpuInstances.GetData(), m_CpuInstances.GetSize());
 				m_DrawBatch.SetInstanceCount(m_CpuInstances.GetSize());
 			}
-			m_DrawBatch.Draw(m_CpuInstances.GetSizeU());
+			m_DrawBatch.Draw(m_CpuInstances.GetSize());
 		}
 
 		template <typename Vertex, typename Instance>

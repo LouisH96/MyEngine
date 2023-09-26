@@ -78,11 +78,11 @@ namespace MyEngine
 			if (m_Changed)
 			{
 				m_Changed = false;
-				m_GpuInstances.EnsureCapacity(m_CpuInstances.GetCapacityU(), true);
+				m_GpuInstances.EnsureCapacity(m_CpuInstances.GetCapacity(), true);
 				m_GpuInstances.SetInstancesCount(m_CpuInstances.GetSize());
-				m_GpuInstances.UpdateInstances(m_CpuInstances.GetData(), m_CpuInstances.GetSizeU());
+				m_GpuInstances.UpdateInstances(m_CpuInstances.GetData(), m_CpuInstances.GetSize());
 			}
-			m_GpuInstances.Draw(m_CpuInstances.GetSizeU());
+			m_GpuInstances.Draw(m_CpuInstances.GetSize());
 		}
 
 		template <typename Vertex, typename Instance>
