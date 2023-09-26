@@ -4,47 +4,49 @@
 #include "Transform/Transform.h"
 #include "Game/Camera/Camera.h"
 
-Rendering::CB_CamMat::CB_CamMat(const Camera& camera)
+using namespace Rendering;
+
+CB_CamMat::CB_CamMat(const Camera& camera)
 	: CameraMatrix{ camera.GetViewProjection() }
 {
 }
 
-Rendering::CB_CamMat::CB_CamMat(const Float4X4& viewProjection)
+CB_CamMat::CB_CamMat(const Float4X4& viewProjection)
 	: CameraMatrix{ viewProjection }
 {
 }
 
-Rendering::CB_CamMat::CB_CamMat(const Float3& position, const Float4X4& viewProjection)
+CB_CamMat::CB_CamMat(const Float3&, const Float4X4& viewProjection)
 	: CameraMatrix{ viewProjection }
 {
 }
 
-Rendering::CB_CamMatPos::CB_CamMatPos(const Camera& camera)
+CB_CamMatPos::CB_CamMatPos(const Camera& camera)
 	: CameraMatrix{ camera.GetViewProjection() }
 	, CameraPos{ camera.GetPosition() }
 {
 }
 
-Rendering::CB_CamMatPos::CB_CamMatPos(const Float3& position, const Float4X4& matrix)
+CB_CamMatPos::CB_CamMatPos(const Float3& position, const Float4X4& matrix)
 	: CameraMatrix{ matrix }
 	, CameraPos{ position }
 {
 }
 
-Rendering::CB_CamMatPos::CB_CamMatPos(const Float3& position, const Float4X4& viewProjection,
-	const Game::Transform& transform)
+CB_CamMatPos::CB_CamMatPos(const Float3& position, const Float4X4& viewProjection,
+	const Transform& transform)
 
 	: CameraMatrix{ transform.AsMatrix() * viewProjection }
 	, CameraPos{ position }
 {
 }
 
-Rendering::CB_CamPos::CB_CamPos(const Float3& position)
+CB_CamPos::CB_CamPos(const Float3& position)
 	: CameraPos{ position }
 {
 }
 
-Rendering::CB_ModelBuffer::CB_ModelBuffer(const Game::Transform& transform)
+CB_ModelBuffer::CB_ModelBuffer(const Transform& transform)
 	: ModelMatrix{ transform.AsMatrix() }
 {
 }
