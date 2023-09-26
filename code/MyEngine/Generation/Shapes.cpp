@@ -173,9 +173,6 @@ void Generation::Shapes::GenerateSphereBuffers(const Sphere& sphere, int nrCols,
 void Generation::Shapes::GeneratePivotArrows(Array<Rendering::V_PosColNorm>& vertices, Array<int>& indices)
 {
 	using namespace Rendering;
-	constexpr float totalLength = 1.f;
-	constexpr float arrowLength = .2f;
-	constexpr float arrowRadius = .1f;
 	constexpr int nrArrowsTriangle = 6;
 	
 	Array<Float3> positions{};
@@ -201,7 +198,6 @@ Array<int> Generation::Shapes::GetIndicesToCapCircle(int nrPoints)
 	}
 
 	Array<int> indices{ (nrPoints - 2) * 3 };
-	constexpr int topIdx = 0;
 	const int botIdx = nrPoints / 2;
 	const int rightIdx = nrPoints / 4;
 	const int leftIdx = rightIdx + botIdx;

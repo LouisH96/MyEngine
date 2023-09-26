@@ -56,7 +56,7 @@ namespace MyEngine
 		}
 
 		template <typename Vertex>
-		void VertexIdxList<Vertex>::Draw(unsigned idx)
+		void VertexIdxList<Vertex>::Draw(unsigned)
 		{
 			if (m_CpuVertices.IsEmpty() || m_CpuIndices.IsEmpty()) return;
 			if (m_Changed)

@@ -5,9 +5,11 @@
 
 #include "Math/Scalars.h"
 
+using namespace MyEngine;
+
 void Random::Seed()
 {
-	srand(time(nullptr));
+	srand(static_cast<unsigned>(time(nullptr)));
 }
 
 float Random::Ratio()

@@ -31,7 +31,7 @@ void Rendering::FpsDisplay::SetText()
 		const int current{ static_cast<int>(fps / 1000) };
 		if (current > 0 && i < first)
 			first = i;
-		chars[i] = '0' + current;
+		chars[i] = static_cast<char>('0' + current);
 		fps -= static_cast<float>(current * 1000);
 		fps *= 10;
 	}

@@ -3,6 +3,8 @@
 
 #include "Shapes.h"
 
+using namespace MyEngine;
+
 unsigned Generation::SphereGenerator::GetNrVertices(unsigned nrCols, unsigned nrRows)
 {
 	const int nrMiddlePointRows = nrRows - 1;
@@ -33,5 +35,5 @@ void Generation::SphereGenerator::Generate(const Sphere& sphere, unsigned nrCols
 
 	vertices.EnsureIncrease(positions.GetSize());
 	for (unsigned i = 0; i < positions.GetSize(); i++)
-		vertices.Add({ positions[i], color, normals[i] });
+		vertices.Add({ positions[i] + offset, color, normals[i] });
 }

@@ -23,10 +23,10 @@ namespace MyEngine
 				IExtraWinProc() = default;
 				virtual ~IExtraWinProc() = default;
 
-				virtual void OnResize(Int2 newSize) {}
+				virtual void OnResize(Int2) {}
 				virtual void OnPaint() {}
-				virtual void OnKeyUp(char c) {}
-				virtual void OnKeyDown(char c) {}
+				virtual void OnKeyUp(char) {}
+				virtual void OnKeyDown(char) {}
 			};
 		}
 	}

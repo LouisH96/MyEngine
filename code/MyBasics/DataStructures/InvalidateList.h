@@ -393,7 +393,7 @@ namespace MyEngine
 		while (++m_GapIndicator < m_End)
 			if (IsEmpty(m_GapIndicator)) return;
 
-		if (m_GapIndicator == m_Capacity)
+		if (static_cast<unsigned>(m_GapIndicator) == m_Capacity)
 			IncreaseCapacity(m_Capacity);
 	}
 

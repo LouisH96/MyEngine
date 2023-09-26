@@ -60,7 +60,7 @@ void Generation::PrismGenerator::ConnectRight(const Quad& quadBot, const Quad& q
 		vertices, indices);
 }
 
-void Generation::PrismGenerator::ConnectTop(const Quad& quadBot, const Quad& quadTop, const Float3& color,
+void Generation::PrismGenerator::ConnectTop(const Quad&, const Quad& quadTop, const Float3& color,
 	List<Rendering::V_PosColNorm>& vertices, List<int>& indices, const Float3& offset)
 {
 	vertices.EnsureIncrease(4);
@@ -71,7 +71,7 @@ void Generation::PrismGenerator::ConnectTop(const Quad& quadBot, const Quad& qua
 		vertices, indices);
 }
 
-void Generation::PrismGenerator::ConnectBot(const Quad& quadBot, const Quad& quadTop, const Float3& color,
+void Generation::PrismGenerator::ConnectBot(const Quad& quadBot, const Quad&, const Float3& color,
 	List<Rendering::V_PosColNorm>& vertices, List<int>& indices, const Float3& offset)
 {
 	vertices.EnsureIncrease(4);

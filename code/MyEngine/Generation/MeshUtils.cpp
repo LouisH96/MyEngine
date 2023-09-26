@@ -3,6 +3,7 @@
 
 //#define MESH_UTILS_DEBUG
 
+using namespace MyEngine;
 using namespace Generation;
 
 void MeshUtils::CapCircle(int nrPoints, int arrayOffset, int valueOffset, Array<int>& indices)
@@ -12,7 +13,7 @@ void MeshUtils::CapCircle(int nrPoints, int arrayOffset, int valueOffset, Array<
 		Logger::PrintError("NrPoints should be even");
 		return;
 	}
-	if (arrayOffset + GetNrTrianglesToCapCircle(nrPoints) * 3 >= indices.GetSize())
+	if (static_cast<unsigned>(arrayOffset + GetNrTrianglesToCapCircle(nrPoints) * 3) >= indices.GetSize())
 	{
 		Logger::PrintError("Indices-Array is not big enough for adding cap-circle indices");
 		return;

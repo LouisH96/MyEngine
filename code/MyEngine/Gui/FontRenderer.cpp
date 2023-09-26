@@ -5,6 +5,7 @@
 #include "Image/Image.h"
 #include "Rendering/Font/FontAtlas.h"
 
+using namespace MyEngine;
 using namespace Gui;
 using namespace Rendering;
 
@@ -45,7 +46,7 @@ void FontRenderer::Remove(int id)
 		m_Renderer.Remove(entry.Characters[i]);
 }
 
-int FontRenderer::Add(char c, const Float2& pivot, const Float2& offset, const Float3& color,
+int FontRenderer::Add(char, const Float2& pivot, const Float2& offset, const Float3& color,
 	const Float2& screenSize, const RectFloat& uvRect)
 {
 	const int idx{ m_Renderer.Add(pivot, offset, screenSize) };

@@ -98,7 +98,7 @@ namespace MyEngine
 	template <typename T>
 	T Scalar<T>::Sign(const T& value)
 	{
-		return (T{ 0 } < value) - (value < T{ 0 });
+		return static_cast<T>(T{ 0 } < value) - (value < T{ 0 });
 	}
 
 	template <typename T>

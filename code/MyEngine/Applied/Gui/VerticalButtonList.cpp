@@ -115,7 +115,6 @@ void VerticalButtonList::Show()
 		button.innerId = GUI.Add(m_Settings.pivot, buttonOffset, buttonInnerSize, m_Settings.innerColor);
 
 		//text
-		const Float2& textSize{ textSizes[i] };
 		button.textId = FONT.Add(button.text, m_Settings.pivot, buttonOffset, m_Settings.textHeight, m_Settings.borderColor);
 
 		buttonOffset.y -= buttonOuterSize.y + interButtonMargin;
