@@ -29,9 +29,9 @@ namespace MyEngine
 				static void GetBounds(const Array<Array<TtfPoint>>& points, Vector2<int16_t>& min, Vector2<int16_t>& max);
 				static void GetBounds(const Array<TtfPoint>& points, Vector2<int16_t>& min, Vector2<int16_t>& max, bool initMinMax = true);
 
-				static Array<Double2> ToPoints(const Array<TtfPoint>& contourPoints, int nrPointsPerSegment = 10);
-				static Array<Double2> ToPoints(const Segment& segment, int nrPoints = 10);
-				static Array<Double2> ToPoints(const Contour& contour, int nrPointsForCurve = 10);
+				static Array<Double2> ToPoints(const Array<TtfPoint>& contourPoints, unsigned nrPointsPerSegment = 10);
+				static Array<Double2> ToPoints(const Segment& segment, unsigned nrPoints = 10);
+				static Array<Double2> ToPoints(const Contour& contour, unsigned nrPointsForCurve = 10);
 				static Array<Array<Segment>> ToSegments(const Array<Array<TtfPoint>>& contourPoints);
 				static Array<Segment> ToSegments(const Array<TtfPoint>& contourPoints);
 

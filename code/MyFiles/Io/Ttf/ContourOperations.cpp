@@ -10,15 +10,15 @@ using namespace MyEngine;
 using namespace Io::Ttf;
 
 void ContourOperations::GetBounds(const Array<Array<TtfPoint>>& points, Vector2<int16_t>& min,
-                                  Vector2<int16_t>& max)
+	Vector2<int16_t>& max)
 {
 	GetBounds(points[0], min, max, true);
-	for (int i = 1; i < points.GetSize(); i++)
+	for (unsigned i = 1; i < points.GetSize(); i++)
 		GetBounds(points[i], min, max, false);
 }
 
 void ContourOperations::GetBounds(const Array<TtfPoint>& points, Vector2<int16_t>& min,
-                                  Vector2<int16_t>& max, bool initMinMax)
+	Vector2<int16_t>& max, bool initMinMax)
 {
 	if (initMinMax)
 	{
@@ -27,7 +27,7 @@ void ContourOperations::GetBounds(const Array<TtfPoint>& points, Vector2<int16_t
 		max.x = std::numeric_limits<int16_t>::min();
 		max.y = max.x;
 	}
-	for (int i = 0; i < points.GetSize(); i++)
+	for (unsigned i = 0; i < points.GetSize(); i++)
 	{
 		if (points[i].position.x < min.x)min.x = points[i].position.x;
 		if (points[i].position.x > max.x)max.x = points[i].position.x;
@@ -37,7 +37,7 @@ void ContourOperations::GetBounds(const Array<TtfPoint>& points, Vector2<int16_t
 }
 
 
-Array<Double2> ContourOperations::ToPoints(const Array<TtfPoint>& contourPoints, int nrPointsPerSegment)
+Array<Double2> ContourOperations::ToPoints(const Array<TtfPoint>& contourPoints, unsigned nrPointsPerSegment)
 {
 	if (nrPointsPerSegment < 2)
 	{
@@ -47,7 +47,7 @@ Array<Double2> ContourOperations::ToPoints(const Array<TtfPoint>& contourPoints,
 
 	//NR POINTS
 	int nrPoints = 0;
-	for (int i = 0; i < contourPoints.GetSize(); i++)
+	for (unsigned i = 0; i < contourPoints.GetSize(); i++)
 	{
 		if (contourPoints[i].isOnCurve)
 			nrPoints++;
@@ -61,8 +61,8 @@ Array<Double2> ContourOperations::ToPoints(const Array<TtfPoint>& contourPoints,
 
 	//
 	Array<Double2> points{ nrPoints };
-	int iPoint = 0;
-	int iContour = 0;
+	unsigned iPoint = 0;
+	unsigned iContour = 0;
 	while (iContour < contourPoints.GetSize())
 	{
 		if (contourPoints[iContour].isOnCurve)
@@ -86,7 +86,7 @@ Array<Double2> ContourOperations::ToPoints(const Array<TtfPoint>& contourPoints,
 		}
 
 		const float alphaStep = 1.f / (nrPointsPerSegment - 1);
-		for (int iStep = 1; iStep < nrPointsPerSegment; iStep++)
+		for (unsigned iStep = 1; iStep < nrPointsPerSegment; iStep++)
 		{
 			const Double2 stepPoint = CalculatePoint(prevPoint, controlPoint, nextPoint, iStep * alphaStep);
 			points[iPoint++] = stepPoint;
@@ -95,7 +95,7 @@ Array<Double2> ContourOperations::ToPoints(const Array<TtfPoint>& contourPoints,
 	return points;
 }
 
-Array<Double2> ContourOperations::ToPoints(const Segment& segment, int nrPoints)
+Array<Double2> ContourOperations::ToPoints(const Segment& segment, unsigned nrPoints)
 {
 	if (segment.IsLinear())
 	{
@@ -112,30 +112,30 @@ Array<Double2> ContourOperations::ToPoints(const Segment& segment, int nrPoints)
 	Array<Double2> points{ nrPoints };
 	const float alphaStep{ 1.f / (nrPoints - 1) };
 	points[0] = segment.GetBegin();
-	for (int i = 1; i < nrPoints; i++)
+	for (unsigned i = 1; i < nrPoints; i++)
 		points[i] = CalculatePoint(segment, i * alphaStep);
 	return points;
 }
 
-Array<Double2> ContourOperations::ToPoints(const Contour& contour, int nrPointsForCurve)
+Array<Double2> ContourOperations::ToPoints(const Contour& contour, unsigned nrPointsForCurve)
 {
-	int nrPoints = 1;
-	for (int i = 0; i < contour.GetSegments().GetSize(); i++)
+	unsigned nrPoints = 1;
+	for (unsigned i = 0; i < contour.GetSegments().GetSize(); i++)
 		if (contour.GetSegments()[i].IsLinear())
 			nrPoints += 1;
 		else
 			nrPoints += nrPointsForCurve - 1;
 
 	Array<Double2> points{ nrPoints };
-	int iPoint = 0;
-	for (int iSegment = 0; iSegment < contour.GetSegments().GetSize(); iSegment++)
+	unsigned iPoint = 0;
+	for (unsigned iSegment = 0; iSegment < contour.GetSegments().GetSize(); iSegment++)
 	{
 		if (contour.GetSegments()[iSegment].IsLinear())
 			points[iPoint++] = contour.GetSegments()[iSegment].GetBegin();
 		else
 		{
 			const Array<Double2> segmentPoints{ ToPoints(contour.GetSegments()[iSegment], nrPointsForCurve) };
-			for (int iSegmentPoint = 0; iSegmentPoint < segmentPoints.GetSize() - 1; iSegmentPoint++)
+			for (unsigned iSegmentPoint = 0; iSegmentPoint < segmentPoints.GetSize() - 1; iSegmentPoint++)
 				points[iPoint++] = segmentPoints[iSegmentPoint];
 		}
 	}
@@ -147,15 +147,15 @@ Array<Array<Segment>> ContourOperations::ToSegments(
 	const Array<Array<TtfPoint>>& contourPoints)
 {
 	Array<Array<Segment>> segments{ contourPoints.GetSize() };
-	for (int i = 0; i < contourPoints.GetSize(); i++)
+	for (unsigned i = 0; i < contourPoints.GetSize(); i++)
 		segments[i] = ToSegments(contourPoints[i]);
 	return segments;
 }
 
 Array<Segment> ContourOperations::ToSegments(const Array<TtfPoint>& contourPoints)
 {
-	int nrSegments = 0;
-	for (int i = 1; i < contourPoints.GetSize(); i++)
+	unsigned nrSegments = 0;
+	for (unsigned i = 1; i < contourPoints.GetSize(); i++)
 	{
 		if (contourPoints[i].isOnCurve)
 		{
@@ -168,10 +168,10 @@ Array<Segment> ContourOperations::ToSegments(const Array<TtfPoint>& contourPoint
 	/*if (contourPoints[contourPoints.GetSize() - 1].isOnCurve)
 		nrSegments++;*/
 
-	//
+		//
 	Array<Segment> segments{ nrSegments };
-	int iSegment = 0;
-	for (int i = 1; i < contourPoints.GetSize();)
+	unsigned iSegment = 0;
+	for (unsigned i = 1; i < contourPoints.GetSize();)
 	{
 		if (contourPoints[i].isOnCurve)
 		{
@@ -207,10 +207,10 @@ Array<Segment> ContourOperations::ToSegments(const Array<TtfPoint>& contourPoint
 Array<Intersection> ContourOperations::GetIntersectionsX(const Glyph& glyph, float height)
 {
 	std::vector<Intersection> intersections{};
-	for (int iContour = 0; iContour < glyph.GetContours().GetSize(); iContour++)
+	for (unsigned iContour = 0; iContour < glyph.GetContours().GetSize(); iContour++)
 	{
 		const Contour& contour{ glyph.GetContours()[iContour] };
-		for (int iSegment = 0; iSegment < contour.GetSegments().GetSize(); iSegment++)
+		for (unsigned iSegment = 0; iSegment < contour.GetSegments().GetSize(); iSegment++)
 		{
 			if (contour.GetSegments()[iSegment].IsLinear())
 				AddIntersectionsLinear(contour.GetSegments()[iSegment], height, intersections);
@@ -224,7 +224,7 @@ Array<Intersection> ContourOperations::GetIntersectionsX(const Glyph& glyph, flo
 Array<Intersection> ContourOperations::GetIntersectionsX(const Contour& contour, float height)
 {
 	std::vector<Intersection> intersections{};
-	for (int i = 0; i < contour.GetSegments().GetSize(); i++)
+	for (unsigned i = 0; i < contour.GetSegments().GetSize(); i++)
 	{
 		if (contour.GetSegments()[i].IsLinear())
 			AddIntersectionsLinear(contour.GetSegments()[i], height, intersections);
@@ -235,7 +235,7 @@ Array<Intersection> ContourOperations::GetIntersectionsX(const Contour& contour,
 }
 
 Rendering::Image* ContourOperations::MakeImage(const TtfReader& reader, char character, int imageWidth,
-                                               int imageHeight)
+	int imageHeight)
 {
 	Glyph glyph{ reader.GetGlyph(character) };
 
@@ -252,9 +252,9 @@ Rendering::Image* ContourOperations::MakeImage(const TtfReader& reader, char cha
 //temp: contour-segment should have 0-1 scale
 void ContourOperations::Rasterize(const Glyph& glyph, Rendering::Image& image)
 {
-	for (int iRow = 0; iRow < image.GetHeight(); iRow++)
+	for (unsigned iRow = 0; iRow < static_cast<unsigned>(image.GetHeight()); iRow++)
 	{
-		const float y{ 1.f - (static_cast<float>(iRow) - 0.5f) / image.GetHeight() };
+		const float y{ 1.f - (static_cast<float>(iRow) - 0.5f) / static_cast<float>(image.GetHeight()) };
 		Array<Intersection> intersections = GetIntersectionsX(glyph, y);
 		if (intersections.GetSize() < 2) continue;
 		Algorithms::SortSmallToBig(intersections);
@@ -272,15 +272,15 @@ void ContourOperations::Rasterize(const Glyph& glyph, Rendering::Image& image)
 
 		DebugRenderer::AddLine(Float3{ 0,y,-0.01f }, Float3{ 1,y,-0.01f }, Float3{ 1,0,0 });*/
 
-		int windingCounter = 0; //zero-winding
-		int lastCol = 0;
-		for (int iIntersection = 0; iIntersection < intersections.GetSize(); iIntersection++)
+		unsigned windingCounter = 0; //zero-winding
+		unsigned lastCol = 0;
+		for (unsigned iIntersection = 0; iIntersection < intersections.GetSize(); iIntersection++)
 		{
-			const int newCol = static_cast<int>(roundf(intersections[iIntersection].distance * image.GetWidth()));
+			const unsigned newCol = static_cast<unsigned>(roundf(intersections[iIntersection].distance * static_cast<float>(image.GetWidth())));
 			if (windingCounter != 0)
 			{
 				//draw
-				for (int iCol = lastCol; iCol < newCol; iCol++)
+				for (unsigned iCol = lastCol; iCol < newCol; iCol++)
 					image.SetColor(iCol, iRow, 255, 0, 0, 255);
 			}
 			lastCol = newCol;
@@ -290,7 +290,7 @@ void ContourOperations::Rasterize(const Glyph& glyph, Rendering::Image& image)
 }
 
 Float2 ContourOperations::CalculatePoint(const Float2& p0, const Float2& p1,
-                                         const Float2& p2, float alpha)
+	const Float2& p2, float alpha)
 {
 	const float invAlpha = 1 - alpha;
 	return p0 * (invAlpha * invAlpha)
@@ -307,7 +307,7 @@ Float2 ContourOperations::CalculatePoint(const Segment& segment, float alpha)
 }
 
 void ContourOperations::AddIntersectionsCurve(const Segment& curve, double height,
-                                              std::vector<Intersection>& intersections)
+	std::vector<Intersection>& intersections)
 {
 	//https://www.wolframalpha.com/input?i=solve+t%2C+y+%3D+a+*+%281-t%29%5E2+%2B+b+*+2+*%281-t%29*t+%2B+c+*+t%5E2
 	const double a{ curve.GetBegin().y };
@@ -316,24 +316,24 @@ void ContourOperations::AddIntersectionsCurve(const Segment& curve, double heigh
 	const double divisor{ a - 2 * b + c };
 	if (divisor == 0)
 		return;
-	const double sqrt{ sqrtf(-a * c + a * height + b * b - 2 * b * height + c * height) };
-	const double result1{ (sqrt + a - b) / divisor };
-	const double result2{ -(sqrt - a + b) / divisor };
+	const double squareRoot{ sqrt(-a * c + a * height + b * b - 2 * b * height + c * height) };
+	const double result1{ (squareRoot + a - b) / divisor };
+	const double result2{ -(squareRoot - a + b) / divisor };
 	//const bool isClockwise{ (curve.p2 - curve.p0).Cross(curve.p1 - curve.p0) > 0 };
 	if (result1 >= 0 && result1 <= 1)
 	{
-		const Float2 point{ CalculatePoint(curve, result1) };
+		const Float2 point{ CalculatePoint(curve, Float::Cast(result1)) };
 		intersections.push_back({ point.x, true });
 	}
 	if (result2 >= 0 && result2 <= 1)
 	{
-		const Float2 point{ CalculatePoint(curve, result2) };
+		const Float2 point{ CalculatePoint(curve, Float::Cast(result2)) };
 		intersections.push_back({ point.x, false });
 	}
 }
 
 void ContourOperations::AddIntersectionsLinear(const Segment& linear, double height,
-                                               std::vector<Intersection>& intersections)
+	std::vector<Intersection>& intersections)
 {
 	const double divisor{ linear.GetEnd().y - linear.GetBegin().y };
 	if (divisor == 0)
