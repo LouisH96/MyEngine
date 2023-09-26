@@ -77,7 +77,7 @@ void CubeGenerator::FrontPlane(const Cube& cube, const Float3& color, List<Rende
 	indices.EnsureIncrease(3 * 2);
 	PlaneGeneration::Create(
 		cube.GetRight(), cube.GetUp(),
-		cube.GetPosition(), { cube.GetSize().x, cube.GetSize().y },
+		cube.GetPosition() + offset, { cube.GetSize().x, cube.GetSize().y },
 		color, vertices, indices);
 }
 
@@ -88,7 +88,7 @@ void CubeGenerator::BackPlane(const Cube& cube, const Float3& color, List<Render
 	indices.EnsureIncrease(3 * 2);
 	PlaneGeneration::Create(
 		-cube.GetRight(), cube.GetUp(),
-		cube.GetRightBotBack(), { cube.GetSize().x, cube.GetSize().y },
+		cube.GetRightBotBack() + offset, { cube.GetSize().x, cube.GetSize().y },
 		color, vertices, indices);
 }
 
@@ -99,7 +99,7 @@ void CubeGenerator::LeftPlane(const Cube& cube, const Float3& color, List<Render
 	indices.EnsureIncrease(3 * 2);
 	PlaneGeneration::Create(
 		-cube.GetForward(), cube.GetUp(),
-		cube.GetLeftBotBack(), { cube.GetSize().z, cube.GetSize().y },
+		cube.GetLeftBotBack() + offset, { cube.GetSize().z, cube.GetSize().y },
 		color, vertices, indices);
 }
 
@@ -110,7 +110,7 @@ void CubeGenerator::RightPlane(const Cube& cube, const Float3& color, List<Rende
 	indices.EnsureIncrease(3 * 2);
 	PlaneGeneration::Create(
 		cube.GetForward(), cube.GetUp(),
-		cube.GetRightBotFront(), { cube.GetSize().z, cube.GetSize().y },
+		cube.GetRightBotFront() + offset, { cube.GetSize().z, cube.GetSize().y },
 		color, vertices, indices);
 }
 
@@ -121,7 +121,7 @@ void CubeGenerator::TopPlane(const Cube& cube, const Float3& color, List<Renderi
 	indices.EnsureIncrease(3 * 2);
 	PlaneGeneration::Create(
 		cube.GetRight(), cube.GetForward(),
-		cube.GetLeftTopFront(), { cube.GetSize().x, cube.GetSize().z },
+		cube.GetLeftTopFront() + offset, { cube.GetSize().x, cube.GetSize().z },
 		color, vertices, indices);
 }
 
@@ -132,7 +132,7 @@ void CubeGenerator::BottomPlane(const Cube& cube, const Float3& color, List<Rend
 	indices.EnsureIncrease(3 * 2);
 	PlaneGeneration::Create(
 		cube.GetRight(), -cube.GetForward(),
-		cube.GetLeftBotBack(), { cube.GetSize().x, cube.GetSize().z },
+		cube.GetLeftBotBack() + offset, { cube.GetSize().x, cube.GetSize().z },
 		color, vertices, indices);
 }
 
