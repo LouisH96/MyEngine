@@ -48,8 +48,8 @@ namespace MyEngine
 		const Data* GetData() const { return m_pData; }
 
 		//---| Functions: Get Other |---
-		int GetSize() const { return m_Size; }
-		unsigned int GetSizeU() const { return static_cast<unsigned int>(m_Size); }
+		unsigned GetSize() const { return m_Size; }
+		int GetSizeS() const { return static_cast<int>(m_Size); }
 		bool IsEmpty() const { return m_Size == 0; }
 		bool Any() const { return m_Size > 0; }
 
@@ -69,7 +69,7 @@ namespace MyEngine
 
 	private:
 		Data* m_pData;
-		int m_Size;
+		unsigned m_Size;
 
 		void DoBoundsCheck(int idx) const;
 		void PrintOutOfBounds(int idx) const;
@@ -87,6 +87,13 @@ namespace MyEngine
 	Array<Data>::Array()
 		: m_pData{ nullptr }
 		, m_Size{ 0 }
+	{
+	}
+
+	template <typename Data>
+	Array<Data>::Array(int size)
+		: m_pData(new Data[size])
+		, m_Size(size)
 	{
 	}
 
@@ -123,14 +130,16 @@ namespace MyEngine
 	}
 
 	template <typename Data>
-	Array<Data>::Array(int size)
+	Array<Data>::Array(int size, const Data& initValue)
 		: m_pData(new Data[size])
 		, m_Size(size)
 	{
+		for (int i = 0; i < m_Size; i++)
+			m_pData[i] = initValue;
 	}
 
 	template <typename Data>
-	Array<Data>::Array(int size, const Data& initValue)
+	Array<Data>::Array(unsigned size, const Data& initValue)
 		: m_pData(new Data[size])
 		, m_Size(size)
 	{
@@ -145,19 +154,10 @@ namespace MyEngine
 	{
 	}
 
-	template<typename Data>
-	Array<Data>::Array(unsigned size, const Data& initValue)
-		: m_pData(new Data[size])
-		, m_Size(size)
-	{
-		for (int i = 0; i < m_Size; i++)
-			m_pData[i] = initValue;
-	}
-
 	template <typename Data>
 	Array<Data>::Array(size_t size)
 		: m_pData(new Data[size])
-		, m_Size{ static_cast<int>(size) }
+		, m_Size{ static_cast<unsigned>(size) }
 	{
 
 	}
@@ -348,12 +348,12 @@ namespace MyEngine
 	template <typename Data>
 	void Array<Data>::BubbleSort()
 	{
-		int lastToCheck{ m_Size - 1 };
+		unsigned lastToCheck{ m_Size - 1 };
 		bool changed{ true };
 		while (lastToCheck > 0 && changed)
 		{
 			changed = false;
-			for (int i = 0; i < lastToCheck; i++)
+			for (unsigned i = 0; i < lastToCheck; i++)
 			{
 				if (m_pData[i] > m_pData[i + 1])
 				{
@@ -373,7 +373,7 @@ namespace MyEngine
 	template <typename Data>
 	bool Array<Data>::IsSorted() const
 	{
-		for (int i = 0; i < m_Size - 1; i++)
+		for (unsigned i = 0; i + 1 < m_Size; i++)
 			if (m_pData[i] > m_pData[i + 1])
 				return false;
 		return true;

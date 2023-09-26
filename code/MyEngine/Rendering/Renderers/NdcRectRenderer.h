@@ -78,7 +78,7 @@ namespace MyEngine
 			, m_Topology{ PrimitiveTopologyUtils::ToDx(PrimitiveTopology::TriangleStrip) }
 		{
 			Array<Vertex> vertices{ Vertex::GetCenterRect() };
-			m_Vertices = Buffer<Vertex>(vertices.GetData(), vertices.GetSizeU());
+			m_Vertices = Buffer<Vertex>(vertices.GetData(), vertices.GetSize());
 		}
 
 		template <typename Vertex, typename Instance>

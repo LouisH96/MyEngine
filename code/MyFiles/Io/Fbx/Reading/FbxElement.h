@@ -179,8 +179,8 @@ namespace MyEngine
 
 					const Array<Source>& source{pCast->GetValues()};
 
-					target = { source.GetSizeU() };
-					for (unsigned i = 0; i < source.GetSizeU(); i++)
+					target = { source.GetSize() };
+					for (unsigned i = 0; i < source.GetSize(); i++)
 						target[i] = static_cast<Target>(source[i]);
 
 					return true;

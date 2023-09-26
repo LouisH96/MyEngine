@@ -137,7 +137,7 @@ FbxProperty* AsciiFbxReader::ReadArrayProperty(AsciiReader& reader)
 	a.EnsureSize(reader.GetInteger());
 	reader.IgnoreUntil(':');
 
-	for (unsigned i = 0; i < a.GetSizeU(); i++)
+	for (unsigned i = 0; i < a.GetSize(); i++)
 	{
 		SkipUseless(reader);
 		a[i] = reader.GetDouble();

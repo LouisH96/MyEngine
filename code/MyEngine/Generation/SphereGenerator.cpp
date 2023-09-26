@@ -27,11 +27,11 @@ void Generation::SphereGenerator::Generate(const Sphere& sphere, unsigned nrCols
 	Array<int> sphereIndices{};
 	Shapes::GenerateSphereBuffers(sphere, nrCols, nrRows, positions, normals, sphereIndices);
 
-	indices.EnsureIncrease(sphereIndices.GetSizeU());
-	for (unsigned i = 0, begin = vertices.GetSizeU(); i < sphereIndices.GetSizeU(); i++)
+	indices.EnsureIncrease(sphereIndices.GetSize());
+	for (unsigned i = 0, begin = vertices.GetSizeU(); i < sphereIndices.GetSize(); i++)
 		indices.Add(sphereIndices[i] + begin);
 
-	vertices.EnsureIncrease(positions.GetSizeU());
-	for (unsigned i = 0; i < positions.GetSizeU(); i++)
+	vertices.EnsureIncrease(positions.GetSize());
+	for (unsigned i = 0; i < positions.GetSize(); i++)
 		vertices.Add({ positions[i], color, normals[i] });
 }

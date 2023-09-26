@@ -35,8 +35,8 @@ DebugSpheres::DebugSpheres()
 
 	//INSTANCE BUFFER
 	m_Spheres = InstanceIdxList<Vertex, Instance>{
-		vertices.GetData(), vertices.GetSizeU(),
-		indices.GetData(), indices.GetSizeU() };
+		vertices.GetData(), vertices.GetSize(),
+		indices.GetData(), indices.GetSize() };
 }
 
 void DebugSpheres::Render()

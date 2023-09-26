@@ -111,7 +111,7 @@ MyEngine::Array<const MyEngine::Io::Fbx::Wrapping::Model*> MyEngine::Io::Fbx::Wr
 void MyEngine::Io::Fbx::Wrapping::Model::AddChildrenBreadthFirst(
 	Array<const Model*>& models) const
 {
-	int iOutput{ models.GetSize() };
+	unsigned iOutput{ models.GetSize() };
 	models.IncreaseSizeWith(m_ChildModels.GetSize());
 	for (int iChild = 0; iChild < m_ChildModels.GetSize(); iChild++) models[iOutput++] = m_ChildModels[iChild];
 	for (int iChild = 0; iChild < m_ChildModels.GetSize(); iChild++) m_ChildModels[iChild]->AddChildrenBreadthFirst(models);

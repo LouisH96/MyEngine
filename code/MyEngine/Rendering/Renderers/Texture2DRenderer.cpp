@@ -31,7 +31,7 @@ void Rendering::Texture2DRenderer::Render()
 int Rendering::Texture2DRenderer::Add(Texture&& texture)
 {
 	const Array<Vertex> vertices{ Generation::PlaneGeneration::CreateVertices({ 0,0 }, { 1,1 }, { {0,0},{1,1} })};
-	m_Instances.Add({ vertices.GetData(), vertices.GetSizeU() });
+	m_Instances.Add({ vertices.GetData(), vertices.GetSize() });
 	m_Textures.Add(std::move(texture));
 	return m_Textures.GetSize() - 1;
 }
