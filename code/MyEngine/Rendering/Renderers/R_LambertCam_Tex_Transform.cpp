@@ -6,6 +6,8 @@
 #include "Rendering/State/Mesh.h"
 #include "Rendering/State/Texture.h"
 
+using namespace MyEngine;
+
 Rendering::R_LambertCam_Tex_Transform::R_LambertCam_Tex_Transform()
 	: m_InputLayout{Vertex::ELEMENTS, Vertex::NR_ELEMENTS }
 	, m_Shader{ Resources::GlobalShader(L"LambertCam_Tex_Tran_Solo.hlsl") }
@@ -22,7 +24,7 @@ void Rendering::R_LambertCam_Tex_Transform::Render()
 	m_InputLayout.Activate();
 	m_BlendState.Activate();
 	m_Shader.Activate();
-	for (int i = 0; i < m_Entries.GetSize(); i++)
+	for (unsigned i = 0; i < m_Entries.GetSize(); i++)
 	{
 		m_CameraConstantBuffer.Update(CB_CamMatPos{ Globals::pCamera->GetPosition(), Globals::pCamera->GetViewProjection()});
 		m_CameraConstantBuffer.Activate();
@@ -34,21 +36,21 @@ void Rendering::R_LambertCam_Tex_Transform::Render()
 	}
 }
 
-void Rendering::R_LambertCam_Tex_Transform::AddEntry(Mesh& mesh, Texture& texture, Transform& transform)
+void Rendering::R_LambertCam_Tex_Transform::AddEntry(Mesh& mesh, Texture& texture, Game::Transform& transform)
 {
 	m_Entries.Add(DrawEntry{ &mesh, &texture, &transform });
 }
 
-void Rendering::R_LambertCam_Tex_Transform::Remove(const Transform& transform)
+void Rendering::R_LambertCam_Tex_Transform::Remove(const Game::Transform& transform)
 {
-	for (int i = 0; i < m_Entries.GetSize(); i++)
+	for (unsigned i = 0; i < m_Entries.GetSize(); i++)
 		if (m_Entries[i].pTransform == &transform)
 			m_Entries.RemoveAt(i);
 }
 
-void Rendering::R_LambertCam_Tex_Transform::Replace(const Transform& old, Transform& with)
+void Rendering::R_LambertCam_Tex_Transform::Replace(const Game::Transform& old, Game::Transform& with)
 {
-	for (int i = 0; i < m_Entries.GetSize(); i++)
+	for (unsigned i = 0; i < m_Entries.GetSize(); i++)
 		if (m_Entries[i].pTransform == &old)
 		{
 			m_Entries[i].pTransform = &with;

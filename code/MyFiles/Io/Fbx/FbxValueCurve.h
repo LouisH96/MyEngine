@@ -1,7 +1,6 @@
 #pragma once
-#include <DataStructures/SortedArray.h>
-#include <Io/Fbx/Wrapping/AnimationCurve.h>
-
+#include "DataStructures/SortedArray.h"
+#include "Io/Fbx/Wrapping/AnimationCurve.h"
 #include "Logger/Logger.h"
 #include "Math/Scalars.h"
 
@@ -67,7 +66,7 @@ namespace MyEngine
 			template <typename T>
 			void FbxValueCurve<T>::ScaleValues(float scale)
 			{
-				for (int i = 0; i < m_Values.GetSize(); i++)
+				for (unsigned i = 0; i < m_Values.GetSize(); i++)
 					m_Values[i] *= scale;
 			}
 		}

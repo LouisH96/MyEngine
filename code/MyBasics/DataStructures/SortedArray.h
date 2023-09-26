@@ -62,7 +62,7 @@ namespace MyEngine
 			after = 0;
 			return;
 		}
-		for (int i = 1; i < m_Array.GetSize() - 1; i++)
+		for (unsigned i = 1; i < m_Array.GetSize() - 1; i++)
 		{
 			if (m_Array[i] <= value) continue;
 			after = i--;

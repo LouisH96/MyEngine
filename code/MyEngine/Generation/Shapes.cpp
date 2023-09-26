@@ -7,6 +7,8 @@
 #include "Geometry/Shapes/Sphere.h"
 #include "Math/Constants.h"
 
+using namespace MyEngine;
+
 void Generation::Shapes::GenerateCubeBuffers(const CubeAA& cube, Array<Float3>& positions,
                                              Array<Float3>& normals, Array<int>& indices)
 {
@@ -181,7 +183,7 @@ void Generation::Shapes::GeneratePivotArrows(Array<Rendering::V_PosColNorm>& ver
 	const ArrowGenerator arrowGenerator{ nrArrowsTriangle, false, .8f, .05f, .2f, .1f };
 	arrowGenerator.Generate(positions, normals, indices);
 	vertices = { positions.GetSize() };
-	for (int i = 0; i < vertices.GetSize(); i++)
+	for (unsigned i = 0; i < vertices.GetSize(); i++)
 		vertices[i] = V_PosColNorm{ positions[i], {1,0,0},normals[i] };
 }
 

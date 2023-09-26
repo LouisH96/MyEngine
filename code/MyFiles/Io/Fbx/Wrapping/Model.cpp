@@ -87,7 +87,7 @@ void MyEngine::Io::Fbx::Wrapping::Model::SetCollection(const CollectionExclusive
 MyEngine::Array<const MyEngine::Io::Fbx::Wrapping::Model*> MyEngine::Io::Fbx::Wrapping::Model::GetLimbNodes() const
 {
 	Array<const Model*> limbNodeModels{};
-	for (int i = 0; i < m_ChildModels.GetSize(); i++)
+	for (unsigned i = 0; i < m_ChildModels.GetSize(); i++)
 		if (m_ChildModels[i]->IsLimbNode())
 			limbNodeModels.Add(m_ChildModels[i]);
 	return limbNodeModels;
@@ -103,7 +103,7 @@ const MyEngine::Io::Fbx::Wrapping::Model& MyEngine::Io::Fbx::Wrapping::Model::Ge
 MyEngine::Array<const MyEngine::Io::Fbx::Wrapping::Model*> MyEngine::Io::Fbx::Wrapping::Model::GetChildrenBreadthFirst() const
 {
 	Array<const Model*> children{ m_ChildModels };
-	for (int i = 0; i < m_ChildModels.GetSize(); i++)
+	for (unsigned i = 0; i < m_ChildModels.GetSize(); i++)
 		m_ChildModels[i]->AddChildrenBreadthFirst(children);
 	return children;
 }
@@ -113,13 +113,13 @@ void MyEngine::Io::Fbx::Wrapping::Model::AddChildrenBreadthFirst(
 {
 	unsigned iOutput{ models.GetSize() };
 	models.IncreaseSizeWith(m_ChildModels.GetSize());
-	for (int iChild = 0; iChild < m_ChildModels.GetSize(); iChild++) models[iOutput++] = m_ChildModels[iChild];
-	for (int iChild = 0; iChild < m_ChildModels.GetSize(); iChild++) m_ChildModels[iChild]->AddChildrenBreadthFirst(models);
+	for (unsigned iChild = 0; iChild < m_ChildModels.GetSize(); iChild++) models[iOutput++] = m_ChildModels[iChild];
+	for (unsigned iChild = 0; iChild < m_ChildModels.GetSize(); iChild++) m_ChildModels[iChild]->AddChildrenBreadthFirst(models);
 }
 
 const MyEngine::Io::Fbx::Wrapping::AnimationCurveNode* MyEngine::Io::Fbx::Wrapping::Model::GetTranslationCurveNode(int64_t layerId) const
 {
-	for (int i = 0; i < m_AnimationCurveNodes.GetSize(); i++)
+	for (unsigned i = 0; i < m_AnimationCurveNodes.GetSize(); i++)
 	{
 		const AnimationCurveNode& node{ *m_AnimationCurveNodes[i] };
 		if (node.GetAnimationLayer().Id != layerId) continue;
@@ -131,7 +131,7 @@ const MyEngine::Io::Fbx::Wrapping::AnimationCurveNode* MyEngine::Io::Fbx::Wrappi
 
 const MyEngine::Io::Fbx::Wrapping::AnimationCurveNode* MyEngine::Io::Fbx::Wrapping::Model::GetRotationCurveNode(int64_t layerId) const
 {
-	for (int i = 0; i < m_AnimationCurveNodes.GetSize(); i++)
+	for (unsigned i = 0; i < m_AnimationCurveNodes.GetSize(); i++)
 	{
 		const AnimationCurveNode& node{ *m_AnimationCurveNodes[i] };
 		if (node.GetAnimationLayer().Id != layerId) continue;
@@ -143,7 +143,7 @@ const MyEngine::Io::Fbx::Wrapping::AnimationCurveNode* MyEngine::Io::Fbx::Wrappi
 
 const MyEngine::Io::Fbx::Wrapping::AnimationCurveNode* MyEngine::Io::Fbx::Wrapping::Model::GetScaleCurveNode(int64_t layerId) const
 {
-	for (int i = 0; i < m_AnimationCurveNodes.GetSize(); i++)
+	for (unsigned i = 0; i < m_AnimationCurveNodes.GetSize(); i++)
 	{
 		const AnimationCurveNode& node{ *m_AnimationCurveNodes[i] };
 		if (node.GetAnimationLayer().Id != layerId) continue;

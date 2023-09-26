@@ -71,7 +71,7 @@ namespace MyEngine
 				void FbxPropArray<T>::HandleUncompressed(std::istream& stream, unsigned nrElements)
 				{
 					m_Values = { nrElements };
-					for (int i = 0; i < nrElements; i++)
+					for (unsigned i = 0; i < nrElements; i++)
 						m_Values[i] = FbxPropPrimitive<T>::Read(stream);
 				}
 

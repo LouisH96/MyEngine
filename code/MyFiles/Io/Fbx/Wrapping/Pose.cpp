@@ -10,7 +10,7 @@ MyEngine::Io::Fbx::Wrapping::Pose::Pose(Reading::FbxElement& poseObject)
 	, Nodes{ poseObject.GetChild("NbPoseNodes")->GetProperty(0).AsPrimitive<int>().GetValue() }
 {
 	List<Reading::FbxElement*> nodes{ poseObject.GetChildren("PoseNode") };
-	for (int iNode = 0; iNode < Nodes.GetSize(); iNode++)
+	for (unsigned iNode = 0; iNode < Nodes.GetSize(); iNode++)
 	{
 		Reading::FbxElement& readNode{ *nodes[iNode] };
 		Node& dataNode{ Nodes[iNode] };

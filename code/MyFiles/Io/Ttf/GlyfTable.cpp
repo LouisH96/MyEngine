@@ -48,7 +48,7 @@ Array<Array<MyEngine::Io::Ttf::TtfPoint>> MyEngine::Io::Ttf::GlyfTable::GetConto
 	}
 
 	Array<uint16_t> endPtsOfContours{ outline.nrOfContours };
-	for (int i = 0; i < endPtsOfContours.GetSize(); i++)
+	for (unsigned i = 0; i < endPtsOfContours.GetSize(); i++)
 		endPtsOfContours[i] = reader.Uint16();
 
 	//instructions
@@ -61,7 +61,7 @@ Array<Array<MyEngine::Io::Ttf::TtfPoint>> MyEngine::Io::Ttf::GlyfTable::GetConto
 
 	//flags
 	Array<SimpleOutline::Flags> allFlags{ lastIndex + 1 };
-	for (int iFlag = 0; iFlag < allFlags.GetSize(); )
+	for (unsigned iFlag = 0; iFlag < allFlags.GetSize(); )
 	{
 		const uint8_t intFlag{ reader.Uint8() };
 		SimpleOutline::Flags flag{};

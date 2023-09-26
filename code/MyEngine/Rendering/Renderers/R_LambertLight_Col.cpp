@@ -5,6 +5,8 @@
 #include "Game/Camera/Camera.h"
 #include "Rendering/State/Mesh.h"
 
+using namespace MyEngine;
+
 Rendering::R_LambertLight_Col::R_LambertLight_Col(bool isWireframe)
 	: m_RasterizerState{ isWireframe }
 	, m_InputLayout{ Vertex::ELEMENTS, Vertex::NR_ELEMENTS }
@@ -22,7 +24,7 @@ void Rendering::R_LambertLight_Col::Render()
 	m_InputLayout.Activate();
 	m_BlendState.Activate();
 	m_Shader.Activate();
-	for (int i = 0; i < m_Entries.GetSize(); i++)
+	for (unsigned i = 0; i < m_Entries.GetSize(); i++)
 	{
 		m_CameraConstantBuffer.Update(CB_CamMatPos{ Globals::pCamera->GetPosition(), Globals::pCamera->GetViewProjection()});
 		m_CameraConstantBuffer.Activate();

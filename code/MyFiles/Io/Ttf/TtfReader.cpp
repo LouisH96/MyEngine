@@ -28,13 +28,13 @@ MyEngine::Io::Ttf::Glyph MyEngine::Io::TtfReader::GetGlyph(char character) const
 void MyEngine::Io::TtfReader::ReadTableDirectories()
 {
 	m_TableDirectories = { m_OffsetSubTable.GetNrTables() };
-	for (int i = 0; i < m_TableDirectories.GetSize(); i++)
+	for (unsigned i = 0; i < m_TableDirectories.GetSize(); i++)
 		m_TableDirectories[i].Read(m_Reader);
 }
 
 void MyEngine::Io::TtfReader::ReadTables()
 {
-	for (int i = 0; i < m_TableDirectories.GetSize(); i++)
+	for (unsigned i = 0; i < m_TableDirectories.GetSize(); i++)
 	{
 		const std::string tag{ m_TableDirectories[i].GetTag() };
 		m_Reader.SetPos(m_TableDirectories[i].GetOffset());

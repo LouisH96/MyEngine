@@ -18,7 +18,7 @@ int Physics::LineSphereCollision::Detect(const Ray& ray, PtrRangeConst<Sphere> s
 {
 	int idx{ -1 };
 	float closest{ Float::Max() };
-	for (int i = 0; i < spheres.count; i++)
+	for (unsigned i = 0; i < spheres.count; i++)
 	{
 		const Sphere& sphere{ spheres.pData[i] };
 		const Float3 toCenter{ sphere.GetCenter() - ray.Origin };

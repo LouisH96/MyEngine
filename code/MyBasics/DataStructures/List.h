@@ -269,7 +269,7 @@ namespace MyEngine
 	template <typename T>
 	void List<T>::Clear()
 	{
-		for (int i = 0; i < m_Size; i++)
+		for (unsigned i = 0; i < m_Size; i++)
 			m_pData[i].~T();
 		m_Size = 0;
 	}

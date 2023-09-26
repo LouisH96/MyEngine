@@ -8,6 +8,7 @@
 #include "Io/Ttf/FontRasterizer.h"
 #include "Io/Ttf/TtfReader.h"
 
+using namespace MyEngine;
 using namespace Rendering::Font;
 using namespace Io::Ttf;
 
@@ -41,8 +42,8 @@ FontAtlas::FontAtlas(int xHorizontalPixels)
 	for (char c = '0'; c <= '9'; c++, idx++) DrawGlyphStep(reader.GetGlyph(c), idx, ttfToPixels);
 
 	//phase3: normalize char-info
-	for (int i = 0; i < m_CharacterHeight.GetSize(); i++) m_CharacterHeight[i] *= scale.y;
-	for (int i = 0; i < m_CharacterHorPos.GetSize(); i++) m_CharacterHorPos[i] *= scale.x;
+	for (unsigned i = 0; i < m_CharacterHeight.GetSize(); i++) m_CharacterHeight[i] *= scale.y;
+	for (unsigned i = 0; i < m_CharacterHorPos.GetSize(); i++) m_CharacterHorPos[i] *= scale.x;
 
 	//other
 	m_SpaceWidth = static_cast<float>(reader.GetGlyph(' ').GetSize().x) * ttfToPixels * scale.x;

@@ -37,9 +37,9 @@ namespace MyEngine
 			void Render();
 
 			//---| Operations |---
-			void AddEntry(Mesh& mesh, Texture& texture, Transform& transform);
-			void Remove(const Transform& transform);
-			void Replace(const Transform& old, Transform& with);
+			void AddEntry(Mesh& mesh, Texture& texture, Game::Transform& transform);
+			void Remove(const Game::Transform& transform);
+			void Replace(const Game::Transform& old, Game::Transform& with);
 
 		private:
 			//---| Types |---
@@ -47,7 +47,7 @@ namespace MyEngine
 			{
 				Mesh* pMesh;
 				Texture* pTexture;
-				Transform* pTransform;
+				Game::Transform* pTransform;
 			};
 			struct DrawEntryMatrix
 			{

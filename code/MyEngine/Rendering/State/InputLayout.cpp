@@ -6,6 +6,8 @@
 #include <sstream>
 #include <Rendering/Dx/DxHelper.h>
 
+using namespace MyEngine;
+
 Rendering::InputLayout::InputLayout(const Element* pElements, int nrElements)
 {
 	//CREATE INPUT_ELEMENT_DESC
@@ -164,7 +166,7 @@ void Rendering::InputLayout::AddDxElements(D3D11_INPUT_ELEMENT_DESC*& dxElements
 		break;
 	}
 
-	for (int i = 0; i < ToNrDxElements(element.Type); i++)
+	for (unsigned i = 0; i < ToNrDxElements(element.Type); i++)
 	{
 		dxElements->SemanticName = element.Semantic.c_str();
 		dxElements->SemanticIndex = i;

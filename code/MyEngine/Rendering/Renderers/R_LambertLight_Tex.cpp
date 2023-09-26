@@ -6,6 +6,8 @@
 #include <Rendering/State/Mesh.h>
 #include <Rendering/State/Texture.h>
 
+using namespace MyEngine;
+
 Rendering::R_LambertLight_Tex::R_LambertLight_Tex()
 	: m_InputLayout{ Vertex::ELEMENTS, Vertex::NR_ELEMENTS }
 	, m_Shader{ Resources::GlobalShader(L"LambertLight_Tex.hlsl") }
@@ -22,7 +24,7 @@ void Rendering::R_LambertLight_Tex::Render()
 	m_InputLayout.Activate();
 	m_BlendState.Activate();
 	m_Shader.Activate();
-	for (int i = 0; i < m_Entries.GetSize(); i++)
+	for (unsigned i = 0; i < m_Entries.GetSize(); i++)
 	{
 		m_CameraConstantBuffer.Update(CB_CamMatPos{ Globals::pCamera->GetPosition(), Globals::pCamera->GetViewProjection()});
 		m_CameraConstantBuffer.Activate();

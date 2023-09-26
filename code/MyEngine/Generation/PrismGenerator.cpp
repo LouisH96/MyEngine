@@ -4,6 +4,8 @@
 #include "PlaneGeneration.h"
 #include "Geometry/Shapes/Quad.h"
 
+using namespace MyEngine;
+
 void Generation::PrismGenerator::Create(const Quad& quadBot, const Quad& quadTop, const Float3& color,
                                         List<Rendering::V_PosColNorm>& vertices, List<int>& indices, const Float3& offset)
 {
@@ -109,7 +111,7 @@ void Generation::PrismGenerator::Connect(const RectFloat* pRects, const float* p
 			Float3{ rect.GetLeft(), height, rect.GetTop()} + offset, rect.GetSize(),
 			color, vertices, indices);
 	}
-	for (int i = 1; i < nrRects; i++)
+	for (unsigned i = 1; i < nrRects; i++)
 	{
 		const RectFloat& bottomRect{ pRects[i - 1] };
 		const RectFloat& topRect{ pRects[i] };

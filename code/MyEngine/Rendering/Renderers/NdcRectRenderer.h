@@ -87,7 +87,7 @@ namespace MyEngine
 			const Float2 scale{ Gui::NdcUtils::UpdateInvCanvasSize(event.NewSize, m_InvCanvasSize) };
 
 			Instance* pInstance{ m_Instances.GetFirst() };
-			for (int i = 0; i < m_Instances.GetCount(); i++, pInstance++)
+			for (unsigned i = 0; i < m_Instances.GetCount(); i++, pInstance++)
 			{
 				if (!pInstance->IsValid()) continue;
 				Gui::NdcUtils::Resize(scale, m_Pivots[i], pInstance->GetCenter(), pInstance->GetSize());

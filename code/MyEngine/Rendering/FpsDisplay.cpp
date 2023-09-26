@@ -1,9 +1,10 @@
 #include "pch.h"
 #include "FpsDisplay.h"
 
-#include <App/Win32/Window.h>
 #include <Gui/FontRenderer.h>
 #include <Io/Ttf/TtfReader.h>
+
+using namespace MyEngine;
 
 Rendering::FpsDisplay::FpsDisplay()
 {
@@ -25,7 +26,7 @@ void Rendering::FpsDisplay::SetText()
 	unsigned first{ 3 };
 
 	float fps{ static_cast<float>(m_Fps) };
-	for (int i = 0; i < nrNumbers; i++)
+	for (unsigned i = 0; i < nrNumbers; i++)
 	{
 		const int current{ static_cast<int>(fps / 1000) };
 		if (current > 0 && i < first)

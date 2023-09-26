@@ -82,7 +82,7 @@ namespace MyEngine
 			const unsigned oldSize{ m_CpuVertices.GetSize() };
 			m_CpuVertices.Add(pVertices, nrVertices);
 			m_CpuIndices.EnsureCapacity(m_CpuIndices.GetSize() + nrIndices);
-			for (int i = 0; i < nrIndices; i++)
+			for (unsigned i = 0; i < nrIndices; i++)
 				m_CpuIndices.Add(pIndices[i] + oldSize);
 		}
 
