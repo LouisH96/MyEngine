@@ -24,9 +24,9 @@ namespace MyEngine
 					AnimationCurve() = default;
 					explicit AnimationCurve(Reading::FbxElement& object);
 
-					int64_t Id;
-					double Default;
-					int KeyVer;
+					int64_t Id{};
+					double Default{};
+					int KeyVer{};
 					Array<uint64_t> KeyTimes;
 					Array<float> KeyValueFloats;
 					Array<unsigned> KeyAttrFlags;
