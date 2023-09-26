@@ -185,7 +185,7 @@ namespace MyEngine
 					sizeof(T) * length,
 					immutable ? D3D11_USAGE_IMMUTABLE : D3D11_USAGE_DYNAMIC,
 					D3D11_BIND_VERTEX_BUFFER,
-					immutable ? 0 : D3D11_CPU_ACCESS_WRITE,
+					immutable ? UINT{0} : D3D11_CPU_ACCESS_WRITE,
 					0, sizeof(T)
 				};
 				const HRESULT result{ Globals::pGpu->GetDevice().CreateBuffer(&desc, nullptr, &pBuffer) };
