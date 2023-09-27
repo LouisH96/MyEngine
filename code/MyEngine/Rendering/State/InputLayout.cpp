@@ -8,7 +8,7 @@
 
 using namespace MyEngine;
 
-Rendering::InputLayout::InputLayout(const Element* pElements, int nrElements)
+Rendering::InputLayout::InputLayout(const Element* pElements, unsigned nrElements)
 {
 	//CREATE INPUT_ELEMENT_DESC
 	const Array<D3D11_INPUT_ELEMENT_DESC> dxDescriptions{ ToDxDescriptions(pElements, nrElements) };

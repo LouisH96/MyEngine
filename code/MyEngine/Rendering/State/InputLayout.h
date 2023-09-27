@@ -33,7 +33,7 @@ namespace MyEngine
 			template<typename Vertex, typename Instance> static InputLayout FromTypes();
 			template<typename Vertex, typename Instance> static InputLayout FromTypes2();
 
-			InputLayout(const Element* pElements, int nrElements);
+			InputLayout(const Element* pElements, unsigned nrElements);
 			~InputLayout();
 			InputLayout(const InputLayout& other) = delete;
 			InputLayout(InputLayout&& other) noexcept;
@@ -66,7 +66,7 @@ namespace MyEngine
 			Array<Element> elements{ Vertex::NR_ELEMENTS + Instance::NR_ELEMENTS };
 			for (int i = 0; i < Vertex::NR_ELEMENTS; i++) elements[i] = Vertex::ELEMENTS[i];
 			for (int i = 0; i < Instance::NR_ELEMENTS; i++) elements[i + Vertex::NR_ELEMENTS] = Instance::ELEMENTS[i];
-			return { elements.GetData(), elements.GetSizeS() };
+			return { elements.GetData(), elements.GetSize() };
 		}
 
 		template <typename Vertex, typename Instance>
