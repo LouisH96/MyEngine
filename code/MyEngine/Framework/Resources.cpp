@@ -4,7 +4,7 @@
 #include <Windows.h>
 
 // ReSharper disable once StringLiteralTypo
-std::wstring Resources::m_GlobalPath = LR"(D:\VirtualWorld\resources\)";
+std::wstring Resources::m_GlobalPath = LR"(D:\MyEngine\resources\)";
 std::wstring Resources::m_LocalPath;
 
 void Resources::Init()
