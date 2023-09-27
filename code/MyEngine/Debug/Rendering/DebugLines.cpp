@@ -11,7 +11,7 @@ using namespace Generation;
 DebugLines::DebugLines()
 	: m_InputLayout{ Vertex::ELEMENTS, Vertex::NR_ELEMENTS }
 	, m_Shader{ Resources::GlobalShader(L"unlit.hlsl") }
-	, m_VertexList{ 5, Rendering::PrimitiveTopology::LineList }
+	, m_VertexList{ 5, ModelTopology::LineList }
 {
 
 }

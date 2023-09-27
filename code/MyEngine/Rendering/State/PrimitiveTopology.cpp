@@ -3,25 +3,51 @@
 
 #include "Rendering/Gpu.h"
 
-D3D11_PRIMITIVE_TOPOLOGY Rendering::PrimitiveTopologyUtils::ToDx(PrimitiveTopology topology)
+using namespace Rendering;
+
+D3D11_PRIMITIVE_TOPOLOGY PrimitiveTopology::ToDx(ModelTopology modelTopology)
 {
-	switch (topology)
+	switch (modelTopology)
 	{
-	case PrimitiveTopology::TriangleList: return D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-	case PrimitiveTopology::TriangleStrip: return D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP;
-	case PrimitiveTopology::LineStrip: return D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP;
-	case PrimitiveTopology::LineList: return D3D11_PRIMITIVE_TOPOLOGY_LINELIST;
+	case ModelTopology::LineList:
+	case ModelTopology::LineListIdx:
+		return D3D11_PRIMITIVE_TOPOLOGY_LINELIST;
+
+	case ModelTopology::LineStrip:
+	case ModelTopology::LineStripIdx:
+		return D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP;
+
+	case ModelTopology::TriangleList:
+	case ModelTopology::TriangleListIdx:
+		return D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+
+	case ModelTopology::TriangleStrip:
+	case ModelTopology::TriangleStripIdx:
+		return D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP;
+
 	default:
-	case PrimitiveTopology::Unknown: return D3D11_PRIMITIVE_TOPOLOGY_UNDEFINED;
+	case ModelTopology::Unknown:
+		return D3D11_PRIMITIVE_TOPOLOGY_UNDEFINED;;
 	}
 }
 
-void Rendering::PrimitiveTopologyUtils::Activate(D3D11_PRIMITIVE_TOPOLOGY topology)
+void PrimitiveTopology::Activate(D3D11_PRIMITIVE_TOPOLOGY topology)
 {
 	Globals::pGpu->GetContext().IASetPrimitiveTopology(topology);
 }
 
-void Rendering::PrimitiveTopologyUtils::Activate(PrimitiveTopology topology)
+void PrimitiveTopology::Activate(ModelTopology modelTopology)
 {
-	Activate(ToDx(topology));
+	Activate(ToDx(modelTopology));
+}
+
+PrimitiveTopology::PrimitiveTopology(ModelTopology modelTopology)
+	: m_DxTopology{ ToDx(modelTopology) }
+	, m_ModelTopology{ modelTopology }
+{
+}
+
+void PrimitiveTopology::Activate() const
+{
+	Activate(m_DxTopology);
 }

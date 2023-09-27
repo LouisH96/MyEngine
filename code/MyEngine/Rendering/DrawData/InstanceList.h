@@ -13,7 +13,7 @@ namespace MyEngine
 			InstanceList() = default;
 			InstanceList(
 				const Vertex* pVertices, unsigned nrVertices,
-				PrimitiveTopology topology = PrimitiveTopology::TriangleList);
+				ModelTopology topology = ModelTopology::TriangleList);
 			~InstanceList() override = default;
 
 			//---| Copy/Move |---
@@ -47,7 +47,7 @@ namespace MyEngine
 		template <typename Vertex, typename Instance>
 		InstanceList<Vertex, Instance>::InstanceList(
 			const Vertex* pVertices, unsigned nrVertices,
-			PrimitiveTopology topology)
+			ModelTopology topology)
 			: m_DrawBatch{ pVertices, nrVertices, sizeof(Instance), 5, true, false, topology }
 		{
 		}

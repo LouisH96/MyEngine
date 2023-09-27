@@ -75,7 +75,7 @@ namespace MyEngine
 			, m_Shader{ shader }
 			, m_InvCanvasSize{ Float2{1} / Float2{Globals::pCanvas->GetSize()} }
 			, m_Instances{ 4 }
-			, m_Topology{ PrimitiveTopologyUtils::ToDx(PrimitiveTopology::TriangleStrip) }
+			, m_Topology{ PrimitiveTopology::ToDx(ModelTopology::TriangleStrip) }
 		{
 			Array<Vertex> vertices{ Vertex::GetCenterRect() };
 			m_Vertices = Buffer<Vertex>(vertices.GetData(), vertices.GetSize());
@@ -101,7 +101,7 @@ namespace MyEngine
 			m_InputLayout.Activate();
 			m_Shader.Activate();
 
-			PrimitiveTopologyUtils::Activate(m_Topology);
+			PrimitiveTopology::Activate(m_Topology);
 			m_Vertices.Activate(0);
 			m_Instances.ActivateVertexBuffer(1);
 			m_Instances.Draw(m_Vertices.GetCapacity());

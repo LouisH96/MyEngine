@@ -21,13 +21,13 @@ namespace MyEngine
 				const Vertex* pVertices, unsigned nrVertices,
 				unsigned instanceStride, unsigned instancesCapacity = 5,
 				bool verticesImmutable = true, bool instancesImmutable = true,
-				PrimitiveTopology topology = PrimitiveTopology::TriangleList);
+				ModelTopology topology = ModelTopology::TriangleList);
 			template<typename Vertex, typename Instance>
 			InstanceArray(
 				const Vertex* pVertices, unsigned nrVertices,
 				const Instance* pInstances, unsigned nrInstances,
 				bool verticesImmutable = true, bool instancesImmutable = true,
-				PrimitiveTopology topology = PrimitiveTopology::TriangleList);
+				ModelTopology topology = ModelTopology::TriangleList);
 			~InstanceArray() override;
 
 			//---| Copy/Move |---
@@ -70,8 +70,8 @@ namespace MyEngine
 			const Vertex* pVertices, unsigned nrVertices,
 			unsigned instanceStride, unsigned instancesCapacity,
 			bool verticesImmutable, bool instancesImmutable,
-			PrimitiveTopology topology)
-			: m_Topology{ PrimitiveTopologyUtils::ToDx(topology) }
+			ModelTopology topology)
+			: m_Topology{ PrimitiveTopology::ToDx(topology) }
 			, m_Strides{ sizeof(Vertex), instanceStride }
 			, m_Offsets{ 0,0 }
 			, m_Counts{ nrVertices, 0 }
@@ -86,8 +86,8 @@ namespace MyEngine
 			const Vertex* pVertices, unsigned nrVertices,
 			const Instance* pInstances, unsigned nrInstances,
 			bool verticesImmutable, bool instancesImmutable,
-			PrimitiveTopology topology)
-			: m_Topology{ PrimitiveTopologyUtils::ToDx(topology) }
+			ModelTopology topology)
+			: m_Topology{ PrimitiveTopology::ToDx(topology) }
 			, m_Strides{ sizeof(Vertex), sizeof(Instance) }
 			, m_Offsets{ 0,0 }
 			, m_Counts{ nrVertices, nrInstances }

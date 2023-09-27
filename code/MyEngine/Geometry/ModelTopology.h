@@ -4,7 +4,11 @@ namespace MyEngine
 {
 	enum class ModelTopology
 	{
-		TriangleListIdx, TriangleStripIdx,
-		TriangleList, TriangleStrip
+		LineList, LineListIdx,
+		LineStrip, LineStripIdx,
+		TriangleList, TriangleListIdx,
+		TriangleStrip, TriangleStripIdx,
+
+		Unknown
 	};
 }

@@ -19,11 +19,11 @@ namespace MyEngine
 			VertexArray(
 				PtrRangeConst<Vertex>&& vertices,
 				bool immutable = true,
-				PrimitiveTopology topology = PrimitiveTopology::TriangleList);
+				ModelTopology topology = ModelTopology::TriangleList);
 			VertexArray(
 				int stride, int initCount,
 				bool immutable = true,
-				PrimitiveTopology topology = PrimitiveTopology::TriangleList);
+				ModelTopology topology = ModelTopology::TriangleList);
 			~VertexArray();
 
 			//---| Move/Copy |---
@@ -65,32 +65,32 @@ namespace MyEngine
 			, m_Offset{ 0 }
 			, m_Capacity{ 0 }
 			, m_Count{ 0 }
-			, m_Topology{ PrimitiveTopologyUtils::ToDx(PrimitiveTopology::Unknown) }
+			, m_Topology{ PrimitiveTopology::ToDx(ModelTopology::Unknown) }
 		{
 		}
 
 		template <typename Vertex>
 		VertexArray<Vertex>::VertexArray(
 			PtrRangeConst<Vertex>&& vertices,
-			bool immutable, PrimitiveTopology topology)
+			bool immutable, ModelTopology topology)
 			: m_pBuffer{ nullptr }
 			, m_Stride{ sizeof(Vertex) }
 			, m_Offset{ 0 }
 			, m_Capacity{ vertices.count }
 			, m_Count{ vertices.count }
-			, m_Topology{ PrimitiveTopologyUtils::ToDx(topology) }
+			, m_Topology{ PrimitiveTopology::ToDx(topology) }
 		{
 			Dx::DxHelper::CreateVertexBuffer(m_pBuffer, vertices.pData, vertices.count, immutable);
 		}
 
 		template <typename Vertex>
-		VertexArray<Vertex>::VertexArray(int stride, int initCount, bool immutable, PrimitiveTopology topology)
+		VertexArray<Vertex>::VertexArray(int stride, int initCount, bool immutable, ModelTopology topology)
 			: m_pBuffer{ nullptr }
 			, m_Stride{ static_cast<unsigned>(stride) }
 			, m_Offset{ 0 }
 			, m_Capacity{ static_cast<unsigned>(initCount) }
 			, m_Count{ static_cast<unsigned>(initCount) }
-			, m_Topology{ PrimitiveTopologyUtils::ToDx(topology) }
+			, m_Topology{ PrimitiveTopology::ToDx(topology) }
 		{
 			Dx::DxHelper::CreateVertexBuffer<char>(m_pBuffer, initCount * stride, immutable);
 		}

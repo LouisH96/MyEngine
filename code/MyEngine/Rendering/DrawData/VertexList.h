@@ -11,7 +11,7 @@ namespace MyEngine
 		{
 		public:
 			//---| Constructor/Destructor |---
-			VertexList(int capacity = 5, PrimitiveTopology topology = PrimitiveTopology::TriangleList);
+			VertexList(int capacity = 5, ModelTopology topology = ModelTopology::TriangleList);
 			~VertexList() = default;
 
 			//---| Move/Copy |---
@@ -39,7 +39,7 @@ namespace MyEngine
 		};
 
 		template <typename Vertex>
-		VertexList<Vertex>::VertexList(int capacity, PrimitiveTopology topology)
+		VertexList<Vertex>::VertexList(int capacity, ModelTopology topology)
 			: m_CpuList{ capacity }
 			, m_VertexArray{ sizeof(Vertex), capacity, false, topology }
 			, m_Changed{ false }
