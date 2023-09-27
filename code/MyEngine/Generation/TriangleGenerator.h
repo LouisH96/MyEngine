@@ -19,7 +19,7 @@ namespace MyEngine
 		{
 			indices.EnsureIncrease(3);
 			vertices.EnsureIncrease(3);
-			const int first{ vertices.GetSize() };
+			const unsigned first{ vertices.GetSize() };
 			indices.Add(first, first + 1, first + 2);
 
 			Vertex vertex{};

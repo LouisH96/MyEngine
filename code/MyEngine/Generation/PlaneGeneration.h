@@ -171,7 +171,7 @@ namespace MyEngine
 		void PlaneGeneration::Create_PosNor(const Line& bot, const Line& top, List<Vertex>& vertices, List<int>& indices)
 		{
 			indices.EnsureIncrease(6);
-			const int first{ vertices.GetSize() };
+			const unsigned first{ vertices.GetSize() };
 			indices.Add(first, first + 1, first + 2);
 			indices.Add(first, first + 2, first + 3);
 			vertices.EnsureIncrease(4);
@@ -199,7 +199,7 @@ namespace MyEngine
 			List<int>& indices)
 		{
 			indices.EnsureIncrease(6);
-			const int first{ vertices.GetSize() };
+			const unsigned first{ vertices.GetSize() };
 			indices.Add(first, first + 1, first + 2);
 			indices.Add(first, first + 2, first + 3);
 			vertices.EnsureIncrease(4);

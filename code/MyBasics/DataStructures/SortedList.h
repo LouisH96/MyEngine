@@ -12,7 +12,7 @@ namespace MyEngine
 	public:
 		//---| Constructor/Destructor |---
 		SortedList();
-		SortedList(int capacity);
+		SortedList(unsigned capacity);
 		~SortedList();
 
 		//---| Move/Copy |---
@@ -37,8 +37,8 @@ namespace MyEngine
 		const T* GetData() const { return m_pData; }
 
 	private:
-		int m_Size;
-		int m_Capacity;
+		unsigned m_Size;
+		unsigned m_Capacity;
 		T* m_pData;
 	};
 
@@ -51,7 +51,7 @@ namespace MyEngine
 	}
 
 	template <typename T>
-	SortedList<T>::SortedList(int capacity)
+	SortedList<T>::SortedList(unsigned capacity)
 		: m_Size{ 0 }
 		, m_Capacity{ capacity }
 		, m_pData{ new T[capacity] }
