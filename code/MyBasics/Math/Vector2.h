@@ -1,6 +1,8 @@
 #pragma once
 #include <limits>
 
+#include "DataStructures/PtrRangeConst.h"
+
 namespace MyEngine
 {
 	template <typename T>
@@ -66,7 +68,9 @@ namespace MyEngine
 		bool IsRightBelow(const Vector2& comparedTo) const;
 
 		static Vector2 GetSize(const Vector2* pData, unsigned count);
-		static void GetBounds(const Vector2* pData, unsigned count, Vector2& min, Vector2& max);
+
+		template<typename PtrRange>
+		static void GetBounds(PtrRange data, Vector2& min, Vector2& max);
 
 		bool IsZero() const;
 
@@ -272,13 +276,14 @@ namespace MyEngine
 	}
 
 	template <typename T>
-	void Vector2<T>::GetBounds(const Vector2* pData, unsigned count, Vector2& min, Vector2& max)
+	template <typename PtrRange>
+	void Vector2<T>::GetBounds(PtrRange data, Vector2& min, Vector2& max)
 	{
 		min = Vector2{ std::numeric_limits<T>::max() };
 		max = Vector2{ std::numeric_limits<T>::lowest() };
-		for (unsigned i = 0; i < count; i++)
+		for (unsigned i = 0; i < data.count; i++)
 		{
-			const Vector2& element{ pData[i] };
+			const Vector2& element{ data[i] };
 			if (element.x < min.x) min.x = element.x;
 			if (element.y < min.y) min.y = element.y;
 			if (element.x > max.x) max.x = element.x;
