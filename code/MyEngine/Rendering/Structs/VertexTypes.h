@@ -14,6 +14,9 @@ namespace MyEngine
 			static const int NR_ELEMENTS;
 
 			static Array<V_Pos2> GetCenterRect();
+
+			bool IsValid() const { return pos.x != Float::Max(); }
+			void Invalidate() { pos.x = Float::Max(); }
 		};
 		struct V_Pos2Col
 		{
