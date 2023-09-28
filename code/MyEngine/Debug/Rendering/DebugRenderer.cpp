@@ -206,6 +206,9 @@ DebugRenderer::~DebugRenderer()
 
 void DebugRenderer::Class_Render()
 {
+	m_pLineRenderer->Render();
+	m_LinesRenderer2.Render();
+
 	m_DepthStencilState.Activate();
 	m_ConstantBuffer.Update(Rendering::CB_CamMatPos{ Globals::pCamera->GetPosition(), Globals::pCamera->GetViewProjection()});
 	m_ConstantBuffer.Activate();
@@ -221,8 +224,6 @@ void DebugRenderer::Class_Render()
 	m_CubeRenderer.Render();
 	m_ConeRenderer.Render();
 	m_SpheresRenderer.Render();
-	m_pLineRenderer->Render();
-	m_LinesRenderer2.Render();
 }
 
 void DebugRenderer::Class_AddSphere(const Float3& position, const Float3& color, float radius)
