@@ -52,6 +52,7 @@ namespace MyEngine
 			void SetWidth(int id, float widthInPixels);
 			void SetHeight(int id, float heightInPixels);
 
+			void GetBoundsNdc(int id, Float2& leftBot, Float2& rightTop);
 
 		private:
 			DepthStencilState m_DepthStencilState;
@@ -249,6 +250,13 @@ namespace MyEngine
 		void NdcRectRenderer<Vertex, Instance>::SetHeight(int id, float heightInPixels)
 		{
 			m_Instances[id].size.y = heightInPixels * m_InvCanvasSize.y * 2;
+		}
+
+		template <typename Vertex, typename Instance>
+		void NdcRectRenderer<Vertex, Instance>::GetBoundsNdc(int id, Float2& leftBot, Float2& rightTop)
+		{
+			leftBot = m_Instances[id].GetCenter() - m_Instances[id].size / 2.f;
+			rightTop = m_Instances[id].GetCenter() + m_Instances[id].size / 2.f;
 		}
 
 		template <typename Vertex, typename Instance>

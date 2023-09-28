@@ -42,6 +42,8 @@ namespace MyEngine
 			float GetWidth(int id) const;
 			float GetHeight(int id) const;
 
+			void GetBoundsNdc(int id, Float2& leftBot, Float2& rightTop);
+
 		private:
 			using Vertex = Rendering::V_Pos2;
 			using Instance = Rendering::I_Pos2Col;

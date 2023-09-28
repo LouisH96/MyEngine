@@ -105,3 +105,8 @@ float GuiRenderer::GetHeight(int id) const
 {
 	return m_Renderer.GetHeight(id);
 }
+
+void GuiRenderer::GetBoundsNdc(int id, Float2& leftBot, Float2& rightTop)
+{
+	return m_Renderer.GetBoundsNdc(id, leftBot, rightTop);
+}
