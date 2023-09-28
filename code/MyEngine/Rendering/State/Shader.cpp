@@ -3,6 +3,27 @@
 
 #include "../Dx/DxHelper.h"
 
+Rendering::Shader::Shader(Shader&& other) noexcept
+	: m_pVertexShader{ other.m_pVertexShader }
+	, m_pPixelShader{ other.m_pPixelShader }
+{
+	other.m_pVertexShader = nullptr;
+	other.m_pPixelShader = nullptr;
+}
+
+Rendering::Shader& Rendering::Shader::operator=(Shader&& other) noexcept
+{
+	if (&other == this) return *this;
+
+	if (m_pPixelShader) m_pPixelShader->Release();
+	if (m_pVertexShader) m_pVertexShader->Release();
+	m_pPixelShader = other.m_pPixelShader;
+	m_pVertexShader = other.m_pVertexShader;
+	other.m_pPixelShader = nullptr;
+	other.m_pVertexShader = nullptr;
+	return *this;
+}
+
 Rendering::Shader::Shader(const std::wstring& fullPath)
 {
 	InitShaders(fullPath);

@@ -9,9 +9,9 @@ namespace MyEngine
 		{
 		public:
 			Shader(const Shader& other) = delete;
-			Shader(Shader&& other) noexcept = delete;
+			Shader(Shader&& other) noexcept;
 			Shader& operator=(const Shader& other) = delete;
-			Shader& operator=(Shader&& other) noexcept = delete;
+			Shader& operator=(Shader&& other) noexcept;
 
 			explicit Shader(const std::wstring& fullPath);
 			~Shader();
