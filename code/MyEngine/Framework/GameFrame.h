@@ -77,9 +77,11 @@ namespace MyEngine
 				//RENDER
 				canvas.BeginPaint();
 				app.Render();
+				DebugRenderer::Render();
+				canvas.ClearDepthBuffer();
+				app.RenderUi();
 				Globals::pGuiRenderer->Render();
 				Globals::pFontRenderer->Render();
-				DebugRenderer::Render();
 				fpsDisplay.Render();
 				canvas.Present();
 			}
