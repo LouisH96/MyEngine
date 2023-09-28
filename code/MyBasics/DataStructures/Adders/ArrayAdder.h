@@ -7,7 +7,7 @@ namespace MyEngine
 	class ArrayAdder
 	{
 	public:
-		ArrayAdder(Array<T>& array, unsigned startIdx);
+		ArrayAdder(Array<T>& array, unsigned startIdx = 0);
 
 		void Add(const T& value);
 		void Add(const T& value1, const T& value2, const T& value3);
