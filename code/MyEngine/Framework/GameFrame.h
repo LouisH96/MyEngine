@@ -64,9 +64,9 @@ namespace MyEngine
 				{
 					const ResizedEvent resizedEvent{ canvas.OnWindowResized(window.GetClientSize()) };
 					camera.OnCanvasResized(resizedEvent);
-					app.OnCanvasResized(resizedEvent);
 					Globals::pGuiRenderer->OnCanvasResized(resizedEvent);
 					Globals::pFontRenderer->OnCanvasResized(resizedEvent);
+					app.OnCanvasResized(resizedEvent);
 				}
 
 				//UPDATE
