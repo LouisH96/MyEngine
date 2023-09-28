@@ -136,6 +136,7 @@
     <ClInclude Include="Geometry\Shapes\Ray.h" />
     <ClInclude Include="Applied\Prefabs\PivotRenderer.h" />
     <ClInclude Include="Generation\RectGenerator.h" />
+    <ClInclude Include="Generation\RectGenerator_TriangleStrip.h" />
     <ClInclude Include="Rendering\Buffers\IdxBuffer.h" />
     <ClInclude Include="Rendering\Font\FontAtlasLookup.h" />
     <ClInclude Include="Generation\CubeGenerator.h" />

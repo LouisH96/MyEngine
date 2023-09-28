@@ -47,3 +47,5 @@ namespace MyEngine
 		adder.Add(combinator({ halfSize.x, -halfSize.y }));
 	}
 }
+
+#include "RectGenerator_TriangleStrip.h"

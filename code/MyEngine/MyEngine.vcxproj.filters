@@ -196,6 +196,7 @@
     <ClInclude Include="Generation\RectGenerator.h" />
     <ClInclude Include="Geometry\ModelTopology.h" />
     <ClInclude Include="Generation\DiskGenerator_TriangleListIdx.h" />
+    <ClInclude Include="Generation\RectGenerator_TriangleStrip.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
