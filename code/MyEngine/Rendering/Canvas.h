@@ -31,6 +31,7 @@ namespace MyEngine
 			explicit Canvas(App::Win32::Window& window, const Float3& color);
 			~Canvas();
 
+			void ClearDepthBuffer() const;
 			void BeginPaint() const;
 			void Present() const;
 

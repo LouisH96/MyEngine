@@ -7,7 +7,9 @@
 #include "App/Win32/Window.h"
 #include "Gpu.h"
 
-Rendering::Canvas::Canvas(App::Win32::Window& window, const Float3& color)
+using namespace Rendering;
+
+Canvas::Canvas(App::Win32::Window& window, const Float3& color)
 	: m_Size{ window.GetClientSize() }
 	, m_Color{ color.x, color.y, color.z, 1 }
 {
@@ -20,40 +22,45 @@ Rendering::Canvas::Canvas(App::Win32::Window& window, const Float3& color)
 	Globals::pCanvas = this;
 }
 
-void Rendering::Canvas::Activate() const
+void Canvas::Activate() const
 {
 	//Rendertarget
 	Globals::pGpu->GetContext().OMSetRenderTargets(1, &m_pMainRenderTargetView, m_pDepthStencilView);
 }
 
-Rendering::Canvas::~Canvas()
+Canvas::~Canvas()
 {
 	SAFE_RELEASE(m_pMainRenderTargetView);
 	SAFE_RELEASE(m_pSwapChain);
 	SAFE_RELEASE(m_pDepthStencilView);
 }
 
-void Rendering::Canvas::BeginPaint() const
+void Canvas::ClearDepthBuffer() const
+{
+	Globals::pGpu->GetContext().ClearDepthStencilView(m_pDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+}
+
+void Canvas::BeginPaint() const
 {
 	Clear();
 	Activate();
 }
 
-void Rendering::Canvas::Clear() const
+void Canvas::Clear() const
 {
 	/* clear the back buffer to cornflower blue for the new frame */
 	Globals::pGpu->GetContext().ClearRenderTargetView(
 		m_pMainRenderTargetView,  &m_Color.x);
-	Globals::pGpu->GetContext().ClearDepthStencilView(m_pDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+	ClearDepthBuffer();
 }
 
-void Rendering::Canvas::Present() const
+void Canvas::Present() const
 {
 	DXGI_PRESENT_PARAMETERS param{ 0,nullptr,0,nullptr };
 	m_pSwapChain->Present1(0, DXGI_PRESENT_DO_NOT_WAIT, &param);
 }
 
-App::ResizedEvent Rendering::Canvas::OnWindowResized(Int2 newSize)
+App::ResizedEvent Canvas::OnWindowResized(Int2 newSize)
 {
 	const App::ResizedEvent event
 	{
@@ -71,7 +78,7 @@ App::ResizedEvent Rendering::Canvas::OnWindowResized(Int2 newSize)
 	return event;
 }
 
-void Rendering::Canvas::InitSwapChain(const App::Win32::Window& window)
+void Canvas::InitSwapChain(const App::Win32::Window& window)
 {
 	DXGI_SWAP_CHAIN_DESC1 desc{};
 	desc.BufferCount = 2;
@@ -98,7 +105,7 @@ void Rendering::Canvas::InitSwapChain(const App::Win32::Window& window)
 	pDevice2->Release();
 }
 
-void Rendering::Canvas::InitRenderTarget()
+void Canvas::InitRenderTarget()
 {
 	ID3D11Texture2D* pBackBuffer;
 	m_pSwapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer));
@@ -107,7 +114,7 @@ void Rendering::Canvas::InitRenderTarget()
 	pBackBuffer->Release();
 }
 
-void Rendering::Canvas::InitDepthStencil()
+void Canvas::InitDepthStencil()
 {
 	//TEXTURE
 	ID3D11Texture2D* pTempTexture{};
@@ -145,7 +152,7 @@ void Rendering::Canvas::InitDepthStencil()
 	pTempTexture->Release();
 }
 
-void Rendering::Canvas::SetViewPort()
+void Canvas::SetViewPort()
 {
 	m_ViewPort = {
 	  0.0f, 0.0f,
@@ -155,8 +162,8 @@ void Rendering::Canvas::SetViewPort()
 	Globals::pGpu->GetContext().RSSetViewports(1, &m_ViewPort);
 }
 
-void Rendering::Canvas::GetFactory2(IDXGIDevice2*& pDevice2, IDXGIAdapter*& pAdapter,
-	IDXGIFactory2*& pFactory) const
+void Canvas::GetFactory2(IDXGIDevice2*& pDevice2, IDXGIAdapter*& pAdapter,
+                         IDXGIFactory2*& pFactory) const
 {
 	HRESULT hr = Globals::pGpu->GetDevice().QueryInterface(__uuidof(IDXGIDevice2), reinterpret_cast<void**>(&pDevice2));
 	if (FAILED(hr))
