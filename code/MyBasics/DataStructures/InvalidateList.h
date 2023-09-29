@@ -19,6 +19,7 @@ namespace MyEngine
 		InvalidateList& operator=(InvalidateList&& other) noexcept;
 
 		//---| Functions |---
+		int Add(const Data& data);
 		int Add(Data&& data);
 		int Validate(Data*& pOut);
 		Data Remove(int idx);
@@ -30,7 +31,7 @@ namespace MyEngine
 		bool HasChanged() const;
 		void ClearChangedFlag();
 
-		int GetSize() const { return m_End - m_First; }
+		unsigned GetSize() const { return m_End - m_First; }
 		unsigned GetCapacity() const { return m_Capacity; }
 
 		const Data* GetData() const;
@@ -69,6 +70,9 @@ namespace MyEngine
 		void UpdateFirstIndicator();
 		void UpdateEndIndicator();
 		void UpdateGapIndicator();
+
+		int InternalPreAdd();
+		void InternalPostAdd();
 	};
 
 	template <typename Data>
@@ -170,19 +174,21 @@ namespace MyEngine
 	}
 
 	template <typename Data>
+	int InvalidateList<Data>::Add(const Data& data)
+	{
+		const int id{ InternalPreAdd() };
+		m_pData[id] = data;
+		InternalPostAdd();
+		return id;
+	}
+
+	template <typename Data>
 	int InvalidateList<Data>::Add(Data&& data)
 	{
-#ifdef INVALIDATE_LIST_DEBUG
-		if (!IsEmpty(m_GapIndicator))
-			Logger::PrintError("[InvalidateList::Add] GapIndicator is not empty");
-#endif
-		m_Changed = true;
-		const int idx{ m_GapIndicator };
-		m_pData[idx] = std::move(data);
-		if (idx >= m_End) m_End = idx + 1;
-		else if (idx < m_First) m_First = idx;
-		UpdateGapIndicator();
-		return idx;
+		const int id{ InternalPreAdd() };
+		m_pData[id] = std::move(data);
+		InternalPostAdd();
+		return id;
 	}
 
 	template <typename Data>
@@ -395,6 +401,25 @@ namespace MyEngine
 
 		if (static_cast<unsigned>(m_GapIndicator) == m_Capacity)
 			IncreaseCapacity(m_Capacity);
+	}
+
+	template <typename Data>
+	int InvalidateList<Data>::InternalPreAdd()
+	{
+#ifdef INVALIDATE_LIST_DEBUG
+		if (!IsEmpty(m_GapIndicator))
+			Logger::PrintError("[InvalidateList::Add] GapIndicator is not empty");
+#endif
+		m_Changed = true;
+		return m_GapIndicator;
+	}
+
+	template <typename Data>
+	void InvalidateList<Data>::InternalPostAdd()
+	{
+		if (m_GapIndicator >= m_End) m_End = m_GapIndicator + 1;
+		else if (m_GapIndicator < m_First) m_First = m_GapIndicator;
+		UpdateGapIndicator();
 	}
 
 	template <typename Data>
