@@ -14,6 +14,7 @@ namespace MyEngine
 			//---| Construction |---
 			Buffer();
 			explicit Buffer(PtrRangeConst<Data> data, bool dynamic);
+			explicit Buffer(PtrRangeConst<Data> initData, unsigned capacity, bool dynamic);
 			explicit Buffer(unsigned initCapacity, bool dynamic = true);
 			explicit Buffer(const Data* pData, unsigned count, bool dynamic = true);
 			~Buffer();
@@ -33,6 +34,7 @@ namespace MyEngine
 
 			void Draw();
 			void DrawInstanced(unsigned nrVertices) const;
+			void DrawInstanced(unsigned nrVertices, unsigned nrInstances) const;
 			void DrawIndexInstance(unsigned nrIndices) const;
 			void DrawIndexInstance(unsigned nrIndices, unsigned nrInstances, unsigned indexOffset, unsigned instanceOffset) const;
 
@@ -57,6 +59,18 @@ namespace MyEngine
 		Buffer<Data>::Buffer(PtrRangeConst<Data> data, bool dynamic)
 			: Buffer{ data.pData, data.count, dynamic }
 		{
+		}
+
+		template <typename Data>
+		Buffer<Data>::Buffer(PtrRangeConst<Data> initData, unsigned capacity, bool dynamic)
+			: m_pBuffer{ nullptr }
+			, m_Capacity{ capacity }
+			, m_IsDynamic{ dynamic }
+		{
+			Data* pInit = new Data[capacity];
+			std::copy(&initData.pData[0], &initData.pData[initData.count], pInit);
+			Dx::DxHelper::CreateVertexBuffer(m_pBuffer, pInit, capacity, !dynamic);
+			delete[] pInit;
 		}
 
 		template <typename Data>
@@ -149,6 +163,12 @@ namespace MyEngine
 		void Buffer<Data>::DrawInstanced(unsigned nrVertices) const
 		{
 			Globals::pGpu->GetContext().DrawInstanced(nrVertices, m_Capacity, 0, 0);
+		}
+
+		template <typename Data>
+		void Buffer<Data>::DrawInstanced(unsigned nrVertices, unsigned nrInstances) const
+		{
+			Globals::pGpu->GetContext().DrawInstanced(nrVertices, nrInstances, 0, 0);
 		}
 
 		template <typename Data>
