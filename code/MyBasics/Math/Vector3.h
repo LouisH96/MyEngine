@@ -66,6 +66,7 @@ namespace MyEngine
 
 		//will normalize [0,255] to [0,1]
 		static Vector3 Color(const T& r, const T& g, const T& b);
+		static Vector3 Color(int hex);
 		static Vector3 FromXz(const Vector2<T>& xz);
 		static Vector3 FromComponent(unsigned idx, T value, T otherValues);
 		static Vector3 TowardZMax(const Vector2<T>& xy, float z = 0);
@@ -99,7 +100,11 @@ namespace MyEngine
 	template <typename T> void Vector3<T>::operator+=(const T& r) { x += r; y += r; z += r; }
 	template <typename T> void Vector3<T>::operator-=(const T& r) { x -= r; y -= r; z -= r; }
 	template <typename T> void Vector3<T>::operator*=(const T& r) { x *= r; y *= r; z *= r; }
-	template <typename T>void Vector3<T>::operator/=(const T& r) { x /= r; y /= r; z /= r; }
+	template <typename T>void Vector3<T>::operator/=(const T& r)
+	{
+		const T scale{ T{1} / T{r} };
+		x *= scale; y *= scale; z *= scale;
+	}
 	template <typename T>Vector3<T> Vector3<T>::operator-() const { return { -x, -y, -z }; }
 
 	template <typename T>
@@ -290,6 +295,19 @@ namespace MyEngine
 	{
 		const T scale{ 1 / static_cast<T>(255) };
 		return { r * scale, g * scale , b * scale };
+	}
+
+	template <typename T>
+	Vector3<T> Vector3<T>::Color(int hex)
+	{
+		Vector3 c;
+		c.z = hex & 0xFF;
+		hex >>= 8;
+		c.y = hex & 0xFF;
+		hex >>= 8;
+		c.x = hex & 0xFF;
+		c /= T{ 255 };
+		return c;
 	}
 
 	template <typename T>
