@@ -16,6 +16,8 @@ namespace MyEngine
 		static int Range(int last);
 		static Float2 Range(const RectFloat& rect);
 		static Float3 Color();
+		static float Angle();
+		static Float2 UnitVector2();
 
 		template<typename T> static T Enum(T last);
 	};

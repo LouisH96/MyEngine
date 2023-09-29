@@ -41,3 +41,14 @@ Float3 Random::Color()
 {
 	return { Range(1.f), Range(1.f) , Range(1.f) };
 }
+
+float Random::Angle()
+{
+	return Range(Constants::PI2);
+}
+
+Float2 Random::UnitVector2()
+{
+	const float angle{ Angle() };
+	return { cosf(angle), sinf(angle) };
+}
