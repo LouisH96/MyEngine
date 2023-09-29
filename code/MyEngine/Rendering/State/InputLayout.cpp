@@ -69,6 +69,7 @@ Rendering::InputLayout::InputLayout(InputLayout&& other) noexcept
 Rendering::InputLayout& Rendering::InputLayout::operator=(InputLayout&& other) noexcept
 {
 	if (&other == this) return *this;
+	if (m_pInputLayout) m_pInputLayout->Release();
 	m_pInputLayout = other.m_pInputLayout;
 	other.m_pInputLayout = nullptr;
 	return *this;
