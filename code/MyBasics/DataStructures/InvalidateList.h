@@ -369,7 +369,7 @@ namespace MyEngine
 	Data* InvalidateList<Data>::GetLast()
 	{
 		m_Changed = true;
-		return m_pData[m_End - 1];
+		return &m_pData[m_End - 1];
 	}
 
 	template <typename Data>
