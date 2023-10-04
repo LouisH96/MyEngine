@@ -19,7 +19,7 @@ void MyEngine::Rendering::Dx::DxHelper::CreateVertexShader(const std::wstring& p
 		nullptr,
 		&pVertexShader);
 
-	if (!SUCCEEDED(hr))
+	if (FAILED(hr))
 		Logger::PrintError("DxHelper::CreateVertexShader - Error");
 }
 
@@ -35,7 +35,7 @@ void MyEngine::Rendering::Dx::DxHelper::CreatePixelShader(const std::wstring& pa
 		nullptr,
 		&pVertexShader);
 
-	if (!SUCCEEDED(hr))
+	if (FAILED(hr))
 		Logger::PrintError("DxHelper::CreatePixelShader - Error");
 }
 
@@ -51,7 +51,7 @@ void MyEngine::Rendering::Dx::DxHelper::CreateComputeShader(const std::wstring& 
 		nullptr,
 		&pShader);
 
-	if (!SUCCEEDED(hr))
+	if (FAILED(hr))
 		Logger::PrintError("DxHelper::CreateComputeShader - Error");
 }
 
@@ -84,7 +84,8 @@ void MyEngine::Rendering::Dx::DxHelper::CompileFromFile(const std::wstring& path
 		&pBlob,
 		&pErrorBlob);
 
-	if (FAILED(hr)) {
+	if (pErrorBlob)
+	{
 		std::stringstream ss{};
 		ss << "[DxHelper::CompileFromFile]\n";
 		ss << "\t[Path: " << Convert::ToString(path) << "]\n";
@@ -94,9 +95,20 @@ void MyEngine::Rendering::Dx::DxHelper::CompileFromFile(const std::wstring& path
 			ss << "\t" << static_cast<char*>(pErrorBlob->GetBufferPointer());
 			pErrorBlob->Release();
 		}
+		if (FAILED(hr))
+		{
+			Logger::PrintError(ss.str());
+			if (pBlob)
+				pBlob->Release();
+		}
+		else
+			Logger::PrintWarning(ss.str());
+	}
+	else if (FAILED(hr))
+	{
+		Logger::PrintWarning("[DxHelper::CompileFromFile] failed");
 		if (pBlob)
 			pBlob->Release();
-		Logger::PrintError(ss.str());
 	}
 }
 
