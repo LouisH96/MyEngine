@@ -4,8 +4,8 @@
 #include <Windows.h>
 
 // ReSharper disable once StringLiteralTypo
-std::wstring Resources::m_GlobalPath = LR"(D:\MyEngine\resources\)";
-std::wstring Resources::m_LocalPath;
+std::wstring Resources::m_GlobalPath;
+std::wstring Resources::m_LocalPath{ LR"(Resources\)" };
 
 void Resources::Init()
 {
@@ -16,10 +16,10 @@ void Resources::Init()
 	LPWSTR* args = CommandLineToArgvW(GetCommandLineW(), &nrArgs);
 
 	if (nrArgs >= 2)
-		m_LocalPath = args[1];
+		m_GlobalPath = args[1];
 	else
 	{
-		Logger::PrintError("Local resources path should be defined in args");
+		Logger::PrintError("Global resources path should be defined in args");
 		return;
 	}
 
