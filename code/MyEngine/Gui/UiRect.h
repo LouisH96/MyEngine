@@ -1,4 +1,5 @@
 #pragma once
+#include "Geometry/Shapes/Rects.h"
 
 namespace MyEngine
 {
@@ -9,6 +10,9 @@ namespace MyEngine
 		Float2 Pivot; //[-1,1]
 
 		UiRect MakeChild(const Float2& parentPivot, const Float2& childPivot, const Float2& offset, const Float2& size) const;
+		UiRect GetShrinked(const Float2& amount) const;
 		Float2 GetChildOffset(const Float2& parentPivot) const;
+
+		RectFloat GetNdcRect() const;
 	};
 }
