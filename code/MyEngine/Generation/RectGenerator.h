@@ -40,11 +40,10 @@ namespace MyEngine
 	template<typename Combinator, typename Adder>
 	void RectGenerator<ModelTopology::TriangleListIdx>::GenerateVertices(const Combinator& combinator, Adder&& adder, const RectFloat& rect)
 	{
-		const Float2 halfSize{ rect.GetSize() * .5f };
-		adder.Add(combinator({ -halfSize.x, -halfSize.y }));
-		adder.Add(combinator({ -halfSize.x, halfSize.y }));
-		adder.Add(combinator({ halfSize.x, halfSize.y }));
-		adder.Add(combinator({ halfSize.x, -halfSize.y }));
+		adder.Add(combinator(rect.GetLeftBot()));
+		adder.Add(combinator(rect.GetLeftTop()));
+		adder.Add(combinator(rect.GetRightTop()));
+		adder.Add(combinator(rect.GetRightBot()));
 	}
 }
 
