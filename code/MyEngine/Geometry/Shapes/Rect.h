@@ -26,7 +26,7 @@ namespace MyEngine
 		T GetRight() const;
 		T GetBottom() const;
 		T GetTop() const;
-		T GetCenter() const;
+		Vector2<T> GetCenter() const;
 
 		T GetTopInv() const; //bottom - height
 		T GetRightInv() const; //left - width
@@ -79,7 +79,7 @@ namespace MyEngine
 	template <typename T>T Rect<T>::GetTop() const { return m_LeftBot.y + m_Size.y; }
 
 	template <typename T>
-	T Rect<T>::GetCenter() const
+	Vector2<T> Rect<T>::GetCenter() const
 	{
 		return m_LeftBot + m_Size / 2;
 	}
