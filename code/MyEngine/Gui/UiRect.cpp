@@ -23,6 +23,20 @@ Float2 UiRect::GetChildOffset(const Float2& parentPivot) const
 	return (parentPivot - Pivot) * Size / 2 + Offset;
 }
 
+void UiRect::ShrinkToSquare()
+{
+	if(Size.x < Size.y)
+	{
+		Offset.y -= Pivot.y * (Size.y - Size.x) * .5f;
+		Size.y = Size.x;
+	}
+	else
+	{
+		Offset.x -= Pivot.x * (Size.x - Size.y) * .5f;
+		Size.x = Size.y;
+	}
+}
+
 RectFloat UiRect::GetNdcRect() const
 {
 	Float2 leftBot{ GetChildOffset({ -1,-1 }) };

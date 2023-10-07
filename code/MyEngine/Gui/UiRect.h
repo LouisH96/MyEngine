@@ -12,6 +12,7 @@ namespace MyEngine
 		UiRect MakeChild(const Float2& parentPivot, const Float2& childPivot, const Float2& offset, const Float2& size) const;
 		UiRect GetShrinked(const Float2& amount) const;
 		Float2 GetChildOffset(const Float2& parentPivot) const;
+		void ShrinkToSquare();
 
 		RectFloat GetNdcRect() const;
 	};
