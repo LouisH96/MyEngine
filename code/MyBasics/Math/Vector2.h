@@ -61,6 +61,7 @@ namespace MyEngine
 		Vector2<int> Ceiled() const;
 		T Distance(const Vector2& other) const;
 		T DistanceSq(const Vector2& other) const;
+		T Smallest() const;
 
 		bool IsLeftAbove(const Vector2& comparedTo) const;
 		bool IsRightAbove(const Vector2& comparedTo) const;
@@ -247,6 +248,12 @@ namespace MyEngine
 		float r{ other.y - y };
 		r *= r;
 		return  x + r;
+	}
+
+	template <typename T>
+	T Vector2<T>::Smallest() const
+	{
+		return std::min(x, y);
 	}
 
 	template <typename T>
