@@ -49,14 +49,14 @@ namespace MyEngine
 			FpsControl fpsControl{ 1000, &fpsDisplay };
 
 			//GAME
-			T app{};
+			T* pApp{ new T() };
 
 			//LOOP
 			fpsControl.Reset();
 			while (!window.IsDestroyed())
 			{
 				//FPS
-				fpsControl.Wait();
+				fpsControl.NoWait();
 
 				//WINDOW MESSAGES
 				window.HandleMessages();
@@ -66,26 +66,27 @@ namespace MyEngine
 					camera.OnCanvasResized(resizedEvent);
 					Globals::pGuiRenderer->OnCanvasResized(resizedEvent);
 					Globals::pFontRenderer->OnCanvasResized(resizedEvent);
-					app.OnCanvasResized(resizedEvent);
+					pApp->OnCanvasResized(resizedEvent);
 				}
 
 				//UPDATE
-				app.EarlyUpdate();
+				pApp->EarlyUpdate();
 				camera.Update();
-				app.Update();
+				pApp->Update();
 
 				//RENDER
 				canvas.BeginPaint();
-				app.Render();
+				pApp->Render();
 				DebugRenderer::Render();
 				canvas.ClearDepthBuffer();
-				app.RenderUi();
+				pApp->RenderUi();
 				Globals::pGuiRenderer->Render();
 				Globals::pFontRenderer->Render();
 				fpsDisplay.Render();
 				canvas.Present();
 			}
 
+			delete pApp;
 			delete Globals::pGuiRenderer;
 			delete Globals::pFontRenderer;
 			DebugRenderer::Release();
