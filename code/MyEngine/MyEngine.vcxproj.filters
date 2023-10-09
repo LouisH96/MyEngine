@@ -85,6 +85,7 @@
     <ClCompile Include="Applied\2D\Camera2D.cpp" />
     <ClCompile Include="Applied\2D\Camera2DController.cpp" />
     <ClCompile Include="Gui\UiRect.cpp" />
+    <ClCompile Include="Rendering\State\PixelShader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -197,6 +198,7 @@
     <ClInclude Include="Geometry\ModelTopology.h" />
     <ClInclude Include="Generation\DiskGenerator_TriangleListIdx.h" />
     <ClInclude Include="Generation\RectGenerator_TriangleStrip.h" />
+    <ClInclude Include="Rendering\State\PixelShader.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

@@ -39,6 +39,7 @@
     <ClCompile Include="Other\Random.cpp" />
     <ClCompile Include="Geometry\Shapes\Ray.cpp" />
     <ClCompile Include="Applied\Prefabs\PivotRenderer.cpp" />
+    <ClCompile Include="Rendering\State\PixelShader.cpp" />
     <ClCompile Include="Rendering\Buffers\IdxBuffer.cpp" />
     <ClCompile Include="Rendering\Font\FontAtlasLookup.cpp" />
     <ClCompile Include="Generation\CubeGenerator.cpp" />
@@ -137,6 +138,7 @@
     <ClInclude Include="Applied\Prefabs\PivotRenderer.h" />
     <ClInclude Include="Generation\RectGenerator.h" />
     <ClInclude Include="Generation\RectGenerator_TriangleStrip.h" />
+    <ClInclude Include="Rendering\State\PixelShader.h" />
     <ClInclude Include="Rendering\Buffers\IdxBuffer.h" />
     <ClInclude Include="Rendering\Font\FontAtlasLookup.h" />
     <ClInclude Include="Generation\CubeGenerator.h" />
