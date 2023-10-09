@@ -37,7 +37,7 @@ void VerticalButtonList::Update()
 	}
 
 	//Find hovered
-	for (int i = 0; i < m_Buttons.GetSize(); i++)
+	for (unsigned i = 0; i < m_Buttons.GetSize(); i++)
 	{
 		const Button& button{ m_Buttons.GetSinceStart(i) };
 		if (GUI.IsUnderMouse(button.borderId))
@@ -80,7 +80,7 @@ void VerticalButtonList::Show()
 	//TEXT SIZES
 	Float2 maxTextSize{ 40,20 };
 	Array<Float2> textSizes{ m_Buttons.GetSize() };
-	for (int i = 0; i < m_Buttons.GetSize(); i++)
+	for (unsigned i = 0; i < m_Buttons.GetSize(); i++)
 	{
 		Button& button{ m_Buttons.GetSinceStart(i) };
 		if (!button.IsValid())
@@ -108,7 +108,7 @@ void VerticalButtonList::Show()
 
 	//MAKE BUTTONS GUI
 	Float2 buttonOffset{ 0, allButtonsSize.y / 2 - buttonOuterSize.y / 2 };
-	for (int i = 0; i < m_Buttons.GetSize(); i++)
+	for (unsigned i = 0; i < m_Buttons.GetSize(); i++)
 	{
 		Button& button{ m_Buttons.GetSinceStart(i) };
 		button.borderId = GUI.Add(m_Settings.pivot, buttonOffset, buttonOuterSize, m_Settings.borderColor);
@@ -129,7 +129,7 @@ void VerticalButtonList::Hide()
 	m_BorderId = -1;
 
 	//Buttons
-	for (int i = 0; i < m_Buttons.GetSize(); i++)
+	for (unsigned i = 0; i < m_Buttons.GetSize(); i++)
 	{
 		const Button& button{ m_Buttons.GetSinceStart(i) };
 		GUI.Remove(button.borderId);

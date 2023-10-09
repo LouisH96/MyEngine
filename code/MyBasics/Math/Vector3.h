@@ -301,12 +301,12 @@ namespace MyEngine
 	Vector3<T> Vector3<T>::Color(int hex)
 	{
 		Vector3 c;
-		c.z = hex & 0xFF;
+		c.z = static_cast<T>(hex & 0xFF);
 		hex >>= 8;
-		c.y = hex & 0xFF;
+		c.y = static_cast<T>(hex & 0xFF);
 		hex >>= 8;
-		c.x = hex & 0xFF;
-		c /= T{ 255 };
+		c.x = static_cast<T>(hex & 0xFF);
+		c /= static_cast<T>(255);
 		return c;
 	}
 
