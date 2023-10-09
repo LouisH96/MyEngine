@@ -13,7 +13,7 @@ namespace MyEngine
 		{
 		public:
 			explicit ConstantBuffer();
-			ConstantBuffer(const Data& initData);
+			explicit ConstantBuffer(const Data& initData);
 			~ConstantBuffer();
 			ConstantBuffer(const ConstantBuffer& other) = delete;
 			ConstantBuffer(ConstantBuffer&& other) noexcept = delete;
@@ -38,7 +38,7 @@ namespace MyEngine
 		template <typename Data>
 		ConstantBuffer<Data>::ConstantBuffer(const Data& initData)
 		{
-			Dx::DxHelper::CreateDynamicConstantBuffer<Data>(m_pBuffer, initData);
+			Dx::DxHelper::CreateDynamicConstantBuffer<const Data>(m_pBuffer, &initData);
 		}
 
 		template <typename Data>
