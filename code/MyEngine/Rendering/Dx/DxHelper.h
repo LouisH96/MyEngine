@@ -71,6 +71,9 @@ namespace MyEngine
 				static void CreateInstanceBuffer(ID3D11Buffer*& pBuffer, const Array<T>& data, bool immutable);
 
 				static std::string GetHResultString(const HRESULT& result);
+
+			private:
+				static void AssertMultipleOf16(unsigned sizeOf);
 			};
 
 			template <typename T>
@@ -88,7 +91,10 @@ namespace MyEngine
 
 				const HRESULT result = Globals::pGpu->GetDevice().CreateBuffer(&desc, pDataResource, &pBuffer);
 				if (FAILED(result))
-					Logger::PrintError("DxHelper::CreateDynamicConstantBuffer");
+				{
+					Logger::PrintError("[DxHelper::CreateDynamicConstantBuffer]", result);
+					AssertMultipleOf16(sizeof(T));
+				}
 			}
 
 			template <typename T>

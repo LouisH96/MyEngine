@@ -207,3 +207,9 @@ std::string Rendering::Dx::DxHelper::GetHResultString(const HRESULT& result)
 	const std::wstring wString = { error.ErrorMessage() };
 	return Convert::ToString(wString);
 }
+
+void Rendering::Dx::DxHelper::AssertMultipleOf16(unsigned sizeOf)
+{
+	if (sizeOf % 16 != 0)
+		Logger::PrintWarning("[DxHelper] buffer size should be multiple of 16");
+}
