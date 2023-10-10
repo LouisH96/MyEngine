@@ -119,6 +119,10 @@ std::string Rendering::InputLayout::CreateDummyShaderString(const Element* pElem
 			for (int iRow = 0; iRow < 4; iRow++)
 				ss << ToTypeString(ElementType::Float4) << " var" << iVar++ << ": " << element.Semantic << iRow << ";\n";
 			break;
+		case ElementType::Float3X3:
+			for (int iRow = 0; iRow < 3; iRow++)
+				ss << ToTypeString(ElementType::Float3) << " var" << iVar++ << ": " << element.Semantic << iRow << ";\n";
+			break;
 		default:
 			ss << ToTypeString(element.Type) << " var" << iVar++ << ": " << element.Semantic << ";\n";
 			break;
@@ -150,6 +154,7 @@ unsigned Rendering::InputLayout::ToNrDxElements(ElementType type)
 	switch (type)
 	{
 	case ElementType::Float4X4: return 4;
+	case ElementType::Float3X3: return 3;
 	default: return 1;
 	}
 }
@@ -160,6 +165,9 @@ void Rendering::InputLayout::AddDxElements(D3D11_INPUT_ELEMENT_DESC*& dxElements
 	switch (element.Type)
 	{
 	case ElementType::Float4X4:
+		dxFormat = ToDxFormat(ElementType::Float4);
+		break;
+	case ElementType::Float3X3:
 		dxFormat = ToDxFormat(ElementType::Float4);
 		break;
 	default:

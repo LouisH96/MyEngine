@@ -13,7 +13,7 @@ namespace MyEngine
 		public:
 			enum class ElementType
 			{
-				Float4X4,
+				Float4X4, Float3X3,
 				Float4, Float3, Float2, Float,
 				UInt
 			};
