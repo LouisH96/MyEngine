@@ -90,3 +90,21 @@ Float2 Camera2D::GetMouseWorldPos() const
 		mouseNdc.y / m_Buffer.CameraView.Matrix[1].y + m_World.Matrix[1].z
 	};
 }
+
+Float2 Camera2D::WorldToScreen(Float2 worldPos) const
+{
+	worldPos.x -= m_World.Matrix[0].z;
+	worldPos.y -= m_World.Matrix[1].z;
+
+	worldPos.x *= m_Buffer.CameraView.Matrix[0].x;
+	worldPos.y *= m_Buffer.CameraView.Matrix[1].y;
+
+	worldPos.x /= 2.f;
+	worldPos.y /= -2.f;
+
+	worldPos += .5f;
+
+	worldPos *= CANVAS.GetSize();
+
+	return worldPos;
+}

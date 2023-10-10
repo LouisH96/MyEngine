@@ -41,6 +41,8 @@ namespace MyEngine
 				float GetScroll() const { return m_Scroll; } //positive is scroll up
 				Float2 GetPosNdc() const;
 
+				void SetPosRuntime(Int2 position);
+
 			private:
 				static constexpr int LEFT_MASK = 1;
 				static constexpr int RIGHT_MASK = 2;

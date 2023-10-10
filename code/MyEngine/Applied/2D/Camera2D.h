@@ -35,6 +35,8 @@ namespace MyEngine
 			Float2 GetWorldPos() const;
 			Float2 GetMouseWorldPos() const;
 
+			Float2 WorldToScreen(Float2 worldPos) const;
+
 			const CameraBuffer& GetCameraBuffer() const { return m_Buffer; }
 
 		private:

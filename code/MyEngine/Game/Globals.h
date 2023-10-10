@@ -41,7 +41,7 @@ namespace MyEngine
 		static float DeltaTime;
 		static App::Win32::Window* pWindow;
 		static const Keyboard* pKeyboard;
-		static const App::Win32::Mouse* pMouse;
+		static App::Win32::Mouse* pMouse;
 
 		static Rendering::Gpu* pGpu;
 		static const Rendering::Canvas* pCanvas;

@@ -3,6 +3,7 @@
 #include <Windows.h>
 #include <windowsx.h>
 
+#include "Window.h"
 #include "Rendering/Canvas.h"
 
 using namespace App::Win32;
@@ -63,6 +64,14 @@ Float2 Mouse::GetPosNdc() const
 		(static_cast<float>(m_Pos.x) / CANVAS.GetWidthF() - .5f) * 2.f,
 		(static_cast<float>(m_Pos.y) / CANVAS.GetHeightF() - .5f) * -2.f,
 	};
+}
+
+void Mouse::SetPosRuntime(Int2 position)
+{
+	tagPOINT pos{ position.x,position.y};
+	ClientToScreen(WINDOW.GetWindowHandle(), &pos);
+	SetCursorPos(pos.x, pos.y);
+	m_Pos = position;
 }
 
 void Mouse::PreChange()
