@@ -20,8 +20,8 @@ namespace MyEngine
 			void Render();
 
 			void Remove(int id);
-			int Add(const std::string& text, const Float2& pivot, const Float2& offset, float height, const Float3& color, float spacing = 0);
-			int Add(const std::string& text, const Float2& screenPivot, const Float2& elementPivot, const Float2& offset, float height, const Float3& color, float spacing = 0);
+			int Add(const std::string& text, const Float2& pivot, const Float2& offset, float height, const Float3& color, float spacing = 0, Float2* pSize = nullptr);
+			int Add(const std::string& text, const Float2& screenPivot, const Float2& elementPivot, const Float2& offset, float height, const Float3& color, float spacing = 0, Float2* pSize = nullptr);
 
 			int AddLeftTop(const std::string& text, float height, const Float2& offset, const Float3& color, float spacing = 0);
 			int AddLeftCenter(const std::string& text, float height, const Float2& offset, const Float3& color, float spacing = 0);

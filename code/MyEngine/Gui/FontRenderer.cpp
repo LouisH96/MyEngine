@@ -58,13 +58,13 @@ int FontRenderer::Add(char, const Float2& pivot, const Float2& offset, const Flo
 }
 
 int FontRenderer::Add(const std::string& text, const Float2& pivot, const Float2& offset, float height,
-	const Float3& color, float spacing)
+	const Float3& color, float spacing, Float2* pSize)
 {
-	return Add(text, pivot, pivot, offset, height, color, spacing);
+	return Add(text, pivot, pivot, offset, height, color, spacing, pSize);
 }
 
 int FontRenderer::Add(const std::string& text, const Float2& screenPivot, const Float2& elementPivot,
-	const Float2& offset, float height, const Float3& color, float spacing)
+	const Float2& offset, float height, const Float3& color, float spacing, Float2* pSize)
 {
 	//retrieve existing entry struct (so an existing list can be reused)
 	Entry* pEntry;
@@ -96,6 +96,8 @@ int FontRenderer::Add(const std::string& text, const Float2& screenPivot, const 
 		pEntry->Characters.Add(Add(c, screenPivot, { currentX, offset.y + charYOffset }, color, charScreenSize, charUvRect));
 		currentX += charScreenSize.x * (1 - normalizedPivot.x) + spacing;
 	}
+	if (pSize)
+		*pSize = totalSize;
 	return idx;
 }
 
