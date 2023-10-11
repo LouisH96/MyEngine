@@ -1,9 +1,12 @@
 #include "HeadTable.h"
 
 #include "Io/Binary/BigBinReader.h"
-#include "Logger/Logger.h"
 
-void MyEngine::Io::Ttf::HeadTable::Read(const Bin::BigBinReader& reader)
+using namespace MyEngine;
+using namespace Io;
+using namespace Ttf;
+
+void HeadTable::Read(const Bin::BigBinReader& reader)
 {
 	reader.Read(m_VersionInteger);
 	reader.Read(m_VersionDecimal);
@@ -29,14 +32,4 @@ void MyEngine::Io::Ttf::HeadTable::Read(const Bin::BigBinReader& reader)
 	reader.Read(m_FontDirectionHint);
 	reader.Read(m_IndexToLocFormat);
 	reader.Read(m_GlyphDataFormat);
-
-	Validate();
-}
-
-void MyEngine::Io::Ttf::HeadTable::Validate() const
-{
-	if(m_IndexToLocFormat != 0)
-	{
-		Logger::PrintError("IndexToLocFormat is not 0, which is not supported");
-	}
 }

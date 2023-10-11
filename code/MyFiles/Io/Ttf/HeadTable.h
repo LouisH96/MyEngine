@@ -38,8 +38,6 @@ namespace MyEngine
 				int16_t m_FontDirectionHint{};
 				int16_t m_IndexToLocFormat{};
 				int16_t m_GlyphDataFormat{};
-
-				void Validate() const;
 			};
 		}
 	}
