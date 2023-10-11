@@ -6,19 +6,21 @@
 #include "Logger/Logger.h"
 
 using namespace MyEngine;
+using namespace Io;
+using namespace Ttf;
 
-void MyEngine::Io::Ttf::GlyfTable::Read(const Bin::BigBinReader& reader)
+void GlyfTable::Read(const Bin::BigBinReader& reader)
 {
 	m_Begin = reader.GetPos();
 }
 
-Array<Array<MyEngine::Io::Ttf::TtfPoint>> MyEngine::Io::Ttf::GlyfTable::GetContours(const Bin::BigBinReader& reader, uint32_t glyphOffset) const
+Array<Array<TtfPoint>> GlyfTable::GetContours(const Bin::BigBinReader& reader, uint32_t glyphOffset) const
 {
 	int16_t minX, minY, maxX, maxY;
 	return GetContours(reader, glyphOffset, minX, maxX, minY, maxY);
 }
 
-MyEngine::Io::Ttf::Glyph MyEngine::Io::Ttf::GlyfTable::GetGlyph(const Bin::BigBinReader& reader, uint32_t glyphOffset) const
+Glyph GlyfTable::GetGlyph(const Bin::BigBinReader& reader, uint32_t glyphOffset) const
 {
 	int16_t minX, minY, maxX, maxY;
 	const Array<Array<TtfPoint>> points{ GetContours(reader, glyphOffset, minX, maxX, minY, maxY) };
@@ -27,8 +29,8 @@ MyEngine::Io::Ttf::Glyph MyEngine::Io::Ttf::GlyfTable::GetGlyph(const Bin::BigBi
 	return Glyph{ points, minBounds, maxBounds };
 }
 
-Array<Array<MyEngine::Io::Ttf::TtfPoint>> MyEngine::Io::Ttf::GlyfTable::GetContours(const Bin::BigBinReader& reader, uint32_t glyphOffset,
-                                                                int16_t& minX, int16_t& maxX, int16_t& minY, int16_t& maxY) const
+Array<Array<TtfPoint>> GlyfTable::GetContours(const Bin::BigBinReader& reader, uint32_t glyphOffset,
+                                              int16_t& minX, int16_t& maxX, int16_t& minY, int16_t& maxY) const
 {
 	reader.SetPos(m_Begin + glyphOffset);
 	SimpleOutline outline{};
@@ -43,7 +45,7 @@ Array<Array<MyEngine::Io::Ttf::TtfPoint>> MyEngine::Io::Ttf::GlyfTable::GetConto
 	maxY = outline.yMax;
 	if (outline.nrOfContours < 0)
 	{
-		Logger::PrintError("CompoundGlyph not supported");
+		Logger::PrintError("[GlyfTable::GetContours] no contours found"); //because it is compoundGlyph?
 		return{};
 	}
 
