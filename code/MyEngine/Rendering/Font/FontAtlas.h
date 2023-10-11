@@ -21,7 +21,9 @@ namespace MyEngine
 			class FontAtlas
 			{
 			public:
-				FontAtlas(int xHorizontalPixels, const std::wstring& path = Resources::Global(L"Fonts\\ShortBaby.ttf")); //amount of horizontal pixels in x-character
+				FontAtlas(int xHorizontalPixels, //amount of horizontal pixels in x-character
+					const std::wstring& path = Resources::Global(LR"(Fonts\ShortBaby.ttf)"),
+					const std::wstring& backupPath = Resources::Global(LR"(Fonts\Cascadia.ttf)"));
 				~FontAtlas();
 
 				Image& GetImage() { return *m_pImage; }
@@ -39,6 +41,11 @@ namespace MyEngine
 
 				void CharacterInfoStep(const Io::Ttf::Glyph& glyph, int idx, float ttfToPixels, float& highest);
 				void DrawGlyphStep(const Io::Ttf::Glyph& glyph, int idx, float ttfToPixels);
+
+				static void GetGlyph(int id,
+					const Io::TtfReader& mainReader, const Io::TtfReader& backupReader, 
+					float mainTtfToPixels, float backupTtfToPixels,
+					Io::Ttf::Glyph& glyph, float& ttfToPixels);
 			};
 		}
 	}

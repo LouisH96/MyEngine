@@ -11,38 +11,50 @@ using namespace MyEngine;
 using namespace Rendering::Font;
 using namespace Io::Ttf;
 
-FontAtlas::FontAtlas(int xHorizontalPixels, const std::wstring& path)
+FontAtlas::FontAtlas(int xHorizontalPixels, const std::wstring& path, const std::wstring& backupPath)
 {
 	//read
-	std::ifstream stream{ path, std::ios::binary };
-	const Io::TtfReader reader{ stream };
+	std::ifstream mainStream{ path, std::ios::binary };
+	const Io::TtfReader mainReader{ mainStream };
 
-	const float ttfToPixels{ static_cast<float>(xHorizontalPixels) / static_cast<float>(reader.GetGlyph('x').GetSize().x) };
+	std::ifstream backupStream{ backupPath, std::ios::binary };
+	const Io::TtfReader backupReader{ backupStream };
+
+	const float mainTtfToPixels{ static_cast<float>(xHorizontalPixels) / static_cast<float>(mainReader.GetGlyph('x').GetSize().x) };
+	const float backupTtfToPixels{ static_cast<float>(xHorizontalPixels) / static_cast<float>(backupReader.GetGlyph('x').GetSize().x) };
 
 	constexpr int nrCharacters = 128;
 	m_CharacterHorPos = { nrCharacters + 1 };
 	m_CharacterHeight = { nrCharacters };
 	m_CharacterHorPos[0] = 0;
 
-	for (unsigned i = 0; i < nrCharacters; i++)
-		reader.GetGlyph(i);
+	//
+	Glyph glyph{};
+	float ttfToPixels;
 
 	//phase1: pixel sizes
 	float highest{ 1 };
 	for (int c = 0; c < nrCharacters; c++)
-		CharacterInfoStep(reader.GetGlyph(static_cast<char>(c)), c, ttfToPixels, highest);
+	{
+		GetGlyph(c, mainReader, backupReader, mainTtfToPixels, backupTtfToPixels, glyph, ttfToPixels);
+		CharacterInfoStep(glyph, c, ttfToPixels, highest);
+	}
 
 	//phase2: make image
 	m_pImage = new Image{ static_cast<int>(m_CharacterHorPos.Last()), static_cast<int>(highest) };
 	const Float2 scale{ 1 / static_cast<float>(m_pImage->GetWidth()), 1 / static_cast<float>(m_pImage->GetHeight()) };
-	for (int c = 0; c <= nrCharacters; c++) DrawGlyphStep(reader.GetGlyph(static_cast<char>(c)), c, ttfToPixels);
+	for (int c = 0; c <= nrCharacters; c++)
+	{
+		GetGlyph(c, mainReader, backupReader, mainTtfToPixels, backupTtfToPixels, glyph, ttfToPixels);
+		DrawGlyphStep(glyph, c, ttfToPixels);
+	}
 
 	//phase3: normalize char-info
 	for (unsigned i = 0; i < m_CharacterHeight.GetSize(); i++) m_CharacterHeight[i] *= scale.y;
 	for (unsigned i = 0; i < m_CharacterHorPos.GetSize(); i++) m_CharacterHorPos[i] *= scale.x;
 
 	//other
-	m_SpaceWidth = static_cast<float>(reader.GetGlyph(' ').GetSize().x) * ttfToPixels * scale.x;
+	m_SpaceWidth = static_cast<float>(mainReader.GetGlyph(' ').GetSize().x) * mainTtfToPixels * scale.x;
 }
 
 FontAtlas::~FontAtlas()
@@ -83,4 +95,19 @@ void FontAtlas::DrawGlyphStep(const Glyph& glyph, int idx, float ttfToPixels)
 	Image* pGlyphImage{ rasterizer.MakeImage({1,1,1}) };
 	pGlyphImage->CopyTo(*m_pImage, { static_cast<int>(m_CharacterHorPos[idx]), 0 });
 	FontRasterizer::DeleteImage(pGlyphImage);
+}
+
+void FontAtlas::GetGlyph(int id, const Io::TtfReader& mainReader, const Io::TtfReader& backupReader,
+	float mainTtfToPixels, float backupTtfToPixels, Io::Ttf::Glyph& glyph, float& ttfToPixels)
+{
+	glyph = mainReader.GetGlyph(static_cast<char>(id));
+	if (glyph.IsValid())
+	{
+		ttfToPixels = mainTtfToPixels;
+	}
+	else
+	{
+		glyph = backupReader.GetGlyph(static_cast<char>(id));
+		ttfToPixels = backupTtfToPixels;
+	}
 }
