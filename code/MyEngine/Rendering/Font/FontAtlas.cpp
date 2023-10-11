@@ -21,25 +21,23 @@ FontAtlas::FontAtlas(int xHorizontalPixels)
 
 	const float ttfToPixels{ static_cast<float>(xHorizontalPixels) / static_cast<float>(reader.GetGlyph('x').GetSize().x) };
 
-	constexpr int nrCharacters = 'z' - 'a' + 1 + 'Z' - 'A' + 1 + '9' - '0' + 1;
+	constexpr int nrCharacters = 128;
 	m_CharacterHorPos = { nrCharacters + 1 };
 	m_CharacterHeight = { nrCharacters };
 	m_CharacterHorPos[0] = 0;
 
+	for (unsigned i = 0; i < nrCharacters; i++)
+		reader.GetGlyph(i);
+
 	//phase1: pixel sizes
-	int idx{ 0 };
-	float highest{ 0 };
-	for (char c = 'a'; c <= 'z'; c++, idx++) CharacterInfoStep(reader.GetGlyph(c), idx, ttfToPixels, highest);
-	for (char c = 'A'; c <= 'Z'; c++, idx++) CharacterInfoStep(reader.GetGlyph(c), idx, ttfToPixels, highest);
-	for (char c = '0'; c <= '9'; c++, idx++) CharacterInfoStep(reader.GetGlyph(c), idx, ttfToPixels, highest);
+	float highest{ 1 };
+	for (int c = 0; c < nrCharacters; c++)
+		CharacterInfoStep(reader.GetGlyph(static_cast<char>(c)), c, ttfToPixels, highest);
 
 	//phase2: make image
 	m_pImage = new Image{ static_cast<int>(m_CharacterHorPos.Last()), static_cast<int>(highest) };
-	const Float2 scale{ 1 / static_cast<float>(m_pImage->GetWidth()), 1 / static_cast<float>(m_pImage->GetHeight())};
-	idx = 0;
-	for (char c = 'a'; c <= 'z'; c++, idx++) DrawGlyphStep(reader.GetGlyph(c), idx, ttfToPixels);
-	for (char c = 'A'; c <= 'Z'; c++, idx++) DrawGlyphStep(reader.GetGlyph(c), idx, ttfToPixels);
-	for (char c = '0'; c <= '9'; c++, idx++) DrawGlyphStep(reader.GetGlyph(c), idx, ttfToPixels);
+	const Float2 scale{ 1 / static_cast<float>(m_pImage->GetWidth()), 1 / static_cast<float>(m_pImage->GetHeight()) };
+	for (int c = 0; c <= nrCharacters; c++) DrawGlyphStep(reader.GetGlyph(static_cast<char>(c)), c, ttfToPixels);
 
 	//phase3: normalize char-info
 	for (unsigned i = 0; i < m_CharacterHeight.GetSize(); i++) m_CharacterHeight[i] *= scale.y;
@@ -63,6 +61,13 @@ Rendering::Image* FontAtlas::GetImageOwnership()
 
 void FontAtlas::CharacterInfoStep(const Glyph& glyph, int idx, float ttfToPixels, float& highest)
 {
+	if (!glyph.IsValid())
+	{
+		m_CharacterHeight[idx] = 1;
+		m_CharacterHorPos[idx + 1] = m_CharacterHorPos[idx] + 1;
+		return;
+	}
+
 	const Float2 sizeInPixels{ (glyph.GetSize() * ttfToPixels).Ceiled() };
 
 	if (sizeInPixels.y > highest) highest = sizeInPixels.y;
@@ -73,6 +78,9 @@ void FontAtlas::CharacterInfoStep(const Glyph& glyph, int idx, float ttfToPixels
 void FontAtlas::DrawGlyphStep(const Glyph& glyph, int idx, float ttfToPixels)
 {
 	const Int2 sizeInPixels{ (glyph.GetSize() * ttfToPixels).Ceiled() };
+	if (sizeInPixels.x == 0)
+		return;
+
 	const FontRasterizer rasterizer{ glyph, sizeInPixels };
 	Image* pGlyphImage{ rasterizer.MakeImage({1,1,1}) };
 	pGlyphImage->CopyTo(*m_pImage, { static_cast<int>(m_CharacterHorPos[idx]), 0 });

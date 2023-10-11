@@ -41,8 +41,6 @@ namespace MyEngine
 
 			float m_InvXUvHeight{};
 			float m_UvWidthToHeight{}; //convert x-uv in same unit as y-uv (
-
-			static int CharToIdx(char c);
 		};
 	}
 }

@@ -11,6 +11,7 @@ namespace MyEngine
 			class Glyph
 			{
 			public:
+				Glyph() = default;
 				explicit Glyph(const Array<Array<TtfPoint>>& ttfPoints, const Double2& minBounds, const Double2& maxBounds);
 
 				~Glyph() = default;
@@ -33,6 +34,8 @@ namespace MyEngine
 				void DebugDraw(const Float3& color, const Float3& offset, int pointsPerCurve) const;
 				void DebugDrawSegments(const Float3& offset, int pointsPerCurve) const;
 				void DebugPrint();
+
+				bool IsValid() const { return m_Contours.GetSize() > 0; }
 
 			private:
 				Array<Contour> m_Contours;

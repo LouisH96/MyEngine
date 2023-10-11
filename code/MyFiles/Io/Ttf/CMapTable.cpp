@@ -5,6 +5,9 @@
 
 using namespace MyEngine::Io::Ttf;
 
+#undef LOCAL_DEBUG
+//#define LOCAL_DEBUG
+
 void CMapTable::Read(const Bin::BigBinReader& reader)
 {
 	const uint32_t begin{ reader.GetPos() };
@@ -103,8 +106,10 @@ uint16_t CMapTable::EncodingSubTable::GetGlyphIndex(uint16_t codePoint) const
 		const uint16_t startCode = m_Format.startCode[i];
 		if (startCode > codePoint)
 		{
-			Logger::PrintError("GlyphIndex not in table");
-			return -1;
+#ifdef LOCAL_DEBUG
+			Logger::PrintWarning("[CMapTable::GetGlyphIndex] GlyphIndex not in table");
+#endif
+			return Scalar<uint16_t>::Max();
 		}
 		const uint16_t idRangeOffset = m_Format.idRangeOffset[i];
 		if (idRangeOffset == 0)

@@ -22,18 +22,18 @@ void Rendering::FontAtlasLookup::Lookup(char c, float xPixelHeight, RectFloat& u
 
 float Rendering::FontAtlasLookup::GetCharUvWidth(char c)
 {
-	const int idx{ CharToIdx(c) };
+	const int idx{ c };
 	return m_Positions[idx + 1] - m_Positions[idx];
 }
 
 float Rendering::FontAtlasLookup::GetCharUvHeight(char c)
 {
-	return m_Heights[CharToIdx(c)];
+	return m_Heights[c];
 }
 
 Float2 Rendering::FontAtlasLookup::GetCharUvSize(char c)
 {
-	const int idx{ CharToIdx(c) };
+	const int idx{ c };
 	return{
 		m_Positions[idx + 1] - m_Positions[idx],
 		m_Heights[idx] };
@@ -41,7 +41,7 @@ Float2 Rendering::FontAtlasLookup::GetCharUvSize(char c)
 
 RectFloat Rendering::FontAtlasLookup::GetCharUvRect(char c)
 {
-	const int idx{ CharToIdx(c) };
+	const int idx{ c };
 	RectFloat rect{ {m_Positions[idx], m_Heights[idx]}, {m_Positions[idx + 1], m_Heights[idx]} };
 	rect.SetWidth(rect.GetWidth() - rect.GetLeft());
 	return rect;
@@ -122,11 +122,4 @@ Float2 Rendering::FontAtlasLookup::GetScreenSize(char c, float height)
 	screenSize.y = uvSize.y * m_InvXUvHeight * height;
 	screenSize.x = screenSize.y * uvSize.x * m_UvWidthToHeight / uvSize.y;
 	return screenSize;
-}
-
-int Rendering::FontAtlasLookup::CharToIdx(char c)
-{
-	if (c >= 'a') return c - 'a';
-	if (c >= 'A') return 'z' - 'a' + 1 + c - 'A';
-	return ('z' - 'a' + 1) * 2 + c - '0';
 }
