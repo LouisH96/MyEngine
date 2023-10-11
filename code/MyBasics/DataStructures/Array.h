@@ -71,8 +71,8 @@ namespace MyEngine
 		Data* m_pData;
 		unsigned m_Size;
 
-		void DoBoundsCheck(int idx) const;
-		void PrintOutOfBounds(int idx) const;
+		void DoBoundsCheck(unsigned idx) const;
+		void PrintOutOfBounds(unsigned idx) const;
 	};
 
 	template <typename Data>
@@ -400,14 +400,14 @@ namespace MyEngine
 	}
 
 	template <typename Data>
-	void Array<Data>::DoBoundsCheck(int idx) const
+	void Array<Data>::DoBoundsCheck(unsigned idx) const
 	{
 		if (idx < 0 || idx >= m_Size)
 			PrintOutOfBounds(idx);
 	}
 
 	template <typename Data>
-	void Array<Data>::PrintOutOfBounds(int idx) const
+	void Array<Data>::PrintOutOfBounds(unsigned idx) const
 	{
 		std::cout << "ArrayIdx " << idx
 			<< " out of bounds[0-" << m_Size - 1 << "]\n";
