@@ -1,4 +1,5 @@
 #pragma once
+#include "Framework/Resources.h"
 
 namespace MyEngine
 {
@@ -20,7 +21,7 @@ namespace MyEngine
 			class FontAtlas
 			{
 			public:
-				FontAtlas(int xHorizontalPixels); //amount of horizontal pixels in x-character
+				FontAtlas(int xHorizontalPixels, const std::wstring& path = Resources::Global(L"Fonts\\ShortBaby.ttf")); //amount of horizontal pixels in x-character
 				~FontAtlas();
 
 				Image& GetImage() { return *m_pImage; }

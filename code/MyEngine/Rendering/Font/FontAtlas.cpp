@@ -3,7 +3,6 @@
 
 #include <fstream>
 
-#include "Framework/Resources.h"
 #include "Image/Image.h"
 #include "Io/Ttf/FontRasterizer.h"
 #include "Io/Ttf/TtfReader.h"
@@ -12,11 +11,10 @@ using namespace MyEngine;
 using namespace Rendering::Font;
 using namespace Io::Ttf;
 
-FontAtlas::FontAtlas(int xHorizontalPixels)
+FontAtlas::FontAtlas(int xHorizontalPixels, const std::wstring& path)
 {
 	//read
-	const std::wstring fontPath = Resources::Global(L"Fonts\\ShortBaby.ttf");
-	std::ifstream stream{ fontPath, std::ios::binary };
+	std::ifstream stream{ path, std::ios::binary };
 	const Io::TtfReader reader{ stream };
 
 	const float ttfToPixels{ static_cast<float>(xHorizontalPixels) / static_cast<float>(reader.GetGlyph('x').GetSize().x) };
