@@ -15,3 +15,8 @@ std::string Convert::ToString(const std::wstring& wString)
 	std::wstring_convert<Converter, wchar_t> converter;
 	return converter.to_bytes(wString);
 }
+
+std::string Convert::ToString(char c)
+{
+	return { c };
+}
