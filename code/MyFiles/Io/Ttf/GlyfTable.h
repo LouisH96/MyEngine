@@ -2,6 +2,8 @@
 #include "Glyph.h"
 #include "TtfPoint.h"
 
+//named Glyf instead of Glyph because its the table's code inside the .ttf file
+
 namespace MyEngine
 {
 	namespace Io
