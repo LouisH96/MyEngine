@@ -43,9 +43,19 @@ Array<Array<TtfPoint>> GlyfTable::GetContours(const Bin::BigBinReader& reader, u
 	minY = outline.yMin;
 	maxX = outline.xMax;
 	maxY = outline.yMax;
-	if (outline.nrOfContours < 0)
+
+	if(outline.nrOfContours > 0)
 	{
-		Logger::PrintError("[GlyfTable::GetContours] no contours found"); //because it is compoundGlyph?
+		//Simple Outline (1 glyph)
+	}
+	else if(outline.nrOfContours == 0)
+	{
+		//Glyph has no contour
+	}
+	else
+	{
+		//Glyph is a Compound-Glyph (made out of other glyphs)
+		Logger::PrintError("[GlyfTable::GetContours] Compound-Glyphs not supported");
 		return{};
 	}
 
