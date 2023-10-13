@@ -32,9 +32,6 @@ FontAtlas::FontAtlas(int xHorizontalPixels, const std::wstring& path, const std:
 	Glyph glyph{};
 	float ttfToPixels;
 
-	//temp
-	GetGlyph('"', mainReader, backupReader, mainTtfToPixels, backupTtfToPixels, glyph, ttfToPixels);
-
 	//phase1: pixel sizes
 	float highest{ 1 };
 	for (int c = 0; c < nrCharacters; c++)
