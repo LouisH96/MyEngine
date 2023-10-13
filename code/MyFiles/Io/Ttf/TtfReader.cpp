@@ -81,5 +81,10 @@ void TtfReader::ReadTables()
 			m_GlyfTable.Read(m_Reader);
 			continue;
 		}
+		if (tag == "bsln")
+		{
+			m_BaselineTable.Read(m_Reader);
+			continue;
+		}
 	}
 }

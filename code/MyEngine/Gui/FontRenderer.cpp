@@ -89,8 +89,9 @@ int FontRenderer::Add(const std::string& text, const Float2& screenPivot, const 
 		RectFloat charUvRect;
 		Float2 charScreenSize;
 		m_CharLookup.Lookup(c, height, charUvRect, charScreenSize);
+		const float baselineOffset{ m_CharLookup.GetBaselineOffsetScreenSize(c, height) };
 
-		const float charYOffset{ (charScreenSize.y - totalSize.y) * normalizedPivot.y };
+		const float charYOffset{ (charScreenSize.y - totalSize.y + baselineOffset) * normalizedPivot.y };
 
 		currentX += charScreenSize.x * normalizedPivot.x;
 		pEntry->Characters.Add(Add(c, screenPivot, { currentX, offset.y + charYOffset }, color, charScreenSize, charUvRect));

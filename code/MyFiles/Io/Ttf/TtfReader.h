@@ -2,6 +2,8 @@
 //https://handmade.network/forums/articles/t/7330-implementing_a_font_reader_and_rasterizer_from_scratch%252C_part_1__ttf_font_reader.
 
 #include <Io/Binary/BigBinReader.h>
+
+#include "BaselineTable.h"
 #include "TtfPoint.h"
 #include "CMapTable.h"
 #include "GlyfTable.h"
@@ -38,6 +40,7 @@ namespace MyEngine
 			Ttf::CMapTable m_CMapTable{};
 			Ttf::LocaTable m_LocaTable{};
 			Ttf::GlyfTable m_GlyfTable{};
+			Ttf::BaselineTable m_BaselineTable{};
 			
 			void ReadTableDirectories();
 			void ReadTables();

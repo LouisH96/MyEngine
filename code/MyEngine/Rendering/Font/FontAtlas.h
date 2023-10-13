@@ -31,12 +31,14 @@ namespace MyEngine
 
 				Array<float>& GetCharacterHorPos() { return m_CharacterHorPos; }
 				Array<float>& GetCharacterHeight() { return m_CharacterHeight; }
+				Array<float>& GetBaselineOffset() { return m_BaselineOffset; }
 				float GetSpaceWidth() const { return m_SpaceWidth; }
 
 			private:
 				Image* m_pImage;
 				Array<float> m_CharacterHorPos;
 				Array<float> m_CharacterHeight;
+				Array<float> m_BaselineOffset;
 				float m_SpaceWidth;
 
 				void CharacterInfoStep(const Io::Ttf::Glyph& glyph, int idx, float ttfToPixels, float& highest);

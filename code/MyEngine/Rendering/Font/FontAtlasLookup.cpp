@@ -7,6 +7,7 @@
 Rendering::FontAtlasLookup::FontAtlasLookup(Font::FontAtlas&& fontAtlas)
 	: m_Positions{ std::move(fontAtlas.GetCharacterHorPos()) }
 	, m_Heights{ std::move(fontAtlas.GetCharacterHeight()) }
+	, m_BaselineOffset{ std::move(fontAtlas.GetBaselineOffset()) }
 {
 	m_SpaceWidthRatio = fontAtlas.GetSpaceWidth() / GetCharUvWidth('x');
 	m_InvXUvHeight = 1.f / GetCharUvHeight('x');
@@ -62,21 +63,30 @@ float Rendering::FontAtlasLookup::GetUvWidth(const std::string& text, float uvSp
 
 Float2 Rendering::FontAtlasLookup::GetUvSize(const std::string& text, float uvSpacingWidth)
 {
-	Float2 bounds{ 0 };
+	float lowest{ Float::Max() };
+	float highest{ -Float::Max() };
+
+	float totalWidth{ 0 };
 	for (const char& c : text)
 	{
 		if (c == ' ')
 		{
-			bounds.x += GetCharUvWidth('x') * m_SpaceWidthRatio;
+			totalWidth += GetCharUvWidth('x') * m_SpaceWidthRatio;
 			continue;
 		}
 		const Float2 charSize{ GetCharUvSize(c) };
-		bounds.x += charSize.x + uvSpacingWidth;
-		if (charSize.y > bounds.y) bounds.y = charSize.y;
+		totalWidth += charSize.x + uvSpacingWidth;
+
+		const float lower{ m_BaselineOffset[c] };
+		const float upper{ lower + charSize.y };
+
+		if (lower < lowest) lowest = lower;
+		if (upper > highest)highest = upper;
+
 	}
 	if (text[text.size() - 1] != ' ')
-		bounds.x -= uvSpacingWidth;
-	return bounds;
+		totalWidth -= uvSpacingWidth;
+	return { totalWidth, highest - lowest };
 }
 
 float Rendering::FontAtlasLookup::GetScreenWidth(const std::string& text, float height, float spacing)
@@ -122,4 +132,14 @@ Float2 Rendering::FontAtlasLookup::GetScreenSize(char c, float height)
 	screenSize.y = uvSize.y * m_InvXUvHeight * height;
 	screenSize.x = screenSize.y * uvSize.x * m_UvWidthToHeight / uvSize.y;
 	return screenSize;
+}
+
+float Rendering::FontAtlasLookup::GetBaselineOffsetUvSize(char c)
+{
+	return m_BaselineOffset[c];
+}
+
+float Rendering::FontAtlasLookup::GetBaselineOffsetScreenSize(char c, float height)
+{
+	return m_BaselineOffset[c] * m_InvXUvHeight * height;
 }

@@ -26,6 +26,7 @@ FontAtlas::FontAtlas(int xHorizontalPixels, const std::wstring& path, const std:
 	constexpr int nrCharacters = 128;
 	m_CharacterHorPos = { nrCharacters + 1 };
 	m_CharacterHeight = { nrCharacters };
+	m_BaselineOffset = { nrCharacters };
 	m_CharacterHorPos[0] = 0;
 
 	//
@@ -51,6 +52,7 @@ FontAtlas::FontAtlas(int xHorizontalPixels, const std::wstring& path, const std:
 
 	//phase3: normalize char-info
 	for (unsigned i = 0; i < m_CharacterHeight.GetSize(); i++) m_CharacterHeight[i] *= scale.y;
+	for (unsigned i = 0; i < m_BaselineOffset.GetSize(); i++) m_BaselineOffset[i] *= scale.y;
 	for (unsigned i = 0; i < m_CharacterHorPos.GetSize(); i++) m_CharacterHorPos[i] *= scale.x;
 
 	//other
@@ -75,14 +77,17 @@ void FontAtlas::CharacterInfoStep(const Glyph& glyph, int idx, float ttfToPixels
 	{
 		m_CharacterHeight[idx] = 1;
 		m_CharacterHorPos[idx + 1] = m_CharacterHorPos[idx] + 1;
+		m_BaselineOffset[idx] = 0;
 		return;
 	}
 
 	const Float2 sizeInPixels{ (glyph.GetSize() * ttfToPixels).Ceiled() };
+	const float baselineOffset{ static_cast<float>(glyph.GetMinBounds().y * ttfToPixels) };
 
 	if (sizeInPixels.y > highest) highest = sizeInPixels.y;
 	m_CharacterHeight[idx] = sizeInPixels.y;
 	m_CharacterHorPos[idx + 1] = m_CharacterHorPos[idx] + sizeInPixels.x;
+	m_BaselineOffset[idx] = baselineOffset;
 }
 
 void FontAtlas::DrawGlyphStep(const Glyph& glyph, int idx, float ttfToPixels)

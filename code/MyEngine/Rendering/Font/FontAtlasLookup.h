@@ -34,9 +34,13 @@ namespace MyEngine
 			Float2 GetScreenSize(const std::string& text, float height, float spacing);
 			Float2 GetScreenSize(char c, float height);
 
+			float GetBaselineOffsetUvSize(char c);
+			float GetBaselineOffsetScreenSize(char c, float height);
+
 		private:
 			Array<float> m_Positions{};
 			Array<float> m_Heights{};
+			Array<float> m_BaselineOffset{};
 			float m_SpaceWidthRatio{};
 
 			float m_InvXUvHeight{};
