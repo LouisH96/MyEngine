@@ -8,6 +8,8 @@ namespace MyEngine
 {
 	namespace Io
 	{
+		class TtfReader;
+
 		namespace Bin
 		{
 			class BigBinReader;
@@ -18,9 +20,9 @@ namespace MyEngine
 			class GlyfTable
 			{
 			public:
-				void Read(const Bin::BigBinReader& reader);
-				Array<Array<TtfPoint>> GetContours(const Bin::BigBinReader& reader, uint32_t glyphOffset) const;
-				Glyph GetGlyph(const Bin::BigBinReader& reader, uint32_t glyphOffset) const;
+				void Read(Bin::BigBinReader& reader);
+				Array<Array<TtfPoint>> GetContours(Bin::BigBinReader& reader, uint32_t glyphOffset, const TtfReader& ttfReader) const;
+				Glyph GetGlyph(Bin::BigBinReader& reader, uint32_t glyphOffset, const TtfReader& ttfReader) const;
 
 			private:
 				//---| Types |---
@@ -46,18 +48,44 @@ namespace MyEngine
 						uint8_t flag;
 					};
 					int16_t nrOfContours;
-					int16_t xMin;
-					int16_t yMin;
-					int16_t xMax;
-					int16_t yMax;
 					uint16_t instructionLength;
+				};
+				struct CompoundComponent
+				{
+					union
+					{
+						uint16_t asUint;
+						struct
+						{
+							unsigned arg1And2AreWords : 1;
+							unsigned argsAreXyValues : 1;
+							unsigned roundXyToGrid : 1;
+							unsigned weHaveAScale : 1;
+							unsigned obsolete : 1;
+							unsigned moreComponents : 1;
+							unsigned weHaveAnXAndYScale : 1;
+							unsigned weHaveATwoByTwo : 1;
+							unsigned weHaveInstructions : 1;
+							unsigned useMyMetrics : 1;
+							unsigned overlapCompound : 1;
+						};
+					} flag{};
+					uint16_t glyphIndex{};
+					int32_t argument1{};
+					int32_t argument2{};
+					int16_t transform[4]{};
+
+					CompoundComponent() = default;
+					explicit CompoundComponent(Bin::BigBinReader& reader);
 				};
 
 				//---| Members |---
 				uint32_t m_Begin{};
 
-				Array<Array<TtfPoint>> GetContours(const Bin::BigBinReader& reader, uint32_t glyphOffset, int16_t& minX, int16_t& maxX, int16_t& minY, int16_t& maxY) const;
+				Array<Array<TtfPoint>> GetContours(Bin::BigBinReader& reader, uint32_t glyphOffset, int16_t& minX, int16_t& maxX, int16_t& minY, int16_t& maxY, const TtfReader& ttfReader) const;
 
+				Array<Array<TtfPoint>> GetSimpleGlyphContour(Bin::BigBinReader& reader, int16_t nrContours) const;
+				Array<Array<TtfPoint>> GetCompoundGlyphContour(Bin::BigBinReader& reader, int16_t nrContours, const TtfReader& ttfReader) const;
 			};
 		}
 	}

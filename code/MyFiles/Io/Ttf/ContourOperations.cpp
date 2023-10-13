@@ -234,7 +234,7 @@ Array<Intersection> ContourOperations::GetIntersectionsX(const Contour& contour,
 	return DsUtils::ToArray(intersections);
 }
 
-Rendering::Image* ContourOperations::MakeImage(const TtfReader& reader, char character, int imageWidth,
+Rendering::Image* ContourOperations::MakeImage(TtfReader& reader, char character, int imageWidth,
 	int imageHeight)
 {
 	Glyph glyph{ reader.GetGlyph(character) };

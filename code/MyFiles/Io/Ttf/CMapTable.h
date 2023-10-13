@@ -17,11 +17,12 @@ namespace MyEngine
 			class CMapTable
 			{
 			public:
-				void Read(const Bin::BigBinReader& reader);
+				void Read(Bin::BigBinReader& reader);
 				void Print(bool printSubTables = false) const;
 				static void PrintHeader();
 
 				uint16_t GetGlyphIndex(uint16_t codePoint, uint16_t platformId = 0, uint16_t platformSpecificId = 3) const;
+				uint16_t GetCodePointFromIndex(uint16_t glyphIndex, uint16_t platformId = 0, uint16_t platformSpecificId = 3) const;
 
 			private:
 				//---| Types |---
@@ -43,12 +44,13 @@ namespace MyEngine
 				class EncodingSubTable
 				{
 				public:
-					void Read(const Bin::BigBinReader& reader);
-					void ReadFormat(const Bin::BigBinReader& reader);
+					void Read(Bin::BigBinReader& reader);
+					void ReadFormat(Bin::BigBinReader& reader);
 					void Print() const;
 					static void PrintHeader();
 
 					uint16_t GetGlyphIndex(uint16_t codePoint) const;
+					uint16_t GetCodePoint(uint16_t glyphIndex) const;
 
 					uint16_t GetPlatformId() const { return m_PlatformId; }
 					uint16_t GetPlatformSpecificId() const { return m_PlatformSpecificId; }

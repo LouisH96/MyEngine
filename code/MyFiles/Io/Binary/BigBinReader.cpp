@@ -7,7 +7,7 @@ BigBinReader::BigBinReader(std::istream& stream)
 {
 }
 
-void BigBinReader::SetPos(uint32_t offset) const
+void BigBinReader::SetPos(uint32_t offset)
 {
 	m_Stream.seekg(offset);
 }
@@ -131,7 +131,7 @@ int16_t BigBinReader::Int16(std::istream& stream)
 
 int8_t BigBinReader::Int8(std::istream& stream)
 {
-	return static_cast<unsigned char>(stream.get());
+	return static_cast<char>(stream.get());
 }
 
 void BigBinReader::Read(std::istream& stream, int64_t& destination)

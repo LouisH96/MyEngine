@@ -12,7 +12,7 @@ namespace MyEngine
 			public:
 				explicit BigBinReader(std::istream& stream);
 
-				void SetPos(uint32_t offset) const;
+				void SetPos(uint32_t offset);
 				uint32_t GetPos() const;
 
 				uint64_t Uint64() const;

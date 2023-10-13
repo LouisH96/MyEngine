@@ -43,7 +43,7 @@ namespace MyEngine
 				void DrawGlyphStep(const Io::Ttf::Glyph& glyph, int idx, float ttfToPixels);
 
 				static void GetGlyph(int id,
-					const Io::TtfReader& mainReader, const Io::TtfReader& backupReader, 
+					Io::TtfReader& mainReader, Io::TtfReader& backupReader, 
 					float mainTtfToPixels, float backupTtfToPixels,
 					Io::Ttf::Glyph& glyph, float& ttfToPixels);
 			};

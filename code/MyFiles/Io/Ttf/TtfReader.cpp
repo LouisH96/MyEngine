@@ -2,6 +2,9 @@
 
 #include <fstream>
 
+#include "Logger/Logger.h"
+#include "String/Convert.h"
+
 using namespace MyEngine;
 using namespace Io;
 using namespace Ttf;
@@ -15,20 +18,34 @@ TtfReader::TtfReader(std::istream& stream)
 	m_LocaTable.SetIsShortVersion(m_HeadTable.GetIndexToLocFormat() == 0);
 }
 
-Array<Array<TtfPoint>> TtfReader::GetPoints(unsigned char c) const
+Array<Array<TtfPoint>> TtfReader::GetPoints(unsigned char c)
 {
 	const uint32_t aGlyphIndex = m_CMapTable.GetGlyphIndex(c);
 	const uint32_t aGlyphOffset = m_LocaTable.GetGlyphOffset(m_Reader, aGlyphIndex);
-	return m_GlyfTable.GetContours(m_Reader, aGlyphOffset);
+	return m_GlyfTable.GetContours(m_Reader, aGlyphOffset, *this);
 }
 
-Glyph TtfReader::GetGlyph(char character) const
+Glyph TtfReader::GetGlyph(char character)
 {
 	const uint16_t glyphIndex = m_CMapTable.GetGlyphIndex(character);
 	if (glyphIndex == Scalar<decltype(glyphIndex)>::Max())
 		return Glyph{};
 	const uint32_t glyphOffset = m_LocaTable.GetGlyphOffset(m_Reader, glyphIndex);
-	return m_GlyfTable.GetGlyph(m_Reader, glyphOffset);
+	Glyph glyph{ m_GlyfTable.GetGlyph(m_Reader, glyphOffset, *this) };
+	if (!glyph.IsValid())
+		Logger::PrintWarning("invalid glyph for " + Convert::ToString(character));
+
+	return glyph;
+}
+
+Glyph TtfReader::GetGlyphFromIndex(uint16_t glyphIndex)
+{
+	const uint32_t glyphOffset = m_LocaTable.GetGlyphOffset(m_Reader, glyphIndex);
+	Glyph glyph{ m_GlyfTable.GetGlyph(m_Reader, glyphOffset, *this) };
+	if (!glyph.IsValid())
+		Logger::PrintWarning("[TtfReader::GetGlyphFromIndex] invalid glyph for " + std::to_string(glyphIndex));
+
+	return glyph;
 }
 
 void TtfReader::ReadTableDirectories()

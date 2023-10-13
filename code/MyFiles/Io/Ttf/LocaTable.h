@@ -15,10 +15,10 @@ namespace MyEngine
 			class LocaTable
 			{
 			public:
-				void Read(const Bin::BigBinReader& reader);
+				void Read(Bin::BigBinReader& reader);
 				void SetIsShortVersion(bool isShort);
 
-				uint32_t GetGlyphOffset(const Bin::BigBinReader& reader, uint32_t glyphIdx) const;
+				uint32_t GetGlyphOffset(Bin::BigBinReader& reader, uint32_t glyphIdx) const;
 
 			private:
 				uint32_t m_Begin{};

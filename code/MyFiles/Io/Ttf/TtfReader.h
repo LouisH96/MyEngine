@@ -20,8 +20,13 @@ namespace MyEngine
 		public:
 			explicit TtfReader(std::istream& stream);
 			~TtfReader() = default;
-			Array<Array<Ttf::TtfPoint>> GetPoints(unsigned char c) const;
-			Ttf::Glyph GetGlyph(char character) const;
+			Array<Array<Ttf::TtfPoint>> GetPoints(unsigned char c);
+
+			Ttf::Glyph GetGlyph(char character);
+			Ttf::Glyph GetGlyphFromIndex(uint16_t glyphIndex);
+
+			const Ttf::CMapTable& GetCMapTable() const { return m_CMapTable; }
+			const Ttf::LocaTable& GetLocaTable() const { return m_LocaTable; }
 
 		private:
 			//---| Members |---

@@ -2,7 +2,7 @@
 
 #include "Io/Binary/BigBinReader.h"
 
-void MyEngine::Io::Ttf::LocaTable::Read(const Bin::BigBinReader& reader)
+void MyEngine::Io::Ttf::LocaTable::Read(Bin::BigBinReader& reader)
 {
 	m_Begin = reader.GetPos();
 }
@@ -12,7 +12,7 @@ void MyEngine::Io::Ttf::LocaTable::SetIsShortVersion(bool isShort)
 	m_IsShortVersion = isShort;
 }
 
-uint32_t MyEngine::Io::Ttf::LocaTable::GetGlyphOffset(const Bin::BigBinReader& reader, uint32_t glyphIdx) const
+uint32_t MyEngine::Io::Ttf::LocaTable::GetGlyphOffset(Bin::BigBinReader& reader, uint32_t glyphIdx) const
 {
 	if (m_IsShortVersion)
 	{

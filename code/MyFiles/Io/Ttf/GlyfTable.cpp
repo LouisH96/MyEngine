@@ -3,61 +3,127 @@
 #include <Io/Binary/BigBinReader.h>
 #include <Math/Vector2.h>
 
+#include "TtfReader.h"
 #include "Logger/Logger.h"
 
 using namespace MyEngine;
 using namespace Io;
 using namespace Ttf;
 
-void GlyfTable::Read(const Bin::BigBinReader& reader)
+void GlyfTable::Read(Bin::BigBinReader& reader)
 {
 	m_Begin = reader.GetPos();
 }
 
-Array<Array<TtfPoint>> GlyfTable::GetContours(const Bin::BigBinReader& reader, uint32_t glyphOffset) const
+Array<Array<TtfPoint>> GlyfTable::GetContours(Bin::BigBinReader& reader, uint32_t glyphOffset, const TtfReader& ttfReader) const
 {
 	int16_t minX, minY, maxX, maxY;
-	return GetContours(reader, glyphOffset, minX, maxX, minY, maxY);
+	return GetContours(reader, glyphOffset, minX, maxX, minY, maxY, ttfReader);
 }
 
-Glyph GlyfTable::GetGlyph(const Bin::BigBinReader& reader, uint32_t glyphOffset) const
+Glyph GlyfTable::GetGlyph(Bin::BigBinReader& reader, uint32_t glyphOffset, const TtfReader& ttfReader) const
 {
 	int16_t minX, minY, maxX, maxY;
-	const Array<Array<TtfPoint>> points{ GetContours(reader, glyphOffset, minX, maxX, minY, maxY) };
+	const Array<Array<TtfPoint>> points{ GetContours(reader, glyphOffset, minX, maxX, minY, maxY, ttfReader) };
 	const Double2 minBounds{ static_cast<double>(minX), static_cast<double>(minY) };
 	const Double2 maxBounds{ static_cast<double>(maxX), static_cast<double>(maxY) };
 	return Glyph{ points, minBounds, maxBounds };
 }
 
-Array<Array<TtfPoint>> GlyfTable::GetContours(const Bin::BigBinReader& reader, uint32_t glyphOffset,
-                                              int16_t& minX, int16_t& maxX, int16_t& minY, int16_t& maxY) const
+GlyfTable::CompoundComponent::CompoundComponent(Bin::BigBinReader& reader)
 {
-	reader.SetPos(m_Begin + glyphOffset);
-	SimpleOutline outline{};
-	reader.Read(outline.nrOfContours);
-	reader.Read(outline.xMin);
-	reader.Read(outline.yMin);
-	reader.Read(outline.xMax);
-	reader.Read(outline.yMax);
-	minX = outline.xMin;
-	minY = outline.yMin;
-	maxX = outline.xMax;
-	maxY = outline.yMax;
+	reader.Read(flag.asUint);
+	reader.Read(glyphIndex);
 
-	if(outline.nrOfContours > 0)
+	if (flag.arg1And2AreWords)
 	{
-		//Simple Outline (1 glyph)
-	}
-	else if(outline.nrOfContours == 0)
-	{
-		//Glyph has no contour
+		if (flag.argsAreXyValues)
+		{
+			argument1 = reader.Int16();
+			argument2 = reader.Int16();
+		}
+		else
+		{
+			Logger::PrintError("[GlyfTable::GetCompoundGlyphContour] Point values not supported yet");
+			argument1 = reader.Uint16();
+			argument2 = reader.Uint16();
+		}
 	}
 	else
 	{
-		//Glyph is a Compound-Glyph (made out of other glyphs)
-		Logger::PrintError("[GlyfTable::GetContours] Compound-Glyphs not supported");
-		return{};
+		if (flag.argsAreXyValues)
+		{
+			argument1 = reader.Int8();
+			argument2 = reader.Int8();
+		}
+		else
+		{
+			Logger::PrintError("[GlyfTable::GetCompoundGlyphContour] Point values not supported yet");
+			argument1 = reader.Uint8();
+			argument2 = reader.Uint8();
+		}
 	}
+
+	if (flag.weHaveInstructions)
+	{
+		Logger::PrintError("[GlyfTable::GetCompoundGlyphContour] instructions not supported yet");
+	}
+
+	transform[0] = 1;
+	transform[1] = 0;
+	transform[2] = 0;
+	transform[3] = 1;
+
+	if (flag.weHaveAScale)
+	{
+		Logger::PrintError("[GlyfTable::GetCompoundGlyphContour] (A-Scale) transformation not supported yet");
+		transform[0] = reader.Int16();
+		transform[3] = transform[0];
+	}
+	else if (flag.weHaveAnXAndYScale)
+	{
+		Logger::PrintError("[GlyfTable::GetCompoundGlyphContour] (X&Y-Scale) transformation not supported yet");
+		transform[0] = reader.Int16();
+		transform[3] = reader.Int16();
+	}
+	else if (flag.weHaveATwoByTwo)
+	{
+		Logger::PrintError("[GlyfTable::GetCompoundGlyphContour] (TwoByTwo) transformation not supported yet");
+		transform[0] = reader.Int16();
+		transform[1] = reader.Int16();
+		transform[2] = reader.Int16();
+		transform[3] = reader.Int16();
+	}
+}
+
+Array<Array<TtfPoint>> GlyfTable::GetContours(Bin::BigBinReader& reader, uint32_t glyphOffset,
+	int16_t& minX, int16_t& maxX, int16_t& minY, int16_t& maxY, const TtfReader& ttfReader) const
+{
+	reader.SetPos(m_Begin + glyphOffset);
+	const int16_t nrContours{ reader.Int16() };
+	reader.Read(minX);
+	reader.Read(minY);
+	reader.Read(maxX);
+	reader.Read(maxY);
+
+	Array<Array<TtfPoint>> contours;
+
+	if (nrContours > 0)
+		contours = GetSimpleGlyphContour(reader, nrContours);
+	else if (nrContours < 0)
+		contours = GetCompoundGlyphContour(reader, nrContours, ttfReader);
+	else
+	{
+		Logger::PrintWarning("[GlyfTable::GetContours] No contour");
+		contours = {};
+	}
+	return contours;
+}
+
+Array<Array<TtfPoint>> GlyfTable::GetSimpleGlyphContour(Bin::BigBinReader& reader, int16_t nrContours) const
+{
+	SimpleOutline outline;
+	outline.nrOfContours = nrContours;
 
 	Array<uint16_t> endPtsOfContours{ outline.nrOfContours };
 	for (unsigned i = 0; i < endPtsOfContours.GetSize(); i++)
@@ -140,4 +206,37 @@ Array<Array<TtfPoint>> GlyfTable::GetContours(const Bin::BigBinReader& reader, u
 		points[points.GetSize() - 1].position.y = points[0].position.y;
 	}
 	return contours;
+}
+
+Array<Array<TtfPoint>> GlyfTable::GetCompoundGlyphContour(Bin::BigBinReader& reader, int16_t nrContours, const TtfReader& ttfReader) const
+{
+	Array<Array<TtfPoint>> allContours{};
+
+	CompoundComponent component;
+	do
+	{
+		component = CompoundComponent{ reader };
+		const auto readerPos{ reader.GetPos() };
+
+		const uint32_t glyphOffset{ ttfReader.GetLocaTable().GetGlyphOffset(reader, component.glyphIndex) };
+		Array<Array<TtfPoint>> compoundContours{ GetContours(reader, glyphOffset, ttfReader) };
+		reader.SetPos(readerPos);
+
+		//apply transformations & add to allContours
+		for (unsigned iContour = 0; iContour < compoundContours.GetSize(); iContour++)
+		{
+			Array<TtfPoint>& points{ compoundContours[iContour] };
+
+			for (unsigned iPoint = 0; iPoint < points.GetSize(); iPoint++)
+			{
+				TtfPoint& point{ points[iPoint] };
+				point.position.x += component.argument1;
+				point.position.y += component.argument2;
+			}
+			allContours.Add(std::move(points));
+		}
+
+	} while (component.flag.moreComponents);
+
+	return allContours;
 }

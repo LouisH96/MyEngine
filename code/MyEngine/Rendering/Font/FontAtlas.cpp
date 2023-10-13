@@ -15,10 +15,10 @@ FontAtlas::FontAtlas(int xHorizontalPixels, const std::wstring& path, const std:
 {
 	//read
 	std::ifstream mainStream{ path, std::ios::binary };
-	const Io::TtfReader mainReader{ mainStream };
+	Io::TtfReader mainReader{ mainStream };
 
 	std::ifstream backupStream{ backupPath, std::ios::binary };
-	const Io::TtfReader backupReader{ backupStream };
+	Io::TtfReader backupReader{ backupStream };
 
 	const float mainTtfToPixels{ static_cast<float>(xHorizontalPixels) / static_cast<float>(mainReader.GetGlyph('x').GetSize().x) };
 	const float backupTtfToPixels{ static_cast<float>(xHorizontalPixels) / static_cast<float>(backupReader.GetGlyph('x').GetSize().x) };
@@ -31,6 +31,9 @@ FontAtlas::FontAtlas(int xHorizontalPixels, const std::wstring& path, const std:
 	//
 	Glyph glyph{};
 	float ttfToPixels;
+
+	//temp
+	GetGlyph('"', mainReader, backupReader, mainTtfToPixels, backupTtfToPixels, glyph, ttfToPixels);
 
 	//phase1: pixel sizes
 	float highest{ 1 };
@@ -97,7 +100,7 @@ void FontAtlas::DrawGlyphStep(const Glyph& glyph, int idx, float ttfToPixels)
 	FontRasterizer::DeleteImage(pGlyphImage);
 }
 
-void FontAtlas::GetGlyph(int id, const Io::TtfReader& mainReader, const Io::TtfReader& backupReader,
+void FontAtlas::GetGlyph(int id, Io::TtfReader& mainReader, Io::TtfReader& backupReader,
 	float mainTtfToPixels, float backupTtfToPixels, Io::Ttf::Glyph& glyph, float& ttfToPixels)
 {
 	glyph = mainReader.GetGlyph(static_cast<char>(id));

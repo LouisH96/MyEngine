@@ -8,7 +8,7 @@ using namespace MyEngine::Io::Ttf;
 #undef LOCAL_DEBUG
 //#define LOCAL_DEBUG
 
-void CMapTable::Read(const Bin::BigBinReader& reader)
+void CMapTable::Read(Bin::BigBinReader& reader)
 {
 	const uint32_t begin{ reader.GetPos() };
 	reader.Read(m_VersionNumber);
@@ -48,14 +48,22 @@ uint16_t CMapTable::GetGlyphIndex(uint16_t codePoint, uint16_t platformId, uint1
 	return -1;
 }
 
-void CMapTable::EncodingSubTable::Read(const Bin::BigBinReader& reader)
+uint16_t CMapTable::GetCodePointFromIndex(uint16_t glyphIndex, uint16_t platformId, uint16_t platformSpecificId) const
+{
+	for (unsigned i = 0; i < m_SubTables.GetSize(); i++)
+		if (m_SubTables[i].GetPlatformId() == platformId && m_SubTables[i].GetPlatformSpecificId() == platformSpecificId)
+			return m_SubTables[i].GetCodePoint(glyphIndex);
+	return -1;
+}
+
+void CMapTable::EncodingSubTable::Read(Bin::BigBinReader& reader)
 {
 	reader.Read(m_PlatformId);
 	reader.Read(m_PlatformSpecificId);
 	reader.Read(m_Offset);
 }
 
-void CMapTable::EncodingSubTable::ReadFormat(const Bin::BigBinReader& reader)
+void CMapTable::EncodingSubTable::ReadFormat(Bin::BigBinReader& reader)
 {
 	reader.Read(m_Format.format);
 	if (m_Format.format != 4) return;
@@ -119,6 +127,40 @@ uint16_t CMapTable::EncodingSubTable::GetGlyphIndex(uint16_t codePoint) const
 	}
 	Logger::PrintError("GlyphIndex not found, but should have been");
 	return -1;
+}
+
+uint16_t CMapTable::EncodingSubTable::GetCodePoint(uint16_t glyphIndex) const
+{
+	for (unsigned i = 0; i < m_Format.idRangeOffset.GetSize(); i++)
+	{
+		const uint16_t idRangeOffset{ m_Format.idRangeOffset[i] };
+		const int32_t possibleCodePoint{ glyphIndex - idRangeOffset };
+		if (possibleCodePoint < m_Format.startCode[i] || possibleCodePoint > m_Format.endCode[i])
+			continue;
+		return static_cast<uint16_t>(possibleCodePoint);
+	}
+
+	Logger::PrintError("[CMapTable::EncodingSubTable::GetCodePoint] should check for glyphIdArray data");
+	/*Array<int> options{ m_Format.idRangeOffset.GetSize() };
+	for (unsigned i = 0; i < m_Format.idRangeOffset.GetSize(); i++)
+	{
+		int glyphIdArrayIdx{ -1 };
+		for (unsigned arrayIdx = 0; arrayIdx < m_Format.glyphIdArray.GetSize(); arrayIdx++)
+			if (m_Format.glyphIdArray[arrayIdx] == glyphIndex)
+				glyphIdArrayIdx = arrayIdx;
+		if (glyphIdArrayIdx == -1)
+			continue;
+
+		const uint16_t idRangeOffset{ m_Format.idRangeOffset[i] };
+		const uint16_t startCode{ m_Format.startCode[i] };
+		const uint16_t endCode{ m_Format.endCode[i] };
+		const uint16_t nrIdRanges{ static_cast<uint16_t> (m_Format.idRangeOffset.GetSize()) };
+
+		const unsigned codePoint{ glyphIdArrayIdx - (idRangeOffset / 2) - i + nrIdRanges + startCode };
+		options[i] = codePoint;
+	}*/
+
+	return 0;
 }
 
 void CMapTable::Validate() const

@@ -38,7 +38,7 @@ namespace MyEngine
 				static Array<Intersection> GetIntersectionsX(const Glyph& glyph, float height);
 				static Array<Intersection> GetIntersectionsX(const Contour& contour, float height);
 
-				static Rendering::Image* MakeImage(const TtfReader& reader, char character, int imageWidth, int imageHeight);
+				static Rendering::Image* MakeImage(TtfReader& reader, char character, int imageWidth, int imageHeight);
 				static void Rasterize(const Glyph& glyph, Rendering::Image& image);
 
 			private:
