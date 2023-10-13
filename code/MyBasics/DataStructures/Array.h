@@ -27,6 +27,7 @@ namespace MyEngine
 		//---| Functions: Add |---
 		void Add(const Array& other);
 		void Add(const Data& data);
+		void Add(const Data&& data);
 		void IncreaseSizeTo(int newSize);
 		void IncreaseSizeWith(int additionalSize);
 		void EnsureSize(unsigned minSize);
@@ -193,6 +194,17 @@ namespace MyEngine
 		Data* pNew = new Data[m_Size + 1];
 		std::move(m_pData, &m_pData[m_Size], pNew);
 		pNew[m_Size] = data;
+		delete[] m_pData;
+		m_pData = pNew;
+		m_Size++;
+	}
+
+	template <typename Data>
+	void Array<Data>::Add(const Data&& data)
+	{
+		Data* pNew = new Data[m_Size + 1];
+		std::move(m_pData, &m_pData[m_Size], pNew);
+		pNew[m_Size] = std::move(data);
 		delete[] m_pData;
 		m_pData = pNew;
 		m_Size++;
