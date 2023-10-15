@@ -8,6 +8,8 @@ namespace MyEngine
 	template <typename T>
 	struct Vector2
 	{
+		using Unit = T;
+
 		Vector2();
 		Vector2(T x, T y);
 		explicit Vector2(T both);
