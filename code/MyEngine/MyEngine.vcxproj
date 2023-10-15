@@ -118,7 +118,9 @@
     <ClInclude Include="Geometry\Shapes\Hexagon.h" />
     <ClInclude Include="Generation\HexGenerator.h" />
     <ClInclude Include="Geometry\ModelTopology.h" />
+    <ClInclude Include="Geometry\Shapes\TriangleBase.h" />
     <ClInclude Include="Gui\UiRect.h" />
+    <ClInclude Include="Physics\CollisionDetection2.h" />
     <ClInclude Include="Physics\Collisions\ConeCubeCollision.h" />
     <ClInclude Include="Debug\Rendering\DebugCones.h" />
     <ClInclude Include="Generation\ConeGenerator.h" />
@@ -138,6 +140,7 @@
     <ClInclude Include="Applied\Prefabs\PivotRenderer.h" />
     <ClInclude Include="Generation\RectGenerator.h" />
     <ClInclude Include="Generation\RectGenerator_TriangleStrip.h" />
+    <ClInclude Include="Physics\Collisions\TriangleCollisionDetection.h" />
     <ClInclude Include="Rendering\State\PixelShader.h" />
     <ClInclude Include="Rendering\Buffers\IdxBuffer.h" />
     <ClInclude Include="Rendering\Font\FontAtlasLookup.h" />

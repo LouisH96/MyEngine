@@ -199,6 +199,9 @@
     <ClInclude Include="Generation\DiskGenerator_TriangleListIdx.h" />
     <ClInclude Include="Generation\RectGenerator_TriangleStrip.h" />
     <ClInclude Include="Rendering\State\PixelShader.h" />
+    <ClInclude Include="Geometry\Shapes\TriangleBase.h" />
+    <ClInclude Include="Physics\Collisions\TriangleCollisionDetection.h" />
+    <ClInclude Include="Physics\CollisionDetection2.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
