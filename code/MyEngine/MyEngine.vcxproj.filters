@@ -86,6 +86,8 @@
     <ClCompile Include="Applied\2D\Camera2DController.cpp" />
     <ClCompile Include="Gui\UiRect.cpp" />
     <ClCompile Include="Rendering\State\PixelShader.cpp" />
+    <ClCompile Include="Applied\NodeGraph\NodeGraphRenderer.cpp" />
+    <ClCompile Include="Applied\NodeGraph\NodeGraph.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -202,6 +204,8 @@
     <ClInclude Include="Geometry\Shapes\TriangleBase.h" />
     <ClInclude Include="Physics\Collisions\TriangleCollisionDetection.h" />
     <ClInclude Include="Physics\CollisionDetection2.h" />
+    <ClInclude Include="Applied\NodeGraph\NodeGraphRenderer.h" />
+    <ClInclude Include="Applied\NodeGraph\NodeGraph.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
