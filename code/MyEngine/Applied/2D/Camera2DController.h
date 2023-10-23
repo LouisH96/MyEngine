@@ -13,6 +13,7 @@ namespace MyEngine
 
 			void SetCamera(Camera2D* pCamera);
 			void SetMoveSpeed(float moveSpeed) { m_MoveSpeed = moveSpeed; }
+			void SetZoomSpeed(float zoomSpeed) { m_ZoomSpeed = zoomSpeed; }
 			void SetZoom(float zoom) const;
 
 		private:
