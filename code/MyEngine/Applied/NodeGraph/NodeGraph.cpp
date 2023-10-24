@@ -9,8 +9,8 @@ NodeGraph::NodeGraph()
 	m_CameraController.SetMoveSpeed(.002f);
 	m_CameraController.SetZoom(.15f);
 
-	m_Nodes.Add(Node{ RectFloat{{},{2,2}}, {1,0,0} });
-	m_Nodes.Add(Node{ RectFloat{{3,3},{2,4}},{0,0,1} });
+	m_Nodes.Add(Node{ RectFloat{{},{2,2}}, {.7f,0,0} });
+	m_Nodes.Add(Node{ RectFloat{{3,3},{2,4}},{0,0,.7f} });
 }
 
 void NodeGraph::Update()

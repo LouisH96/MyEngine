@@ -12,9 +12,6 @@ namespace MyEngine
 			static constexpr ModelTopology TOPOLOGY{ ModelTopology::TriangleListIdx };
 			using Vertex = Rendering::V_Pos2Col;
 
-			static constexpr unsigned NR_INDICES = 6;
-			static constexpr unsigned NR_VERTICES = 4;
-
 			Node();
 			explicit Node(const RectFloat& rect, const Float3& color);
 
@@ -33,6 +30,13 @@ namespace MyEngine
 			using Generator = RectGenerator<TOPOLOGY>;
 			RectFloat m_Rect;
 			Float3 m_Color;
+
+		public:
+			static constexpr float HEADER_HEIGHT = .5f;
+			static constexpr float BORDER = .05f;
+			static constexpr unsigned NR_RECTS = 3;
+			static const unsigned NR_INDICES;
+			static const unsigned NR_VERTICES;
 		};
 	}
 }
