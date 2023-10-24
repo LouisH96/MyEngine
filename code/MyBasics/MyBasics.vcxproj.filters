@@ -37,6 +37,7 @@
     <ClInclude Include="DataStructures\Adders\ListAdder.h" />
     <ClInclude Include="Math\Matrix3X3.h" />
     <ClInclude Include="Math\DxMatrix3X3.h" />
+    <ClInclude Include="DataStructures\Adders\IncrementRefAdder.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Math\Quaternion.cpp" />

@@ -88,6 +88,7 @@
     <ClCompile Include="Rendering\State\PixelShader.cpp" />
     <ClCompile Include="Applied\NodeGraph\NodeGraphRenderer.cpp" />
     <ClCompile Include="Applied\NodeGraph\NodeGraph.cpp" />
+    <ClCompile Include="Applied\NodeGraph\Node.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -206,6 +207,7 @@
     <ClInclude Include="Physics\CollisionDetection2.h" />
     <ClInclude Include="Applied\NodeGraph\NodeGraphRenderer.h" />
     <ClInclude Include="Applied\NodeGraph\NodeGraph.h" />
+    <ClInclude Include="Applied\NodeGraph\Node.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

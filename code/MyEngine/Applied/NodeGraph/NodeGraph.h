@@ -2,6 +2,7 @@
 #include "NodeGraphRenderer.h"
 #include "Applied/2D/Camera2D.h"
 #include "Applied/2D/Camera2DController.h"
+#include "DataStructures/InvalidateList.h"
 
 namespace MyEngine
 {
@@ -19,6 +20,8 @@ namespace MyEngine
 			Camera2D m_Camera;
 			Camera2DController m_CameraController;
 			NodeGraphRenderer m_Renderer;
+
+			InvalidateList<Node> m_Nodes;
 		};
 	}
 }

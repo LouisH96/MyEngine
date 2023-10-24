@@ -26,6 +26,7 @@
     <ClCompile Include="Gui\UiRect.cpp" />
     <ClCompile Include="Applied\NodeGraph\NodeGraphRenderer.cpp" />
     <ClCompile Include="Applied\NodeGraph\NodeGraph.cpp" />
+    <ClCompile Include="Applied\NodeGraph\Node.cpp" />
     <ClCompile Include="Physics\Collisions\ConeCubeCollision.cpp" />
     <ClCompile Include="Debug\Rendering\DebugCones.cpp" />
     <ClCompile Include="Generation\ConeGenerator.cpp" />
@@ -124,6 +125,7 @@
     <ClInclude Include="Gui\UiRect.h" />
     <ClInclude Include="Applied\NodeGraph\NodeGraphRenderer.h" />
     <ClInclude Include="Applied\NodeGraph\NodeGraph.h" />
+    <ClInclude Include="Applied\NodeGraph\Node.h" />
     <ClInclude Include="Physics\CollisionDetection2.h" />
     <ClInclude Include="Physics\Collisions\ConeCubeCollision.h" />
     <ClInclude Include="Debug\Rendering\DebugCones.h" />
