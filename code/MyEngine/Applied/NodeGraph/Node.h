@@ -15,7 +15,7 @@ namespace MyEngine
 			Node();
 			explicit Node(const RectFloat& rect, const Float3& color);
 
-			const RectFloat& GetRect() const { return m_Rect; }
+			const RectFloat& GetRect() const { return m_FullRect; }
 
 			void SetColor(const Float3& color) { m_Color = color; }
 			const Float3& GetColor() const { return m_Color; }
@@ -23,13 +23,17 @@ namespace MyEngine
 			void WriteVertices(Vertex*& pVertices) const;
 			static void WriteIndices(int*& pIndices, unsigned offset);
 
-			bool IsValid() const { return m_Rect.GetLeft() != Float::Max(); }
-			void Invalidate() { m_Rect.SetLeft(Float::Max()); }
+			bool IsValid() const { return m_FullRect.GetLeft() != Float::Max(); }
+			void Invalidate() { m_FullRect.SetLeft(Float::Max()); }
 
 		private:
 			using Generator = RectGenerator<TOPOLOGY>;
-			RectFloat m_Rect;
+			RectFloat m_FullRect;
+			RectFloat m_HeaderRect;
 			Float3 m_Color;
+
+			void UpdatePartialRects();
+			static void WriteVertices(Vertex*& pVertices, const RectFloat& rect, const Float3& color);
 
 		public:
 			static constexpr float HEADER_HEIGHT = .5f;

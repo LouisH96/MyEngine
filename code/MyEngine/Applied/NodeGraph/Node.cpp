@@ -13,40 +13,50 @@ Node::Node()
 }
 
 Node::Node(const RectFloat& rect, const Float3& color)
-	: m_Rect{ rect }
+	: m_FullRect{ rect }
 	, m_Color{ color }
 {
+	UpdatePartialRects();
 }
 
 void Node::WriteVertices(Vertex*& pVertices) const
 {
-	RectFloat rect{ m_Rect };
+	//background
+	RectFloat rect{ m_FullRect };
+	WriteVertices(pVertices, rect, Float3{ .4f });
 
-	Generator::GenerateVertices([](const Float2& position)
-		{
-			return Vertex{ position, Float3{.4f} };
-		}, IncrementRefAdder<Vertex>(pVertices), rect);
+	//body
+	rect.SetLeft(m_FullRect.GetLeft() + BORDER);
+	rect.SetBottom(m_FullRect.GetBottom() + BORDER);
+	rect.SetHeight(m_FullRect.GetHeight() - HEADER_HEIGHT - BORDER * 3);
+	rect.SetWidth(m_FullRect.GetWidth() - BORDER * 2);
+	WriteVertices(pVertices, rect, m_Color);
 
-	rect.SetLeft(rect.GetLeft() + BORDER);
-	rect.SetWidth(rect.GetWidth() - BORDER * 2);
-	rect.SetBottom(rect.GetTop() - HEADER_HEIGHT - BORDER);
-	rect.SetHeight(HEADER_HEIGHT);
-	Generator::GenerateVertices([](const Float2& position)
-		{
-			return Vertex{ position, Float3{.1f} };
-		}, IncrementRefAdder<Vertex>(pVertices), rect);
-
-	rect.SetBottom(m_Rect.GetBottom() + BORDER);
-	rect.SetHeight(m_Rect.GetHeight() - HEADER_HEIGHT - BORDER * 3);
-	Generator::GenerateVertices([this](const Float2& position)
-		{
-			return Vertex{ position, m_Color };
-		}, IncrementRefAdder<Vertex>(pVertices), rect);
+	//header
+	WriteVertices(pVertices, m_HeaderRect, Float3{ .1f });
 }
 
 void Node::WriteIndices(int*& pIndices, unsigned offset)
 {
-	Generator::GenerateIndices(IncrementRefAdder<int>(pIndices), offset);
-	Generator::GenerateIndices(IncrementRefAdder<int>(pIndices), offset += Generator::GetNrVertices());
-	Generator::GenerateIndices(IncrementRefAdder<int>(pIndices), offset += Generator::GetNrVertices());
+	for (unsigned i = 0; i < NR_RECTS; i++)
+	{
+		Generator::GenerateIndices(IncrementRefAdder<int>(pIndices), offset);
+		offset += Generator::GetNrVertices();
+	}
+}
+
+void Node::UpdatePartialRects()
+{
+	m_HeaderRect = RectFloat{
+		{m_FullRect.GetLeft() + BORDER, m_FullRect.GetTop() - HEADER_HEIGHT - BORDER},
+		{m_FullRect.GetWidth() - BORDER * 2, HEADER_HEIGHT}
+	};
+}
+
+void Node::WriteVertices(Vertex*& pVertices, const RectFloat& rect, const Float3& color)
+{
+	Generator::GenerateVertices([&color](const Float2& position)
+		{
+			return Vertex{ position, color };
+		}, IncrementRefAdder<Vertex>(pVertices), rect);
 }
