@@ -11,8 +11,8 @@ namespace MyEngine
 		public:
 			//---| Construction |---
 			IdxBuffer();
-			explicit IdxBuffer(PtrRangeConst<int> indices);
-			explicit IdxBuffer(const int* pData, unsigned count);
+			explicit IdxBuffer(PtrRangeConst<int> indices, bool dynamic = false);
+			explicit IdxBuffer(const int* pData, unsigned count, bool dynamic = false);
 			~IdxBuffer();
 
 			IdxBuffer(const IdxBuffer& other) = delete;
@@ -26,6 +26,9 @@ namespace MyEngine
 
 			void Draw() const;
 			void Draw(unsigned count) const;
+
+			int* BeginCopyData();
+			void EndCopyData();
 
 		private:
 			ID3D11Buffer* m_pBuffer;

@@ -1,25 +1,27 @@
 #include "pch.h"
 #include "IdxBuffer.h"
 
-Rendering::IdxBuffer::IdxBuffer()
+using namespace Rendering;
+
+IdxBuffer::IdxBuffer()
 	: m_pBuffer{ nullptr }
 	, m_Capacity{ 0 }
 {
 }
 
-Rendering::IdxBuffer::IdxBuffer(PtrRangeConst<int> indices)
-	: IdxBuffer{ indices.pData, indices.count }
+IdxBuffer::IdxBuffer(PtrRangeConst<int> indices, bool dynamic)
+	: IdxBuffer{ indices.pData, indices.count, dynamic }
 {
 }
 
-Rendering::IdxBuffer::IdxBuffer(const int* pData, unsigned count)
+IdxBuffer::IdxBuffer(const int* pData, unsigned count, bool dynamic)
 	: m_pBuffer{ nullptr }
 	, m_Capacity{ count }
 {
-	Dx::DxHelper::CreateIndexBuffer(m_pBuffer, pData, static_cast<int>(count));
+	Dx::DxHelper::CreateIndexBuffer(m_pBuffer, pData, static_cast<int>(count), !dynamic);
 }
 
-Rendering::IdxBuffer::~IdxBuffer()
+IdxBuffer::~IdxBuffer()
 {
 	if (m_pBuffer)
 	{
@@ -29,7 +31,7 @@ Rendering::IdxBuffer::~IdxBuffer()
 	}
 }
 
-Rendering::IdxBuffer::IdxBuffer(IdxBuffer&& other) noexcept
+IdxBuffer::IdxBuffer(IdxBuffer&& other) noexcept
 	: m_pBuffer{ other.m_pBuffer }
 	, m_Capacity{ other.m_Capacity }
 {
@@ -37,7 +39,7 @@ Rendering::IdxBuffer::IdxBuffer(IdxBuffer&& other) noexcept
 	other.m_Capacity = 0;
 }
 
-Rendering::IdxBuffer& Rendering::IdxBuffer::operator=(IdxBuffer&& other) noexcept
+IdxBuffer& IdxBuffer::operator=(IdxBuffer&& other) noexcept
 {
 	if (&other == this) return *this;
 	if (m_pBuffer) m_pBuffer->Release();
@@ -48,17 +50,27 @@ Rendering::IdxBuffer& Rendering::IdxBuffer::operator=(IdxBuffer&& other) noexcep
 	return *this;
 }
 
-void Rendering::IdxBuffer::Activate() const
+void IdxBuffer::Activate() const
 {
 	Globals::pGpu->GetContext().IASetIndexBuffer(m_pBuffer, DXGI_FORMAT_R32_UINT, 0);
 }
 
-void Rendering::IdxBuffer::Draw() const
+void IdxBuffer::Draw() const
 {
 	Globals::pGpu->GetContext().DrawIndexed(m_Capacity, 0, 0);
 }
 
-void Rendering::IdxBuffer::Draw(unsigned count) const
+void IdxBuffer::Draw(unsigned count) const
 {
 	Globals::pGpu->GetContext().DrawIndexed(count, 0, 0);
+}
+
+int* IdxBuffer::BeginCopyData()
+{
+	return Dx::DxHelper::StartUpdateBuffer<int>(m_pBuffer);
+}
+
+void IdxBuffer::EndCopyData()
+{
+	Dx::DxHelper::EndUpdateBuffer(m_pBuffer);
 }
