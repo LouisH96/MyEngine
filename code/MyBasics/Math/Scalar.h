@@ -10,6 +10,9 @@ namespace MyEngine
 	class Scalar
 	{
 	public:
+		static constexpr T MIN{ std::numeric_limits<T>().min() };
+		static constexpr T MAX{ std::numeric_limits<T>().max() };
+
 		template<typename D> static T Unlerp(const D& value, const D& begin, const D& end);
 		template<typename D> static D Lerp(const T& alpha, const D& begin, const D& end);
 		template<typename D> static D LerpClamp(const T& alpha, const D& begin, const D& end);
