@@ -38,6 +38,11 @@ void NodeGraph::Render()
 	m_Renderer.Render(m_Camera);
 }
 
+void NodeGraph::OnCanvasResized(const App::ResizedEvent& event)
+{
+	m_Camera.OnCanvasResized(event);
+}
+
 int NodeGraph::Add(const Node& node)
 {
 	m_Renderer.IncreaseNrIndices(Node::NR_INDICES);

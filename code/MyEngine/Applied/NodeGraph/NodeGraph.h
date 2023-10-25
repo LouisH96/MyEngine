@@ -16,6 +16,7 @@ namespace MyEngine
 
 			void Update();
 			void Render();
+			void OnCanvasResized(const App::ResizedEvent& event);
 
 			int Add(const Node& node);
 			void SetParent(unsigned childId, unsigned parentId);
