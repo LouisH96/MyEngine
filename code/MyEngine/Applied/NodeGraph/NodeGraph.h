@@ -21,6 +21,9 @@ namespace MyEngine
 			int Add(const Node& node);
 			void SetParent(unsigned childId, unsigned parentId);
 
+			const InvalidateList<Node>& GetNodes() const { return m_Nodes; }
+			InvalidateList<Node>& GetNodes() { return m_Nodes; }
+
 		private:
 			Camera2D m_Camera;
 			Camera2DController m_CameraController;
