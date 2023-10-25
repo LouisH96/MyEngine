@@ -18,6 +18,9 @@ namespace MyEngine
 			void UpdateData(PtrRangeConst<Node> nodes);
 			void Render(const Camera2D& camera);
 
+			void IncreaseNrIndices(int amount);
+			void IncreaseNrVertices(int amount);
+
 		private:
 			Rendering::ConstantBuffer<CameraBuffer> m_CameraBuffer;
 			Rendering::InputLayout m_InputLayout;
@@ -26,8 +29,8 @@ namespace MyEngine
 			Rendering::Buffer<Node::Vertex> m_Vertices;
 			Rendering::IdxBuffer m_Indices;
 
-			unsigned m_NrIndices;
-			unsigned m_NrVertices;
+			unsigned m_NrIndices{ 0 };
+			unsigned m_NrVertices{ 0 };
 
 			static void WriteData(PtrRangeConst<Node> nodes, int* pIndices, Node::Vertex* pVertices);
 		};

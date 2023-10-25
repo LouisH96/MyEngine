@@ -14,9 +14,6 @@ NodeGraphRenderer::NodeGraphRenderer()
 
 void NodeGraphRenderer::UpdateData(PtrRangeConst<Node> nodes)
 {
-	m_NrIndices = Node::NR_INDICES * nodes.count;
-	m_NrVertices = Node::NR_VERTICES * nodes.count;
-
 	int* pIndices;
 	Node::Vertex* pVertices;
 	if (m_NrVertices > m_Vertices.GetCapacity())
@@ -55,13 +52,29 @@ void NodeGraphRenderer::Render(const Camera2D& camera)
 
 	m_Vertices.Activate(0);
 	m_Indices.Activate();
-	m_Indices.Draw();
+	m_Indices.Draw(m_NrIndices);
+}
+
+void NodeGraphRenderer::IncreaseNrIndices(int amount)
+{
+	m_NrIndices += amount;
+}
+
+void NodeGraphRenderer::IncreaseNrVertices(int amount)
+{
+	m_NrVertices += amount;
 }
 
 void NodeGraphRenderer::WriteData(PtrRangeConst<Node> nodes, int* pIndices, Node::Vertex* pVertices)
 {
 	const Node* pNodesEnd{ nodes.End() };
 	const Node::Vertex* pVerticesFirst{ pVertices };
+
+	for (const Node* pNode{ &nodes.First() }; pNode != pNodesEnd; pNode++)
+	{
+		pNode->WriteConnectionIndices(pIndices, static_cast<unsigned>(pVertices - pVerticesFirst));
+		pNode->WriteConnectionVertices(pVertices, nodes.pData);
+	}
 
 	for (const Node* pNode{ &nodes.First() }; pNode != pNodesEnd; pNode++)
 	{

@@ -27,6 +27,16 @@ void Node::SetHeaderLeftBot(const Float2& leftBot)
 	m_FullRect.Move(displacement);
 }
 
+void Node::SetParentNode(unsigned parentId)
+{
+	m_ParentNode = parentId;
+}
+
+bool Node::HasParent() const
+{
+	return m_ParentNode != INVALID_ID;
+}
+
 void Node::WriteVertices(Vertex*& pVertices) const
 {
 	//background
@@ -51,6 +61,40 @@ void Node::WriteIndices(int*& pIndices, unsigned offset)
 		Generator::GenerateIndices(IncrementRefAdder<int>(pIndices), offset);
 		offset += Generator::GetNrVertices();
 	}
+}
+
+void Node::WriteConnectionVertices(Vertex*& pVertices, const Node* pNodes) const
+{
+	if (m_ParentNode == INVALID_ID)
+		return;
+
+	constexpr float halfThickness{ BORDER * .5f };
+	const Float3 color{ 1,1,0 };
+
+	const Node& parent{ pNodes[m_ParentNode] };
+	const Float2 center{ m_FullRect.GetCenter() };
+	const Float2 parentCenter{ parent.GetFullRect().GetCenter() };
+
+	const Float2 toParent{ parentCenter - center };
+	const Float2 toParentDir{ toParent.Normalized() };
+	const Float2 halfRight{ toParentDir.y * halfThickness, -toParentDir.x * halfThickness };
+
+	const Float2 leftBot{ center - halfRight };
+	const Float2 rightBot{ center + halfRight };
+	const Float2 leftTop{ parentCenter - halfRight };
+	const Float2 rightTop{ parentCenter + halfRight };
+
+	*pVertices++ = Vertex{ leftBot, color };
+	*pVertices++ = Vertex{ leftTop, color };
+	*pVertices++ = Vertex{ rightTop, color };
+	*pVertices++ = Vertex{ rightBot, color };
+}
+
+void Node::WriteConnectionIndices(int*& pIndices, unsigned offset) const
+{
+	if (m_ParentNode == INVALID_ID)
+		return;
+	Generator::GenerateIndices(IncrementRefAdder<int>(pIndices), offset);
 }
 
 void Node::UpdatePartialRects()

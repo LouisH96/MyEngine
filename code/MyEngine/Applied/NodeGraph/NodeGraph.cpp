@@ -9,8 +9,14 @@ NodeGraph::NodeGraph()
 	m_CameraController.SetMoveSpeed(.002f);
 	m_CameraController.SetZoom(.15f);
 
-	m_Nodes.Add(Node{ RectFloat{{},{2,2}}, {.7f,0,0} });
-	m_Nodes.Add(Node{ RectFloat{{3,3},{2,4}},{0,0,.7f} });
+	const int first = Add(Node{ RectFloat{{},{2,2}}, {.7f,0,0} });
+	const int second = Add(Node{ RectFloat{{3,0},{2,4}},{0,0,.7f} });
+	const int third = Add(Node{ RectFloat({6,3},{2,2}),{0,1,0} });
+	const int fourth = Add(Node{ RectFloat({3,7},{2,3}),{1,1,1} });
+
+	SetParent(second, first);
+	SetParent(third, second);
+	SetParent(fourth, first);
 }
 
 void NodeGraph::Update()
@@ -30,4 +36,28 @@ void NodeGraph::Update()
 void NodeGraph::Render()
 {
 	m_Renderer.Render(m_Camera);
+}
+
+int NodeGraph::Add(const Node& node)
+{
+	m_Renderer.IncreaseNrIndices(Node::NR_INDICES);
+	m_Renderer.IncreaseNrVertices(Node::NR_VERTICES);
+
+	if (node.HasParent())
+	{
+		m_Renderer.IncreaseNrIndices(Node::NR_CONNECTION_INDICES);
+		m_Renderer.IncreaseNrVertices(Node::NR_CONNECTION_VERTICES);
+	}
+
+	return m_Nodes.Add(node);
+}
+
+void NodeGraph::SetParent(unsigned childId, unsigned parentId)
+{
+	m_Nodes.Get(childId).SetParentNode(parentId);
+	if (parentId != Node::INVALID_ID)
+	{
+		m_Renderer.IncreaseNrIndices(Node::NR_CONNECTION_INDICES);
+		m_Renderer.IncreaseNrVertices(Node::NR_CONNECTION_VERTICES);
+	}
 }

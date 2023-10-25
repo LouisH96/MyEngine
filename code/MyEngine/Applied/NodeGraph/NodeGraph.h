@@ -17,6 +17,9 @@ namespace MyEngine
 			void Update();
 			void Render();
 
+			int Add(const Node& node);
+			void SetParent(unsigned childId, unsigned parentId);
+
 		private:
 			Camera2D m_Camera;
 			Camera2DController m_CameraController;
