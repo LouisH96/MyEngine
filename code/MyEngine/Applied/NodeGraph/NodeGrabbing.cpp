@@ -49,7 +49,7 @@ unsigned NodeGrabbing::GetNodeUnderMouse(const InvalidateList<Node>& nodes, cons
 {
 	const Float2 mousePos{ camera.GetMouseWorldPos() };
 
-	for (unsigned i = nodes.GetFirstIdx(); i < nodes.GetEndIdx(); i++)
+	for (int i = nodes.GetFirstIdx(); i < nodes.GetEndIdx(); i++)
 	{
 		const Node& node{ nodes.Get(i) };
 		if (!node.IsValid())
