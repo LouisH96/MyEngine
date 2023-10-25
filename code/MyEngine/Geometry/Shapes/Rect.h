@@ -56,6 +56,7 @@ namespace MyEngine
 		void ClampPos(Rect& rect) const;
 
 		bool IsFullyInside(const Rect& outer) const;
+		bool ContainsPoint(const Vector2<T>& point) const;
 
 		Float2 GetPointRelative(const Float2& ratio) const;
 
@@ -192,6 +193,15 @@ namespace MyEngine
 			&& m_LeftBot.y >= outer.m_LeftBot.y
 			&& GetRight() <= outer.GetRight()
 			&& GetTop() <= outer.GetTop();
+	}
+
+	template <typename T>
+	bool Rect<T>::ContainsPoint(const Vector2<T>& point) const
+	{
+		return point.x >= m_LeftBot.x
+			&& point.x <= m_LeftBot.x + m_Size.x
+			&& point.y >= m_LeftBot.y
+			&& point.y <= m_LeftBot.y + m_Size.y;
 	}
 
 	template <typename T>
