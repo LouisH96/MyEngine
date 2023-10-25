@@ -15,6 +15,8 @@ NodeGraph::NodeGraph()
 
 void NodeGraph::Update()
 {
+	m_NodeGrabbing.Update(m_Nodes, m_Camera);
+
 	m_CameraController.EarlyUpdate();
 	m_Camera.Update();
 

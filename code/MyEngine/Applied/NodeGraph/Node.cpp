@@ -19,6 +19,14 @@ Node::Node(const RectFloat& rect, const Float3& color)
 	UpdatePartialRects();
 }
 
+void Node::SetHeaderLeftBot(const Float2& leftBot)
+{
+	const Float2 displacement{ leftBot - m_HeaderRect.GetLeftBot() };
+	m_HeaderRect.SetLeftBot(leftBot);
+
+	m_FullRect.Move(displacement);
+}
+
 void Node::WriteVertices(Vertex*& pVertices) const
 {
 	//background

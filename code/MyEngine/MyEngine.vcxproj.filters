@@ -89,6 +89,7 @@
     <ClCompile Include="Applied\NodeGraph\NodeGraphRenderer.cpp" />
     <ClCompile Include="Applied\NodeGraph\NodeGraph.cpp" />
     <ClCompile Include="Applied\NodeGraph\Node.cpp" />
+    <ClCompile Include="Applied\NodeGraph\NodeGrabbing.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -208,6 +209,7 @@
     <ClInclude Include="Applied\NodeGraph\NodeGraphRenderer.h" />
     <ClInclude Include="Applied\NodeGraph\NodeGraph.h" />
     <ClInclude Include="Applied\NodeGraph\Node.h" />
+    <ClInclude Include="Applied\NodeGraph\NodeGrabbing.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

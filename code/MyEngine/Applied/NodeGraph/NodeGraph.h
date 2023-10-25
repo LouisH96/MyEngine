@@ -1,4 +1,5 @@
 #pragma once
+#include "NodeGrabbing.h"
 #include "NodeGraphRenderer.h"
 #include "Applied/2D/Camera2D.h"
 #include "Applied/2D/Camera2DController.h"
@@ -22,6 +23,9 @@ namespace MyEngine
 			NodeGraphRenderer m_Renderer;
 
 			InvalidateList<Node> m_Nodes;
+
+			//grabbing
+			NodeGrabbing m_NodeGrabbing{};
 		};
 	}
 }
