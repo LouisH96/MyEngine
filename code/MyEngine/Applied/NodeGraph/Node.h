@@ -17,6 +17,8 @@ namespace MyEngine
 			explicit Node(const RectFloat& rect, const Float3& color);
 
 			const RectFloat& GetFullRect() const { return m_FullRect; }
+			float GetHeight() const { return m_FullRect.GetHeight(); }
+			float GetWidth() const { return m_FullRect.GetWidth(); }
 
 			const RectFloat& GetHeaderRect() const { return m_HeaderRect; }
 			void SetHeaderLeftBot(const Float2& leftBot);
@@ -26,6 +28,7 @@ namespace MyEngine
 
 			void SetParentNode(unsigned parentId);
 			bool HasParent() const;
+			unsigned GetParentId() const { return m_ParentNode; }
 
 			void WriteVertices(Vertex*& pVertices) const;
 			static void WriteIndices(int*& pIndices, unsigned offset);
