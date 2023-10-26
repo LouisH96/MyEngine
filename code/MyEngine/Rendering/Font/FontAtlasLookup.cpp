@@ -4,6 +4,8 @@
 #include "FontAtlas.h"
 #include "Image/Image.h"
 
+//#define FONT_ATLAS_LOOKUP_DEBUG
+
 Rendering::FontAtlasLookup::FontAtlasLookup(Font::FontAtlas&& fontAtlas)
 	: m_Positions{ std::move(fontAtlas.GetCharacterHorPos()) }
 	, m_Heights{ std::move(fontAtlas.GetCharacterHeight()) }
@@ -12,6 +14,7 @@ Rendering::FontAtlasLookup::FontAtlasLookup(Font::FontAtlas&& fontAtlas)
 	m_SpaceWidthRatio = fontAtlas.GetSpaceWidth() / GetCharUvWidth('x');
 	m_InvXUvHeight = 1.f / GetCharUvHeight('x');
 	m_UvWidthToHeight = Float::Cast(fontAtlas.GetImage().GetWidth()) / Float::Cast(fontAtlas.GetImage().GetHeight());
+	UpdateMaxHeight();
 }
 
 void Rendering::FontAtlasLookup::Lookup(char c, float xPixelHeight, RectFloat& uvRect, Float2& screenSize)
@@ -142,4 +145,42 @@ float Rendering::FontAtlasLookup::GetBaselineOffsetUvSize(char c)
 float Rendering::FontAtlasLookup::GetBaselineOffsetScreenSize(char c, float height)
 {
 	return m_BaselineOffset[c] * m_InvXUvHeight * height;
+}
+
+float Rendering::FontAtlasLookup::GetMaxHeight(float charSize) const
+{
+	return m_MaxHeight * m_InvXUvHeight * charSize;
+}
+
+void Rendering::FontAtlasLookup::UpdateMaxHeight()
+{
+	float lowest{ Float::MAX };
+	float highest{ -Float::MAX };
+
+#ifdef FONT_ATLAS_LOOKUP_DEBUG
+	char lowestChar = 'x';
+	char highestChar = 'x';
+#endif
+
+	for (unsigned i = 0; i < m_BaselineOffset.GetSize(); i++)
+	{
+		const float charBot{ m_BaselineOffset[i] };
+		const float charTop{ charBot + m_Heights[i] };
+
+		if (charBot < lowest)
+		{
+			lowest = charBot;
+#ifdef FONT_ATLAS_LOOKUP_DEBUG
+			lowestChar = static_cast<char>(i);
+#endif
+		}
+		if (charTop > highest)
+		{
+			highest = charTop;
+#ifdef FONT_ATLAS_LOOKUP_DEBUG
+			highestChar = static_cast<char>(i);
+#endif	
+		}
+	}
+	m_MaxHeight = highest - lowest;
 }

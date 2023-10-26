@@ -179,3 +179,8 @@ Float2 FontRenderer::GetBiggestSize(const std::string* pText, unsigned count, fl
 	}
 	return biggest;
 }
+
+float FontRenderer::GetMaxHeight(float charSize) const
+{
+	return m_CharLookup.GetMaxHeight(charSize);
+}

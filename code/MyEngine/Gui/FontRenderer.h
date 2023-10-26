@@ -40,6 +40,8 @@ namespace MyEngine
 
 			Float2 GetBiggestSize(const std::string* pText, unsigned count, float height, float spacing = 0);
 
+			float GetMaxHeight(float charSize) const;
+
 		private:
 			using Vertex = Rendering::V_Pos2Uv;
 			using Instance = Rendering::I_Pos2UvCol;

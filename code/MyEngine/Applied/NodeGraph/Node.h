@@ -50,7 +50,7 @@ namespace MyEngine
 			static void WriteVertices(Vertex*& pVertices, const RectFloat& rect, const Float3& color);
 
 		public:
-			static constexpr float HEADER_HEIGHT = .5f;
+			static float HeaderHeight;
 			static constexpr float BORDER = .05f;
 			static constexpr unsigned NR_RECTS = 3;
 			static constexpr unsigned NR_CONNECTION_INDICES = 6;

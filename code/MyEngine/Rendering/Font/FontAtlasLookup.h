@@ -37,14 +37,20 @@ namespace MyEngine
 			float GetBaselineOffsetUvSize(char c);
 			float GetBaselineOffsetScreenSize(char c, float height);
 
+			float GetMaxHeight(float charSize) const;
+
 		private:
 			Array<float> m_Positions{};
 			Array<float> m_Heights{};
 			Array<float> m_BaselineOffset{};
 			float m_SpaceWidthRatio{};
 
+			float m_MaxHeight;
+
 			float m_InvXUvHeight{};
 			float m_UvWidthToHeight{}; //convert x-uv in same unit as y-uv (
+
+			void UpdateMaxHeight();
 		};
 	}
 }

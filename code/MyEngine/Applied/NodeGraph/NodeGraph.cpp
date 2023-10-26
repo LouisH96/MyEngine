@@ -1,10 +1,17 @@
 #include "pch.h"
 #include "NodeGraph.h"
 
+#include "Gui/FontRenderer.h"
+
 using namespace Applied;
 
 NodeGraph::NodeGraph()
 {
+	//
+	constexpr float fontSize{ .2f };
+	Node::HeaderHeight = FONT.GetMaxHeight(fontSize) + Node::BORDER * 2;
+
+	//
 	m_CameraController.SetCamera(&m_Camera);
 	m_CameraController.SetMoveSpeed(.002f);
 	m_CameraController.SetZoom(.15f);

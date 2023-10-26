@@ -7,6 +7,7 @@ using namespace Applied;
 
 const unsigned Node::NR_INDICES = Generator::GetNrIndices() * NR_RECTS;
 const unsigned Node::NR_VERTICES = Generator::GetNrVertices() * NR_RECTS;
+float Node::HeaderHeight = .5f;
 
 Node::Node()
 {
@@ -46,7 +47,7 @@ void Node::WriteVertices(Vertex*& pVertices) const
 	//body
 	rect.SetLeft(m_FullRect.GetLeft() + BORDER);
 	rect.SetBottom(m_FullRect.GetBottom() + BORDER);
-	rect.SetHeight(m_FullRect.GetHeight() - HEADER_HEIGHT - BORDER * 3);
+	rect.SetHeight(m_FullRect.GetHeight() - HeaderHeight - BORDER * 3);
 	rect.SetWidth(m_FullRect.GetWidth() - BORDER * 2);
 	WriteVertices(pVertices, rect, m_Color);
 
@@ -100,8 +101,8 @@ void Node::WriteConnectionIndices(int*& pIndices, unsigned offset) const
 void Node::UpdatePartialRects()
 {
 	m_HeaderRect = RectFloat{
-		{m_FullRect.GetLeft() + BORDER, m_FullRect.GetTop() - HEADER_HEIGHT - BORDER},
-		{m_FullRect.GetWidth() - BORDER * 2, HEADER_HEIGHT}
+		{m_FullRect.GetLeft() + BORDER, m_FullRect.GetTop() - HeaderHeight - BORDER},
+		{m_FullRect.GetWidth() - BORDER * 2, HeaderHeight}
 	};
 }
 
