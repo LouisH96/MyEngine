@@ -28,6 +28,7 @@
     <ClCompile Include="Applied\NodeGraph\NodeGraph.cpp" />
     <ClCompile Include="Applied\NodeGraph\Node.cpp" />
     <ClCompile Include="Applied\NodeGraph\NodeGrabbing.cpp" />
+    <ClCompile Include="Applied\NodeGraph\NodeGraphFontRenderer.cpp" />
     <ClCompile Include="Physics\Collisions\ConeCubeCollision.cpp" />
     <ClCompile Include="Debug\Rendering\DebugCones.cpp" />
     <ClCompile Include="Generation\ConeGenerator.cpp" />
@@ -113,6 +114,7 @@
     <ClCompile Include="Generation\SphereGenerator.cpp" />
     <ClCompile Include="Generation\TriangleGenerator.cpp" />
     <ClCompile Include="Applied\Gui\VerticalButtonList.cpp" />
+    <ClCompile Include="Font\TextAssembler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\Win32\KeyCodes.h" />
@@ -128,6 +130,7 @@
     <ClInclude Include="Applied\NodeGraph\NodeGraph.h" />
     <ClInclude Include="Applied\NodeGraph\Node.h" />
     <ClInclude Include="Applied\NodeGraph\NodeGrabbing.h" />
+    <ClInclude Include="Applied\NodeGraph\NodeGraphFontRenderer.h" />
     <ClInclude Include="Physics\CollisionDetection2.h" />
     <ClInclude Include="Physics\Collisions\ConeCubeCollision.h" />
     <ClInclude Include="Debug\Rendering\DebugCones.h" />
@@ -233,6 +236,7 @@
     <ClInclude Include="Generation\SphereGenerator.h" />
     <ClInclude Include="Generation\TriangleGenerator.h" />
     <ClInclude Include="Applied\Gui\VerticalButtonList.h" />
+    <ClInclude Include="Font\TextAssembler.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

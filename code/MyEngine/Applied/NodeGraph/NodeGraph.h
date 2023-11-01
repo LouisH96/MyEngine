@@ -1,5 +1,6 @@
 #pragma once
 #include "NodeGrabbing.h"
+#include "NodeGraphFontRenderer.h"
 #include "NodeGraphRenderer.h"
 #include "Applied/2D/Camera2D.h"
 #include "Applied/2D/Camera2DController.h"
@@ -28,6 +29,7 @@ namespace MyEngine
 			Camera2D m_Camera;
 			Camera2DController m_CameraController;
 			NodeGraphRenderer m_Renderer;
+			NodeGraphFontRenderer m_FontRenderer;
 
 			InvalidateList<Node> m_Nodes;
 

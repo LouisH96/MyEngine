@@ -16,7 +16,7 @@ NodeGraph::NodeGraph()
 	m_CameraController.SetMoveSpeed(.002f);
 	m_CameraController.SetZoom(.15f);
 
-	const int first = Add(Node{ RectFloat{{},{2,2}}, {.7f,0,0} });
+	const int first = Add(Node{ RectFloat{{0,0 },{2,2}}, {.7f,0,0} });
 	const int second = Add(Node{ RectFloat{{3,0},{2,4}},{0,0,.7f} });
 	const int third = Add(Node{ RectFloat({6,3},{2,2}),{0,1,0} });
 	const int fourth = Add(Node{ RectFloat({3,7},{2,3}),{1,1,1} });
@@ -43,6 +43,7 @@ void NodeGraph::Update()
 void NodeGraph::Render()
 {
 	m_Renderer.Render(m_Camera);
+	m_FontRenderer.Render();
 }
 
 void NodeGraph::OnCanvasResized(const App::ResizedEvent& event)
