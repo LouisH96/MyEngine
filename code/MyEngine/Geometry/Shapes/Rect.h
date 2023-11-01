@@ -39,7 +39,9 @@ namespace MyEngine
 		void SetHeight(const T& height) { m_Size.y = height; }
 
 		void SetRightUsePos(const T& right);
+		void SetRightUseWidth(const T& right);
 		void SetTopUsePos(const T& top);
+		void SetTopUseHeight(const T& top);
 
 		void Expand(const Vector4<T>& expand); //left, up, right, bot
 		Rect Expanded(const Vector4<T>& expand) const; //left, up, right, bot
@@ -92,6 +94,18 @@ namespace MyEngine
 	void Rect<T>::SetRightUsePos(const T& right)
 	{
 		m_LeftBot.x = right - GetWidth();
+	}
+
+	template <typename T>
+	void Rect<T>::SetRightUseWidth(const T& right)
+	{
+		m_Size.x = right - m_LeftBot.x;
+	}
+
+	template <typename T>
+	void Rect<T>::SetTopUseHeight(const T& top)
+	{
+		m_Size.y = top - m_LeftBot.y;
 	}
 
 	template <typename T>
