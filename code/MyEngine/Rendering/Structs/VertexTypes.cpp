@@ -13,6 +13,13 @@ const Rendering::InputLayout::Element Rendering::V_Pos2Col::ELEMENTS[] =
 	{"COLOR", InputLayout::ElementType::Float3},
 };
 
+const Rendering::InputLayout::Element Rendering::V_Pos2ColUv::ELEMENTS[]
+{
+	{"POSITION", InputLayout::ElementType::Float2},
+	{"COLOR", InputLayout::ElementType::Float3},
+	{"UV", InputLayout::ElementType::Float2}
+};
+
 const Rendering::InputLayout::Element Rendering::V_Pos2Uv::ELEMENTS[] =
 {
 	{"POSITION", InputLayout::ElementType::Float2},
@@ -60,7 +67,7 @@ const Rendering::InputLayout::Element Rendering::V_PosNorUv::ELEMENTS[] =
 
 Array<Rendering::V_Pos2> Rendering::V_Pos2::GetCenterRect()
 {
-	Array<V_Pos2> vertices{4};
+	Array<V_Pos2> vertices{ 4 };
 	vertices[0].pos = { -.5f,-.5f };
 	vertices[1].pos = { -.5f,.5f };
 	vertices[2].pos = { .5f,-.5f };
@@ -70,7 +77,7 @@ Array<Rendering::V_Pos2> Rendering::V_Pos2::GetCenterRect()
 
 Array<Rendering::V_Pos2Uv> Rendering::V_Pos2Uv::GetCenterRect()
 {
-	Array<V_Pos2Uv> vertices{4};
+	Array<V_Pos2Uv> vertices{ 4 };
 	vertices[0] = { { -.5f, -.5f }, {0,0} };
 	vertices[1] = { { -.5f,.5f }, {0,-1} };
 	vertices[2] = { { .5f,-.5f }, {1,0} };

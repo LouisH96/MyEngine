@@ -39,6 +39,18 @@ namespace MyEngine
 
 			static Array<V_Pos2Uv> GetCenterRect();
 		};
+		struct V_Pos2ColUv
+		{
+			Float2 pos;
+			Float3 col;
+			Float2 uv;
+
+			static const InputLayout::Element ELEMENTS[];
+			static constexpr int NR_ELEMENTS = 3;
+
+			bool IsValid() const { return pos.x != Float::MAX; }
+			void Invalidate() { pos.x = Float::MAX; }
+		};
 
 		//---| 3D POSITION |---
 		struct V_PosNor
