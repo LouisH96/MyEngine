@@ -28,6 +28,7 @@ namespace MyEngine
 
 				Image& GetImage() { return *m_pImage; }
 				Image* GetImageOwnership();
+				float GetImageAspectRatio() const;
 
 				Array<float>& GetCharacterHorPos() { return m_CharacterHorPos; }
 				Array<float>& GetCharacterHeight() { return m_CharacterHeight; }

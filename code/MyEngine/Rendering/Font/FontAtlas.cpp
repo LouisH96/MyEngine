@@ -71,6 +71,11 @@ Rendering::Image* FontAtlas::GetImageOwnership()
 	return pReturn;
 }
 
+float FontAtlas::GetImageAspectRatio() const
+{
+	return m_pImage->GetAspectRatio();
+}
+
 void FontAtlas::CharacterInfoStep(const Glyph& glyph, int idx, float ttfToPixels, float& highest)
 {
 	if (!glyph.IsValid())
