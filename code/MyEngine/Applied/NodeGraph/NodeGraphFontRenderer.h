@@ -1,4 +1,5 @@
 #pragma once
+#include "DataStructures/InvalidateList.h"
 #include "Font/TextAssembler.h"
 #include "Rendering/Buffers/Buffer.h"
 
@@ -10,12 +11,41 @@ namespace MyEngine
 		{
 		public:
 			using Vertex = Rendering::V_Pos2ColUv;
+			struct TextInfo
+			{
+				std::string Text;
+				float Scale;
+				Float3 Color;
+			};
+			struct PositionInfo
+			{
+				Float2 Position;
+				Float2 Pivot;
+
+			};
+			static constexpr float HEADER_FONT_SIZE{ .2f };
 
 			NodeGraphFontRenderer();
 
+			void Update();
 			void Render();
 
+			int Add(const TextInfo& text, const PositionInfo& position);
+			void Remove(int id);
+
+			void Move(unsigned id, const Float2& amount);
+
+			float GetMaxTextHeight() const;
+
 		private:
+			struct Entry
+			{
+				List<Vertex> Vertices;
+
+				bool IsValid() const { return Vertices.Any(); }
+				void Invalidate() { Vertices.Clear(); }
+			};
+
 			Rendering::InputLayout m_InputLayout;
 			Rendering::Shader m_Shader;
 
@@ -27,7 +57,12 @@ namespace MyEngine
 
 			Rendering::Buffer<Vertex> m_Vertices;
 
+			InvalidateList<Entry> m_Entries;
+			unsigned m_NrVertices;
+
 			TextAssembler m_Assembler;
+
+			void WriteVertices(Vertex* pTarget) const;
 		};
 	}
 }

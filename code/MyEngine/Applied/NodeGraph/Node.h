@@ -14,7 +14,7 @@ namespace MyEngine
 			using Vertex = Rendering::V_Pos2Col;
 
 			Node();
-			explicit Node(const RectFloat& rect, const Float3& color);
+			explicit Node(const RectFloat& rect, const Float3& color, const std::string& headerText);
 
 			const RectFloat& GetFullRect() const { return m_FullRect; }
 			float GetHeight() const { return m_FullRect.GetHeight(); }
@@ -22,6 +22,7 @@ namespace MyEngine
 
 			const RectFloat& GetHeaderRect() const { return m_HeaderRect; }
 			void SetHeaderLeftBot(const Float2& leftBot);
+			const Float2& GetHeaderLeftBot() const { return m_HeaderRect.GetLeftBot(); }
 
 			void SetColor(const Float3& color) { m_Color = color; }
 			const Float3& GetColor() const { return m_Color; }
@@ -29,6 +30,11 @@ namespace MyEngine
 			void SetParentNode(unsigned parentId);
 			bool HasParent() const;
 			unsigned GetParentId() const { return m_ParentNode; }
+
+			void SetHeaderTextId(unsigned headerTextId) { m_HeaderTextId = headerTextId;; }
+			unsigned GetHeaderTextId() const { return m_HeaderTextId; }
+
+			const std::string& GetHeaderText() const { return m_HeaderText; }
 
 			void WriteVertices(Vertex*& pVertices) const;
 			static void WriteIndices(int*& pIndices, unsigned offset);
@@ -45,6 +51,8 @@ namespace MyEngine
 			RectFloat m_HeaderRect;
 			Float3 m_Color;
 			unsigned m_ParentNode{ INVALID_ID };
+			std::string m_HeaderText;
+			unsigned m_HeaderTextId;
 
 			void UpdatePartialRects();
 			static void WriteVertices(Vertex*& pVertices, const RectFloat& rect, const Float3& color);

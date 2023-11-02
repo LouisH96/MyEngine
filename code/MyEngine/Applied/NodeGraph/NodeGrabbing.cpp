@@ -5,16 +5,21 @@
 
 using namespace Applied;
 
-void NodeGrabbing::Update(InvalidateList<Node>& nodes, const Camera2D& camera)
+NodeGrabbing::NodeMoved NodeGrabbing::Update(const InvalidateList<Node>& nodes, const Camera2D& camera)
 {
+	NodeMoved movedEvent{};
+
 	if (IsGrabbing())
 	{
 		if (MOUSE.IsLeftBtnDown())
 		{
 			//move
 			const Float2 mousePos{ camera.GetMouseWorldPos() };
-			Node& grabbed{ GetGrabbed(nodes) };
-			grabbed.SetHeaderLeftBot(mousePos - m_GrabOffset);
+			const Node& grabbed{ GetGrabbed(nodes) };
+			const Float2 newPos{ mousePos - m_GrabOffset };
+
+			movedEvent.NodeId = m_Grabbed;
+			movedEvent.Displacement = newPos - grabbed.GetHeaderLeftBot();
 		}
 		else
 		{
@@ -25,22 +30,19 @@ void NodeGrabbing::Update(InvalidateList<Node>& nodes, const Camera2D& camera)
 	else if (MOUSE.IsLeftBtnPressed())
 	{
 		m_Grabbed = GetNodeUnderMouse(nodes, camera);
-		if (m_Grabbed == Node::INVALID_ID)
-			return;
-
-		const Node& grabbed{ GetGrabbedConst(nodes) };
-		const RectFloat& rect{ grabbed.GetHeaderRect() };
-		const Float2 mousePos{ camera.GetMouseWorldPos() };
-		m_GrabOffset = mousePos - rect.GetLeftBot();
+		if (m_Grabbed != Node::INVALID_ID)
+		{
+			const Node& grabbed{ GetGrabbed(nodes) };
+			const RectFloat& rect{ grabbed.GetHeaderRect() };
+			const Float2 mousePos{ camera.GetMouseWorldPos() };
+			m_GrabOffset = mousePos - rect.GetLeftBot();
+		}
 	}
+
+	return movedEvent;
 }
 
-const Node& NodeGrabbing::GetGrabbedConst(const InvalidateList<Node>& nodes) const
-{
-	return nodes.Get(m_Grabbed);
-}
-
-Node& NodeGrabbing::GetGrabbed(InvalidateList<Node>& nodes) const
+const Node& NodeGrabbing::GetGrabbed(const InvalidateList<Node>& nodes) const
 {
 	return nodes.Get(m_Grabbed);
 }
