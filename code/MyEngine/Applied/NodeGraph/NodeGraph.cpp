@@ -15,10 +15,10 @@ NodeGraph::NodeGraph()
 	m_CameraController.SetMoveSpeed(.002f);
 	m_CameraController.SetZoom(.15f);
 
-	const int first = Add(Node{ RectFloat{{0,0 },{2,2}}, {.7f,0,0}, "Root" });
-	const int second = Add(Node{ RectFloat{{3,0},{2,4}},{0,0,.7f}, "Blue" });
-	const int third = Add(Node{ RectFloat({6,3},{2,2}),{0,1,0} , "Green" });
-	const int fourth = Add(Node{ RectFloat({3,7},{2,3}),{1,1,1}, "White" });
+	const int first = Add({ 0,0 }, 1, { .7f,0,0 }, "Root");
+	const int second = Add({ 3,0 }, 1.5f, { 0,0,.7f }, "Blue");
+	const int third = Add({ 6,3 }, 0, { 0,1,0 }, "Green");
+	const int fourth = Add({ 3,7 }, 1, { 1,1,1 }, "Long header");
 
 	SetParent(second, first);
 	SetParent(third, second);
@@ -58,16 +58,22 @@ void NodeGraph::OnCanvasResized(const App::ResizedEvent& event)
 	m_Camera.OnCanvasResized(event);
 }
 
-int NodeGraph::Add(Node node)
+int NodeGraph::Add(const Float2& leftTop, float contentHeight, const Float3& color, const std::string& text)
 {
 	m_Renderer.IncreaseNrIndices(Node::NR_INDICES);
 	m_Renderer.IncreaseNrVertices(Node::NR_VERTICES);
 
-	if (node.HasParent())
-	{
-		m_Renderer.IncreaseNrIndices(Node::NR_CONNECTION_INDICES);
-		m_Renderer.IncreaseNrVertices(Node::NR_CONNECTION_VERTICES);
-	}
+	float baseline;
+	const Float2 textSize{ m_FontRenderer.GetTextSize(text, NodeGraphFontRenderer::HEADER_FONT_SIZE, baseline) };
+
+	const Float2 nodeSize{
+		Float::Max(textSize.x, .5f) + Node::BORDER * 8,
+		Node::HeaderHeight + Node::BORDER * 2 + (contentHeight > 0 ? contentHeight + Node::BORDER : 0)
+	};
+
+	const RectFloat nodeRect{ leftTop - Float2{0, nodeSize.y}, nodeSize };
+
+	Node node{ nodeRect, color, text };
 
 	node.SetHeaderTextId(m_FontRenderer.Add(
 		NodeGraphFontRenderer::TextInfo{
@@ -75,7 +81,7 @@ int NodeGraph::Add(Node node)
 		},
 		NodeGraphFontRenderer::PositionInfo{
 			node.GetHeaderRect().GetCenter(),{.5f,.5f}
-		}));
+		}, textSize, baseline));
 
 	return m_Nodes.Add(node);
 }

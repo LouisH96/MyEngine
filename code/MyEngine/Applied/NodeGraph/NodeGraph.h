@@ -19,7 +19,7 @@ namespace MyEngine
 			void Render();
 			void OnCanvasResized(const App::ResizedEvent& event);
 
-			int Add(Node node);
+			int Add(const Float2& leftTop, float contentHeight, const Float3& color, const std::string& text);
 			void SetParent(unsigned childId, unsigned parentId);
 
 			const InvalidateList<Node>& GetNodes() const { return m_Nodes; }

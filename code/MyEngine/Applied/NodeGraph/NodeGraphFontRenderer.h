@@ -31,11 +31,13 @@ namespace MyEngine
 			void Render();
 
 			int Add(const TextInfo& text, const PositionInfo& position);
+			int Add(const TextInfo& text, const PositionInfo& position, const Float2& textSize, float baseline);
 			void Remove(int id);
 
 			void Move(unsigned id, const Float2& amount);
 
 			float GetMaxTextHeight() const;
+			Float2 GetTextSize(const std::string& text, float scale, float& baseline) const;
 
 		private:
 			struct Entry

@@ -32,6 +32,9 @@ namespace MyEngine
 		template<typename Combinator, typename Adder>
 		RectFloat AssembleInto(const Combinator& combinator, Adder&& adder, const Float2& position, const Float2& pivot, const std::string& text, const Float2& scale);
 
+		template<typename Combinator, typename Adder>
+		RectFloat AssembleInto(const Combinator& combinator, Adder&& adder, const Float2& position, const Float2& pivot, const std::string& text, const Float2& scale, const Float2& textSize, float baseline);
+
 	private:
 		static constexpr unsigned DATA_POSITIONS_IDX{ 0 };
 		static constexpr unsigned DATA_HEIGHTS_IDX{ 1 };
@@ -62,14 +65,21 @@ namespace MyEngine
 	RectFloat TextAssembler::AssembleInto(const Combinator& combinator, Adder&& adder,
 		const Float2& position, const Float2& pivot, const std::string& text, const Float2& scale)
 	{
-		float baselineTemp;
+		float baseline;
+		const Float2& textSize{ GetSize(text, scale, baseline) };
+		return AssembleInto(combinator, adder, position, pivot, text, scale, textSize, baseline);
+	}
+
+	template <typename Combinator, typename Adder>
+	RectFloat TextAssembler::AssembleInto(const Combinator& combinator, Adder&& adder, const Float2& position,
+		const Float2& pivot, const std::string& text, const Float2& scale, const Float2& textSize, float baseline)
+	{
 		RectFloat bounds{
 			{},
-			GetSize(text, scale, baselineTemp)
+			textSize
 		};
 		bounds.SetLeftBot({ position - pivot * bounds.GetSize() });
-
-		const float baseline{ bounds.GetBottom() + baselineTemp };
+		baseline += bounds.GetBottom();
 
 		RectFloat posRect{};
 		posRect.SetLeft(bounds.GetLeft());

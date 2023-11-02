@@ -70,6 +70,22 @@ int NodeGraphFontRenderer::Add(const TextInfo& text, const PositionInfo& positio
 	return id;
 }
 
+int NodeGraphFontRenderer::Add(const TextInfo& text, const PositionInfo& position, const Float2& textSize,
+	float baseline)
+{
+	Entry* pEntry;
+	const int id{ m_Entries.Validate(pEntry) };
+
+	m_Assembler.AssembleInto([&text](const Float2& pos, const Float2& uv)
+		{
+			return Vertex{ pos, text.Color, uv };
+		}, ListAdder<Vertex>{pEntry->Vertices}, position.Position, position.Pivot, text.Text, Float2{ text.Scale },
+			textSize, baseline);
+
+	m_NrVertices += pEntry->Vertices.GetSize();
+	return id;
+}
+
 void NodeGraphFontRenderer::Remove(int id)
 {
 	m_NrVertices -= static_cast<const InvalidateList<Entry>&>(m_Entries).Get(id).Vertices.GetSize();
@@ -87,6 +103,11 @@ void NodeGraphFontRenderer::Move(unsigned id, const Float2& amount)
 float NodeGraphFontRenderer::GetMaxTextHeight() const
 {
 	return m_Assembler.GetMaxTextHeight(HEADER_FONT_SIZE);
+}
+
+Float2 NodeGraphFontRenderer::GetTextSize(const std::string& text, float scale, float& baseline) const
+{
+	return m_Assembler.GetSize(text, scale, baseline);
 }
 
 void NodeGraphFontRenderer::WriteVertices(Vertex* pTarget) const
