@@ -41,6 +41,7 @@ namespace MyEngine
 		const T* GetData() const { return m_pData; }
 		const T& First() const { return m_pData[0]; }
 		const T& Last() const { return m_pData[m_Size - 1]; }
+		const T* GetEnd() const { return &m_pData[m_Size]; }
 		T& First() { return m_pData[0]; }
 		T& Last() { return m_pData[m_Size - 1]; }
 		int GetSizeS() const { return static_cast<int>(m_Size); }
