@@ -11,6 +11,7 @@ namespace MyEngine
 		public:
 			static constexpr ModelTopology TOPOLOGY{ ModelTopology::TriangleListIdx };
 			static constexpr unsigned INVALID_ID{ Uint::MAX };
+			using Generator = RectGenerator<TOPOLOGY>;
 			using Vertex = Rendering::V_Pos2Col;
 
 			Node();
@@ -36,17 +37,10 @@ namespace MyEngine
 
 			const std::string& GetHeaderText() const { return m_HeaderText; }
 
-			void WriteVertices(Vertex*& pVertices) const;
-			static void WriteIndices(int*& pIndices, unsigned offset);
-
-			void WriteConnectionVertices(Vertex*& pVertices, const Node* pNodes) const;
-			void WriteConnectionIndices(int*& pIndices, unsigned offset) const;
-
 			bool IsValid() const { return m_FullRect.GetLeft() != Float::Max(); }
 			void Invalidate() { m_FullRect.SetLeft(Float::Max()); }
 
 		private:
-			using Generator = RectGenerator<TOPOLOGY>;
 			RectFloat m_FullRect;
 			RectFloat m_HeaderRect;
 			Float3 m_Color;
@@ -55,7 +49,6 @@ namespace MyEngine
 			unsigned m_HeaderTextId;
 
 			void UpdatePartialRects();
-			static void WriteVertices(Vertex*& pVertices, const RectFloat& rect, const Float3& color);
 
 		public:
 			static float HeaderHeight;
