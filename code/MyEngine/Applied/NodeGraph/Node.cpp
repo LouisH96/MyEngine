@@ -1,8 +1,6 @@
 #include "pch.h"
 #include "Node.h"
 
-#include "DataStructures/Adders/IncrementRefAdder.h"
-
 using namespace Applied;
 
 const unsigned Node::NR_INDICES = Generator::GetNrIndices() * NR_RECTS;
@@ -21,12 +19,24 @@ Node::Node(const RectFloat& rect, const Float3& color, const std::string& header
 	UpdatePartialRects();
 }
 
+void Node::SetLeftBot(const Float2& leftBot)
+{
+	const Float2 displacement{ leftBot - m_FullRect.GetLeftBot() };
+	m_FullRect.SetLeftBot(leftBot);
+	m_HeaderRect.Move(displacement);
+}
+
 void Node::SetHeaderLeftBot(const Float2& leftBot)
 {
 	const Float2 displacement{ leftBot - m_HeaderRect.GetLeftBot() };
 	m_HeaderRect.SetLeftBot(leftBot);
 
 	m_FullRect.Move(displacement);
+}
+
+void Node::SetHeaderLeftTop(const Float2& leftTop)
+{
+	SetHeaderLeftBot({ leftTop.x, leftTop.y - m_HeaderRect.GetHeight() });
 }
 
 void Node::SetParentNode(unsigned parentId)

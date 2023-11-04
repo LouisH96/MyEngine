@@ -23,6 +23,7 @@
     <ClCompile Include="Applied\2D\Camera2DController.cpp" />
     <ClCompile Include="Geometry\Shapes\Hexagon.cpp" />
     <ClCompile Include="Generation\HexGenerator.cpp" />
+    <ClCompile Include="Applied\NodeGraph\GraphSorter.cpp" />
     <ClCompile Include="Gui\UiRect.cpp" />
     <ClCompile Include="Applied\NodeGraph\NodeGraphRenderer.cpp" />
     <ClCompile Include="Applied\NodeGraph\NodeGraph.cpp" />
@@ -125,6 +126,7 @@
     <ClInclude Include="Generation\HexGenerator.h" />
     <ClInclude Include="Geometry\ModelTopology.h" />
     <ClInclude Include="Geometry\Shapes\TriangleBase.h" />
+    <ClInclude Include="Applied\NodeGraph\GraphSorter.h" />
     <ClInclude Include="Gui\UiRect.h" />
     <ClInclude Include="Applied\NodeGraph\NodeGraphRenderer.h" />
     <ClInclude Include="Applied\NodeGraph\NodeGraph.h" />

@@ -20,9 +20,11 @@ namespace MyEngine
 			const RectFloat& GetFullRect() const { return m_FullRect; }
 			float GetHeight() const { return m_FullRect.GetHeight(); }
 			float GetWidth() const { return m_FullRect.GetWidth(); }
+			void SetLeftBot(const Float2& leftBot);
 
 			const RectFloat& GetHeaderRect() const { return m_HeaderRect; }
 			void SetHeaderLeftBot(const Float2& leftBot);
+			void SetHeaderLeftTop(const Float2& leftTop);
 			const Float2& GetHeaderLeftBot() const { return m_HeaderRect.GetLeftBot(); }
 
 			void SetColor(const Float3& color) { m_Color = color; }

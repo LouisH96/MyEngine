@@ -92,6 +92,7 @@
     <ClCompile Include="Applied\NodeGraph\NodeGrabbing.cpp" />
     <ClCompile Include="Font\TextAssembler.cpp" />
     <ClCompile Include="Applied\NodeGraph\NodeGraphFontRenderer.cpp" />
+    <ClCompile Include="Applied\NodeGraph\GraphSorter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -214,6 +215,7 @@
     <ClInclude Include="Applied\NodeGraph\NodeGrabbing.h" />
     <ClInclude Include="Font\TextAssembler.h" />
     <ClInclude Include="Applied\NodeGraph\NodeGraphFontRenderer.h" />
+    <ClInclude Include="Applied\NodeGraph\GraphSorter.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

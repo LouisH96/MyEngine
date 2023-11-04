@@ -25,6 +25,11 @@ namespace MyEngine
 			const InvalidateList<Node>& GetNodes() const { return m_Nodes; }
 			InvalidateList<Node>& GetNodes() { return m_Nodes; }
 
+			void SetPos(unsigned nodeIdx, Float2 position, const Float2& pivot);
+			const Node& GetNode(unsigned nodeIdx) const;
+			unsigned GetDepth(unsigned nodeIdx) const;
+			unsigned GetRootNodeId(unsigned nodeId) const;
+
 		private:
 			Camera2D m_Camera;
 			Camera2DController m_CameraController;
