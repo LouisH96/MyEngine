@@ -46,7 +46,7 @@ namespace MyEngine
 
 			//FPS
 			FpsDisplay fpsDisplay{};
-			FpsControl fpsControl{ 1000, &fpsDisplay };
+			FpsControl fpsControl{ 60, &fpsDisplay };
 
 			//GAME
 			T* pApp{ new T() };
@@ -56,7 +56,7 @@ namespace MyEngine
 			while (!window.IsDestroyed())
 			{
 				//FPS
-				fpsControl.NoWait();
+				fpsControl.Wait();
 
 				//WINDOW MESSAGES
 				window.HandleMessages();

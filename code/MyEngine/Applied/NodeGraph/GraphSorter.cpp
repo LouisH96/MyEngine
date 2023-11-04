@@ -19,8 +19,12 @@ GraphSorter::GraphSorter(NodeGraph& graph)
 	for (unsigned i = nodes.GetFirstIdx(); i < nodes.GetEndIdx(); i++)
 		TryAdd(i, m_pGraph->GetDepth(i));
 
+	//Find Heights
+	for (unsigned i = 0; i < m_Layers[0].NrNodes; i++)
+		FindTotalHeights(m_Nodes[i], 0);
+
 	//move nodes
-	MoveNodes();
+	MoveHeightBased(&m_Nodes.First(), &m_Nodes[m_Layers.First().NrNodes], {}, 0);
 }
 
 void GraphSorter::TryAdd(unsigned nodeIdx, unsigned depth)
@@ -110,7 +114,7 @@ GraphSorter::SortingNode& GraphSorter::GetNode(unsigned nodeIdx, unsigned depth)
 	return *pNode;
 }
 
-GraphSorter::SortingNode* GraphSorter::GetFirstChildNode(unsigned nodeIdx, unsigned layer)
+GraphSorter::SortingNode* GraphSorter::GetChild(unsigned nodeIdx, unsigned layer)
 {
 	const SortingNode* pParent{ GetLayersFirstNode(layer) };
 	SortingNode* pChild{ GetLayersFirstNode(layer + 1) };
@@ -143,127 +147,49 @@ float GraphSorter::GetLayerLeft(unsigned layer) const
 	return left;
 }
 
-void GraphSorter::MoveNodes()
+float GraphSorter::FindTotalHeights(SortingNode& node, unsigned layer)
 {
-	//get highest layers
-	float highest{ 0 };
-	unsigned highestLayer{ 0 };
-	for (unsigned i = 0; i < m_Layers.GetSize(); i++)
-	{
-		if (m_Layers[i].Size.y <= highest)
-			continue;
-		highest = m_Layers[i].Size.y;
-		highestLayer = i;
-	}
+	SortingNode* pChild{ GetChild(node.NodeId, layer) };
+	const SortingNode* pEndChild{ pChild + node.NrChildren };
 
-	//temp
-	OrderSimple(highestLayer);
-	for (int i = highestLayer - 1; i >= 0; i--)
-		OrderBasedOnNext(i);
+	for (; pChild != pEndChild; pChild++)
+		node.TotalHeight += FindTotalHeights(*pChild, layer + 1) + VER_MARGIN;
+
+	const Node& sourceNode{ m_pGraph->GetNode(node.NodeId) };
+	node.TotalHeight = Float::Max(sourceNode.GetHeight(), node.TotalHeight);
+	return node.TotalHeight;
 }
 
-void GraphSorter::OrderSimple(unsigned layerIdx)
+void GraphSorter::MoveHeightBased(const SortingNode* pNode, const SortingNode* pNodeEnd, Float2 leftCenter, unsigned layer)
 {
-	const Layer& layer{ m_Layers[layerIdx] };
+	const SortingNode* const pFirst{ pNode };
 
-	//get start pos
-	Float2 pos{ 0, layer.Size.y / 2 };
-	for (unsigned i = 0; i < layerIdx; i++)
-		pos.x += m_Layers[i].Size.x + HOR_MARGIN;
+	const Float2 pivot{ 0,.5f };
+	Float2 pos{ leftCenter.x, 0 };
+
+	//get layer height
+	for (; pNode != pNodeEnd; pNode++)
+		pos.y += pNode->TotalHeight + VER_MARGIN;
+	pos.y -= VER_MARGIN;
 
 	//move
-	const SortingNode* pNode{ GetLayersFirstNode(layerIdx) };
-	const SortingNode* pEnd{ &pNode[layer.NrNodes] };
-	while (pNode != pEnd)
+	pos.y /= 2;
+	pos.y += leftCenter.y;
+	for (pNode = pFirst; pNode != pNodeEnd; pNode++)
 	{
-		m_pGraph->SetPos(pNode->NodeId, pos, { 0,1 });
-		pos.y -= m_pGraph->GetNode(pNode->NodeId).GetHeight() + VER_MARGIN;
-		pNode++;
-	}
-}
-
-void GraphSorter::OrderBasedOnNext(unsigned layerIdx)
-{
-	const Layer& layer{ m_Layers[layerIdx] };
-	const SortingNode* const pFirstNode{ GetLayersFirstNode(layerIdx) };
-	const SortingNode* const pEndNode{ &pFirstNode[layer.NrNodes] };
-
-	Float2 pos, pivot;
-	pos.x = GetLayerLeft(layerIdx);
-	pivot.x = 0;
-
-	//Nodes with children
-	const SortingNode* pNode{ pFirstNode };
-	for (; pNode != pEndNode; pNode++)
-	{
-		if (pNode->NrChildren == 0)
-			continue;
-
-		const SortingNode* pChild{ GetFirstChildNode(pNode->NodeId, layerIdx) };
-		const SortingNode* pLastChild{ pChild + pNode->NrChildren - 1 };
-
-		const Node& firstChild{ m_pGraph->GetNode(pChild->NodeId) };
-		const Node& lastChild{ m_pGraph->GetNode(pLastChild->NodeId) };
-
-		const float upper{ firstChild.GetFullRect().GetTop() };
-		const float lower{ lastChild.GetFullRect().GetBottom() };
-
-		pos.y = (upper + lower) * .5f;
-		pivot.y = .5f;
+		pos.y -= pNode->TotalHeight / 2.f;
 		m_pGraph->SetPos(pNode->NodeId, pos, pivot);
-	}
 
-	//Nodes without children
-	pNode = pFirstNode;
-	for (; pNode != pEndNode; pNode++)
-	{
+		//move children
 		if (pNode->NrChildren > 0)
-			continue;
-
-		const bool hasNodeAbove{ pNode > pFirstNode };
-		const bool hasNodeBelow{ pNode + 1 < pEndNode };
-
-		if (hasNodeAbove)
 		{
-			const Node& aboveNode{ m_pGraph->GetNode((pNode - 1)->NodeId) };
-			const float above{ aboveNode.GetFullRect().GetBottom() };
-
-			if (hasNodeBelow)
-			{
-				//in between nodes
-				const Node& belowNode{ m_pGraph->GetNode((pNode + 1)->NodeId) };
-				const float below{ belowNode.GetFullRect().GetTop() };
-
-				pivot.y = .5f;
-				pos.y = (above + below) * .5f;
-			}
-			else
-			{
-				//last node
-				pivot.y = 1;
-				pos.y = above - VER_MARGIN;
-			}
-		}
-		else
-		{
-			if (hasNodeBelow)
-			{
-				//upper node
-				const Node& belowNode{ m_pGraph->GetNode((pNode + 1)->NodeId) };
-				const float below{ belowNode.GetFullRect().GetTop() };
-
-				pivot.y = 0;
-				pos.y = below + VER_MARGIN;
-			}
-			else
-			{
-				//solo node
-				//-> this node has no children & this node is only node in layer -> thus there is no next layer
-				Logger::PrintError("[GraphSorter::OrderBasedOnNextLayer] this function shouldn't be called if there is no next layer");
-			}
+			const SortingNode* pChildFirst{ GetChild(pNode->NodeId, layer) };
+			const SortingNode* pChildEnd{ pChildFirst + pNode->NrChildren };
+			const Float2 childrenPos{ leftCenter.x + m_Layers[layer].Size.x + HOR_MARGIN, pos.y };
+			MoveHeightBased(pChildFirst, pChildEnd, childrenPos, layer + 1);
 		}
 
-		m_pGraph->SetPos(pNode->NodeId, pos, pivot);
+		pos.y -= pNode->TotalHeight / 2.f + VER_MARGIN;
 	}
 }
 

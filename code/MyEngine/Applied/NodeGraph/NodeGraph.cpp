@@ -28,6 +28,9 @@ NodeGraph::NodeGraph()
 	const int n23 = Add({ 0,0 }, 1, { 0,0,.7f }, "23");
 	const int n24 = Add({ 0,0 }, 1, { 0,0,.7f }, "24");
 
+	const int n30 = Add({}, .5f, { .7f,0,0 }, "30");
+	const int n31 = Add({}, 1.2f, { .7f,0,0 }, "31");
+
 	SetParent(n10, n00);
 	SetParent(n11, n00);
 	SetParent(n12, n00);
@@ -38,6 +41,9 @@ NodeGraph::NodeGraph()
 	SetParent(n22, n12);
 	SetParent(n23, n12);
 	SetParent(n24, n12);
+
+	SetParent(n30, n23);
+	SetParent(n31, n23);
 
 	GraphSorter::Sort(*this);
 }
@@ -121,6 +127,12 @@ void NodeGraph::SetPos(unsigned nodeIdx, Float2 position, const Float2& pivot)
 	const Float2 displacement{ position - node.GetFullRect().GetLeftBot() };
 	node.SetLeftBot(position);
 	m_FontRenderer.Move(node.GetHeaderTextId(), displacement);
+}
+
+Float2 NodeGraph::GetPos(unsigned nodeIdx, const Float2& pivot)
+{
+	return m_Nodes.Get(nodeIdx).GetFullRect().GetLeftBot()
+		+ pivot * m_Nodes.Get(nodeIdx).GetFullRect().GetSize();
 }
 
 const Node& NodeGraph::GetNode(unsigned nodeIdx) const

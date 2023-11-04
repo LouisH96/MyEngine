@@ -25,6 +25,7 @@ namespace MyEngine
 			{
 				unsigned NodeId{ Node::INVALID_ID };
 				unsigned NrChildren{ 0 };
+				float TotalHeight{};
 			};
 			static constexpr float HOR_MARGIN{ .8f };
 			static constexpr float VER_MARGIN{ .3f };
@@ -38,13 +39,12 @@ namespace MyEngine
 			unsigned GetLayersFirstNodeIdx(unsigned layer) const;
 			SortingNode* GetLayersFirstNode(unsigned layer);
 			SortingNode& GetNode(unsigned nodeIdx, unsigned depth);
-			SortingNode* GetFirstChildNode(unsigned nodeIdx, unsigned layer);
+			SortingNode* GetChild(unsigned nodeIdx, unsigned layer);
 			unsigned GetDepth(const Node& node) const;
 			float GetLayerLeft(unsigned layer) const;
 
-			void MoveNodes();
-			void OrderSimple(unsigned layerIdx);
-			void OrderBasedOnNext(unsigned layerIdx);
+			float FindTotalHeights(SortingNode& node, unsigned layer);
+			void MoveHeightBased(const SortingNode* pNode, const SortingNode* pNodeEnd, Float2 leftCenter, unsigned layer);
 
 			void Print() const;
 		};
