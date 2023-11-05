@@ -16,36 +16,7 @@ NodeGraph::NodeGraph()
 	m_CameraController.SetMoveSpeed(.002f);
 	m_CameraController.SetZoom(.15f);
 
-	const int n00 = Add({ 0,0 }, 1, { 0,0,.7f }, "00");
-
-	const int n10 = Add({ 0,0 }, 1, { 0,0,.7f }, "10");
-	const int n11 = Add({ 0,0 }, 1, { 0,0,.7f }, "11");
-	const int n12 = Add({ 0,0 }, 1, { 0,0,.7f }, "12");
-
-	const int n20 = Add({ 0,0 }, 1, { 0,0,.7f }, "20");
-	const int n21 = Add({ 0,0 }, 1, { 0,0,.7f }, "21");
-	const int n22 = Add({ 0,0 }, 1, { 0,0,.7f }, "22");
-	const int n23 = Add({ 0,0 }, 1, { 0,0,.7f }, "23");
-	const int n24 = Add({ 0,0 }, 1, { 0,0,.7f }, "24");
-
-	const int n30 = Add({}, .5f, { .7f,0,0 }, "30");
-	const int n31 = Add({}, 1.2f, { .7f,0,0 }, "31");
-
-	SetParent(n10, n00);
-	SetParent(n11, n00);
-	SetParent(n12, n00);
-
-	SetParent(n20, n10);
-
-	SetParent(n21, n12);
-	SetParent(n22, n12);
-	SetParent(n23, n12);
-	SetParent(n24, n12);
-
-	SetParent(n30, n23);
-	SetParent(n31, n23);
-
-	GraphSorter::Sort(*this);
+	//MakeDemoGraph(*this);
 }
 
 void NodeGraph::Update()
@@ -119,6 +90,11 @@ void NodeGraph::SetParent(unsigned childId, unsigned parentId)
 	}
 }
 
+void NodeGraph::AutoStructure()
+{
+	GraphSorter::Sort(*this);
+}
+
 void NodeGraph::SetPos(unsigned nodeIdx, Float2 position, const Float2& pivot)
 {
 	Node& node{ m_Nodes.Get(nodeIdx) };
@@ -164,4 +140,38 @@ unsigned NodeGraph::GetRootNodeId(unsigned nodeId) const
 		pNode = &m_Nodes.Get(pNode->GetParentId());
 
 	return pNode->GetParentId();
+}
+
+void NodeGraph::MakeDemoGraph(NodeGraph& graph)
+{
+	const int n00 = graph.Add({ 0,0 }, 1, { 0,0,.7f }, "00");
+
+	const int n10 = graph.Add({ 0,0 }, 1, { 0,0,.7f }, "10");
+	const int n11 = graph.Add({ 0,0 }, 1, { 0,0,.7f }, "11");
+	const int n12 = graph.Add({ 0,0 }, 1, { 0,0,.7f }, "12");
+
+	const int n20 =graph.Add({ 0,0 }, 1, { 0,0,.7f }, "20");
+	const int n21 =graph.Add({ 0,0 }, 1, { 0,0,.7f }, "21");
+	const int n22 =graph.Add({ 0,0 }, 1, { 0,0,.7f }, "22");
+	const int n23 =graph.Add({ 0,0 }, 1, { 0,0,.7f }, "23");
+	const int n24 =graph.Add({ 0,0 }, 1, { 0,0,.7f }, "24");
+
+	const int n30 = graph.Add({}, .5f, { .7f,0,0 }, "30");
+	const int n31 = graph.Add({}, 1.2f, { .7f,0,0 }, "31");
+
+	graph.SetParent(n10, n00);
+	graph.SetParent(n11, n00);
+	graph.SetParent(n12, n00);
+
+	graph.SetParent(n20, n10);
+
+	graph.SetParent(n21, n12);
+	graph.SetParent(n22, n12);
+	graph.SetParent(n23, n12);
+	graph.SetParent(n24, n12);
+
+	graph.SetParent(n30, n23);
+	graph.SetParent(n31, n23);
+
+	GraphSorter::Sort(graph);
 }
