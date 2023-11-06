@@ -8,8 +8,12 @@ using namespace MyEngine::Io::Fbx;
 using namespace Wrapping;
 
 FbxClass::FbxClass(const std::wstring& path)
+	: FbxClass{ FbxData{path} }
 {
-	FbxData data{ path };
+}
+
+FbxClass::FbxClass(FbxData&& data)
+{
 	if (data.GetARootLimbNode())
 	{
 		m_Animations = { data.GetAnimationStacks().GetSize() };

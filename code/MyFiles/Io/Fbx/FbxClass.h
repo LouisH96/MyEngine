@@ -29,7 +29,8 @@ namespace MyEngine
 				};
 
 				//---| Construction |---
-				FbxClass(const std::wstring& path);
+				explicit FbxClass(const std::wstring& path);
+				explicit FbxClass(Wrapping::FbxData&& data);
 				~FbxClass() = default;
 
 				FbxClass(const FbxClass& other) = delete;
