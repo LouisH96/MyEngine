@@ -21,6 +21,7 @@ namespace MyEngine
 
 			bool IsGrabbing() const { return m_Grabbed != Node::INVALID_ID; }
 			const Node& GetGrabbed(const InvalidateList<Node>& nodes) const;
+			void Clear() { m_Grabbed = Uint::Max(); }
 
 		private:
 			unsigned m_Grabbed{ Uint::Max() };

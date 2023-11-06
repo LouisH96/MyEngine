@@ -20,6 +20,7 @@ namespace MyEngine
 
 			void IncreaseNrIndices(int amount);
 			void IncreaseNrVertices(int amount);
+			void Clear();
 
 		private:
 			Rendering::ConstantBuffer<CameraBuffer> m_CameraBuffer;

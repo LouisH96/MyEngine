@@ -51,6 +51,7 @@ namespace MyEngine
 
 					std::string& GetName() { return m_Name; }
 					bool IsLimbNode() const;
+					bool HasParent() const { return m_pParentModel; }
 
 					void SetParentModel(const Model& parent);
 					void SetNodeAttribute(const NodeAttribute& nodeAttribute);

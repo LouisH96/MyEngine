@@ -95,6 +95,14 @@ void NodeGraph::AutoStructure()
 	GraphSorter::Sort(*this);
 }
 
+void NodeGraph::Clear()
+{
+	m_Nodes.Clear();
+	m_Renderer.Clear();
+	m_NodeGrabbing.Clear();
+	m_FontRenderer.Clear();
+}
+
 void NodeGraph::SetPos(unsigned nodeIdx, Float2 position, const Float2& pivot)
 {
 	Node& node{ m_Nodes.Get(nodeIdx) };

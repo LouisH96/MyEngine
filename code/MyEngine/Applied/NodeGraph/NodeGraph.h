@@ -22,6 +22,7 @@ namespace MyEngine
 			int Add(const Float2& leftTop, float contentHeight, const Float3& color, const std::string& text);
 			void SetParent(unsigned childId, unsigned parentId);
 			void AutoStructure();
+			void Clear();
 
 			const InvalidateList<Node>& GetNodes() const { return m_Nodes; }
 			InvalidateList<Node>& GetNodes() { return m_Nodes; }

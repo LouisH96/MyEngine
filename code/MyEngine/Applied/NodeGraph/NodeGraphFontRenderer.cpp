@@ -92,6 +92,12 @@ void NodeGraphFontRenderer::Remove(int id)
 	m_Entries.Invalidate(id);
 }
 
+void NodeGraphFontRenderer::Clear()
+{
+	m_Entries.Clear();
+	m_NrVertices = 0;
+}
+
 void NodeGraphFontRenderer::Move(unsigned id, const Float2& amount)
 {
 	List<Vertex>& vertices{ m_Entries.Get(id).Vertices };

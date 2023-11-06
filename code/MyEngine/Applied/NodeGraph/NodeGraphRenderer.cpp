@@ -66,6 +66,12 @@ void NodeGraphRenderer::IncreaseNrVertices(int amount)
 	m_NrVertices += amount;
 }
 
+void NodeGraphRenderer::Clear()
+{
+	m_NrVertices = 0;
+	m_NrIndices = 0;
+}
+
 void NodeGraphRenderer::WriteData(PtrRangeConst<Node> nodes, int* pIndices, Node::Vertex* pVertices)
 {
 	const Node* pNodesEnd{ nodes.End() };
