@@ -15,7 +15,8 @@ namespace MyEngine
 			using Vertex = Rendering::V_Pos2Col;
 
 			Node();
-			explicit Node(const RectFloat& rect, const Float3& color, const std::string& headerText);
+			explicit Node(const RectFloat& rect, const Float3& color, const std::string& headerText,
+				const Float3& textBgColor);
 
 			const RectFloat& GetFullRect() const { return m_FullRect; }
 			float GetHeight() const { return m_FullRect.GetHeight(); }
@@ -29,6 +30,7 @@ namespace MyEngine
 
 			void SetColor(const Float3& color) { m_Color = color; }
 			const Float3& GetColor() const { return m_Color; }
+			const Float3& GetTextBgColor() const { return m_TextBgColor; }
 
 			void SetParentNode(unsigned parentId);
 			bool HasParent() const;
@@ -46,6 +48,7 @@ namespace MyEngine
 			RectFloat m_FullRect;
 			RectFloat m_HeaderRect;
 			Float3 m_Color;
+			Float3 m_TextBgColor;
 			unsigned m_ParentNode{ INVALID_ID };
 			std::string m_HeaderText;
 			unsigned m_HeaderTextId;

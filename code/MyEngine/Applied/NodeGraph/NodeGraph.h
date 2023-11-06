@@ -19,7 +19,8 @@ namespace MyEngine
 			void Render();
 			void OnCanvasResized(const App::ResizedEvent& event);
 
-			int Add(const Float2& leftTop, float contentHeight, const Float3& color, const std::string& text);
+			int Add(const Float2& leftTop, float contentHeight, const Float3& color, const std::string& text,
+				const Float3& bgColor = Float3{ .1f });
 			void SetParent(unsigned childId, unsigned parentId);
 			void AutoStructure();
 			void Clear();

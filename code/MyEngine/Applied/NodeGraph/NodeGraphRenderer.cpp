@@ -108,7 +108,7 @@ void NodeGraphRenderer::WriteRectVertices(const Node& node, Node::Vertex*& pTarg
 	WriteRectVertices(pTarget, rect, node.GetColor());
 
 	//header
-	WriteRectVertices(pTarget, node.GetHeaderRect(), Float3{ .1f });
+	WriteRectVertices(pTarget, node.GetHeaderRect(), node.GetTextBgColor());
 }
 
 void NodeGraphRenderer::WriteRectIndices(const Node& node, int*& pTarget, unsigned offset)

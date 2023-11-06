@@ -11,9 +11,10 @@ Node::Node()
 {
 }
 
-Node::Node(const RectFloat& rect, const Float3& color, const std::string& headerText)
+Node::Node(const RectFloat& rect, const Float3& color, const std::string& headerText, const Float3& textBgColor)
 	: m_FullRect{ rect }
 	, m_Color{ color }
+	, m_TextBgColor{ textBgColor }
 	, m_HeaderText{ headerText }
 {
 	UpdatePartialRects();

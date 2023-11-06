@@ -52,7 +52,7 @@ void NodeGraph::OnCanvasResized(const App::ResizedEvent& event)
 	m_Camera.OnCanvasResized(event);
 }
 
-int NodeGraph::Add(const Float2& leftTop, float contentHeight, const Float3& color, const std::string& text)
+int NodeGraph::Add(const Float2& leftTop, float contentHeight, const Float3& color, const std::string& text, const Float3& bgColor)
 {
 	m_Renderer.IncreaseNrIndices(Node::NR_INDICES);
 	m_Renderer.IncreaseNrVertices(Node::NR_VERTICES);
@@ -67,7 +67,7 @@ int NodeGraph::Add(const Float2& leftTop, float contentHeight, const Float3& col
 
 	const RectFloat nodeRect{ leftTop - Float2{0, nodeSize.y}, nodeSize };
 
-	Node node{ nodeRect, color, text };
+	Node node{ nodeRect, color, text, bgColor };
 
 	node.SetHeaderTextId(m_FontRenderer.Add(
 		NodeGraphFontRenderer::TextInfo{
@@ -158,11 +158,11 @@ void NodeGraph::MakeDemoGraph(NodeGraph& graph)
 	const int n11 = graph.Add({ 0,0 }, 1, { 0,0,.7f }, "11");
 	const int n12 = graph.Add({ 0,0 }, 1, { 0,0,.7f }, "12");
 
-	const int n20 =graph.Add({ 0,0 }, 1, { 0,0,.7f }, "20");
-	const int n21 =graph.Add({ 0,0 }, 1, { 0,0,.7f }, "21");
-	const int n22 =graph.Add({ 0,0 }, 1, { 0,0,.7f }, "22");
-	const int n23 =graph.Add({ 0,0 }, 1, { 0,0,.7f }, "23");
-	const int n24 =graph.Add({ 0,0 }, 1, { 0,0,.7f }, "24");
+	const int n20 = graph.Add({ 0,0 }, 1, { 0,0,.7f }, "20");
+	const int n21 = graph.Add({ 0,0 }, 1, { 0,0,.7f }, "21");
+	const int n22 = graph.Add({ 0,0 }, 1, { 0,0,.7f }, "22");
+	const int n23 = graph.Add({ 0,0 }, 1, { 0,0,.7f }, "23");
+	const int n24 = graph.Add({ 0,0 }, 1, { 0,0,.7f }, "24");
 
 	const int n30 = graph.Add({}, .5f, { .7f,0,0 }, "30");
 	const int n31 = graph.Add({}, 1.2f, { .7f,0,0 }, "31");
