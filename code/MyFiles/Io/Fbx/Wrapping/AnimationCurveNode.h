@@ -35,6 +35,7 @@ namespace MyEngine
 						Visibility, FilmboxTypeId, FocalLength,
 						Other
 					};
+					static std::string ToString(NodeType nodeType);
 
 					//---| Fields |---
 					int64_t Id{};

@@ -4,7 +4,26 @@
 #include "Io/Fbx/Reading/Properties/FbxPropPrimitive.h"
 #include "Logger/Logger.h"
 
-MyEngine::Io::Fbx::Wrapping::AnimationCurveNode::AnimationCurveNode(Reading::FbxElement& object)
+using namespace MyEngine::Io::Fbx::Wrapping;
+
+std::string AnimationCurveNode::ToString(NodeType nodeType)
+{
+	switch (nodeType)
+	{
+	case NodeType::LockInfluenceWeights: return "LockInfluenceWeights";
+	case NodeType::Translation: return "Translation";
+	case NodeType::Rotation: return "Rotation";
+	case NodeType::Scale: return "Scale";
+	case NodeType::Visibility: return "Visibility";
+	case NodeType::FilmboxTypeId: return "FilmboxTypeId";
+	case NodeType::FocalLength: return "FocalLength";
+	case NodeType::Other:
+	default:
+		return "Other";
+	}
+}
+
+AnimationCurveNode::AnimationCurveNode(Reading::FbxElement& object)
 	: Id{ object.GetProperty(0).AsPrimitive<int64_t>().GetValue() }
 	, m_NodeType{ GetNodeType(object.GetProperty(1).AsString()) }
 {
@@ -50,37 +69,37 @@ MyEngine::Io::Fbx::Wrapping::AnimationCurveNode::AnimationCurveNode(Reading::Fbx
 	}
 }
 
-void MyEngine::Io::Fbx::Wrapping::AnimationCurveNode::AddNodeAttribute(const NodeAttribute& nodeAttribute)
+void AnimationCurveNode::AddNodeAttribute(const NodeAttribute& nodeAttribute)
 {
 	m_NodeAttributes.Add(&nodeAttribute);
 }
 
-void MyEngine::Io::Fbx::Wrapping::AnimationCurveNode::AddAnimationCurve(const AnimationCurve& animationCurve)
+void AnimationCurveNode::AddAnimationCurve(const AnimationCurve& animationCurve)
 {
 	m_AnimationCurves.Add(&animationCurve);
 }
 
-void MyEngine::Io::Fbx::Wrapping::AnimationCurveNode::SetParentModel(const Model& model)
+void AnimationCurveNode::SetParentModel(const Model& model)
 {
 	if (m_pParentModel)
 		Logger::PrintError("AnimationCurveNode already has a parent model");
 	m_pParentModel = &model;
 }
 
-void MyEngine::Io::Fbx::Wrapping::AnimationCurveNode::SetAnimationLayer(const AnimationLayer& animationLayer)
+void AnimationCurveNode::SetAnimationLayer(const AnimationLayer& animationLayer)
 {
 	if (m_pAnimationLayer)
 		Logger::PrintError("AnimationCurveNode already has an animationLayer");
 	m_pAnimationLayer = &animationLayer;
 }
 
-MyEngine::Io::Fbx::Wrapping::AnimationCurveNode::NodeType MyEngine::Io::Fbx::Wrapping::AnimationCurveNode::GetNodeType(
+AnimationCurveNode::NodeType AnimationCurveNode::GetNodeType(
 	const std::string& typeName)
 {
 	//clean
-	const std::string prefix{"AnimCurveNode::"};
-	std::string cleaned{typeName};
-	if(typeName.rfind(prefix, 0) == 0)
+	const std::string prefix{ "AnimCurveNode::" };
+	std::string cleaned{ typeName };
+	if (typeName.rfind(prefix, 0) == 0)
 		cleaned = cleaned.substr(prefix.size());
 
 	if (cleaned == "lockInfluenceWeights") return NodeType::LockInfluenceWeights;
@@ -94,7 +113,7 @@ MyEngine::Io::Fbx::Wrapping::AnimationCurveNode::NodeType MyEngine::Io::Fbx::Wra
 	return NodeType::Other;
 }
 
-void MyEngine::Io::Fbx::Wrapping::AnimationCurveNode::Print() const
+void AnimationCurveNode::Print() const
 {
 	switch (m_NodeType)
 	{
@@ -116,7 +135,7 @@ void MyEngine::Io::Fbx::Wrapping::AnimationCurveNode::Print() const
 	case NodeType::FilmboxTypeId:
 		std::cout << "FilmboxTypeId: " << m_Value.shortValue << std::endl;
 		break;
-	case NodeType::FocalLength: 
+	case NodeType::FocalLength:
 		std::cout << "FocalLength: " << m_Value.vectorValue.x << std::endl;
 		break;
 	default:
@@ -126,7 +145,7 @@ void MyEngine::Io::Fbx::Wrapping::AnimationCurveNode::Print() const
 	}
 }
 
-bool MyEngine::Io::Fbx::Wrapping::AnimationCurveNode::IsTransformNode() const
+bool AnimationCurveNode::IsTransformNode() const
 {
 	return m_NodeType == NodeType::Translation
 		|| m_NodeType == NodeType::Rotation
