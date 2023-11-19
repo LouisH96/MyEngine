@@ -40,6 +40,7 @@ namespace MyEngine
 			SortingNode* GetLayersFirstNode(unsigned layer);
 			SortingNode& GetNode(unsigned nodeIdx, unsigned depth);
 			SortingNode* GetChild(unsigned nodeIdx, unsigned layer);
+			unsigned GetChildIdx(unsigned nodeIdx, unsigned layer);
 			unsigned GetDepth(const Node& node) const;
 			float GetLayerLeft(unsigned layer) const;
 

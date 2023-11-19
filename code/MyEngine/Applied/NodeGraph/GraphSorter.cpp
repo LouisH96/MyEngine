@@ -49,9 +49,21 @@ void GraphSorter::TryAdd(unsigned nodeIdx, unsigned depth)
 	}
 
 	//add node
-	unsigned insertIdx{ GetLayersFirstNodeIdx(depth) };
-	const unsigned lastInsertIdx{ insertIdx + m_Layers[depth].NrNodes };
-	while (insertIdx != lastInsertIdx)
+	unsigned insertIdx;
+	unsigned endInsertIdx;
+	if (node.HasParent())
+	{
+		const SortingNode& parent{ GetNode(node.GetParentId(), depth - 1) };
+		insertIdx = GetChildIdx(parent.NodeId, depth - 1);
+		endInsertIdx = insertIdx + parent.NrChildren - 1;
+	}
+	else
+	{
+		insertIdx = GetLayersFirstNodeIdx(depth);
+		endInsertIdx = insertIdx + m_Layers[depth].NrNodes;
+	}
+
+	while (insertIdx != endInsertIdx)
 	{
 		const unsigned currentIdx{ m_Nodes[insertIdx].NodeId };
 		if (currentIdx > nodeIdx)
@@ -123,6 +135,11 @@ GraphSorter::SortingNode* GraphSorter::GetChild(unsigned nodeIdx, unsigned layer
 		pChild += pParent++->NrChildren;
 
 	return pChild;
+}
+
+unsigned GraphSorter::GetChildIdx(unsigned nodeIdx, unsigned layer)
+{
+	return GetChild(nodeIdx, layer) - m_Nodes.GetData();
 }
 
 unsigned GraphSorter::GetDepth(const Node& node) const
