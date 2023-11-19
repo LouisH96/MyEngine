@@ -54,6 +54,7 @@ namespace MyEngine
 
 			void AddModels();
 			void AddGeometries() const;
+			void AddAnimation() const;
 
 			const ModelNode& GetModelNode(int64_t modelId) const;
 		};

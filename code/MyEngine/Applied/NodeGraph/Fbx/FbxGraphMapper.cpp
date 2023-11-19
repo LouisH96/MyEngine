@@ -6,6 +6,7 @@
 #include "Io/Fbx/Wrapping/FbxData.h"
 
 using namespace Applied;
+using namespace Io::Fbx::Wrapping;
 
 FbxGraphMapper::FbxGraphMapper(const Io::Fbx::Wrapping::FbxData& fbx, NodeGraph& graph)
 	: m_FbxData{ fbx }
@@ -13,6 +14,7 @@ FbxGraphMapper::FbxGraphMapper(const Io::Fbx::Wrapping::FbxData& fbx, NodeGraph&
 {
 	AddModels();
 	AddGeometries();
+	//AddAnimation();
 	m_Graph.AutoStructure();
 }
 
@@ -29,7 +31,6 @@ FbxGraphMapper::ModelNode::ModelNode(const Io::Fbx::Wrapping::Model& source)
 
 void FbxGraphMapper::AddModels()
 {
-	using namespace Io::Fbx::Wrapping;
 	const Array<Model>& sourceModels{ m_FbxData.GetModels() };
 
 	//create nodes
@@ -55,7 +56,6 @@ void FbxGraphMapper::AddModels()
 
 void FbxGraphMapper::AddGeometries() const
 {
-	using namespace Io::Fbx::Wrapping;
 	const Array<Geometry>& source{ m_FbxData.GetGeometries() };
 
 	for (unsigned i = 0; i < source.GetSize(); i++)
@@ -69,6 +69,35 @@ void FbxGraphMapper::AddGeometries() const
 
 		const int nodeId{ m_Graph.Add({}, 0, {}, name, { .2f,.6f, .2f }) };
 		m_Graph.SetParent(nodeId, parent.NodeId);
+	}
+}
+
+void FbxGraphMapper::AddAnimation() const
+{
+	//Stacks
+	const Array<AnimationStack>& stacks{ m_FbxData.GetAnimationStacks() };
+	for (unsigned iStack = 0; iStack < stacks.GetSize(); iStack++)
+	{
+		const AnimationStack& stack{ stacks[iStack] };
+		const int stackNodeId{ m_Graph.Add({}, 0, {}, stack.Name, { .7f,.1f,.1f }) };
+
+		for (unsigned iLayer = 0; iLayer < stack.GetAnimationLayers().GetSize(); iLayer++)
+		{
+			const AnimationLayer& layer{ *stack.GetAnimationLayers()[iLayer] };
+			const int layerNodeId{ m_Graph.Add({}, 0, {}, layer.Name, {.5f,.05f,.05f}) };
+			m_Graph.SetParent(layerNodeId, stackNodeId);
+
+			for (unsigned iModel = 0; iModel < layer.GetCurveNodes().GetSize(); iModel++)
+			{
+				const AnimationCurveNode& node{ *layer.GetCurveNodes()[iModel] };
+				const Model& model{ node.GetModel() };
+
+				const std::string modelText{ model.GetName() + " (" + AnimationCurveNode::ToString(node.GetNodeType()) + ")" };
+
+				const int modelNodeId{ m_Graph.Add({}, 0, {}, modelText, { .2f,.6f, .2f }) };
+				m_Graph.SetParent(modelNodeId, layerNodeId);
+			}
+		}
 	}
 }
 
