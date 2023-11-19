@@ -1,5 +1,6 @@
 #include "Geometry.h"
 
+#include "Model.h"
 #include "Io/Fbx/Reading/FbxElement.h"
 #include "Io/Fbx/Reading/Properties/FbxPropArray.h"
 #include "Logger/Logger.h"
@@ -11,6 +12,11 @@ MyEngine::Io::Fbx::Wrapping::Geometry::Geometry(Reading::FbxElement& geometryObj
 	LoadNormals(geometryObject);
 	LoadIndices(geometryObject);
 	LoadUvs(geometryObject);
+}
+
+int64_t MyEngine::Io::Fbx::Wrapping::Geometry::GetRootModelId() const
+{
+	return m_pRootModel->GetId();
 }
 
 void MyEngine::Io::Fbx::Wrapping::Geometry::SetRootModel(const Model& model)

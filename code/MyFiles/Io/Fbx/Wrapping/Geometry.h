@@ -35,6 +35,7 @@ namespace MyEngine
 
 					//---| Functions |---
 					const int64_t& GetId() const { return m_Id; }
+					const std::string& GetName() const { return m_Name; }
 					Array<Float3>& GetPoints() { return m_Points; }
 					Array<Float3>& GetNormals() { return m_Normals; }
 					Array<Float2>& GetUvs() { return m_Uvs; }
@@ -43,6 +44,8 @@ namespace MyEngine
 					const Array<Float3>& GetNormals() const { return m_Normals; }
 					const Array<Float2>& GetUvs() const { return m_Uvs; }
 					const Array<unsigned>& GetIndices() const { return m_Indices; }
+
+					int64_t GetRootModelId() const;
 
 					void SetRootModel(const Model& model);
 					void AddDeformer(const Deformer& deformer);
