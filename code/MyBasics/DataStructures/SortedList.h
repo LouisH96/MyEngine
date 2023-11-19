@@ -31,7 +31,7 @@ namespace MyEngine
 		void Clear();
 		void RemoveSection(unsigned idx, unsigned sectionLength);
 		bool RemoveSection(const T& value, unsigned sectionLength);
-		int Find(const T& value);
+		int Find(const T& value) const;
 		void Edit(unsigned idx, const T& newValue);
 
 		const T* GetData() const { return m_pData; }
@@ -184,7 +184,7 @@ namespace MyEngine
 	}
 
 	template <typename T>
-	int SortedList<T>::Find(const T& value)
+	int SortedList<T>::Find(const T& value) const
 	{
 		for (int i = 0; i < m_Size; i++)
 			if (value == m_pData[i])
