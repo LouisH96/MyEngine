@@ -53,6 +53,9 @@ namespace MyEngine
 			SortedList<ModelNode> m_ModelNodes{};
 
 			void AddModels();
+			void AddGeometries() const;
+
+			const ModelNode& GetModelNode(int64_t modelId) const;
 		};
 	}
 }

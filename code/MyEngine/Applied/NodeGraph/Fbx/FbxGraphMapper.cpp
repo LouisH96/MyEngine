@@ -12,6 +12,7 @@ FbxGraphMapper::FbxGraphMapper(const Io::Fbx::Wrapping::FbxData& fbx, NodeGraph&
 	, m_Graph{ graph }
 {
 	AddModels();
+	AddGeometries();
 	m_Graph.AutoStructure();
 }
 
@@ -50,4 +51,28 @@ void FbxGraphMapper::AddModels()
 		const ModelNode& parent{ m_ModelNodes[m_ModelNodes.Find(ModelNode{child.ParentId})] };
 		m_Graph.SetParent(child.NodeId, parent.NodeId);
 	}
+}
+
+void FbxGraphMapper::AddGeometries() const
+{
+	using namespace Io::Fbx::Wrapping;
+	const Array<Geometry>& source{ m_FbxData.GetGeometries() };
+
+	for (unsigned i = 0; i < source.GetSize(); i++)
+	{
+		const Geometry& geometry{ source[i] };
+		const ModelNode& parent{ GetModelNode(geometry.GetRootModelId()) };
+
+		std::string name{ geometry.GetName() };
+		if (name.empty())
+			name = "Geometry";
+
+		const int nodeId{ m_Graph.Add({}, 0, {}, name, { .2f,.6f, .2f }) };
+		m_Graph.SetParent(nodeId, parent.NodeId);
+	}
+}
+
+const FbxGraphMapper::ModelNode& FbxGraphMapper::GetModelNode(int64_t modelId) const
+{
+	return m_ModelNodes[m_ModelNodes.Find(ModelNode{ modelId })];
 }
