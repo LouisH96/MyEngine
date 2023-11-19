@@ -54,6 +54,8 @@ namespace MyEngine
 					Array<AnimationLayer>& GetAnimationLayers() { return m_AnimationLayers; }
 					Array<AnimationCurveNode>& GetAnimationCurveNodes() { return m_AnimationCurveNodes; }
 
+					const Array<AnimationStack>& GetAnimationStacks() const { return m_AnimationStacks; }
+
 					Array<Model> GetModelsOfType(const std::string& typeName) const;
 					Array<Model> GetLimbNodes() const;
 					const Model* GetARootLimbNode() const;
