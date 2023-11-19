@@ -118,7 +118,7 @@ namespace MyEngine
 	template <typename T>
 	bool SortedList<T>::TryAdd(const T& newValue)
 	{
-		for (int i = 0; i < m_Size; i++)
+		for (unsigned i = 0; i < m_Size; i++)
 		{
 			if (m_pData[i] == newValue) return false;
 			if (m_pData[i] < newValue) continue;
@@ -186,7 +186,7 @@ namespace MyEngine
 	template <typename T>
 	int SortedList<T>::Find(const T& value) const
 	{
-		for (int i = 0; i < m_Size; i++)
+		for (int i = 0; i < static_cast<int>(m_Size); i++)
 			if (value == m_pData[i])
 				return i;
 		return -1;
@@ -203,7 +203,7 @@ namespace MyEngine
 		if (idx + 1 < m_Size)
 			nextOk = m_pData[idx + 1] > newValue;
 
-		if(previousOk && nextOk)
+		if (previousOk && nextOk)
 		{
 			m_pData[idx] = newValue;
 			return;
