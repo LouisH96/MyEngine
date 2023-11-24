@@ -41,8 +41,8 @@ DeflateDecompress::DeflateDecompress(std::istream& stream)
 void DeflateDecompress::HandleNoCompression()
 {
 	m_BitStream.ToNextByte();
-	const uint16_t length{ m_BitStream.ReadBits<uint16_t>(16) };
-	const int16_t lengthNegate{ m_BitStream.ReadBits<int16_t>(16) };
+	const uint16_t length{ m_BitStream.ReadBitsFlipped<uint16_t>(16) };
+	const int16_t lengthNegate{ m_BitStream.ReadBitsFlipped<int16_t>(16) };
 	for (int i = 0; i < length; i++)
 		m_Output.push_back(m_BitStream.ReadBits<uint8_t>(8));
 }
