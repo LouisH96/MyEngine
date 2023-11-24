@@ -9,6 +9,7 @@ MyEngine::Io::Fbx::Reading::FbxFile::FbxFile(bool isBinary)
 
 void MyEngine::Io::Fbx::Reading::FbxFile::SetVersion(uint32_t version)
 {
+	Logger::Print("Reading FbxVersion", version);
 	if (version != 7300 &&
 		version != 7400 &&
 		version != 7500 &&
