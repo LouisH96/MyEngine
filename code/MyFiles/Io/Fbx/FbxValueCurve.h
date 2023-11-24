@@ -41,7 +41,7 @@ namespace MyEngine
 				, m_Values{ curve.KeyValueFloats }
 			{
 				if (m_Times.GetSize() != m_Values.GetSize())
-					Logger::PrintError("Times and Values should have equal lengths");
+					Logger::PrintError("[FbxValueCurve] Times and Values should have equal lengths");
 				if (!curve.KeyTimes.IsSorted())
 					Logger::PrintError("[FbxValueCurve] Times is expected to be sorted");
 			}
