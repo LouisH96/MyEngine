@@ -3,6 +3,7 @@
 #include "Io/Fbx/Wrapping/AnimationCurve.h"
 #include "Logger/Logger.h"
 #include "Math/Scalars.h"
+#include "String/Convert.h"
 
 namespace MyEngine
 {
@@ -41,7 +42,10 @@ namespace MyEngine
 				, m_Values{ curve.KeyValueFloats }
 			{
 				if (m_Times.GetSize() != m_Values.GetSize())
-					Logger::PrintError("[FbxValueCurve] Times and Values should have equal lengths");
+					Logger::PrintError(
+						"[FbxValueCurve] Times(" + Convert::ToString(m_Times.GetSize()) +
+						") and Values(" + Convert::ToString(m_Values.GetSize()) +
+						") should have equal lengths");
 				if (!curve.KeyTimes.IsSorted())
 					Logger::PrintError("[FbxValueCurve] Times is expected to be sorted");
 			}
