@@ -102,6 +102,11 @@ const FbxProperty& FbxElement::GetProperty(unsigned idx) const
 	return *m_Properties[idx];
 }
 
+const FbxProperty& FbxElement::GetChildProperty(unsigned childIdx, unsigned propertyIdx) const
+{
+	return m_Children[childIdx].GetProperty(propertyIdx);
+}
+
 const FbxProperty& FbxElement::GetLastProperty() const
 {
 	return *m_Properties.Last();
@@ -110,6 +115,11 @@ const FbxProperty& FbxElement::GetLastProperty() const
 FbxProperty& FbxElement::GetProperty(unsigned idx)
 {
 	return *m_Properties[idx];
+}
+
+FbxProperty& FbxElement::GetChildProperty(unsigned childIdx, unsigned propertyIdx)
+{
+	return m_Children[childIdx].GetProperty(propertyIdx);
 }
 
 FbxProperty& FbxElement::GetLastProperty()

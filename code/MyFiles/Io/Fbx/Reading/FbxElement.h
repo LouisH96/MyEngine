@@ -51,11 +51,13 @@ namespace MyEngine
 					//---| Get Properties |---
 					const List<FbxProperty*>& GetProperties() const { return m_Properties; }
 					const FbxProperty& GetProperty(unsigned idx) const;
+					const FbxProperty& GetChildProperty(unsigned childIdx, unsigned propertyIdx) const;
 					const FbxProperty& GetLastProperty() const;
 					unsigned GetNrProperties() const { return m_Properties.GetSize(); }
 
 					List<FbxProperty*>& GetProperties() { return m_Properties; }
 					FbxProperty& GetProperty(unsigned idx);
+					FbxProperty& GetChildProperty(unsigned childIdx, unsigned propertyIdx);
 					FbxProperty& GetLastProperty();
 
 					//---| Other |---
