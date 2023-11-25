@@ -44,7 +44,7 @@ void DeflateDecompress::HandleNoCompression()
 	const uint16_t length{ m_BitStream.ReadBitsFlipped<uint16_t>(16) };
 	const int16_t lengthNegate{ m_BitStream.ReadBitsFlipped<int16_t>(16) };
 	for (int i = 0; i < length; i++)
-		m_Output.push_back(m_BitStream.ReadBits<uint8_t>(8));
+		m_Output.push_back(m_BitStream.ReadBitsFlipped<uint8_t>(8));
 }
 
 void DeflateDecompress::HandleFixedBlock()
