@@ -80,7 +80,7 @@ namespace MyEngine
 		std::stringstream ss{};
 		ss << description << "[" << array.GetSize() << "]\n";
 		for (unsigned i = 0; i < array.GetSize(); i++)
-			ss << " [" << i << "] " << std::to_string(array[i]);
+			ss << " [" << i << "] " << std::to_string(array[i]) << '\n';
 		Print(ss.str());
 	}
 
