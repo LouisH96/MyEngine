@@ -50,6 +50,8 @@ namespace MyEngine
 					void SetRootModel(const Model& model);
 					void AddDeformer(const Deformer& deformer);
 
+					const Deformer* GetSkinDeformer() const;
+
 				private:
 					int64_t m_Id{};
 					std::string m_Name{};

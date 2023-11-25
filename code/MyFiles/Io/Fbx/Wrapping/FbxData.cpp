@@ -540,6 +540,7 @@ void FbxData::HandleModelConnection(Model& childModel, const Connection& connect
 	if (pDeformer)
 	{
 		childModel.AddDeformer(*pDeformer);
+		pDeformer->SetModel(childModel);
 		return;
 	}
 

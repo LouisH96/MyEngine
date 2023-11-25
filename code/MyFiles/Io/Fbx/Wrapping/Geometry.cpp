@@ -1,11 +1,14 @@
 #include "Geometry.h"
 
+#include "Deformer.h"
 #include "Model.h"
 #include "Io/Fbx/Reading/FbxElement.h"
 #include "Io/Fbx/Reading/Properties/FbxPropArray.h"
 #include "Logger/Logger.h"
 
-MyEngine::Io::Fbx::Wrapping::Geometry::Geometry(Reading::FbxElement& geometryObject, int upAxis)
+using namespace MyEngine::Io::Fbx::Wrapping;
+
+Geometry::Geometry(Reading::FbxElement& geometryObject, int upAxis)
 	: m_Id{ geometryObject.GetProperty(0).AsPrimitive<int64_t>().GetValue() }
 {
 	LoadPoints(geometryObject, upAxis);
@@ -14,24 +17,32 @@ MyEngine::Io::Fbx::Wrapping::Geometry::Geometry(Reading::FbxElement& geometryObj
 	LoadUvs(geometryObject);
 }
 
-int64_t MyEngine::Io::Fbx::Wrapping::Geometry::GetRootModelId() const
+int64_t Geometry::GetRootModelId() const
 {
 	return m_pRootModel->GetId();
 }
 
-void MyEngine::Io::Fbx::Wrapping::Geometry::SetRootModel(const Model& model)
+void Geometry::SetRootModel(const Model& model)
 {
 	if (m_pRootModel)
 		Logger::PrintError("RootModel of geometry already set");
 	m_pRootModel = &model;
 }
 
-void MyEngine::Io::Fbx::Wrapping::Geometry::AddDeformer(const Deformer& deformer)
+void Geometry::AddDeformer(const Deformer& deformer)
 {
 	m_Deformers.Add(&deformer);
 }
 
-void MyEngine::Io::Fbx::Wrapping::Geometry::LoadPoints(const Reading::FbxElement& geometryObject, int upAxis)
+const Deformer* Geometry::GetSkinDeformer() const
+{
+	for (unsigned i = 0; i < m_Deformers.GetSize(); i++)
+		if (m_Deformers[i]->HasSkinData())
+			return m_Deformers[i];
+	return nullptr;
+}
+
+void Geometry::LoadPoints(const Reading::FbxElement& geometryObject, int upAxis)
 {
 	const Reading::FbxElement& verticesObject{ *geometryObject.GetChild("Vertices") };
 	const Array<double>& coordArray{ verticesObject.GetProperty(0).AsArray<double>().GetValues() };
@@ -56,7 +67,7 @@ void MyEngine::Io::Fbx::Wrapping::Geometry::LoadPoints(const Reading::FbxElement
 	}
 }
 
-void MyEngine::Io::Fbx::Wrapping::Geometry::LoadNormals(const Reading::FbxElement& geometryObject)
+void Geometry::LoadNormals(const Reading::FbxElement& geometryObject)
 {
 	const Reading::FbxElement& layerElementNormalObject{ *geometryObject.GetChild("LayerElementNormal") };
 	const Reading::FbxElement& normalsObject{ *layerElementNormalObject.GetChild("Normals") };
@@ -72,14 +83,14 @@ void MyEngine::Io::Fbx::Wrapping::Geometry::LoadNormals(const Reading::FbxElemen
 	}
 }
 
-void MyEngine::Io::Fbx::Wrapping::Geometry::LoadIndices(Reading::FbxElement& geometryObject)
+void Geometry::LoadIndices(Reading::FbxElement& geometryObject)
 {
 	Reading::FbxElement& indicesObject{ *geometryObject.GetChild("PolygonVertexIndex") };
 
 	indicesObject.MovePropertyTo(0, m_Indices);
 }
 
-void MyEngine::Io::Fbx::Wrapping::Geometry::LoadUvs(Reading::FbxElement& geometryObject)
+void Geometry::LoadUvs(Reading::FbxElement& geometryObject)
 {
 	Reading::FbxElement& layerElementUvObject{ *geometryObject.GetChild("LayerElementUV") };
 	Reading::FbxElement& uvIndexElement{ *layerElementUvObject.GetChild("UVIndex") };

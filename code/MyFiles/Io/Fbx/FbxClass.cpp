@@ -24,11 +24,11 @@ FbxClass::FbxClass(FbxData&& data)
 	}
 
 	m_Geometries = { data.GetGeometries().GetSize() };
-	for (unsigned i = 0; i < m_Geometries.GetSize(); i++)
+	for (unsigned iGeom = 0; iGeom < m_Geometries.GetSize(); iGeom++)
 	{
-		Wrapping::Geometry& dataGeometry = data.GetGeometries()[i];
-		Model& dataModel = data.GetModel(i);
-		Geometry& modelGeometry = m_Geometries[i];
+		Wrapping::Geometry& dataGeometry = data.GetGeometries()[iGeom];
+		Model& dataModel = data.GetModel(iGeom);
+		Geometry& modelGeometry = m_Geometries[iGeom];
 		modelGeometry.Indices = std::move(dataGeometry.GetIndices());
 		modelGeometry.Normals = std::move(dataGeometry.GetNormals());
 		modelGeometry.Points = std::move(dataGeometry.GetPoints());
@@ -36,7 +36,33 @@ FbxClass::FbxClass(FbxData&& data)
 		modelGeometry.Name = std::move(dataModel.GetName());
 		modelGeometry.RotationOffset = dataModel.GetRotationOffset();
 		modelGeometry.RotationPivot = dataModel.GetRotationPivot();
+		modelGeometry.Weights = Array<List<BlendData>>{ modelGeometry.Points.GetSize() };
+
+		//Weights
+		const Deformer* pSkinDeformer{ dataGeometry.GetSkinDeformer() };
+		if (pSkinDeformer)
+		{
+			for (unsigned iCluster = 0; iCluster < pSkinDeformer->GetChildDeformers().GetSize(); iCluster++)
+			{
+				const Deformer& deformer{ *pSkinDeformer->GetChildDeformers()[iCluster] };
+				if (!deformer.HasClusterData())
+				{
+					Logger::PrintWarning("[FbxClass] child-deformer isn't a cluster-deformer");
+					continue;
+				}
+				const DeformerClusterData& clusterData{ deformer.GetClusterData() };
+				const Model* pModel{ deformer.GetModel() };
+
+				for (unsigned iVertex = 0; iVertex < clusterData.Indexes.GetSize(); iVertex++)
+				{
+					const int vertexIdx{ clusterData.Indexes[iVertex] };
+					const double weight{ clusterData.Weights[iVertex] };
+					modelGeometry.Weights[vertexIdx].Add( BlendData{pModel, weight} );
+				}
+			}
+		}
 	}
+
 
 	for (unsigned i = 0; i < m_Geometries.GetSize(); i++)
 		MakeTriangleList(m_Geometries[i]);
@@ -52,6 +78,8 @@ int FbxClass::GetNrOfAnimationLayers() const
 
 void FbxClass::MakeTriangleList(Geometry& geomStruct)
 {
+	//todo: also move weights
+
 	std::vector<Float3> positions{};
 	std::vector<Float3> normals{};
 	std::vector<Float2> uvs{};

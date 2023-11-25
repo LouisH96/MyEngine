@@ -4,26 +4,131 @@
 #include "Io/Fbx/Reading/Properties/FbxPropPrimitive.h"
 #include "Logger/Logger.h"
 
-MyEngine::Io::Fbx::Wrapping::Deformer::Deformer(Reading::FbxElement& object)
-	: Id{ object.GetProperty(0).AsPrimitive<int64_t>().GetValue() }
+using namespace MyEngine::Io::Fbx::Wrapping;
+
+DeformerSkinData::DeformerSkinData(const Reading::FbxElement& object)
+	: Version{ object.GetChildProperty(0, 0).AsPrimitive<int>().GetValue() }
+	, Accuracy{ object.GetChildProperty(1,0).AsPrimitive<double>().GetValue() }
+	, SkinningType{ object.GetChildProperty(2,0).AsString() }
 {
 }
 
-void MyEngine::Io::Fbx::Wrapping::Deformer::SetParentGeometry(const Geometry& geometry)
+IDeformerData* DeformerSkinData::Clone() const
+{
+	return new DeformerSkinData{ *this };
+}
+
+IDeformerData* DeformerClusterData::Clone() const
+{
+	return new DeformerClusterData{ *this };
+}
+
+DeformerClusterData::DeformerClusterData(Reading::FbxElement& object)
+	: Version{ object.GetChildProperty(0,0).AsPrimitive<int>().GetValue() }
+	, Indexes{ std::move(object.GetChildProperty(2,0).AsArray<int>().GetValues()) }
+	, Weights{ std::move(object.GetChildProperty(3,0).AsArray<double>().GetValues()) }
+	, Transform{ std::move(object.GetChildProperty(4,0).AsArray<double>().GetValues()) }
+	, TransformLink{ std::move(object.GetChildProperty(5,0).AsArray<double>().GetValues()) }
+{
+
+}
+
+Deformer::Deformer(Reading::FbxElement& object)
+	: Id{ object.GetProperty(0).AsPrimitive<int64_t>().GetValue() }
+{
+	const std::string& type{ object.GetProperty(2).AsString() };
+
+	if (type == "Cluster")
+		m_pData = new DeformerClusterData(object);
+	else if (type == "Skin")
+		m_pData = new DeformerSkinData(object);
+	else
+		Logger::PrintWarning("[Deformer] unknown deformer type: " + type);
+}
+
+Deformer::~Deformer()
+{
+	delete m_pData;
+	m_pData = nullptr;
+}
+
+Deformer::Deformer(const Deformer& other)
+	: Id{ other.Id }
+	, m_pData{ other.m_pData ? other.m_pData->Clone() : nullptr }
+	, m_pParentGeometry{ other.m_pParentGeometry }
+	, m_pParentDeformer{ other.m_pParentDeformer }
+	, m_ChildDeformers{ other.m_ChildDeformers }
+{
+}
+
+Deformer::Deformer(Deformer&& other) noexcept
+	: Id{ other.Id }
+	, m_pData{ other.m_pData }
+	, m_pParentGeometry{ other.m_pParentGeometry }
+	, m_pParentDeformer{ other.m_pParentDeformer }
+	, m_ChildDeformers{ std::move(other.m_ChildDeformers) }
+{
+	other.Id = 0;
+	other.m_pData = nullptr;
+	other.m_pParentGeometry = nullptr;
+	other.m_pParentDeformer = nullptr;
+}
+
+Deformer& Deformer::operator=(const Deformer& other)
+{
+	if (&other == this) return *this;
+
+	Id = other.Id;
+	m_pParentGeometry = other.m_pParentGeometry;
+	m_pParentDeformer = other.m_pParentDeformer;
+	m_ChildDeformers = other.m_ChildDeformers;
+
+	delete m_pData;
+	m_pData = other.m_pData ? other.m_pData->Clone() : nullptr;
+
+	return *this;
+}
+
+Deformer& Deformer::operator=(Deformer&& other) noexcept
+{
+	if (&other == this) return *this;
+
+	Id = other.Id;
+	m_pData = other.m_pData;
+	m_pParentGeometry = other.m_pParentGeometry;
+	m_pParentDeformer = other.m_pParentDeformer;
+	m_ChildDeformers = std::move(other.m_ChildDeformers);
+
+	other.Id = 0;
+	other.m_pData = nullptr;
+	other.m_pParentGeometry = nullptr;
+	other.m_pParentDeformer = nullptr;
+
+	return *this;
+}
+
+void Deformer::SetParentGeometry(const Geometry& geometry)
 {
 	if (m_pParentDeformer || m_pParentGeometry)
 		Logger::PrintError("Deformer already has a parent");
 	m_pParentGeometry = &geometry;
 }
 
-void MyEngine::Io::Fbx::Wrapping::Deformer::SetParentDeformer(const Deformer& deformer)
+void Deformer::SetParentDeformer(const Deformer& deformer)
 {
 	if (m_pParentDeformer || m_pParentGeometry)
 		Logger::PrintError("Deformer already has a parent");
 	m_pParentDeformer = &deformer;
 }
 
-void MyEngine::Io::Fbx::Wrapping::Deformer::AddChildDeformer(const Deformer& deformer)
+void Deformer::AddChildDeformer(const Deformer& deformer)
 {
 	m_ChildDeformers.Add(&deformer);
+}
+
+void Deformer::SetModel(const Model& model)
+{
+	if (m_pModel)
+		Logger::PrintError("[Deformer::SetModel] Model already set");
+	m_pModel = &model;
 }

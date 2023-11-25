@@ -11,12 +11,18 @@ namespace MyEngine
 			namespace Wrapping
 			{
 				class FbxData;
+				class Model;
 			}
 
 			class FbxClass
 			{
 			public:
 				//---| Types |---
+				struct BlendData
+				{
+					const Wrapping::Model* pModel;
+					double Weight;
+				};
 				struct Geometry
 				{
 					std::string Name{};
@@ -24,6 +30,7 @@ namespace MyEngine
 					Array<Float3> Normals{};
 					Array<Float2> Uvs{};
 					Array<unsigned> Indices{};
+					Array<List<BlendData>> Weights{};
 					Float3 RotationPivot{};
 					Float3 RotationOffset{};
 				};
