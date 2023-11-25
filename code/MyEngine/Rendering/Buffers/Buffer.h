@@ -32,7 +32,7 @@ namespace MyEngine
 			void Activate(unsigned slot) const;
 			unsigned GetCapacity() const { return m_Capacity; }
 
-			void Draw();
+			void Draw() const;
 			void Draw(unsigned nrVertices) const;
 			void DrawInstanced(unsigned nrVertices) const;
 			void DrawInstanced(unsigned nrVertices, unsigned nrInstances) const;
@@ -155,7 +155,7 @@ namespace MyEngine
 		}
 
 		template <typename Data>
-		void Buffer<Data>::Draw()
+		void Buffer<Data>::Draw() const
 		{
 			Globals::pGpu->GetContext().Draw(m_Capacity, 0);
 		}
