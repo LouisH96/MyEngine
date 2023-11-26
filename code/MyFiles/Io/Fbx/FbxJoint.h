@@ -42,9 +42,12 @@ namespace MyEngine
 				bool HasParent() const { return m_pParent; }
 				const FbxJoint& GetParent() const { return *m_pParent; }
 
+				const Float4X4& GetBoneTransform() const { return m_BoneTransform; }
+
 			private:
 				std::string m_Name;
 				Game::Transform m_LocalTransform;
+				Float4X4 m_BoneTransform; //transform of bone in model-space
 				Array<FbxJoint> m_Children;
 				FbxJoint* m_pParent{};
 
@@ -53,6 +56,8 @@ namespace MyEngine
 				Float3 m_LocalTranslation;
 				Quaternion m_PreRotation;
 				Quaternion m_PostRotation;
+
+				void CalculateBoneTransforms();
 			};
 		}
 	}

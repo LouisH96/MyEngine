@@ -38,6 +38,7 @@ FbxJoint::FbxJoint(
 	rotation.RotateBy(preRotation);
 
 	m_LocalTransform = { translation, rotation };
+	CalculateBoneTransforms();
 
 	//CHILDREN
 	const Array<const Wrapping::Model*> children{ fbxData.GetChildren(model) };
@@ -91,4 +92,15 @@ const FbxTransformCurve* FbxJoint::FindCurve(const FbxAnimationLayer& layer) con
 		if (m_Curves[i].IsInLayer(layer))
 			return &m_Curves[i];
 	return nullptr;
+}
+
+void FbxJoint::CalculateBoneTransforms()
+{
+	if (m_pParent)
+		m_BoneTransform = m_pParent->GetBoneTransform() * m_LocalTransform.AsMatrix();
+	else
+		m_BoneTransform = m_LocalTransform.AsMatrix();
+
+	for (unsigned i = 0; i < m_Children.GetSize(); i++)
+		m_Children[i].CalculateBoneTransforms();
 }
