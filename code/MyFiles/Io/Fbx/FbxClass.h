@@ -20,7 +20,7 @@ namespace MyEngine
 				//---| Types |---
 				struct BlendData
 				{
-					const Wrapping::Model* pModel;
+					const FbxJoint* pJoint;
 					double Weight;
 				};
 				struct Geometry

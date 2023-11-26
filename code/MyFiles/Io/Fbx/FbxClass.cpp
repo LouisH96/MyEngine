@@ -54,13 +54,13 @@ FbxClass::FbxClass(FbxData&& data)
 					continue;
 				}
 				const DeformerClusterData& clusterData{ deformer.GetClusterData() };
-				const Model* pModel{ deformer.GetModel() };
+				const FbxJoint& joint{ m_Skeleton.GetJoint(*modelToJoint.Get(deformer.GetModel()->GetId())) };
 
 				for (unsigned iVertex = 0; iVertex < clusterData.Indexes.GetSize(); iVertex++)
 				{
 					const int vertexIdx{ clusterData.Indexes[iVertex] };
 					const double weight{ clusterData.Weights[iVertex] };
-					modelGeometry.Weights[vertexIdx].Add(BlendData{ pModel, weight });
+					modelGeometry.Weights[vertexIdx].Add(BlendData{ &joint, weight });
 				}
 			}
 		}
