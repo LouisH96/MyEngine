@@ -9,8 +9,9 @@ using namespace MyEngine::Io::Fbx::Wrapping;
 DeformerSkinData::DeformerSkinData(const Reading::FbxElement& object)
 	: Version{ object.GetChildProperty(0, 0).AsPrimitive<int>().GetValue() }
 	, Accuracy{ object.GetChildProperty(1,0).AsPrimitive<double>().GetValue() }
-	, SkinningType{ object.GetChildProperty(2,0).AsString() }
 {
+	if (object.GetNrChildren() >= 3)
+		SkinningType = object.GetChildProperty(2, 0).AsString();
 }
 
 IDeformerData* DeformerSkinData::Clone() const
@@ -25,12 +26,22 @@ IDeformerData* DeformerClusterData::Clone() const
 
 DeformerClusterData::DeformerClusterData(Reading::FbxElement& object)
 	: Version{ object.GetChildProperty(0,0).AsPrimitive<int>().GetValue() }
-	, Indexes{ std::move(object.GetChildProperty(2,0).AsArray<int>().GetValues()) }
-	, Weights{ std::move(object.GetChildProperty(3,0).AsArray<double>().GetValues()) }
-	, Transform{ std::move(object.GetChildProperty(4,0).AsArray<double>().GetValues()) }
-	, TransformLink{ std::move(object.GetChildProperty(5,0).AsArray<double>().GetValues()) }
 {
+	unsigned next{ 2 };
 
+	if (object.GetChild(next).GetName() == "Indexes")
+	{
+		Indexes = std::move(object.GetChildProperty(next, 0).AsArray<int>().GetValues());
+		next++;
+	}
+	if (object.GetChild(next).GetName() == "Weights")
+	{
+		Weights = std::move(object.GetChildProperty(next, 0).AsArray<double>().GetValues());
+		next++;
+	}
+
+	Transform = std::move(object.GetChildProperty(next++, 0).AsArray<double>().GetValues());
+	TransformLink = std::move(object.GetChildProperty(next++, 0).AsArray<double>().GetValues());
 }
 
 Deformer::Deformer(Reading::FbxElement& object)
