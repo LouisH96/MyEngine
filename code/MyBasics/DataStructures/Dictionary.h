@@ -1,6 +1,5 @@
 #pragma once
 #include "List.h"
-#include "Logger/Logger.h"
 
 namespace MyEngine
 {
