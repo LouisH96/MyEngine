@@ -1,5 +1,6 @@
 #pragma once
 #include "FbxJoint.h"
+#include "DataStructures/Dictionary.h"
 
 namespace MyEngine
 {
@@ -17,7 +18,7 @@ namespace MyEngine
 			public:
 				//---| Constructor/Destructor |---
 				FbxSkeleton() = default;
-				explicit FbxSkeleton(const Wrapping::FbxData& fbxData, const FbxClass& fbxClass);
+				explicit FbxSkeleton(const Wrapping::FbxData& fbxData, const FbxClass& fbxClass, Dictionary<uint64_t, unsigned>& modelToJoint);
 				~FbxSkeleton() = default;
 
 				//---| Move/Copy |---
@@ -26,13 +27,15 @@ namespace MyEngine
 				FbxSkeleton& operator=(const FbxSkeleton& other) = delete;
 				FbxSkeleton& operator=(FbxSkeleton&& other) noexcept = default;
 
-				const Array<FbxJoint>& GetRootJoints() const { return m_RootJoints; }
+				const Array<FbxJoint*>& GetRootJoints() const { return m_RootJoints; }
 				unsigned GetNrJoints() const;
 
 			private:
-				Array<FbxJoint> m_RootJoints;
+				Array<FbxJoint*> m_RootJoints;
+				List<FbxJoint> m_Joints;
 
-				static unsigned GetNrJoints(const FbxJoint& joint);
+				void CreateJoints(const Wrapping::Model& model, const FbxClass& fbxClass, Dictionary<uint64_t, unsigned>& modelToJoint);
+				void SetParentChildRelations(const Wrapping::Model& parent, const Dictionary<uint64_t, unsigned>& modelToJoint);
 			};
 		}
 	}

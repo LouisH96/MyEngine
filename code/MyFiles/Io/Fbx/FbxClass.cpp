@@ -1,5 +1,6 @@
 #include "FbxClass.h"
 
+#include "DataStructures/Dictionary.h"
 #include "DataStructures/DsUtils.h"
 #include "Wrapping/FbxData.h"
 #include "Wrapping/Model.h"
@@ -14,13 +15,15 @@ FbxClass::FbxClass(const std::wstring& path)
 
 FbxClass::FbxClass(FbxData&& data)
 {
+	Dictionary<uint64_t, unsigned> modelToJoint{};
+
 	if (data.GetARootLimbNode())
 	{
 		m_Animations = { data.GetAnimationStacks().GetSize() };
 		for (unsigned i = 0; i < m_Animations.GetSize(); i++)
 			m_Animations[i] = FbxAnimation{ data.GetAnimationStacks()[i] };
 
-		m_Skeleton = FbxSkeleton{ data, *this };
+		m_Skeleton = FbxSkeleton{ data, *this, modelToJoint };
 	}
 
 	m_Geometries = { data.GetGeometries().GetSize() };

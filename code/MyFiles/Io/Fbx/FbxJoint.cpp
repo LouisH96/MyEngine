@@ -10,7 +10,6 @@ using namespace Game;
 
 FbxJoint::FbxJoint(
 	const Wrapping::Model& model,
-	const Wrapping::FbxData& fbxData,
 	const FbxClass& fbxClass)
 	: m_Name{ model.GetName() }
 	, m_Curves{ fbxClass.GetNrOfAnimationLayers() }
@@ -38,16 +37,6 @@ FbxJoint::FbxJoint(
 	rotation.RotateBy(preRotation);
 
 	m_LocalTransform = { translation, rotation };
-	CalculateBoneTransforms();
-
-	//CHILDREN
-	const Array<const Wrapping::Model*> children{ fbxData.GetChildren(model) };
-	m_Children = { children.GetSize() };
-	for (unsigned i = 0; i < m_Children.GetSize(); i++)
-	{
-		m_Children[i] = { *children[i], fbxData, fbxClass };
-		m_Children[i].m_pParent = this;
-	}
 
 	//
 	m_LocalTranslation = translation;
@@ -60,6 +49,7 @@ FbxJoint::FbxJoint(
 FbxJoint::FbxJoint(FbxJoint&& other) noexcept
 	: m_Name{ std::move(other.m_Name) }
 	, m_LocalTransform(std::move(other.m_LocalTransform))
+	, m_BoneTransform{ other.m_BoneTransform }
 	, m_Children{ std::move(other.m_Children) }
 	, m_pParent{ std::move(other.m_pParent) }
 	, m_Curves{ std::move(other.m_Curves) }
@@ -68,13 +58,14 @@ FbxJoint::FbxJoint(FbxJoint&& other) noexcept
 	, m_PostRotation{ std::move(other.m_PostRotation) }
 {
 	for (unsigned i = 0; i < m_Children.GetSize(); i++)
-		m_Children[i].m_pParent = this;
+		m_Children[i]->m_pParent = this;
 }
 
 FbxJoint& FbxJoint::operator=(FbxJoint&& other) noexcept
 {
 	m_Name = std::move(other.m_Name);
 	m_LocalTransform = std::move(other.m_LocalTransform);
+	m_BoneTransform = other.m_BoneTransform;
 	m_Children = std::move(other.m_Children);
 	m_pParent = std::move(other.m_pParent);
 	m_Curves = std::move(other.m_Curves);
@@ -82,7 +73,7 @@ FbxJoint& FbxJoint::operator=(FbxJoint&& other) noexcept
 	m_PreRotation = std::move(other.m_PreRotation);
 	m_PostRotation = std::move(other.m_PostRotation);
 	for (unsigned i = 0; i < m_Children.GetSize(); i++)
-		m_Children[i].m_pParent = this;
+		m_Children[i]->m_pParent = this;
 	return *this;
 }
 
@@ -102,5 +93,5 @@ void FbxJoint::CalculateBoneTransforms()
 		m_BoneTransform = m_LocalTransform.AsMatrix();
 
 	for (unsigned i = 0; i < m_Children.GetSize(); i++)
-		m_Children[i].CalculateBoneTransforms();
+		m_Children[i]->CalculateBoneTransforms();
 }
