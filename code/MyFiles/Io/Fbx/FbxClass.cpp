@@ -57,12 +57,21 @@ FbxClass::FbxClass(FbxData&& data)
 				{
 					const int vertexIdx{ clusterData.Indexes[iVertex] };
 					const double weight{ clusterData.Weights[iVertex] };
-					modelGeometry.Weights[vertexIdx].Add( BlendData{pModel, weight} );
+					modelGeometry.Weights[vertexIdx].Add(BlendData{ pModel, weight });
 				}
 			}
 		}
-	}
 
+		//find most weights
+		//(found up to 20..., low influence however)
+		unsigned most{ 0 };
+		for (unsigned iWeight = 0; iWeight < modelGeometry.Weights.GetSize(); iWeight++)
+		{
+			const unsigned nrWeights{ modelGeometry.Weights[iWeight].GetSize() };
+			most = Uint::Max(most, nrWeights);
+		}
+		Logger::Print("[FbxClass] Most weights", most);
+	}
 
 	for (unsigned i = 0; i < m_Geometries.GetSize(); i++)
 		MakeTriangleList(m_Geometries[i]);
@@ -78,11 +87,10 @@ int FbxClass::GetNrOfAnimationLayers() const
 
 void FbxClass::MakeTriangleList(Geometry& geomStruct)
 {
-	//todo: also move weights
-
 	std::vector<Float3> positions{};
 	std::vector<Float3> normals{};
 	std::vector<Float2> uvs{};
+	List<List<BlendData>> weights{ geomStruct.Indices.GetSize() };
 	positions.reserve(geomStruct.Indices.GetSize());
 	uvs.reserve(geomStruct.Indices.GetSize());
 
@@ -99,17 +107,21 @@ void FbxClass::MakeTriangleList(Geometry& geomStruct)
 		const int pointIdx1 = static_cast<int>(geomStruct.Indices[index1]);
 		positions.push_back(geomStruct.Points[pointIdx1]);
 		positions.push_back(geomStruct.Points[pointIdx0]);
+		weights.Add(geomStruct.Weights[pointIdx1]);
+		weights.Add(geomStruct.Weights[pointIdx0]);
 
 		int pointIdx2 = static_cast<int>(geomStruct.Indices[index2]);
 		if (pointIdx2 >= 0)
 		{
 			positions.push_back(geomStruct.Points[pointIdx2]);
+			weights.Add(geomStruct.Weights[pointIdx2]);
 			index1 = index2;
 			index2++;
 			continue;
 		}
 		pointIdx2 = -pointIdx2 - 1;
 		positions.push_back(geomStruct.Points[pointIdx2]);
+		weights.Add(geomStruct.Weights[pointIdx2]);
 		index0 = index2 + 1;
 		index1 = index0 + 1;
 		index2 += 3;
@@ -118,6 +130,7 @@ void FbxClass::MakeTriangleList(Geometry& geomStruct)
 	geomStruct.Points = DsUtils::ToArray(positions);
 	geomStruct.Uvs = DsUtils::ToArray(uvs);
 	geomStruct.Indices = { 0 };
+	geomStruct.Weights = weights.ToArray();
 
 	//create normals
 	geomStruct.Normals = { geomStruct.Points.GetSize() };
