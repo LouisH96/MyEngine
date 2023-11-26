@@ -27,9 +27,12 @@ namespace MyEngine
 				FbxSkeleton& operator=(FbxSkeleton&& other) noexcept = default;
 
 				const Array<FbxJoint>& GetRootJoints() const { return m_RootJoints; }
+				unsigned GetNrJoints() const;
 
 			private:
 				Array<FbxJoint> m_RootJoints;
+
+				static unsigned GetNrJoints(const FbxJoint& joint);
 			};
 		}
 	}

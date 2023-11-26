@@ -20,3 +20,19 @@ FbxSkeleton::FbxSkeleton(const Wrapping::FbxData& fbxData, const FbxClass& fbxCl
 		m_RootJoints[0] = FbxJoint{ *pRoot, fbxData, fbxClass };
 	}
 }
+
+unsigned FbxSkeleton::GetNrJoints() const
+{
+	unsigned count{ 0 };
+	for (unsigned i = 0; i < m_RootJoints.GetSize(); i++)
+		count += GetNrJoints(m_RootJoints[i]);
+	return count;
+}
+
+unsigned FbxSkeleton::GetNrJoints(const FbxJoint& joint)
+{
+	unsigned count{ 1 };
+	for (unsigned i = 0; i < joint.GetChildren().GetSize(); i++)
+		count += GetNrJoints(joint.GetChildren()[i]);
+	return count;
+}

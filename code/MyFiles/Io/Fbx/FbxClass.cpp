@@ -71,6 +71,7 @@ FbxClass::FbxClass(FbxData&& data)
 			most = Uint::Max(most, nrWeights);
 		}
 		Logger::Print("[FbxClass] Most weights", most);
+		Logger::Print("[FbxClass] Nr joints", m_Skeleton.GetNrJoints()); //found up to 88
 	}
 
 	for (unsigned i = 0; i < m_Geometries.GetSize(); i++)
