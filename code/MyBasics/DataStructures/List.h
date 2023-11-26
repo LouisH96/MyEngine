@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Array.h"
 //#define LIST_DEBUG
 
 namespace MyEngine
@@ -58,6 +59,8 @@ namespace MyEngine
 
 		bool Any() const { return m_Size > 0; }
 		bool Empty() const { return m_Size == 0; }
+
+		Array<T> ToArray();
 
 	private:
 		T* m_pData;
@@ -321,6 +324,15 @@ namespace MyEngine
 			Logger::PrintError("[List::ReduceSize] amount bigger than size");
 #endif
 		m_Size -= amount;
+	}
+
+	template <typename T>
+	Array<T> List<T>::ToArray()
+	{
+		Array<T> array{ m_Size };
+		std::move(m_pData, &m_pData[m_Size], array.GetData());
+		m_Size = 0;
+		return array;
 	}
 
 	//should be bigger than current size
