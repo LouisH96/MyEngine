@@ -4,7 +4,9 @@
 #include "Io/Fbx/Reading/Properties/FbxPropPrimitive.h"
 #include "Logger/Logger.h"
 
-using namespace MyEngine::Io::Fbx::Wrapping;
+using namespace MyEngine::Io::Fbx;
+using namespace Wrapping;
+using namespace Reading;
 
 DeformerSkinData::DeformerSkinData(const Reading::FbxElement& object)
 	: Version{ object.GetChildProperty(0, 0).AsPrimitive<int>().GetValue() }
@@ -31,7 +33,19 @@ DeformerClusterData::DeformerClusterData(Reading::FbxElement& object)
 
 	if (object.GetChild(next).GetName() == "Indexes")
 	{
-		Indexes = std::move(object.GetChildProperty(next, 0).AsArray<int>().GetValues());
+		FbxProperty& property{ object.GetChildProperty(next, 0) };
+
+		if (dynamic_cast<FbxPropArray<double>*>(&property))
+		{
+			const Array<double>& doubles{ reinterpret_cast<FbxPropArray<double>&>(property).GetValues() };
+			Indexes = { doubles.GetSize() };
+			for (unsigned i = 0; i < doubles.GetSize(); i++)
+				Indexes[i] = static_cast<int>(doubles[i]);
+		}
+		else
+		{
+			Indexes = std::move(object.GetChildProperty(next, 0).AsArray<int>().GetValues());
+		}
 		next++;
 	}
 	if (object.GetChild(next).GetName() == "Weights")
