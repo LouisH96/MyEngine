@@ -24,7 +24,7 @@ FbxJoint::FbxJoint(
 	}
 
 	//POSITION
-	const Float3 translation{ model.GetLclTranslation() };
+	const Float3 translation{ model.GetLclTranslation() * loadData.Scale };
 	const Quaternion preRotation{ Quaternion::FromEulerDegrees(model.GetPreRotation()) };
 
 	const Float3& postEulers{ model.GetPostRotation() };
