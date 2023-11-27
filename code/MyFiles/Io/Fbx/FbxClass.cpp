@@ -1,5 +1,6 @@
 #include "FbxClass.h"
 
+#include "FbxLoadData.h"
 #include "DataStructures/Dictionary.h"
 #include "DataStructures/DsUtils.h"
 #include "Wrapping/FbxData.h"
@@ -8,14 +9,17 @@
 using namespace MyEngine::Io::Fbx;
 using namespace Wrapping;
 
-FbxClass::FbxClass(const std::wstring& path)
-	: FbxClass{ FbxData{path} }
+FbxClass::FbxClass(const std::wstring& path, float scale)
+	: FbxClass{ FbxData{path}, scale }
 {
 }
 
-FbxClass::FbxClass(FbxData&& data)
+FbxClass::FbxClass(FbxData&& data, float scale)
 {
-	Dictionary<uint64_t, unsigned> modelToJoint{};
+	FbxLoadData loadData;
+	loadData.Scale = scale;
+	loadData.pFbxClass = this;
+	loadData.pFbxData = &data;
 
 	if (data.GetARootLimbNode())
 	{
@@ -23,7 +27,7 @@ FbxClass::FbxClass(FbxData&& data)
 		for (unsigned i = 0; i < m_Animations.GetSize(); i++)
 			m_Animations[i] = FbxAnimation{ data.GetAnimationStacks()[i] };
 
-		m_Skeleton = FbxSkeleton{ data, *this, modelToJoint };
+		m_Skeleton = FbxSkeleton{ loadData };
 	}
 
 	m_Geometries = { data.GetGeometries().GetSize() };
@@ -41,6 +45,10 @@ FbxClass::FbxClass(FbxData&& data)
 		modelGeometry.RotationPivot = dataModel.GetRotationPivot();
 		modelGeometry.Weights = Array<List<BlendData>>{ modelGeometry.Points.GetSize() };
 
+		//Scale
+		for (unsigned iPoint = 0; iPoint < modelGeometry.Points.GetSize(); iPoint++)
+			modelGeometry.Points[iPoint] *= loadData.Scale;
+
 		//Weights
 		const Deformer* pSkinDeformer{ dataGeometry.GetSkinDeformer() };
 		if (pSkinDeformer)
@@ -54,7 +62,7 @@ FbxClass::FbxClass(FbxData&& data)
 					continue;
 				}
 				const DeformerClusterData& clusterData{ deformer.GetClusterData() };
-				const FbxJoint& joint{ m_Skeleton.GetJoint(*modelToJoint.Get(deformer.GetModel()->GetId())) };
+				const FbxJoint& joint{ m_Skeleton.GetJoint(*loadData.ModelToJoint.Get(deformer.GetModel()->GetId())) };
 
 				for (unsigned iVertex = 0; iVertex < clusterData.Indexes.GetSize(); iVertex++)
 				{

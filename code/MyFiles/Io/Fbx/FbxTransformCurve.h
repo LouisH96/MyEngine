@@ -8,6 +8,8 @@ namespace MyEngine
 	{
 		namespace Fbx
 		{
+			struct FbxLoadData;
+
 			namespace Wrapping
 			{
 				class AnimationCurveNode;
@@ -20,7 +22,7 @@ namespace MyEngine
 			{
 			public:
 				FbxTransformCurve() = default;
-				explicit FbxTransformCurve(const Wrapping::Model& limbNode, const FbxAnimationLayer& layer);
+				explicit FbxTransformCurve(const Wrapping::Model& limbNode, const FbxAnimationLayer& layer, const FbxLoadData& loadData);
 
 				Game::Transform AtTime(const uint64_t& time) const;
 				bool IsInLayer(const FbxAnimationLayer& layer) const;

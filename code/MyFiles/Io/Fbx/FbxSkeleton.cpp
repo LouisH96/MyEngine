@@ -1,15 +1,15 @@
 #include "FbxSkeleton.h"
 
+#include "FbxLoadData.h"
 #include "Io/Fbx/Wrapping/FbxData.h"
 
 using namespace MyEngine::Io::Fbx;
 
-FbxSkeleton::FbxSkeleton(const Wrapping::FbxData& fbxData, const FbxClass& fbxClass,
-	Dictionary<uint64_t, unsigned>& modelToJoint)
+FbxSkeleton::FbxSkeleton(FbxLoadData& loadData)
 {
 	List<unsigned> rootJointIds{};
 
-	const Wrapping::Model* pRoot{ fbxData.GetARootLimbNode() };
+	const Wrapping::Model* pRoot{ loadData.pFbxData->GetARootLimbNode() };
 	if (pRoot->GetParentModel())
 	{
 		pRoot = pRoot->GetParentModel();
@@ -17,18 +17,18 @@ FbxSkeleton::FbxSkeleton(const Wrapping::FbxData& fbxData, const FbxClass& fbxCl
 		for (unsigned i = 0; i < m_RootJoints.GetSize(); i++)
 		{
 			rootJointIds.Add(m_Joints.GetSize());
-			CreateJoints(*pRoot->GetChildModels()[i], fbxClass, modelToJoint);
+			CreateJoints(*pRoot->GetChildModels()[i], loadData);
 		}
 
 		for (unsigned i = 0; i < m_RootJoints.GetSize(); i++)
-			SetParentChildRelations(*pRoot->GetChildModels()[i], modelToJoint);
+			SetParentChildRelations(*pRoot->GetChildModels()[i], loadData);
 	}
 	else
 	{
 		m_RootJoints = { 1 };
 		rootJointIds.Add(0);
-		CreateJoints(*pRoot, fbxClass, modelToJoint);
-		SetParentChildRelations(*pRoot, modelToJoint);
+		CreateJoints(*pRoot, loadData);
+		SetParentChildRelations(*pRoot, loadData);
 	}
 
 	for (unsigned i = 0; i < rootJointIds.GetSize(); i++)
@@ -43,24 +43,24 @@ unsigned FbxSkeleton::GetNrJoints() const
 	return m_Joints.GetSize();
 }
 
-void FbxSkeleton::CreateJoints(const Wrapping::Model& model, const FbxClass& fbxClass, Dictionary<uint64_t, unsigned>& modelToJoint)
+void FbxSkeleton::CreateJoints(const Wrapping::Model& model, FbxLoadData& loadData)
 {
-	m_Joints.Add(FbxJoint{ model, fbxClass });
-	modelToJoint.Add(model.GetId(), m_Joints.GetSize() - 1);
+	m_Joints.Add(FbxJoint{ model, loadData });
+	loadData.ModelToJoint.Add(model.GetId(), m_Joints.GetSize() - 1);
 
 	for (unsigned i = 0; i < model.GetChildModels().GetSize(); i++)
-		CreateJoints(*model.GetChildModels()[i], fbxClass, modelToJoint);
+		CreateJoints(*model.GetChildModels()[i], loadData);
 }
 
-void FbxSkeleton::SetParentChildRelations(const Wrapping::Model& parent, const Dictionary<uint64_t, unsigned>& modelToJoint)
+void FbxSkeleton::SetParentChildRelations(const Wrapping::Model& parent, FbxLoadData& loadData)
 {
-	FbxJoint& parentJoint{ m_Joints[*modelToJoint.Get(parent.GetId())] };
+	FbxJoint& parentJoint{ m_Joints[*loadData.ModelToJoint.Get(parent.GetId())] };
 
 	Array<FbxJoint*> children{ parent.GetChildModels().GetSize() };
 	for (unsigned i = 0; i < parent.GetChildModels().GetSize(); i++)
 	{
 		const Wrapping::Model& childModel{ *parent.GetChildModels()[i] };
-		FbxJoint& childJoint{ m_Joints[*modelToJoint.Get(childModel.GetId())] };
+		FbxJoint& childJoint{ m_Joints[*loadData.ModelToJoint.Get(childModel.GetId())] };
 
 		childJoint.SetParent(&parentJoint);
 		children[i] = &childJoint;
@@ -69,5 +69,5 @@ void FbxSkeleton::SetParentChildRelations(const Wrapping::Model& parent, const D
 
 	//recursive
 	for (unsigned i = 0; i < parent.GetChildModels().GetSize(); i++)
-		SetParentChildRelations(*parent.GetChildModels()[i], modelToJoint);
+		SetParentChildRelations(*parent.GetChildModels()[i], loadData);
 }

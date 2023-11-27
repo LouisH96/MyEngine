@@ -10,6 +10,7 @@ namespace MyEngine
 	{
 		namespace Fbx
 		{
+			struct FbxLoadData;
 			class FbxClass;
 
 			namespace Wrapping
@@ -23,7 +24,7 @@ namespace MyEngine
 			public:
 				//---| Constructor/Destructor |---
 				FbxJoint() = default;
-				FbxJoint(const Wrapping::Model& model, const FbxClass& fbxClass);
+				FbxJoint(const Wrapping::Model& model, FbxLoadData& loadData);
 
 				//---| Move/Copy |---
 				FbxJoint(const FbxJoint& other) = delete;

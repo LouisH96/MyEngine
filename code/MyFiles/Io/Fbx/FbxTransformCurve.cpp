@@ -1,12 +1,15 @@
 #include "FbxTransformCurve.h"
 
+#include "FbxLoadData.h"
 #include "Io/Fbx/Wrapping/AnimationCurveNode.h"
 #include "Io/Fbx/Wrapping/Model.h"
 #include "Io/Fbx/FbxANimationLayer.h"
 
-using namespace MyEngine::Io::Fbx::Wrapping;
+using namespace MyEngine::Io::Fbx;
+using namespace Wrapping;
 
-MyEngine::Io::Fbx::FbxTransformCurve::FbxTransformCurve(const Wrapping::Model& limbNode, const FbxAnimationLayer& layer)
+FbxTransformCurve::FbxTransformCurve(const Model& limbNode, const FbxAnimationLayer& layer,
+                                     const FbxLoadData& loadData)
 	: m_pLayer{ &layer }
 	, m_TranslationCurves{}, m_RotationCurves{}, m_ScaleCurves{}
 {
@@ -22,13 +25,15 @@ MyEngine::Io::Fbx::FbxTransformCurve::FbxTransformCurve(const Wrapping::Model& l
 	if (pScaleNode) FromAnimationCurveNode(*pScaleNode, m_ScaleCurves);
 	else FromDefaultValue(limbNode.GetLclScaling(), m_ScaleCurves);
 
-	m_TranslationCurves[0].ScaleValues(-1);
+	m_TranslationCurves[0].ScaleValues(-loadData.Scale);
+	m_TranslationCurves[1].ScaleValues(loadData.Scale);
+	m_TranslationCurves[2].ScaleValues(loadData.Scale);
 	m_RotationCurves[1].ScaleValues(-1);
 	m_RotationCurves[2].ScaleValues(-1);
 	m_ScaleCurves[0].ScaleValues(-1);
 }
 
-MyEngine::Game::Transform MyEngine::Io::Fbx::FbxTransformCurve::AtTime(const uint64_t& time) const
+MyEngine::Game::Transform FbxTransformCurve::AtTime(const uint64_t& time) const
 {
 	const Float3 translation{
 		m_TranslationCurves[0].ValueAtTime(time),
@@ -43,12 +48,12 @@ MyEngine::Game::Transform MyEngine::Io::Fbx::FbxTransformCurve::AtTime(const uin
 	return Game::Transform{ translation, Quaternion::FromEulerDegrees(rotation) };
 }
 
-bool MyEngine::Io::Fbx::FbxTransformCurve::IsInLayer(const FbxAnimationLayer& layer) const
+bool FbxTransformCurve::IsInLayer(const FbxAnimationLayer& layer) const
 {
 	return &layer == m_pLayer;
 }
 
-void MyEngine::Io::Fbx::FbxTransformCurve::FromAnimationCurveNode(const AnimationCurveNode& node, FbxValueCurve<float>* pValueCurves)
+void FbxTransformCurve::FromAnimationCurveNode(const AnimationCurveNode& node, FbxValueCurve<float>* pValueCurves)
 {
 	if (node.GetAnimationCurves().GetSize() == 0)
 	{
@@ -60,14 +65,14 @@ void MyEngine::Io::Fbx::FbxTransformCurve::FromAnimationCurveNode(const Animatio
 	pValueCurves[2] = FbxValueCurve<float>{ *node.GetAnimationCurves()[2] };
 }
 
-void MyEngine::Io::Fbx::FbxTransformCurve::FromDefaultValue(const Double3& value, FbxValueCurve<float>* pValueCurves)
+void FbxTransformCurve::FromDefaultValue(const Double3& value, FbxValueCurve<float>* pValueCurves)
 {
 	pValueCurves[0] = FbxValueCurve<float>{ static_cast<float>(value.x) };
 	pValueCurves[1] = FbxValueCurve<float>{ static_cast<float>(value.y) };
 	pValueCurves[2] = FbxValueCurve<float>{ static_cast<float>(value.z) };
 }
 
-void MyEngine::Io::Fbx::FbxTransformCurve::FromDefaultValue(const Float3& value, FbxValueCurve<float>* pValueCurves)
+void FbxTransformCurve::FromDefaultValue(const Float3& value, FbxValueCurve<float>* pValueCurves)
 {
 	pValueCurves[0] = FbxValueCurve<float>{ value.x };
 	pValueCurves[1] = FbxValueCurve<float>{ value.y };

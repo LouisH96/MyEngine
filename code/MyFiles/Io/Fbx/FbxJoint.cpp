@@ -1,6 +1,7 @@
 #include "FbxJoint.h"
 
 #include "FbxClass.h"
+#include "FbxLoadData.h"
 #include "Io/Fbx/Wrapping/FbxData.h"
 #include "Logger/Logger.h"
 
@@ -10,16 +11,16 @@ using namespace Game;
 
 FbxJoint::FbxJoint(
 	const Wrapping::Model& model,
-	const FbxClass& fbxClass)
+	FbxLoadData& loadData)
 	: m_Name{ model.GetName() }
-	, m_Curves{ fbxClass.GetNrOfAnimationLayers() }
+	, m_Curves{ loadData.pFbxClass->GetNrOfAnimationLayers() }
 {
 	//ANIMATION
-	for (unsigned iAnimation = 0, iCurve = 0; iAnimation < fbxClass.GetAnimations().GetSize(); iAnimation++)
+	for (unsigned iAnimation = 0, iCurve = 0; iAnimation < loadData.pFbxClass->GetAnimations().GetSize(); iAnimation++)
 	{
-		const FbxAnimation& animation{ fbxClass.GetAnimations()[iAnimation] };
+		const FbxAnimation& animation{ loadData.pFbxClass->GetAnimations()[iAnimation] };
 		for (unsigned iLayer = 0; iLayer < animation.GetLayers().GetSize(); iLayer++, iCurve++)
-			m_Curves[iCurve] = FbxTransformCurve{ model, animation.GetLayers()[iLayer] };
+			m_Curves[iCurve] = FbxTransformCurve{ model, animation.GetLayers()[iLayer], loadData };
 	}
 
 	//POSITION
@@ -36,7 +37,7 @@ FbxJoint::FbxJoint(
 	rotation.RotateBy(postRotationX);
 	rotation.RotateBy(preRotation);
 
-	m_LocalTransform = { translation * .01f, rotation };
+	m_LocalTransform = { translation, rotation };
 
 	//
 	m_LocalTranslation = translation;

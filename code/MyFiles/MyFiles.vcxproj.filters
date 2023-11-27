@@ -129,5 +129,6 @@
     <ClInclude Include="Io\Csv\CsvReader.h" />
     <ClInclude Include="Io\Csv\CsvWriter.h" />
     <ClInclude Include="Io\Ttf\BaselineTable.h" />
+    <ClInclude Include="Io\Fbx\FbxLoadData.h" />
   </ItemGroup>
 </Project>

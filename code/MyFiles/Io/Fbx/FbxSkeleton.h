@@ -8,6 +8,8 @@ namespace MyEngine
 	{
 		namespace Fbx
 		{
+			struct FbxLoadData;
+
 			namespace Wrapping
 			{
 				class FbxData;
@@ -18,7 +20,7 @@ namespace MyEngine
 			public:
 				//---| Constructor/Destructor |---
 				FbxSkeleton() = default;
-				explicit FbxSkeleton(const Wrapping::FbxData& fbxData, const FbxClass& fbxClass, Dictionary<uint64_t, unsigned>& modelToJoint);
+				explicit FbxSkeleton(FbxLoadData& loadData);
 				~FbxSkeleton() = default;
 
 				//---| Move/Copy |---
@@ -36,8 +38,8 @@ namespace MyEngine
 				Array<FbxJoint*> m_RootJoints;
 				List<FbxJoint> m_Joints;
 
-				void CreateJoints(const Wrapping::Model& model, const FbxClass& fbxClass, Dictionary<uint64_t, unsigned>& modelToJoint);
-				void SetParentChildRelations(const Wrapping::Model& parent, const Dictionary<uint64_t, unsigned>& modelToJoint);
+				void CreateJoints(const Wrapping::Model& model, FbxLoadData& loadData);
+				void SetParentChildRelations(const Wrapping::Model& parent, FbxLoadData& loadData);
 			};
 		}
 	}
