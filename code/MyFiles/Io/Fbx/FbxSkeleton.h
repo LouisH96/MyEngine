@@ -27,6 +27,7 @@ namespace MyEngine
 				FbxSkeleton& operator=(const FbxSkeleton& other) = delete;
 				FbxSkeleton& operator=(FbxSkeleton&& other) noexcept = default;
 
+				const List<FbxJoint>& GetJoints() const { return m_Joints; }
 				FbxJoint& GetJoint(unsigned idx) { return m_Joints[idx]; }
 				const Array<FbxJoint*>& GetRootJoints() const { return m_RootJoints; }
 				unsigned GetNrJoints() const;

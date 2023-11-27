@@ -36,7 +36,7 @@ FbxJoint::FbxJoint(
 	rotation.RotateBy(postRotationX);
 	rotation.RotateBy(preRotation);
 
-	m_LocalTransform = { translation, rotation };
+	m_LocalTransform = { translation * .01f, rotation };
 
 	//
 	m_LocalTranslation = translation;
@@ -88,9 +88,9 @@ const FbxTransformCurve* FbxJoint::FindCurve(const FbxAnimationLayer& layer) con
 void FbxJoint::CalculateBoneTransforms()
 {
 	if (m_pParent)
-		m_BoneTransform = m_pParent->GetBoneTransform() * m_LocalTransform.AsMatrix();
+		m_BoneTransform = Transform::LocalToWorld(m_LocalTransform, m_pParent->GetBoneTransform());
 	else
-		m_BoneTransform = m_LocalTransform.AsMatrix();
+		m_BoneTransform = m_LocalTransform;
 
 	for (unsigned i = 0; i < m_Children.GetSize(); i++)
 		m_Children[i]->CalculateBoneTransforms();
