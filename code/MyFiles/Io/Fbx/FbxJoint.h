@@ -24,7 +24,7 @@ namespace MyEngine
 			public:
 				//---| Constructor/Destructor |---
 				FbxJoint() = default;
-				FbxJoint(const Wrapping::Model& model, FbxLoadData& loadData);
+				FbxJoint(const Wrapping::Model& model, FbxLoadData& loadData, const Wrapping::FbxOrientation& orientation);
 
 				//---| Move/Copy |---
 				FbxJoint(const FbxJoint& other) = delete;
@@ -37,6 +37,7 @@ namespace MyEngine
 
 				const Quaternion& GetPreRotation() const { return m_PreRotation; }
 				const Quaternion& GetPostRotation() const { return m_PostRotation; }
+				const Float3& GetTranslation() const { return m_Translation; }
 
 				void SetChildren(Array<FbxJoint*>&& children) { m_Children = children; }
 				const Array<FbxJoint*>& GetChildren() const { return m_Children; }
@@ -45,8 +46,16 @@ namespace MyEngine
 				bool HasParent() const { return m_pParent; }
 				const FbxJoint& GetParent() const { return *m_pParent; }
 
+				const Game::Transform& GetLocalTransform() const { return m_LocalTransform; }
 				const Game::Transform& GetBoneTransform() const { return m_BoneTransform; }
 				void CalculateBoneTransforms();
+
+				void PrintLocalData() const;
+				const std::string& GetName() const { return m_Name; }
+
+				const Float3& GetPreRotationEulers() const { return m_PreRotationEulers; }
+				const Float3& GetPostRotationEulers() const { return m_PostRotationEulers; }
+				const Float3& GetLclRotationEulers() const { return m_LclRotationEulers; }
 
 			private:
 				std::string m_Name;
@@ -57,10 +66,13 @@ namespace MyEngine
 
 				Array<FbxTransformCurve> m_Curves;
 
-				Float3 m_LocalTranslation;
+				Float3 m_Translation;
 				Quaternion m_PreRotation;
 				Quaternion m_PostRotation;
 
+				Float3 m_LclRotationEulers;
+				Float3 m_PreRotationEulers;
+				Float3 m_PostRotationEulers;
 			};
 		}
 	}

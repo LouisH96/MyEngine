@@ -27,7 +27,7 @@ FbxClass::FbxClass(FbxData&& data, float scale)
 		for (unsigned i = 0; i < m_Animations.GetSize(); i++)
 			m_Animations[i] = FbxAnimation{ data.GetAnimationStacks()[i] };
 
-		m_Skeleton = FbxSkeleton{ loadData };
+		m_Skeleton = FbxSkeleton{ loadData, data.GetOrientation() };
 	}
 
 	m_Geometries = { data.GetGeometries().GetSize() };
@@ -45,9 +45,18 @@ FbxClass::FbxClass(FbxData&& data, float scale)
 		modelGeometry.RotationPivot = dataModel.GetRotationPivot();
 		modelGeometry.Weights = Array<List<BlendData>>{ modelGeometry.Points.GetSize() };
 
-		//Scale
+		const Model& rootModel{ dataGeometry.GetRootModel() };
+		const Float3 offset{
+			rootModel.GetGeometricTranslation() -
+			rootModel.MakeLocalTransform(loadData.Scale).LocalToWorld(rootModel.GetLclTranslation())
+		};
+
+		//Translate & Scale
 		for (unsigned iPoint = 0; iPoint < modelGeometry.Points.GetSize(); iPoint++)
+		{
+			modelGeometry.Points[iPoint] += offset;
 			modelGeometry.Points[iPoint] *= loadData.Scale;
+		}
 
 		//Weights
 		const Deformer* pSkinDeformer{ dataGeometry.GetSkinDeformer() };
@@ -86,7 +95,7 @@ FbxClass::FbxClass(FbxData&& data, float scale)
 	}
 
 	for (unsigned i = 0; i < m_Geometries.GetSize(); i++)
-		MakeTriangleList(m_Geometries[i]);
+		MakeTriangleList(m_Geometries[i], data.GetOrientation());
 }
 
 int FbxClass::GetNrOfAnimationLayers() const
@@ -97,7 +106,7 @@ int FbxClass::GetNrOfAnimationLayers() const
 	return total;
 }
 
-void FbxClass::MakeTriangleList(Geometry& geomStruct)
+void FbxClass::MakeTriangleList(Geometry& geomStruct, const Wrapping::FbxOrientation& orientation)
 {
 	std::vector<Float3> positions{};
 	std::vector<Float3> normals{};
@@ -109,18 +118,32 @@ void FbxClass::MakeTriangleList(Geometry& geomStruct)
 	int index0 = 0;
 	int index1 = 1;
 	int index2 = 2;
+
+	int* pFirst;
+	int* pSecond;
+	if (orientation.HasClockwiseWinding())
+	{
+		pFirst = &index0;
+		pSecond = &index1;
+	}
+	else
+	{
+		pFirst = &index1;
+		pSecond = &index0;
+	}
+
 	while (index2 < static_cast<int>(geomStruct.Indices.GetSize()))
 	{
 		//fbx to right-hand side, this program lhs
-		uvs.push_back(geomStruct.Uvs[index1]);
-		uvs.push_back(geomStruct.Uvs[index0]);
+		uvs.push_back(geomStruct.Uvs[*pFirst]);
+		uvs.push_back(geomStruct.Uvs[*pSecond]);
 		uvs.push_back(geomStruct.Uvs[index2]);
-		const int pointIdx0 = static_cast<int>(geomStruct.Indices[index0]);
-		const int pointIdx1 = static_cast<int>(geomStruct.Indices[index1]);
-		positions.push_back(geomStruct.Points[pointIdx1]);
+		const int pointIdx0 = static_cast<int>(geomStruct.Indices[*pFirst]);
+		const int pointIdx1 = static_cast<int>(geomStruct.Indices[*pSecond]);
 		positions.push_back(geomStruct.Points[pointIdx0]);
-		weights.Add(geomStruct.Weights[pointIdx1]);
+		positions.push_back(geomStruct.Points[pointIdx1]);
 		weights.Add(geomStruct.Weights[pointIdx0]);
+		weights.Add(geomStruct.Weights[pointIdx1]);
 
 		int pointIdx2 = static_cast<int>(geomStruct.Indices[index2]);
 		if (pointIdx2 >= 0)

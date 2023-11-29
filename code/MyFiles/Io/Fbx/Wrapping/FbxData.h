@@ -5,6 +5,7 @@
 #include "AnimationStack.h"
 #include "CollectionExclusive.h"
 #include "Deformer.h"
+#include "FbxOrientation.h"
 #include "FbxWrapMaterial.h"
 #include "FbxWrapTexture.h"
 #include "Geometry.h"
@@ -91,9 +92,10 @@ namespace MyEngine
 					Array<const Model*> GetChildren(const Model& model) const;
 					Array<const Model*> GetChildren(const int64_t& id) const;
 
+					const FbxOrientation& GetOrientation() const { return m_Orientation; }
+
 				private:
-					int m_OriginalUpAxis{};
-					int m_OriginalUpAxisSign{};
+					FbxOrientation m_Orientation{};
 
 					Array<Geometry> m_Geometries{};
 					Array<Model> m_Models{};

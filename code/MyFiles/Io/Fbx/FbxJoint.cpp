@@ -11,7 +11,7 @@ using namespace Game;
 
 FbxJoint::FbxJoint(
 	const Wrapping::Model& model,
-	FbxLoadData& loadData)
+	FbxLoadData& loadData, const Wrapping::FbxOrientation& orientation)
 	: m_Name{ model.GetName() }
 	, m_Curves{ loadData.pFbxClass->GetNrOfAnimationLayers() }
 {
@@ -20,12 +20,19 @@ FbxJoint::FbxJoint(
 	{
 		const FbxAnimation& animation{ loadData.pFbxClass->GetAnimations()[iAnimation] };
 		for (unsigned iLayer = 0; iLayer < animation.GetLayers().GetSize(); iLayer++, iCurve++)
-			m_Curves[iCurve] = FbxTransformCurve{ model, animation.GetLayers()[iLayer], loadData };
+			m_Curves[iCurve] = FbxTransformCurve{ model, animation.GetLayers()[iLayer], loadData, orientation };
 	}
 
 	//POSITION
-	const Float3 translation{ model.GetLclTranslation() * loadData.Scale };
-	const Quaternion preRotation{ Quaternion::FromEulerDegrees(model.GetPreRotation()) };
+	m_Translation = model.GetLclTranslation() * loadData.Scale;
+	m_PreRotationEulers = model.GetPreRotation();
+	m_PostRotationEulers = model.GetPostRotation();
+	m_LclRotationEulers = model.GetLclRotation();
+
+	m_LocalTransform = model.MakeLocalTransform(loadData.Scale);
+
+	//old
+	/*const Quaternion preRotation{ Quaternion::FromEulerDegrees(model.GetPreRotation()) };
 
 	const Float3& postEulers{ model.GetPostRotation() };
 	const Quaternion postRotationX{ Quaternion::FromEulerDegrees({postEulers.x, 0, 0}) };
@@ -36,27 +43,24 @@ FbxJoint::FbxJoint(
 	rotation.RotateBy(postRotationY);
 	rotation.RotateBy(postRotationX);
 	rotation.RotateBy(preRotation);
-
-	m_LocalTransform = { translation, rotation };
-
-	//
-	m_LocalTranslation = translation;
+	
 	m_PreRotation = preRotation;
-	m_PostRotation = { postRotationZ };
-	m_PostRotation.RotateBy(postRotationY);
-	m_PostRotation.RotateBy(postRotationX);
+	m_PostRotation = Quaternion::FromEulerDegrees(postEulers);*/
 }
 
 FbxJoint::FbxJoint(FbxJoint&& other) noexcept
 	: m_Name{ std::move(other.m_Name) }
-	, m_LocalTransform(std::move(other.m_LocalTransform))
+	, m_LocalTransform(other.m_LocalTransform)
 	, m_BoneTransform{ other.m_BoneTransform }
 	, m_Children{ std::move(other.m_Children) }
-	, m_pParent{ std::move(other.m_pParent) }
+	, m_pParent{ other.m_pParent }
 	, m_Curves{ std::move(other.m_Curves) }
-	, m_LocalTranslation{ std::move(other.m_LocalTranslation) }
-	, m_PreRotation{ std::move(other.m_PreRotation) }
-	, m_PostRotation{ std::move(other.m_PostRotation) }
+	, m_Translation{ other.m_Translation }
+	, m_PreRotation{ other.m_PreRotation }
+	, m_PostRotation{ other.m_PostRotation }
+	, m_LclRotationEulers{other.m_LclRotationEulers}
+	, m_PreRotationEulers{other.m_PreRotationEulers}
+	, m_PostRotationEulers{other.m_PostRotationEulers}
 {
 	for (unsigned i = 0; i < m_Children.GetSize(); i++)
 		m_Children[i]->m_pParent = this;
@@ -65,14 +69,17 @@ FbxJoint::FbxJoint(FbxJoint&& other) noexcept
 FbxJoint& FbxJoint::operator=(FbxJoint&& other) noexcept
 {
 	m_Name = std::move(other.m_Name);
-	m_LocalTransform = std::move(other.m_LocalTransform);
+	m_LocalTransform = other.m_LocalTransform;
 	m_BoneTransform = other.m_BoneTransform;
 	m_Children = std::move(other.m_Children);
-	m_pParent = std::move(other.m_pParent);
+	m_pParent = other.m_pParent;
 	m_Curves = std::move(other.m_Curves);
-	m_LocalTranslation = std::move(other.m_LocalTranslation);
-	m_PreRotation = std::move(other.m_PreRotation);
-	m_PostRotation = std::move(other.m_PostRotation);
+	m_PreRotation = other.m_PreRotation;
+	m_PostRotation = other.m_PostRotation;
+	m_Translation = other.m_Translation;
+	m_PreRotationEulers = other.m_PreRotationEulers;
+	m_PostRotationEulers = other.m_PostRotationEulers;
+	m_LclRotationEulers = other.m_LclRotationEulers;
 	for (unsigned i = 0; i < m_Children.GetSize(); i++)
 		m_Children[i]->m_pParent = this;
 	return *this;
@@ -95,4 +102,20 @@ void FbxJoint::CalculateBoneTransforms()
 
 	for (unsigned i = 0; i < m_Children.GetSize(); i++)
 		m_Children[i]->CalculateBoneTransforms();
+}
+
+void FbxJoint::PrintLocalData() const
+{
+	std::stringstream ss{};
+	ss << m_Name << ":\n";
+	if (m_pParent)
+		ss << " Parent: " << m_pParent->GetName() << std::endl;
+	ss << " Translation: " << Convert::ToString(m_Translation) << std::endl;
+	ss << " PreRotation: " << Convert::ToString(m_PreRotationEulers) << std::endl;
+	ss << " LclRotation: " << Convert::ToString(m_LclRotationEulers) << std::endl;
+	ss << " PostRotation: " << Convert::ToString(m_PostRotationEulers) << std::endl;
+	std::cout << ss.str() << std::endl;
+
+	for (unsigned i = 0; i < m_Children.GetSize(); i++)
+		m_Children[i]->PrintLocalData();
 }

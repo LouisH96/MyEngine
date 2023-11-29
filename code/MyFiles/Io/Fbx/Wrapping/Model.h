@@ -2,6 +2,7 @@
 #include "Connection.h"
 #include "DataStructures/Array.h"
 #include "Math/Vectors.h"
+#include "Transform/Transform.h"
 
 namespace MyEngine
 {
@@ -17,6 +18,7 @@ namespace MyEngine
 
 			namespace Wrapping
 			{
+				class FbxOrientation;
 				class CollectionExclusive;
 				class FbxWrapMaterial;
 				class NodeAttribute;
@@ -27,7 +29,7 @@ namespace MyEngine
 				{
 				public:
 					Model() = default;
-					Model(Reading::FbxElement& modelObject);
+					explicit Model(Reading::FbxElement& modelObject, const FbxOrientation& orientation);
 
 					const int64_t& GetId() const { return m_Id; }
 					const std::string& GetName() const { return m_Name; }
@@ -41,6 +43,7 @@ namespace MyEngine
 					bool GetRotationActive() const { return m_RotationActive; }
 					int GetInheritType() const { return m_InheritType; }
 					const Float3& GetScalingMax() const { return m_ScalingMax; }
+					const Float3& GetGeometricTranslation() const { return m_GeometricTranslation; }
 					int GetDefaultAttributeIndex() const { return m_DefaultAttributeIndex; }
 					const Float3& GetLclTranslation() const { return m_LclTranslation; }
 					const Float3& GetLclRotation() const { return m_LclRotation; }
@@ -73,6 +76,8 @@ namespace MyEngine
 					const AnimationCurveNode* GetRotationCurveNode(int64_t layerId) const;
 					const AnimationCurveNode* GetScaleCurveNode(int64_t layerId) const;
 
+					Game::Transform MakeLocalTransform(float scale) const;
+
 				private:
 					int64_t m_Id{};
 					std::string m_Name{};
@@ -86,6 +91,7 @@ namespace MyEngine
 					bool m_RotationActive{};
 					int m_InheritType{};
 					Float3 m_ScalingMax{};
+					Float3 m_GeometricTranslation{};
 					int m_DefaultAttributeIndex{};
 					Float3 m_LclTranslation{};
 					Float3 m_LclRotation{};

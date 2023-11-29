@@ -314,8 +314,11 @@ void FbxData::ReadInfo(FbxElement& root)
 {
 	const FbxElement& globalSettings{ *root.GetChild("GlobalSettings") };
 	const Properties70 props{ *globalSettings.GetChild("Properties70") };
-	m_OriginalUpAxis = props.GetInt("OriginalUpAxis", -1);
-	m_OriginalUpAxisSign = props.GetInt("OriginalUpAxisSign", -1);
+
+	const int up{ props.GetInt("OriginalUpAxis") };
+	const int upSign{ props.GetInt("OriginalUpAxisSign") };
+
+	m_Orientation = FbxOrientation{ up * upSign };
 }
 
 void FbxData::ReadGeometry(FbxElement& objectsObject)
@@ -323,7 +326,7 @@ void FbxData::ReadGeometry(FbxElement& objectsObject)
 	const List<FbxElement*> geometries{ objectsObject.GetChildren("Geometry") };
 	m_Geometries = { geometries.GetSize() };
 	for (unsigned i = 0; i < geometries.GetSize(); i++)
-		m_Geometries[i] = Geometry{ *geometries[i], m_OriginalUpAxis };
+		m_Geometries[i] = Geometry{ *geometries[i], m_Orientation };
 }
 
 void FbxData::ReadModels(FbxElement& objectsObject)
@@ -331,7 +334,7 @@ void FbxData::ReadModels(FbxElement& objectsObject)
 	const List<FbxElement*> models{ objectsObject.GetChildren("Model") };
 	m_Models = { models.GetSize() };
 	for (unsigned i = 0; i < m_Models.GetSize(); i++)
-		m_Models[i] = Model{ *models[i] };
+		m_Models[i] = Model{ *models[i], m_Orientation };
 }
 
 void FbxData::ReadNodeAttributes(FbxElement& objectsObject)

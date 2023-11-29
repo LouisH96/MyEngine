@@ -1,6 +1,7 @@
 #include "Geometry.h"
 
 #include "Deformer.h"
+#include "FbxOrientation.h"
 #include "Model.h"
 #include "Io/Fbx/Reading/FbxElement.h"
 #include "Io/Fbx/Reading/Properties/FbxPropArray.h"
@@ -8,10 +9,10 @@
 
 using namespace MyEngine::Io::Fbx::Wrapping;
 
-Geometry::Geometry(Reading::FbxElement& geometryObject, int upAxis)
+Geometry::Geometry(Reading::FbxElement& geometryObject, const FbxOrientation& orientation)
 	: m_Id{ geometryObject.GetProperty(0).AsPrimitive<int64_t>().GetValue() }
 {
-	LoadPoints(geometryObject, upAxis);
+	LoadPoints(geometryObject, orientation);
 	LoadNormals(geometryObject);
 	LoadIndices(geometryObject);
 	LoadUvs(geometryObject);
@@ -42,29 +43,15 @@ const Deformer* Geometry::GetSkinDeformer() const
 	return nullptr;
 }
 
-void Geometry::LoadPoints(const Reading::FbxElement& geometryObject, int upAxis)
+void Geometry::LoadPoints(const Reading::FbxElement& geometryObject, const FbxOrientation& orientation)
 {
 	const Reading::FbxElement& verticesObject{ *geometryObject.GetChild("Vertices") };
 	const Array<double>& coordArray{ verticesObject.GetProperty(0).AsArray<double>().GetValues() };
 	m_Points = { coordArray.GetSize() / 3 };
-	const double* pCoord = &coordArray[0];
+	const double* pPoint{ &coordArray[0] };
 
-	if (upAxis == 2)
-	{
-		for (unsigned i = 0; i < m_Points.GetSize(); i++, pCoord += 3)
-			m_Points[i] = {
-				-static_cast<float>(*pCoord),
-				static_cast<float>(*(pCoord + 2)),
-				-static_cast<float>(*(pCoord + 1)) };
-	}
-	else
-	{
-		for (unsigned i = 0; i < m_Points.GetSize(); i++)
-			m_Points[i] = {
-				-static_cast<float>(*pCoord++),
-				static_cast<float>(*pCoord++),
-				static_cast<float>(*pCoord++) };
-	}
+	for (unsigned i = 0; i < m_Points.GetSize(); i++, pPoint += 3)
+		m_Points[i] = orientation.ConvertPoint(pPoint);
 }
 
 void Geometry::LoadNormals(const Reading::FbxElement& geometryObject)

@@ -20,7 +20,7 @@ namespace MyEngine
 			public:
 				//---| Constructor/Destructor |---
 				FbxSkeleton() = default;
-				explicit FbxSkeleton(FbxLoadData& loadData);
+				explicit FbxSkeleton(FbxLoadData& loadData, const Wrapping::FbxOrientation& orientation);
 				~FbxSkeleton() = default;
 
 				//---| Move/Copy |---
@@ -34,11 +34,13 @@ namespace MyEngine
 				const Array<FbxJoint*>& GetRootJoints() const { return m_RootJoints; }
 				unsigned GetNrJoints() const;
 
+				void PrintLocalJointData() const;
+
 			private:
 				Array<FbxJoint*> m_RootJoints;
 				List<FbxJoint> m_Joints;
 
-				void CreateJoints(const Wrapping::Model& model, FbxLoadData& loadData);
+				void CreateJoints(const Wrapping::Model& model, FbxLoadData& loadData, const Wrapping::FbxOrientation& orientation);
 				void SetParentChildRelations(const Wrapping::Model& parent, FbxLoadData& loadData);
 			};
 		}

@@ -12,6 +12,7 @@ namespace MyEngine
 
 			namespace Wrapping
 			{
+				class FbxOrientation;
 				class AnimationCurveNode;
 				class AnimationCurve;
 				class Model;
@@ -22,7 +23,7 @@ namespace MyEngine
 			{
 			public:
 				FbxTransformCurve() = default;
-				explicit FbxTransformCurve(const Wrapping::Model& limbNode, const FbxAnimationLayer& layer, const FbxLoadData& loadData);
+				explicit FbxTransformCurve(const Wrapping::Model& limbNode, const FbxAnimationLayer& layer, const FbxLoadData& loadData, const Wrapping::FbxOrientation& orientation);
 
 				Game::Transform AtTime(const uint64_t& time) const;
 				bool IsInLayer(const FbxAnimationLayer& layer) const;

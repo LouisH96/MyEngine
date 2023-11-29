@@ -5,7 +5,7 @@
 
 using namespace MyEngine::Io::Fbx;
 
-FbxSkeleton::FbxSkeleton(FbxLoadData& loadData)
+FbxSkeleton::FbxSkeleton(FbxLoadData& loadData, const Wrapping::FbxOrientation& orientation)
 {
 	List<unsigned> rootJointIds{};
 
@@ -17,7 +17,7 @@ FbxSkeleton::FbxSkeleton(FbxLoadData& loadData)
 		for (unsigned i = 0; i < m_RootJoints.GetSize(); i++)
 		{
 			rootJointIds.Add(m_Joints.GetSize());
-			CreateJoints(*pRoot->GetChildModels()[i], loadData);
+			CreateJoints(*pRoot->GetChildModels()[i], loadData, orientation);
 		}
 
 		for (unsigned i = 0; i < m_RootJoints.GetSize(); i++)
@@ -27,7 +27,7 @@ FbxSkeleton::FbxSkeleton(FbxLoadData& loadData)
 	{
 		m_RootJoints = { 1 };
 		rootJointIds.Add(0);
-		CreateJoints(*pRoot, loadData);
+		CreateJoints(*pRoot, loadData, orientation);
 		SetParentChildRelations(*pRoot, loadData);
 	}
 
@@ -43,13 +43,19 @@ unsigned FbxSkeleton::GetNrJoints() const
 	return m_Joints.GetSize();
 }
 
-void FbxSkeleton::CreateJoints(const Wrapping::Model& model, FbxLoadData& loadData)
+void FbxSkeleton::PrintLocalJointData() const
 {
-	m_Joints.Add(FbxJoint{ model, loadData });
+	for (unsigned i = 0; i < m_RootJoints.GetSize(); i++)
+		m_RootJoints[i]->PrintLocalData();
+}
+
+void FbxSkeleton::CreateJoints(const Wrapping::Model& model, FbxLoadData& loadData, const Wrapping::FbxOrientation& orientation)
+{
+	m_Joints.Add(FbxJoint{ model, loadData, orientation });
 	loadData.ModelToJoint.Add(model.GetId(), m_Joints.GetSize() - 1);
 
 	for (unsigned i = 0; i < model.GetChildModels().GetSize(); i++)
-		CreateJoints(*model.GetChildModels()[i], loadData);
+		CreateJoints(*model.GetChildModels()[i], loadData, orientation);
 }
 
 void FbxSkeleton::SetParentChildRelations(const Wrapping::Model& parent, FbxLoadData& loadData)

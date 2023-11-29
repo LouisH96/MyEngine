@@ -10,6 +10,7 @@ namespace MyEngine
 		{
 			namespace Wrapping
 			{
+				class FbxOrientation;
 				class FbxData;
 				class Model;
 			}
@@ -60,7 +61,7 @@ namespace MyEngine
 				Array<FbxAnimation> m_Animations{};
 				FbxSkeleton m_Skeleton{};
 
-				static void MakeTriangleList(Geometry& geomStruct);
+				static void MakeTriangleList(Geometry& geomStruct, const Wrapping::FbxOrientation& orientation);
 			};
 		}
 	}

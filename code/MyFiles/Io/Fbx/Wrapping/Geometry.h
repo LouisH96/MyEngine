@@ -17,6 +17,7 @@ namespace MyEngine
 
 			namespace Wrapping
 			{
+				class FbxOrientation;
 				class Deformer;
 				class Model;
 
@@ -25,7 +26,7 @@ namespace MyEngine
 				public:
 					//---| Construction |---
 					Geometry() = default;
-					explicit Geometry(Reading::FbxElement& geometryObject, int upAxis);
+					explicit Geometry(Reading::FbxElement& geometryObject, const FbxOrientation& orientation);
 					~Geometry() = default;
 
 					Geometry(const Geometry& other) = delete;
@@ -51,6 +52,7 @@ namespace MyEngine
 					void AddDeformer(const Deformer& deformer);
 
 					const Deformer* GetSkinDeformer() const;
+					const Model& GetRootModel() const { return *m_pRootModel; }
 
 				private:
 					int64_t m_Id{};
@@ -63,7 +65,7 @@ namespace MyEngine
 					const Model* m_pRootModel{};
 					Array<const Deformer*> m_Deformers{};
 
-					void LoadPoints(const Reading::FbxElement& geometryObject, int upAxis);
+					void LoadPoints(const Reading::FbxElement& geometryObject, const FbxOrientation& orientation);
 					void LoadNormals(const Reading::FbxElement& geometryObject);
 					void LoadIndices(Reading::FbxElement& geometryObject);
 					void LoadUvs(Reading::FbxElement& geometryObject);

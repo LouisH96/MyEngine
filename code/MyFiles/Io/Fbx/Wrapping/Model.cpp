@@ -2,12 +2,15 @@
 
 #include "AnimationCurveNode.h"
 #include "AnimationLayer.h"
+#include "FbxOrientation.h"
 #include "Io/Fbx/Reading/FbxElement.h"
 #include "Io/Fbx/Reading/Properties/FbxPropPrimitive.h"
 #include "Io/Fbx/Reading/Properties70.h"
 #include "Logger/Logger.h"
 
-MyEngine::Io::Fbx::Wrapping::Model::Model(Reading::FbxElement& modelObject)
+using namespace MyEngine::Io::Fbx::Wrapping;
+
+Model::Model(Reading::FbxElement& modelObject, const FbxOrientation& orientation)
 	: m_Id(modelObject.GetProperty(0).AsPrimitive<int64_t>().GetValue())
 	, m_Name(modelObject.GetProperty(1).AsString())
 	, m_TypeName(modelObject.GetProperty(2).AsString())
@@ -21,70 +24,73 @@ MyEngine::Io::Fbx::Wrapping::Model::Model(Reading::FbxElement& modelObject)
 	m_ScalingPivot = properties.GetFloat3("ScalingPivot", {});
 	m_RotationActive = properties.GetBool("RotationActive", false);
 	m_InheritType = properties.GetInt("InheritType", 0);
-	m_ScalingMax = properties.GetFloat3("ScalingMax", {1,1,1});
-	m_DefaultAttributeIndex = properties.GetInt("DefaultAttributeIndex",0);
+	m_ScalingMax = properties.GetFloat3("ScalingMax", { 1,1,1 });
+	m_GeometricTranslation = properties.GetFloat3("GeometricTranslation", {});
+	m_DefaultAttributeIndex = properties.GetInt("DefaultAttributeIndex", 0);
 	m_LclTranslation = properties.GetFloat3("Lcl Translation", {});
 	m_LclRotation = properties.GetFloat3("Lcl Rotation", {});
 	m_LclScaling = properties.GetFloat3("Lcl Scaling", { 1,1,1 });
 	m_CurrentUvSet = properties.GetString("currentUVSet", "");
 
-	m_RotationPivot.x = -m_RotationPivot.x;
-	m_RotationOffset.x = -m_RotationOffset.x;
+	if (m_RotationActive)
+	{
+		m_LclTranslation = orientation.ConvertPoint(m_LclTranslation);
+		m_RotationPivot = orientation.ConvertPoint(m_RotationPivot);
+		m_RotationOffset = orientation.ConvertPoint(m_RotationOffset);
+		m_PreRotation = orientation.ConvertRotation(m_PreRotation);
+		m_PostRotation = orientation.ConvertRotation(m_PostRotation);
+	}
 
-	//LH & Y-UP & X-RIGHT
-	m_LclTranslation.x = -m_LclTranslation.x;
-	m_PreRotation.y = -m_PreRotation.y;
-	m_PreRotation.z = -m_PreRotation.z;
-	m_PostRotation.x = -m_PostRotation.x;
+	m_GeometricTranslation = orientation.ConvertPoint(m_GeometricTranslation);
 }
 
-bool MyEngine::Io::Fbx::Wrapping::Model::IsLimbNode() const
+bool Model::IsLimbNode() const
 {
 	return m_TypeName == "LimbNode";
 }
 
-void MyEngine::Io::Fbx::Wrapping::Model::SetParentModel(const Model& parent)
+void Model::SetParentModel(const Model& parent)
 {
 	if (m_pParentModel)
 		Logger::PrintError("ParentModel already set");
 	m_pParentModel = &parent;
 }
 
-void MyEngine::Io::Fbx::Wrapping::Model::SetNodeAttribute(const NodeAttribute& nodeAttribute)
+void Model::SetNodeAttribute(const NodeAttribute& nodeAttribute)
 {
 	if (m_pNodeAttribute)
 		Logger::PrintError("NodeAttribute in model already set");
 	m_pNodeAttribute = &nodeAttribute;
 }
 
-void MyEngine::Io::Fbx::Wrapping::Model::AddChildModel(const Model& child)
+void Model::AddChildModel(const Model& child)
 {
 	m_ChildModels.Add(&child);
 }
 
-void MyEngine::Io::Fbx::Wrapping::Model::AddDeformer(const Deformer& deformer)
+void Model::AddDeformer(const Deformer& deformer)
 {
 	m_Deformers.Add(&deformer);
 }
 
-void MyEngine::Io::Fbx::Wrapping::Model::AddAnimationCurveNode(const AnimationCurveNode& animationCurveNode)
+void Model::AddAnimationCurveNode(const AnimationCurveNode& animationCurveNode)
 {
 	m_AnimationCurveNodes.Add(&animationCurveNode);
 }
 
-void MyEngine::Io::Fbx::Wrapping::Model::AddMaterial(const FbxWrapMaterial& material)
+void Model::AddMaterial(const FbxWrapMaterial& material)
 {
 	m_Materials.Add(&material);
 }
 
-void MyEngine::Io::Fbx::Wrapping::Model::SetCollection(const CollectionExclusive& collection)
+void Model::SetCollection(const CollectionExclusive& collection)
 {
 	if (m_pCollection)
 		Logger::PrintError("Model already has a CollectionExclusive");
 	m_pCollection = &collection;
 }
 
-MyEngine::Array<const MyEngine::Io::Fbx::Wrapping::Model*> MyEngine::Io::Fbx::Wrapping::Model::GetLimbNodes() const
+MyEngine::Array<const Model*> Model::GetLimbNodes() const
 {
 	Array<const Model*> limbNodeModels{};
 	for (unsigned i = 0; i < m_ChildModels.GetSize(); i++)
@@ -93,14 +99,14 @@ MyEngine::Array<const MyEngine::Io::Fbx::Wrapping::Model*> MyEngine::Io::Fbx::Wr
 	return limbNodeModels;
 }
 
-const MyEngine::Io::Fbx::Wrapping::Model& MyEngine::Io::Fbx::Wrapping::Model::GetRootParentModel() const
+const Model& Model::GetRootParentModel() const
 {
 	if (m_pParentModel)
 		return m_pParentModel->GetRootParentModel();
 	return *this;
 }
 
-MyEngine::Array<const MyEngine::Io::Fbx::Wrapping::Model*> MyEngine::Io::Fbx::Wrapping::Model::GetChildrenBreadthFirst() const
+MyEngine::Array<const Model*> Model::GetChildrenBreadthFirst() const
 {
 	Array<const Model*> children{ m_ChildModels };
 	for (unsigned i = 0; i < m_ChildModels.GetSize(); i++)
@@ -108,7 +114,7 @@ MyEngine::Array<const MyEngine::Io::Fbx::Wrapping::Model*> MyEngine::Io::Fbx::Wr
 	return children;
 }
 
-void MyEngine::Io::Fbx::Wrapping::Model::AddChildrenBreadthFirst(
+void Model::AddChildrenBreadthFirst(
 	Array<const Model*>& models) const
 {
 	unsigned iOutput{ models.GetSize() };
@@ -117,7 +123,7 @@ void MyEngine::Io::Fbx::Wrapping::Model::AddChildrenBreadthFirst(
 	for (unsigned iChild = 0; iChild < m_ChildModels.GetSize(); iChild++) m_ChildModels[iChild]->AddChildrenBreadthFirst(models);
 }
 
-const MyEngine::Io::Fbx::Wrapping::AnimationCurveNode* MyEngine::Io::Fbx::Wrapping::Model::GetTranslationCurveNode(int64_t layerId) const
+const AnimationCurveNode* Model::GetTranslationCurveNode(int64_t layerId) const
 {
 	for (unsigned i = 0; i < m_AnimationCurveNodes.GetSize(); i++)
 	{
@@ -129,7 +135,7 @@ const MyEngine::Io::Fbx::Wrapping::AnimationCurveNode* MyEngine::Io::Fbx::Wrappi
 	return nullptr;
 }
 
-const MyEngine::Io::Fbx::Wrapping::AnimationCurveNode* MyEngine::Io::Fbx::Wrapping::Model::GetRotationCurveNode(int64_t layerId) const
+const AnimationCurveNode* Model::GetRotationCurveNode(int64_t layerId) const
 {
 	for (unsigned i = 0; i < m_AnimationCurveNodes.GetSize(); i++)
 	{
@@ -141,7 +147,7 @@ const MyEngine::Io::Fbx::Wrapping::AnimationCurveNode* MyEngine::Io::Fbx::Wrappi
 	return nullptr;
 }
 
-const MyEngine::Io::Fbx::Wrapping::AnimationCurveNode* MyEngine::Io::Fbx::Wrapping::Model::GetScaleCurveNode(int64_t layerId) const
+const AnimationCurveNode* Model::GetScaleCurveNode(int64_t layerId) const
 {
 	for (unsigned i = 0; i < m_AnimationCurveNodes.GetSize(); i++)
 	{
@@ -151,4 +157,25 @@ const MyEngine::Io::Fbx::Wrapping::AnimationCurveNode* MyEngine::Io::Fbx::Wrappi
 		return &node;
 	}
 	return nullptr;
+}
+
+MyEngine::Game::Transform Model::MakeLocalTransform(float scale) const
+{
+	using namespace Game;
+
+	Transform preZYX{ {}, Quaternion::FromEulerDegrees({0,0,m_PreRotation.z}) };
+	preZYX = Transform::LocalToWorld({ {}, Quaternion::FromEulerDegrees({0, m_PreRotation.y, 0}) }, preZYX);
+	preZYX = Transform::LocalToWorld({ {}, Quaternion::FromEulerDegrees({m_PreRotation.x,0,0}) }, preZYX);
+
+	Transform postXYZ{ {}, Quaternion::FromEulerDegrees({-m_PostRotation.x,0,0}) };
+	postXYZ = Transform::LocalToWorld({ {}, Quaternion::FromEulerDegrees({0,-m_PostRotation.y, 0}) }, postXYZ);
+	postXYZ = Transform::LocalToWorld({ {}, Quaternion::FromEulerDegrees({0,0, -m_PostRotation.z}) }, postXYZ);
+
+	const Transform lclRotation{ {}, Quaternion::FromEulerDegrees(m_LclRotation) };
+
+	Transform local{ m_LclTranslation * scale, {} };
+	local = Transform::LocalToWorld(preZYX, local);
+	local = Transform::LocalToWorld(lclRotation, local);
+	local = Transform::LocalToWorld(postXYZ, local);
+	return local;
 }
