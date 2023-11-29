@@ -1,6 +1,7 @@
 #include "Convert.h"
 
 #include <codecvt>
+#include "Math/Quaternion.h"
 
 using namespace MyEngine;
 
@@ -19,4 +20,14 @@ std::string Convert::ToString(const std::wstring& wString)
 std::string Convert::ToString(char c)
 {
 	return { c };
+}
+
+std::string Convert::ToString(const Quaternion& quat)
+{
+	std::stringstream ss{};
+	ss << "(" << ToString(quat.Xyz.x)
+		<< ", " << ToString(quat.Xyz.y)
+		<< "," << ToString(quat.Xyz.z)
+		<< ", " << ToString(quat.W) << ")";
+	return ss.str();
 }
