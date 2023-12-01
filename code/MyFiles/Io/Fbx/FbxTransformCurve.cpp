@@ -25,12 +25,8 @@ FbxTransformCurve::FbxTransformCurve(const Model& limbNode, const FbxAnimationLa
 	if (pScaleNode) FromAnimationCurveNode(*pScaleNode, m_ScaleCurves);
 	else FromDefaultValue(limbNode.GetLclScaling(), m_ScaleCurves);
 
-	for (unsigned iCurve = 0; iCurve < 3; iCurve++)
-	{
-		m_TranslationCurves[iCurve].ScaleValues(loadData.Orientation.GetScale());// *orientation.GetSign(iCurve));
-		/*m_ScaleCurves[iCurve].ScaleValues(orientation.GetSign(iCurve));
-		m_RotationCurves[iCurve].ScaleValues(-orientation.GetSign(iCurve));*/
-	}
+	loadData.Orientation.ConvertPoints(m_TranslationCurves);
+	loadData.Orientation.ConvertRotations(m_RotationCurves);
 }
 
 MyEngine::Game::Transform FbxTransformCurve::AtTime(const uint64_t& time) const

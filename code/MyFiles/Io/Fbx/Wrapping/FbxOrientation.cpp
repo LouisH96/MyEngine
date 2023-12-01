@@ -1,7 +1,6 @@
 #include "FbxOrientation.h"
 
 #include "Model.h"
-#include "Logger/Logger.h"
 
 using namespace MyEngine;
 using namespace Io::Fbx::Wrapping;
