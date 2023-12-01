@@ -29,19 +29,29 @@ FbxJoint::FbxJoint(
 	m_PostRotationEulers = loadData.Orientation.ConvertRotation(model.GetPostRotation());
 	m_LclRotationEulers = loadData.Orientation.ConvertRotation(model.GetLclRotation());
 
+	m_PreRotationTransform = { {}, Quaternion::FromEulerDegrees({0,0, m_PreRotationEulers.z}) };
+	m_PreRotationTransform = Transform::LocalToWorld({ {}, Quaternion::FromEulerDegrees({0, m_PreRotationEulers.y, 0}) }, m_PreRotationTransform);
+	m_PreRotationTransform = Transform::LocalToWorld({ {}, Quaternion::FromEulerDegrees({m_PreRotationEulers.x,0,0}) }, m_PreRotationTransform);
+
+	m_PostRotationTransform = { {}, Quaternion::FromEulerDegrees({-m_PostRotationEulers.x,0,0}) };
+	m_PostRotationTransform = Transform::LocalToWorld({ {}, Quaternion::FromEulerDegrees({0,-m_PostRotationEulers.y, 0}) }, m_PostRotationTransform);
+	m_PostRotationTransform = Transform::LocalToWorld({ {}, Quaternion::FromEulerDegrees({0,0, -m_PostRotationEulers.z}) }, m_PostRotationTransform);
+
 	m_LocalTransform = loadData.Orientation.MakeLocalTransform(model);
 }
 
 FbxJoint::FbxJoint(FbxJoint&& other) noexcept
 	: m_Name{ std::move(other.m_Name) }
 	, m_LocalTransform(other.m_LocalTransform)
-	, m_BoneTransform{ other.m_BoneTransform }
-	, m_Children{ std::move(other.m_Children) }
-	, m_pParent{ other.m_pParent }
-	, m_Curves{ std::move(other.m_Curves) }
-	, m_Translation{ other.m_Translation }
-	, m_PreRotation{ other.m_PreRotation }
-	, m_PostRotation{ other.m_PostRotation }
+	, m_PreRotationTransform{other.m_PreRotationTransform}
+	, m_PostRotationTransform{other.m_PostRotationTransform}
+	, m_BoneTransform{other.m_BoneTransform}
+	, m_Children{std::move(other.m_Children)}
+	, m_pParent{other.m_pParent}
+	, m_Curves{std::move(other.m_Curves)}
+	, m_Translation{other.m_Translation}
+	, m_PreRotation{other.m_PreRotation}
+	, m_PostRotation{other.m_PostRotation}
 	, m_LclRotationEulers{other.m_LclRotationEulers}
 	, m_PreRotationEulers{other.m_PreRotationEulers}
 	, m_PostRotationEulers{other.m_PostRotationEulers}
@@ -64,6 +74,8 @@ FbxJoint& FbxJoint::operator=(FbxJoint&& other) noexcept
 	m_PreRotationEulers = other.m_PreRotationEulers;
 	m_PostRotationEulers = other.m_PostRotationEulers;
 	m_LclRotationEulers = other.m_LclRotationEulers;
+	m_PostRotationTransform = other.m_PostRotationTransform;
+	m_PreRotationTransform = other.m_PreRotationTransform;
 	for (unsigned i = 0; i < m_Children.GetSize(); i++)
 		m_Children[i]->m_pParent = this;
 	return *this;

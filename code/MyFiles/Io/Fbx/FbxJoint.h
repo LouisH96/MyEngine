@@ -57,9 +57,15 @@ namespace MyEngine
 				const Float3& GetPostRotationEulers() const { return m_PostRotationEulers; }
 				const Float3& GetLclRotationEulers() const { return m_LclRotationEulers; }
 
+				const Game::Transform& GetPreRotationZYX() const { return m_PreRotationTransform; }
+				const Game::Transform& GetPostRotationXYZ() const { return m_PostRotationTransform; }
+
 			private:
 				std::string m_Name;
 				Game::Transform m_LocalTransform;
+				Game::Transform m_PreRotationTransform;
+				Game::Transform m_PostRotationTransform;
+
 				Game::Transform m_BoneTransform; //transform of bone in model-space
 				Array<FbxJoint*> m_Children;
 				FbxJoint* m_pParent{};
