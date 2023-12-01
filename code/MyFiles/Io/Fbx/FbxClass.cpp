@@ -46,16 +46,18 @@ FbxClass::FbxClass(FbxData&& data, float scale)
 		modelGeometry.Weights = Array<List<BlendData>>{ modelGeometry.Points.GetSize() };
 
 		const Model& rootModel{ dataGeometry.GetRootModel() };
+		const Game::Transform rootModelTransform{ rootModel.MakeLocalTransform(loadData.Scale) };
 		const Float3 offset{
-			rootModel.GetGeometricTranslation() -
-			rootModel.MakeLocalTransform(loadData.Scale).LocalToWorld(rootModel.GetLclTranslation())
+			rootModel.GetGeometricTranslation()
 		};
 
 		//Translate & Scale
 		for (unsigned iPoint = 0; iPoint < modelGeometry.Points.GetSize(); iPoint++)
 		{
-			modelGeometry.Points[iPoint] += offset;
 			modelGeometry.Points[iPoint] *= loadData.Scale;
+			modelGeometry.Points[iPoint] += offset * loadData.Scale;
+			modelGeometry.Points[iPoint] = rootModelTransform.LocalToWorld(modelGeometry.Points[iPoint]);
+			//todo: normals
 		}
 
 		//Weights

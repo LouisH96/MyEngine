@@ -32,14 +32,12 @@ Model::Model(Reading::FbxElement& modelObject, const FbxOrientation& orientation
 	m_LclScaling = properties.GetFloat3("Lcl Scaling", { 1,1,1 });
 	m_CurrentUvSet = properties.GetString("currentUVSet", "");
 
-	if (m_RotationActive)
-	{
-		m_LclTranslation = orientation.ConvertPoint(m_LclTranslation);
-		m_RotationPivot = orientation.ConvertPoint(m_RotationPivot);
-		m_RotationOffset = orientation.ConvertPoint(m_RotationOffset);
-		m_PreRotation = orientation.ConvertRotation(m_PreRotation);
-		m_PostRotation = orientation.ConvertRotation(m_PostRotation);
-	}
+	m_LclTranslation = orientation.ConvertPoint(m_LclTranslation);
+	m_RotationPivot = orientation.ConvertPoint(m_RotationPivot);
+	m_RotationOffset = orientation.ConvertPoint(m_RotationOffset);
+	m_PreRotation = orientation.ConvertRotation(m_PreRotation);
+	m_PostRotation = orientation.ConvertRotation(m_PostRotation);
+	m_LclRotation = orientation.ConvertRotation(m_LclRotation);
 
 	m_GeometricTranslation = orientation.ConvertPoint(m_GeometricTranslation);
 }
