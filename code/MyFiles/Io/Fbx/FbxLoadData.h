@@ -2,6 +2,7 @@
 #include <cstdint>
 
 #include "DataStructures/Dictionary.h"
+#include "Wrapping/FbxOrientation.h"
 
 namespace MyEngine
 {
@@ -18,7 +19,7 @@ namespace MyEngine
 
 			struct FbxLoadData
 			{
-				float Scale{};
+				Wrapping::FbxOrientation Orientation{};
 				FbxClass* pFbxClass{};
 				Wrapping::FbxData* pFbxData{};
 				Dictionary<uint64_t, unsigned> ModelToJoint{};

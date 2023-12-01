@@ -17,7 +17,7 @@ FbxClass::FbxClass(const std::wstring& path, float scale)
 FbxClass::FbxClass(FbxData&& data, float scale)
 {
 	FbxLoadData loadData;
-	loadData.Scale = scale;
+	loadData.Orientation = FbxOrientation{ scale };
 	loadData.pFbxClass = this;
 	loadData.pFbxData = &data;
 
@@ -27,7 +27,7 @@ FbxClass::FbxClass(FbxData&& data, float scale)
 		for (unsigned i = 0; i < m_Animations.GetSize(); i++)
 			m_Animations[i] = FbxAnimation{ data.GetAnimationStacks()[i] };
 
-		m_Skeleton = FbxSkeleton{ loadData, data.GetOrientation() };
+		m_Skeleton = FbxSkeleton{ loadData };
 	}
 
 	m_Geometries = { data.GetGeometries().GetSize() };
@@ -46,7 +46,7 @@ FbxClass::FbxClass(FbxData&& data, float scale)
 		modelGeometry.Weights = Array<List<BlendData>>{ modelGeometry.Points.GetSize() };
 
 		const Model& rootModel{ dataGeometry.GetRootModel() };
-		const Game::Transform rootModelTransform{ rootModel.MakeLocalTransform(loadData.Scale) };
+		const Game::Transform rootModelTransform{ loadData.Orientation.MakeLocalTransform(rootModel) };
 		const Float3 offset{
 			rootModel.GetGeometricTranslation()
 		};
@@ -54,9 +54,10 @@ FbxClass::FbxClass(FbxData&& data, float scale)
 		//Translate & Scale
 		for (unsigned iPoint = 0; iPoint < modelGeometry.Points.GetSize(); iPoint++)
 		{
-			modelGeometry.Points[iPoint] *= loadData.Scale;
-			modelGeometry.Points[iPoint] += offset * loadData.Scale;
-			modelGeometry.Points[iPoint] = rootModelTransform.LocalToWorld(modelGeometry.Points[iPoint]);
+			Float3& point{ modelGeometry.Points[iPoint] };
+			point = loadData.Orientation.ConvertPoint(point);
+			point += offset * loadData.Orientation.GetScale();
+			point = rootModelTransform.LocalToWorld(point);
 			//todo: normals
 		}
 
@@ -97,7 +98,7 @@ FbxClass::FbxClass(FbxData&& data, float scale)
 	}
 
 	for (unsigned i = 0; i < m_Geometries.GetSize(); i++)
-		MakeTriangleList(m_Geometries[i], data.GetOrientation());
+		MakeTriangleList(m_Geometries[i], loadData.Orientation);
 }
 
 int FbxClass::GetNrOfAnimationLayers() const

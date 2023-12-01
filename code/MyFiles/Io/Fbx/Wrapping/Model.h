@@ -29,7 +29,7 @@ namespace MyEngine
 				{
 				public:
 					Model() = default;
-					explicit Model(Reading::FbxElement& modelObject, const FbxOrientation& orientation);
+					explicit Model(Reading::FbxElement& modelObject);
 
 					const int64_t& GetId() const { return m_Id; }
 					const std::string& GetName() const { return m_Name; }

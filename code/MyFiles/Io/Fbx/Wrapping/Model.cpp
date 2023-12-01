@@ -2,7 +2,6 @@
 
 #include "AnimationCurveNode.h"
 #include "AnimationLayer.h"
-#include "FbxOrientation.h"
 #include "Io/Fbx/Reading/FbxElement.h"
 #include "Io/Fbx/Reading/Properties/FbxPropPrimitive.h"
 #include "Io/Fbx/Reading/Properties70.h"
@@ -10,7 +9,7 @@
 
 using namespace MyEngine::Io::Fbx::Wrapping;
 
-Model::Model(Reading::FbxElement& modelObject, const FbxOrientation& orientation)
+Model::Model(Reading::FbxElement& modelObject)
 	: m_Id(modelObject.GetProperty(0).AsPrimitive<int64_t>().GetValue())
 	, m_Name(modelObject.GetProperty(1).AsString())
 	, m_TypeName(modelObject.GetProperty(2).AsString())
@@ -31,15 +30,6 @@ Model::Model(Reading::FbxElement& modelObject, const FbxOrientation& orientation
 	m_LclRotation = properties.GetFloat3("Lcl Rotation", {});
 	m_LclScaling = properties.GetFloat3("Lcl Scaling", { 1,1,1 });
 	m_CurrentUvSet = properties.GetString("currentUVSet", "");
-
-	m_LclTranslation = orientation.ConvertPoint(m_LclTranslation);
-	m_RotationPivot = orientation.ConvertPoint(m_RotationPivot);
-	m_RotationOffset = orientation.ConvertPoint(m_RotationOffset);
-	m_PreRotation = orientation.ConvertRotation(m_PreRotation);
-	m_PostRotation = orientation.ConvertRotation(m_PostRotation);
-	m_LclRotation = orientation.ConvertRotation(m_LclRotation);
-
-	m_GeometricTranslation = orientation.ConvertPoint(m_GeometricTranslation);
 }
 
 bool Model::IsLimbNode() const

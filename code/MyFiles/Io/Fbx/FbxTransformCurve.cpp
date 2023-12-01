@@ -4,13 +4,12 @@
 #include "Io/Fbx/Wrapping/AnimationCurveNode.h"
 #include "Io/Fbx/Wrapping/Model.h"
 #include "Io/Fbx/FbxANimationLayer.h"
-#include "Wrapping/FbxOrientation.h"
 
 using namespace MyEngine::Io::Fbx;
 using namespace Wrapping;
 
 FbxTransformCurve::FbxTransformCurve(const Model& limbNode, const FbxAnimationLayer& layer,
-	const FbxLoadData& loadData, const Wrapping::FbxOrientation& orientation)
+	const FbxLoadData& loadData)
 	: m_pLayer{ &layer }
 	, m_TranslationCurves{}, m_RotationCurves{}, m_ScaleCurves{}
 {
@@ -28,7 +27,7 @@ FbxTransformCurve::FbxTransformCurve(const Model& limbNode, const FbxAnimationLa
 
 	for (unsigned iCurve = 0; iCurve < 3; iCurve++)
 	{
-		m_TranslationCurves[iCurve].ScaleValues(loadData.Scale);// *orientation.GetSign(iCurve));
+		m_TranslationCurves[iCurve].ScaleValues(loadData.Orientation.GetScale());// *orientation.GetSign(iCurve));
 		/*m_ScaleCurves[iCurve].ScaleValues(orientation.GetSign(iCurve));
 		m_RotationCurves[iCurve].ScaleValues(-orientation.GetSign(iCurve));*/
 	}

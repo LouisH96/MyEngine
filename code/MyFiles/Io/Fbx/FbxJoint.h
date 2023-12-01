@@ -24,7 +24,7 @@ namespace MyEngine
 			public:
 				//---| Constructor/Destructor |---
 				FbxJoint() = default;
-				FbxJoint(const Wrapping::Model& model, FbxLoadData& loadData, const Wrapping::FbxOrientation& orientation);
+				FbxJoint(const Wrapping::Model& model, FbxLoadData& loadData);
 
 				//---| Move/Copy |---
 				FbxJoint(const FbxJoint& other) = delete;

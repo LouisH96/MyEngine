@@ -92,11 +92,7 @@ namespace MyEngine
 					Array<const Model*> GetChildren(const Model& model) const;
 					Array<const Model*> GetChildren(const int64_t& id) const;
 
-					const FbxOrientation& GetOrientation() const { return m_Orientation; }
-
 				private:
-					FbxOrientation m_Orientation{};
-
 					Array<Geometry> m_Geometries{};
 					Array<Model> m_Models{};
 					Array<NodeAttribute> m_NodeAttributes{};

@@ -11,7 +11,7 @@ using namespace Game;
 
 FbxJoint::FbxJoint(
 	const Wrapping::Model& model,
-	FbxLoadData& loadData, const Wrapping::FbxOrientation& orientation)
+	FbxLoadData& loadData)
 	: m_Name{ model.GetName() }
 	, m_Curves{ loadData.pFbxClass->GetNrOfAnimationLayers() }
 {
@@ -20,32 +20,16 @@ FbxJoint::FbxJoint(
 	{
 		const FbxAnimation& animation{ loadData.pFbxClass->GetAnimations()[iAnimation] };
 		for (unsigned iLayer = 0; iLayer < animation.GetLayers().GetSize(); iLayer++, iCurve++)
-			m_Curves[iCurve] = FbxTransformCurve{ model, animation.GetLayers()[iLayer], loadData, orientation };
+			m_Curves[iCurve] = FbxTransformCurve{ model, animation.GetLayers()[iLayer], loadData };
 	}
 
 	//POSITION
-	m_Translation = model.GetLclTranslation() * loadData.Scale;
-	m_PreRotationEulers = model.GetPreRotation();
-	m_PostRotationEulers = model.GetPostRotation();
-	m_LclRotationEulers = model.GetLclRotation();
+	m_Translation = loadData.Orientation.ConvertPoint(model.GetLclTranslation());
+	m_PreRotationEulers = loadData.Orientation.ConvertRotation(model.GetPreRotation());
+	m_PostRotationEulers = loadData.Orientation.ConvertRotation(model.GetPostRotation());
+	m_LclRotationEulers = loadData.Orientation.ConvertRotation(model.GetLclRotation());
 
-	m_LocalTransform = model.MakeLocalTransform(loadData.Scale);
-
-	//old
-	/*const Quaternion preRotation{ Quaternion::FromEulerDegrees(model.GetPreRotation()) };
-
-	const Float3& postEulers{ model.GetPostRotation() };
-	const Quaternion postRotationX{ Quaternion::FromEulerDegrees({postEulers.x, 0, 0}) };
-	const Quaternion postRotationY{ Quaternion::FromEulerDegrees({0, postEulers.y, 0}) };
-	const Quaternion postRotationZ{ Quaternion::FromEulerDegrees({0, 0, postEulers.z}) };
-
-	Quaternion rotation{ postRotationZ };
-	rotation.RotateBy(postRotationY);
-	rotation.RotateBy(postRotationX);
-	rotation.RotateBy(preRotation);
-	
-	m_PreRotation = preRotation;
-	m_PostRotation = Quaternion::FromEulerDegrees(postEulers);*/
+	m_LocalTransform = loadData.Orientation.MakeLocalTransform(model);
 }
 
 FbxJoint::FbxJoint(FbxJoint&& other) noexcept
