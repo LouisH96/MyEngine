@@ -41,6 +41,9 @@ namespace MyEngine
 					Pose(Pose&& other) = default;
 					Pose& operator=(Pose&& other) = default;
 
+					const Node* FindNode(const int64_t& id) const;
+					const Double4X4* FindMatrix(const int64_t& id) const;
+
 					//---| Fields |---
 					std::string Name;
 					std::string Type;

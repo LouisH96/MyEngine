@@ -4,6 +4,7 @@
 #include "FbxLoadData.h"
 #include "Io/Fbx/Wrapping/FbxData.h"
 #include "Logger/Logger.h"
+#include "Transform/WorldMatrix.h"
 
 using namespace MyEngine;
 using namespace Io::Fbx;
@@ -11,7 +12,7 @@ using namespace Game;
 
 FbxJoint::FbxJoint(
 	const Wrapping::Model& model,
-	FbxLoadData& loadData)
+	const FbxLoadData& loadData)
 	: m_Name{ model.GetName() }
 	, m_Curves{ loadData.pFbxClass->GetNrOfAnimationLayers() }
 {
@@ -38,23 +39,44 @@ FbxJoint::FbxJoint(
 	m_PostRotationTransform = Transform::LocalToWorld({ {}, Quaternion::FromEulerDegrees({0,0, -m_PostRotationEulers.z}) }, m_PostRotationTransform);
 
 	m_LocalTransform = loadData.Orientation.MakeLocalTransform(model);
+
+	//POSE
+	const Wrapping::Pose::Node* pNode{ loadData.pFbxData->GetBindPose().FindNode(model.GetId()) };
+	if (pNode)
+	{
+		const Double4X4& matrix{ pNode->Matrix };
+		m_BoneTransform = Float4X4{ matrix };
+		m_BoneTransform.Get(0, 3) *= -loadData.Orientation.GetScale();
+		m_BoneTransform.Get(1, 3) *= loadData.Orientation.GetScale();
+		m_BoneTransform.Get(2, 3) *= loadData.Orientation.GetScale();
+
+		m_BoneTransform.Get(0, 1) *= -1;
+		m_BoneTransform.Get(0, 2) *= -1;
+
+		m_BoneTransform.Get(1, 0) *= -1;
+		m_BoneTransform.Get(2, 0) *= -1;
+
+		WorldMatrix::Inverse(m_BoneTransform);
+	}
+	else
+		SetInvalidBoneTransform();
 }
 
 FbxJoint::FbxJoint(FbxJoint&& other) noexcept
 	: m_Name{ std::move(other.m_Name) }
 	, m_LocalTransform(other.m_LocalTransform)
-	, m_PreRotationTransform{other.m_PreRotationTransform}
-	, m_PostRotationTransform{other.m_PostRotationTransform}
-	, m_BoneTransform{other.m_BoneTransform}
-	, m_Children{std::move(other.m_Children)}
-	, m_pParent{other.m_pParent}
-	, m_Curves{std::move(other.m_Curves)}
-	, m_Translation{other.m_Translation}
-	, m_PreRotation{other.m_PreRotation}
-	, m_PostRotation{other.m_PostRotation}
-	, m_LclRotationEulers{other.m_LclRotationEulers}
-	, m_PreRotationEulers{other.m_PreRotationEulers}
-	, m_PostRotationEulers{other.m_PostRotationEulers}
+	, m_PreRotationTransform{ other.m_PreRotationTransform }
+	, m_PostRotationTransform{ other.m_PostRotationTransform }
+	, m_BoneTransform{ other.m_BoneTransform }
+	, m_Children{ std::move(other.m_Children) }
+	, m_pParent{ other.m_pParent }
+	, m_Curves{ std::move(other.m_Curves) }
+	, m_Translation{ other.m_Translation }
+	, m_PreRotation{ other.m_PreRotation }
+	, m_PostRotation{ other.m_PostRotation }
+	, m_LclRotationEulers{ other.m_LclRotationEulers }
+	, m_PreRotationEulers{ other.m_PreRotationEulers }
+	, m_PostRotationEulers{ other.m_PostRotationEulers }
 {
 	for (unsigned i = 0; i < m_Children.GetSize(); i++)
 		m_Children[i]->m_pParent = this;
@@ -89,17 +111,6 @@ const FbxTransformCurve* FbxJoint::FindCurve(const FbxAnimationLayer& layer) con
 	return nullptr;
 }
 
-void FbxJoint::CalculateBoneTransforms()
-{
-	if (m_pParent)
-		m_BoneTransform = Transform::LocalToWorld(m_LocalTransform, m_pParent->GetBoneTransform());
-	else
-		m_BoneTransform = m_LocalTransform;
-
-	for (unsigned i = 0; i < m_Children.GetSize(); i++)
-		m_Children[i]->CalculateBoneTransforms();
-}
-
 void FbxJoint::PrintLocalData() const
 {
 	std::stringstream ss{};
@@ -114,4 +125,28 @@ void FbxJoint::PrintLocalData() const
 
 	for (unsigned i = 0; i < m_Children.GetSize(); i++)
 		m_Children[i]->PrintLocalData();
+}
+
+void FbxJoint::CalculateBoneTransform()
+{
+	if (!HasValidBoneTransform())
+	{
+		if (m_pParent)
+			m_BoneTransform = m_pParent->GetBoneTransform() * m_LocalTransform.AsInverseMatrix();
+		else
+			m_BoneTransform = m_LocalTransform.AsInverseMatrix();
+	}
+
+	for (unsigned i = 0; i < m_Children.GetSize(); i++)
+		m_Children[i]->CalculateBoneTransform();
+}
+
+bool FbxJoint::HasValidBoneTransform() const
+{
+	return m_BoneTransform.Get(0, 0) != Float::MAX;
+}
+
+void FbxJoint::SetInvalidBoneTransform()
+{
+	m_BoneTransform.Set(0, 0, Float::MAX);
 }

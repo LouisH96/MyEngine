@@ -24,7 +24,7 @@ namespace MyEngine
 			public:
 				//---| Constructor/Destructor |---
 				FbxJoint() = default;
-				FbxJoint(const Wrapping::Model& model, FbxLoadData& loadData);
+				FbxJoint(const Wrapping::Model& model, const FbxLoadData& loadData);
 
 				//---| Move/Copy |---
 				FbxJoint(const FbxJoint& other) = delete;
@@ -47,8 +47,7 @@ namespace MyEngine
 				const FbxJoint& GetParent() const { return *m_pParent; }
 
 				const Game::Transform& GetLocalTransform() const { return m_LocalTransform; }
-				const Game::Transform& GetBoneTransform() const { return m_BoneTransform; }
-				void CalculateBoneTransforms();
+				const Float4X4& GetBoneTransform() const { return m_BindTransform; }
 
 				void PrintLocalData() const;
 				const std::string& GetName() const { return m_Name; }
@@ -60,13 +59,15 @@ namespace MyEngine
 				const Game::Transform& GetPreRotationZYX() const { return m_PreRotationTransform; }
 				const Game::Transform& GetPostRotationXYZ() const { return m_PostRotationTransform; }
 
+				void CalculateBoneTransform();
+
 			private:
 				std::string m_Name;
 				Game::Transform m_LocalTransform;
 				Game::Transform m_PreRotationTransform;
 				Game::Transform m_PostRotationTransform;
 
-				Game::Transform m_BoneTransform; //transform of bone in model-space
+				Float4X4 m_BindTransform;
 				Array<FbxJoint*> m_Children;
 				FbxJoint* m_pParent{};
 
@@ -79,6 +80,9 @@ namespace MyEngine
 				Float3 m_LclRotationEulers;
 				Float3 m_PreRotationEulers;
 				Float3 m_PostRotationEulers;
+
+				bool HasValidBindTransform() const;
+				void SetInvalidBindTransform();
 			};
 		}
 	}
