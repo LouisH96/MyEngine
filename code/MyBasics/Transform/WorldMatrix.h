@@ -39,6 +39,15 @@ namespace MyEngine
 
 			static void SetPitchRotation(Float4X4& m, float pitch);
 
+			template<typename T>
+			static void TransformPoint(const Matrix4X4<T>& matrix, Vector3<T>& point);
+
+			template<typename T>
+			static Vector3<T> RotatePoint(const Matrix4X4<T>& matrix, const Vector3<T>& point);
+
+			template<typename T> static void Inverse(Matrix4X4<T>& matrix);
+			template<typename T> static Matrix4X4<T> GetInversed(const Matrix4X4<T>& matrix);
+
 			//---| DxMatrix3X3 |---
 			template<typename T> static DxMatrix3X3<T> CreateDx3X3(const Vector2<T>& position);
 			template<typename T> static DxMatrix3X3<T> CreateDx3X3(const Vector2<T>& position, T angle);
@@ -51,6 +60,63 @@ namespace MyEngine
 
 			template<typename T> static void SetRotation(DxMatrix3X3<T>& transform, T angle);
 		};
+
+		//row-vector * col-major-matrix
+		template <typename T>
+		void WorldMatrix::TransformPoint(const Matrix4X4<T>& matrix, Vector3<T>& point)
+		{
+			point = Vector3<T>{
+				reinterpret_cast<const Vector3<T>&>(matrix.GetCol0()).Dot(point),
+				reinterpret_cast<const Vector3<T>&>(matrix.GetCol1()).Dot(point),
+				reinterpret_cast<const Vector3<T>&>(matrix.GetCol2()).Dot(point) }
+			+ reinterpret_cast<const Vector3<T>&>(matrix.GetRow3());
+		}
+
+		template <typename T>
+		Vector3<T> WorldMatrix::RotatePoint(const Matrix4X4<T>& matrix, const Vector3<T>& point)
+		{
+			return {
+				reinterpret_cast<const Vector3<T>&>(matrix.GetCol0()).Dot(point),
+				reinterpret_cast<const Vector3<T>&>(matrix.GetCol1()).Dot(point),
+				reinterpret_cast<const Vector3<T>&>(matrix.GetCol2()).Dot(point)
+			};
+		}
+
+		//cannot handle scaling
+		template <typename T>
+		void WorldMatrix::Inverse(Matrix4X4<T>& matrix)
+		{
+			//0 & 1
+			float temp = matrix.Get(0, 1);
+			matrix.Set(0, 1, matrix.Get(1, 0));
+			matrix.Set(1, 0, temp);
+
+			//0 & 2
+			temp = matrix.Get(0, 2);
+			matrix.Set(0, 2, matrix.Get(2, 0));
+			matrix.Set(2, 0, temp);
+
+			//1 & 2
+			temp = matrix.Get(1, 2);
+			matrix.Set(1, 2, matrix.Get(2, 1));
+			matrix.Set(2, 1, temp);
+
+			matrix.SetRow3(-RotatePoint(matrix, matrix.GetRow3().Xyz()));
+		}
+
+		template <typename T>
+		Matrix4X4<T> WorldMatrix::GetInversed(const Matrix4X4<T>& matrix)
+		{
+			Matrix4X4<T> inv
+			{
+				{ matrix.Get(0,0), matrix.Get(1,0), matrix.Get(2,0)},
+				{ matrix.Get(0,1),matrix.Get(1,1),matrix.Get(2,1)},
+				{ matrix.Get(0,2), matrix.Get(1,2),matrix.Get(2,2)}
+			};
+			inv.SetRow3(-RotatePoint(inv, matrix.GetRow3().Xyz()));
+			inv.Set(3, 3, 1);
+			return inv;
+		}
 
 		template <typename T>
 		DxMatrix3X3<T> WorldMatrix::CreateDx3X3(const Vector2<T>& position)
@@ -102,6 +168,7 @@ namespace MyEngine
 			transform.Set(0, 1, s);
 			transform.Set(1, 0, -s);
 			transform.Set(1, 1, c);
-;		}
+			;
+		}
 	}
 }
