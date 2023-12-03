@@ -20,6 +20,10 @@ namespace MyEngine
 		Matrix4X4() = default;
 		~Matrix4X4() = default;
 		Matrix4X4(const Vector4<T>& col0, const Vector4<T>& col1, const Vector4<T>& col2, const Vector4<T>& col3);
+		Matrix4X4(const Vector3<T>& col0, const Vector3<T>& col1, const Vector3<T>& col2);
+
+		template<typename D>
+		explicit Matrix4X4(const Matrix4X4<D>& other);
 
 		//---| Set |---
 		void SetRow0(const Vector4<T>& row);
@@ -67,6 +71,11 @@ namespace MyEngine
 		const Vector4<T>& GetCol3() const;
 		const Vector4<T>& GetCol(int idx) const;
 
+		template<typename D = T>
+		D Get(unsigned col, unsigned row) const;
+
+		T& Get(unsigned col, unsigned row);
+
 		//---| Operations |---
 		Vector4<T>& operator[](int idx);
 		const Vector4<T>& operator[](int idx) const;
@@ -84,6 +93,20 @@ namespace MyEngine
 		const Vector4<T>& col3)
 		: m_Cols{ col0, col1, col2, col3 }
 	{
+	}
+
+	template <typename T>
+	Matrix4X4<T>::Matrix4X4(const Vector3<T>& col0, const Vector3<T>& col1, const Vector3<T>& col2)
+		: m_Cols{ Vector4<T>{col0, 0}, Vector4<T>{col1,0}, Vector4<T>{col2,0}, Vector4<T>{0} }
+	{
+	}
+
+	template <typename T>
+	template <typename D>
+	Matrix4X4<T>::Matrix4X4(const Matrix4X4<D>& other)
+		: m_Cols{ Vector4<T>{other.GetCol0()}, Vector4<T>{other.GetCol1()}, Vector4<T>{other.GetCol2()}, Vector4<T>{other.GetCol3()} }
+	{
+
 	}
 
 	template <typename T>
@@ -325,6 +348,19 @@ namespace MyEngine
 	const Vector4<T>& Matrix4X4<T>::GetCol(int idx) const
 	{
 		return m_Cols[idx];
+	}
+
+	template <typename T>
+	template <typename D>
+	D Matrix4X4<T>::Get(unsigned col, unsigned row) const
+	{
+		return static_cast<D>(m_Cols[col][row]);
+	}
+
+	template <typename T>
+	T& Matrix4X4<T>::Get(unsigned col, unsigned row)
+	{
+		return m_Cols[col][row];
 	}
 
 	template <typename T>
