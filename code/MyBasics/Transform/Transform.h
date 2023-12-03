@@ -18,6 +18,7 @@ namespace MyEngine
 
 			Float4X4 AsMatrix() const;
 			Float4X4 GetTransposeInverse() const;
+			Float4X4 AsInverseMatrix() const;
 
 			void LookAt(const Float3& target);
 

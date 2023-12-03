@@ -1,12 +1,17 @@
 #include "Transform.h"
 
-MyEngine::Game::Transform::Transform(const Float3& position, const Quaternion& rotation)
+#include "WorldMatrix.h"
+
+using namespace MyEngine;
+using namespace Game;
+
+Transform::Transform(const Float3& position, const Quaternion& rotation)
 	: Position{ position }
 	, Rotation{ rotation }
 {
 }
 
-MyEngine::Game::Transform::Transform(const Double4X4& matrix)
+Transform::Transform(const Double4X4& matrix)
 {
 	Position = Float3{
 		static_cast<float>(matrix[0].w),
@@ -16,13 +21,13 @@ MyEngine::Game::Transform::Transform(const Double4X4& matrix)
 	Rotation = Quaternion{ matrix };
 }
 
-MyEngine::Game::Transform::Transform(const Float4X4& matrix)
+Transform::Transform(const Float4X4& matrix)
 {
 	Position = matrix.GetRow3().Xyz();
 	Rotation = Quaternion{ matrix };
 }
 
-MyEngine::Float4X4 MyEngine::Game::Transform::AsMatrix() const
+Float4X4 Transform::AsMatrix() const
 {
 	//https://danceswithcode.net/engineeringnotes/quaternions/quaternions.html
 	const float q0{ Rotation.W };
@@ -41,7 +46,7 @@ MyEngine::Float4X4 MyEngine::Game::Transform::AsMatrix() const
 	};
 }
 
-MyEngine::Float4X4 MyEngine::Game::Transform::GetTransposeInverse() const
+Float4X4 Transform::GetTransposeInverse() const
 {
 	//not tested yet
 	const float q0{ Rotation.W };
@@ -60,30 +65,35 @@ MyEngine::Float4X4 MyEngine::Game::Transform::GetTransposeInverse() const
 	};
 }
 
-void MyEngine::Game::Transform::LookAt(const Float3& target)
+Float4X4 Transform::AsInverseMatrix() const
+{
+	return WorldMatrix::GetInversed(AsMatrix());
+}
+
+void Transform::LookAt(const Float3& target)
 {
 	Rotation = Quaternion::FromForward((target - Position).Normalized());
 }
 
-MyEngine::Float3 MyEngine::Game::Transform::WorldToLocal(const Float3& worldPoint) const
+Float3 Transform::WorldToLocal(const Float3& worldPoint) const
 {
 	Float3 local{ worldPoint - Position };
 	(-Rotation).RotatePoint(local);
 	return local;
 }
 
-MyEngine::Float3 MyEngine::Game::Transform::LocalToWorld(const Float3& localPoint) const
+Float3 Transform::LocalToWorld(const Float3& localPoint) const
 {
 	return Rotation.GetRotatedPoint(localPoint) + Position;
 }
 
-void MyEngine::Game::Transform::SetRelativeTo(const Transform& parent)
+void Transform::SetRelativeTo(const Transform& parent)
 {
 	Position = (-parent.Rotation).GetRotatedPoint(Position - parent.Position);;
 	Rotation = (-parent.Rotation * Rotation).Normalized();
 }
 
-MyEngine::Game::Transform MyEngine::Game::Transform::GetRelativeTo(const Transform& parent) const
+Transform Transform::GetRelativeTo(const Transform& parent) const
 {
 	return{
 		(-parent.Rotation).GetRotatedPoint(Position - parent.Position),
@@ -91,13 +101,13 @@ MyEngine::Game::Transform MyEngine::Game::Transform::GetRelativeTo(const Transfo
 	};
 }
 
-void MyEngine::Game::Transform::MoveRelativeXz(const Float2& xy)
+void Transform::MoveRelativeXz(const Float2& xy)
 {
 	Position += Rotation.GetRight() * xy.x;
 	Position += Rotation.GetForward() * xy.y;
 }
 
-MyEngine::Game::Transform MyEngine::Game::Transform::WorldToLocal(const Transform& world, const Transform& parent)
+Transform Transform::WorldToLocal(const Transform& world, const Transform& parent)
 {
 	return{
 		   (-parent.Rotation).GetRotatedPoint(world.Position - parent.Position),
@@ -105,7 +115,7 @@ MyEngine::Game::Transform MyEngine::Game::Transform::WorldToLocal(const Transfor
 	};
 }
 
-MyEngine::Game::Transform MyEngine::Game::Transform::LocalToWorld(const Transform& local, const Transform& parent)
+Transform Transform::LocalToWorld(const Transform& local, const Transform& parent)
 {
 	return{
 		parent.Rotation.GetRotatedPoint(local.Position) + parent.Position,
