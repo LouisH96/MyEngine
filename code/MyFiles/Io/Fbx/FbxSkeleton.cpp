@@ -34,7 +34,7 @@ FbxSkeleton::FbxSkeleton(FbxLoadData& loadData)
 	for (unsigned i = 0; i < rootJointIds.GetSize(); i++)
 	{
 		m_RootJoints[i] = &m_Joints[rootJointIds[i]];
-		m_RootJoints[i]->CalculateBoneTransform();
+		m_RootJoints[i]->CalculateBindTransforms();
 	}
 }
 
