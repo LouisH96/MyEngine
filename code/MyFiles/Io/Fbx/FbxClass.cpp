@@ -87,14 +87,14 @@ FbxClass::FbxClass(FbxData&& data, float scale)
 
 		//find most weights
 		//(found up to 20..., low influence however)
-		unsigned most{ 0 };
-		for (unsigned iWeight = 0; iWeight < modelGeometry.Weights.GetSize(); iWeight++)
-		{
-			const unsigned nrWeights{ modelGeometry.Weights[iWeight].GetSize() };
-			most = Uint::Max(most, nrWeights);
-		}
-		Logger::Print("[FbxClass] Most weights", most);
-		Logger::Print("[FbxClass] Nr joints", m_Skeleton.GetNrJoints()); //found up to 88
+		//unsigned most{ 0 };
+		//for (unsigned iWeight = 0; iWeight < modelGeometry.Weights.GetSize(); iWeight++)
+		//{
+		//	const unsigned nrWeights{ modelGeometry.Weights[iWeight].GetSize() };
+		//	most = Uint::Max(most, nrWeights);
+		//}
+		//Logger::Print("[FbxClass] Most weights", most);
+		//Logger::Print("[FbxClass] Nr joints", m_Skeleton.GetNrJoints()); //found up to 88
 	}
 
 	for (unsigned i = 0; i < m_Geometries.GetSize(); i++)
