@@ -47,7 +47,7 @@ namespace MyEngine
 				const FbxJoint& GetParent() const { return *m_pParent; }
 
 				const Game::Transform& GetLocalTransform() const { return m_LocalTransform; }
-				const Float4X4& GetBoneTransform() const { return m_BindTransform; }
+				const Float4X4& GetBindTransform() const { return m_BindTransform; }
 
 				void PrintLocalData() const;
 				const std::string& GetName() const { return m_Name; }
@@ -59,7 +59,7 @@ namespace MyEngine
 				const Game::Transform& GetPreRotationZYX() const { return m_PreRotationTransform; }
 				const Game::Transform& GetPostRotationXYZ() const { return m_PostRotationTransform; }
 
-				void CalculateBoneTransform();
+				void CalculateBindTransforms();
 
 			private:
 				std::string m_Name;

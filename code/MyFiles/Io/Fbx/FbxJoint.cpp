@@ -45,21 +45,21 @@ FbxJoint::FbxJoint(
 	if (pNode)
 	{
 		const Double4X4& matrix{ pNode->Matrix };
-		m_BoneTransform = Float4X4{ matrix };
-		m_BoneTransform.Get(0, 3) *= -loadData.Orientation.GetScale();
-		m_BoneTransform.Get(1, 3) *= loadData.Orientation.GetScale();
-		m_BoneTransform.Get(2, 3) *= loadData.Orientation.GetScale();
+		m_BindTransform = Float4X4{ matrix };
+		m_BindTransform.Get(0, 3) *= -loadData.Orientation.GetScale();
+		m_BindTransform.Get(1, 3) *= loadData.Orientation.GetScale();
+		m_BindTransform.Get(2, 3) *= loadData.Orientation.GetScale();
 
-		m_BoneTransform.Get(0, 1) *= -1;
-		m_BoneTransform.Get(0, 2) *= -1;
+		m_BindTransform.Get(0, 1) *= -1;
+		m_BindTransform.Get(0, 2) *= -1;
 
-		m_BoneTransform.Get(1, 0) *= -1;
-		m_BoneTransform.Get(2, 0) *= -1;
+		m_BindTransform.Get(1, 0) *= -1;
+		m_BindTransform.Get(2, 0) *= -1;
 
-		WorldMatrix::Inverse(m_BoneTransform);
+		WorldMatrix::Inverse(m_BindTransform);
 	}
 	else
-		SetInvalidBoneTransform();
+		SetInvalidBindTransform();
 }
 
 FbxJoint::FbxJoint(FbxJoint&& other) noexcept
@@ -67,7 +67,7 @@ FbxJoint::FbxJoint(FbxJoint&& other) noexcept
 	, m_LocalTransform(other.m_LocalTransform)
 	, m_PreRotationTransform{ other.m_PreRotationTransform }
 	, m_PostRotationTransform{ other.m_PostRotationTransform }
-	, m_BoneTransform{ other.m_BoneTransform }
+	, m_BindTransform{ other.m_BindTransform }
 	, m_Children{ std::move(other.m_Children) }
 	, m_pParent{ other.m_pParent }
 	, m_Curves{ std::move(other.m_Curves) }
@@ -86,7 +86,7 @@ FbxJoint& FbxJoint::operator=(FbxJoint&& other) noexcept
 {
 	m_Name = std::move(other.m_Name);
 	m_LocalTransform = other.m_LocalTransform;
-	m_BoneTransform = other.m_BoneTransform;
+	m_BindTransform = other.m_BindTransform;
 	m_Children = std::move(other.m_Children);
 	m_pParent = other.m_pParent;
 	m_Curves = std::move(other.m_Curves);
@@ -127,26 +127,29 @@ void FbxJoint::PrintLocalData() const
 		m_Children[i]->PrintLocalData();
 }
 
-void FbxJoint::CalculateBoneTransform()
+void FbxJoint::CalculateBindTransforms()
 {
-	if (!HasValidBoneTransform())
+	if (!HasValidBindTransform())
 	{
+		std::cout << m_Name << ": bind from localTransform\n";
 		if (m_pParent)
-			m_BoneTransform = m_pParent->GetBoneTransform() * m_LocalTransform.AsInverseMatrix();
+			m_BindTransform = m_pParent->GetBindTransform() * m_LocalTransform.AsInverseMatrix();
 		else
-			m_BoneTransform = m_LocalTransform.AsInverseMatrix();
+			m_BindTransform = m_LocalTransform.AsInverseMatrix();
 	}
+	else
+		std::cout << m_Name << ": bind from pose\n";
 
 	for (unsigned i = 0; i < m_Children.GetSize(); i++)
-		m_Children[i]->CalculateBoneTransform();
+		m_Children[i]->CalculateBindTransforms();
 }
 
-bool FbxJoint::HasValidBoneTransform() const
+bool FbxJoint::HasValidBindTransform() const
 {
-	return m_BoneTransform.Get(0, 0) != Float::MAX;
+	return m_BindTransform.Get(0, 0) != Float::MAX;
 }
 
-void FbxJoint::SetInvalidBoneTransform()
+void FbxJoint::SetInvalidBindTransform()
 {
-	m_BoneTransform.Set(0, 0, Float::MAX);
+	m_BindTransform.Set(0, 0, Float::MAX);
 }
