@@ -30,6 +30,11 @@ Model::Model(Reading::FbxElement& modelObject)
 	m_LclRotation = properties.GetFloat3("Lcl Rotation", {});
 	m_LclScaling = properties.GetFloat3("Lcl Scaling", { 1,1,1 });
 	m_CurrentUvSet = properties.GetString("currentUVSet", "");
+
+	if (m_TypeName == "LimbNode")m_Type = LimbNode;
+	else if (m_TypeName == "Mesh")m_Type = Mesh;
+	else if (m_TypeName == "Root") m_Type = Root;
+	else m_Type = Other;
 }
 
 bool Model::IsLimbNode() const

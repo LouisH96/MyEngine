@@ -28,6 +28,11 @@ namespace MyEngine
 				class Model
 				{
 				public:
+					enum Type
+					{
+						LimbNode, Mesh, Root, Other
+					};
+
 					Model() = default;
 					explicit Model(Reading::FbxElement& modelObject);
 
@@ -51,6 +56,7 @@ namespace MyEngine
 					const std::string& GetCurrentUvSet() const { return m_CurrentUvSet; }
 					int GetShading() const { return m_Shading; }
 					const std::string& GetCulling() const { return m_Culling; }
+					Type GetType() const { return m_Type; }
 
 					std::string& GetName() { return m_Name; }
 					bool IsLimbNode() const;
@@ -99,6 +105,7 @@ namespace MyEngine
 					std::string m_CurrentUvSet{};
 					int m_Shading{};
 					std::string m_Culling{};
+					Type m_Type{ Other };
 
 					const Model* m_pParentModel{};
 					const NodeAttribute* m_pNodeAttribute{};
