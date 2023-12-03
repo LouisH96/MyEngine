@@ -13,6 +13,9 @@ namespace MyEngine
 		Vector4();
 		Vector4(T x, T y, T z, T w);
 		Vector4(const Vector3<T>& vector3, T w);
+		explicit Vector4(T all);
+
+		template<typename D> explicit Vector4(const Vector4<D>& other);
 
 		//---| Rule of five |---
 		Vector4(const Vector4& other) = default;
@@ -58,6 +61,11 @@ namespace MyEngine
 	template <typename T> Vector4<T>::Vector4() : x{ 0 }, y{ 0 }, z{ 0 }, w{ 0 } {}
 	template <typename T> Vector4<T>::Vector4(T x, T y, T z, T w) : x{ x }, y{ y }, z{ z }, w{ w } {}
 	template <typename T> Vector4<T>::Vector4(const Vector3<T>& vector3, T w) : x{ vector3.x }, y{ vector3.y }, z{ vector3.z }, w{ w } {}
+	template <typename T> Vector4<T>::Vector4(T all) : x{ all }, y{ all }, z{ all }, w{ all } {}
+
+	template <typename T>template <typename D>
+	Vector4<T>::Vector4(const Vector4<D>& other)
+		: x{ static_cast<T>(other.x) }, y{ static_cast<T>(other.y) }, z{ static_cast<T>(other.z) }, w{ static_cast<T>(other.w) } {}
 
 	template <typename T> Vector4<T> Vector4<T>::operator+(const Vector4& r) const { return { x + r.x, y + r.y, z + r.z, w + r.w }; }
 	template <typename T> Vector4<T> Vector4<T>::operator-(const Vector4& r) const { return { x - r.x, y - r.y, z - r.z, w - r.w }; }
