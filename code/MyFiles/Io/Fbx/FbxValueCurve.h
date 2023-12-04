@@ -72,6 +72,7 @@ namespace MyEngine
 			{
 				for (unsigned i = 0; i < m_Values.GetSize(); i++)
 					m_Values[i] *= scale;
+				m_DefaultValue *= scale;
 			}
 		}
 	}
