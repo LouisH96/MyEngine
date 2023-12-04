@@ -3,10 +3,13 @@
 #include "FbxLoadData.h"
 #include "DataStructures/Dictionary.h"
 #include "DataStructures/DsUtils.h"
+#include "Transform/WorldMatrix.h"
 #include "Wrapping/FbxData.h"
 #include "Wrapping/Model.h"
 
-using namespace MyEngine::Io::Fbx;
+using namespace MyEngine;
+using namespace Io::Fbx;
+using namespace Game;
 using namespace Wrapping;
 
 FbxClass::FbxClass(const std::wstring& path, float scale)
@@ -33,20 +36,27 @@ FbxClass::FbxClass(FbxData&& data, float scale)
 	m_Geometries = { data.GetGeometries().GetSize() };
 	for (unsigned iGeom = 0; iGeom < m_Geometries.GetSize(); iGeom++)
 	{
-		Wrapping::Geometry& dataGeometry = data.GetGeometries()[iGeom];
-		Model& dataModel = data.GetModel(iGeom);
 		Geometry& modelGeometry = m_Geometries[iGeom];
+		Wrapping::Geometry& dataGeometry = data.GetGeometries()[iGeom];
+		const Model& rootModel{ dataGeometry.GetRootModel() };
 		modelGeometry.Indices = std::move(dataGeometry.GetIndices());
 		modelGeometry.Normals = std::move(dataGeometry.GetNormals());
 		modelGeometry.Points = std::move(dataGeometry.GetPoints());
 		modelGeometry.Uvs = std::move(dataGeometry.GetUvs());
-		modelGeometry.Name = std::move(dataModel.GetName());
-		modelGeometry.RotationOffset = dataModel.GetRotationOffset();
-		modelGeometry.RotationPivot = dataModel.GetRotationPivot();
+		modelGeometry.Name = std::move(dataGeometry.GetName());
+		modelGeometry.RotationOffset = rootModel.GetRotationOffset();
+		modelGeometry.RotationPivot = rootModel.GetRotationPivot();
 		modelGeometry.Weights = Array<List<BlendData>>{ modelGeometry.Points.GetSize() };
 
-		const Model& rootModel{ dataGeometry.GetRootModel() };
-		const Game::Transform rootModelTransform{ loadData.Orientation.MakeLocalTransform(rootModel) };
+		const unsigned* pModelJoint{ loadData.ModelToJoint.Get(rootModel.GetId()) };
+		const FbxJoint* pRootJoint{ pModelJoint ? &m_Skeleton.GetJoint(*pModelJoint) : nullptr };
+
+		Float4X4 transform;
+		if (pRootJoint)
+			transform = WorldMatrix::GetInversed(pRootJoint->GetBindTransform());
+		else
+			transform = loadData.Orientation.MakeLocalTransform(rootModel).AsMatrix();
+
 		const Float3 offset{
 			rootModel.GetGeometricTranslation()
 		};
@@ -57,7 +67,7 @@ FbxClass::FbxClass(FbxData&& data, float scale)
 			Float3& point{ modelGeometry.Points[iPoint] };
 			point = loadData.Orientation.ConvertPoint(point);
 			point += offset * loadData.Orientation.GetScale();
-			point = rootModelTransform.LocalToWorld(point);
+			WorldMatrix::TransformPoint(transform, point);
 			//todo: normals
 		}
 
@@ -84,6 +94,11 @@ FbxClass::FbxClass(FbxData&& data, float scale)
 				}
 			}
 		}
+		else if (pRootJoint)
+		{
+			for (unsigned i = 0; i < modelGeometry.Points.GetSize(); i++)
+				modelGeometry.Weights[i].Add(BlendData{ pRootJoint, 1 });
+		}
 
 		//find most weights
 		//(found up to 20..., low influence however)
@@ -109,7 +124,7 @@ int FbxClass::GetNrOfAnimationLayers() const
 	return total;
 }
 
-void FbxClass::MakeTriangleList(Geometry& geomStruct, const Wrapping::FbxOrientation& orientation)
+void FbxClass::MakeTriangleList(Geometry& geomStruct, const FbxOrientation& orientation)
 {
 	std::vector<Float3> positions{};
 	std::vector<Float3> normals{};
