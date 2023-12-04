@@ -27,6 +27,7 @@ void Geometry::SetRootModel(const Model& model)
 	if (m_pRootModel)
 		Logger::PrintError("RootModel of geometry already set");
 	m_pRootModel = &model;
+	m_Name = model.GetName();
 }
 
 void Geometry::AddDeformer(const Deformer& deformer)

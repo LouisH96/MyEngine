@@ -37,6 +37,7 @@ namespace MyEngine
 					//---| Functions |---
 					const int64_t& GetId() const { return m_Id; }
 					const std::string& GetName() const { return m_Name; }
+					std::string&& GetName() { return std::move(m_Name); }
 					Array<Float3>& GetPoints() { return m_Points; }
 					Array<Float3>& GetNormals() { return m_Normals; }
 					Array<Float2>& GetUvs() { return m_Uvs; }
