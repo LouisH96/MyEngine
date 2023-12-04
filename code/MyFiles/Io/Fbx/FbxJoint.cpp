@@ -129,6 +129,14 @@ void FbxJoint::PrintLocalData() const
 
 void FbxJoint::CalculateBindTransforms()
 {
+	if (!HasValidBindTransform())
+	{
+		if (m_pParent)
+			m_BindTransform = m_pParent->GetBindTransform() * m_LocalTransform.AsInverseMatrix();
+		else
+			m_BindTransform = m_LocalTransform.AsInverseMatrix();
+	}
+
 	for (unsigned i = 0; i < m_Children.GetSize(); i++)
 		m_Children[i]->CalculateBindTransforms();
 }
