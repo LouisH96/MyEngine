@@ -68,7 +68,6 @@ FbxClass::FbxClass(FbxData&& data, float scale)
 			point = loadData.Orientation.ConvertPoint(point);
 			point += offset * loadData.Orientation.GetScale();
 			WorldMatrix::TransformPoint(transform, point);
-			//todo: normals
 		}
 
 		//Weights
