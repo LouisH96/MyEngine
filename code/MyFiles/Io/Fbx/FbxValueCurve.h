@@ -22,6 +22,8 @@ namespace MyEngine
 				T ValueAtTime(const uint64_t& time) const;
 				void ScaleValues(float scale);
 
+				void Print() const;
+
 			private:
 				T m_DefaultValue;
 				SortedArray<uint64_t> m_Times;
@@ -73,6 +75,13 @@ namespace MyEngine
 				for (unsigned i = 0; i < m_Values.GetSize(); i++)
 					m_Values[i] *= scale;
 				m_DefaultValue *= scale;
+			}
+
+			template <typename T>
+			void FbxValueCurve<T>::Print() const
+			{
+				for (unsigned i = 0; i < m_Times.GetSize(); i++)
+					std::cout << Convert::ToString(m_Times[i]) << ": " << Convert::ToString(m_Values[i]) << std::endl;
 			}
 		}
 	}

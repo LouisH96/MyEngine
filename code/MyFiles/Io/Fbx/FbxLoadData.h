@@ -19,10 +19,12 @@ namespace MyEngine
 
 			struct FbxLoadData
 			{
+				using JointLookup = Dictionary<uint64_t, unsigned>;
+
 				Wrapping::FbxOrientation Orientation{};
 				FbxClass* pFbxClass{};
 				Wrapping::FbxData* pFbxData{};
-				Dictionary<uint64_t, unsigned> ModelToJoint{};
+				JointLookup ModelToJoint{};
 			};
 		}
 	}

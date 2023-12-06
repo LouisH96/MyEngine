@@ -62,6 +62,7 @@
     <ClCompile Include="Io\Csv\CsvWriter.cpp" />
     <ClCompile Include="Io\Ttf\BaselineTable.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\FbxOrientation.cpp" />
+    <ClCompile Include="Io\Fbx\ClassInt\FbxClassWeights.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Io\Ascii\AsciiWriter.h" />
@@ -132,5 +133,6 @@
     <ClInclude Include="Io\Ttf\BaselineTable.h" />
     <ClInclude Include="Io\Fbx\FbxLoadData.h" />
     <ClInclude Include="Io\Fbx\Wrapping\FbxOrientation.h" />
+    <ClInclude Include="Io\Fbx\ClassInt\FbxClassWeights.h" />
   </ItemGroup>
 </Project>

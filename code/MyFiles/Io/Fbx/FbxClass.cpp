@@ -1,6 +1,7 @@
 #include "FbxClass.h"
 
 #include "FbxLoadData.h"
+#include "ClassInt/FbxClassWeights.h"
 #include "DataStructures/Dictionary.h"
 #include "DataStructures/DsUtils.h"
 #include "Transform/WorldMatrix.h"
@@ -24,6 +25,8 @@ FbxClass::FbxClass(FbxData&& data, float scale)
 	loadData.pFbxClass = this;
 	loadData.pFbxData = &data;
 
+	FbxClassWeights weightsManager{ data.GetGeometries() };
+
 	if (data.GetARootLimbNode())
 	{
 		m_Animations = { data.GetAnimationStacks().GetSize() };
@@ -46,7 +49,7 @@ FbxClass::FbxClass(FbxData&& data, float scale)
 		modelGeometry.Name = std::move(dataGeometry.GetName());
 		modelGeometry.RotationOffset = rootModel.GetRotationOffset();
 		modelGeometry.RotationPivot = rootModel.GetRotationPivot();
-		modelGeometry.Weights = Array<List<BlendData>>{ modelGeometry.Points.GetSize() };
+		modelGeometry.Weights = { modelGeometry.Points.GetSize() };
 
 		const unsigned* pModelJoint{ loadData.ModelToJoint.Get(rootModel.GetId()) };
 		const FbxJoint* pRootJoint{ pModelJoint ? &m_Skeleton.GetJoint(*pModelJoint) : nullptr };
@@ -71,44 +74,10 @@ FbxClass::FbxClass(FbxData&& data, float scale)
 		}
 
 		//Weights
-		const Deformer* pSkinDeformer{ dataGeometry.GetSkinDeformer() };
-		if (pSkinDeformer)
-		{
-			for (unsigned iCluster = 0; iCluster < pSkinDeformer->GetChildDeformers().GetSize(); iCluster++)
-			{
-				const Deformer& deformer{ *pSkinDeformer->GetChildDeformers()[iCluster] };
-				if (!deformer.HasClusterData())
-				{
-					Logger::PrintWarning("[FbxClass] child-deformer isn't a cluster-deformer");
-					continue;
-				}
-				const DeformerClusterData& clusterData{ deformer.GetClusterData() };
-				const FbxJoint& joint{ m_Skeleton.GetJoint(*loadData.ModelToJoint.Get(deformer.GetModel()->GetId())) };
-
-				for (unsigned iVertex = 0; iVertex < clusterData.Indexes.GetSize(); iVertex++)
-				{
-					const int vertexIdx{ clusterData.Indexes[iVertex] };
-					const double weight{ clusterData.Weights[iVertex] };
-					modelGeometry.Weights[vertexIdx].Add(BlendData{ &joint, weight });
-				}
-			}
-		}
-		else if (pRootJoint)
-		{
-			for (unsigned i = 0; i < modelGeometry.Points.GetSize(); i++)
-				modelGeometry.Weights[i].Add(BlendData{ pRootJoint, 1 });
-		}
-
-		//find most weights
-		//(found up to 20..., low influence however)
-		//unsigned most{ 0 };
-		//for (unsigned iWeight = 0; iWeight < modelGeometry.Weights.GetSize(); iWeight++)
-		//{
-		//	const unsigned nrWeights{ modelGeometry.Weights[iWeight].GetSize() };
-		//	most = Uint::Max(most, nrWeights);
-		//}
-		//Logger::Print("[FbxClass] Most weights", most);
-		//Logger::Print("[FbxClass] Nr joints", m_Skeleton.GetNrJoints()); //found up to 88
+		weightsManager.CreateWeights(
+			modelGeometry.Weights,
+			dataGeometry,
+			loadData.ModelToJoint);
 	}
 
 	for (unsigned i = 0; i < m_Geometries.GetSize(); i++)
@@ -128,7 +97,7 @@ void FbxClass::MakeTriangleList(Geometry& geomStruct, const FbxOrientation& orie
 	std::vector<Float3> positions{};
 	std::vector<Float3> normals{};
 	std::vector<Float2> uvs{};
-	List<List<BlendData>> weights{ geomStruct.Indices.GetSize() };
+	List<BlendData> weights{ geomStruct.Indices.GetSize() };
 	positions.reserve(geomStruct.Indices.GetSize());
 	uvs.reserve(geomStruct.Indices.GetSize());
 
