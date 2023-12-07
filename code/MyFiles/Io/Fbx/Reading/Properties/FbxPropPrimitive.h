@@ -41,7 +41,7 @@ namespace MyEngine
 				}
 
 				template<typename T>
-				inline void FbxPropPrimitive<T>::Print(bool compact, int nrTabs) const
+				inline void FbxPropPrimitive<T>::Print(bool, int nrTabs) const
 				{
 					BeginPrint(nrTabs);
 					std::cout << "[" << TypeToString() << "] " << std::to_string(m_Value) << std::endl;
