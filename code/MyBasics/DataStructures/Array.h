@@ -48,6 +48,9 @@ namespace MyEngine
 		const Data& First() const;
 		const Data* GetData() const { return m_pData; }
 
+		//---| Functions: Insert |---
+		void InsertRevert(unsigned idx, const Data& value); //pull back to make space
+
 		//---| Functions: Get Other |---
 		unsigned GetSize() const { return m_Size; }
 		int GetSizeS() const { return static_cast<int>(m_Size); }
@@ -322,6 +325,13 @@ namespace MyEngine
 	const Data& Array<Data>::First() const
 	{
 		return m_pData[0];
+	}
+
+	template <typename Data>
+	void Array<Data>::InsertRevert(unsigned idx, const Data& value)
+	{
+		std::move(&m_pData[1], &m_pData[idx + 1], &m_pData[0]);
+		m_pData[idx] = value;
 	}
 
 	template <typename Data>
