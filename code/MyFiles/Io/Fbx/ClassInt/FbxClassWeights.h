@@ -31,6 +31,12 @@ namespace MyEngine
 				{
 					int64_t JointModelIdx;
 					double Amount;
+
+					bool operator<(const Weight& other) const { return Amount < other.Amount; }
+					bool operator<=(const Weight& other) const { return Amount <= other.Amount; }
+					bool operator>(const Weight& other) const { return Amount > other.Amount; }
+					bool operator>=(const Weight& other) const { return Amount >= other.Amount; }
+					bool operator==(const Weight& other) const { return Amount == other.Amount; }
 				};
 				Array<List<Weight>> m_Weights{};
 

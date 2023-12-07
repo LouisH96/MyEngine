@@ -1,5 +1,6 @@
 #include "FbxClassWeights.h"
 
+#include "DataStructures/PeakCollection.h"
 #include "Io/Fbx/Wrapping/Deformer.h"
 #include "Io/Fbx/Wrapping/Geometry.h"
 #include "Io/Fbx/Wrapping/Model.h"
@@ -65,49 +66,27 @@ void FbxClassWeights::CreateFromSkinDeformer(
 		const List<Weight>& weights{ m_Weights[iVertex] };
 
 		//init
-		int64_t highestIdx[NR_WEIGHTS];
-		double highestWeights[NR_WEIGHTS];
-		for (unsigned iWeight = 0; iWeight < NR_WEIGHTS; iWeight++)
-		{
-			highestIdx[iWeight] = Scalar<int64_t>::MAX;
-			highestWeights[iWeight] = 0;
-		}
+		PeakCollection<Weight> highestWeights{ NR_WEIGHTS, Weight{Scalar<int64_t>::MAX, 0} };
 
 		//find x-amount highest
 		for (unsigned iWeight = 0; iWeight < weights.GetSize(); iWeight++)
-		{
-			const double weight{ weights[iWeight].Amount };
-			for (unsigned iHighest = 0; iHighest < NR_WEIGHTS; iHighest++)
-			{
-				if (weight <= highestWeights[iHighest])
-					continue;
-
-				highestWeights[iHighest] = weight;
-				highestIdx[iHighest] = weights[iWeight].JointModelIdx;
-				iHighest = NR_WEIGHTS; //get out of loop
-			}
-		}
+			highestWeights.TryAdd({ weights[iWeight] });
 
 		//recalculate highest
 		double weightsSum{ 0 };
-		for (const double& highestWeight : highestWeights)
-			weightsSum += highestWeight;
-
-		if (weightsSum > 0)
-		{
-			for (double& highestWeight : highestWeights)
-				highestWeight /= weightsSum;
-		}
+		for (unsigned i = 0; i < highestWeights.GetData().GetSize(); i++)
+			weightsSum += highestWeights.GetData()[i].Amount;
+		const double invSum{ weightsSum != 0 ? 1.0 / weightsSum : 0 };
 
 		//store in blendData
 		FbxClass::BlendData& blend{ blendData[iVertex] };
-		for (unsigned iWeight = 0; iWeight < NR_WEIGHTS; iWeight++)
+		const Weight* pHighestWeight{ &highestWeights.GetData()[highestWeights.GetData().GetSize() - 1] };
+		for (unsigned iWeight = 0; iWeight < NR_WEIGHTS; iWeight++, pHighestWeight--)
 		{
-			blend.jointIdx[iWeight] = highestIdx[iWeight] == Scalar<int64_t>::MAX
+			blend.jointIdx[iWeight] = pHighestWeight->JointModelIdx == Scalar<int64_t>::MAX
 				? -1
-				: static_cast<int>(*jointLookup.Get(highestIdx[iWeight]));
-
-			blend.weight[iWeight] = static_cast<float>(highestWeights[iWeight]);
+				: static_cast<int>(*jointLookup.Get(pHighestWeight->JointModelIdx));
+			blend.weight[iWeight] = static_cast<float>(pHighestWeight->Amount * invSum);
 		}
 	}
 }
