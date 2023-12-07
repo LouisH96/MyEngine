@@ -139,7 +139,7 @@ GraphSorter::SortingNode* GraphSorter::GetChild(unsigned nodeIdx, unsigned layer
 
 unsigned GraphSorter::GetChildIdx(unsigned nodeIdx, unsigned layer)
 {
-	return GetChild(nodeIdx, layer) - m_Nodes.GetData();
+	return static_cast<unsigned>(GetChild(nodeIdx, layer) - m_Nodes.GetData());
 }
 
 unsigned GraphSorter::GetDepth(const Node& node) const

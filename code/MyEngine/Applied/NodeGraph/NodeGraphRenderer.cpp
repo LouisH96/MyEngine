@@ -111,7 +111,7 @@ void NodeGraphRenderer::WriteRectVertices(const Node& node, Node::Vertex*& pTarg
 	WriteRectVertices(pTarget, node.GetHeaderRect(), node.GetTextBgColor());
 }
 
-void NodeGraphRenderer::WriteRectIndices(const Node& node, int*& pTarget, unsigned offset)
+void NodeGraphRenderer::WriteRectIndices(const Node&, int*& pTarget, unsigned offset)
 {
 	for (unsigned i = 0; i < Node::NR_RECTS; i++)
 	{
