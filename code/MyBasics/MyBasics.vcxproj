@@ -160,6 +160,7 @@
     <ClInclude Include="DataStructures\Adders\IncrementRefAdder.h" />
     <ClInclude Include="DataStructures\Adders\ListAdder.h" />
     <ClInclude Include="DataStructures\Dictionary.h" />
+    <ClInclude Include="DataStructures\PeakCollection.h" />
     <ClInclude Include="Math\DxMatrix3X3.h" />
     <ClInclude Include="Math\Matrix2X2.h" />
     <ClInclude Include="Math\Matrix3X3.h" />
