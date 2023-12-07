@@ -22,7 +22,7 @@ namespace MyEngine
 		SortedList& operator=(SortedList&& other) noexcept;
 
 		//---| Functions |---
-		int GetSize() const { return m_Size; }
+		unsigned GetSize() const { return m_Size; }
 		const T& operator[](int idx) const;
 		const T& First() { return *m_pData; }
 		const T& Last() { return m_pData[m_Size - 1]; }
