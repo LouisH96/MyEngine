@@ -52,10 +52,10 @@ namespace MyEngine
 				};
 				struct CompoundComponent
 				{
-					union
+					union Flag
 					{
 						uint16_t asUint;
-						struct
+						struct Bits
 						{
 							unsigned arg1And2AreWords : 1;
 							unsigned argsAreXyValues : 1;
@@ -69,7 +69,9 @@ namespace MyEngine
 							unsigned useMyMetrics : 1;
 							unsigned overlapCompound : 1;
 						};
-					} flag{};
+						Bits bits;
+					};
+					Flag flag{};
 					uint16_t glyphIndex{};
 					int32_t argument1{};
 					int32_t argument2{};

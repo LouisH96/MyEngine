@@ -35,9 +35,9 @@ GlyfTable::CompoundComponent::CompoundComponent(Bin::BigBinReader& reader)
 	reader.Read(flag.asUint);
 	reader.Read(glyphIndex);
 
-	if (flag.arg1And2AreWords)
+	if (flag.bits.arg1And2AreWords)
 	{
-		if (flag.argsAreXyValues)
+		if (flag.bits.argsAreXyValues)
 		{
 			argument1 = reader.Int16();
 			argument2 = reader.Int16();
@@ -51,7 +51,7 @@ GlyfTable::CompoundComponent::CompoundComponent(Bin::BigBinReader& reader)
 	}
 	else
 	{
-		if (flag.argsAreXyValues)
+		if (flag.bits.argsAreXyValues)
 		{
 			argument1 = reader.Int8();
 			argument2 = reader.Int8();
@@ -64,7 +64,7 @@ GlyfTable::CompoundComponent::CompoundComponent(Bin::BigBinReader& reader)
 		}
 	}
 
-	if (flag.weHaveInstructions)
+	if (flag.bits.weHaveInstructions)
 	{
 		Logger::PrintError("[GlyfTable::GetCompoundGlyphContour] instructions not supported yet");
 	}
@@ -74,19 +74,19 @@ GlyfTable::CompoundComponent::CompoundComponent(Bin::BigBinReader& reader)
 	transform[2] = 0;
 	transform[3] = 1;
 
-	if (flag.weHaveAScale)
+	if (flag.bits.weHaveAScale)
 	{
 		Logger::PrintError("[GlyfTable::GetCompoundGlyphContour] (A-Scale) transformation not supported yet");
 		transform[0] = reader.Int16();
 		transform[3] = transform[0];
 	}
-	else if (flag.weHaveAnXAndYScale)
+	else if (flag.bits.weHaveAnXAndYScale)
 	{
 		Logger::PrintError("[GlyfTable::GetCompoundGlyphContour] (X&Y-Scale) transformation not supported yet");
 		transform[0] = reader.Int16();
 		transform[3] = reader.Int16();
 	}
-	else if (flag.weHaveATwoByTwo)
+	else if (flag.bits.weHaveATwoByTwo)
 	{
 		Logger::PrintError("[GlyfTable::GetCompoundGlyphContour] (TwoByTwo) transformation not supported yet");
 		transform[0] = reader.Int16();
@@ -236,7 +236,7 @@ Array<Array<TtfPoint>> GlyfTable::GetCompoundGlyphContour(Bin::BigBinReader& rea
 			allContours.Add(std::move(points));
 		}
 
-	} while (component.flag.moreComponents);
+	} while (component.flag.bits.moreComponents);
 
 	return allContours;
 }
