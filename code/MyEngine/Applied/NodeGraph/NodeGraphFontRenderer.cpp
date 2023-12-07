@@ -59,7 +59,7 @@ void NodeGraphFontRenderer::Render()
 int NodeGraphFontRenderer::Add(const TextInfo& text, const PositionInfo& position)
 {
 	Entry* pEntry;
-	const int id{ m_Entries.Validate(pEntry) };
+	const unsigned id{ m_Entries.Validate(pEntry) };
 
 	m_Assembler.AssembleInto([&text](const Float2& pos, const Float2& uv)
 		{
@@ -74,7 +74,7 @@ int NodeGraphFontRenderer::Add(const TextInfo& text, const PositionInfo& positio
 	float baseline)
 {
 	Entry* pEntry;
-	const int id{ m_Entries.Validate(pEntry) };
+	const unsigned id{ m_Entries.Validate(pEntry) };
 
 	m_Assembler.AssembleInto([&text](const Float2& pos, const Float2& uv)
 		{

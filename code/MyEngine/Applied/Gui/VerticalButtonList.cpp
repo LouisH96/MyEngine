@@ -54,7 +54,7 @@ int VerticalButtonList::AddButton(const std::string& text)
 	if (IsVisible())
 	{
 		Hide();
-		const int buttonId{ m_Buttons.Add({ text }) };
+		const unsigned buttonId{ m_Buttons.Add({ text }) };
 		Show();
 		return buttonId;
 	}

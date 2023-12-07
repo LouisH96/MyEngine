@@ -19,12 +19,12 @@ namespace MyEngine
 		InvalidateList& operator=(InvalidateList&& other) noexcept;
 
 		//---| Functions |---
-		int Add(const Data& data);
-		int Add(Data&& data);
-		int Validate(Data*& pOut);
-		Data Remove(int idx);
-		Data InvalidateAndReturn(int idx); //same are removing but doesn't deconstruct(move) the object
-		void Invalidate(int idx);
+		unsigned Add(const Data& data);
+		unsigned Add(Data&& data);
+		unsigned Validate(Data*& pOut);
+		Data Remove(unsigned idx);
+		Data InvalidateAndReturn(unsigned idx); //same are removing but doesn't deconstruct(move) the object
+		void Invalidate(unsigned idx);
 
 		void Clear();
 
@@ -48,30 +48,30 @@ namespace MyEngine
 		const Data* SeeLast() const;
 		const Data* SeeEnd() const;
 
-		const Data& Get(int idx) const;
-		Data& Get(int idx);
+		const Data& Get(unsigned idx) const;
+		Data& Get(unsigned idx);
 		const Data& GetSinceStart(unsigned idx) const;
 		Data& GetSinceStart(unsigned idx);
 
-		int GetFirstIdx() const { return m_First; }
-		int GetLastIdx() const { return m_End - 1; }
-		int GetEndIdx() const { return m_End; }
+		unsigned GetFirstIdx() const { return m_First; }
+		unsigned GetLastIdx() const { return m_End - 1; }
+		unsigned GetEndIdx() const { return m_End; }
 
 	private:
 		Data* m_pData;
 		unsigned m_Capacity;
-		int m_First, m_End, m_GapIndicator;
+		unsigned m_First, m_End, m_GapIndicator;
 		bool m_Changed;
 
 		void IncreaseCapacity(unsigned increase);
 
-		bool IsEmpty(int idx) const;
+		bool IsEmpty(unsigned idx) const;
 
 		void UpdateFirstIndicator();
 		void UpdateEndIndicator();
 		void UpdateGapIndicator();
 
-		int InternalPreAdd();
+		unsigned InternalPreAdd();
 		void InternalPostAdd();
 	};
 
@@ -174,32 +174,32 @@ namespace MyEngine
 	}
 
 	template <typename Data>
-	int InvalidateList<Data>::Add(const Data& data)
+	unsigned InvalidateList<Data>::Add(const Data& data)
 	{
-		const int id{ InternalPreAdd() };
+		const unsigned id{ InternalPreAdd() };
 		m_pData[id] = data;
 		InternalPostAdd();
 		return id;
 	}
 
 	template <typename Data>
-	int InvalidateList<Data>::Add(Data&& data)
+	unsigned InvalidateList<Data>::Add(Data&& data)
 	{
-		const int id{ InternalPreAdd() };
+		const unsigned id{ InternalPreAdd() };
 		m_pData[id] = std::move(data);
 		InternalPostAdd();
 		return id;
 	}
 
 	template <typename Data>
-	int InvalidateList<Data>::Validate(Data*& pOut)
+	unsigned InvalidateList<Data>::Validate(Data*& pOut)
 	{
 #ifdef INVALIDATE_LIST_DEBUG
 		if (!IsEmpty(m_GapIndicator))
 			Logger::PrintError("[InvalidateList::Add] GapIndicator is not empty");
 #endif
 		m_Changed = true;
-		const int idx{ m_GapIndicator };
+		const unsigned idx{ m_GapIndicator };
 		if (idx >= m_End) m_End = idx + 1;
 		else if (idx < m_First) m_First = idx;
 		UpdateGapIndicator();
@@ -208,7 +208,7 @@ namespace MyEngine
 	}
 
 	template <typename Data>
-	Data InvalidateList<Data>::Remove(int idx)
+	Data InvalidateList<Data>::Remove(unsigned idx)
 	{
 		const Data removed{ std::move(m_pData[idx]) };
 		Invalidate(idx);
@@ -216,7 +216,7 @@ namespace MyEngine
 	}
 
 	template <typename Data>
-	Data InvalidateList<Data>::InvalidateAndReturn(int idx)
+	Data InvalidateList<Data>::InvalidateAndReturn(unsigned idx)
 	{
 		const Data invalidated{ m_pData[idx] };
 		Invalidate(idx);
@@ -224,7 +224,7 @@ namespace MyEngine
 	}
 
 	template <typename Data>
-	void InvalidateList<Data>::Invalidate(int idx)
+	void InvalidateList<Data>::Invalidate(unsigned idx)
 	{
 #ifdef INVALIDATE_LIST_DEBUG
 		if (idx == m_GapIndicator)
@@ -340,13 +340,13 @@ namespace MyEngine
 	}
 
 	template <typename Data>
-	const Data& InvalidateList<Data>::Get(int idx) const
+	const Data& InvalidateList<Data>::Get(unsigned idx) const
 	{
 		return m_pData[idx];
 	}
 
 	template <typename Data>
-	Data& InvalidateList<Data>::Get(int idx)
+	Data& InvalidateList<Data>::Get(unsigned idx)
 	{
 		m_Changed = true;
 		return m_pData[idx];
@@ -373,7 +373,7 @@ namespace MyEngine
 	}
 
 	template <typename Data>
-	bool InvalidateList<Data>::IsEmpty(int idx) const
+	bool InvalidateList<Data>::IsEmpty(unsigned idx) const
 	{
 		return !m_pData[idx].IsValid();
 	}
@@ -399,12 +399,12 @@ namespace MyEngine
 		while (++m_GapIndicator < m_End)
 			if (IsEmpty(m_GapIndicator)) return;
 
-		if (static_cast<unsigned>(m_GapIndicator) == m_Capacity)
+		if (m_GapIndicator == m_Capacity)
 			IncreaseCapacity(m_Capacity);
 	}
 
 	template <typename Data>
-	int InvalidateList<Data>::InternalPreAdd()
+	unsigned InvalidateList<Data>::InternalPreAdd()
 	{
 #ifdef INVALIDATE_LIST_DEBUG
 		if (!IsEmpty(m_GapIndicator))
@@ -431,7 +431,7 @@ namespace MyEngine
 		if (m_First != 0 && IsEmpty(m_First))
 			Logger::PrintError("[InvalidateList::UpdateEndIndicator] first should be 0 or not empty");
 #endif
-		int last{ m_End - 1 };
+		unsigned last{ m_End - 1 };
 		while (--last >= m_First)
 			if (!IsEmpty(last))
 			{

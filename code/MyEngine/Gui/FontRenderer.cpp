@@ -68,7 +68,7 @@ int FontRenderer::Add(const std::string& text, const Float2& screenPivot, const 
 {
 	//retrieve existing entry struct (so an existing list can be reused)
 	Entry* pEntry;
-	const int idx{ m_Entries.Validate(pEntry) };
+	const unsigned idx{ m_Entries.Validate(pEntry) };
 	pEntry->Active = true;
 	pEntry->Characters.Clear();
 
