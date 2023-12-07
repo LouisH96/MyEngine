@@ -72,7 +72,7 @@ namespace MyEngine
 		template <typename T>
 		void PointUtils::Translate(Array<Vector3<T>>& points, const Vector3<T>& translation)
 		{
-			for (int i = 0; i < points.GetSize(); i++)
+			for (unsigned i = 0; i < points.GetSize(); i++)
 				points[i] += translation;
 		}
 	}
