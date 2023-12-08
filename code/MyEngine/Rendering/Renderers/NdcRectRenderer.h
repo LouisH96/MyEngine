@@ -179,7 +179,7 @@ namespace MyEngine
 		int NdcRectRenderer<Vertex, Instance>::GetElementUnderMouse() const
 		{
 			const Float2 mouse{ Gui::NdcUtils::GetMouseNdc(m_InvCanvasSize) };
-			for (unsigned i = m_Instances.GetCpuData().GetLastIdx(); i >= m_Instances.GetCpuData().GetFirstIdx(); --i)
+			for (int i = m_Instances.GetCpuData().GetLastIdxS(); i >= m_Instances.GetCpuData().GetFirstIdxS(); --i)
 			{
 				const Instance& instance{ m_Instances[i] };
 				if (IsEmpty(instance)) continue;

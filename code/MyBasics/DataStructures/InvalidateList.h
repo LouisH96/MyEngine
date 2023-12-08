@@ -57,6 +57,10 @@ namespace MyEngine
 		unsigned GetLastIdx() const { return m_End - 1; }
 		unsigned GetEndIdx() const { return m_End; }
 
+		int GetFirstIdxS() const { return static_cast<int>(m_First); }
+		int GetLastIdxS() const { return static_cast<int>(m_End) - 1; }
+		int GetEndIdxS() const { return static_cast<int>(m_End); }
+
 	private:
 		Data* m_pData;
 		unsigned m_Capacity;
