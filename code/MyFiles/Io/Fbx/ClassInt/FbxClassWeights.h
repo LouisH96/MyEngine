@@ -45,10 +45,9 @@ namespace MyEngine
 					const Wrapping::Deformer& skinDeformer,
 					const FbxLoadData::JointLookup& jointLookup);
 
-				void CreateFromRootJoint(
-					Array<FbxClass::BlendData>& blendData,
-					const Wrapping::Geometry& wrappingGeometry,
-					const FbxLoadData::JointLookup& jointLookup) const;
+				static void CreateFromSingleJoint(
+					int jointIdx,
+					Array<FbxClass::BlendData>& blendData);
 			};
 		}
 	}

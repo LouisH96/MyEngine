@@ -24,11 +24,22 @@ void FbxClassWeights::CreateWeights(
 	const FbxLoadData::JointLookup& jointLookup)
 {
 	const Deformer* pSkinDeformer{ wrappingGeometry.GetSkinDeformer() };
-
 	if (pSkinDeformer)
+	{
 		CreateFromSkinDeformer(blendData, *pSkinDeformer, jointLookup);
-	else
-		CreateFromRootJoint(blendData, wrappingGeometry, jointLookup);
+		return;
+	}
+
+	const Model& rootModel{ wrappingGeometry.GetRootModel() };
+
+	const unsigned* pRootJointIdx{ jointLookup.Get(rootModel.GetId()) };
+	if (pRootJointIdx)
+	{
+		CreateFromSingleJoint(static_cast<int>(*pRootJointIdx), blendData);
+		return;
+	}
+
+	CreateFromSingleJoint(0, blendData);
 }
 
 void FbxClassWeights::CreateFromSkinDeformer(
@@ -91,23 +102,14 @@ void FbxClassWeights::CreateFromSkinDeformer(
 	}
 }
 
-void FbxClassWeights::CreateFromRootJoint(
-	Array<FbxClass::BlendData>& blendData,
-	const Geometry& wrappingGeometry,
-	const FbxLoadData::JointLookup& jointLookup) const
+void FbxClassWeights::CreateFromSingleJoint(
+	int jointIdx,
+	Array<FbxClass::BlendData>& blendData)
 {
-	const Model& rootModel{ wrappingGeometry.GetRootModel() };
-	const unsigned* pRootJointIdx{ jointLookup.Get(rootModel.GetId()) };
-	if (!pRootJointIdx)
-	{
-		Logger::PrintError("[FbxClassWeights::CreateWeights] geometry does not have a skin-deformer nor a root-joint");
-		return;
-	}
-
 	for (unsigned iVertex = 0; iVertex < blendData.GetSize(); iVertex++)
 	{
 		FbxClass::BlendData& weights{ blendData[iVertex] };
-		weights.jointIdx[0] = static_cast<int>(*pRootJointIdx);
+		weights.jointIdx[0] = jointIdx;
 		weights.weight[0] = 1;
 		for (unsigned iWeight = 1; iWeight < NR_WEIGHTS; iWeight++)
 		{
