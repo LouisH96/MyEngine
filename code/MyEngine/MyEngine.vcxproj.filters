@@ -94,6 +94,10 @@
     <ClCompile Include="Applied\NodeGraph\NodeGraphFontRenderer.cpp" />
     <ClCompile Include="Applied\NodeGraph\GraphSorter.cpp" />
     <ClCompile Include="Applied\NodeGraph\Fbx\FbxGraphMapper.cpp" />
+    <ClCompile Include="Applied\SimpleUi\Elem.cpp" />
+    <ClCompile Include="Applied\SimpleUi\Elements\Box.cpp" />
+    <ClCompile Include="Applied\SimpleUi\SimpleUiSystem.cpp" />
+    <ClCompile Include="Applied\SimpleUi\Elements\Root.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -218,6 +222,10 @@
     <ClInclude Include="Applied\NodeGraph\NodeGraphFontRenderer.h" />
     <ClInclude Include="Applied\NodeGraph\GraphSorter.h" />
     <ClInclude Include="Applied\NodeGraph\Fbx\FbxGraphMapper.h" />
+    <ClInclude Include="Applied\SimpleUi\Elem.h" />
+    <ClInclude Include="Applied\SimpleUi\Elements\Box.h" />
+    <ClInclude Include="Applied\SimpleUi\SimpleUiSystem.h" />
+    <ClInclude Include="Applied\SimpleUi\Elements\Root.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

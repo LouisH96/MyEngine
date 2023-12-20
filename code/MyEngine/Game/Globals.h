@@ -2,6 +2,11 @@
 
 namespace MyEngine
 {
+	namespace SimpleUi
+	{
+		class SimpleUiSystem;
+	}
+
 	namespace Applied
 	{
 		class Camera2D;
@@ -50,6 +55,8 @@ namespace MyEngine
 
 		static Gui::GuiRenderer* pGuiRenderer;
 		static Gui::FontRenderer* pFontRenderer;
+
+		static SimpleUi::SimpleUiSystem* pSimpleUi;
 	};
 }
 
@@ -63,3 +70,4 @@ namespace MyEngine
 #define CAMERA_2D (*Globals::pCamera2D)
 #define GUI (*Globals::pGuiRenderer)
 #define FONT (*Globals::pFontRenderer)
+#define SIMPLE_UI (*Globals::pSimpleUi)

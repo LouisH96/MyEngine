@@ -9,6 +9,7 @@
 #include "Rendering/FpsDisplay.h"
 #include "Rendering/Gpu.h"
 #include "App/Win32/Window.h"
+#include "Applied/SimpleUi/SimpleUiSystem.h"
 
 namespace MyEngine
 {
@@ -43,6 +44,7 @@ namespace MyEngine
 			DebugRenderer::Init();
 			Globals::pGuiRenderer = new Gui::GuiRenderer();
 			Globals::pFontRenderer = new Gui::FontRenderer();
+			Globals::pSimpleUi = new SimpleUi::SimpleUiSystem();
 
 			//FPS
 			FpsDisplay fpsDisplay{};
@@ -87,6 +89,7 @@ namespace MyEngine
 			}
 
 			delete pApp;
+			delete Globals::pSimpleUi;
 			delete Globals::pGuiRenderer;
 			delete Globals::pFontRenderer;
 			DebugRenderer::Release();

@@ -22,6 +22,8 @@
     <ClCompile Include="Applied\2D\Camera2D.cpp" />
     <ClCompile Include="Applied\2D\Camera2DController.cpp" />
     <ClCompile Include="Applied\NodeGraph\Fbx\FbxGraphMapper.cpp" />
+    <ClCompile Include="Applied\SimpleUi\Elem.cpp" />
+    <ClCompile Include="Applied\SimpleUi\Elements\Box.cpp" />
     <ClCompile Include="Geometry\Shapes\Hexagon.cpp" />
     <ClCompile Include="Generation\HexGenerator.cpp" />
     <ClCompile Include="Applied\NodeGraph\GraphSorter.cpp" />
@@ -117,12 +119,16 @@
     <ClCompile Include="Generation\TriangleGenerator.cpp" />
     <ClCompile Include="Applied\Gui\VerticalButtonList.cpp" />
     <ClCompile Include="Font\TextAssembler.cpp" />
+    <ClCompile Include="Applied\SimpleUi\SimpleUiSystem.cpp" />
+    <ClCompile Include="Applied\SimpleUi\Elements\Root.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\Win32\KeyCodes.h" />
     <ClInclude Include="Applied\2D\Camera2D.h" />
     <ClInclude Include="Applied\2D\Camera2DController.h" />
     <ClInclude Include="Applied\NodeGraph\Fbx\FbxGraphMapper.h" />
+    <ClInclude Include="Applied\SimpleUi\Elem.h" />
+    <ClInclude Include="Applied\SimpleUi\Elements\Box.h" />
     <ClInclude Include="Generation\DiskGenerator_TriangleListIdx.h" />
     <ClInclude Include="Geometry\Shapes\Hexagon.h" />
     <ClInclude Include="Generation\HexGenerator.h" />
@@ -241,6 +247,8 @@
     <ClInclude Include="Generation\TriangleGenerator.h" />
     <ClInclude Include="Applied\Gui\VerticalButtonList.h" />
     <ClInclude Include="Font\TextAssembler.h" />
+    <ClInclude Include="Applied\SimpleUi\SimpleUiSystem.h" />
+    <ClInclude Include="Applied\SimpleUi\Elements\Root.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
