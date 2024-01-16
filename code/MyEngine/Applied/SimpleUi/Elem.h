@@ -44,6 +44,7 @@ namespace MyEngine
 			virtual bool IsAlive() = 0;
 			virtual void OnChildAdded(Elem& newChild) = 0;
 
+			void AssertMaxOneChild(const std::string& elemType) const;
 			static void Remake(Elem& other) { other.Remake(); }
 
 		private:

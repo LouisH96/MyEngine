@@ -68,6 +68,14 @@ void Elem::Remake()
 	Make();
 }
 
+void Elem::AssertMaxOneChild(const std::string& elemType) const
+{
+	if (!m_pChild)
+		return;
+	if (m_pChild->GetNextSibling())
+		Logger::PrintError("[Elem::AssertMaxOneChild] " + elemType + " can't have more than 1 child");
+}
+
 void Elem::LeaveFamily()
 {
 	if (!m_pParent)
