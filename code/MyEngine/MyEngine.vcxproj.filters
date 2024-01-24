@@ -100,6 +100,7 @@
     <ClCompile Include="Applied\NewUi\Elements\Box.cpp" />
     <ClCompile Include="Applied\NewUi\Elements\RelativeParent.cpp" />
     <ClCompile Include="Applied\NewUi\Elements\ListElem.cpp" />
+    <ClCompile Include="Applied\NewUi\Elements\Button.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -231,6 +232,7 @@
     <ClInclude Include="Applied\NewUi\Elements\Box.h" />
     <ClInclude Include="Applied\NewUi\Elements\RelativeParent.h" />
     <ClInclude Include="Applied\NewUi\Elements\ListElem.h" />
+    <ClInclude Include="Applied\NewUi\Elements\Button.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
