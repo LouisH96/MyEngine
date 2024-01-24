@@ -22,8 +22,9 @@
     <ClCompile Include="Applied\2D\Camera2D.cpp" />
     <ClCompile Include="Applied\2D\Camera2DController.cpp" />
     <ClCompile Include="Applied\NodeGraph\Fbx\FbxGraphMapper.cpp" />
-    <ClCompile Include="Applied\SimpleUi\Elem.cpp" />
-    <ClCompile Include="Applied\SimpleUi\Elements\Box.cpp" />
+    <ClCompile Include="Applied\NewUi\Elem.cpp" />
+    <ClCompile Include="Applied\NewUi\EmptyChildOptions.cpp" />
+    <ClCompile Include="Applied\NewUi\Elements\Box.cpp" />
     <ClCompile Include="Geometry\Shapes\Hexagon.cpp" />
     <ClCompile Include="Generation\HexGenerator.cpp" />
     <ClCompile Include="Applied\NodeGraph\GraphSorter.cpp" />
@@ -33,6 +34,7 @@
     <ClCompile Include="Applied\NodeGraph\Node.cpp" />
     <ClCompile Include="Applied\NodeGraph\NodeGrabbing.cpp" />
     <ClCompile Include="Applied\NodeGraph\NodeGraphFontRenderer.cpp" />
+    <ClCompile Include="Applied\NewUi\Elements\ListElem.cpp" />
     <ClCompile Include="Physics\Collisions\ConeCubeCollision.cpp" />
     <ClCompile Include="Debug\Rendering\DebugCones.cpp" />
     <ClCompile Include="Generation\ConeGenerator.cpp" />
@@ -48,6 +50,7 @@
     <ClCompile Include="Other\Random.cpp" />
     <ClCompile Include="Geometry\Shapes\Ray.cpp" />
     <ClCompile Include="Applied\Prefabs\PivotRenderer.cpp" />
+    <ClCompile Include="Applied\NewUi\Elements\RelativeParent.cpp" />
     <ClCompile Include="Rendering\State\PixelShader.cpp" />
     <ClCompile Include="Rendering\Buffers\IdxBuffer.cpp" />
     <ClCompile Include="Rendering\Font\FontAtlasLookup.cpp" />
@@ -119,16 +122,16 @@
     <ClCompile Include="Generation\TriangleGenerator.cpp" />
     <ClCompile Include="Applied\Gui\VerticalButtonList.cpp" />
     <ClCompile Include="Font\TextAssembler.cpp" />
-    <ClCompile Include="Applied\SimpleUi\SimpleUiSystem.cpp" />
-    <ClCompile Include="Applied\SimpleUi\Elements\Root.cpp" />
+    <ClCompile Include="Applied\NewUi\Elements\Root.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\Win32\KeyCodes.h" />
     <ClInclude Include="Applied\2D\Camera2D.h" />
     <ClInclude Include="Applied\2D\Camera2DController.h" />
     <ClInclude Include="Applied\NodeGraph\Fbx\FbxGraphMapper.h" />
-    <ClInclude Include="Applied\SimpleUi\Elem.h" />
-    <ClInclude Include="Applied\SimpleUi\Elements\Box.h" />
+    <ClInclude Include="Applied\NewUi\Elem.h" />
+    <ClInclude Include="Applied\NewUi\EmptyChildOptions.h" />
+    <ClInclude Include="Applied\NewUi\Elements\Box.h" />
     <ClInclude Include="Generation\DiskGenerator_TriangleListIdx.h" />
     <ClInclude Include="Geometry\Shapes\Hexagon.h" />
     <ClInclude Include="Generation\HexGenerator.h" />
@@ -141,6 +144,8 @@
     <ClInclude Include="Applied\NodeGraph\Node.h" />
     <ClInclude Include="Applied\NodeGraph\NodeGrabbing.h" />
     <ClInclude Include="Applied\NodeGraph\NodeGraphFontRenderer.h" />
+    <ClInclude Include="Applied\NewUi\ParentElem.h" />
+    <ClInclude Include="Applied\NewUi\Elements\ListElem.h" />
     <ClInclude Include="Physics\CollisionDetection2.h" />
     <ClInclude Include="Physics\Collisions\ConeCubeCollision.h" />
     <ClInclude Include="Debug\Rendering\DebugCones.h" />
@@ -162,6 +167,7 @@
     <ClInclude Include="Generation\RectGenerator.h" />
     <ClInclude Include="Generation\RectGenerator_TriangleStrip.h" />
     <ClInclude Include="Physics\Collisions\TriangleCollisionDetection.h" />
+    <ClInclude Include="Applied\NewUi\Elements\RelativeParent.h" />
     <ClInclude Include="Rendering\State\PixelShader.h" />
     <ClInclude Include="Rendering\Buffers\IdxBuffer.h" />
     <ClInclude Include="Rendering\Font\FontAtlasLookup.h" />
@@ -247,8 +253,7 @@
     <ClInclude Include="Generation\TriangleGenerator.h" />
     <ClInclude Include="Applied\Gui\VerticalButtonList.h" />
     <ClInclude Include="Font\TextAssembler.h" />
-    <ClInclude Include="Applied\SimpleUi\SimpleUiSystem.h" />
-    <ClInclude Include="Applied\SimpleUi\Elements\Root.h" />
+    <ClInclude Include="Applied\NewUi\Elements\Root.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

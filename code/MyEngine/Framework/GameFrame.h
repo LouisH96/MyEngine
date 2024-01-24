@@ -1,15 +1,15 @@
 #pragma once
 #include "CppFramework.h"
 #include "App/FpsControl.h"
-#include "Game/Camera/Camera.h"
+#include "App/Win32/Window.h"
+#include "Applied/NewUi/Elements/Root.h"
 #include "Debug/Rendering/DebugRenderer.h"
+#include "Game/Camera/Camera.h"
 #include "Gui/FontRenderer.h"
 #include "Gui/GuiRenderer.h"
 #include "Rendering/Canvas.h"
 #include "Rendering/FpsDisplay.h"
 #include "Rendering/Gpu.h"
-#include "App/Win32/Window.h"
-#include "Applied/SimpleUi/SimpleUiSystem.h"
 
 namespace MyEngine
 {
@@ -44,7 +44,7 @@ namespace MyEngine
 			DebugRenderer::Init();
 			Globals::pGuiRenderer = new Gui::GuiRenderer();
 			Globals::pFontRenderer = new Gui::FontRenderer();
-			Globals::pSimpleUi = new SimpleUi::SimpleUiSystem();
+			Globals::pUi = new Ui(canvas.GetSize());
 
 			//FPS
 			FpsDisplay fpsDisplay{};
@@ -69,6 +69,7 @@ namespace MyEngine
 					Globals::pGuiRenderer->OnCanvasResized(resizedEvent);
 					Globals::pFontRenderer->OnCanvasResized(resizedEvent);
 					pApp->OnCanvasResized(resizedEvent);
+					Globals::pUi->UpdateRootSize(resizedEvent.NewSize);
 				}
 
 				//UPDATE
@@ -89,7 +90,7 @@ namespace MyEngine
 			}
 
 			delete pApp;
-			delete Globals::pSimpleUi;
+			delete Globals::pUi;
 			delete Globals::pGuiRenderer;
 			delete Globals::pFontRenderer;
 			DebugRenderer::Release();
