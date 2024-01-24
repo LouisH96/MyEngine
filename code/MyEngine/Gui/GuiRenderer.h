@@ -24,6 +24,7 @@ namespace MyEngine
 			void OnCanvasResized(const App::ResizedEvent& event);
 			void Render();
 
+			void Remove(unsigned id);
 			void Remove(int id);
 			int Add(const Float2& pivot, const Float2& offset, const Float2& size, const Float3& color);
 			int Add(const UiRect& uiRect, const Float3& color);

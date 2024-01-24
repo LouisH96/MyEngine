@@ -22,6 +22,11 @@ void GuiRenderer::Render()
 	m_Renderer.Render();
 }
 
+void GuiRenderer::Remove(unsigned id)
+{
+	Remove(static_cast<int>(id));
+}
+
 void GuiRenderer::Remove(int id)
 {
 	m_Renderer.Remove(id);

@@ -37,6 +37,11 @@ void FontRenderer::Render()
 	m_Renderer.Render();
 }
 
+void FontRenderer::Remove(unsigned idx)
+{
+	Remove(static_cast<int>(idx));
+}
+
 void FontRenderer::Remove(int id)
 {
 	m_Entries.Invalidate(id);
