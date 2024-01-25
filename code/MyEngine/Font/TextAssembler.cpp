@@ -112,12 +112,13 @@ Float2 TextAssembler::GetSize_XCenter(const std::string& text, const Float2& sca
 
 	if (below > above)
 		size.y += below - above;
-	else
+	/*else
 	{
 		const float higher{ above - below };
 		baseline += higher;
 		size.y += higher;
-	}
+	}*/
+	//note: not increasing bottom seems to look better
 
 	return size;
 }
