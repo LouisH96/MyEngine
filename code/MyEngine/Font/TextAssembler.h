@@ -27,6 +27,8 @@ namespace MyEngine
 		float GetMaxTextHeight(float scale) const;
 		Float2 GetSize(const std::string& text, float scale, float& baseline) const;
 		Float2 GetSize(const std::string& text, const Float2& scale, float& baseline) const;
+		Float2 GetSize_XCenter(const std::string& text, float scale, float& baseline) const; //gets the size of the text with margins so that the x is centered between the ascending & descending characters
+		Float2 GetSize_XCenter(const std::string& text, const Float2& scale, float& baseline) const;
 
 		//new pivot! [0-1]
 		template<typename Combinator, typename Adder>
@@ -34,6 +36,9 @@ namespace MyEngine
 
 		template<typename Combinator, typename Adder>
 		RectFloat AssembleInto(const Combinator& combinator, Adder&& adder, const Float2& position, const Float2& pivot, const std::string& text, const Float2& scale, const Float2& textSize, float baseline);
+
+		template<typename Combinator, typename Adder>
+		RectFloat AssembleInto_XCenter(const Combinator& combinator, Adder&& adder, const Float2& position, const Float2& pivot, const std::string& text, const Float2& scale);
 
 	private:
 		static constexpr unsigned DATA_POSITIONS_IDX{ 0 };
@@ -67,6 +72,15 @@ namespace MyEngine
 	{
 		float baseline;
 		const Float2& textSize{ GetSize(text, scale, baseline) };
+		return AssembleInto(combinator, adder, position, pivot, text, scale, textSize, baseline);
+	}
+
+	template <typename Combinator, typename Adder>
+	RectFloat TextAssembler::AssembleInto_XCenter(const Combinator& combinator, Adder&& adder, const Float2& position,
+		const Float2& pivot, const std::string& text, const Float2& scale)
+	{
+		float baseline;
+		const Float2& textSize{ GetSize_XCenter(text, scale, baseline) };
 		return AssembleInto(combinator, adder, position, pivot, text, scale, textSize, baseline);
 	}
 

@@ -96,6 +96,32 @@ Float2 TextAssembler::GetSize(const std::string& text, const Float2& scale, floa
 	return size;
 }
 
+Float2 TextAssembler::GetSize_XCenter(const std::string& text, float scale, float& baseline) const
+{
+	return GetSize_XCenter(text, Float2{ scale, scale }, baseline);
+}
+
+Float2 TextAssembler::GetSize_XCenter(const std::string& text, const Float2& scale, float& baseline) const
+{
+	Float2 size{ GetSize(text, scale, baseline) };
+
+	const float xTop{ (GetCharData('x')[DATA_VER_OFFSET_IDX] + GetCharData('x')[DATA_HEIGHTS_IDX]) * scale.y * m_HuvSpaceToXSpace + baseline };
+
+	const float below{ baseline };
+	const float above{ size.y - xTop };
+
+	if (below > above)
+		size.y += below - above;
+	else
+	{
+		const float higher{ above - below };
+		baseline += higher;
+		size.y += higher;
+	}
+
+	return size;
+}
+
 Float2 TextAssembler::GetSize(const std::string& text, float& baseline) const
 {
 	//baseline = lowest
