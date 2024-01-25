@@ -4,6 +4,7 @@ namespace MyEngine
 {
 	namespace NewUi
 	{
+		class NewUiFontRenderer;
 		class Root;
 	}
 
@@ -62,6 +63,7 @@ namespace MyEngine
 		static Gui::GuiRenderer* pGuiRenderer;
 		static Gui::FontRenderer* pFontRenderer;
 
+		static NewUi::NewUiFontRenderer* pNewFontRenderer;
 		static Ui* pUi;
 	};
 }
@@ -77,3 +79,4 @@ namespace MyEngine
 #define GUI (*Globals::pGuiRenderer)
 #define FONT (*Globals::pFontRenderer)
 #define UI (*Globals:pUi)
+#define NEW_FONT (*Globals::pNewFontRenderer)

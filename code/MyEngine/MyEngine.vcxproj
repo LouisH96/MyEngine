@@ -36,6 +36,7 @@
     <ClCompile Include="Applied\NodeGraph\NodeGrabbing.cpp" />
     <ClCompile Include="Applied\NodeGraph\NodeGraphFontRenderer.cpp" />
     <ClCompile Include="Applied\NewUi\Elements\ListElem.cpp" />
+    <ClCompile Include="Applied\NewUi\NewUiFontRenderer.cpp" />
     <ClCompile Include="Physics\Collisions\ConeCubeCollision.cpp" />
     <ClCompile Include="Debug\Rendering\DebugCones.cpp" />
     <ClCompile Include="Generation\ConeGenerator.cpp" />
@@ -148,6 +149,7 @@
     <ClInclude Include="Applied\NodeGraph\NodeGraphFontRenderer.h" />
     <ClInclude Include="Applied\NewUi\ParentElem.h" />
     <ClInclude Include="Applied\NewUi\Elements\ListElem.h" />
+    <ClInclude Include="Applied\NewUi\NewUiFontRenderer.h" />
     <ClInclude Include="Physics\CollisionDetection2.h" />
     <ClInclude Include="Physics\Collisions\ConeCubeCollision.h" />
     <ClInclude Include="Debug\Rendering\DebugCones.h" />
