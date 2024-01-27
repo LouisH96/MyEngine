@@ -26,7 +26,7 @@ void ListElem::UpdateSizeAndTreePositions(const ResizePref& pref)
 
 		const float childWidth{ child.GetWidth() };
 		if (childWidth > pref.maxSize.x)
-			Logger::PrintError("[ListElem::PreResize] child's width is wider than list's max width");
+			Logger::PrintWarning("[ListElem::PreResize] child's width is wider than list's max width");
 
 		if (childWidth > widest) widest = childWidth;
 
@@ -38,7 +38,7 @@ void ListElem::UpdateSizeAndTreePositions(const ResizePref& pref)
 	if (widest < pref.minSize.x)
 		widest = pref.minSize.x;
 	if (height > pref.maxSize.y)
-		Logger::PrintError("[ListElem::PreResize] list's height is higher than it's max");
+		Logger::PrintWarning("[ListElem::PreResize] list's height is higher than it's max");
 	if (height < pref.minSize.y)
 		height = pref.minSize.y;
 
