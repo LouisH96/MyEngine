@@ -12,6 +12,7 @@ namespace MyEngine
 			explicit Box(const Float3& color);
 
 			void UpdateSizeAndTreePositions(const ResizePref& pref) override;
+			const std::string GetTypeName() const override;
 
 		private:
 			int m_BoxId{ -1 };
@@ -19,7 +20,6 @@ namespace MyEngine
 
 			void Clear() override;
 			void Create() override;
-			
 		};
 	}
 }

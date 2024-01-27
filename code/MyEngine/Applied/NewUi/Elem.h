@@ -36,6 +36,15 @@ namespace MyEngine
 			float GetHeight() const { return m_Bounds.GetHeight(); }
 			const RectFloat& GetBounds() const { return m_Bounds; }
 
+			virtual Elem* GetElemAt(const Float2& position);
+
+			virtual void ToDefaultState() {}
+			virtual void ToHoverState() {}
+			virtual void ToPressedState() {}
+			virtual void OnClick() {}
+
+			virtual const std::string GetTypeName() const = 0;
+
 		protected:
 			void SetSize(const Float2& size);
 			void SetSize(const ResizePref& pref);

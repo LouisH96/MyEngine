@@ -124,6 +124,14 @@ Float2 NewUiFontRenderer::GetTextSize_XCenter(const std::string& text, float sca
 	return m_Assembler.GetSize_XCenter(text, scale, baseline);
 }
 
+void NewUiFontRenderer::EditColor(unsigned id, const Float3& newColor)
+{
+	Entry& entry{ m_Entries.Get(id) };
+
+	for (unsigned i = 0; i < entry.Vertices.GetSize(); i++)
+		entry.Vertices[i].col = newColor;
+}
+
 void NewUiFontRenderer::WriteVertices(Vertex* pTarget) const
 {
 	const Entry* pEntriesEnd{ m_Entries.GetEnd() };

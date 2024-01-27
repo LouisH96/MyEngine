@@ -20,6 +20,7 @@ namespace MyEngine
 		{
 		public:
 			void UpdateSizeAndTreePositions(const ResizePref& pref) override;
+			const std::string GetTypeName() const override;
 
 		private:
 			void Clear() override;

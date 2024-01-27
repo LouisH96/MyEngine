@@ -44,6 +44,11 @@ void Root::CreateUi()
 	CreateTree();
 }
 
+const std::string Root::GetTypeName() const
+{
+	return "Root";
+}
+
 void Root::Clear()
 {}
 

@@ -31,6 +31,8 @@ namespace MyEngine
 			Float2 GetTextSize(const std::string& text, float scale);
 			Float2 GetTextSize_XCenter(const std::string& text, float scale);
 
+			void EditColor(unsigned id, const Float3& newColor);
+
 		private:
 			using Vertex = Rendering::V_Pos2ColUv;
 			struct Entry

@@ -34,6 +34,7 @@ namespace MyEngine
 			int GetClicked() const;
 			bool IsUnderMouse(int id) const;
 
+			void SetColor(unsigned id, const Float3& color);
 			void SetColor(int id, const Float3& color);
 			void SetOffsetX(int id, float xPixels);
 			void SetOffsetY(int id, float yPixels);

@@ -13,6 +13,7 @@ namespace MyEngine
 			ListElem(const Float2& borderMargin, float childMargin);
 
 			void UpdateSizeAndTreePositions(const ResizePref& pref) override;
+			const std::string GetTypeName() const override;
 
 		private:
 			Float2 m_BorderMargin{};

@@ -20,6 +20,11 @@ void Box::UpdateSizeAndTreePositions(const ResizePref& pref)
 		SetSize(Float2{ 100,100 } *Float2{ m_Color.x, m_Color.y });
 }
 
+const std::string Box::GetTypeName() const
+{
+	return "Box";
+}
+
 void Box::Clear()
 {
 	GUI.Remove(m_BoxId);

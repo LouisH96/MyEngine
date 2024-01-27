@@ -18,6 +18,12 @@ void Elem::UpdateTreePositions(const Float2& position)
 	m_Bounds.Move(position);
 }
 
+Elem* Elem::GetElemAt(const Float2& position)
+{
+	return GetBounds().ContainsPoint(position)
+		? this : nullptr;
+}
+
 void Elem::SetSize(const Float2& size)
 {
 	m_Bounds.SetSize(size);

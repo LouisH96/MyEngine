@@ -76,6 +76,11 @@ bool GuiRenderer::IsUnderMouse(int id) const
 		&& mouse.IsLeftBelow(rightTop);
 }
 
+void GuiRenderer::SetColor(unsigned id, const Float3& color)
+{
+	SetColor(static_cast<int>(id), color);
+}
+
 void GuiRenderer::SetColor(int id, const Float3& color)
 {
 	m_Renderer.Get(id).color = color;

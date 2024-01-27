@@ -4,6 +4,7 @@ namespace MyEngine
 {
 	namespace NewUi
 	{
+		class NewUiSystem;
 		class NewUiFontRenderer;
 		class Root;
 	}
@@ -45,7 +46,6 @@ namespace MyEngine
 	}
 
 	using Keyboard = App::Win32::Keyboard_MsgListener;
-	using Ui = NewUi::Root;
 
 	class Globals
 	{
@@ -63,8 +63,7 @@ namespace MyEngine
 		static Gui::GuiRenderer* pGuiRenderer;
 		static Gui::FontRenderer* pFontRenderer;
 
-		static NewUi::NewUiFontRenderer* pNewFontRenderer;
-		static Ui* pUi;
+		static NewUi::NewUiSystem* pUi;
 	};
 }
 
@@ -78,5 +77,5 @@ namespace MyEngine
 #define CAMERA_2D (*Globals::pCamera2D)
 #define GUI (*Globals::pGuiRenderer)
 #define FONT (*Globals::pFontRenderer)
-#define UI (*Globals:pUi)
-#define NEW_FONT (*Globals::pNewFontRenderer)
+#define UI (*Globals::pUi)
+#define NEW_FONT (Globals::pUi->GetFontRenderer())

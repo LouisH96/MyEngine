@@ -15,6 +15,7 @@ namespace MyEngine
 			void UpdateRootSize(const Float2& size);
 			void AddChild(Elem* pChild);
 			void CreateUi();
+			const std::string GetTypeName() const override;
 
 		private:
 			void Clear() override;

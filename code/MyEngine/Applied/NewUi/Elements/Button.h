@@ -11,13 +11,21 @@ namespace MyEngine
 		public:
 			explicit Button(const std::string& text, float fontSize = 18);
 
+			void ToDefaultState() override;
+			void ToHoverState() override;
+			void ToPressedState() override;
+			void OnClick() override;
+
 		private:
 			void UpdateSizeAndTreePositions(const ResizePref& pref) override;
 			void Clear() override;
 			void Create() override;
 
-			static const Float3 COLOR_MAIN;
-			static const Float3 COLOR_SECOND;
+			const std::string GetTypeName() const override;
+
+			static const Float3 COLOR_DARK;
+			static const Float3 COLOR_MEDIUM;
+			static const Float3 COLOR_LIGHT;
 			static constexpr float BORDER_THICKNESS = 4.f;
 			static const Float2 MARGIN;
 

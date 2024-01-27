@@ -56,6 +56,11 @@ void ListElem::UpdateSizeAndTreePositions(const ResizePref& pref)
 	}
 }
 
+const std::string ListElem::GetTypeName() const
+{
+	return "List";
+}
+
 void ListElem::Clear()
 {}
 

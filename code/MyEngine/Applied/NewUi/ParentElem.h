@@ -18,6 +18,8 @@ namespace MyEngine
 
 			void AddChild(const ChildData& child);
 
+			Elem* GetElemAt(const Float2& position) override;
+
 		protected:
 			void SetChildPosition(unsigned childIdx, const Float2& relativePosition);
 			void UpdateChildSize(unsigned childIdx, const ResizePref& pref);
@@ -52,6 +54,18 @@ namespace MyEngine
 		void ParentElem<ChildOptions>::AddChild(const ChildOptions& child)
 		{
 			m_Children.Add(child);
+		}
+
+		template <typename ChildData>
+		Elem* ParentElem<ChildData>::GetElemAt(const Float2& position)
+		{
+			for (unsigned i = m_Children.GetSize() - 1; i + 1 != 0; --i)
+			{
+				Elem* pUnder{ m_Children[i].pChild->GetElemAt(position) };
+				if (pUnder)
+					return pUnder;
+			}
+			return Elem::GetElemAt(position);
 		}
 
 		template <typename ChildOptions>

@@ -24,6 +24,11 @@ void RelativeParent::UpdateSizeAndTreePositions(const ResizePref& pref)
 	}
 }
 
+const std::string RelativeParent::GetTypeName() const
+{
+	return "RelativeParent";
+}
+
 void RelativeParent::Clear()
 {}
 
