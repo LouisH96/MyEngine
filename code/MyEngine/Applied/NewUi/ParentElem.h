@@ -27,6 +27,8 @@ namespace MyEngine
 			ChildData& GetChildData(unsigned i) { return m_Children[i]; }
 			Elem& GetChild(unsigned i) { return *m_Children[i].pChild; }
 			unsigned GetNrChildren() const { return m_Children.GetSize(); }
+			float ChildWidth(unsigned i) const;
+			float ChildHeight(unsigned i) const;
 
 		private:
 			//---| Visuals |---
@@ -87,6 +89,18 @@ namespace MyEngine
 
 			for (unsigned i = 0; i < m_Children.GetSize(); i++)
 				m_Children[i].pChild->UpdateTreePositions(m_Bounds.GetLeftBot());
+		}
+
+		template <typename ChildData>
+		float ParentElem<ChildData>::ChildWidth(unsigned i) const
+		{
+			return m_Children[i].pChild->GetWidth();
+		}
+
+		template <typename ChildData>
+		float ParentElem<ChildData>::ChildHeight(unsigned i) const
+		{
+			return m_Children[i].pChild->GetHeight();
 		}
 
 		template <typename ChildOptions>
