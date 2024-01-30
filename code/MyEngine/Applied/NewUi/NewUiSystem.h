@@ -22,6 +22,10 @@ namespace MyEngine
 
 			NewUiFontRenderer& GetFontRenderer() { return m_FontRenderer; }
 
+			static const Float3 COLOR_DARK;
+			static const Float3 COLOR_MEDIUM;
+			static const Float3 COLOR_LIGHT;
+
 		private:
 			enum CurrentElemState
 			{

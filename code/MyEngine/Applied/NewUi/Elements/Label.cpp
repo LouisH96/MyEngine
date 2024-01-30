@@ -5,7 +5,12 @@
 
 using namespace NewUi;
 
-Label::Label(const std::string& text, const Float3& color, float fontSize) 
+Label::Label(const std::string& text, float fontSize)
+	: Label{ text, NewUiSystem::COLOR_MEDIUM, fontSize }
+{
+}
+
+Label::Label(const std::string& text, const Float3& color, float fontSize)
 	: m_Text{ text }
 	, m_Color{ color }
 	, m_FontSize{ fontSize }

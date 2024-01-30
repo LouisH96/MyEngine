@@ -7,9 +7,6 @@
 
 using namespace NewUi;
 
-const Float3 Button::COLOR_DARK = Float3{ .1f };
-const Float3 Button::COLOR_MEDIUM = Float3{ .4f };
-const Float3 Button::COLOR_LIGHT = Float3{ .6f };
 const Float2 Button::MARGIN{ 15.f, 11.f };
 
 Button::Button(const std::string& text, float fontSize)
@@ -21,20 +18,20 @@ Button::Button(const std::string& text, float fontSize)
 
 void Button::ToDefaultState()
 {
-	GUI.SetColor(m_BorderId, COLOR_MEDIUM);
-	NEW_FONT.EditColor(m_TextId, COLOR_MEDIUM);
+	GUI.SetColor(m_BorderId, NewUiSystem::COLOR_MEDIUM);
+	NEW_FONT.EditColor(m_TextId, NewUiSystem::COLOR_MEDIUM);
 }
 
 void Button::ToHoverState()
 {
-	GUI.SetColor(m_BorderId, COLOR_LIGHT);
-	NEW_FONT.EditColor(m_TextId, COLOR_LIGHT);
+	GUI.SetColor(m_BorderId, NewUiSystem::COLOR_LIGHT);
+	NEW_FONT.EditColor(m_TextId, NewUiSystem::COLOR_LIGHT);
 }
 
 void Button::ToPressedState()
 {
-	GUI.SetColor(m_BorderId, COLOR_MEDIUM);
-	NEW_FONT.EditColor(m_TextId, COLOR_LIGHT);
+	GUI.SetColor(m_BorderId, NewUiSystem::COLOR_MEDIUM);
+	NEW_FONT.EditColor(m_TextId, NewUiSystem::COLOR_LIGHT);
 }
 
 void Button::OnClick()
@@ -66,9 +63,9 @@ void Button::Create()
 
 	const Float2 textPos{ bgPos + MARGIN };
 
-	m_BorderId = GUI.Add({ -1,-1 }, GetPosition(), GetSize(), COLOR_MEDIUM);
-	m_BackgroundId = GUI.Add({ -1,-1 }, bgPos, bgSize, COLOR_DARK);
-	m_TextId = NEW_FONT.Add_XCenter({ m_Text, m_FontSize, COLOR_MEDIUM }, textPos);
+	m_BorderId = GUI.Add({ -1,-1 }, GetPosition(), GetSize(), NewUiSystem::COLOR_MEDIUM);
+	m_BackgroundId = GUI.Add({ -1,-1 }, bgPos, bgSize, NewUiSystem::COLOR_DARK);
+	m_TextId = NEW_FONT.Add_XCenter({ m_Text, m_FontSize, NewUiSystem::COLOR_MEDIUM }, textPos);
 }
 
 const std::string Button::GetTypeName() const

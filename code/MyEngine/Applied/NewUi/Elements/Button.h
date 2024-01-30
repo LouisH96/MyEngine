@@ -23,9 +23,6 @@ namespace MyEngine
 
 			const std::string GetTypeName() const override;
 
-			static const Float3 COLOR_DARK;
-			static const Float3 COLOR_MEDIUM;
-			static const Float3 COLOR_LIGHT;
 			static constexpr float BORDER_THICKNESS = 4.f;
 			static const Float2 MARGIN;
 
@@ -34,8 +31,6 @@ namespace MyEngine
 			unsigned m_BorderId{};
 			unsigned m_BackgroundId{};
 			unsigned m_TextId{};
-
-
 		};
 	}
 }

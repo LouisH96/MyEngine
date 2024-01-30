@@ -9,7 +9,8 @@ namespace MyEngine
 			: public Elem
 		{
 		public:
-			explicit Label(const std::string& text, const Float3& color = { 0,0,0 }, float fontSize = 18);
+			explicit Label(const std::string& text, float fontSize = 18);
+			explicit Label(const std::string& text, const Float3& color, float fontSize = 18);
 
 			const std::string GetTypeName() const override { return "Label"; }
 
