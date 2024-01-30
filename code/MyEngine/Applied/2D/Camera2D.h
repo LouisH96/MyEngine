@@ -38,6 +38,8 @@ namespace MyEngine
 			Float2 WorldToScreen(Float2 worldPos) const;
 
 			const CameraBuffer& GetCameraBuffer() const { return m_Buffer; }
+			const DxMatrix& GetWorldMatrix() const { return m_World; }
+			float GetInvAspectRatio() const { return m_InvAspectRatio; }
 
 		private:
 			DxMatrix m_World{};
