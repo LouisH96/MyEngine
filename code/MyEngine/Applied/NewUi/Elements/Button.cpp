@@ -48,11 +48,7 @@ void Button::UpdateSizeAndTreePositions(const ResizePref& pref)
 	const Float2 insideSize{ textSize + MARGIN * 2 };
 	const Float2 borderSize{ insideSize + Float2{BORDER_THICKNESS}*2 };
 
-	if (borderSize.x > pref.maxSize.x)
-		Logger::PrintWarning("[Button::UpdateSizeAndTreePositions] Button is too wide for parent");
-	if (borderSize.y > pref.maxSize.y)
-		Logger::PrintWarning("[Button::UpdateSizeAndTreePositions] Button is too high for parent");
-
+	AssertWithinMaxSize(borderSize, pref);
 	SetSize(borderSize);
 }
 

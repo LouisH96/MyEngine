@@ -34,6 +34,14 @@ void Elem::SetSize(const ResizePref& pref)
 	SetSize(pref.GetPreferredSize());
 }
 
+void Elem::AssertWithinMaxSize(const Float2& desired, const ResizePref& pref)
+{
+	if (desired.x > pref.maxSize.x)
+		Logger::PrintWarning("[Elem::AssertWithinMaxSize] Elem is too wide for parent");
+	if (desired.y > pref.maxSize.y)
+		Logger::PrintWarning("[Elem::AssertWithinMaxSize] Elem is too high for parent");
+}
+
 void Elem::SetRelativePosition(const Float2& relativePosition)
 {
 	m_Bounds.SetLeftBot(relativePosition);

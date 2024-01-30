@@ -49,6 +49,8 @@ namespace MyEngine
 			void SetSize(const Float2& size);
 			void SetSize(const ResizePref& pref);
 
+			static void AssertWithinMaxSize(const Float2& desired, const ResizePref& pref);
+
 		private:
 			//---| Resizing |---
 			/* Functions that will be called for the resizing process:
