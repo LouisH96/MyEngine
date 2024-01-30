@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Applied\NewUi\Elements\AnchorParent.cpp" />
     <ClCompile Include="Applied\2D\Camera2D.cpp" />
     <ClCompile Include="Applied\2D\Camera2DController.cpp" />
     <ClCompile Include="Applied\NodeGraph\Fbx\FbxGraphMapper.cpp" />
@@ -128,6 +129,7 @@
     <ClCompile Include="Applied\NewUi\Elements\Root.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Applied\NewUi\Elements\AnchorParent.h" />
     <ClInclude Include="App\Win32\KeyCodes.h" />
     <ClInclude Include="Applied\2D\Camera2D.h" />
     <ClInclude Include="Applied\2D\Camera2DController.h" />
