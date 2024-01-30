@@ -104,6 +104,7 @@
     <ClCompile Include="Applied\NewUi\NewUiFontRenderer.cpp" />
     <ClCompile Include="Applied\NewUi\NewUiSystem.cpp" />
     <ClCompile Include="Applied\NewUi\Elements\AnchorParent.cpp" />
+    <ClCompile Include="Applied\NewUi\Elements\Label.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -239,6 +240,7 @@
     <ClInclude Include="Applied\NewUi\NewUiFontRenderer.h" />
     <ClInclude Include="Applied\NewUi\NewUiSystem.h" />
     <ClInclude Include="Applied\NewUi\Elements\AnchorParent.h" />
+    <ClInclude Include="Applied\NewUi\Elements\Label.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
