@@ -42,11 +42,16 @@ void Button::OnClick()
 	std::cout << "Button clicked\n";
 }
 
-void Button::UpdateSizeAndTreePositions(const ResizePref&)
+void Button::UpdateSizeAndTreePositions(const ResizePref& pref)
 {
 	const Float2 textSize{ NEW_FONT.GetTextSize_XCenter(m_Text, m_FontSize) };
 	const Float2 insideSize{ textSize + MARGIN * 2 };
 	const Float2 borderSize{ insideSize + Float2{BORDER_THICKNESS}*2 };
+
+	if (borderSize.x > pref.maxSize.x)
+		Logger::PrintWarning("[Button::UpdateSizeAndTreePositions] Button is too wide for parent");
+	if (borderSize.y > pref.maxSize.y)
+		Logger::PrintWarning("[Button::UpdateSizeAndTreePositions] Button is too high for parent");
 
 	SetSize(borderSize);
 }
