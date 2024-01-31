@@ -13,6 +13,7 @@ TextAssembler::TextAssembler(Rendering::Font::FontAtlas&& fontAtlas)
 	const float* sourceXPos{ fontAtlas.GetCharacterHorPos().GetData() };
 	const float* sourceHeights{ fontAtlas.GetCharacterHeight().GetData() };
 	const float* sourceBaselineOffset{ fontAtlas.GetBaselineOffset().GetData() };
+	const float* sourceHorOffset{ fontAtlas.GetHorOffset().GetData() };
 
 	float lowest{ Float::MAX };
 	float highest{ -Float::MAX };
@@ -22,10 +23,12 @@ TextAssembler::TextAssembler(Rendering::Font::FontAtlas&& fontAtlas)
 		float& xPos{ pData[DATA_POSITIONS_IDX] };
 		float& height{ pData[DATA_HEIGHTS_IDX] };
 		float& verOffset{ pData[DATA_VER_OFFSET_IDX] };
+		float& horOffset{ pData[DATA_HOR_OFFSET_IDX] };
 
 		xPos = *sourceXPos++;
 		height = *sourceHeights++;
 		verOffset = *sourceBaselineOffset++;
+		horOffset = *sourceHorOffset++;
 
 		const float charLowest{ verOffset };
 		const float charHighest{ charLowest + height };
@@ -145,7 +148,7 @@ Float2 TextAssembler::GetSize(const std::string& text, float& baseline) const
 		if (charTop > size.y) size.y = charTop;
 
 		pData += DATA_POSITIONS_IDX;
-		size.x += -*pData + *(pData + DATA_NR_PROPS);
+		size.x += -*pData + *(pData + DATA_NR_PROPS) + pData[DATA_HOR_OFFSET_IDX]; // next char position - current position + horOffset
 	}
 
 	size.y -= baseline;
@@ -183,6 +186,11 @@ float TextAssembler::GetVerOffsetInHuvSpace(unsigned charIdx) const
 float TextAssembler::GetVerOffsetInXSpace(unsigned charIdx) const
 {
 	return GetVerOffsetInHuvSpace(charIdx) * m_HuvSpaceToXSpace;
+}
+
+float TextAssembler::GetHorOffsetInXSpace(unsigned charIdx) const
+{
+	return m_pData[static_cast<size_t>(DATA_NR_PROPS) * charIdx + DATA_HOR_OFFSET_IDX] * m_WuvSpaceToXSpace;
 }
 
 float TextAssembler::GetWidthInWuvSpace(unsigned charIdx) const

@@ -44,7 +44,8 @@ namespace MyEngine
 		static constexpr unsigned DATA_POSITIONS_IDX{ 0 };
 		static constexpr unsigned DATA_HEIGHTS_IDX{ 1 };
 		static constexpr unsigned DATA_VER_OFFSET_IDX{ 2 };
-		static constexpr unsigned DATA_NR_PROPS{ 3 };
+		static constexpr unsigned DATA_HOR_OFFSET_IDX{ 3 };
+		static constexpr unsigned DATA_NR_PROPS{ 4 };
 		unsigned m_NrCharacters{};
 		float* m_pData{}; //first xPositions, than heights, than verOffset
 
@@ -56,6 +57,7 @@ namespace MyEngine
 		float GetHeightInHuvSpace(unsigned charIdx) const; //height-uv-space
 		float GetVerOffsetInHuvSpace(unsigned charIdx) const;
 		float GetVerOffsetInXSpace(unsigned charIdx) const;
+		float GetHorOffsetInXSpace(unsigned charIdx) const;
 		float GetWidthInWuvSpace(unsigned charIdx) const;
 		float GetWidthInXSpace(unsigned charIdx) const;
 
@@ -114,6 +116,7 @@ namespace MyEngine
 				uvRect.GetHeight() * m_HuvSpaceToXSpace * scale.y
 				});
 			posRect.SetBottom(baseline + GetVerOffsetInXSpace(charIdx) * scale.y);
+			posRect.SetLeft(posRect.GetLeft() + GetHorOffsetInXSpace(charIdx) * scale.x);
 
 			adder.Add(
 				combinator(posRect.GetLeftBot(), uvRect.GetLeftBot()),

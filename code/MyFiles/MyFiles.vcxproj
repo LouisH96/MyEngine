@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Io\Ttf\Tables\HmtxTable.cpp" />
+    <ClCompile Include="Io\Ttf\Tables\HheaTable.cpp" />
     <ClCompile Include="Io\Fbx\ClassInt\FbxClassWeights.cpp" />
     <ClCompile Include="Io\Fbx\Wrapping\FbxOrientation.cpp" />
     <ClCompile Include="Io\Ttf\BaselineTable.cpp" />
@@ -83,6 +85,8 @@
     <ClCompile Include="Io\Zlib\ZlibDecompress.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Io\Ttf\Tables\HmtxTable.h" />
+    <ClInclude Include="Io\Ttf\Tables\HheaTable.h" />
     <ClInclude Include="Io\Fbx\ClassInt\FbxClassWeights.h" />
     <ClInclude Include="Io\Fbx\Wrapping\FbxOrientation.h" />
     <ClInclude Include="Io\Fbx\FbxLoadData.h" />

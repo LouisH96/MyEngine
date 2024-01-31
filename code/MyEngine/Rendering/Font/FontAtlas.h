@@ -33,6 +33,7 @@ namespace MyEngine
 				Array<float>& GetCharacterHorPos() { return m_CharacterHorPos; }
 				Array<float>& GetCharacterHeight() { return m_CharacterHeight; }
 				Array<float>& GetBaselineOffset() { return m_BaselineOffset; }
+				Array<float>& GetHorOffset() { return m_HorOffset; }
 				float GetSpaceWidth() const { return m_SpaceWidth; }
 
 			private:
@@ -40,13 +41,14 @@ namespace MyEngine
 				Array<float> m_CharacterHorPos;
 				Array<float> m_CharacterHeight;
 				Array<float> m_BaselineOffset;
+				Array<float> m_HorOffset;
 				float m_SpaceWidth;
 
 				void CharacterInfoStep(const Io::Ttf::Glyph& glyph, int idx, float ttfToPixels, float& highest);
 				void DrawGlyphStep(const Io::Ttf::Glyph& glyph, int idx, float ttfToPixels);
 
 				static void GetGlyph(int id,
-					Io::TtfReader& mainReader, Io::TtfReader& backupReader, 
+					Io::TtfReader& mainReader, Io::TtfReader& backupReader,
 					float mainTtfToPixels, float backupTtfToPixels,
 					Io::Ttf::Glyph& glyph, float& ttfToPixels);
 			};
