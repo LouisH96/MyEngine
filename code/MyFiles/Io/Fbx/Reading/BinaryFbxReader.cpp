@@ -44,12 +44,16 @@ BinaryFbxReader::ElementInfo BinaryFbxReader::ReadElementInfo(std::istream& stre
 	if (file.GetVersion() >= 7500)
 	{
 		info.End = LittleEndianReader::Uint64(stream); //todo
+		if (info.End == 0)
+			return info;
 		info.NrProperties = LittleEndianReader::Uint64(stream);
 		info.PropertiesLength = LittleEndianReader::Uint64(stream);
 	}
 	else
 	{
 		info.End = LittleEndianReader::Uint32(stream);
+		if (info.End == 0)
+			return info;
 		info.NrProperties = LittleEndianReader::Uint32(stream);
 		info.PropertiesLength = LittleEndianReader::Uint32(stream);
 	}
@@ -69,23 +73,15 @@ void BinaryFbxReader::ReadChildren(std::istream& stream, FbxElement& parent, con
 {
 	while (stream.tellg() < info.End)
 	{
-		if (stream.peek() == '\0')
-		{
-			const uint8_t padding{ static_cast<uint8_t>(file.GetVersion() >= 7500 ? 25 : 13) };
-			if (info.End - stream.tellg() == padding)
-			{
-				stream.seekg(info.End);
-				return;
-			}
-			if (parent.GetName() == "Root")
-			{
-				stream.seekg(info.End);
-				return;
-			}
-			auto diff{ info.End - stream.tellg() };
-		}
-		FbxElement& child{ parent.CreateChild() };
 		const ElementInfo childInfo{ ReadElementInfo(stream, file) };
+
+		if (childInfo.End == 0)
+		{
+			stream.seekg(info.End);
+			return;
+		}
+
+		FbxElement& child{ parent.CreateChild() };
 		const uint8_t nameLength = LittleEndianReader::Uint8(stream);
 		child.SetName(LittleEndianReader::String(stream, nameLength));
 		ReadProperties(stream, child, childInfo, file);
