@@ -47,7 +47,7 @@ void FbxElement::EnsurePropertyCapacity(unsigned minCapacity)
 
 FbxElement& FbxElement::CreateChild()
 {
-	m_Children.Add({});
+	m_Children.Add(FbxElement{});
 	return m_Children.Last();
 }
 
