@@ -3,9 +3,10 @@
 
 using namespace NewUi;
 
-ListElem::ListElem(const Float2& borderMargin, float childMargin)
+ListElem::ListElem(const Float2& borderMargin, float childMargin, bool childsSameWidth)
 	: m_BorderMargin{ borderMargin }
 	, m_ChildMargin{ childMargin }
+	, m_ChildsSameWidth{ childsSameWidth }
 {
 }
 
@@ -44,15 +45,33 @@ void ListElem::UpdateSizeAndTreePositions(const ResizePref& pref)
 
 	SetSize({ widest, height });
 
-	//set child positions
-	Float2 childPos{};
-	for (unsigned i = GetNrChildren() - 1; i + 1 != 0; i--)
+	//set child positions & same widths if needed
+	if (m_ChildsSameWidth)
 	{
-		Elem& child{ GetChild(i) };
+		childPref.horMode = Max;
+		childPref.maxSize.x = widest;
 
-		childPos.x = (GetWidth() - child.GetWidth()) / 2.f;
-		SetChildPosition(i, childPos);
-		childPos.y += child.GetHeight() + m_ChildMargin;
+		Float2 childPos{};
+
+		for (unsigned i = GetNrChildren() - 1; i + 1 != 0; i--)
+		{
+			Elem& child{ GetChild(i) };
+			UpdateChildSize(i, childPref);
+			SetChildPosition(i, childPos);
+			childPos.y += child.GetHeight() + m_ChildMargin;
+		}
+	}
+	else
+	{
+		Float2 childPos{};
+		for (unsigned i = GetNrChildren() - 1; i + 1 != 0; i--)
+		{
+			Elem& child{ GetChild(i) };
+
+			childPos.x = (GetWidth() - child.GetWidth()) / 2.f;
+			SetChildPosition(i, childPos);
+			childPos.y += child.GetHeight() + m_ChildMargin;
+		}
 	}
 }
 

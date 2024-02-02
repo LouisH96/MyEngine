@@ -10,7 +10,7 @@ namespace MyEngine
 			: public ParentElem<EmptyChildOptions>
 		{
 		public:
-			ListElem(const Float2& borderMargin, float childMargin);
+			ListElem(const Float2& borderMargin, float childMargin, bool childsSameWidth = true);
 
 			void UpdateSizeAndTreePositions(const ResizePref& pref) override;
 			const std::string GetTypeName() const override;
@@ -18,6 +18,7 @@ namespace MyEngine
 		private:
 			Float2 m_BorderMargin{};
 			float m_ChildMargin;
+			bool m_ChildsSameWidth{};
 
 			void Clear() override;
 			void Create() override;
