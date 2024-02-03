@@ -95,6 +95,12 @@ void NewUiSystem::AddChild(Elem* pChild)
 	m_Root.AddChild(pChild);
 }
 
+void NewUiSystem::Clear()
+{
+	m_Root.RemoveChildren();
+	m_pCurrentElem = nullptr;
+}
+
 void NewUiSystem::Create()
 {
 	m_Root.CreateUi();

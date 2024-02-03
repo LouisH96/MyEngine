@@ -16,6 +16,7 @@ namespace MyEngine
 			void AddChild(Elem* pChild);
 			void CreateUi();
 			const std::string GetTypeName() const override;
+			void RemoveChildren();
 
 		private:
 			void Clear() override;

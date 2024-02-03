@@ -18,6 +18,7 @@ namespace MyEngine
 			void Render();
 			void AddChild(Elem* pChild);
 
+			void Clear();
 			void Create();
 
 			NewUiFontRenderer& GetFontRenderer() { return m_FontRenderer; }
