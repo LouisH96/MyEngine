@@ -25,6 +25,7 @@ namespace MyEngine
 			static const Float3 COLOR_DARK;
 			static const Float3 COLOR_MEDIUM;
 			static const Float3 COLOR_LIGHT;
+			static constexpr float BORDER_THICKNESS{ 4.f };
 
 		private:
 			enum CurrentElemState

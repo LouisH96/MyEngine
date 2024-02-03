@@ -23,7 +23,6 @@ namespace MyEngine
 
 			const std::string GetTypeName() const override;
 
-			static constexpr float BORDER_THICKNESS = 4.f;
 			static const Float2 MARGIN;
 
 			std::string m_Text;

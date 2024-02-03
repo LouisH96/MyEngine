@@ -43,7 +43,7 @@ void Button::UpdateSizeAndTreePositions(const ResizePref& pref)
 {
 	const Float2 textSize{ NEW_FONT.GetTextSize_XCenter(m_Text, m_FontSize) };
 	const Float2 insideSize{ textSize + MARGIN * 2 };
-	Float2 borderSize{ insideSize + Float2{BORDER_THICKNESS}*2 };
+	Float2 borderSize{ insideSize + Float2{NewUiSystem::BORDER_THICKNESS}*2 };
 
 	if (pref.horMode == Max)
 		borderSize.x = pref.maxSize.x;
@@ -61,8 +61,8 @@ void Button::Clear()
 
 void Button::Create()
 {
-	const Float2 bgSize{ GetSize() - Float2{ BORDER_THICKNESS }*2 };
-	const Float2 bgPos{ GetPosition() + Float2{ BORDER_THICKNESS } };
+	const Float2 bgSize{ GetSize() - Float2{ NewUiSystem::BORDER_THICKNESS }*2 };
+	const Float2 bgPos{ GetPosition() + Float2{ NewUiSystem::BORDER_THICKNESS } };
 
 	const Float2 textSize{ NEW_FONT.GetTextSize_XCenter(m_Text, m_FontSize) };
 	const Float2 textPos{ (GetSize() - textSize) / 2.f + GetPosition() };
