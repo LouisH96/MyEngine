@@ -10,15 +10,20 @@ namespace MyEngine
 			: public ParentElem<EmptyChildOptions>
 		{
 		public:
-			ListElem(const Float2& borderMargin, float childMargin, bool childsSameWidth = true);
+			struct Settings
+			{
+				float ChildMargin{ 5.f };
+				bool UniformChildWidth{ true };
+			};
+
+			explicit ListElem(const Settings& settings);
 
 			void UpdateSizeAndTreePositions(const ResizePref& pref) override;
 			const std::string GetTypeName() const override;
 
 		private:
-			Float2 m_BorderMargin{};
 			float m_ChildMargin;
-			bool m_ChildsSameWidth{};
+			bool m_UniformChildWidth{};
 
 			void Clear() override;
 			void Create() override;

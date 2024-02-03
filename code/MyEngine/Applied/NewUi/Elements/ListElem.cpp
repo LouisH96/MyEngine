@@ -3,10 +3,9 @@
 
 using namespace NewUi;
 
-ListElem::ListElem(const Float2& borderMargin, float childMargin, bool childsSameWidth)
-	: m_BorderMargin{ borderMargin }
-	, m_ChildMargin{ childMargin }
-	, m_ChildsSameWidth{ childsSameWidth }
+ListElem::ListElem(const Settings& settings)
+	: m_ChildMargin{ settings.ChildMargin }
+	, m_UniformChildWidth{ settings.UniformChildWidth }
 {
 }
 
@@ -46,7 +45,7 @@ void ListElem::UpdateSizeAndTreePositions(const ResizePref& pref)
 	SetSize({ widest, height });
 
 	//set child positions & same widths if needed
-	if (m_ChildsSameWidth)
+	if (m_UniformChildWidth)
 	{
 		childPref.horMode = Max;
 		childPref.maxSize.x = widest;
