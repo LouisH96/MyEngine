@@ -3,6 +3,11 @@
 
 using namespace NewUi;
 
+void AnchorParent::AddChild(Elem* pElem, const Float2& anchor)
+{
+	ParentElem::AddChild({ pElem, anchor, anchor });
+}
+
 void AnchorParent::UpdateSizeAndTreePositions(const ResizePref& pref)
 {
 	SetSize(pref);

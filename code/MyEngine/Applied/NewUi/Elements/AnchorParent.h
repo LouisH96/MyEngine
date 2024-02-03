@@ -16,6 +16,10 @@ namespace MyEngine
 			: public ParentElem<AnchorChild>
 		{
 		public:
+
+			using ParentElem::AddChild;
+			void AddChild(Elem* pElem, const Float2& anchor);
+
 			void UpdateSizeAndTreePositions(const ResizePref& pref) override;
 			const std::string GetTypeName() const override { return "AnchorParent"; }
 
