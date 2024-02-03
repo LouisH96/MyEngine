@@ -24,10 +24,8 @@ void Root::AddChild(Elem* pChild)
 void Root::CreateUi()
 {
 	//Calculate sizes
-	const Float2 margin{ 10, 10 };
-
 	ResizePref pref;
-	pref.maxSize = GetSize() - margin * 2;
+	pref.maxSize = GetSize();
 	pref.minSize = {};
 	pref.horMode = Max;
 	pref.verMode = Max;
@@ -37,7 +35,7 @@ void Root::CreateUi()
 		Elem& child{ GetChild(i) };
 		UpdateChildSize(i, pref);
 		SetChildPosition(i, {});
-		child.UpdateTreePositions(GetPosition() + margin);
+		child.UpdateTreePositions(GetPosition());
 	}
 
 	//Create
