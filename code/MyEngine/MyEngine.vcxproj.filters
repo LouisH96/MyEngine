@@ -105,6 +105,7 @@
     <ClCompile Include="Applied\NewUi\NewUiSystem.cpp" />
     <ClCompile Include="Applied\NewUi\Elements\AnchorParent.cpp" />
     <ClCompile Include="Applied\NewUi\Elements\Label.cpp" />
+    <ClCompile Include="Rendering\ModelLoaders\ModelLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -241,6 +242,7 @@
     <ClInclude Include="Applied\NewUi\NewUiSystem.h" />
     <ClInclude Include="Applied\NewUi\Elements\AnchorParent.h" />
     <ClInclude Include="Applied\NewUi\Elements\Label.h" />
+    <ClInclude Include="Rendering\ModelLoaders\ModelLoader.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
