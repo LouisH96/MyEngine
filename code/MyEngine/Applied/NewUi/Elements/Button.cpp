@@ -9,9 +9,11 @@ using namespace NewUi;
 
 const Float2 Button::MARGIN{ 15.f, 11.f };
 
-Button::Button(const std::string& text, float fontSize)
+Button::Button(const std::string& text, Function function, FunctionArg functionArg, float fontSize)
 	: m_Text{ std::move(text) }
 	, m_FontSize{ fontSize }
+	, m_Function{ function }
+	, m_FunctionArg{ functionArg }
 {
 
 }
@@ -36,7 +38,7 @@ void Button::ToPressedState()
 
 void Button::OnClick()
 {
-	std::cout << "Button clicked\n";
+	m_Function(m_FunctionArg);
 }
 
 void Button::UpdateSizeAndTreePositions(const ResizePref& pref)

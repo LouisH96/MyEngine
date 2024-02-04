@@ -9,7 +9,10 @@ namespace MyEngine
 			: public Elem
 		{
 		public:
-			explicit Button(const std::string& text, float fontSize = 18);
+			using FunctionArg = unsigned;
+			using Function = void (*)(FunctionArg);
+
+			explicit Button(const std::string& text, Function function, FunctionArg functionArg, float fontSize = 18);
 
 			void ToDefaultState() override;
 			void ToHoverState() override;
@@ -30,6 +33,8 @@ namespace MyEngine
 			unsigned m_BorderId{};
 			unsigned m_BackgroundId{};
 			unsigned m_TextId{};
+			Function m_Function;
+			FunctionArg m_FunctionArg;
 		};
 	}
 }

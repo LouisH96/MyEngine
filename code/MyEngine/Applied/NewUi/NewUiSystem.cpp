@@ -71,8 +71,8 @@ void NewUiSystem::Update()
 			{
 				if (isUnderMouse)
 				{
-					m_pCurrentElem->OnClick();
 					m_pCurrentElem->ToHoverState();
+					m_pCurrentElem->OnClick();
 					m_CurrentElemState = Hovered;
 				}
 				else
