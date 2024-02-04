@@ -17,7 +17,7 @@ const Rendering::InputLayout::Element Rendering::V_Pos2ColUv::ELEMENTS[]
 {
 	{"POSITION", InputLayout::ElementType::Float2},
 	{"COLOR", InputLayout::ElementType::Float3},
-	{"UV", InputLayout::ElementType::Float2}
+	{"TEXCOORD", InputLayout::ElementType::Float2}
 };
 
 const Rendering::InputLayout::Element Rendering::V_Pos2Uv::ELEMENTS[] =
