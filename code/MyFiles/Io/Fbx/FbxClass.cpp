@@ -73,6 +73,13 @@ FbxClass::FbxClass(FbxData&& data, float scale)
 			WorldMatrix::TransformPoint(transform, point);
 		}
 
+		for(unsigned iNormal = 0; iNormal < modelGeometry.Normals.GetSize(); iNormal++)
+		{
+			Float3& normal{ modelGeometry.Normals[iNormal] };
+			normal.x = -normal.x;
+			normal = WorldMatrix::RotatePoint(transform, normal);
+		}
+
 		//Weights
 		weightsManager.CreateWeights(
 			modelGeometry.Weights,
@@ -99,6 +106,7 @@ void FbxClass::MakeTriangleList(Geometry& geomStruct, const FbxOrientation& orie
 	std::vector<Float2> uvs{};
 	List<BlendData> weights{ geomStruct.Indices.GetSize() };
 	positions.reserve(geomStruct.Indices.GetSize());
+	normals.reserve(geomStruct.Normals.GetSize());
 	uvs.reserve(geomStruct.Indices.GetSize());
 
 	int index0 = 0;
@@ -124,6 +132,9 @@ void FbxClass::MakeTriangleList(Geometry& geomStruct, const FbxOrientation& orie
 		uvs.push_back(geomStruct.Uvs[*pFirst]);
 		uvs.push_back(geomStruct.Uvs[*pSecond]);
 		uvs.push_back(geomStruct.Uvs[index2]);
+		normals.push_back(geomStruct.Normals[*pFirst]);
+		normals.push_back(geomStruct.Normals[*pSecond]);
+		normals.push_back(geomStruct.Normals[index2]);
 		const int pointIdx0 = static_cast<int>(geomStruct.Indices[*pFirst]);
 		const int pointIdx1 = static_cast<int>(geomStruct.Indices[*pSecond]);
 		positions.push_back(geomStruct.Points[pointIdx0]);
@@ -150,11 +161,12 @@ void FbxClass::MakeTriangleList(Geometry& geomStruct, const FbxOrientation& orie
 
 	geomStruct.Points = DsUtils::ToArray(positions);
 	geomStruct.Uvs = DsUtils::ToArray(uvs);
+	geomStruct.Normals = DsUtils::ToArray(normals);
 	geomStruct.Indices = { 0 };
 	geomStruct.Weights = weights.ToArray();
 
-	//create normals
-	geomStruct.Normals = { geomStruct.Points.GetSize() };
+	//remove smoothing groups
+	/*geomStruct.Normals = { geomStruct.Points.GetSize() };
 	for (unsigned i = 0; i < geomStruct.Points.GetSize(); i += 3)
 	{
 		const Float3& point0{ geomStruct.Points[i + 0] };
@@ -166,5 +178,6 @@ void FbxClass::MakeTriangleList(Geometry& geomStruct, const FbxOrientation& orie
 		geomStruct.Normals[i + 0] = normal;
 		geomStruct.Normals[i + 1] = normal;
 		geomStruct.Normals[i + 2] = normal;
-	}
+
+	}*/
 }
