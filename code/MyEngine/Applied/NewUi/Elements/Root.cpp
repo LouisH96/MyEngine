@@ -13,7 +13,7 @@ void Root::UpdateRootSize(const Float2& size)
 {
 	SetSize(size);
 	ClearTree();
-	CreateUi();
+	CreateTree();
 }
 
 void Root::AddChild(Elem* pChild)
@@ -21,7 +21,7 @@ void Root::AddChild(Elem* pChild)
 	m_Children.Add({ pChild });
 }
 
-void Root::CreateUi()
+void Root::Create()
 {
 	//Calculate sizes
 	ResizePref pref;
@@ -37,9 +37,6 @@ void Root::CreateUi()
 		SetChildPosition(i, {});
 		child.UpdateTreePositions(GetPosition());
 	}
-
-	//Create
-	CreateTree();
 }
 
 const std::string Root::GetTypeName() const
@@ -50,18 +47,13 @@ const std::string Root::GetTypeName() const
 void Root::RemoveChildren()
 {
 	for (unsigned i = 0; i < m_Children.GetSize(); i++)
-	{
-		m_Children[i].pChild->ClearTree();
 		delete m_Children[i].pChild;
-	}
 	m_Children.Clear();
 }
 
 void Root::Clear()
-{}
-
-void Root::Create()
-{}
+{
+}
 
 void Root::UpdateSizeAndTreePositions(const ResizePref&)
 {}

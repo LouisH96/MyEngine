@@ -14,13 +14,16 @@ namespace MyEngine
 
 			void UpdateRootSize(const Float2& size);
 			void AddChild(Elem* pChild);
-			void CreateUi();
 			const std::string GetTypeName() const override;
-			void RemoveChildren();
+			void RemoveChildren(); //try to remove this function
 
-		private:
 			void Clear() override;
 			void Create() override;
+
+			using ParentElem::ClearTree;
+			using ParentElem::CreateTree;
+
+		private:
 			void UpdateSizeAndTreePositions(const ResizePref& pref) override;
 			
 		};

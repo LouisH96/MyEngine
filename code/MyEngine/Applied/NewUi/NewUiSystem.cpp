@@ -95,13 +95,19 @@ void NewUiSystem::AddChild(Elem* pChild)
 	m_Root.AddChild(pChild);
 }
 
-void NewUiSystem::Clear()
+void NewUiSystem::RemoveAllChildren()
 {
+	BeforeEdit();
 	m_Root.RemoveChildren();
-	m_pCurrentElem = nullptr;
 }
 
-void NewUiSystem::Create()
+void NewUiSystem::BeforeEdit()
 {
-	m_Root.CreateUi();
+	m_pCurrentElem = nullptr;
+	m_Root.ClearTree();
+}
+
+void NewUiSystem::AfterEdit()
+{
+	m_Root.CreateTree();
 }

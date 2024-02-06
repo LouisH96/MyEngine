@@ -18,8 +18,11 @@ namespace MyEngine
 			void Render();
 			void AddChild(Elem* pChild);
 
-			void Clear();
-			void Create();
+			void RemoveAllChildren(); //try to remove this function
+			//void RemoveChild(const Elem* pChild);
+
+			void BeforeEdit();
+			void AfterEdit();
 
 			NewUiFontRenderer& GetFontRenderer() { return m_FontRenderer; }
 
