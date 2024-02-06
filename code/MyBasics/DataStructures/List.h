@@ -32,6 +32,8 @@ namespace MyEngine
 		void Insert(int idx, const T& value);
 		void InsertEmpty(int idx, int amount);
 
+		void Remove(unsigned idx);
+
 		const T& operator[](int idx) const;
 		const T& operator[](unsigned idx) const;
 		T& operator[](int idx);
@@ -244,6 +246,12 @@ namespace MyEngine
 		delete[] m_pData;
 		m_pData = pNew;
 		m_Size = newSize;
+	}
+
+	template <typename T>
+	void List<T>::Remove(unsigned idx)
+	{
+		std::move(&m_pData[idx + 1], &m_pData[m_Size--], &m_pData[idx]);
 	}
 
 	template <typename T>
