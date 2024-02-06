@@ -17,6 +17,8 @@ namespace MyEngine
 			ParentElem& operator=(ParentElem&& other) noexcept = delete;
 
 			void AddChild(const ChildData& child);
+			void RemoveChild(const Elem* pChild);
+			void RemoveAndDeleteChild(unsigned idx);
 
 			Elem* GetElemAt(const Float2& position) override;
 
@@ -56,6 +58,25 @@ namespace MyEngine
 		void ParentElem<ChildOptions>::AddChild(const ChildOptions& child)
 		{
 			m_Children.Add(child);
+		}
+
+		template <typename ChildData>
+		void ParentElem<ChildData>::RemoveChild(const Elem* pChild)
+		{
+			for (unsigned i = 0; i < m_Children.GetSize(); i++)
+				if (m_Children[i].pChild == pChild)
+				{
+					m_Children.Remove(i);
+					return;
+				}
+			Logger::PrintWarning("[ParentElem::RemoveChild] couldn't find child");
+		}
+
+		template <typename ChildData>
+		void ParentElem<ChildData>::RemoveAndDeleteChild(unsigned idx)
+		{
+			delete m_Children[idx].pChild;
+			m_Children.Remove(idx);
 		}
 
 		template <typename ChildData>
