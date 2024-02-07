@@ -17,8 +17,13 @@ namespace MyEngine
 			ParentElem& operator=(ParentElem&& other) noexcept = delete;
 
 			void AddChild(const ChildData& child);
-			void RemoveChild(const Elem* pChild);
-			void RemoveAndDeleteChild(unsigned idx);
+
+			void RemoveChild(Elem* pChild);
+			void DeleteChild(Elem* pChild);
+			void DeleteChild(unsigned idx);
+
+			template<typename T>
+			T& GetChild(unsigned idx);
 
 			Elem* GetElemAt(const Float2& position) override;
 
@@ -61,7 +66,7 @@ namespace MyEngine
 		}
 
 		template <typename ChildData>
-		void ParentElem<ChildData>::RemoveChild(const Elem* pChild)
+		void ParentElem<ChildData>::RemoveChild(Elem* pChild)
 		{
 			for (unsigned i = 0; i < m_Children.GetSize(); i++)
 				if (m_Children[i].pChild == pChild)
@@ -73,10 +78,30 @@ namespace MyEngine
 		}
 
 		template <typename ChildData>
-		void ParentElem<ChildData>::RemoveAndDeleteChild(unsigned idx)
+		void ParentElem<ChildData>::DeleteChild(Elem* pChild)
+		{
+			for (unsigned i = 0; i < m_Children.GetSize(); i++)
+				if (m_Children[i].pChild == pChild)
+				{
+					delete m_Children[i].pChild;
+					m_Children.Remove(i);
+					return;
+				}
+			Logger::PrintWarning("[ParentElem::DeleteChild] couldn't find child");
+		}
+
+		template <typename ChildData>
+		void ParentElem<ChildData>::DeleteChild(unsigned idx)
 		{
 			delete m_Children[idx].pChild;
 			m_Children.Remove(idx);
+		}
+
+		template <typename ChildData>
+		template <typename T>
+		T& ParentElem<ChildData>::GetChild(unsigned idx)
+		{
+			return reinterpret_cast<T&>(m_Children[idx].pChild);
 		}
 
 		template <typename ChildData>

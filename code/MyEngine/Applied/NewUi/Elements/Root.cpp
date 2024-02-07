@@ -44,13 +44,6 @@ const std::string Root::GetTypeName() const
 	return "Root";
 }
 
-void Root::RemoveChildren()
-{
-	for (unsigned i = 0; i < m_Children.GetSize(); i++)
-		delete m_Children[i].pChild;
-	m_Children.Clear();
-}
-
 void Root::Clear()
 {
 }

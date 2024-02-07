@@ -16,10 +16,10 @@ namespace MyEngine
 			void OnCanvasResized(const App::ResizedEvent& event);
 			void Update();
 			void Render();
-			void AddChild(Elem* pChild);
 
-			void RemoveAllChildren(); //try to remove this function
-			//void RemoveChild(const Elem* pChild);
+			void AddChild(Elem* pChild);
+			void RemoveChild(Elem* pChild);
+			void DeleteChild(Elem* pChild);
 
 			void BeforeEdit();
 			void AfterEdit();

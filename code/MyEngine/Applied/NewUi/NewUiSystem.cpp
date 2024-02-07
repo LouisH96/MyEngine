@@ -95,10 +95,14 @@ void NewUiSystem::AddChild(Elem* pChild)
 	m_Root.AddChild(pChild);
 }
 
-void NewUiSystem::RemoveAllChildren()
+void NewUiSystem::RemoveChild(Elem* pChild)
 {
-	BeforeEdit();
-	m_Root.RemoveChildren();
+	m_Root.RemoveChild(pChild);
+}
+
+void NewUiSystem::DeleteChild(Elem* pChild)
+{
+	m_Root.DeleteChild(pChild);
 }
 
 void NewUiSystem::BeforeEdit()
