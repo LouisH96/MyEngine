@@ -14,8 +14,8 @@ void AnchorParent::UpdateSizeAndTreePositions(const ResizePref& pref)
 
 	ResizePref childPref;
 	childPref.minSize = {};
-	childPref.horMode = Max;
-	childPref.verMode = Max;
+	childPref.horMode = Min;
+	childPref.verMode = Min;
 
 	for (unsigned i = 0; i < GetNrChildren(); i++)
 	{
