@@ -10,9 +10,7 @@ namespace MyEngine
 			explicit SideMenu(float width);
 
 		private:
-
 			float m_Width;
-			unsigned m_BackgroundId{};
 		};
 	}
 }
