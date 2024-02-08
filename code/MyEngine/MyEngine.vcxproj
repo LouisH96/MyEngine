@@ -27,6 +27,7 @@
     <ClCompile Include="Applied\NewUi\EmptyChildOptions.cpp" />
     <ClCompile Include="Applied\NewUi\Elements\Box.cpp" />
     <ClCompile Include="Applied\NewUi\Elements\Button.cpp" />
+    <ClCompile Include="Applied\NewUi\Elements\Extender.cpp" />
     <ClCompile Include="Geometry\Shapes\Hexagon.cpp" />
     <ClCompile Include="Generation\HexGenerator.cpp" />
     <ClCompile Include="Applied\NodeGraph\GraphSorter.cpp" />
@@ -129,6 +130,8 @@
     <ClCompile Include="Applied\Gui\VerticalButtonList.cpp" />
     <ClCompile Include="Font\TextAssembler.cpp" />
     <ClCompile Include="Applied\NewUi\Elements\Root.cpp" />
+    <ClCompile Include="Applied\NewUi\Structures\SideMenu\SideMenu.cpp" />
+    <ClCompile Include="Applied\NewUi\SizeDef.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Applied\NewUi\Elements\AnchorParent.h" />
@@ -140,6 +143,7 @@
     <ClInclude Include="Applied\NewUi\EmptyChildOptions.h" />
     <ClInclude Include="Applied\NewUi\Elements\Box.h" />
     <ClInclude Include="Applied\NewUi\Elements\Button.h" />
+    <ClInclude Include="Applied\NewUi\Elements\Extender.h" />
     <ClInclude Include="Generation\DiskGenerator_TriangleListIdx.h" />
     <ClInclude Include="Geometry\Shapes\Hexagon.h" />
     <ClInclude Include="Generation\HexGenerator.h" />
@@ -266,6 +270,8 @@
     <ClInclude Include="Applied\Gui\VerticalButtonList.h" />
     <ClInclude Include="Font\TextAssembler.h" />
     <ClInclude Include="Applied\NewUi\Elements\Root.h" />
+    <ClInclude Include="Applied\NewUi\Structures\SideMenu\SideMenu.h" />
+    <ClInclude Include="Applied\NewUi\SizeDef.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
