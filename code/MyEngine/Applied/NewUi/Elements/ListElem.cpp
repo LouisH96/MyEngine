@@ -23,40 +23,42 @@ void ListElem::UpdateSizeAndTreePositions(const ResizePref& pref)
 	childPref.horMode = Min;
 	childPref.verMode = Min;
 
-	float widest{ 0 };
-	float height{ 0 };
+	//---| Set/Find child sizes |---
+	Float2 childBounds{ 0, -m_ChildMargin };
 	for (unsigned i = 0; i < GetNrChildren(); i++)
 	{
 		Elem& child{ GetChild(i) };
 		UpdateChildSize(i, childPref);
 
 		const float childWidth{ child.GetWidth() };
-		if (childWidth > pref.maxSize.x)
-			Logger::PrintWarning("[ListElem::PreResize] child's width is wider than list's max width");
+		if (childWidth > pref.maxSize.x) //warning should come from button. Child shouldn't be able to be too big here.
+			Logger::PrintWarning("[ListElem::UpdateSizeAndTreePositions] child's width is wider than list's max width");
 
-		if (childWidth > widest) widest = childWidth;
-
-		height += child.GetHeight() + m_ChildMargin;
+		childBounds.x = Float::Max(childBounds.x, childWidth);
+		childBounds.y += child.GetHeight() + m_ChildMargin;
 	}
-	if (height > 0) height -= m_ChildMargin;
+	if (childBounds.y < 0) childBounds.y = 0;
 
-	//set list size
-	if (widest < pref.minSize.x)
-		widest = pref.minSize.x;
-	if (height > pref.maxSize.y)
-		Logger::PrintWarning("[ListElem::PreResize] list's height is higher than it's max");
-	if (height < pref.minSize.y)
-		height = pref.minSize.y;
+	//---| Set list size |---
+	Float2 listSize{ childBounds + m_MainMargin * 2 };
+	listSize.x = Float::Max(pref.minSize.x, listSize.x);
+	listSize.y = Float::Max(pref.minSize.y, listSize.y);
 
-	SetSize(Float2{ widest , height } + m_MainMargin * 2);
+	if (listSize.y > pref.maxSize.y) //should be handled earlier
+		Logger::PrintWarning("[ListElem::UpdateSizeAndTreePositions] list's height is higher than it's max");
 
-	//set child positions & same widths if needed
+	if (pref.horMode == Max)
+		listSize = pref.maxSize;
+
+	SetSize(listSize);
+
+	//---| set child positions & same widths if needed |---
 	if (m_UniformChildWidth)
 	{
 		childPref.horMode = Max;
-		childPref.maxSize.x = widest;
+		childPref.maxSize.x = childBounds.x;
 
-		Float2 childPos{ m_MainMargin };
+		Float2 childPos{ (GetSize() - childBounds) / 2 };
 
 		for (unsigned i = GetNrChildren() - 1; i + 1 != 0; i--)
 		{
