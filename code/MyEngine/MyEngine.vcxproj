@@ -42,6 +42,7 @@
     <ClCompile Include="Applied\NewUi\NewUiFontRenderer.cpp" />
     <ClCompile Include="Applied\NewUi\NewUiSystem.cpp" />
     <ClCompile Include="Applied\NewUi\Elements\Label.cpp" />
+    <ClCompile Include="Applied\NewUi\Elements\Margin.cpp" />
     <ClCompile Include="Rendering\ModelLoaders\ModelLoader.cpp" />
     <ClCompile Include="Physics\Collisions\ConeCubeCollision.cpp" />
     <ClCompile Include="Debug\Rendering\DebugCones.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="Applied\NewUi\NewUiFontRenderer.h" />
     <ClInclude Include="Applied\NewUi\NewUiSystem.h" />
     <ClInclude Include="Applied\NewUi\Elements\Label.h" />
+    <ClInclude Include="Applied\NewUi\Elements\Margin.h" />
     <ClInclude Include="Rendering\ModelLoaders\ModelLoader.h" />
     <ClInclude Include="Physics\CollisionDetection2.h" />
     <ClInclude Include="Physics\Collisions\ConeCubeCollision.h" />
