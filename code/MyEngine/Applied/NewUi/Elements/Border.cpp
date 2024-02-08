@@ -6,7 +6,6 @@
 
 using namespace NewUi;
 
-
 void Border::UpdateSizeAndTreePositions(const ResizePref& pref)
 {
 	ResizePref childPref;
