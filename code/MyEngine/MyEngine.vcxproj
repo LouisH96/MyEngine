@@ -28,6 +28,7 @@
     <ClCompile Include="Applied\NewUi\Elements\Box.cpp" />
     <ClCompile Include="Applied\NewUi\Elements\Button.cpp" />
     <ClCompile Include="Applied\NewUi\Elements\Extender.cpp" />
+    <ClCompile Include="Applied\NewUi\Elements\Border.cpp" />
     <ClCompile Include="Geometry\Shapes\Hexagon.cpp" />
     <ClCompile Include="Generation\HexGenerator.cpp" />
     <ClCompile Include="Applied\NodeGraph\GraphSorter.cpp" />
@@ -144,6 +145,7 @@
     <ClInclude Include="Applied\NewUi\Elements\Box.h" />
     <ClInclude Include="Applied\NewUi\Elements\Button.h" />
     <ClInclude Include="Applied\NewUi\Elements\Extender.h" />
+    <ClInclude Include="Applied\NewUi\Elements\Border.h" />
     <ClInclude Include="Generation\DiskGenerator_TriangleListIdx.h" />
     <ClInclude Include="Geometry\Shapes\Hexagon.h" />
     <ClInclude Include="Generation\HexGenerator.h" />

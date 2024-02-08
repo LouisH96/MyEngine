@@ -109,6 +109,7 @@
     <ClCompile Include="Applied\NewUi\Structures\SideMenu\SideMenu.cpp" />
     <ClCompile Include="Applied\NewUi\SizeDef.cpp" />
     <ClCompile Include="Applied\NewUi\Elements\Extender.cpp" />
+    <ClCompile Include="Applied\NewUi\Elements\Border.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -249,6 +250,7 @@
     <ClInclude Include="Applied\NewUi\Structures\SideMenu\SideMenu.h" />
     <ClInclude Include="Applied\NewUi\SizeDef.h" />
     <ClInclude Include="Applied\NewUi\Elements\Extender.h" />
+    <ClInclude Include="Applied\NewUi\Elements\Border.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

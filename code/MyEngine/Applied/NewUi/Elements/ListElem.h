@@ -14,7 +14,6 @@ namespace MyEngine
 			{
 				float ChildMargin{ 5.f };
 				bool UniformChildWidth{ true };
-				bool VisualBorder{ false };
 			};
 
 			explicit ListElem(const Settings& settings);
@@ -23,18 +22,11 @@ namespace MyEngine
 			const std::string GetTypeName() const override;
 
 		private:
-			float m_MainMargin;
 			float m_ChildMargin;
 			bool m_UniformChildWidth;
 
-			unsigned m_BorderId;
-			unsigned m_BackgroundId;
-
 			void Clear() override;
 			void Create() override;
-
-			bool UseVisualBorder() const;
-			static unsigned GetNoBorderId();
 		};
 	}
 }
