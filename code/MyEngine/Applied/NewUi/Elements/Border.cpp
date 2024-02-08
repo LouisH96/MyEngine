@@ -6,16 +6,12 @@
 
 using namespace NewUi;
 
-Border::Border(bool shrink)
-	: m_Shrink{ shrink }
-{
-}
 
 void Border::UpdateSizeAndTreePositions(const ResizePref& pref)
 {
 	ResizePref childPref;
-	childPref.horMode = m_Shrink ? Min : Max;
-	childPref.verMode = m_Shrink ? Min : Max;
+	childPref.horMode = pref.horMode;
+	childPref.verMode = pref.verMode;
 	childPref.minSize = {};
 	childPref.maxSize = pref.maxSize - NewUiSystem::BORDER_THICKNESS * 4;
 
@@ -29,10 +25,7 @@ void Border::UpdateSizeAndTreePositions(const ResizePref& pref)
 		childBounds.y = Float::Max(childBounds.y, GetChild(i).GetHeight());
 	}
 
-	if (m_Shrink)
-		SetSize(childBounds + NewUiSystem::BORDER_THICKNESS * 4);
-	else
-		SetSize(pref.maxSize);
+	SetSize(childBounds + NewUiSystem::BORDER_THICKNESS * 4);
 }
 
 void Border::Clear()

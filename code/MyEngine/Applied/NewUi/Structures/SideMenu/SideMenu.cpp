@@ -30,7 +30,7 @@ SideMenu::SideMenu(float width)
 	pAnchor->AddChild(pExtender, { 0,1 });
 
 	//Border
-	Border* pBorder{ new Border(false) };
+	Border* pBorder{ new Border() };
 	pExtender->AddChild({ pBorder });
 
 	//Anchor2
