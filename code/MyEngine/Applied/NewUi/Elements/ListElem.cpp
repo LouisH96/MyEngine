@@ -60,6 +60,8 @@ void ListElem::UpdateSizeAndTreePositions(const ResizePref& pref)
 		{
 			Elem& child{ GetChild(i) };
 			UpdateChildSize(i, childPref);
+
+			childPos.x = (GetWidth() - child.GetWidth()) / 2;
 			SetChildPosition(i, childPos);
 			childPos.y += child.GetHeight() + m_ChildMargin;
 		}
