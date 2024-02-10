@@ -17,7 +17,7 @@ NewUiFontRenderer::NewUiFontRenderer(const Float2& screenSize)
 	, m_ScreenSpaceToNdc{ CalculateScreenSpaceToNdc(screenSize) }
 	, m_HalfScreenSize{ screenSize / 2.f }
 {
-	Font::FontAtlas fontAtlas{ 64 };
+	Font::FontAtlas fontAtlas{ 64, Resources::Global(LR"(Fonts/Cascadia.ttf)")};
 	m_FontAtlas = Texture{ fontAtlas.GetImage() };
 	m_Assembler = TextAssembler{ std::move(fontAtlas) };
 }
