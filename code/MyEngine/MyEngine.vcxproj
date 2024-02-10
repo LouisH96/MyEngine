@@ -134,6 +134,7 @@
     <ClCompile Include="Applied\NewUi\Elements\Root.cpp" />
     <ClCompile Include="Applied\NewUi\Structures\SideMenu\SideMenu.cpp" />
     <ClCompile Include="Applied\NewUi\SizeDef.cpp" />
+    <ClCompile Include="Applied\NewUi\Structures\SideMenu\SideMenuPath.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Applied\NewUi\Elements\AnchorParent.h" />
@@ -276,6 +277,7 @@
     <ClInclude Include="Applied\NewUi\Elements\Root.h" />
     <ClInclude Include="Applied\NewUi\Structures\SideMenu\SideMenu.h" />
     <ClInclude Include="Applied\NewUi\SizeDef.h" />
+    <ClInclude Include="Applied\NewUi\Structures\SideMenu\SideMenuPath.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

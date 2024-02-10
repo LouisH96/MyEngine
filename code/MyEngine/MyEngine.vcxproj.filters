@@ -110,6 +110,7 @@
     <ClCompile Include="Applied\NewUi\SizeDef.cpp" />
     <ClCompile Include="Applied\NewUi\Elements\Extender.cpp" />
     <ClCompile Include="Applied\NewUi\Elements\Border.cpp" />
+    <ClCompile Include="Applied\NewUi\Structures\SideMenu\SideMenuPath.cpp" />
     <ClCompile Include="Applied\NewUi\Elements\Margin.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -252,6 +253,7 @@
     <ClInclude Include="Applied\NewUi\SizeDef.h" />
     <ClInclude Include="Applied\NewUi\Elements\Extender.h" />
     <ClInclude Include="Applied\NewUi\Elements\Border.h" />
+    <ClInclude Include="Applied\NewUi\Structures\SideMenu\SideMenuPath.h" />
     <ClInclude Include="Applied\NewUi\Elements\Margin.h" />
   </ItemGroup>
   <ItemGroup>
