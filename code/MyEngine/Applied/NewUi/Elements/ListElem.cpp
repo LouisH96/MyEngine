@@ -32,6 +32,8 @@ void ListElem::UpdateSizeAndTreePositions(const ResizePref& pref)
 
 		childBounds.x = Float::Max(childBounds.x, childWidth);
 		childBounds.y += child.GetHeight() + m_ChildMargin;
+
+		childPref.maxSize.y -= child.GetHeight() + m_ChildMargin;
 	}
 	if (childBounds.y < 0) childBounds.y = 0;
 
@@ -44,26 +46,33 @@ void ListElem::UpdateSizeAndTreePositions(const ResizePref& pref)
 		Logger::PrintWarning("[ListElem::UpdateSizeAndTreePositions] list's height is higher than it's max");
 
 	if (pref.horMode == Max)
-		listSize = pref.maxSize;
+		listSize.x = pref.maxSize.x;
+	if (pref.verMode == Max)
+		listSize.y = pref.maxSize.y;
 
 	SetSize(listSize);
 
 	//---| set child positions & same widths if needed |---
+	childPref.maxSize = pref.maxSize;
 	if (m_UniformChildWidth)
 	{
 		childPref.horMode = Max;
 		childPref.maxSize.x = childBounds.x;
 
 		Float2 childPos{ (GetSize() - childBounds) / 2 };
+		childPos.y = GetHeight() - childPos.y;
 
-		for (unsigned i = GetNrChildren() - 1; i + 1 != 0; i--)
+		for (unsigned i = 0; i < GetNrChildren(); i++)
 		{
 			Elem& child{ GetChild(i) };
 			UpdateChildSize(i, childPref);
 
 			childPos.x = (GetWidth() - child.GetWidth()) / 2;
+			childPos.y -= child.GetHeight();
+
 			SetChildPosition(i, childPos);
-			childPos.y += child.GetHeight() + m_ChildMargin;
+			childPos.y -= m_ChildMargin;
+			childPref.maxSize.y -= child.GetHeight() + m_ChildMargin;
 		}
 	}
 	else
