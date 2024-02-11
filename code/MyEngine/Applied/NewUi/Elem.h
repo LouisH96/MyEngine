@@ -48,6 +48,8 @@ namespace MyEngine
 		protected:
 			void SetSize(const Float2& size);
 			void SetSize(const ResizePref& pref);
+			void SetWidth(float width);
+			void SetHeight(float height);
 
 			static void AssertWithinMaxSize(const Float2& desired, const ResizePref& pref);
 

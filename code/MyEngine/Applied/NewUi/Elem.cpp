@@ -34,6 +34,16 @@ void Elem::SetSize(const ResizePref& pref)
 	SetSize(pref.GetPreferredSize());
 }
 
+void Elem::SetWidth(float width)
+{
+	m_Bounds.SetWidth(width);
+}
+
+void Elem::SetHeight(float height)
+{
+	m_Bounds.SetHeight(height);
+}
+
 void Elem::AssertWithinMaxSize(const Float2& desired, const ResizePref& pref)
 {
 	if (desired.x > pref.maxSize.x)
