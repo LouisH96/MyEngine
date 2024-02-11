@@ -18,11 +18,13 @@ namespace MyEngine
 			struct ButtonInfo
 			{
 				std::string Text;
-				float Width;
 				unsigned BackgroundId;
 				unsigned TextId;
-
 				unsigned ArrowId{ Uint::MAX };
+
+				Float2 Size;
+				Float2 Pos;
+				bool DisplayPoints{ false };
 			};
 
 			void UpdateSizeAndTreePositions(const ResizePref& pref) override;
@@ -32,14 +34,15 @@ namespace MyEngine
 			using ParentElem::AddChild;
 
 			static constexpr float FONT_SIZE{ 10 };
-			static const Float2 MARGIN;
+			static const Float2 BUTTON_MARGIN;
+			static constexpr float ARROW_MARGIN{ 5 };
+			static constexpr float ROW_MARGIN{ 4 };
 
 			List<ButtonInfo> m_ButtonInfo{};
-			float m_MaxButtonHeight{};
-			float m_ArrowWidth;
-			float m_ArrowVerOffset;
-			float m_PointsWidth;
-			float m_PointsVerOffset;
+			Float2 m_ArrowSize;
+			Float2 m_PointsSize;
+
+			friend class SideMenuPathHelper;
 		};
 	}
 }

@@ -112,6 +112,7 @@
     <ClCompile Include="Applied\NewUi\Elements\Border.cpp" />
     <ClCompile Include="Applied\NewUi\Structures\SideMenu\SideMenuPath.cpp" />
     <ClCompile Include="Applied\NewUi\Elements\Margin.cpp" />
+    <ClCompile Include="Applied\NewUi\Structures\SideMenu\SideMenuPathHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -255,6 +256,7 @@
     <ClInclude Include="Applied\NewUi\Elements\Border.h" />
     <ClInclude Include="Applied\NewUi\Structures\SideMenu\SideMenuPath.h" />
     <ClInclude Include="Applied\NewUi\Elements\Margin.h" />
+    <ClInclude Include="Applied\NewUi\Structures\SideMenu\SideMenuPathHelper.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
