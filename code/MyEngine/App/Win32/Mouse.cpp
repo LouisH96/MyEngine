@@ -66,6 +66,11 @@ Float2 Mouse::GetPosNdc() const
 	};
 }
 
+Float2 Mouse::GetPosLeftBot() const
+{
+	return { static_cast<float>(m_Pos.x), CANVAS.GetHeightF() - m_Pos.y };
+}
+
 void Mouse::SetPosRuntime(Int2 position)
 {
 	tagPOINT pos{ position.x,position.y};
