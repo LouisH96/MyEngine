@@ -64,6 +64,7 @@ namespace MyEngine
 
 		static Rect Bounds(const Vector2<T>* pData, unsigned count);
 		static Rect FromCenter(const  Vector2<T>& size, const  Vector2<T>& center = {});
+		static bool ContainsPoint(const Float2& leftBot, const Float2& size, const Float2& point);
 
 	private:
 		Vector2<T> m_LeftBot;
@@ -245,5 +246,14 @@ namespace MyEngine
 	Rect<T> Rect<T>::FromCenter(const  Vector2<T>& size, const  Vector2<T>& center)
 	{
 		return{ -size / 2.f, size };
+	}
+
+	template <typename T>
+	bool Rect<T>::ContainsPoint(const Float2& leftBot, const Float2& size, const Float2& point)
+	{
+		return point.x >= leftBot.x
+			&& point.x <= leftBot.x + size.x
+			&& point.y >= leftBot.y
+			&& point.y <= leftBot.y + size.y;
 	}
 }
