@@ -4,6 +4,7 @@ namespace MyEngine
 {
 	namespace NewUi
 	{
+		class SideMenuPath;
 		class Extender;
 
 		class SideMenu
@@ -15,6 +16,7 @@ namespace MyEngine
 
 		private:
 			Extender* m_pExtender{};
+			SideMenuPath* m_pPath{};
 			bool m_Dragging{ false };
 		};
 	}

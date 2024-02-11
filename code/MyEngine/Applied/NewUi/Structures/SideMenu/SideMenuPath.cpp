@@ -20,6 +20,24 @@ SideMenuPath::SideMenuPath()
 	AddChild("Something else");
 }
 
+void SideMenuPath::Update()
+{
+	if (!MOUSE.IsLeftBtnPressed())
+		return;
+
+	const Float2 mouse{ MOUSE.GetPosLeftBot() - GetPosition()};
+
+	for (unsigned i = 0; i < m_ButtonInfo.GetSize(); ++i)
+	{
+		ButtonInfo& button{ m_ButtonInfo[i] };
+		if (RectFloat::ContainsPoint(button.Pos, button.Size, mouse))
+		{
+			Logger::Print("Clicked", button.Text);
+			break;
+		}
+	}
+}
+
 void SideMenuPath::AddChild(const std::string& title)
 {
 	const Float2 textSize{ NEW_FONT.GetTextSize_XCenter(title, FONT_SIZE) };

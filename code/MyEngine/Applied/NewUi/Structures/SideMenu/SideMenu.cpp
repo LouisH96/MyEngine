@@ -49,8 +49,8 @@ SideMenu::SideMenu(float width)
 	pAnchorInsideBorder->AddChild(pList, { .5f,1.f });
 
 	//Path
-	SideMenuPath* pPath{ new SideMenuPath() };
-	pList->AddChild({ pPath });
+	m_pPath = new SideMenuPath();
+	pList->AddChild({ m_pPath });
 
 	//Content Extender
 	Extender* pContentExtender{ new Extender(SizeDef{SizeDef::Percentage, SizeDef::Percentage, {1,1}}) };
@@ -96,10 +96,12 @@ void SideMenu::Update()
 		m_Dragging = MOUSE.IsLeftBtnDown() && abs(mouse.x - right) <= resizeZone;
 	}
 
-	if (!m_Dragging)
-		return;
+	if (m_Dragging)
+	{
+		UI.BeforeEdit();
+		m_pExtender->SetValueX(mouse.x);
+		UI.AfterEdit();
+	}
 
-	UI.BeforeEdit();
-	m_pExtender->SetValueX(mouse.x);
-	UI.AfterEdit();
+	m_pPath->Update();
 }

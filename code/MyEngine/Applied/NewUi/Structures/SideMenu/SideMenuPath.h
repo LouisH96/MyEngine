@@ -12,6 +12,7 @@ namespace MyEngine
 			SideMenuPath();
 			const std::string GetTypeName() const override { return "SideMenuPath"; }
 
+			void Update();
 			void AddChild(const std::string& title);
 
 		private:
