@@ -4,13 +4,18 @@ namespace MyEngine
 {
 	namespace NewUi
 	{
+		class Extender;
+
 		class SideMenu
 		{
 		public:
 			explicit SideMenu(float width);
 
+			void Update();
+
 		private:
-			float m_Width;
+			Extender* m_pExtender{};
+			bool m_Dragging{ false };
 		};
 	}
 }

@@ -15,7 +15,6 @@
 using namespace NewUi;
 
 SideMenu::SideMenu(float width)
-	: m_Width{ width }
 {
 	UI.BeforeEdit();
 
@@ -27,7 +26,7 @@ SideMenu::SideMenu(float width)
 	SizeDef extenderSize;
 	extenderSize.HorizontalMode = SizeDef::Pixels;
 	extenderSize.VerticalMode = SizeDef::Percentage;
-	extenderSize.Value = { 500,1.f };
+	extenderSize.Value = { width,1.f };
 	Extender* pExtender{ new Extender(extenderSize) };
 	pAnchor->AddChild(pExtender, { 0,1 });
 
@@ -37,6 +36,7 @@ SideMenu::SideMenu(float width)
 	//Margin
 	Margin* pMargin{ new Margin(NewUiSystem::BORDER_THICKNESS) };
 	pExtender->AddChild({ pMargin });
+	m_pExtender = pExtender;
 
 	//Anchor2
 	AnchorParent* pAnchorInsideBorder{ new AnchorParent() };
@@ -77,5 +77,29 @@ SideMenu::SideMenu(float width)
 	pContentList->AddChild({ new Label("First Content Line", NewUiSystem::COLOR_MEDIUM, 13) });
 	pContentList->AddChild({ new Label("Second Content Line", NewUiSystem::COLOR_MEDIUM, 13) });
 
+	UI.AfterEdit();
+}
+
+void SideMenu::Update()
+{
+	constexpr float resizeZone{ 15.f };
+	const float right{ m_pExtender->GetBounds().GetRight() };
+	const Float2 mouse{ MOUSE.GetPos() };
+
+	if (m_Dragging)
+	{
+		if (!MOUSE.IsLeftBtnDown())
+			m_Dragging = false;
+	}
+	else
+	{
+		m_Dragging = MOUSE.IsLeftBtnDown() && abs(mouse.x - right) <= resizeZone;
+	}
+
+	if (!m_Dragging)
+		return;
+
+	UI.BeforeEdit();
+	m_pExtender->SetValueX(mouse.x);
 	UI.AfterEdit();
 }
