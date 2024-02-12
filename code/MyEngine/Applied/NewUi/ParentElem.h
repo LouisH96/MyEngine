@@ -22,6 +22,8 @@ namespace MyEngine
 			void DeleteChild(Elem* pChild);
 			void DeleteChild(unsigned idx);
 
+			void DeleteAllChildren();
+
 			template<typename T>
 			T& GetChild(unsigned idx);
 
@@ -95,6 +97,14 @@ namespace MyEngine
 		{
 			delete m_Children[idx].pChild;
 			m_Children.Remove(idx);
+		}
+
+		template <typename ChildData>
+		void ParentElem<ChildData>::DeleteAllChildren()
+		{
+			for (unsigned i = 0; i < m_Children.GetSize(); ++i)
+				delete m_Children[i].pChild;
+			m_Children.Clear();
 		}
 
 		template <typename ChildData>
