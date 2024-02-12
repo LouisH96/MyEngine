@@ -7,14 +7,16 @@
 #include "Applied/NewUi/Elements/Border.h"
 #include "Applied/NewUi/Elements/Box.h"
 #include "Applied/NewUi/Elements/Extender.h"
-#include "Applied/NewUi/Elements/Label.h"
 #include "Applied/NewUi/Elements/ListElem.h"
 #include "Applied/NewUi/Elements/Margin.h"
 #include "Gui/GuiRenderer.h"
+#include "Tabs/TitleTab.h"
 
 using namespace NewUi;
 
 SideMenu::SideMenu(float width)
+	: m_pRootTab{ nullptr }
+	, m_pActiveTab{ nullptr }
 {
 	UI.BeforeEdit();
 
@@ -70,14 +72,15 @@ SideMenu::SideMenu(float width)
 
 	//Content List
 	listSettings.ChildMargin = 10.f;
-	ListElem* pContentList{ new ListElem(listSettings) };
-	pContentAnchor->AddChild({ pContentList, {.5f,1}, {.5f, 1} });
-
-	//Sample content
-	pContentList->AddChild({ new Label("First Content Line", NewUiSystem::COLOR_MEDIUM, 13) });
-	pContentList->AddChild({ new Label("Second Content Line", NewUiSystem::COLOR_MEDIUM, 13) });
+	m_pContentList = new ListElem(listSettings);
+	pContentAnchor->AddChild({ m_pContentList, {.5f,1}, {.5f, 1} });
 
 	UI.AfterEdit();
+}
+
+SideMenu::~SideMenu()
+{
+	delete m_pRootTab;
 }
 
 void SideMenu::Update()
@@ -103,5 +106,28 @@ void SideMenu::Update()
 		UI.AfterEdit();
 	}
 
-	m_pPath->Update();
+	//click
+	SideMenuTab* pClickedTab{ m_pPath->GetClickedTab() };
+	if (pClickedTab && pClickedTab != m_pActiveTab)
+	{
+		UI.BeforeEdit();
+		m_pPath->SetTab(*pClickedTab);
+		ActivateTab(pClickedTab);
+		UI.AfterEdit();
+	}
+}
+
+void SideMenu::SetRootTab(SideMenuTab* pTab)
+{
+	m_pRootTab = pTab;
+	ActivateTab(m_pRootTab);
+}
+
+void SideMenu::ActivateTab(SideMenuTab* pTab)
+{
+	m_pContentList->DeleteAllChildren();
+	m_pActiveTab = pTab;
+	m_pActiveTab->Generate(*m_pContentList);
+
+	m_pPath->SetTab(*m_pActiveTab);
 }

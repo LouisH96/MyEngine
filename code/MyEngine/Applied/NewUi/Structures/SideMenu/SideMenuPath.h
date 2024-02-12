@@ -6,14 +6,17 @@ namespace MyEngine
 {
 	namespace NewUi
 	{
+		class SideMenuTab;
+
 		class SideMenuPath final : public ParentElem<EmptyChildOptions>
 		{
 		public:
 			SideMenuPath();
 			const std::string GetTypeName() const override { return "SideMenuPath"; }
 
-			void Update();
-			void AddChild(const std::string& title);
+			SideMenuTab* GetClickedTab() const;
+
+			void SetTab(SideMenuTab& tab);
 
 		private:
 			struct ButtonInfo
@@ -22,6 +25,7 @@ namespace MyEngine
 				unsigned BackgroundId;
 				unsigned TextId;
 				unsigned ArrowId{ Uint::MAX };
+				SideMenuTab* pTab;
 
 				Float2 Size;
 				Float2 Pos;
@@ -31,6 +35,7 @@ namespace MyEngine
 			void UpdateSizeAndTreePositions(const ResizePref& pref) override;
 			void Clear() override;
 			void Create() override;
+			void AddButton(SideMenuTab& tab);
 
 			using ParentElem::AddChild;
 
@@ -42,6 +47,8 @@ namespace MyEngine
 			List<ButtonInfo> m_ButtonInfo{};
 			Float2 m_ArrowSize;
 			Float2 m_PointsSize;
+
+			void AddSelfAfterParent(SideMenuTab& tab);
 
 			friend class SideMenuPathHelper;
 		};

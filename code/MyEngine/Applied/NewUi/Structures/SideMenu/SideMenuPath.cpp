@@ -4,6 +4,7 @@
 #include "SideMenuPathHelper.h"
 #include "Applied/NewUi/NewUiSystem.h"
 #include "Gui/GuiRenderer.h"
+#include "Tabs/SideMenuTab.h"
 
 using namespace NewUi;
 
@@ -13,38 +14,41 @@ SideMenuPath::SideMenuPath()
 	: m_ArrowSize{ NEW_FONT.GetTextSize_XCenter(">", FONT_SIZE) }
 	, m_PointsSize{ NEW_FONT.GetTextSize_XCenter("...", FONT_SIZE) }
 {
-	AddChild("Main Menu");
-	AddChild("Pawns");
-	AddChild("Rook");
-	AddChild("Collision Mesh");
-	AddChild("Something else");
 }
 
-void SideMenuPath::Update()
+SideMenuTab* SideMenuPath::GetClickedTab() const
 {
 	if (!MOUSE.IsLeftBtnPressed())
-		return;
+		return nullptr;
 
-	const Float2 mouse{ MOUSE.GetPosLeftBot() - GetPosition()};
+	const Float2 mouse{ MOUSE.GetPosLeftBot() - GetPosition() };
 
 	for (unsigned i = 0; i < m_ButtonInfo.GetSize(); ++i)
 	{
-		ButtonInfo& button{ m_ButtonInfo[i] };
+		const ButtonInfo& button{ m_ButtonInfo[i] };
 		if (RectFloat::ContainsPoint(button.Pos, button.Size, mouse))
 		{
-			Logger::Print("Clicked", button.Text);
-			break;
+			return button.pTab;
 		}
 	}
+
+	return nullptr;
 }
 
-void SideMenuPath::AddChild(const std::string& title)
+void SideMenuPath::SetTab(SideMenuTab& tab)
 {
-	const Float2 textSize{ NEW_FONT.GetTextSize_XCenter(title, FONT_SIZE) };
+	m_ButtonInfo.Clear();
+	AddSelfAfterParent(tab);
+}
+
+void SideMenuPath::AddButton(SideMenuTab& tab)
+{
+	const Float2 textSize{ NEW_FONT.GetTextSize_XCenter(tab.GetTitle(), FONT_SIZE) };
 
 	ButtonInfo button{};
-	button.Text = title;
+	button.Text = tab.GetTitle();
 	button.Size = textSize + BUTTON_MARGIN * 2;
+	button.pTab = &tab;
 
 	m_ButtonInfo.Add(button);
 }
@@ -102,4 +106,11 @@ void SideMenuPath::Create()
 		const Float2 arrowPos{ buttonPos.x - m_ArrowSize.x - ARROW_MARGIN, buttonPos.y + (buttonSize.y - m_ArrowSize.y) / 2 };
 		info.ArrowId = NEW_FONT.Add_XCenter({ ">", FONT_SIZE, NewUiSystem::COLOR_DARK }, arrowPos);
 	}
+}
+
+void SideMenuPath::AddSelfAfterParent(SideMenuTab& tab)
+{
+	if (tab.GetParent())
+		AddSelfAfterParent(*tab.GetParent());
+	AddButton(tab);
 }
