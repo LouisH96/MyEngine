@@ -5,19 +5,41 @@ namespace MyEngine
 {
 	namespace NewUi
 	{
+		template<typename Data>
 		class FunctionTab final : public SideMenuTab
 		{
 		public:
-			using Function = void (*)(ListElem&);
+			using Function = void (*)(ListElem&, Data&);
 			FunctionTab();
-			explicit FunctionTab(const std::string& title, Function function = nullptr);
-			explicit FunctionTab(const std::string& title, SideMenuTab& parent, Function function = nullptr);
+			explicit FunctionTab(const std::string& title, SideMenuTab* pParent, Data& data, Function function);
 
-			void SetFunction(Function function);
 			void Generate(ListElem& parent) override;
 
 		private:
 			Function m_Function;
+			Data* m_pData;
 		};
+
+		template <typename Data>
+		FunctionTab<Data>::FunctionTab()
+			: SideMenuTab{ "", nullptr }
+			, m_Function{}
+			, m_pData{ nullptr }
+		{
+		}
+
+		template <typename Data>
+		FunctionTab<Data>::FunctionTab(const std::string& title, SideMenuTab* pParent, Data& data, Function function)
+			: SideMenuTab{ title, pParent }
+			, m_Function{ function }
+			, m_pData{ &data }
+		{
+		}
+
+		template <typename Data>
+		void FunctionTab<Data>::Generate(ListElem& parent)
+		{
+			m_Function(parent, *m_pData);
+		}
 	}
 }

@@ -114,7 +114,6 @@
     <ClCompile Include="Applied\NewUi\Elements\Margin.cpp" />
     <ClCompile Include="Applied\NewUi\Structures\SideMenu\SideMenuPathHelper.cpp" />
     <ClCompile Include="Applied\NewUi\Structures\SideMenu\Tabs\SideMenuTab.cpp" />
-    <ClCompile Include="Applied\NewUi\Structures\SideMenu\Tabs\FunctionTab.cpp" />
     <ClCompile Include="Applied\NewUi\Structures\SideMenu\Tabs\TitleTab.cpp" />
   </ItemGroup>
   <ItemGroup>

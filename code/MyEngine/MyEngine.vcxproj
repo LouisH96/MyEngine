@@ -30,7 +30,6 @@
     <ClCompile Include="Applied\NewUi\Elements\Button.cpp" />
     <ClCompile Include="Applied\NewUi\Elements\Extender.cpp" />
     <ClCompile Include="Applied\NewUi\Elements\Border.cpp" />
-    <ClCompile Include="Applied\NewUi\Structures\SideMenu\Tabs\FunctionTab.cpp" />
     <ClCompile Include="Geometry\Shapes\Hexagon.cpp" />
     <ClCompile Include="Generation\HexGenerator.cpp" />
     <ClCompile Include="Applied\NodeGraph\GraphSorter.cpp" />
