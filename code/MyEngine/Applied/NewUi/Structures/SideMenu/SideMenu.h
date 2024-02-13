@@ -13,13 +13,10 @@ namespace MyEngine
 		{
 		public:
 			explicit SideMenu(float width);
-			~SideMenu();
 
 			void Update();
-			void SetRootTab(SideMenuTab* pTab);
 
-			//temp
-			void ActivateTab(SideMenuTab* pTab);
+			void SetTab(SideMenuTab& tab);
 
 		private:
 			Extender* m_pExtender{};
@@ -27,7 +24,6 @@ namespace MyEngine
 			ListElem* m_pContentList{};
 			bool m_Dragging{ false };
 
-			SideMenuTab* m_pRootTab;
 			SideMenuTab* m_pActiveTab;
 		};
 	}

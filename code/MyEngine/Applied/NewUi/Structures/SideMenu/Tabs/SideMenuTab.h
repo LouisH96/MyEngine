@@ -4,13 +4,14 @@ namespace MyEngine
 {
 	namespace NewUi
 	{
+		class SideMenu;
 		class ListElem;
 
 		class SideMenuTab
 		{
 		public:
 			explicit SideMenuTab(const std::string& title, SideMenuTab* pParent);
-			virtual ~SideMenuTab();
+			virtual ~SideMenuTab() = default;
 
 			virtual void Generate(ListElem& parent) = 0;
 
@@ -21,8 +22,7 @@ namespace MyEngine
 			std::string m_Title;
 
 		private:
-			SideMenuTab* m_pParent{};
-			List<SideMenuTab*> m_Children{};
+			SideMenuTab* m_pParent;
 		};
 	}
 }

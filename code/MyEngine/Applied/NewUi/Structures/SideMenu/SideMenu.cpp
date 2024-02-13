@@ -15,8 +15,7 @@
 using namespace NewUi;
 
 SideMenu::SideMenu(float width)
-	: m_pRootTab{ nullptr }
-	, m_pActiveTab{ nullptr }
+	: m_pActiveTab{ nullptr }
 {
 	UI.BeforeEdit();
 
@@ -78,11 +77,6 @@ SideMenu::SideMenu(float width)
 	UI.AfterEdit();
 }
 
-SideMenu::~SideMenu()
-{
-	delete m_pRootTab;
-}
-
 void SideMenu::Update()
 {
 	constexpr float resizeZone{ 15.f };
@@ -112,21 +106,15 @@ void SideMenu::Update()
 	{
 		UI.BeforeEdit();
 		m_pPath->SetTab(*pClickedTab);
-		ActivateTab(pClickedTab);
+		SetTab(*pClickedTab);
 		UI.AfterEdit();
 	}
 }
 
-void SideMenu::SetRootTab(SideMenuTab* pTab)
-{
-	m_pRootTab = pTab;
-	ActivateTab(m_pRootTab);
-}
-
-void SideMenu::ActivateTab(SideMenuTab* pTab)
+void SideMenu::SetTab(SideMenuTab& tab)
 {
 	m_pContentList->DeleteAllChildren();
-	m_pActiveTab = pTab;
+	m_pActiveTab = &tab;
 	m_pActiveTab->Generate(*m_pContentList);
 
 	m_pPath->SetTab(*m_pActiveTab);
