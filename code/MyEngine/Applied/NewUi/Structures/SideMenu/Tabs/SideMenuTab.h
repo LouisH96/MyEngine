@@ -15,6 +15,7 @@ namespace MyEngine
 
 			virtual void Generate(ListElem& parent) = 0;
 
+			void SetTitle(const std::string& title) { m_Title = title; }
 			const std::string& GetTitle() const { return m_Title; }
 			SideMenuTab* GetParent() const { return m_pParent; }
 
