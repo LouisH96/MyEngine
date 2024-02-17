@@ -16,7 +16,8 @@ namespace MyEngine
 
 			void Update();
 
-			void SetTab(SideMenuTab& tab);
+			void Deactivate();
+			void SetTab(SideMenuTab& newTab);
 
 		private:
 			Extender* m_pExtender{};

@@ -111,10 +111,50 @@ void SideMenu::Update()
 	}
 }
 
-void SideMenu::SetTab(SideMenuTab& tab)
+void SideMenu::Deactivate()
 {
+	SideMenuTab* pToDeactivate{ m_pActiveTab };
+	while (pToDeactivate)
+	{
+		pToDeactivate->Deactivate();
+		pToDeactivate = pToDeactivate->GetParent();
+	}
+}
+
+void SideMenu::SetTab(SideMenuTab& newTab)
+{
+	if (&newTab == m_pActiveTab)
+		return;
+
+	const SideMenuTab* const pCommon{ newTab.GetHighestCommonParent(m_pActiveTab) };
+
+	//deactivate current
+	if (pCommon != m_pActiveTab)
+	{
+		SideMenuTab* pToDeactivate{ m_pActiveTab };
+		while (pToDeactivate != pCommon)
+		{
+			pToDeactivate->Deactivate();
+			pToDeactivate = pToDeactivate->GetParent();
+		}
+	}
+
+	//activate new
+	if (pCommon != &newTab)
+	{
+		SideMenuTab* pToActivate{ newTab.GetParentBefore(*pCommon)};
+		while (pToActivate != &newTab)
+		{
+			pToActivate->Activate();
+			pToActivate = newTab.GetParentBefore(*pToActivate);
+		}
+		pToActivate->Activate();
+	}
+
+	//ui elements
+
 	m_pContentList->DeleteAllChildren();
-	m_pActiveTab = &tab;
+	m_pActiveTab = &newTab;
 	m_pActiveTab->Generate(*m_pContentList);
 
 	m_pPath->SetTab(*m_pActiveTab);
