@@ -142,8 +142,8 @@ void CubeGenerator::Generate(const Cube& cube, const Float3& color,
 	vertices.EnsureIncrease(4 * Cube::NR_SIDES);
 	indices.EnsureIncrease(3 * 2 * Cube::NR_SIDES);
 
-	FrontPlane(cube, color, vertices, indices);
-	BackPlane(cube, color, vertices, indices);
+	FrontPlane(cube, color, vertices, indices, offset);
+	BackPlane(cube, color, vertices, indices, offset);
 	LeftPlane(cube, color, vertices, indices, offset);
 	RightPlane(cube, color, vertices, indices, offset);
 	TopPlane(cube, color, vertices, indices, offset);
