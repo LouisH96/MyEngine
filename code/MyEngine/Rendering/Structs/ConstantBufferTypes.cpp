@@ -46,6 +46,14 @@ CB_CamPos::CB_CamPos(const Float3& position)
 {
 }
 
+CB_Cam_View_ViewProj_Pos::CB_Cam_View_ViewProj_Pos(const Camera& camera)
+	: View{ camera.GetView() }
+	, ViewProjection{ camera.GetViewProjection() }
+	, Position{ camera.GetPosition() }
+	, Forward{ camera.GetForward() }
+{
+}
+
 CB_ModelBuffer::CB_ModelBuffer(const Transform& transform)
 	: ModelMatrix{ transform.AsMatrix() }
 {
