@@ -115,6 +115,7 @@
     <ClCompile Include="Applied\NewUi\Structures\SideMenu\SideMenuPathHelper.cpp" />
     <ClCompile Include="Applied\NewUi\Structures\SideMenu\Tabs\SideMenuTab.cpp" />
     <ClCompile Include="Applied\NewUi\Structures\SideMenu\Tabs\TitleTab.cpp" />
+    <ClCompile Include="Physics\Collisions\LineDiskCollision.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -262,6 +263,7 @@
     <ClInclude Include="Applied\NewUi\Structures\SideMenu\Tabs\SideMenuTab.h" />
     <ClInclude Include="Applied\NewUi\Structures\SideMenu\Tabs\FunctionTab.h" />
     <ClInclude Include="Applied\NewUi\Structures\SideMenu\Tabs\TitleTab.h" />
+    <ClInclude Include="Physics\Collisions\LineDiskCollision.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
