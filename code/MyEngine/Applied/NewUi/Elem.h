@@ -5,6 +5,8 @@ namespace MyEngine
 {
 	namespace NewUi
 	{
+		class NewUiShapeRenderer;
+
 		enum FillMode
 		{
 			Min, Max, NoPref
@@ -52,6 +54,8 @@ namespace MyEngine
 			void SetHeight(float height);
 
 			static void AssertWithinMaxSize(const Float2& desired, const ResizePref& pref);
+
+			static NewUiShapeRenderer& Draw();
 
 		private:
 			//---| Resizing |---

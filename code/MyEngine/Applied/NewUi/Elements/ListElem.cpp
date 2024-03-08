@@ -11,6 +11,11 @@ ListElem::ListElem(const Settings& settings)
 {
 }
 
+void ListElem::AddChild(Elem* pChild)
+{
+	ParentElem::AddChild({ pChild });
+}
+
 void ListElem::UpdateSizeAndTreePositions(const ResizePref& pref)
 {
 	ResizePref childPref;

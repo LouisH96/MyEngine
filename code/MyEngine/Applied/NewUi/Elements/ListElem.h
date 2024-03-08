@@ -18,6 +18,8 @@ namespace MyEngine
 
 			explicit ListElem(const Settings& settings);
 
+			void AddChild(Elem* pChild);
+
 			void UpdateSizeAndTreePositions(const ResizePref& pref) override;
 			const std::string GetTypeName() const override;
 

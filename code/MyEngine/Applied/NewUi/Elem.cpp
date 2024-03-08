@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Elem.h"
 
+#include "NewUiSystem.h"
+
 using namespace NewUi;
 
 Float2 ResizePref::GetPreferredSize() const
@@ -50,6 +52,11 @@ void Elem::AssertWithinMaxSize(const Float2& desired, const ResizePref& pref)
 		Logger::PrintWarning("[Elem::AssertWithinMaxSize] Elem is too wide for parent");
 	if (desired.y > pref.maxSize.y)
 		Logger::PrintWarning("[Elem::AssertWithinMaxSize] Elem is too high for parent");
+}
+
+NewUiShapeRenderer& Elem::Draw()
+{
+	return UI.GetShapeRenderer();
 }
 
 void Elem::SetRelativePosition(const Float2& relativePosition)

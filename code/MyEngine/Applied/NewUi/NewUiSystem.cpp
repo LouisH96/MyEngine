@@ -20,6 +20,7 @@ NewUiSystem::NewUiSystem(const Float2& screenSize)
 
 void NewUiSystem::OnCanvasResized(const App::ResizedEvent& event)
 {
+	m_ShapeRenderer.OnCanvasResized(event);
 	m_FontRenderer.OnCanvasResized(event);
 	m_Root.UpdateRootSize(event.NewSize);
 }
@@ -87,6 +88,7 @@ void NewUiSystem::Update()
 
 void NewUiSystem::Render()
 {
+	m_ShapeRenderer.Render();
 	m_FontRenderer.Render();
 }
 

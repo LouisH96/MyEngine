@@ -1,6 +1,7 @@
 #pragma once
 #include "NewUiFontRenderer.h"
 #include "Elements/Root.h"
+#include "Renderers/NewUiShapeRenderer.h"
 
 namespace MyEngine
 {
@@ -25,6 +26,7 @@ namespace MyEngine
 			void AfterEdit();
 
 			NewUiFontRenderer& GetFontRenderer() { return m_FontRenderer; }
+			NewUiShapeRenderer& GetShapeRenderer() { return m_ShapeRenderer; }
 
 			static const Float3 COLOR_DARK;
 			static const Float3 COLOR_MEDIUM;
@@ -42,6 +44,8 @@ namespace MyEngine
 
 			Elem* m_pCurrentElem;
 			CurrentElemState m_CurrentElemState;
+
+			NewUiShapeRenderer m_ShapeRenderer;
 		};
 	}
 }

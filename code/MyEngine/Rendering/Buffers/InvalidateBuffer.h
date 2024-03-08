@@ -15,6 +15,7 @@ namespace MyEngine
 			explicit InvalidateBuffer(unsigned initCapacity);
 
 			//---| Functions |---
+			unsigned Add(const Data& data);
 			int Add(Data&& data);
 			Data Remove(int idx);
 
@@ -33,6 +34,7 @@ namespace MyEngine
 			Data& operator[](int idx) { return m_CpuBuffer.GetData()[idx]; }
 
 			void ActivateVertexBuffer(unsigned slot);
+			void Draw() const;
 			void Draw(unsigned nrVertices) const;
 			void DrawIdx(unsigned nrIndices) const;
 
@@ -46,6 +48,12 @@ namespace MyEngine
 			: m_GpuBuffer{ initCapacity, true }
 			, m_CpuBuffer{ initCapacity }
 		{
+		}
+
+		template <typename Data>
+		unsigned InvalidateBuffer<Data>::Add(const Data& data)
+		{
+			return m_CpuBuffer.Add(data);
 		}
 
 		template <typename Data>
@@ -70,6 +78,12 @@ namespace MyEngine
 				m_GpuBuffer.CopyData(m_CpuBuffer.SeeFirst(), m_CpuBuffer.GetSize());
 			}
 			m_GpuBuffer.Activate(slot);
+		}
+
+		template <typename Data>
+		void InvalidateBuffer<Data>::Draw() const
+		{
+			Globals::pGpu->GetContext().Draw(m_CpuBuffer.GetSize(), 0);
 		}
 
 		template <typename Data>
