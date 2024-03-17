@@ -41,10 +41,6 @@ App::Win32::Window::~Window()
 
 void App::Win32::Window::Init(const std::wstring& title, const Options& options)
 {
-	//options
-	if (options.ClientSize.x > 0) m_ClientSize.x = options.ClientSize.x;
-	if (options.ClientSize.y > 0) m_ClientSize.y = options.ClientSize.y;
-
 	//Register window class
 	const std::wstring className = L"MyWindowClass";
 	// ReSharper disable once CppLocalVariableMayBeConst
@@ -60,41 +56,30 @@ void App::Win32::Window::Init(const std::wstring& title, const Options& options)
 	windowClass.hbrBackground = options.BackgroundBrush;
 	RegisterClass(&windowClass);
 
-	//Get the entire screen center
-	const Screen& screen = Screen::GetInstance();
-	const RectInt& screenRect = screen.GetRect();
+	//Size & Pos
+	Int2 windowPos, windowSize;
+	bool maximizeWindow;
+	FindInitPosAndSize(options.ClientSize, windowPos, windowSize, maximizeWindow);
 
 	//Create window
-	constexpr DWORD windowStyle = WS_OVERLAPPEDWINDOW;
-	const RECT clientRect
-	{
-		 (screenRect.GetWidth() - m_ClientSize.x) / 2, //left
-		 (screenRect.GetHeight() - m_ClientSize.y) / 2, //top
-		 (screenRect.GetWidth() - m_ClientSize.x) / 2 + m_ClientSize.x, //right
-		 (screenRect.GetHeight() - m_ClientSize.y) / 2 + m_ClientSize.y //bottom
-	};
-	RECT rect = clientRect;
-	AdjustWindowRect(&rect, windowStyle, false); //from desired client-rect to window-rect
-	const RECT windowRect = rect;
-
 	m_WindowHandle = CreateWindowEx(
 		0,                              // Optional window styles.
 		className.c_str(),              // Window class
 		title.c_str(),    // Window text
-		windowStyle,            // Window style
+		WINDOW_STYLE,            // Window style
 
-		// Size and position
-		windowRect.left, windowRect.top,
-		windowRect.right - windowRect.left, //windowRect-width
-		windowRect.bottom - windowRect.top, //windowRect-height
+		//Position & Size
+		windowPos.x, windowPos.y,
+		windowSize.x, windowSize.y,
 
 		nullptr,       // Parent window    
 		nullptr,       // Menu
 		hInstance,  // Instance handle
 		nullptr        // Additional application data
 	);
+
 	SetWindowLongPtr(m_WindowHandle, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
-	ShowWindow(m_WindowHandle, true);
+	ShowWindow(m_WindowHandle, maximizeWindow ? SW_MAXIMIZE : SW_NORMAL);
 	SetCursorFocusMode(options.CursorFocusMode);
 
 	//GLOBALS
@@ -104,12 +89,58 @@ void App::Win32::Window::Init(const std::wstring& title, const Options& options)
 	Globals::pWindow = this;
 	Globals::pMouse = &m_Mouse;
 	Globals::pKeyboard = &m_Keyboard;
+
+	//HandleMessages();
 }
 
 void App::Win32::Window::Release()
 {
 	//todo: check if and how you could quit the app from here, and not from a quit msg on the queue
 	//simply PostMessage with wm_quit would work probably, but normally this shouldn't be closed like this
+}
+
+void App::Win32::Window::FindInitPosAndSize(const Int2& desiredCanvasSize, Int2& windowPos, Int2& windowSize, bool& maximized)
+{
+	//get work area
+	HMONITOR monitorHandle = MonitorFromWindow(m_WindowHandle, MONITOR_DEFAULTTONEAREST);
+	MONITORINFO monitorInfo = { sizeof(monitorInfo) };
+	GetMonitorInfo(monitorHandle, &monitorInfo);
+	const Int2 workAreaOffset{ monitorInfo.rcWork.left, monitorInfo.rcWork.top };
+	const Int2 workAreaSize{
+		monitorInfo.rcWork.right - monitorInfo.rcWork.left,
+		monitorInfo.rcWork.bottom - monitorInfo.rcWork.top };
+
+	//calculate new size
+	RECT windowRect;
+	windowRect.left = 0;
+	windowRect.top = 0;
+	windowRect.right = desiredCanvasSize.x;
+	windowRect.bottom = desiredCanvasSize.y;
+	AdjustWindowRect(&windowRect, WINDOW_STYLE, false); //add window-border to client-area
+	windowSize = { windowRect.right - windowRect.left, windowRect.bottom - windowRect.top };
+
+	unsigned borderCount{ 0 };
+	if (windowSize.x >= workAreaSize.x)
+	{
+		borderCount++;
+		windowSize.x = static_cast<int>(workAreaSize.x );
+	}
+	if (windowSize.y >= workAreaSize.y)
+	{
+		borderCount++;
+		windowSize.y = static_cast<int>(workAreaSize.y );
+	}
+
+	maximized = borderCount == 2;
+	if (maximized)
+	{
+		static constexpr float minimizedScale{ .75f };
+		windowSize.x = static_cast<int>(windowSize.x * minimizedScale);
+		windowSize.y = static_cast<int>(windowSize.y * minimizedScale);
+	}
+
+	windowPos = { (workAreaSize - windowSize) / 2 + workAreaOffset };
+	maximized = borderCount == 2;
 }
 
 void App::Win32::Window::SetCursorFocusMode(bool cursorFocused)
@@ -141,13 +172,6 @@ void App::Win32::Window::HandleMessages()
 		ClientToScreen(m_WindowHandle, &pos);
 		SetCursorPos(pos.x, pos.y);
 	}
-}
-
-DirectX::XMINT2 App::Win32::Window::AskClientSize_WinApi() const
-{
-	RECT rect{};
-	GetClientRect(m_WindowHandle, &rect);
-	return { rect.right - rect.left, rect.bottom - rect.top };
 }
 
 LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam)

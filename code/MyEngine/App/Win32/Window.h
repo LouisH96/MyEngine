@@ -46,13 +46,17 @@ namespace MyEngine
 				bool IsDestroyed() const { return m_IsDestroyed; }
 				void SetIsDestroyed() { m_IsDestroyed = true; }
 				bool IsResized() const { return m_IsResized; }
-				Int2 GetClientSize() const { return m_ClientSize; };
+				HWND GetWindowHandle()const { return m_WindowHandle; }
+				void SetCursorFocusMode(bool cursorFocused);
+
+				//Canvas (should be moved to Canvas class?)
+				Int2 GetClientSize() const { return m_ClientSize; }
 				int GetClientWidth() const { return m_ClientSize.x; }
 				int GetClientHeight() const { return m_ClientSize.y; }
-				DirectX::XMINT2 AskClientSize_WinApi() const;
-				HWND GetWindowHandle()const { return m_WindowHandle; }
+				Float2 GetClientSizeF() const { return m_ClientSize; }
+				float GetClientWidthF() const {	return static_cast<float>(m_ClientSize.x); }
+				float GetClientHeightF() const { return static_cast<float>(m_ClientSize.y); }
 				float GetAspectRatio() const { return static_cast<float>(m_ClientSize.x) / m_ClientSize.y; }
-				void SetCursorFocusMode(bool cursorFocused);
 
 				//messages
 				void HandleMessages();
@@ -62,8 +66,14 @@ namespace MyEngine
 				const Mouse& GetMouse() const { return m_Mouse; }
 
 			private:
+				static constexpr int INIT_POS{ 500 };
+				static constexpr unsigned INIT_SIZE{ 500 };
+				static constexpr DWORD WINDOW_STYLE{ WS_OVERLAPPEDWINDOW };
+
 				void Init(const std::wstring& title, const Options& options);
 				void Release();
+
+				void FindInitPosAndSize(const Int2& desiredCanvasSize, Int2& windowPos, Int2& windowSize, bool& maximized);
 
 				Keyboard m_Keyboard{};
 				Mouse m_Mouse{};
