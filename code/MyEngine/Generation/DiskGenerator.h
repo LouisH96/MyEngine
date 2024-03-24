@@ -27,4 +27,5 @@ namespace MyEngine
 	}
 }
 
+#include "DiskGenerator_TriangleList.h"
 #include "DiskGenerator_TriangleListIdx.h"

@@ -266,6 +266,7 @@
     <ClInclude Include="Applied\NewUi\Structures\SideMenu\Tabs\TitleTab.h" />
     <ClInclude Include="Physics\Collisions\LineDiskCollision.h" />
     <ClInclude Include="Applied\NewUi\Renderers\NewUiShapeRenderer.h" />
+    <ClInclude Include="Generation\DiskGenerator_TriangleList.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

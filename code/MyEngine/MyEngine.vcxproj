@@ -156,6 +156,7 @@
     <ClInclude Include="Applied\NewUi\Elements\Border.h" />
     <ClInclude Include="Applied\NewUi\Structures\SideMenu\Tabs\FunctionTab.h" />
     <ClInclude Include="Applied\NewUi\Renderers\NewUiShapeRenderer.h" />
+    <ClInclude Include="Generation\DiskGenerator_TriangleList.h" />
     <ClInclude Include="Physics\Collisions\LineDiskCollision.h" />
     <ClInclude Include="Generation\DiskGenerator_TriangleListIdx.h" />
     <ClInclude Include="Geometry\Shapes\Hexagon.h" />
