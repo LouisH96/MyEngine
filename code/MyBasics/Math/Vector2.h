@@ -235,21 +235,21 @@ namespace MyEngine
 	template <typename T>
 	T Vector2<T>::Distance(const Vector2& other) const
 	{
-		float x{ other.x - x };
-		x *= x;
-		float r{ other.y - y };
-		r *= r;
-		return sqrt(r + x);
+		float xDistance{ other.x - x };
+		xDistance *= xDistance;
+		float yDistance{ other.y - y };
+		yDistance *= yDistance;
+		return sqrt(xDistance + yDistance);
 	}
 
 	template <typename T>
 	T Vector2<T>::DistanceSq(const Vector2& other) const
 	{
-		float x{ other.x - x };
-		x *= x;
-		float r{ other.y - y };
-		r *= r;
-		return  x + r;
+		float xDistance{ other.x - x };
+		xDistance *= xDistance;
+		float yDistance{ other.y - y };
+		yDistance *= yDistance;
+		return  xDistance + yDistance;
 	}
 
 	template <typename T>
