@@ -31,7 +31,7 @@ void NewUiShapeRenderer::Render()
 	m_Vertices.Draw();
 }
 
-unsigned NewUiShapeRenderer::Rect(Float2 leftBot,Float2 size, const Float3& color)
+unsigned NewUiShapeRenderer::Rect(Float2 leftBot, Float2 size, const Float3& color)
 {
 	leftBot = leftBot * m_ToNdcMultiplier - 1;
 	size = size * m_ToNdcMultiplier;
@@ -118,6 +118,37 @@ unsigned NewUiShapeRenderer::Line(Float2 begin, Float2 end, float thickness, con
 	m_Vertices.Add(v);
 
 	return shapeId;
+}
+
+unsigned NewUiShapeRenderer::Circle(Float2 center, DiskGenerator<TOPOLOGY>::Options options, const Float3& color)
+{
+	Shape* pShape;
+	const unsigned shapeId{ m_Shapes.Validate(pShape) };
+
+	Adder adder{ *pShape, m_Vertices };
+
+	using Generator = DiskGenerator<TOPOLOGY>;
+	Generator::Generate([center, color, this](const Float2& point)
+		{
+			return Vertex{ (point + center) * m_ToNdcMultiplier - 1 , color };
+		}, adder, options);
+
+	return shapeId;
+}
+
+NewUiShapeRenderer::Adder::Adder(Shape& shape, Rendering::InvalidateBuffer<Vertex>& vertices)
+	: m_Shape{ shape }
+	, m_Vertices{ vertices }
+	, m_NrVertices{ 0 }
+{
+}
+
+void NewUiShapeRenderer::Adder::Add(const Vertex& vertex)
+{
+	if (m_NrVertices++ % 3 == 0)
+		m_Shape.Triangles.Add(m_Vertices.Add(vertex));
+	else
+		m_Vertices.Add(vertex);
 }
 
 void NewUiShapeRenderer::Remove(unsigned id)
