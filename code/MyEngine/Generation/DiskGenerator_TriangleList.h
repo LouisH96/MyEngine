@@ -8,7 +8,7 @@ inline unsigned DiskGenerator<ModelTopology::TriangleList>::GetNrVertices(const 
 }
 
 template<>
-inline unsigned DiskGenerator<ModelTopology::TriangleList>::GetNrIndices(const Options& options)
+inline unsigned DiskGenerator<ModelTopology::TriangleList>::GetNrIndices(const Options&)
 {
 	return 0;
 }
