@@ -24,14 +24,3 @@ List<std::string> StringUtils::Split(const std::string& string, char delim)
 		result.Add(string.substr(begin, string.size() - begin));
 	return result;
 }
-
-bool StringUtils::BeginsWith(const std::string& target, const std::string& begin)
-{
-	if (target.size() < begin.size())
-		return false;
-
-	for (unsigned i = 0; i < begin.size(); i++)
-		if (target[i] != begin[i])
-			return false;
-	return true;
-}
