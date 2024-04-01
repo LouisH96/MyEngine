@@ -64,6 +64,7 @@ namespace MyEngine
 		T Distance(const Vector2& other) const;
 		T DistanceSq(const Vector2& other) const;
 		T Smallest() const;
+		Vector2<T> Abs() const;
 
 		bool IsLeftAbove(const Vector2& comparedTo) const;
 		bool IsRightAbove(const Vector2& comparedTo) const;
@@ -258,10 +259,16 @@ namespace MyEngine
 		return std::min(x, y);
 	}
 
+	template<typename T>
+	inline Vector2<T> Vector2<T>::Abs() const
+	{
+		return{ abs(x), abs(y) };
+	}
+
 	template <typename T>
 	bool Vector2<T>::IsLeftAbove(const Vector2& comparedTo) const
 	{
-		return x < comparedTo.x && y > comparedTo.y;
+		return x < comparedTo.x&& y > comparedTo.y;
 	}
 
 	template <typename T>
@@ -309,6 +316,6 @@ namespace MyEngine
 	template <typename T>
 	bool Vector2<T>::IsLeftBelow(const Vector2& comparedTo) const
 	{
-		return x < comparedTo.x && y < comparedTo.y;
+		return x < comparedTo.x&& y < comparedTo.y;
 	}
 }
