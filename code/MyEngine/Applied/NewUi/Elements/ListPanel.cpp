@@ -5,6 +5,11 @@
 
 using namespace NewUi;
 
+ListPanel::ListPanel(Direction direction, float childMargin)
+	: ListPanel{ ToFlowDirection(direction), ToFillDirection(direction), childMargin }
+{
+}
+
 ListPanel::ListPanel(const Float2& flowDirection, const Float2& fillDirection, float childMargin)
 	: m_FlowDirection{ flowDirection }
 	, m_FillDirection{ fillDirection }
@@ -15,6 +20,27 @@ ListPanel::ListPanel(const Float2& flowDirection, const Float2& fillDirection, f
 void ListPanel::AddChild(Elem* pChild)
 {
 	ParentElem::AddChild({ pChild });
+}
+
+Float2 ListPanel::ToFlowDirection(Direction direction)
+{
+	const int vertical{ static_cast<int>(direction) & 1 };
+	const int negative{ static_cast<int>(direction) & 2 };
+
+	return Float2{
+		static_cast<float>((1 - negative) * (~vertical & 1)),
+		static_cast<float>((1 - negative) * vertical)
+	};
+}
+
+Float2 ListPanel::ToFillDirection(Direction direction)
+{
+	const int vertical{ static_cast<int>(direction) & 1 };
+
+	return Float2{
+		static_cast<float>(vertical),
+		static_cast<float>(~vertical & 1)
+	};
 }
 
 void ListPanel::UpdateSizeAndTreePositions(const ResizePref& pref)
