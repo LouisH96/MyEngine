@@ -51,8 +51,8 @@ namespace MyEngine
 			friend class Root;
 		};
 
-		template <typename ChildOptions>
-		ParentElem<ChildOptions>::~ParentElem()
+		template <typename ChildData>
+		ParentElem<ChildData>::~ParentElem()
 		{
 			for (unsigned i = 0; i < m_Children.GetSize(); i++)
 			{
@@ -61,8 +61,8 @@ namespace MyEngine
 			}
 		}
 
-		template <typename ChildOptions>
-		void ParentElem<ChildOptions>::AddChild(const ChildOptions& child)
+		template <typename ChildData>
+		void ParentElem<ChildData>::AddChild(const ChildData& child)
 		{
 			m_Children.Add(child);
 		}
@@ -126,20 +126,20 @@ namespace MyEngine
 			return Elem::GetElemAt(position);
 		}
 
-		template <typename ChildOptions>
-		void ParentElem<ChildOptions>::SetChildPosition(unsigned childIdx, const Float2& relativePosition)
+		template <typename ChildData>
+		void ParentElem<ChildData>::SetChildPosition(unsigned childIdx, const Float2& relativePosition)
 		{
 			m_Children[childIdx].pChild->SetRelativePosition(relativePosition);
 		}
 
-		template <typename ChildOptions>
-		void ParentElem<ChildOptions>::UpdateChildSize(unsigned childIdx, const ResizePref& pref)
+		template <typename ChildData>
+		void ParentElem<ChildData>::UpdateChildSize(unsigned childIdx, const ResizePref& pref)
 		{
 			m_Children[childIdx].pChild->UpdateSizeAndTreePositions(pref);
 		}
 
-		template <typename ChildOptions>
-		void ParentElem<ChildOptions>::UpdateTreePositions(const Float2& movement)
+		template <typename ChildData>
+		void ParentElem<ChildData>::UpdateTreePositions(const Float2& movement)
 		{
 			m_Bounds.Move(movement);
 
@@ -159,16 +159,16 @@ namespace MyEngine
 			return m_Children[i].pChild->GetHeight();
 		}
 
-		template <typename ChildOptions>
-		void ParentElem<ChildOptions>::ClearTree()
+		template <typename ChildData>
+		void ParentElem<ChildData>::ClearTree()
 		{
 			Clear();
 			for (unsigned i = 0; i < m_Children.GetSize(); i++)
 				m_Children[i].pChild->ClearTree();
 		}
 
-		template <typename ChildOptions>
-		void ParentElem<ChildOptions>::CreateTree()
+		template <typename ChildData>
+		void ParentElem<ChildData>::CreateTree()
 		{
 			Create();
 			for (unsigned i = 0; i < m_Children.GetSize(); i++)
