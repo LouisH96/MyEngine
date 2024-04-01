@@ -34,6 +34,7 @@ namespace MyEngine
 
 			const Float2& GetPosition() const { return m_Bounds.GetLeftBot(); }
 			const Float2& GetSize() const { return m_Bounds.GetSize(); }
+			const Float2 GetCenter() const;
 			float GetWidth() const { return m_Bounds.GetWidth(); }
 			float GetHeight() const { return m_Bounds.GetHeight(); }
 			const RectFloat& GetBounds() const { return m_Bounds; }

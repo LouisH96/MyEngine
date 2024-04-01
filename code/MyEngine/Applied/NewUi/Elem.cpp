@@ -20,6 +20,11 @@ void Elem::UpdateTreePositions(const Float2& position)
 	m_Bounds.Move(position);
 }
 
+const Float2 Elem::GetCenter() const
+{
+	return GetSize() * .5f;
+}
+
 Elem* Elem::GetElemAt(const Float2& position)
 {
 	return GetBounds().ContainsPoint(position)
