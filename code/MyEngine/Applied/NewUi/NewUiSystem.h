@@ -46,6 +46,14 @@ namespace MyEngine
 			CurrentElemState m_CurrentElemState;
 
 			NewUiShapeRenderer m_ShapeRenderer;
+
+			static constexpr unsigned NR_DEBUG_BORDER_SHAPES{ 4 };
+			unsigned m_DebugBorder[NR_DEBUG_BORDER_SHAPES]{};
+			bool m_ShowDebugBorder{ true };
+
+			void ClearDebugBorder();
+			void CreateDebugBorder();
+			void CreateDebugBorder(const Elem& elem);
 		};
 	}
 }

@@ -36,6 +36,9 @@ void NewUiSystem::Update()
 	if (!m_pCurrentElem)
 	{
 		m_pCurrentElem = pUnderMouse;
+		if (m_ShowDebugBorder)
+			CreateDebugBorder();
+
 		if (MOUSE.IsLeftBtnDown())
 		{
 			m_pCurrentElem->ToPressedState();
@@ -49,6 +52,9 @@ void NewUiSystem::Update()
 	}
 	else
 	{
+		if (m_ShowDebugBorder)
+			ClearDebugBorder();
+
 		const bool isUnderMouse{ m_pCurrentElem == pUnderMouse };
 		if (m_CurrentElemState == Hovered)
 		{
@@ -59,6 +65,7 @@ void NewUiSystem::Update()
 					m_pCurrentElem->ToPressedState();
 					m_CurrentElemState = Pressed;
 				}
+				CreateDebugBorder();
 			}
 			else
 			{
@@ -75,6 +82,7 @@ void NewUiSystem::Update()
 					m_pCurrentElem->ToHoverState();
 					m_pCurrentElem->OnClick();
 					m_CurrentElemState = Hovered;
+					CreateDebugBorder();
 				}
 				else
 				{
@@ -82,6 +90,8 @@ void NewUiSystem::Update()
 					m_pCurrentElem = nullptr;
 				}
 			}
+			else
+				CreateDebugBorder();
 		}
 	}
 }
@@ -116,4 +126,46 @@ void NewUiSystem::BeforeEdit()
 void NewUiSystem::AfterEdit()
 {
 	m_Root.CreateTree();
+}
+
+void NewUiSystem::ClearDebugBorder()
+{
+	for (unsigned i = 0; i < NR_DEBUG_BORDER_SHAPES; ++i)
+		m_ShapeRenderer.Remove(m_DebugBorder[i]);
+}
+
+void NewUiSystem::CreateDebugBorder()
+{
+	CreateDebugBorder(*m_pCurrentElem);
+}
+
+void NewUiSystem::CreateDebugBorder(const Elem& elem)
+{
+	//outside border
+	constexpr float thickness{ 2 };
+	static const Float3 color{ .75f,0,0 };
+
+	//left
+	Float2 pos{ elem.GetBounds().GetLeftBot() };
+	pos -= Float2{ thickness, thickness };
+	Float2 size{ thickness, elem.GetHeight() + thickness * 2 };
+
+	m_DebugBorder[0] = m_ShapeRenderer.Rect(pos, size, color);
+
+	//right
+	pos.x += thickness + elem.GetWidth();
+
+	m_DebugBorder[1] = m_ShapeRenderer.Rect(pos, size, color);
+
+	//top
+	pos = elem.GetBounds().GetLeftTop();
+	pos -= Float2{ thickness, 0 };
+	size = Float2{ elem.GetWidth() + thickness * 2, thickness };
+
+	m_DebugBorder[2] = m_ShapeRenderer.Rect(pos, size, color);
+
+	//bot
+	pos.y -= elem.GetHeight() + thickness;
+
+	m_DebugBorder[3] = m_ShapeRenderer.Rect(pos, size, color);
 }
