@@ -26,6 +26,7 @@ void ListPanel::UpdateSizeAndTreePositions(const ResizePref& pref)
 	childPref.verMode = Min;
 
 	//---| Size Childs |---
+	m_NrVisibleChilds = 0;
 	const float maxFillSize{ abs(m_FillDirection.Dot(pref.maxSize)) };
 	float fillBounds{ 0 };
 	for (unsigned i = 0; i < GetNrChildren(); i++)
@@ -58,6 +59,7 @@ void ListPanel::UpdateSizeAndTreePositions(const ResizePref& pref)
 
 		childPref.maxSize = newFreeSpace;
 		fillBounds = Float::Max(fillBounds, fillSize);
+		m_NrVisibleChilds++;
 	}
 	childPref.maxSize += Float2{ m_FlowDirection * m_ChildMargin }.Abs();
 
@@ -72,7 +74,7 @@ void ListPanel::UpdateSizeAndTreePositions(const ResizePref& pref)
 	Float2 childFlowPos{ listSize / 2.f };
 	childFlowPos -= m_FlowDirection * abs(m_FlowDirection.Dot(childFlowPos)); //begin in flowDirection, center in fillDirection
 
-	for (unsigned i = 0; i < GetNrChildren(); i++)
+	for (unsigned i = 0; i < m_NrVisibleChilds; i++)
 	{
 		Elem& child{ GetChild(i) };
 

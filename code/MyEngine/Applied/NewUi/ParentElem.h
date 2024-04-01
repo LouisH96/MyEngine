@@ -39,6 +39,8 @@ namespace MyEngine
 			float ChildWidth(unsigned i) const;
 			float ChildHeight(unsigned i) const;
 
+			unsigned m_NrVisibleChilds{ 0 };
+
 		private:
 			//---| Visuals |---
 			void ClearTree() final;
@@ -64,12 +66,18 @@ namespace MyEngine
 		template <typename ChildData>
 		void ParentElem<ChildData>::AddChild(const ChildData& child)
 		{
+			if (m_NrVisibleChilds == m_Children.GetSize())
+				m_NrVisibleChilds++;
+
 			m_Children.Add(child);
 		}
 
 		template <typename ChildData>
 		void ParentElem<ChildData>::RemoveChild(Elem* pChild)
 		{
+			if (m_NrVisibleChilds == m_Children.GetSize())
+				m_NrVisibleChilds--;
+
 			for (unsigned i = 0; i < m_Children.GetSize(); i++)
 				if (m_Children[i].pChild == pChild)
 				{
@@ -77,11 +85,16 @@ namespace MyEngine
 					return;
 				}
 			Logger::PrintWarning("[ParentElem::RemoveChild] couldn't find child");
+			if (m_NrVisibleChilds + 1 == m_Children.GetSize())
+				m_NrVisibleChilds++;
 		}
 
 		template <typename ChildData>
 		void ParentElem<ChildData>::DeleteChild(Elem* pChild)
 		{
+			if (m_NrVisibleChilds == m_Children.GetSize())
+				m_NrVisibleChilds--;
+
 			for (unsigned i = 0; i < m_Children.GetSize(); i++)
 				if (m_Children[i].pChild == pChild)
 				{
@@ -90,13 +103,21 @@ namespace MyEngine
 					return;
 				}
 			Logger::PrintWarning("[ParentElem::DeleteChild] couldn't find child");
+			if (m_NrVisibleChilds + 1 == m_Children.GetSize())
+				m_NrVisibleChilds++;
 		}
 
 		template <typename ChildData>
 		void ParentElem<ChildData>::DeleteChild(unsigned idx)
 		{
+			if (m_NrVisibleChilds == m_Children.GetSize())
+				m_NrVisibleChilds--;
+
 			delete m_Children[idx].pChild;
 			m_Children.Remove(idx);
+
+			if (m_NrVisibleChilds + 1 == m_Children.GetSize())
+				m_NrVisibleChilds++;
 		}
 
 		template <typename ChildData>
@@ -105,6 +126,8 @@ namespace MyEngine
 			for (unsigned i = 0; i < m_Children.GetSize(); ++i)
 				delete m_Children[i].pChild;
 			m_Children.Clear();
+
+			m_NrVisibleChilds = 0;
 		}
 
 		template <typename ChildData>
@@ -117,7 +140,7 @@ namespace MyEngine
 		template <typename ChildData>
 		Elem* ParentElem<ChildData>::GetElemAt(const Float2& position)
 		{
-			for (unsigned i = m_Children.GetSize() - 1; i + 1 != 0; --i)
+			for (unsigned i = m_NrVisibleChilds - 1; i + 1 != 0; --i)
 			{
 				Elem* pUnder{ m_Children[i].pChild->GetElemAt(position) };
 				if (pUnder)
@@ -143,7 +166,7 @@ namespace MyEngine
 		{
 			m_Bounds.Move(movement);
 
-			for (unsigned i = 0; i < m_Children.GetSize(); i++)
+			for (unsigned i = 0; i < m_NrVisibleChilds; i++)
 				m_Children[i].pChild->UpdateTreePositions(m_Bounds.GetLeftBot());
 		}
 
@@ -163,7 +186,7 @@ namespace MyEngine
 		void ParentElem<ChildData>::ClearTree()
 		{
 			Clear();
-			for (unsigned i = 0; i < m_Children.GetSize(); i++)
+			for (unsigned i = 0; i < m_NrVisibleChilds; i++)
 				m_Children[i].pChild->ClearTree();
 		}
 
@@ -171,7 +194,7 @@ namespace MyEngine
 		void ParentElem<ChildData>::CreateTree()
 		{
 			Create();
-			for (unsigned i = 0; i < m_Children.GetSize(); i++)
+			for (unsigned i = 0; i < m_NrVisibleChilds; i++)
 				m_Children[i].pChild->CreateTree();
 		}
 	}

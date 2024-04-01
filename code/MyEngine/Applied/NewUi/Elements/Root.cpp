@@ -18,7 +18,7 @@ void Root::UpdateRootSize(const Float2& size)
 
 void Root::AddChild(Elem* pChild)
 {
-	m_Children.Add({ pChild });
+	ParentElem::AddChild({ pChild });
 }
 
 void Root::Create()
