@@ -3,6 +3,11 @@
 
 using namespace NewUi;
 
+RelativeParent::RelativeParent()
+	: ParentElem{ false }
+{
+}
+
 void RelativeParent::UpdateSizeAndTreePositions(const ResizePref& pref)
 {
 	SetSize(pref.GetPreferredSize());

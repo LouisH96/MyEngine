@@ -20,6 +20,11 @@ void Elem::UpdateTreePositions(const Float2& position)
 	m_Bounds.Move(position);
 }
 
+Elem::Elem(bool takeMouse)
+	: m_TakeMouse{ takeMouse }
+{
+}
+
 const Float2 Elem::GetCenter() const
 {
 	return GetSize() * .5f;
@@ -27,7 +32,7 @@ const Float2 Elem::GetCenter() const
 
 Elem* Elem::GetElemAt(const Float2& position)
 {
-	return GetBounds().ContainsPoint(position)
+	return m_TakeMouse && GetBounds().ContainsPoint(position)
 		? this : nullptr;
 }
 

@@ -19,6 +19,8 @@ namespace MyEngine
 				: public ParentElem<RelativeChild>
 		{
 		public:
+			RelativeParent();
+
 			void UpdateSizeAndTreePositions(const ResizePref& pref) override;
 			const std::string GetTypeName() const override;
 

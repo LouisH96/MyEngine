@@ -9,7 +9,7 @@ namespace MyEngine
 		class ParentElem : public Elem
 		{
 		public:
-			ParentElem() = default;
+			ParentElem(bool takeMouse = true);
 			~ParentElem() override;
 			ParentElem(const ParentElem& other) = delete;
 			ParentElem(ParentElem&& other) noexcept = delete;
@@ -52,6 +52,12 @@ namespace MyEngine
 			List<ChildData> m_Children;
 			friend class Root;
 		};
+
+		template<typename ChildData>
+		inline ParentElem<ChildData>::ParentElem(bool takeMouse)
+			: Elem{ takeMouse }
+		{
+		}
 
 		template <typename ChildData>
 		ParentElem<ChildData>::~ParentElem()

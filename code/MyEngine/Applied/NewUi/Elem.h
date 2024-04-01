@@ -25,7 +25,7 @@ namespace MyEngine
 		class Elem
 		{
 		public:
-			Elem() = default;
+			Elem(bool takeMouse = true);
 			Elem(const Elem& other) = delete;
 			Elem(Elem&& other) noexcept = delete;
 			Elem& operator=(const Elem& other) = delete;
@@ -81,6 +81,7 @@ namespace MyEngine
 			virtual void Create() = 0;
 
 			RectFloat m_Bounds;
+			bool m_TakeMouse;
 
 			template<typename T>
 			friend class ParentElem;

@@ -3,6 +3,11 @@
 
 using namespace NewUi;
 
+AnchorParent::AnchorParent()
+	: ParentElem{ false }
+{
+}
+
 void AnchorParent::AddChild(Elem* pElem, const Float2& anchor)
 {
 	ParentElem::AddChild({ pElem, anchor, anchor });

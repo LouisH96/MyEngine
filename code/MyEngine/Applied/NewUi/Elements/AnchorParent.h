@@ -16,6 +16,7 @@ namespace MyEngine
 			: public ParentElem<AnchorChild>
 		{
 		public:
+			AnchorParent();
 
 			using ParentElem::AddChild;
 			void AddChild(Elem* pElem, const Float2& anchor);
