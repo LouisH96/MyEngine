@@ -28,6 +28,7 @@ namespace MyEngine
 			std::string ReadUntil(char delim) const;
 			std::string ReadUntil(char delim1, char orDelim2) const;
 			bool ReadLine(std::string& string) const;
+			std::string ReadLine();
 			std::string ReadUntilWhiteSpace() const;
 
 			//---| Other |---

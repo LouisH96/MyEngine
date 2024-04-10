@@ -87,6 +87,13 @@ bool AsciiReader::ReadLine(std::string& string) const
 	return ReadLine(m_Stream, string);
 }
 
+std::string AsciiReader::ReadLine()
+{
+	std::string line;
+	std::getline(m_Stream, line);
+	return line;
+}
+
 std::string AsciiReader::ReadUntilWhiteSpace() const
 {
 	const std::streampos begin{ m_Stream.tellg() };
