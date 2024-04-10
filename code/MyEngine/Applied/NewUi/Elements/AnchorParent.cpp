@@ -13,6 +13,11 @@ void AnchorParent::AddChild(Elem* pElem, const Float2& anchor)
 	ParentElem::AddChild({ pElem, anchor, anchor });
 }
 
+void AnchorParent::AddChild(Elem* pElem, const Float2& parentAnchor, const Float2& childAnchor)
+{
+	ParentElem::AddChild({ pElem, parentAnchor, childAnchor });
+}
+
 void AnchorParent::UpdateSizeAndTreePositions(const ResizePref& pref)
 {
 	SetSize(pref);

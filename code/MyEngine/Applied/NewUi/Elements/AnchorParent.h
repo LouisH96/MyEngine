@@ -20,6 +20,7 @@ namespace MyEngine
 
 			using ParentElem::AddChild;
 			void AddChild(Elem* pElem, const Float2& anchor);
+			void AddChild(Elem* pElem, const Float2& parentAnchor, const Float2& childAnchor);
 
 			void UpdateSizeAndTreePositions(const ResizePref& pref) override;
 			const std::string GetTypeName() const override { return "AnchorParent"; }
