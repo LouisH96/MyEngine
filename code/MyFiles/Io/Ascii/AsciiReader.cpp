@@ -1,8 +1,8 @@
 #include "AsciiReader.h"
 
-#include <istream>
-
+#include <fstream>
 #include "Logger/Logger.h"
+#include <String/Convert.h>
 
 #define ASCII_READER_DEBUG
 
@@ -72,17 +72,17 @@ bool AsciiReader::ReadLine(std::istream& stream, std::string& string)
 	return !!std::getline(stream, string);
 }
 
-std::string AsciiReader::ReadUntil(char delim) const
+std::string AsciiReader::ReadUntil(char delim)
 {
 	return ReadUntil(m_Stream, delim);
 }
 
-std::string AsciiReader::ReadUntil(char delim1, char orDelim2) const
+std::string AsciiReader::ReadUntil(char delim1, char orDelim2)
 {
 	return ReadUntil(m_Stream, delim1, orDelim2);
 }
 
-bool AsciiReader::ReadLine(std::string& string) const
+bool AsciiReader::ReadLine(std::string& string)
 {
 	return ReadLine(m_Stream, string);
 }
@@ -94,7 +94,7 @@ std::string AsciiReader::ReadLine()
 	return line;
 }
 
-std::string AsciiReader::ReadUntilWhiteSpace() const
+std::string AsciiReader::ReadUntilWhiteSpace()
 {
 	const std::streampos begin{ m_Stream.tellg() };
 
@@ -128,8 +128,13 @@ void AsciiReader::Reset(std::istream& stream)
 	stream.seekg(0);
 }
 
-AsciiReader::AsciiReader(std::istream& stream)
-	: m_Stream{ stream }
+AsciiReader::AsciiReader(const std::wstring& path)
+	: m_Stream{ Convert::ToString(path), std::istream::binary }
+{
+}
+
+AsciiReader::AsciiReader(std::ifstream&& stream)
+	: m_Stream{ std::move(stream) }
 {
 }
 
@@ -149,17 +154,22 @@ char AsciiReader::PeekChar()
 	return static_cast<char>(m_Stream.peek());
 }
 
-std::streampos AsciiReader::GetPos() const
+std::streampos AsciiReader::GetPos()
 {
 	return m_Stream.tellg();
 }
 
-void AsciiReader::MoveBack(unsigned amount) const
+void AsciiReader::MoveBack(unsigned amount)
 {
 	MoveBack(m_Stream, amount);
 }
 
-void AsciiReader::Reset() const
+void AsciiReader::MoveTo(std::streampos pos)
+{
+	m_Stream.seekg(pos);
+}
+
+void AsciiReader::Reset()
 {
 	Reset(m_Stream);
 }
@@ -315,4 +325,14 @@ std::string AsciiReader::GetString()
 	GetChar();
 #endif
 	return GetUntil('"');
+}
+
+bool AsciiReader::Good()
+{
+	return m_Stream.good();
+}
+
+bool AsciiReader::IsOpen()
+{
+	return m_Stream.is_open();
 }

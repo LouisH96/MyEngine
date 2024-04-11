@@ -16,7 +16,7 @@ namespace MyEngine
 				class AsciiFbxReader
 				{
 				public:
-					static FbxFile Read(std::istream& stream);
+					static FbxFile Read(std::ifstream&& stream);
 
 				private:
 					static void SkipUseless(AsciiReader& reader);

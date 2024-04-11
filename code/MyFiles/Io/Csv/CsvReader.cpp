@@ -9,12 +9,8 @@ using namespace MyEngine;
 using namespace Io;
 
 CsvReader::CsvReader(const std::wstring& path)
-	: m_Stream{ path, std::istream::binary }
+	: m_Reader{ path }
 {
-	if (!m_Stream.is_open())
-	{
-		Logger::PrintError("[CsvReader] stream isn't open");
-	}
 }
 
 std::string CsvReader::ReadColumn(const std::string& columnName, unsigned row)
@@ -24,10 +20,9 @@ std::string CsvReader::ReadColumn(const std::string& columnName, unsigned row)
 
 std::string CsvReader::ReadColumn(unsigned column, unsigned row)
 {
-	AsciiReader reader{ m_Stream };
-	reader.IgnoreLines(row + 1);
-	reader.Ignore(',', column);
-	return reader.ReadUntil(',', '\n');
+	m_Reader.IgnoreLines(row + 1);
+	m_Reader.Ignore(',', column);
+	return m_Reader.ReadUntil(',', '\n');
 }
 
 List<std::string> CsvReader::ReadColumns(const std::string& columnName)
@@ -38,17 +33,16 @@ List<std::string> CsvReader::ReadColumns(const std::string& columnName)
 List<std::string> CsvReader::ReadColumns(unsigned column)
 {
 	List<std::string> values{};
-	AsciiReader reader{ m_Stream };
-	reader.Reset();
-	reader.IgnoreLine();
+	m_Reader.Reset();
+	m_Reader.IgnoreLine();
 
-	while (m_Stream.good())
+	while (m_Reader.Good())
 	{
-		reader.Ignore(',', column);
-		values.Add(reader.ReadUntil(',', '\n'));
-		reader.IgnoreLine();
-		while (reader.PeekChar() == '\n')
-			reader.Ignore(1);
+		m_Reader.Ignore(',', column);
+		values.Add(m_Reader.ReadUntil(',', '\n'));
+		m_Reader.IgnoreLine();
+		while (m_Reader.PeekChar() == '\n')
+			m_Reader.Ignore(1);
 		std::cout << values[values.GetSizeS() - 1] << std::endl;
 	}
 	return values;
@@ -56,23 +50,23 @@ List<std::string> CsvReader::ReadColumns(unsigned column)
 
 unsigned CsvReader::GetColumnIdx(const std::string& name)
 {
-	AsciiReader::Reset(m_Stream);
+	m_Reader.Reset();
 
-	std::streampos begin{ m_Stream.tellg() };
+	std::streampos begin{ m_Reader.GetPos() };
 	char next;
 	unsigned idx{ 0 };
 
-	while (m_Stream.get(next))
+	while (m_Reader.GetChar(next))
 	{
 		if (next == ',')
 		{
-			AsciiReader::MoveBack(m_Stream);
-			const std::string currentColumn{ AsciiReader::ReadFrom(m_Stream, begin) };
+			m_Reader.MoveBack();
+			const std::string currentColumn{ m_Reader.ReadFrom(begin) };
 			if (currentColumn == name)
 				return idx;
 			idx++;
-			AsciiReader::Ignore(m_Stream, 1);
-			begin = m_Stream.tellg();
+			m_Reader.Ignore(1);
+			begin = m_Reader.GetPos();
 		}
 	}
 	Logger::PrintWarning("[CsvReader::GetColumnIdx] ColumnName not found");
@@ -83,18 +77,18 @@ List<std::string> CsvReader::GetColumnNames()
 {
 	List<std::string> names{};
 
-	m_Stream.seekg(0);
-	std::streampos begin{ m_Stream.tellg() };
+	m_Reader.MoveTo(0);
+	std::streampos begin{ m_Reader.GetPos() };
 	char next;
 
-	while (m_Stream.get(next))
+	while (m_Reader.GetChar(next))
 	{
 		if (next == ',')
 		{
-			m_Stream.seekg(-1, std::istream::cur);
-			names.Add(Io::AsciiReader::ReadFrom(m_Stream, begin));
-			m_Stream.ignore();
-			begin = m_Stream.tellg();
+			m_Reader.MoveBack(1);
+			names.Add(m_Reader.ReadFrom(begin));
+			m_Reader.Ignore(1);
+			begin = m_Reader.GetPos();
 		}
 		else if (next == '\n')
 		{
@@ -111,7 +105,7 @@ void CsvReader::PrintColumnNames()
 		std::cout << names[i] << std::endl;
 }
 
-bool CsvReader::IsOpen() const
+bool CsvReader::IsOpen()
 {
-	return m_Stream.is_open();
+	return m_Reader.IsOpen();
 }

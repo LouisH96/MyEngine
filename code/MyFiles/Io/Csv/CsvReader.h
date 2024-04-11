@@ -25,10 +25,10 @@ namespace MyEngine
 		List<std::string> GetColumnNames();
 
 		void PrintColumnNames();
-		bool IsOpen() const;
+		bool IsOpen();
 
 	private:
-		std::ifstream m_Stream;
+		Io::AsciiReader m_Reader;
 	};
 
 	template <typename F>
@@ -40,30 +40,29 @@ namespace MyEngine
 	template <typename F>
 	void CsvReader::ReadColumns(unsigned column, F function)
 	{
-		Io::AsciiReader reader{ m_Stream };
-		reader.Reset();
-		reader.IgnoreLine();
+		m_Reader.Reset();
+		m_Reader.IgnoreLine();
 
-		std::streampos p{ m_Stream.tellg() };
+		std::streampos p{ m_Reader.GetPos() };
 		char next;
 		unsigned row{ 0 };
 		unsigned currColumn{ 0 };
 
-		while (m_Stream.get(next))
+		while (m_Reader.GetChar(next))
 		{
 			if (next == ',')
 			{
 				if (currColumn == column)
 				{
-					reader.MoveBack();
-					function(row, reader.ReadFrom(p));
-					reader.IgnoreLine();
-					p = reader.GetPos();
+					m_Reader.MoveBack();
+					function(row, m_Reader.ReadFrom(p));
+					m_Reader.IgnoreLine();
+					p = m_Reader.GetPos();
 					currColumn = 0;
 					row++;
 					continue;
 				}
-				p = reader.GetPos();
+				p = m_Reader.GetPos();
 				currColumn++;
 			}
 		}

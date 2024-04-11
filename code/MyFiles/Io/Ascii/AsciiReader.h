@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <fstream>
 
 namespace MyEngine
 {
@@ -16,7 +17,7 @@ namespace MyEngine
 			static ValueType DetectValueType(std::istream& stream);
 			static bool IsNumber(char c);
 
-			ValueType DetectedValueType() const { return DetectValueType(m_Stream); }
+			ValueType DetectedValueType() { return DetectValueType(m_Stream); }
 
 			//---| Read |---
 			static std::string ReadFrom(std::istream& stream, const std::streampos& pos);
@@ -24,22 +25,23 @@ namespace MyEngine
 			static std::string ReadUntil(std::istream& stream, char delim1, char orDelim2);
 			static bool ReadLine(std::istream& stream, std::string& string);
 
-			std::string ReadFrom(const std::streampos& pos) const { return ReadFrom(m_Stream, pos); }
-			std::string ReadUntil(char delim) const;
-			std::string ReadUntil(char delim1, char orDelim2) const;
-			bool ReadLine(std::string& string) const;
+			std::string ReadFrom(const std::streampos& pos) { return ReadFrom(m_Stream, pos); }
+			std::string ReadUntil(char delim);
+			std::string ReadUntil(char delim1, char orDelim2);
+			bool ReadLine(std::string& string);
 			std::string ReadLine();
-			std::string ReadUntilWhiteSpace() const;
+			std::string ReadUntilWhiteSpace();
 
 			//---| Other |---
 			static void Move(std::istream& stream, int amount);
 			static void MoveBack(std::istream& stream, unsigned amount = 1);
 			static void Reset(std::istream& stream);
 
-			void Move(int amount) const { Move(m_Stream, amount); }
-			void MoveForward(unsigned amount = 1) const { Move(static_cast<int>(amount)); }
-			void MoveBack(unsigned amount = 1) const;
-			void Reset() const;
+			void Move(int amount) { Move(m_Stream, amount); }
+			void MoveForward(unsigned amount = 1) { Move(static_cast<int>(amount)); }
+			void MoveBack(unsigned amount = 1);
+			void MoveTo(std::streampos pos);
+			void Reset();
 
 			//---| Ignore |---
 			static void Ignore(std::istream& stream, unsigned amount = 1);
@@ -55,19 +57,22 @@ namespace MyEngine
 			void IgnoreUntil(char c);
 
 			//---| Class |---
-			explicit AsciiReader(std::istream& stream);
+			explicit AsciiReader(const std::wstring& path);
+			explicit AsciiReader(std::ifstream&& stream);
 			std::istream& GetStream() { return m_Stream; }
 			bool GetChar(char& c);
 			char GetChar();
 			char PeekChar();
-			std::streampos GetPos() const;
+			std::streampos GetPos();
 			std::string GetUntil(char delim);
 			double GetDouble(char separator = '.');
 			int GetInteger();
 			std::string GetString();
+			bool Good();
+			bool IsOpen();
 
 		private:
-			std::istream& m_Stream;
+			std::ifstream m_Stream;
 		};
 	}
 }

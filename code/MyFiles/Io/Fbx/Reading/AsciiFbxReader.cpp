@@ -8,14 +8,14 @@
 
 using namespace MyEngine::Io::Fbx::Reading;
 
-FbxFile AsciiFbxReader::Read(std::istream& stream)
+FbxFile AsciiFbxReader::Read(std::ifstream&& stream)
 {
 	//create output
 	FbxFile file{ false };
 	file.GetRoot().SetName("Root");
 
 	//read
-	AsciiReader reader{ stream };
+	AsciiReader reader{ std::move(stream) };
 
 	while (!stream.eof())
 	{
