@@ -27,8 +27,7 @@ void Root::Create()
 	ResizePref pref;
 	pref.maxSize = GetSize();
 	pref.minSize = {};
-	pref.horMode = Max;
-	pref.verMode = Max;
+	pref.SetMax();
 
 	for (unsigned i = 0; i < GetNrChildren(); i++)
 	{

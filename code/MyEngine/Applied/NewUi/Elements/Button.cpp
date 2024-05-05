@@ -47,7 +47,7 @@ void Button::UpdateSizeAndTreePositions(const ResizePref& pref)
 	const Float2 insideSize{ textSize + MARGIN * 2 };
 	Float2 borderSize{ insideSize + Float2{NewUiSystem::BORDER_THICKNESS}*2 };
 
-	if (pref.horMode == Max)
+	if (pref.horMode == FillMode::Max)
 		borderSize.x = pref.maxSize.x;
 
 	AssertWithinMaxSize(borderSize, pref);

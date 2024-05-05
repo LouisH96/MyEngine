@@ -5,12 +5,24 @@
 
 using namespace NewUi;
 
+void ResizePref::SetMin()
+{
+	horMode = FillMode::Min;
+	verMode = FillMode::Min;
+}
+
+void ResizePref::SetMax()
+{
+	horMode = FillMode::Max;
+	verMode = FillMode::Max;
+}
+
 Float2 ResizePref::GetPreferredSize() const
 {
 	Float2 size{ maxSize };
 
-	if (horMode == Min) size.x = minSize.x;
-	if (verMode == Min) size.y = minSize.y;
+	if (horMode == FillMode::Min) size.x = minSize.x;
+	if (verMode == FillMode::Min) size.y = minSize.y;
 
 	return size;
 }

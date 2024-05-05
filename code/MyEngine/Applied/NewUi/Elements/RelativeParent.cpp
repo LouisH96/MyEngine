@@ -14,8 +14,7 @@ void RelativeParent::UpdateSizeAndTreePositions(const ResizePref& pref)
 
 	ResizePref resizePref;
 	resizePref.minSize = {};
-	resizePref.horMode = Max;
-	resizePref.verMode = Max;
+	resizePref.SetMax();
 
 	for (unsigned i = 0; i < GetNrChildren(); i++)
 	{

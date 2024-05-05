@@ -13,8 +13,7 @@ void Extender::UpdateSizeAndTreePositions(const ResizePref& pref)
 	SetSize(m_SizeDef.GetSize(pref.maxSize));
 
 	ResizePref childPref;
-	childPref.horMode = Max;
-	childPref.verMode = Max;
+	childPref.SetMax();
 	childPref.minSize = {};
 	childPref.maxSize = GetSize();
 

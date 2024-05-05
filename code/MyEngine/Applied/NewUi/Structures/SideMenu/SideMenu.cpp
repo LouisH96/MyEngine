@@ -25,8 +25,8 @@ SideMenu::SideMenu(float width)
 
 	//Extender
 	SizeDef extenderSize;
-	extenderSize.HorizontalMode = SizeDef::Pixels;
-	extenderSize.VerticalMode = SizeDef::Percentage;
+	extenderSize.HorizontalMode = SizeDef::Mode::Pixels;
+	extenderSize.VerticalMode = SizeDef::Mode::Percentage;
 	extenderSize.Value = { width,1.f };
 	Extender* pExtender{ new Extender(extenderSize) };
 	pAnchor->AddChild(pExtender, { 0,1 });
@@ -54,7 +54,7 @@ SideMenu::SideMenu(float width)
 	pList->AddChild({ m_pPath });
 
 	//Content Extender
-	Extender* pContentExtender{ new Extender(SizeDef{SizeDef::Percentage, SizeDef::Percentage, {1,1}}) };
+	Extender* pContentExtender{ new Extender(SizeDef{SizeDef::Mode::Percentage, SizeDef::Mode::Percentage, {1,1}}) };
 	pList->AddChild({ pContentExtender });
 
 	//Content Background

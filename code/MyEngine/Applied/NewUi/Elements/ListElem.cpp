@@ -21,8 +21,7 @@ void ListElem::UpdateSizeAndTreePositions(const ResizePref& pref)
 	ResizePref childPref;
 	childPref.maxSize = pref.maxSize;
 	childPref.minSize = {};
-	childPref.horMode = Min;
-	childPref.verMode = Min;
+	childPref.SetMin();
 
 	//---| Set/Find child sizes |---
 	Float2 childBounds{ 0, -m_ChildMargin };
@@ -50,9 +49,9 @@ void ListElem::UpdateSizeAndTreePositions(const ResizePref& pref)
 	if (listSize.y > pref.maxSize.y) //should be handled earlier
 		Logger::PrintWarning("[ListElem::UpdateSizeAndTreePositions] list's height is higher than it's max");
 
-	if (pref.horMode == Max)
+	if (pref.horMode == FillMode::Max)
 		listSize.x = pref.maxSize.x;
-	if (pref.verMode == Max)
+	if (pref.verMode == FillMode::Max)
 		listSize.y = pref.maxSize.y;
 
 	SetSize(listSize);
@@ -61,7 +60,7 @@ void ListElem::UpdateSizeAndTreePositions(const ResizePref& pref)
 	childPref.maxSize = pref.maxSize;
 	if (m_UniformChildWidth)
 	{
-		childPref.horMode = Max;
+		childPref.horMode = FillMode::Max;
 		childPref.maxSize.x = childBounds.x;
 
 		Float2 childPos{ (GetSize() - childBounds) / 2 };

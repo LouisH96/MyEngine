@@ -95,8 +95,7 @@ void ListPanel::CreateLineOnOrigin(unsigned& iChild, float& lineFlowSize, float&
 	const float maxFlowSize{ lineFlowSize };
 
 	ResizePref childPref;
-	childPref.horMode = Min;
-	childPref.verMode = Min;
+	childPref.SetMin();
 
 	lineFlowSize = -m_ChildMargin;
 	lineFillSize = 0;

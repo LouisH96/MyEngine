@@ -7,7 +7,7 @@ namespace MyEngine
 	{
 		class NewUiShapeRenderer;
 
-		enum FillMode
+		enum class FillMode
 		{
 			Min, Max, NoPref
 		};
@@ -16,9 +16,11 @@ namespace MyEngine
 		{
 			Float2 minSize;
 			Float2 maxSize;
-			FillMode horMode;
-			FillMode verMode;
+			FillMode horMode{};
+			FillMode verMode{};
 
+			void SetMin();
+			void SetMax();
 			Float2 GetPreferredSize() const;
 		};
 
