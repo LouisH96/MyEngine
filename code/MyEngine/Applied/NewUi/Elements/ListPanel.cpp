@@ -1,19 +1,20 @@
 #include "pch.h"
 #include "ListPanel.h"
+#include <String\Convert.h>
 
-#include <Applied/NewUi/Renderers/NewUiShapeRenderer.h>
-
+using namespace MyEngine;
 using namespace NewUi;
 
-ListPanel::ListPanel(Direction direction, float childMargin)
-	: ListPanel{ ToFlowDirection(direction), ToFillDirection(direction), childMargin }
+ListPanel::ListPanel(Direction direction, float childMargin, float lineMargin)
+	: ListPanel{ ToFlowDirection(direction), ToFillDirection(direction), childMargin, lineMargin }
 {
 }
 
-ListPanel::ListPanel(const Float2& flowDirection, const Float2& fillDirection, float childMargin)
-	: m_FlowDirection{ flowDirection }
-	, m_FillDirection{ fillDirection }
+ListPanel::ListPanel(const Float2& flowDir, const Float2& fillDir, float childMargin, float lineMargin)
+	: m_FlowDir{ flowDir }
+	, m_FillDir{ fillDir }
 	, m_ChildMargin{ childMargin }
+	, m_LineMargin{ lineMargin }
 {
 }
 
@@ -22,104 +23,160 @@ void ListPanel::AddChild(Elem* pChild)
 	ParentElem::AddChild({ pChild });
 }
 
-Float2 ListPanel::ToFlowDirection(Direction direction)
-{
-	const int vertical{ static_cast<int>(direction) & 1 };
-	const int negative{ static_cast<int>(direction) & 2 };
-
-	return Float2{
-		static_cast<float>((1 - negative) * (~vertical & 1)),
-		static_cast<float>((1 - negative) * vertical)
-	};
-}
-
-Float2 ListPanel::ToFillDirection(Direction direction)
-{
-	const int vertical{ static_cast<int>(direction) & 1 };
-
-	return Float2{
-		static_cast<float>(vertical),
-		static_cast<float>(~vertical & 1)
-	};
-}
-
 void ListPanel::UpdateSizeAndTreePositions(const ResizePref& pref)
 {
-	ResizePref childPref;
-	childPref.maxSize = pref.maxSize; //will be used as the free space for childs
-	childPref.minSize = {};
-	childPref.horMode = Min;
-	childPref.verMode = Min;
-
-	//---| Size Childs |---
 	m_NrVisibleChilds = 0;
-	const float maxFillSize{ abs(m_FillDirection.Dot(pref.maxSize)) };
-	float fillBounds{ 0 };
-	for (unsigned i = 0; i < GetNrChildren(); i++)
+
+	const float maxListFlowSize{ m_FlowDir.Abs().Dot(pref.maxSize) };
+	const float maxListFillSize{ m_FillDir.Abs().Dot(pref.maxSize) };
+
+	float listFlowSize{ 0 };
+	float listFillSize{ 0 };
+
+	unsigned iChild{ 0 };
+	bool isLastLine{};
+
+	//
+	do
 	{
-		Elem& child{ GetChild(i) };
-		UpdateChildSize(i, childPref);
+		const unsigned iChildBegin{ iChild };
 
-		Float2 newFreeSpace = childPref.maxSize;
+		float lineFlowSize{ maxListFlowSize }; //now it means the max line flow size, after function it is the actual size
+		float lineFillSize{ maxListFillSize - listFillSize }; //not it means the max line fill size, after function it is the actual size
 
-		newFreeSpace -= m_FlowDirection * child.GetSize().Dot(m_FlowDirection);
-		newFreeSpace -= Float2{ m_FlowDirection * m_ChildMargin }.Abs();
+		CreateLineOnOrigin(iChild, lineFlowSize, lineFillSize, isLastLine);
 
-		if (newFreeSpace.x < 0)
+		//move line
+		const Float2 linePos{ m_FillDir * (listFillSize + lineFillSize * .5f) };
+		for (unsigned iMove = iChildBegin; iMove < iChild; iMove++)
 		{
-			Logger::PrintWarning("[ListPanel::UpdateSizeAndTreePositions] list not wide enough");
-			break;
-		}
-		if (newFreeSpace.y < 0)
-		{
-			Logger::PrintWarning("[ListPanel::UpdateSizeAndTreePositions] list not high enough");
-			break;
+			Elem& child{ GetChild(iMove) };
+			SetChildPosition(iMove, child.GetPosition() + linePos);
 		}
 
-		const float fillSize{ child.GetSize().Dot(m_FillDirection) };
-		if (fillSize > maxFillSize)
-		{
-			Logger::PrintWarning("[ListPanel::UpdateSizeAndTreePositions] Element is too big in Fill-Direction");
-			break;
-		}
+		//apply changes
+		listFlowSize = Float::Max(listFlowSize, lineFlowSize);
+		listFillSize += lineFillSize + m_LineMargin;
 
-		childPref.maxSize = newFreeSpace;
-		fillBounds = Float::Max(fillBounds, fillSize);
-		m_NrVisibleChilds++;
-	}
-	childPref.maxSize += Float2{ m_FlowDirection * m_ChildMargin }.Abs();
+	} while (!isLastLine);
 
-	Float2 listSize{
-		pref.maxSize - childPref.maxSize
-		+ m_FillDirection * fillBounds };
-	listSize.x = Float::Max(0, listSize.x);
-	listSize.y = Float::Max(0, listSize.y);
-	SetSize(listSize);
+	if (listFillSize > 0)
+		listFillSize -= m_LineMargin;
 
-	//---| Position Childs |---
-	Float2 childFlowPos{ listSize / 2.f };
-	childFlowPos -= m_FlowDirection * abs(m_FlowDirection.Dot(childFlowPos)); //begin in flowDirection, center in fillDirection
+	SetSize(m_FlowDir.Abs() * listFlowSize
+		+ m_FillDir.Abs() * listFillSize);
 
-	for (unsigned i = 0; i < m_NrVisibleChilds; i++)
+
+	//move all childs to the pos-x & pos-y quadrant
+	const Float2 currentCenter{ (m_FlowDir * listFlowSize + m_FillDir * listFillSize) * .5f };
+	const Float2 targetCenter{ GetSize() * .5f };
+	const Float2 movement{ targetCenter - currentCenter };
+
+	for (iChild = 0; iChild < m_NrVisibleChilds; iChild++)
 	{
-		Elem& child{ GetChild(i) };
-
-		const Float2 childCenter{ child.GetCenter() };
-		Float2 childPos{ childFlowPos - childCenter };
-		childPos += m_FlowDirection * abs(m_FlowDirection.Dot(childCenter));
-
-		SetChildPosition(i, childPos);
-
-		childFlowPos += m_FlowDirection * (abs(m_FlowDirection.Dot(child.GetSize())) + m_ChildMargin);
+		Elem& child{ GetChild(iChild) };
+		SetChildPosition(iChild, child.GetPosition() + movement);
 	}
 }
 
 void ListPanel::Clear()
 {
-	//Draw().Remove(m_DebugBg);
 }
 
 void ListPanel::Create()
 {
-	//m_DebugBg = Draw().Rect(GetPosition(), GetSize()* Float2{ .5f, 1.f }, { .5f,0,0 });
+}
+
+void ListPanel::CreateLineOnOrigin(unsigned& iChild, float& lineFlowSize, float& lineFillSize, bool& isLastLine)
+{
+	isLastLine = true;
+
+	const float maxFillSize{ lineFillSize };
+	const float maxFlowSize{ lineFlowSize };
+
+	ResizePref childPref;
+	childPref.horMode = Min;
+	childPref.verMode = Min;
+
+	lineFlowSize = -m_ChildMargin;
+	lineFillSize = 0;
+
+	for (; iChild < GetNrChildren(); iChild++)
+	{
+		childPref.maxSize =
+			m_FlowDir.Abs() * (maxFlowSize - lineFlowSize)
+			+ m_FillDir.Abs() * (maxFillSize - lineFillSize);
+
+		//check child size
+		Elem& child{ GetChild(iChild) };
+		UpdateChildSize(iChild, childPref);
+
+		const float childFlowSize{ abs(child.GetSize().Dot(m_FlowDir)) };
+		const float childFillSize{ abs(child.GetSize().Dot(m_FillDir)) };
+
+		const float futureLineFillSize{ Float::Max(lineFillSize, childFillSize) };
+		const float futureLineFlowSize{ lineFlowSize + childFlowSize + m_ChildMargin };
+
+		if (futureLineFillSize > maxFillSize)
+		{
+			//line too big in fill size
+			//this is the end of adding childs to this list
+			//(because this child's fill size will never fit)
+
+			break;
+		}
+
+		if (futureLineFlowSize > maxFlowSize)
+		{
+			//line too big in flow size
+			//this is the end of this line
+
+			isLastLine = childFlowSize > maxFlowSize;
+			break;
+		}
+
+		//place child on origin axis
+		Float2 childPos{ m_FlowDir * (lineFlowSize + m_ChildMargin + childFlowSize * .5f) }; //child center
+		childPos -= child.GetSize() * .5f; //child origin
+
+		SetChildPosition(iChild, childPos);
+
+		//apply changes
+		lineFillSize = futureLineFillSize;
+		lineFlowSize = futureLineFlowSize;
+		m_NrVisibleChilds++;
+	}
+
+	if (lineFlowSize < 0)
+		lineFlowSize = 0;
+}
+
+Float2 ListPanel::ToFlowDirection(Direction direction)
+{
+	const int d{ static_cast<int>(direction) };
+
+	const int vertical{ (d >> 2) & 1 };
+	const int negative{ 1 - ((d >> 1) & 1) * 2 };
+
+	Float2 flow{};
+	flow.x = static_cast<float>((~vertical) & 1);
+	flow.y = static_cast<float>(vertical & 1);
+	flow *= static_cast<float>(negative);
+
+	return flow;
+}
+
+Float2 ListPanel::ToFillDirection(Direction direction)
+{
+	const int d{ static_cast<int>(direction) };
+
+	const int vertical{ (~d >> 2) & 1 };
+	const int negative{ 1 - (d & 1) * 2 };
+
+	Float2 fill{};
+	fill.x = static_cast<float>((~vertical) & 1);
+	fill.y = static_cast<float>(vertical & 1);
+	fill *= static_cast<float>(negative);
+
+	return fill;
 }
