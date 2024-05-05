@@ -7,7 +7,7 @@ namespace MyEngine
 	{
 		struct AnchorChild
 		{
-			Elem* pChild;
+			Elem* pChild{};
 			Float2 ParentAnchor;
 			Float2 ChildAnchor;
 		};

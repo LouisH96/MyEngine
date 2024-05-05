@@ -10,7 +10,7 @@ using namespace NewUi;
 const Float2 Button::MARGIN{ 15.f, 11.f };
 
 Button::Button(const std::string& text, Function function, FunctionArg functionArg, float fontSize)
-	: m_Text{ std::move(text) }
+	: m_Text{ text }
 	, m_FontSize{ fontSize }
 	, m_Function{ function }
 	, m_FunctionArg{ functionArg }
