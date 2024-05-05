@@ -18,11 +18,24 @@ namespace MyEngine
 		static std::string ToString(const Quaternion& quat);
 
 		template<typename T>
+		static std::string ToString(const Vector2<T>& vector);
+
+		template<typename T>
 		static std::string ToString(const Vector3<T>& vector);
 
 		template<typename T>
 		static std::string ToString(T value);
 	};
+
+	template<typename T>
+	std::string Convert::ToString(const Vector2<T>& vector)
+	{
+		std::stringstream ss{};
+		ss << "(" << ToString(vector.x)
+			<< ", " << ToString(vector.y)
+			<< ")";
+		return ss.str();
+	}
 
 	template <typename T>
 	std::string Convert::ToString(const Vector3<T>& vector)
