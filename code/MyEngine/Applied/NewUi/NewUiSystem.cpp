@@ -119,6 +119,9 @@ void NewUiSystem::DeleteChild(Elem* pChild)
 
 void NewUiSystem::BeforeEdit()
 {
+	if (m_ShowDebugBorder && m_pCurrentElem)
+		ClearDebugBorder();
+
 	m_pCurrentElem = nullptr;
 	m_Root.ClearTree();
 }
