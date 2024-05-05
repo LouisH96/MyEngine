@@ -118,6 +118,7 @@
     <ClCompile Include="Physics\Collisions\LineDiskCollision.cpp" />
     <ClCompile Include="Applied\NewUi\Renderers\NewUiShapeRenderer.cpp" />
     <ClCompile Include="Applied\NewUi\Elements\ListPanel.cpp" />
+    <ClCompile Include="Applied\NewUi\Elements\ListPanel2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -269,6 +270,7 @@
     <ClInclude Include="Applied\NewUi\Renderers\NewUiShapeRenderer.h" />
     <ClInclude Include="Generation\DiskGenerator_TriangleList.h" />
     <ClInclude Include="Applied\NewUi\Elements\ListPanel.h" />
+    <ClInclude Include="Applied\NewUi\Elements\ListPanel2.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
