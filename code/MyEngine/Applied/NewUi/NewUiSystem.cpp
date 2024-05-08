@@ -65,7 +65,9 @@ void NewUiSystem::Update()
 					m_pCurrentElem->ToPressedState();
 					m_CurrentElemState = Pressed;
 				}
-				CreateDebugBorder();
+
+				if (m_ShowDebugBorder)
+					CreateDebugBorder();
 			}
 			else
 			{
@@ -80,9 +82,12 @@ void NewUiSystem::Update()
 				if (isUnderMouse)
 				{
 					m_pCurrentElem->ToHoverState();
-					m_pCurrentElem->OnClick();
 					m_CurrentElemState = Hovered;
-					CreateDebugBorder();
+
+					if (m_ShowDebugBorder)
+						CreateDebugBorder();
+
+					m_pCurrentElem->OnClick();
 				}
 				else
 				{
@@ -90,7 +95,7 @@ void NewUiSystem::Update()
 					m_pCurrentElem = nullptr;
 				}
 			}
-			else
+			else if (m_ShowDebugBorder)
 				CreateDebugBorder();
 		}
 	}
