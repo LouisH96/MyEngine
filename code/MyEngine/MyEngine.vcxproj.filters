@@ -269,6 +269,8 @@
     <ClInclude Include="Applied\NewUi\Renderers\NewUiShapeRenderer.h" />
     <ClInclude Include="Generation\DiskGenerator_TriangleList.h" />
     <ClInclude Include="Applied\NewUi\Elements\ListPanel.h" />
+    <ClInclude Include="Generation\CubeGenerator2.h" />
+    <ClInclude Include="Generation\CubeGenerator2_TriangleList.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

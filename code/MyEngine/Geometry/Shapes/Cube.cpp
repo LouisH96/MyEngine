@@ -1,6 +1,12 @@
 #include "pch.h"
 #include "Cube.h"
 
+Cube::Cube(const Float3& position, const Float3& size)
+	: m_Transform{ position, {} }
+	, m_Size{ size }
+{
+}
+
 Cube::Cube(const Transform& transform, const Float3& size)
 	: m_Transform{ transform }
 	, m_Size{ size }

@@ -8,6 +8,7 @@ namespace MyEngine
 		static constexpr unsigned NR_SIDES = 4;
 
 		Cube() = default;
+		explicit Cube(const Float3& position, const Float3& size);
 		explicit Cube(const Transform& transform, const Float3& size);
 
 		Transform& GetTransform() { return m_Transform; }
