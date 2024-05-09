@@ -15,6 +15,10 @@ namespace MyEngine
 		Float3& GetPosition() { return m_Transform.Position; }
 		Float3& GetSize() { return m_Size; }
 
+		float GetWidth() const { return m_Size.x; }
+		float GetHeight() const { return m_Size.y; }
+		float GetDepth() const { return m_Size.z; }
+
 		void SetPosition(const Float3& position) { m_Transform.Position = position; }
 		void SetSize(const Float3& size) { m_Size = size; }
 
