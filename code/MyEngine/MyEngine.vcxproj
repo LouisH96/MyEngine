@@ -161,6 +161,8 @@
     <ClInclude Include="Generation\CubeGenerator2_TriangleList.h" />
     <ClInclude Include="Generation\DiskGenerator_TriangleList.h" />
     <ClInclude Include="Applied\NewUi\Elements\ListPanel.h" />
+    <ClInclude Include="Generation\EllipsoidGenerator.h" />
+    <ClInclude Include="Generation\EllipsoidGenerator_TriangleListIdx.h" />
     <ClInclude Include="Physics\Collisions\LineDiskCollision.h" />
     <ClInclude Include="Generation\DiskGenerator_TriangleListIdx.h" />
     <ClInclude Include="Geometry\Shapes\Hexagon.h" />
