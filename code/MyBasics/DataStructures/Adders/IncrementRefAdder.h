@@ -6,6 +6,8 @@ namespace MyEngine
 	class IncrementRefAdder
 	{
 	public:
+		using DataType = T;
+
 		IncrementRefAdder(T*& pData);
 
 		void Add(const T& value);

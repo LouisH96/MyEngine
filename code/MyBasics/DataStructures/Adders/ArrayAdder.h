@@ -7,6 +7,8 @@ namespace MyEngine
 	class ArrayAdder
 	{
 	public:
+		using DataType = T;
+
 		ArrayAdder(Array<T>& array, unsigned startIdx = 0);
 
 		void Add(const T& value);

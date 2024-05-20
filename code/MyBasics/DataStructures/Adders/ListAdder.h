@@ -7,6 +7,8 @@ namespace MyEngine
 	class ListAdder
 	{
 	public:
+		using DataType = D;
+
 		explicit ListAdder(List<D>& list);
 
 		void Add(const D& value);
