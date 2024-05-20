@@ -275,6 +275,8 @@
     <ClInclude Include="Generation\EllipsoidGenerator_TriangleListIdx.h" />
     <ClInclude Include="Generation\ClosedStripGenerator.h" />
     <ClInclude Include="Generation\EllipsoidGenerator2.h" />
+    <ClInclude Include="Rendering\Mesh\MeshBuffers.h" />
+    <ClInclude Include="Rendering\Mesh\MeshListData.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

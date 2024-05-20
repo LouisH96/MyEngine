@@ -1,6 +1,7 @@
 #pragma once
 #include <Geometry\ModelTopology.h>
 #include <Generation\ClosedStripGenerator.h>
+#include <Rendering\Mesh\MeshListData.h>
 
 namespace MyEngine
 {
@@ -17,9 +18,19 @@ namespace MyEngine
 				unsigned NrCorners; //on xz-plane
 			};
 
+			template<typename Combinator, typename MeshData>
+			static void Generate(Combinator combinator, MeshData& meshData, unsigned firstVertex, const Options& options);
+
 			template<typename Combinator, typename VertexAdder, typename IndexAdder>
 			static void Generate(Combinator combinator, VertexAdder&& vertexAdder, IndexAdder&& indexAdder, unsigned firstVertex, const Options& options);
 		};
+
+		template<ModelTopology Topology>
+		template<typename Combinator, typename MeshData>
+		inline void EllipsoidGenerator2<Topology>::Generate(Combinator combinator, MeshData& meshData, unsigned firstVertex, const Options& options)
+		{
+			Generate(combinator, std::move(meshData.GetVertexAdder()), std::move(meshData.GetIndexAdder()), firstVertex, options);
+		}
 
 		template<ModelTopology Topology>
 		template<typename Combinator, typename VertexAdder, typename IndexAdder>
