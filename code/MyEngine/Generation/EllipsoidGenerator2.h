@@ -15,35 +15,32 @@ namespace MyEngine
 			unsigned NrCorners; //on xz-plane
 		};
 
-		template<ModelTopology Topology>
 		class EllipsoidGenerator2
 		{
 		public:
 			using Options = EllipsoidGenerator2Options;
 
-			template<typename Combinator, typename MeshData>
+			template<ModelTopology Topology, typename Combinator, typename MeshData>
 			static void Generate(Combinator combinator, MeshData& meshData, unsigned firstVertex, const Options& options);
 
-			template<typename Combinator, typename VertexAdder, typename IndexAdder>
-			static void Generate(Combinator combinator, VertexAdder&& vertexAdder, IndexAdder&& indexAdder, unsigned firstVertex, const Options& options);
+			template<ModelTopology Topology, typename Combinator, typename VertexAdder, typename IndexContainer>
+			static void Generate(Combinator combinator, VertexAdder&& vertexAdder, IndexContainer&& indexContainer, unsigned firstVertex, const Options& options);
 		};
 
-		template<ModelTopology Topology>
-		template<typename Combinator, typename MeshData>
-		inline void EllipsoidGenerator2<Topology>::Generate(Combinator combinator, MeshData& meshData, unsigned firstVertex, const Options& options)
+		template<ModelTopology Topology, typename Combinator, typename MeshData>
+		inline void EllipsoidGenerator2::Generate(Combinator combinator, MeshData& meshData, unsigned firstVertex, const Options& options)
 		{
-			Generate(combinator, std::move(meshData.GetVertexAdder()), std::move(meshData.GetIndexAdder()), firstVertex, options);
+			Generate<Topology>(combinator, std::move(meshData.GetVertexAdder()), std::move(meshData.GetIndexContainer()), firstVertex, options);
 		}
 
-		template<ModelTopology Topology>
-		template<typename Combinator, typename VertexAdder, typename IndexAdder>
-		inline void EllipsoidGenerator2<Topology>::Generate(Combinator combinator, VertexAdder&& vertexAdder, IndexAdder&& indexAdder, unsigned firstVertex, const Options& options)
+		template<ModelTopology Topology, typename Combinator, typename VertexAdder, typename IndexContainer>
+		inline void EllipsoidGenerator2::Generate(Combinator combinator, VertexAdder&& vertexAdder, IndexContainer&& indexContainer, unsigned firstVertex, const Options& options)
 		{
-			using StripGenerator = ClosedStripGenerator<VertexAdder, IndexAdder, Topology>;
+			using StripGenerator = ClosedStripGenerator<VertexAdder, IndexContainer, Topology>;
 			typename StripGenerator::Options stripGeneratorOptions{};
 			stripGeneratorOptions.NrCorners = options.NrCorners;
 
-			StripGenerator generator{ std::move(vertexAdder), std::move(indexAdder), firstVertex, stripGeneratorOptions };
+			StripGenerator generator{ std::move(vertexAdder), std::move(indexContainer), firstVertex, stripGeneratorOptions };
 
 			//start cap
 			const Float3 startCapPos{ 0, -options.Radia[1], 0 };

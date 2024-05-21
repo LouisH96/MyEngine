@@ -2,6 +2,7 @@
 #include <Geometry\ModelTopology.h>
 #include <DataStructures\List.h>
 #include <DataStructures\Adders\ListAdder.h>
+#include <DataStructures\Container.h>
 
 namespace MyEngine
 {
@@ -10,6 +11,8 @@ namespace MyEngine
 	class MeshListDataWithoutIndices
 	{
 	public:
+		Container<List<int>> GetIndexContainer();
+
 		List<int> Indices;
 	};
 
@@ -18,7 +21,7 @@ namespace MyEngine
 	{
 	public:
 		ListAdder<Vertex> GetVertexAdder();
-		ListAdder<int> GetIndexAdder();
+		Container<List<int>> GetIndexContainer();
 
 		List<Vertex> Vertices;
 		List<int> Indices;
@@ -30,9 +33,27 @@ namespace MyEngine
 
 	//---| Specialized Classes |---
 	template<typename Vertex>
+	class MeshListData<Vertex, ModelTopology::TriangleList>
+		: public MeshListDataWithoutIndices<Vertex>
+	{ };
+	template<typename Vertex>
+	class MeshListData<Vertex, ModelTopology::TriangleStrip>
+		: public MeshListDataWithoutIndices<Vertex>
+	{ };
+	template<typename Vertex>
 	class MeshListData<Vertex, ModelTopology::TriangleListIdx>
 		: public MeshListDataWithIndices<Vertex>
 	{ };
+	template<typename Vertex>
+	class MeshListData<Vertex, ModelTopology::TriangleStripIdx>
+		: public MeshListDataWithIndices<Vertex>
+	{ };
+
+	template<typename Vertex>
+	inline Container<List<int>> MeshListDataWithoutIndices<Vertex>::GetIndexContainer()
+	{
+		return Container<List<int>>(Indices);
+	}
 
 	template<typename Vertex>
 	inline ListAdder<Vertex> MeshListDataWithIndices<Vertex>::GetVertexAdder()
@@ -41,9 +62,9 @@ namespace MyEngine
 	}
 
 	template<typename Vertex>
-	inline ListAdder<int> MeshListDataWithIndices<Vertex>::GetIndexAdder()
+	inline Container<List<int>> MeshListDataWithIndices<Vertex>::GetIndexContainer()
 	{
-		return ListAdder<int>(Indices);
+		return Container<List<int>>(Indices);
 	}
 
 	//---| Extra |---
@@ -63,14 +84,14 @@ namespace MyEngine
 		//Test<Vertex, Generator, Combinator, Options, ModelTopology::TriangleList>(combinator, options);
 		Test<Vertex, Generator, Combinator, Options, ModelTopology::TriangleListIdx>(combinator, options);
 		//Test<Vertex, Generator, Combinator, Options, ModelTopology::TriangleStrip>(combinator, options);
-		//Test<Vertex, Generator, Combinator, Options, ModelTopology::TriangleStripIdx>(combinator, options);
+		Test<Vertex, Generator, Combinator, Options, ModelTopology::TriangleStripIdx>(combinator, options);
 	}
 
 	template<typename Vertex, typename Generator, typename Combinator, typename Options, ModelTopology Topology>
 	inline void TestAllTopologies::Test(Combinator combinator, const Options& options)
 	{
 		MeshListData<Vertex, Topology> data{};
-		Generator::Generate(combinator, data, 0, options);
+		Generator::Generate<Topology>(combinator, data, 0, options);
 
 		const unsigned nrVertices{ data.Vertices.GetSize() };
 		const unsigned nrIndices{ data.Indices.GetSize() };
@@ -81,6 +102,6 @@ namespace MyEngine
 			<< " |---\n"
 			<< "\t Vertices: " << nrVertices << "\n"
 			<< "\t Indices: " << nrIndices << "\n"
-			<< "\t Memory: " << memory << " byte\n";
+			<< "\t Memory: " << memory << " b\n\n";
 	}
 }
