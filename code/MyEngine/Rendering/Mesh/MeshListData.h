@@ -11,8 +11,6 @@ namespace MyEngine
 	class MeshListDataWithoutIndices
 	{
 	public:
-		Container<List<int>> GetIndexContainer();
-
 		List<int> Indices;
 	};
 
@@ -20,9 +18,6 @@ namespace MyEngine
 	class MeshListDataWithIndices
 	{
 	public:
-		ListAdder<Vertex> GetVertexAdder();
-		Container<List<int>> GetIndexContainer();
-
 		List<Vertex> Vertices;
 		List<int> Indices;
 	};
@@ -48,24 +43,6 @@ namespace MyEngine
 	class MeshListData<Vertex, ModelTopology::TriangleStripIdx>
 		: public MeshListDataWithIndices<Vertex>
 	{ };
-
-	template<typename Vertex>
-	inline Container<List<int>> MeshListDataWithoutIndices<Vertex>::GetIndexContainer()
-	{
-		return Container<List<int>>(Indices);
-	}
-
-	template<typename Vertex>
-	inline ListAdder<Vertex> MeshListDataWithIndices<Vertex>::GetVertexAdder()
-	{
-		return ListAdder<Vertex>{Vertices};
-	}
-
-	template<typename Vertex>
-	inline Container<List<int>> MeshListDataWithIndices<Vertex>::GetIndexContainer()
-	{
-		return Container<List<int>>(Indices);
-	}
 
 	//---| Extra |---
 	class TestAllTopologies

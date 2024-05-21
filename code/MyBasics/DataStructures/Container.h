@@ -15,6 +15,11 @@ namespace MyEngine
 			void Add(const Data& value);
 			void Add(const Data& value1, const Data& value2);
 			void Add(const Data& value1, const Data& value2, const Data& value3);
+
+			void EnsureIncrease(unsigned increase);
+
+			Data& Get(unsigned index);
+			Data& GetPrevious(unsigned timesBack = 1);
 			unsigned GetSize() const;
 
 		private:
@@ -47,6 +52,12 @@ namespace MyEngine
 	inline void Container<Source>::Add(const Data& value1, const Data& value2, const Data& value3)
 	{
 		m_pSource->Add(value1, value2, value3);
+	}
+
+	template<typename Source>
+	inline void Container<Source>::EnsureIncrease(unsigned increase)
+	{
+		m_pSource->EnsureIncrease(increase);
 	}
 
 	template<typename Source>

@@ -1,5 +1,6 @@
 #pragma once
 #include <Geometry\ModelTopology.h>
+#include <DataStructures\List.h>
 
 namespace MyEngine
 {
@@ -29,45 +30,57 @@ namespace MyEngine
 			bool m_HasStartCap{ false };
 		};
 
-		template<typename VertexAdder, typename IndexContainer, ModelTopology Topology>
+		template<typename Vertex, ModelTopology Topology>
 		class ClosedStripGenerator
 		{ };
 
 		//---| Specialized Classes |---
-		template<typename VertexAdder, typename IndexContainer>
-		class ClosedStripGenerator<VertexAdder, IndexContainer, ModelTopology::TriangleListIdx> : public ClosedStripGeneratorBase
+		template<typename Vertex>
+		class ClosedStripGenerator<Vertex, ModelTopology::TriangleList> : public ClosedStripGeneratorBase
 		{
 		public:
-			using Vertex = typename VertexAdder::DataType;
-
-			ClosedStripGenerator(VertexAdder&& vertexAdder, IndexContainer&& indexContainer, unsigned firstIndex, const Options& options);
+			ClosedStripGenerator(List<Vertex>& vertices, const Options& options);
 
 			void AddVertex(const Vertex& vertex);
 			void SetStartCap(const Vertex& vertex);
 			void SetEndCap(const Vertex& vertex);
 
 		private:
-			VertexAdder m_Vertices;
-			IndexContainer m_Indices;
+			List<Vertex>* m_pVertices;
 
 			void MakeStartCap();
 		};
 
-		template<typename VertexAdder, typename IndexContainer>
-		class ClosedStripGenerator<VertexAdder, IndexContainer, ModelTopology::TriangleStripIdx> : public ClosedStripGeneratorBase
+		template<typename Vertex>
+		class ClosedStripGenerator<Vertex, ModelTopology::TriangleListIdx> : public ClosedStripGeneratorBase
 		{
 		public:
-			using Vertex = typename VertexAdder::DataType;
-
-			ClosedStripGenerator(VertexAdder&& vertexAdder, IndexContainer&& indexContainer, unsigned firstIndex, const Options& options);
+			ClosedStripGenerator(List<Vertex>& vertices, List<int>& indices, unsigned firstIndex, const Options& options);
 
 			void AddVertex(const Vertex& vertex);
 			void SetStartCap(const Vertex& vertex);
 			void SetEndCap(const Vertex& vertex);
 
 		private:
-			VertexAdder m_Vertices;
-			IndexContainer m_Indices;
+			List<Vertex>* m_pVertices;
+			List<int>* m_pIndices;
+
+			void MakeStartCap();
+		};
+
+		template<typename Vertex>
+		class ClosedStripGenerator<Vertex, ModelTopology::TriangleStripIdx> : public ClosedStripGeneratorBase
+		{
+		public:
+			ClosedStripGenerator(List<Vertex>& vertices, List<int>& indices, unsigned firstIndex, const Options& options);
+
+			void AddVertex(const Vertex& vertex);
+			void SetStartCap(const Vertex& vertex);
+			void SetEndCap(const Vertex& vertex);
+
+		private:
+			List<Vertex>* m_pVertices;
+			List<int>* m_pIndices;
 
 			void MakeStartCap();
 
@@ -85,17 +98,84 @@ namespace MyEngine
 
 		//---| Specialized Implemenations |---
 
-		//---| TRIANGLE LIST IDX |---
-		template<typename VertexAdder, typename IndexContainer>
-		inline ClosedStripGenerator<VertexAdder, IndexContainer, ModelTopology::TriangleListIdx>::ClosedStripGenerator(VertexAdder&& vertexAdder, IndexContainer&& indexContainer, unsigned firstIndex, const Options& options)
+		//---| TRIANGLE LIST |---
+		template<typename Vertex>
+		inline ClosedStripGenerator<Vertex, ModelTopology::TriangleList>::ClosedStripGenerator(List<Vertex>& vertices, const Options& options)
 			: ClosedStripGeneratorBase{ firstIndex, options }
-			, m_Vertices{ std::move(vertexAdder) }
-			, m_Indices{ std::move(indexContainer) }
+			, m_pVertices{ &vertexAdder }
 		{
 		}
 
-		template<typename VertexAdder, typename IndexContainer>
-		inline void ClosedStripGenerator<VertexAdder, IndexContainer, ModelTopology::TriangleListIdx>::SetStartCap(const Vertex& vertex)
+		template<typename Vertex>
+		inline void ClosedStripGenerator<Vertex, ModelTopology::TriangleListIdx>::AddVertex(const Vertex& vertex)
+		{
+			m_Vertices.Add(vertex);
+
+			if (m_HasStartCap)
+
+
+
+				const unsigned iCorner{ (m_CurrentVertex - m_FirstVertex) % m_Options.NrCorners };
+			m_CurrentVertex++;
+
+			if (iCorner + 1 != m_Options.NrCorners)
+				return;
+			//last vertex of row, thus assemble vertices
+
+			if (m_CurrentVertex - m_FirstVertex == m_Options.NrCorners)
+			{
+				//end of first row
+				if (m_HasStartCap)
+					MakeStartCap();
+				return;
+			}
+
+			const unsigned firstTop{ m_CurrentVertex - m_Options.NrCorners };
+			const unsigned firstBot{ firstTop - m_Options.NrCorners };
+
+			for (unsigned iBot = firstBot; iBot + 1 < firstTop; iBot++)
+			{
+				const unsigned botLeft{ iBot };
+				const unsigned botRight{ botLeft + 1 };
+				const unsigned topLeft{ botLeft + m_Options.NrCorners };
+				const unsigned topRight{ topLeft + 1 };
+
+				m_Indices.Add(botLeft, topLeft, botRight);
+				m_Indices.Add(botRight, topLeft, topRight);
+			}
+
+			//last
+			const unsigned botRight{ firstBot };
+			const unsigned botLeft{ botRight + m_Options.NrCorners - 1 };
+			const unsigned topRight{ firstTop };
+			const unsigned topLeft{ topRight + m_Options.NrCorners - 1 };
+
+			m_Indices.Add(botLeft, topLeft, botRight);
+			m_Indices.Add(botRight, topLeft, topRight);
+		}
+
+		template<typename Vertex>
+		inline void ClosedStripGenerator<Vertex, ModelTopology::TriangleList>::SetStartCap(const Vertex& vertex)
+		{
+			//m_Vertices.
+
+			m_Vertices.Add(vertex);
+			m_HasStartCap = true;
+			m_FirstVertex++;
+			m_CurrentVertex++;
+		}
+
+		//---| TRIANGLE LIST IDX |---
+		template<typename Vertex>
+		inline ClosedStripGenerator<Vertex, ModelTopology::TriangleListIdx>::ClosedStripGenerator(List<Vertex>& vertices, List<int>& indices, unsigned firstIndex, const Options& options)
+			: ClosedStripGeneratorBase{ firstIndex, options }
+			, m_pVertices{ &vertices }
+			, m_pIndices{ &indices }
+		{
+		}
+
+		template<typename Vertex>
+		inline void ClosedStripGenerator<Vertex, ModelTopology::TriangleListIdx>::SetStartCap(const Vertex& vertex)
 		{
 			m_Vertices.Add(vertex);
 			m_HasStartCap = true;
@@ -103,8 +183,8 @@ namespace MyEngine
 			m_CurrentVertex++;
 		}
 
-		template<typename VertexAdder, typename IndexContainer>
-		inline void ClosedStripGenerator<VertexAdder, IndexContainer, ModelTopology::TriangleListIdx>::SetEndCap(const Vertex& vertex)
+		template<typename Vertex>
+		inline void ClosedStripGenerator<Vertex, ModelTopology::TriangleListIdx>::SetEndCap(const Vertex& vertex)
 		{
 			m_Vertices.Add(vertex);
 
