@@ -2,21 +2,24 @@
 #include <Geometry\ModelTopology.h>
 #include <Generation\ClosedStripGenerator.h>
 #include <Rendering\Mesh\MeshListData.h>
+#include <Math\Vectors.h>
 
 namespace MyEngine
 {
 	namespace Generation
 	{
+		struct EllipsoidGenerator2Options
+		{
+			Float3 Radia;
+			unsigned NrLayers; //on y-axis
+			unsigned NrCorners; //on xz-plane
+		};
+
 		template<ModelTopology Topology>
 		class EllipsoidGenerator2
 		{
 		public:
-			struct Options
-			{
-				Float3 Radia;
-				unsigned NrLayers; //on y-axis
-				unsigned NrCorners; //on xz-plane
-			};
+			using Options = EllipsoidGenerator2Options;
 
 			template<typename Combinator, typename MeshData>
 			static void Generate(Combinator combinator, MeshData& meshData, unsigned firstVertex, const Options& options);
