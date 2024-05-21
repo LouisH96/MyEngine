@@ -11,6 +11,7 @@ namespace MyEngine
 		IncrementRefAdder(T*& pData);
 
 		void Add(const T& value);
+		void Add(const T& value1, const T& value2);
 		void Add(const T& value1, const T& value2, const T& value3);
 
 	private:
@@ -27,6 +28,13 @@ namespace MyEngine
 	void IncrementRefAdder<T>::Add(const T& value)
 	{
 		*m_pData++ = value;
+	}
+
+	template<typename T>
+	inline void IncrementRefAdder<T>::Add(const T& value1, const T& value2)
+	{
+		*m_pData++ = value1;
+		*m_pData++ = value2;
 	}
 
 	template <typename T>

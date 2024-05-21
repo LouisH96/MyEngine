@@ -12,6 +12,7 @@ namespace MyEngine
 		ArrayAdder(Array<T>& array, unsigned startIdx = 0);
 
 		void Add(const T& value);
+		void Add(const T& value1, const T& value2);
 		void Add(const T& value1, const T& value2, const T& value3);
 
 	private:
@@ -29,6 +30,13 @@ namespace MyEngine
 	void ArrayAdder<T>::Add(const T& value)
 	{
 		*m_pCurrent++ = value;
+	}
+
+	template<typename T>
+	inline void ArrayAdder<T>::Add(const T& value1, const T& value2)
+	{
+		*m_pCurrent++ = value1;
+		*m_pCurrent++ = value2;
 	}
 
 	template <typename T>
