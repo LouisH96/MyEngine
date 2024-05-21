@@ -9,6 +9,8 @@ namespace MyEngine
 	class List
 	{
 	public:
+		using DataType = T;
+
 		//---| Constructor/Destructor |---
 		List(unsigned capacity = 5);
 		List(int capacity);
