@@ -7,17 +7,23 @@
 namespace MyEngine
 {
 	//---| Main Classes |---
-	template<typename Vertex>
+	template<typename Vertex, ModelTopology Topology>
 	class MeshListDataWithoutIndices
 	{
 	public:
-		List<int> Indices;
+		using VertexType = Vertex;
+		static constexpr ModelTopology TOPOLOGY = Topology;
+
+		List<Vertex> Vertices;
 	};
 
-	template<typename Vertex>
+	template<typename Vertex, ModelTopology Topology>
 	class MeshListDataWithIndices
 	{
 	public:
+		using VertexType = Vertex;
+		static constexpr ModelTopology TOPOLOGY = Topology;
+
 		List<Vertex> Vertices;
 		List<int> Indices;
 	};
@@ -29,19 +35,19 @@ namespace MyEngine
 	//---| Specialized Classes |---
 	template<typename Vertex>
 	class MeshListData<Vertex, ModelTopology::TriangleList>
-		: public MeshListDataWithoutIndices<Vertex>
+		: public MeshListDataWithoutIndices<Vertex, ModelTopology::TriangleList>
 	{ };
 	template<typename Vertex>
 	class MeshListData<Vertex, ModelTopology::TriangleStrip>
-		: public MeshListDataWithoutIndices<Vertex>
+		: public MeshListDataWithoutIndices<Vertex, ModelTopology::TriangleStrip>
 	{ };
 	template<typename Vertex>
 	class MeshListData<Vertex, ModelTopology::TriangleListIdx>
-		: public MeshListDataWithIndices<Vertex>
+		: public MeshListDataWithIndices<Vertex, ModelTopology::TriangleListIdx>
 	{ };
 	template<typename Vertex>
 	class MeshListData<Vertex, ModelTopology::TriangleStripIdx>
-		: public MeshListDataWithIndices<Vertex>
+		: public MeshListDataWithIndices<Vertex, ModelTopology::TriangleStripIdx>
 	{ };
 
 	//---| Extra |---
@@ -68,7 +74,7 @@ namespace MyEngine
 	inline void TestAllTopologies::Test(Combinator combinator, const Options& options)
 	{
 		MeshListData<Vertex, Topology> data{};
-		Generator::Generate<Topology>(combinator, data, 0, options);
+		Generator::Generate(combinator, data, 0, options);
 
 		const unsigned nrVertices{ data.Vertices.GetSize() };
 		const unsigned nrIndices{ data.Indices.GetSize() };
