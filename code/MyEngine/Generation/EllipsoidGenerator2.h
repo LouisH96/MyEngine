@@ -1,7 +1,7 @@
 #pragma once
 #include <Geometry\ModelTopology.h>
 #include <Generation\ClosedStripGenerator.h>
-#include <Rendering\Mesh\MeshListData.h>
+#include <Rendering\Mesh\MeshData.h>
 #include <Math\Vectors.h>
 
 namespace MyEngine

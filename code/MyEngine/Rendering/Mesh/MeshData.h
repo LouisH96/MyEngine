@@ -8,7 +8,7 @@ namespace MyEngine
 {
 	//---| Main Classes |---
 	template<typename Vertex, ModelTopology Topology>
-	class MeshListDataWithoutIndices
+	class MeshDataWithoutIndices
 	{
 	public:
 		using VertexType = Vertex;
@@ -18,7 +18,7 @@ namespace MyEngine
 	};
 
 	template<typename Vertex, ModelTopology Topology>
-	class MeshListDataWithIndices
+	class MeshDataWithIndices
 	{
 	public:
 		using VertexType = Vertex;
@@ -29,25 +29,25 @@ namespace MyEngine
 	};
 
 	template<typename Vertex, ModelTopology Topology>
-	class MeshListData
+	class MeshData
 	{ };
 
 	//---| Specialized Classes |---
 	template<typename Vertex>
-	class MeshListData<Vertex, ModelTopology::TriangleList>
-		: public MeshListDataWithoutIndices<Vertex, ModelTopology::TriangleList>
+	class MeshData<Vertex, ModelTopology::TriangleList>
+		: public MeshDataWithoutIndices<Vertex, ModelTopology::TriangleList>
 	{ };
 	template<typename Vertex>
-	class MeshListData<Vertex, ModelTopology::TriangleStrip>
-		: public MeshListDataWithoutIndices<Vertex, ModelTopology::TriangleStrip>
+	class MeshData<Vertex, ModelTopology::TriangleStrip>
+		: public MeshDataWithoutIndices<Vertex, ModelTopology::TriangleStrip>
 	{ };
 	template<typename Vertex>
-	class MeshListData<Vertex, ModelTopology::TriangleListIdx>
-		: public MeshListDataWithIndices<Vertex, ModelTopology::TriangleListIdx>
+	class MeshData<Vertex, ModelTopology::TriangleListIdx>
+		: public MeshDataWithIndices<Vertex, ModelTopology::TriangleListIdx>
 	{ };
 	template<typename Vertex>
-	class MeshListData<Vertex, ModelTopology::TriangleStripIdx>
-		: public MeshListDataWithIndices<Vertex, ModelTopology::TriangleStripIdx>
+	class MeshData<Vertex, ModelTopology::TriangleStripIdx>
+		: public MeshDataWithIndices<Vertex, ModelTopology::TriangleStripIdx>
 	{ };
 
 	//---| Extra |---
@@ -73,7 +73,7 @@ namespace MyEngine
 	template<typename Vertex, typename Generator, typename Combinator, typename Options, ModelTopology Topology>
 	inline void TestAllTopologies::Test(Combinator combinator, const Options& options)
 	{
-		MeshListData<Vertex, Topology> data{};
+		MeshData<Vertex, Topology> data{};
 		Generator::Generate(combinator, data, 0, options);
 
 		const unsigned nrVertices{ data.Vertices.GetSize() };

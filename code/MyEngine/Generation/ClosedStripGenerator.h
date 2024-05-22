@@ -42,7 +42,7 @@ namespace MyEngine
 		class ClosedStripGenerator<Vertex, ModelTopology::TriangleListIdx> : public ClosedStripGeneratorBase
 		{
 		public:
-			using MeshData = MeshListData<Vertex, ModelTopology::TriangleListIdx>;
+			using MeshData = MeshData<Vertex, ModelTopology::TriangleListIdx>;
 
 			ClosedStripGenerator(MeshData& meshData, unsigned firstIndex, const Options& options);
 
@@ -60,7 +60,7 @@ namespace MyEngine
 		class ClosedStripGenerator<Vertex, ModelTopology::TriangleStripIdx> : public ClosedStripGeneratorBase
 		{
 		public:
-			using MeshData = MeshListData<Vertex, ModelTopology::TriangleStripIdx>;
+			using MeshData = MeshData<Vertex, ModelTopology::TriangleStripIdx>;
 
 			ClosedStripGenerator(MeshData& meshData, unsigned firstIndex, const Options& options);
 

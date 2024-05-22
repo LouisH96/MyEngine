@@ -185,7 +185,7 @@
     <ClInclude Include="Applied\NewUi\Elements\Label.h" />
     <ClInclude Include="Applied\NewUi\Elements\Margin.h" />
     <ClInclude Include="Rendering\Mesh\MeshBuffers.h" />
-    <ClInclude Include="Rendering\Mesh\MeshListData.h" />
+    <ClInclude Include="Rendering\Mesh\MeshData.h" />
     <ClInclude Include="Rendering\ModelLoaders\ModelLoader.h" />
     <ClInclude Include="Physics\CollisionDetection2.h" />
     <ClInclude Include="Physics\Collisions\ConeCubeCollision.h" />

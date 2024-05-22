@@ -1,6 +1,6 @@
 #pragma once
 #include <Geometry\ModelTopology.h>
-#include "MeshListData.h"
+#include "MeshData.h"
 #include <Rendering\Buffers\Buffer.h>
 #include <Rendering\Buffers\IdxBuffer.h>
 #include <Rendering\State\PrimitiveTopology.h>
@@ -21,7 +21,7 @@ namespace MyEngine
 	{
 	public:
 		void ActivateAndDraw();
-		void CreateBuffers(MeshListData<Vertex, Topology>& data);
+		void CreateBuffers(MeshData<Vertex, Topology>& data);
 
 		Rendering::Buffer<Vertex>VertexBuffer;
 	};
@@ -32,7 +32,7 @@ namespace MyEngine
 	{
 	public:
 		void ActivateAndDraw();
-		void CreateBuffers(MeshListData<Vertex,Topology>& data);
+		void CreateBuffers(MeshData<Vertex,Topology>& data);
 
 		Rendering::Buffer<Vertex> VertexBuffer;
 		Rendering::IdxBuffer IndexBuffer;
@@ -76,7 +76,7 @@ namespace MyEngine
 		VertexBuffer.Draw();
 	}
 	template<typename Vertex, ModelTopology Topology>
-	inline void MeshBuffersWithoutIndices<Vertex, Topology>::CreateBuffers(MeshListData<Vertex, Topology>& data)
+	inline void MeshBuffersWithoutIndices<Vertex, Topology>::CreateBuffers(MeshData<Vertex, Topology>& data)
 	{
 		VertexBuffer = Rendering::Buffer<Vertex>(data.Vertices, false);
 	}
@@ -90,7 +90,7 @@ namespace MyEngine
 		IndexBuffer.Draw();
 	}
 	template<typename Vertex, ModelTopology Topology>
-	inline void MeshBuffersWithIndices<Vertex, Topology>::CreateBuffers(MeshListData<Vertex, Topology>& data)
+	inline void MeshBuffersWithIndices<Vertex, Topology>::CreateBuffers(MeshData<Vertex, Topology>& data)
 	{
 		VertexBuffer = Rendering::Buffer<Vertex>(data.Vertices, false);
 		IndexBuffer = Rendering::IdxBuffer{ data.Indices };
