@@ -17,14 +17,14 @@ namespace MyEngine
 		//The generator should work with a fully pre-determined size of vertices (& indices), then it would be easy.
 
 		//---| Main Class |---
-		class ClosedStripGeneratorBase
+		class StripLoopGeneratorBase
 		{
 		public:
 			struct Options {
 				unsigned NrCorners{};
 			};
 
-			ClosedStripGeneratorBase(unsigned firstIndex, const Options& options);
+			StripLoopGeneratorBase(unsigned firstIndex, const Options& options);
 
 		protected:
 			const Options& m_Options;
@@ -34,17 +34,17 @@ namespace MyEngine
 		};
 
 		template<typename Vertex, ModelTopology Topology>
-		class ClosedStripGenerator
+		class StripLoopGenerator
 		{ };
 
 		//---| Specialized Classes |---
 		template<typename Vertex>
-		class ClosedStripGenerator<Vertex, ModelTopology::TriangleListIdx> : public ClosedStripGeneratorBase
+		class StripLoopGenerator<Vertex, ModelTopology::TriangleListIdx> : public StripLoopGeneratorBase
 		{
 		public:
 			using MeshData = MeshData<Vertex, ModelTopology::TriangleListIdx>;
 
-			ClosedStripGenerator(MeshData& meshData, unsigned firstIndex, const Options& options);
+			StripLoopGenerator(MeshData& meshData, unsigned firstIndex, const Options& options);
 
 			void AddVertex(const Vertex& vertex);
 			void SetStartCap(const Vertex& vertex);
@@ -57,12 +57,12 @@ namespace MyEngine
 		};
 
 		template<typename Vertex>
-		class ClosedStripGenerator<Vertex, ModelTopology::TriangleStripIdx> : public ClosedStripGeneratorBase
+		class StripLoopGenerator<Vertex, ModelTopology::TriangleStripIdx> : public StripLoopGeneratorBase
 		{
 		public:
 			using MeshData = MeshData<Vertex, ModelTopology::TriangleStripIdx>;
 
-			ClosedStripGenerator(MeshData& meshData, unsigned firstIndex, const Options& options);
+			StripLoopGenerator(MeshData& meshData, unsigned firstIndex, const Options& options);
 
 			void AddVertex(const Vertex& vertex);
 			void SetStartCap(const Vertex& vertex);
@@ -78,7 +78,7 @@ namespace MyEngine
 		};
 
 		//---| Main Implementation |---
-		inline ClosedStripGeneratorBase::ClosedStripGeneratorBase(unsigned firstVertex, const Options& options)
+		inline StripLoopGeneratorBase::StripLoopGeneratorBase(unsigned firstVertex, const Options& options)
 			: m_Options{ options }
 			, m_FirstVertex{ firstVertex }
 			, m_CurrentVertex{ firstVertex }
@@ -89,14 +89,14 @@ namespace MyEngine
 
 		//---| TRIANGLE LIST IDX |---
 		template<typename Vertex>
-		inline ClosedStripGenerator<Vertex, ModelTopology::TriangleListIdx>::ClosedStripGenerator(MeshData& meshData, unsigned firstIndex, const Options& options)
-			: ClosedStripGeneratorBase{ firstIndex, options }
+		inline StripLoopGenerator<Vertex, ModelTopology::TriangleListIdx>::StripLoopGenerator(MeshData& meshData, unsigned firstIndex, const Options& options)
+			: StripLoopGeneratorBase{ firstIndex, options }
 			, m_pMesh{ &meshData }
 		{
 		}
 
 		template<typename Vertex>
-		inline void ClosedStripGenerator<Vertex, ModelTopology::TriangleListIdx>::SetStartCap(const Vertex& vertex)
+		inline void StripLoopGenerator<Vertex, ModelTopology::TriangleListIdx>::SetStartCap(const Vertex& vertex)
 		{
 			m_pMesh->Vertices.Add(vertex);
 			m_HasStartCap = true;
@@ -105,7 +105,7 @@ namespace MyEngine
 		}
 
 		template<typename Vertex>
-		inline void ClosedStripGenerator<Vertex, ModelTopology::TriangleListIdx>::SetEndCap(const Vertex& vertex)
+		inline void StripLoopGenerator<Vertex, ModelTopology::TriangleListIdx>::SetEndCap(const Vertex& vertex)
 		{
 			m_pMesh->Vertices.Add(vertex);
 
@@ -120,7 +120,7 @@ namespace MyEngine
 		}
 
 		template<typename Vertex>
-		inline void ClosedStripGenerator<Vertex, ModelTopology::TriangleListIdx>::AddVertex(const Vertex& vertex)
+		inline void StripLoopGenerator<Vertex, ModelTopology::TriangleListIdx>::AddVertex(const Vertex& vertex)
 		{
 			m_pMesh->Vertices.Add(vertex);
 
@@ -164,7 +164,7 @@ namespace MyEngine
 		}
 
 		template<typename Vertex>
-		inline void ClosedStripGenerator<Vertex, ModelTopology::TriangleListIdx>::MakeStartCap()
+		inline void StripLoopGenerator<Vertex, ModelTopology::TriangleListIdx>::MakeStartCap()
 		{
 			const unsigned center{ m_FirstVertex - 1 };
 			const unsigned last{ m_CurrentVertex - 1 };
@@ -177,14 +177,14 @@ namespace MyEngine
 
 		//---| TRIANGLE STRIP IDX |---
 		template<typename Vertex>
-		inline ClosedStripGenerator<Vertex, ModelTopology::TriangleStripIdx>::ClosedStripGenerator(MeshData& meshData, unsigned firstIndex, const Options& options)
-			: ClosedStripGeneratorBase{ firstIndex, options }
+		inline StripLoopGenerator<Vertex, ModelTopology::TriangleStripIdx>::StripLoopGenerator(MeshData& meshData, unsigned firstIndex, const Options& options)
+			: StripLoopGeneratorBase{ firstIndex, options }
 			, m_pMesh{ &meshData }
 		{
 		}
 
 		template<typename Vertex>
-		inline void ClosedStripGenerator<Vertex, ModelTopology::TriangleStripIdx>::SetStartCap(const Vertex& vertex)
+		inline void StripLoopGenerator<Vertex, ModelTopology::TriangleStripIdx>::SetStartCap(const Vertex& vertex)
 		{
 			m_pMesh->Vertices.Add(vertex);
 			m_HasStartCap = true;
@@ -193,7 +193,7 @@ namespace MyEngine
 		}
 
 		template<typename Vertex>
-		inline void ClosedStripGenerator<Vertex, ModelTopology::TriangleStripIdx>::SetEndCap(const Vertex& vertex)
+		inline void StripLoopGenerator<Vertex, ModelTopology::TriangleStripIdx>::SetEndCap(const Vertex& vertex)
 		{
 			m_pMesh->Vertices.Add(vertex);
 
@@ -207,7 +207,7 @@ namespace MyEngine
 		}
 
 		template<typename Vertex>
-		inline void ClosedStripGenerator<Vertex, ModelTopology::TriangleStripIdx>::AddVertex(const Vertex& vertex)
+		inline void StripLoopGenerator<Vertex, ModelTopology::TriangleStripIdx>::AddVertex(const Vertex& vertex)
 		{
 			m_pMesh->Vertices.Add(vertex);
 
@@ -252,7 +252,7 @@ namespace MyEngine
 		}
 
 		template<typename Vertex>
-		inline void ClosedStripGenerator<Vertex, ModelTopology::TriangleStripIdx>::MakeStartCap()
+		inline void StripLoopGenerator<Vertex, ModelTopology::TriangleStripIdx>::MakeStartCap()
 		{
 			const unsigned center{ m_FirstVertex - 1 };
 			const unsigned first{ center + 1 };
@@ -264,7 +264,7 @@ namespace MyEngine
 				MakeCapClockwise(first, center);
 		}
 		template<typename Vertex>
-		inline void ClosedStripGenerator<Vertex, ModelTopology::TriangleStripIdx>::MakeCapClockwise(unsigned first, unsigned center)
+		inline void StripLoopGenerator<Vertex, ModelTopology::TriangleStripIdx>::MakeCapClockwise(unsigned first, unsigned center)
 		{
 			const unsigned beforeLast{ first + m_Options.NrCorners - 1 };
 			unsigned iCorner{ first };
@@ -285,7 +285,7 @@ namespace MyEngine
 			m_pMesh->Indices.Add(first);
 		}
 		template<typename Vertex>
-		inline void ClosedStripGenerator<Vertex, ModelTopology::TriangleStripIdx>::MakeCapCounterClockwise(unsigned first, unsigned center)
+		inline void StripLoopGenerator<Vertex, ModelTopology::TriangleStripIdx>::MakeCapCounterClockwise(unsigned first, unsigned center)
 		{
 			const unsigned beforeLast{ first + m_Options.NrCorners - 1 };
 			unsigned iCorner{ first };

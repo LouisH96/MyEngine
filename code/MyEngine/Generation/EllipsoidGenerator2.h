@@ -1,6 +1,6 @@
 #pragma once
 #include <Geometry\ModelTopology.h>
-#include <Generation\ClosedStripGenerator.h>
+#include <Generation\StripLoopGenerator.h>
 #include <Rendering\Mesh\MeshData.h>
 #include <Math\Vectors.h>
 
@@ -27,7 +27,7 @@ namespace MyEngine
 		template<typename Combinator, typename MeshData>
 		inline void EllipsoidGenerator2::Generate(Combinator combinator, MeshData& meshData, unsigned firstVertex, const Options& options)
 		{
-			using StripGenerator = ClosedStripGenerator<MeshData::VertexType, MeshData::TOPOLOGY>;
+			using StripGenerator = StripLoopGenerator<MeshData::VertexType, MeshData::TOPOLOGY>;
 			typename StripGenerator::Options stripGeneratorOptions{};
 			stripGeneratorOptions.NrCorners = options.NrCorners;
 

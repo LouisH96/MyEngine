@@ -273,7 +273,7 @@
     <ClInclude Include="Generation\CubeGenerator2_TriangleList.h" />
     <ClInclude Include="Generation\EllipsoidGenerator.h" />
     <ClInclude Include="Generation\EllipsoidGenerator_TriangleListIdx.h" />
-    <ClInclude Include="Generation\ClosedStripGenerator.h" />
+    <ClInclude Include="Generation\StripLoopGenerator.h" />
     <ClInclude Include="Generation\EllipsoidGenerator2.h" />
     <ClInclude Include="Rendering\Mesh\MeshBuffers.h" />
     <ClInclude Include="Rendering\Mesh\MeshData.h" />
