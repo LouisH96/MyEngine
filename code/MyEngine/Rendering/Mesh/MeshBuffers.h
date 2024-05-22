@@ -20,6 +20,9 @@ namespace MyEngine
 		: public MeshBuffersCommon<Topology>
 	{
 	public:
+		void ActivateAndDraw();
+		void CreateBuffers(MeshListData<Vertex, Topology>& data);
+
 		Rendering::Buffer<Vertex>VertexBuffer;
 	};
 
@@ -65,6 +68,19 @@ namespace MyEngine
 	}
 
 	//---| Specialized Implemantions |---
+	template<typename Vertex, ModelTopology Topology>
+	inline void MeshBuffersWithoutIndices<Vertex, Topology>::ActivateAndDraw()
+	{
+		MeshBuffersCommon<Topology>::ActivateTopology();
+		VertexBuffer.Activate(0);
+		VertexBuffer.Draw();
+	}
+	template<typename Vertex, ModelTopology Topology>
+	inline void MeshBuffersWithoutIndices<Vertex, Topology>::CreateBuffers(MeshListData<Vertex, Topology>& data)
+	{
+		VertexBuffer = Rendering::Buffer<Vertex>(data.Vertices, false);
+	}
+
 	template<typename Vertex, ModelTopology Topology>
 	inline void MeshBuffersWithIndices<Vertex, Topology>::ActivateAndDraw()
 	{
