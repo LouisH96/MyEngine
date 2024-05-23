@@ -164,6 +164,7 @@
     <ClInclude Include="Generation\EllipsoidGenerator.h" />
     <ClInclude Include="Generation\EllipsoidGenerator2.h" />
     <ClInclude Include="Generation\EllipsoidGenerator_TriangleListIdx.h" />
+    <ClInclude Include="Generation\MeshSection.h" />
     <ClInclude Include="Generation\StripLoopGenerator.h" />
     <ClInclude Include="Physics\Collisions\LineDiskCollision.h" />
     <ClInclude Include="Generation\DiskGenerator_TriangleListIdx.h" />

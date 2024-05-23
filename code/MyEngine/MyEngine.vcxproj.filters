@@ -277,6 +277,7 @@
     <ClInclude Include="Generation\EllipsoidGenerator2.h" />
     <ClInclude Include="Rendering\Mesh\MeshBuffers.h" />
     <ClInclude Include="Rendering\Mesh\MeshData.h" />
+    <ClInclude Include="Generation\MeshSection.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
