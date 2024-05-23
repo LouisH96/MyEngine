@@ -34,6 +34,7 @@ namespace MyEngine
 		Vector3 operator-() const;
 
 		bool operator== (const Vector3& r) const;
+		bool operator!=(const Vector3& r) const;
 
 		T& operator[](unsigned idx);
 		const T& operator[](unsigned idx) const;
@@ -111,6 +112,12 @@ namespace MyEngine
 	bool Vector3<T>::operator==(const Vector3& r) const
 	{
 		return x == r.x && y == r.y && z == r.z;
+	}
+
+	template <typename T>
+	bool Vector3<T>::operator!=(const Vector3& r) const
+	{
+		return x != r.x || y != r.y || z != r.z;
 	}
 
 	template <typename T>
