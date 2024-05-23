@@ -50,6 +50,9 @@ namespace MyEngine
 			void SetStartCap(const Vertex& vertex);
 			void SetEndCap(const Vertex& vertex);
 
+			template<typename Adaptor>
+			void CopyLastRow(Adaptor adaptor);
+
 		private:
 			MeshData* m_pMesh;
 
@@ -117,6 +120,21 @@ namespace MyEngine
 
 			for (unsigned iCorner = beforeLast; iCorner > first; iCorner--)
 				m_pMesh->Indices.Add(center, iCorner, iCorner - 1);
+		}
+
+		template<typename Vertex>
+		template<typename Adaptor>
+		inline void StripLoopGenerator<Vertex, ModelTopology::TriangleListIdx>::CopyLastRow(Adaptor adaptor)
+		{
+			m_pMesh->Vertices.EnsureIncrease(m_Options.NrCorners);
+
+			for (unsigned i = m_CurrentVertex - m_Options.NrCorners; i < m_CurrentVertex; i++)
+			{
+				m_pMesh->Vertices.Add(m_pMesh->Vertices[i]);
+				adaptor(m_pMesh->Vertices.Last());
+			}
+
+			m_CurrentVertex += m_Options.NrCorners;
 		}
 
 		template<typename Vertex>
