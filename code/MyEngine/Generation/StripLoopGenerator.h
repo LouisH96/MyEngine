@@ -1,6 +1,7 @@
 #pragma once
 #include <Geometry\ModelTopology.h>
 #include <DataStructures\List.h>
+#include <Rendering\Mesh\MeshData.h>
 
 namespace MyEngine
 {
