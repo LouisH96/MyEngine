@@ -278,6 +278,7 @@
     <ClInclude Include="Rendering\Mesh\MeshBuffers.h" />
     <ClInclude Include="Rendering\Mesh\MeshData.h" />
     <ClInclude Include="Generation\MeshSection.h" />
+    <ClInclude Include="Generation\SphereGenerator2.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
