@@ -65,7 +65,6 @@
     <ClCompile Include="Rendering\Buffers\IdxBuffer.cpp" />
     <ClCompile Include="Other\Random.cpp" />
     <ClCompile Include="Geometry\Shapes\Cone.cpp" />
-    <ClCompile Include="Generation\SphereGenerator.cpp" />
     <ClCompile Include="Physics\Collisions\LineSphereCollision.cpp" />
     <ClCompile Include="Geometry\Shapes\Ray.cpp" />
     <ClCompile Include="Physics\Collisions\LinePlaneCollision.cpp" />
@@ -206,7 +205,6 @@
     <ClInclude Include="Rendering\Buffers\IdxBuffer.h" />
     <ClInclude Include="Other\Random.h" />
     <ClInclude Include="Geometry\Shapes\Cone.h" />
-    <ClInclude Include="Generation\SphereGenerator.h" />
     <ClInclude Include="Physics\Collisions\LineSphereCollision.h" />
     <ClInclude Include="Geometry\Shapes\Ray.h" />
     <ClInclude Include="Physics\Collisions\LinePlaneCollision.h" />
@@ -278,7 +276,7 @@
     <ClInclude Include="Rendering\Mesh\MeshBuffers.h" />
     <ClInclude Include="Rendering\Mesh\MeshData.h" />
     <ClInclude Include="Generation\MeshSection.h" />
-    <ClInclude Include="Generation\SphereGenerator2.h" />
+    <ClInclude Include="Generation\SphereGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

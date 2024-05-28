@@ -131,7 +131,6 @@
     <ClCompile Include="Rendering\Renderers\Texture2DRenderer.cpp" />
     <ClCompile Include="Rendering\DrawData\VertexIdxArray.cpp" />
     <ClCompile Include="Gui\FontRenderer.cpp" />
-    <ClCompile Include="Generation\SphereGenerator.cpp" />
     <ClCompile Include="Generation\TriangleGenerator.cpp" />
     <ClCompile Include="Applied\Gui\VerticalButtonList.cpp" />
     <ClCompile Include="Font\TextAssembler.cpp" />
@@ -165,7 +164,7 @@
     <ClInclude Include="Generation\EllipsoidGenerator2.h" />
     <ClInclude Include="Generation\EllipsoidGenerator_TriangleListIdx.h" />
     <ClInclude Include="Generation\MeshSection.h" />
-    <ClInclude Include="Generation\SphereGenerator2.h" />
+    <ClInclude Include="Generation\SphereGenerator.h" />
     <ClInclude Include="Generation\StripLoopGenerator.h" />
     <ClInclude Include="Physics\Collisions\LineDiskCollision.h" />
     <ClInclude Include="Generation\DiskGenerator_TriangleListIdx.h" />
@@ -292,7 +291,6 @@
     <ClInclude Include="Rendering\DrawData\VertexIdxArray.h" />
     <ClInclude Include="Rendering\DrawData\VertexIdxList.h" />
     <ClInclude Include="Gui\FontRenderer.h" />
-    <ClInclude Include="Generation\SphereGenerator.h" />
     <ClInclude Include="Generation\TriangleGenerator.h" />
     <ClInclude Include="Applied\Gui\VerticalButtonList.h" />
     <ClInclude Include="Font\TextAssembler.h" />
