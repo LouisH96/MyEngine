@@ -52,3 +52,12 @@ Float2 Random::UnitVector2()
 	const float angle{ Angle() };
 	return { cosf(angle), sinf(angle) };
 }
+
+Float3 Random::UnitVector3()
+{
+	return Float3{
+		Range(-1.1f, 1.f),
+		Range(-1.1f, 1.f),
+		Range(-1.1f, 1.f)
+	}.NormalizedSafe();
+}

@@ -18,6 +18,7 @@ namespace MyEngine
 		static Float3 Color();
 		static float Angle();
 		static Float2 UnitVector2();
+		static Float3 UnitVector3();
 
 		template<typename T> static T Enum(T last);
 	};
