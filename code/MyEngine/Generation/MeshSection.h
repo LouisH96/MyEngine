@@ -19,6 +19,7 @@ namespace MyEngine
 				unsigned vertexStart, unsigned vertexEnd,
 				unsigned indexStart, unsigned indexEnd);
 
+			void Finish();
 			void SetVertexEnd(unsigned vertexEnd) { m_VertexEnd = vertexEnd; }
 			void SetIndexEnd(unsigned indexEnd) { m_IndexEnd = indexEnd; }
 
@@ -73,6 +74,13 @@ namespace MyEngine
 			, m_VertexStart{ vertexStart }, m_VertexEnd{ vertexEnd }
 			, m_IndexStart{ indexStart }, m_IndexEnd{ indexEnd }
 		{
+		}
+
+		template<typename Vertex, ModelTopology Topology>
+		inline void MeshSectionWithIndices<Vertex, Topology>::Finish()
+		{
+			m_VertexEnd = m_MeshData.Vertices.GetSize();
+			m_IndexEnd = m_MeshData.Indices.GetSize();
 		}
 
 		template<typename Vertex, ModelTopology Topology>
