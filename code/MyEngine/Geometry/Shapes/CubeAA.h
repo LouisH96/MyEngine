@@ -22,12 +22,17 @@ namespace MyEngine
 		float GetHeight() const { return m_Size.y; }
 		float GetDepth() const { return m_Size.z; }
 
-		const Float3& GetLeftBotBack() const { return m_Origin; } //back = -z
-		Float3 GetLeftBotFront() const { return m_Origin + Float3{0, 0, m_Size.z}; }
-		Float3 GetLeftTopBack() const { return m_Origin + Float3{0, m_Size.y, 0}; }
-		Float3 GetRightBotBack() const { return m_Origin + Float3{m_Size.x, 0, 0}; };
-		Float3 GetRightBotFront() const { return m_Origin + Float3{m_Size.x, 0, m_Size.z}; }
-		Float3 GetRightTopFront() const { return m_Origin + m_Size; }
+		const Float3& GetLeftBotFront() const { return m_Origin; }
+		Float3 GetLeftBotBack() const { return m_Origin + Float3{ 0, 0, m_Size.z }; }
+
+		Float3 GetLeftTopFront() const { return m_Origin + Float3{ 0, m_Size.y, 0 }; }
+		Float3 GetLeftTopBack() const { return m_Origin + Float3{ 0, m_Size.y, m_Size.z }; }
+
+		Float3 GetRightBotFront() const { return m_Origin + Float3{ m_Size.x, 0, 0 }; };
+		Float3 GetRightBotBack() const { return m_Origin + Float3{ m_Size.x, 0, m_Size.z }; }
+
+		Float3 GetRightTopFront() const { return m_Origin + Float3{ m_Size.x, m_Size.y, 0 }; }
+		Float3 GetRightTopBack() const { return m_Origin + m_Size; }
 
 		float GetLeft() const { return m_Origin.x; }
 		float GetRight() const { return m_Origin.x + m_Size.x; }
@@ -43,6 +48,9 @@ namespace MyEngine
 		void SetPosition(const Float3& position) { m_Origin = position; }
 
 		static constexpr unsigned NR_SIDES = 6;
+
+		static CubeAA FromCenter(const Float3& center, const Float3& size);
+		static CubeAA FromBotCenter(const Float3& botCenter, const Float3& size);
 
 	private:
 		Float3 m_Origin; //left-bottom-back
