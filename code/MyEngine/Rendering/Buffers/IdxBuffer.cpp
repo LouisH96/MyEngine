@@ -60,6 +60,11 @@ void IdxBuffer::Draw() const
 	Globals::pGpu->GetContext().DrawIndexed(m_Capacity, 0, 0);
 }
 
+void IdxBuffer::Draw(unsigned start, unsigned count) const
+{
+	Globals::pGpu->GetContext().DrawIndexed(count, start, 0);
+}
+
 void IdxBuffer::Draw(unsigned count) const
 {
 	Globals::pGpu->GetContext().DrawIndexed(count, 0, 0);
