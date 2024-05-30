@@ -2,6 +2,7 @@
 #include <Generation\StripLoopGenerator.h>
 #include <Rendering\Structs\VertexTypes.h>
 #include <Generation\MeshSection.h>
+#include <Rendering\Mesh\MeshData.h>
 
 namespace MyEngine
 {
@@ -27,10 +28,10 @@ namespace MyEngine
 		inline MeshSection<typename M::VertexType, M::TOPOLOGY> SphereGenerator::Generate(Combinator combinator, M& meshData, const Options& options)
 		{
 			//Create MeshSection
-			MeshSection<M::VertexType, M::TOPOLOGY> section{ meshData };
+			MeshSection<typename M::VertexType, M::TOPOLOGY> section{ meshData };
 
 			//create StripLoopGenerator
-			using Generator = StripLoopGenerator<M::VertexType, M::TOPOLOGY>;
+			using Generator = StripLoopGenerator<typename M::VertexType, M::TOPOLOGY>;
 
 			typename Generator::Options stripGeneratorOptions{};
 			stripGeneratorOptions.NrCorners = options.NrCorners;
