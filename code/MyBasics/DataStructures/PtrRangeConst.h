@@ -68,7 +68,7 @@ namespace MyEngine
 		return (*this)[count - 1];
 	}
 
-	template <typename Target, typename Data, const Target&(* Getter)(const Data&)>
+	template <typename Target, typename Data, const Target&(Getter)(const Data&)>
 	const Target* PtrRangeConst<Target, Data, Getter>::End() const
 	{
 		return &pData[count];
