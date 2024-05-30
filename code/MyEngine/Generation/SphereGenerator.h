@@ -1,6 +1,7 @@
 #pragma once
 #include <Generation\StripLoopGenerator.h>
 #include <Rendering\Structs\VertexTypes.h>
+#include <Generation\MeshSection.h>
 
 namespace MyEngine
 {
@@ -19,12 +20,15 @@ namespace MyEngine
 			using Options = SphereGeneratorOptions;
 
 			template<typename Combinator, typename M>
-			static void Generate(Combinator combinator, M& meshData, const Options& options);
+			static MeshSection<typename M::VertexType, M::TOPOLOGY> Generate(Combinator combinator, M& meshData, const Options& options);
 		};
 
 		template<typename Combinator, typename M>
-		inline void SphereGenerator::Generate(Combinator combinator, M& meshData, const Options& options)
+		inline MeshSection<typename M::VertexType, M::TOPOLOGY> SphereGenerator::Generate(Combinator combinator, M& meshData, const Options& options)
 		{
+			//Create MeshSection
+			MeshSection<M::VertexType, M::TOPOLOGY> section{ meshData };
+
 			//create StripLoopGenerator
 			using Generator = StripLoopGenerator<M::VertexType, M::TOPOLOGY>;
 
@@ -76,6 +80,10 @@ namespace MyEngine
 				{ 0, options.Radius, 0 },
 				{ 0, 1, 0 }
 			));
+
+			//finish meshSection
+			section.Finish();
+			return section;
 		}
 	}
 }
