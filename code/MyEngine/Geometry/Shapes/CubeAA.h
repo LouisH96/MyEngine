@@ -34,6 +34,8 @@ namespace MyEngine
 		Float3 GetRightTopFront() const { return m_Origin + Float3{ m_Size.x, m_Size.y, 0 }; }
 		Float3 GetRightTopBack() const { return m_Origin + m_Size; }
 
+		Float3 GetCenter() const { return m_Origin + m_Size / 2.f; }
+
 		float GetLeft() const { return m_Origin.x; }
 		float GetRight() const { return m_Origin.x + m_Size.x; }
 		float GetBot() const { return m_Origin.y; }
