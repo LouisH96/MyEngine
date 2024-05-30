@@ -46,10 +46,10 @@ namespace MyEngine
 			static constexpr int IDX_INDICES = 2;
 
 			ID3D11Buffer* m_pBuffers[NR_BUFFERS];
-			unsigned m_Strides[NR_BUFFERS];
-			unsigned m_Offsets[NR_BUFFERS];
-			unsigned m_Counts[NR_BUFFERS];
-			unsigned m_Capacities[NR_BUFFERS];
+			unsigned m_Strides[NR_BUFFERS]{};
+			unsigned m_Offsets[NR_BUFFERS]{};
+			unsigned m_Counts[NR_BUFFERS]{};
+			unsigned m_Capacities[NR_BUFFERS]{};
 		};
 
 		template <typename Vertex>
