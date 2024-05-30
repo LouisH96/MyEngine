@@ -8,6 +8,22 @@ namespace MyEngine
 	{
 		//---| Main Classes |---
 		template<typename Vertex, ModelTopology Topology>
+		class MeshSectionWithoutIndices
+		{
+		public:
+			using VertexType = Vertex;
+
+			MeshSectionWithoutIndices(MeshData<Vertex, Topology>& meshData);
+
+			void Finish();
+
+		protected:
+			MeshData<Vertex, Topology>& m_MeshData;
+			unsigned m_VertexStart;
+			unsigned m_VertexEnd;
+		};
+
+		template<typename Vertex, ModelTopology Topology>
 		class MeshSectionWithIndices
 		{
 		public:
@@ -42,6 +58,14 @@ namespace MyEngine
 		template<typename Vertex, ModelTopology Topology>
 		class MeshSection
 		{
+		};
+
+		template<typename Vertex>
+		class MeshSection<Vertex, ModelTopology::LineStrip>
+			: public MeshSectionWithoutIndices<Vertex, ModelTopology::LineStrip>
+		{
+		public:
+			MeshSection(MeshData<Vertex, ModelTopology::LineStrip>& meshData);
 		};
 
 		template<typename Vertex>
@@ -92,6 +116,12 @@ namespace MyEngine
 		}
 
 		template<typename Vertex>
+		inline MeshSection<Vertex, ModelTopology::LineStrip>::MeshSection(MeshData<Vertex, ModelTopology::LineStrip>& meshData)
+			: MeshSectionWithoutIndices<Vertex, ModelTopology::LineStrip>{ meshData }
+		{
+		}
+
+		template<typename Vertex>
 		inline MeshSection<Vertex, ModelTopology::TriangleListIdx>::MeshSection(MeshData<Vertex, ModelTopology::TriangleListIdx>& meshData)
 			: MeshSectionWithIndices<Vertex, ModelTopology::TriangleListIdx>{ meshData }
 		{
@@ -124,6 +154,19 @@ namespace MyEngine
 			return MeshSection<Vertex, ModelTopology::TriangleListIdx>{ Base::m_MeshData,
 				Base::m_VertexEnd, Base::m_MeshData.Vertices.GetSize(),
 				Base::m_IndexEnd, Base::m_MeshData.Indices.GetSize() };
+		}
+
+		template<typename Vertex, ModelTopology Topology>
+		inline MeshSectionWithoutIndices<Vertex, Topology>::MeshSectionWithoutIndices(MeshData<Vertex, Topology>& meshData)
+			: m_MeshData{ meshData }
+			, m_VertexStart{ meshData.Vertices.GetSize() }
+			, m_VertexEnd{}
+		{
+		}
+		template<typename Vertex, ModelTopology Topology>
+		inline void MeshSectionWithoutIndices<Vertex, Topology>::Finish()
+		{
+			m_VertexEnd = m_MeshData.Vertices.GetSize();
 		}
 	}
 }

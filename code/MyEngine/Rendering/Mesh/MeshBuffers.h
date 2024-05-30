@@ -32,7 +32,7 @@ namespace MyEngine
 	{
 	public:
 		void ActivateAndDraw();
-		void CreateBuffers(MeshData<Vertex,Topology>& data);
+		void CreateBuffers(MeshData<Vertex, Topology>& data);
 
 		Rendering::Buffer<Vertex> VertexBuffer;
 		Rendering::IdxBuffer IndexBuffer;
@@ -43,6 +43,10 @@ namespace MyEngine
 	{};
 
 	//---| Specialized Classes |---
+	template<typename Vertex>
+	class MeshBuffers<Vertex, ModelTopology::LineStrip>
+		: public MeshBuffersWithoutIndices<Vertex, ModelTopology::LineStrip>
+	{};
 	template<typename Vertex>
 	class MeshBuffers<Vertex, ModelTopology::TriangleList>
 		: public MeshBuffersWithoutIndices<Vertex, ModelTopology::TriangleList>

@@ -34,6 +34,10 @@ namespace MyEngine
 
 	//---| Specialized Classes |---
 	template<typename Vertex>
+	class MeshData<Vertex, ModelTopology::LineStrip>
+		: public MeshDataWithoutIndices<Vertex, ModelTopology::LineStrip>
+	{ };
+	template<typename Vertex>
 	class MeshData<Vertex, ModelTopology::TriangleList>
 		: public MeshDataWithoutIndices<Vertex, ModelTopology::TriangleList>
 	{ };
