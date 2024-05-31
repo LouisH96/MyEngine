@@ -42,6 +42,8 @@ namespace MyEngine
 			template<typename Adaptor>
 			void Adapt(Adaptor adaptor);
 
+			MeshSectionWithIndices Copy();
+
 			unsigned GetVertexStart() const { return m_VertexStart; }
 			unsigned GetIndexStart() const { return m_IndexStart; }
 			unsigned GetNrVertices() const { return m_VertexEnd - m_VertexStart; }
@@ -57,9 +59,57 @@ namespace MyEngine
 
 		template<typename Vertex, ModelTopology Topology>
 		class MeshSection
-		{
-		};
+		{};
 
+		//---| Main Implementations |---
+		template<typename Vertex, ModelTopology Topology>
+		inline MeshSectionWithoutIndices<Vertex, Topology>::MeshSectionWithoutIndices(MeshData<Vertex, Topology>& meshData)
+			: m_MeshData{ meshData }
+			, m_VertexStart{ meshData.Vertices.GetSize() }
+			, m_VertexEnd{}
+		{
+		}
+
+		template<typename Vertex, ModelTopology Topology>
+		inline MeshSectionWithIndices<Vertex, Topology>::MeshSectionWithIndices(MeshData<Vertex, Topology>& meshData)
+			: m_MeshData{ meshData }
+			, m_VertexStart{ meshData.Vertices.GetSize() }
+			, m_VertexEnd{ Uint::MAX }
+			, m_IndexStart{ meshData.Indices.GetSize() }
+			, m_IndexEnd{ Uint::MAX }
+		{
+		}
+
+		template<typename Vertex, ModelTopology Topology>
+		inline MeshSectionWithIndices<Vertex, Topology>::MeshSectionWithIndices(MeshData<Vertex, Topology>& meshData, unsigned vertexStart, unsigned vertexEnd, unsigned indexStart, unsigned indexEnd)
+			: m_MeshData{ meshData }
+			, m_VertexStart{ vertexStart }, m_VertexEnd{ vertexEnd }
+			, m_IndexStart{ indexStart }, m_IndexEnd{ indexEnd }
+		{
+		}
+
+		template<typename Vertex, ModelTopology Topology>
+		inline void MeshSectionWithoutIndices<Vertex, Topology>::Finish()
+		{
+			m_VertexEnd = m_MeshData.Vertices.GetSize();
+		}
+
+		template<typename Vertex, ModelTopology Topology>
+		inline void MeshSectionWithIndices<Vertex, Topology>::Finish()
+		{
+			m_VertexEnd = m_MeshData.Vertices.GetSize();
+			m_IndexEnd = m_MeshData.Indices.GetSize();
+		}
+
+		template<typename Vertex, ModelTopology Topology>
+		template<typename Adaptor>
+		inline void MeshSectionWithIndices<Vertex, Topology>::Adapt(Adaptor adaptor)
+		{
+			for (unsigned i = m_VertexStart; i < m_VertexEnd; i++)
+				adaptor(m_MeshData.Vertices[i]);
+		}
+
+		//---| Specialized Classes |---
 		template<typename Vertex>
 		class MeshSection<Vertex, ModelTopology::LineStrip>
 			: public MeshSectionWithoutIndices<Vertex, ModelTopology::LineStrip>
@@ -82,56 +132,34 @@ namespace MyEngine
 			MeshSection<Vertex, ModelTopology::TriangleListIdx> Copy();
 		};
 
-		template<typename Vertex, ModelTopology Topology>
-		inline MeshSectionWithIndices<Vertex, Topology>::MeshSectionWithIndices(MeshData<Vertex, Topology>& meshData)
-			: m_MeshData{ meshData }
-			, m_VertexStart{ meshData.Vertices.GetSize() }
-			, m_VertexEnd{ Uint::MAX }
-			, m_IndexStart{ meshData.Indices.GetSize() }
-			, m_IndexEnd{ Uint::MAX }
+		template<typename Vertex>
+		class MeshSection<Vertex, ModelTopology::TriangleStripIdx>
+			: public MeshSectionWithIndices<Vertex, ModelTopology::TriangleStripIdx>
 		{
-		}
+		public:
+			MeshSection(MeshData<Vertex, ModelTopology::TriangleStripIdx>& meshData);
+		};
 
-		template<typename Vertex, ModelTopology Topology>
-		inline MeshSectionWithIndices<Vertex, Topology>::MeshSectionWithIndices(MeshData<Vertex, Topology>& meshData, unsigned vertexStart, unsigned vertexEnd, unsigned indexStart, unsigned indexEnd)
-			: m_MeshData{ meshData }
-			, m_VertexStart{ vertexStart }, m_VertexEnd{ vertexEnd }
-			, m_IndexStart{ indexStart }, m_IndexEnd{ indexEnd }
-		{
-		}
-
-		template<typename Vertex, ModelTopology Topology>
-		inline void MeshSectionWithIndices<Vertex, Topology>::Finish()
-		{
-			m_VertexEnd = m_MeshData.Vertices.GetSize();
-			m_IndexEnd = m_MeshData.Indices.GetSize();
-		}
-
-		template<typename Vertex, ModelTopology Topology>
-		template<typename Adaptor>
-		inline void MeshSectionWithIndices<Vertex, Topology>::Adapt(Adaptor adaptor)
-		{
-			for (unsigned i = m_VertexStart; i < m_VertexEnd; i++)
-				adaptor(m_MeshData.Vertices[i]);
-		}
-
+		//---| Specialized Implementations |---
 		template<typename Vertex>
 		inline MeshSection<Vertex, ModelTopology::LineStrip>::MeshSection(MeshData<Vertex, ModelTopology::LineStrip>& meshData)
 			: MeshSectionWithoutIndices<Vertex, ModelTopology::LineStrip>{ meshData }
-		{
-		}
+		{}
 
 		template<typename Vertex>
 		inline MeshSection<Vertex, ModelTopology::TriangleListIdx>::MeshSection(MeshData<Vertex, ModelTopology::TriangleListIdx>& meshData)
 			: MeshSectionWithIndices<Vertex, ModelTopology::TriangleListIdx>{ meshData }
-		{
-		}
+		{}
 
 		template<typename Vertex>
 		inline MeshSection<Vertex, ModelTopology::TriangleListIdx>::MeshSection(MeshData<Vertex, ModelTopology::TriangleListIdx>& meshData, unsigned vertexStart, unsigned vertexEnd, unsigned indexStart, unsigned indexEnd)
 			: MeshSectionWithIndices<Vertex, ModelTopology::TriangleListIdx>{ meshData, vertexStart, vertexEnd, indexStart, indexEnd }
-		{
-		}
+		{}
+
+		template<typename Vertex>
+		inline MeshSection<Vertex, ModelTopology::TriangleStripIdx>::MeshSection(MeshData<Vertex, ModelTopology::TriangleStripIdx>& meshData)
+			: MeshSectionWithIndices<Vertex, ModelTopology::TriangleStripIdx>{ meshData }
+		{}
 
 		template<typename Vertex>
 		inline MeshSection<Vertex, ModelTopology::TriangleListIdx> MeshSection<Vertex, ModelTopology::TriangleListIdx>::Copy()
@@ -156,17 +184,5 @@ namespace MyEngine
 				Base::m_IndexEnd, Base::m_MeshData.Indices.GetSize() };
 		}
 
-		template<typename Vertex, ModelTopology Topology>
-		inline MeshSectionWithoutIndices<Vertex, Topology>::MeshSectionWithoutIndices(MeshData<Vertex, Topology>& meshData)
-			: m_MeshData{ meshData }
-			, m_VertexStart{ meshData.Vertices.GetSize() }
-			, m_VertexEnd{}
-		{
-		}
-		template<typename Vertex, ModelTopology Topology>
-		inline void MeshSectionWithoutIndices<Vertex, Topology>::Finish()
-		{
-			m_VertexEnd = m_MeshData.Vertices.GetSize();
-		}
 	}
 }
