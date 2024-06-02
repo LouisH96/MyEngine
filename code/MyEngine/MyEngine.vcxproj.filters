@@ -278,6 +278,7 @@
     <ClInclude Include="Generation\MeshSection.h" />
     <ClInclude Include="Generation\SphereGenerator.h" />
     <ClInclude Include="Generation\CubeGenerator3.h" />
+    <ClInclude Include="Generation\StripLoopCorneredGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
