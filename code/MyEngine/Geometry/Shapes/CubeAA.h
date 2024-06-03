@@ -49,6 +49,8 @@ namespace MyEngine
 
 		void SetPosition(const Float3& position) { m_Origin = position; }
 
+		Float3 GetRelativePoint(const Float3& alpha) const;
+
 		static constexpr unsigned NR_SIDES = 6;
 
 		static CubeAA FromCenter(const Float3& center, const Float3& size);
