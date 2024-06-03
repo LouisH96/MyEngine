@@ -21,12 +21,14 @@ namespace MyEngine
 
 		Vector3 operator+(const Vector3& r) const;
 		Vector3 operator-(const Vector3& r) const;
+		Vector3 operator*(const Vector3& r) const;
 		Vector3 operator+(const T& r) const;
 		Vector3 operator-(const T& r) const;
 		Vector3 operator*(const T& r) const;
 		Vector3 operator/(const T& r) const;
 		void operator+=(const Vector3& r);
 		void operator-=(const Vector3& r);
+		void operator*=(const Vector3& r);
 		void operator+=(const T& r);
 		void operator-=(const T& r);
 		void operator*=(const T& r);
@@ -92,12 +94,14 @@ namespace MyEngine
 
 	template <typename T> Vector3<T> Vector3<T>::operator+(const Vector3& r) const { return { x + r.x, y + r.y, z + r.z }; }
 	template <typename T> Vector3<T> Vector3<T>::operator-(const Vector3& r) const { return { x - r.x, y - r.y, z - r.z }; }
+	template <typename T> Vector3<T> Vector3<T>::operator*(const Vector3& r) const { return { x * r.x, y * r.y, z * r.z }; }
 	template <typename T> Vector3<T> Vector3<T>::operator+(const T& r) const { return { x + r, y + r, z + r }; }
 	template <typename T> Vector3<T> Vector3<T>::operator-(const T& r) const { return { x - r, y - r, z - r }; }
 	template <typename T> Vector3<T> Vector3<T>::operator*(const T& r) const { return { x * r, y * r, z * r }; }
 	template <typename T>Vector3<T> Vector3<T>::operator/(const T& r) const { return { x / r, y / r, z / r }; }
 	template <typename T> void Vector3<T>::operator+=(const Vector3& r) { x += r.x; y += r.y; z += r.z; }
 	template <typename T> void Vector3<T>::operator-=(const Vector3& r) { x -= r.x; y -= r.y; z -= r.z; }
+	template <typename T> void Vector3<T>::operator*=(const Vector3& r) { x *= r.x; y *= r.y; z *= r.z; }
 	template <typename T> void Vector3<T>::operator+=(const T& r) { x += r; y += r; z += r; }
 	template <typename T> void Vector3<T>::operator-=(const T& r) { x -= r; y -= r; z -= r; }
 	template <typename T> void Vector3<T>::operator*=(const T& r) { x *= r; y *= r; z *= r; }
