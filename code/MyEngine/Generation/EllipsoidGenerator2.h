@@ -27,7 +27,7 @@ namespace MyEngine
 		template<typename Combinator, typename MeshData>
 		inline void EllipsoidGenerator2::Generate(Combinator combinator, MeshData& meshData, unsigned firstVertex, const Options& options)
 		{
-			using StripGenerator = StripLoopGenerator<MeshData::VertexType, MeshData::TOPOLOGY>;
+			using StripGenerator = StripLoopGenerator<typename MeshData::VertexType, MeshData::TOPOLOGY>;
 			typename StripGenerator::Options stripGeneratorOptions{};
 			stripGeneratorOptions.NrCorners = options.NrCorners;
 
