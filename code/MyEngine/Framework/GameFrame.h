@@ -9,6 +9,7 @@
 #include "Game/Camera/Camera.h"
 #include "Gui/FontRenderer.h"
 #include "Gui/GuiRenderer.h"
+#include "Other\Random.h"
 #include "Rendering/Canvas.h"
 #include "Rendering/FpsDisplay.h"
 #include "Rendering/Gpu.h"
@@ -20,12 +21,17 @@ namespace MyEngine
 		class GameFrame
 		{
 		public:
+			struct GameFrameOptions
+			{
+				bool RandomSeed{ true };
+			};
+
 			template<typename T>
-			static void Run(const std::wstring& windowName = L"Window", App::Win32::Window::Options options = {});
+			static void Run(const std::wstring& windowName = L"Window", App::Win32::Window::Options options = {}, const GameFrameOptions& gameFrameOptions = {});
 		};
 
 		template <typename T>
-		void GameFrame::Run(const std::wstring& windowName, App::Win32::Window::Options options)
+		void GameFrame::Run(const std::wstring& windowName, App::Win32::Window::Options options, const GameFrameOptions& gameFrameOptions)
 		{
 			using namespace App;
 			using namespace Win32;
@@ -37,6 +43,9 @@ namespace MyEngine
 			Window window{ windowName, options };
 			Gpu gpu{ window };
 			Canvas canvas{ window, options.BackgroundColor };
+
+			if (gameFrameOptions.RandomSeed)
+				Random::Seed();
 
 			//CAMERA
 			Camera camera{ window.GetClientSize() };
