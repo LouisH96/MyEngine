@@ -10,7 +10,14 @@ namespace MyEngine
 		public:
 			OrbitCamera();
 			explicit OrbitCamera(Camera& camera);
+
 			void Update();
+
+			//Partial Updates (need FinishUpdate())
+			void UpdateMovement();
+			void UpdateRotation();
+			void UpdateScroll();
+			void FinishUpdate();
 
 			void SetFocusPoint(const Float3& position);
 			void SetPitch(float pitch);

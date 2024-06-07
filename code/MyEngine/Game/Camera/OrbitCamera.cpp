@@ -26,11 +26,15 @@ OrbitCamera::OrbitCamera(Camera& camera)
 
 void OrbitCamera::Update()
 {
-	//ROTATION
-	if (Globals::pMouse->IsRightBtnDown())
-		MouseRotation();
+	UpdateRotation();
+	UpdateMovement();
+	UpdateScroll();
 
-	//TRANSLATION
+	FinishUpdate();
+}
+
+void OrbitCamera::UpdateMovement()
+{
 	const float maxVerSpeed = m_VerticalSpeed * Globals::DeltaTime;
 	float horSpeed = m_HorizontalSpeed * Globals::DeltaTime;
 	if (maxVerSpeed != 0 || horSpeed != 0)
@@ -46,11 +50,21 @@ void OrbitCamera::Update()
 		translation.z *= horSpeed;
 		MoveRelative(translation);
 	}
+}
 
-	//SCROLL
+void OrbitCamera::UpdateRotation()
+{
+	if (Globals::pMouse->IsRightBtnDown())
+		MouseRotation();
+}
+
+void OrbitCamera::UpdateScroll()
+{
 	m_Distance += Globals::pMouse->GetScroll() * m_ScrollSpeed;
+}
 
-	//UPDATE CAMERA
+void OrbitCamera::FinishUpdate()
+{
 	m_Camera.SetRotation(m_Pitch * Constants::TO_RAD, m_Yaw * Constants::TO_RAD);
 	m_Camera.SetPosition(m_Camera.GetForward() * -m_Distance + m_FocusPoint);
 }
