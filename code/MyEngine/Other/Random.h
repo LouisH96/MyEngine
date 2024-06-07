@@ -20,8 +20,25 @@ namespace MyEngine
 		static Float2 UnitVector2();
 		static Float3 UnitVector3();
 
+		template<typename T>
+		static T& Item(List<T>& items);
+		template<typename T>
+		static const T& Item(const List<T>& items);
+
 		template<typename T> static T Enum(T last);
 	};
+
+	template<typename T>
+	inline const T& Random::Item(const List<T>& items)
+	{
+		return items[std::rand() % items.GetSize()];
+	}
+
+	template<typename T>
+	inline T& Random::Item(List<T>& items)
+	{
+		return items[std::rand() % items.GetSize()];
+	}
 
 	template <typename T>
 	T Random::Enum(T last)
@@ -29,4 +46,3 @@ namespace MyEngine
 		return static_cast<T>(Range(static_cast<int>(last)));
 	}
 }
-
