@@ -16,6 +16,7 @@ namespace MyEngine
 		static int Range(int last);
 		static Float2 Range(const RectFloat& rect);
 		static Float3 Color();
+		static Float3 Color(const Float3& base, float deviation);
 		static float Angle();
 		static Float2 UnitVector2();
 		static Float3 UnitVector3();
