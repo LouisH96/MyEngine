@@ -48,6 +48,7 @@ namespace MyEngine
 		Float2 GetZySize() const { return { m_Size.z, m_Size.y }; }
 
 		void SetPosition(const Float3& position) { m_Origin = position; }
+		void SetSize(const Float3& size) { m_Size = size; }
 
 		Float3 GetRelativePoint(const Float3& alpha) const;
 
