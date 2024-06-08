@@ -94,10 +94,10 @@ namespace MyEngine
 	InvalidateList<Data>::InvalidateList(const PtrRangeConst<Data>& range)
 		: m_pData{ new Data[range.count] }
 		, m_Capacity{ range.count }
-		, m_First{ 0 }, m_End{ 0 }, m_GapIndicator{ 0 }
+		, m_First{ 0 }, m_End{ range.count }, m_GapIndicator{ range.count }
 		, m_Changed{ true }
 	{
-		std::copy(range.First(), range.End(), m_pData);
+		std::copy(&range.First(), range.End(), m_pData);
 	}
 
 	template <typename Data>
