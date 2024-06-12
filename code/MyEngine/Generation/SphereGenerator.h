@@ -10,9 +10,9 @@ namespace MyEngine
 	{
 		struct SphereGeneratorOptions
 		{
-			float Radius;
-			unsigned NrLayers;
-			unsigned NrCorners;
+			float Radius{ 1.f };
+			unsigned NrLayers{ 24 };
+			unsigned NrCorners{ 24 };
 		};
 
 		class SphereGenerator
