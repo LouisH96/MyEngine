@@ -20,6 +20,7 @@ namespace MyEngine
 		static float Angle();
 		static Float2 UnitVector2();
 		static Float3 UnitVector3();
+		static Float3 Position(const Float3& center, float maxRange, float minRange = 0);
 
 		template<typename T>
 		static T& Item(List<T>& items);

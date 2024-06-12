@@ -93,3 +93,8 @@ Float3 Random::UnitVector3()
 		Range(-1.1f, 1.f)
 	}.NormalizedSafe();
 }
+
+Float3 Random::Position(const Float3& center, float maxDist, float minDist)
+{
+	return UnitVector3() * Range(minDist, maxDist);
+}
