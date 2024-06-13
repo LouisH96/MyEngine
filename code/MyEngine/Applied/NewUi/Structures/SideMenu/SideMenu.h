@@ -12,12 +12,12 @@ namespace MyEngine
 		class SideMenu
 		{
 		public:
-			explicit SideMenu(float width);
+			explicit SideMenu(float width = 300.f);
 
 			void Update();
 
 			void Deactivate();
-			void SetTab(SideMenuTab& newTab);
+			void SetTab(SideMenuTab& newTab); //Need to be called after a UI.BeforeEdit()
 
 		private:
 			Extender* m_pExtender{};

@@ -1,5 +1,6 @@
 #pragma once
 #include "SideMenuTab.h"
+#include <string>
 
 namespace MyEngine
 {
@@ -12,6 +13,7 @@ namespace MyEngine
 			using Function = void (*)(ListElem&, Data&);
 			FunctionTab();
 			explicit FunctionTab(const std::string& title, SideMenuTab* pParent, Data& data, Function function);
+			explicit FunctionTab(const std::string& title, SideMenuTab* pParent, Function function);
 
 			void Generate(ListElem& parent) override;
 
@@ -33,6 +35,14 @@ namespace MyEngine
 			: SideMenuTab{ title, pParent }
 			, m_Function{ function }
 			, m_pData{ &data }
+		{
+		}
+
+		template<typename Data>
+		inline FunctionTab<Data>::FunctionTab(const std::string& title, SideMenuTab* pParent, Function function)
+			: SideMenuTab{ title, pParent }
+			, m_Function{ function }
+			, m_pData{ nullptr }
 		{
 		}
 
