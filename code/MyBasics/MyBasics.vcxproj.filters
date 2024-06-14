@@ -41,6 +41,8 @@
     <ClInclude Include="DataStructures\Dictionary.h" />
     <ClInclude Include="DataStructures\PeakCollection.h" />
     <ClInclude Include="DataStructures\Container.h" />
+    <ClInclude Include="FileUtils\Drive.h" />
+    <ClInclude Include="FileUtils\FileUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Math\Quaternion.cpp" />
@@ -53,5 +55,7 @@
     <ClCompile Include="Timing\Interval.cpp" />
     <ClCompile Include="String\StringUtils.cpp" />
     <ClCompile Include="String\Convert.cpp" />
+    <ClCompile Include="FileUtils\Drive.cpp" />
+    <ClCompile Include="FileUtils\FileUtils.cpp" />
   </ItemGroup>
 </Project>

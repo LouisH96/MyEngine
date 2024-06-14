@@ -163,6 +163,8 @@
     <ClInclude Include="DataStructures\Container.h" />
     <ClInclude Include="DataStructures\Dictionary.h" />
     <ClInclude Include="DataStructures\PeakCollection.h" />
+    <ClInclude Include="FileUtils\Drive.h" />
+    <ClInclude Include="FileUtils\FileUtils.h" />
     <ClInclude Include="Math\DxMatrix3X3.h" />
     <ClInclude Include="Math\Matrix2X2.h" />
     <ClInclude Include="Math\Matrix3X3.h" />
@@ -199,6 +201,8 @@
     <ClInclude Include="Transform\WorldMatrix.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="FileUtils\Drive.cpp" />
+    <ClCompile Include="FileUtils\FileUtils.cpp" />
     <ClCompile Include="String\Convert.cpp" />
     <ClCompile Include="Image\Image.cpp" />
     <ClCompile Include="String\StringUtils.cpp" />
