@@ -1,7 +1,10 @@
 #pragma once
 #include <limits>
 
-#include "DataStructures/PtrRangeConst.h"
+#include <DataStructures\PtrRangeConst.h>
+
+#undef max
+#undef min
 
 namespace MyEngine
 {
