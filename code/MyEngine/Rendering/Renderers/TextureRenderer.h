@@ -45,8 +45,8 @@ namespace MyEngine
 			//---| Types |---
 			struct MeshData
 			{
-				Mesh* pMesh;
-				Texture* pTexture;
+				Mesh* pMesh{};
+				Texture* pTexture{};
 				bool Active{ true };
 			};
 
