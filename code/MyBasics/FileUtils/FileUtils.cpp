@@ -118,8 +118,38 @@ List<std::wstring> FileUtils::GetFiles(const std::wstring directory)
 
 	do
 	{
-		files.Add(data.cFileName);
+		if (data.cFileName[0] != '.')
+			files.Add(data.cFileName);
 	} while (FindNextFile(findHandle, &data) != 0);
 
+	FindClose(findHandle);
+
 	return files;
+}
+
+std::wstring MyEngine::FileUtils::GetFileName(const std::wstring fullFilePath)
+{
+	int begin = 0, end = 0;
+
+	int i = fullFilePath.size();
+
+	for (; i >= 0; i--)
+	{
+		if (fullFilePath[i] == '.')
+		{
+			end = i;
+			break;
+		}
+	}
+
+	for (; i >= 0; i--)
+	{
+		if (fullFilePath[i] == '\\' || fullFilePath[i] == '/')
+		{
+			begin = i;
+			break;
+		}
+	}
+
+	return fullFilePath.substr(begin, end - begin);
 }

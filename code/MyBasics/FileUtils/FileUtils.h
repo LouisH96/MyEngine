@@ -22,5 +22,8 @@ namespace MyEngine
 		//---| Folders |---
 	public:
 		static List<std::wstring> GetFiles(const std::wstring directory);
+
+		//---| Files |---
+		static std::wstring GetFileName(const std::wstring fullFilePath);
 	};
 }
