@@ -39,7 +39,7 @@ void App::FpsControl::Wait()
 			m_pDisplay->SetFps(m_NrFramesThisSec);
 		}
 		m_NrFramesThisSec = 1;
-		m_EndCurrentSecond = now + Time::SEC_DURATION;
+		m_EndCurrentSecond += Time::SEC_DURATION;
 	}
 	else
 		m_NrFramesThisSec++;
@@ -47,8 +47,24 @@ void App::FpsControl::Wait()
 	m_DurationLastFrame = (now - m_BeginPrevFrame).count() * Time::CLOCK_UNIT_TO_SEC;
 	Globals::DeltaTime = m_DurationLastFrame > .1f ? .1f : m_DurationLastFrame;
 	m_BeginPrevFrame = now;
-	m_BeginPrevUpdate = newUpdateBegin;
-	std::this_thread::sleep_until(newUpdateBegin);
+
+	//Way1
+	//std::this_thread::sleep_until(newUpdateBegin);
+
+	//Way2
+	/*constexpr Time::Duration interval{ std::chrono::milliseconds{11} };
+	if (now + interval < newUpdateBegin)
+		std::this_thread::sleep_until(newUpdateBegin - interval);
+
+	while (Time::Clock::now() < newUpdateBegin)
+	{}*/
+
+	//Way3
+	constexpr Time::Duration sleepOffset{
+		std::chrono::milliseconds{5} };
+	std::this_thread::sleep_until(newUpdateBegin - sleepOffset);
+
+	m_BeginPrevUpdate = Time::Clock::now();
 }
 
 void App::FpsControl::NoWait()
