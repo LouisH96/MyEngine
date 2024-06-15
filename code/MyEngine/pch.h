@@ -23,3 +23,4 @@
 using namespace MyEngine;
 using namespace Game;
 using namespace Debug;
+using namespace NewUi;
