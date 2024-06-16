@@ -26,4 +26,4 @@ namespace MyEngine
 		//---| Files |---
 		static std::wstring GetFileName(const std::wstring fullFilePath);
 	};
-}
+};

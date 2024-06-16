@@ -127,11 +127,11 @@ List<std::wstring> FileUtils::GetFiles(const std::wstring directory)
 	return files;
 }
 
-std::wstring MyEngine::FileUtils::GetFileName(const std::wstring fullFilePath)
+std::wstring FileUtils::GetFileName(const std::wstring fullFilePath)
 {
 	int begin = 0, end = 0;
 
-	int i = fullFilePath.size();
+	int i = static_cast<int>(fullFilePath.size());
 
 	for (; i >= 0; i--)
 	{
