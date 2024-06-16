@@ -20,4 +20,7 @@ namespace MyEngine
 	using Double2 = Vector2<double>;
 	using Double3 = Vector3<double>;
 	using Double4 = Vector4<double>;
+
+	 extern Float3 operator*(const Uint3& l, const Float3& r);
+	 extern Float3 operator*(const Float3& l, const  Uint3& r);
 }

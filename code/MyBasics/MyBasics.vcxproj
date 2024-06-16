@@ -203,6 +203,7 @@
   <ItemGroup>
     <ClCompile Include="FileUtils\Drive.cpp" />
     <ClCompile Include="FileUtils\FileUtils.cpp" />
+    <ClCompile Include="Math\Vectors.cpp" />
     <ClCompile Include="String\Convert.cpp" />
     <ClCompile Include="Image\Image.cpp" />
     <ClCompile Include="String\StringUtils.cpp" />

@@ -57,5 +57,6 @@
     <ClCompile Include="String\Convert.cpp" />
     <ClCompile Include="FileUtils\Drive.cpp" />
     <ClCompile Include="FileUtils\FileUtils.cpp" />
+    <ClCompile Include="Math\Vectors.cpp" />
   </ItemGroup>
 </Project>
