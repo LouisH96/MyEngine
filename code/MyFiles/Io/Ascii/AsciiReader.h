@@ -16,6 +16,7 @@ namespace MyEngine
 			};
 			static ValueType DetectValueType(std::istream& stream);
 			static bool IsNumber(char c);
+			static bool IsWhiteSpace(char c);
 
 			ValueType DetectedValueType() { return DetectValueType(m_Stream); }
 

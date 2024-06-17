@@ -24,6 +24,14 @@ bool AsciiReader::IsNumber(char c)
 	return c >= '0' && c <= '9';
 }
 
+bool AsciiReader::IsWhiteSpace(char c)
+{
+	return c == ' ' 
+		|| c == '\n'
+		|| c == '\r'
+		|| c == '\t';
+}
+
 std::string AsciiReader::ReadFrom(std::istream& stream, const std::streampos& pos)
 {
 	const std::streampos temp{ stream.tellg() };
