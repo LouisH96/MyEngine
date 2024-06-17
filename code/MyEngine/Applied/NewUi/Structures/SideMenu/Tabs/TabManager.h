@@ -10,6 +10,7 @@ namespace MyEngine
 		public:
 			TabManager() = default;
 			TabManager(SideMenuTab& initTab);
+			virtual ~TabManager() = default;
 
 			void Update();
 			void SetTab(SideMenuTab& newTab);
