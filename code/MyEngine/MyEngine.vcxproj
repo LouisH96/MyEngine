@@ -140,6 +140,7 @@
     <ClCompile Include="Applied\NewUi\Structures\SideMenu\SideMenuPath.cpp" />
     <ClCompile Include="Applied\NewUi\Structures\SideMenu\SideMenuPathHelper.cpp" />
     <ClCompile Include="Applied\NewUi\Structures\SideMenu\Tabs\SideMenuTab.cpp" />
+    <ClCompile Include="Applied\NewUi\Structures\SideMenu\Tabs\TabManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Applied\NewUi\Elements\AnchorParent.h" />
@@ -302,6 +303,7 @@
     <ClInclude Include="Applied\NewUi\Structures\SideMenu\SideMenuPath.h" />
     <ClInclude Include="Applied\NewUi\Structures\SideMenu\SideMenuPathHelper.h" />
     <ClInclude Include="Applied\NewUi\Structures\SideMenu\Tabs\SideMenuTab.h" />
+    <ClInclude Include="Applied\NewUi\Structures\SideMenu\Tabs\TabManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

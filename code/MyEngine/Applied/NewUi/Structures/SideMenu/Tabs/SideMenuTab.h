@@ -13,6 +13,11 @@ namespace MyEngine
 			explicit SideMenuTab(const std::string& title, SideMenuTab* pParent);
 			virtual ~SideMenuTab() = default;
 
+			SideMenuTab(const SideMenuTab& other) = delete;
+			SideMenuTab(SideMenuTab&& other) = delete;
+			SideMenuTab& operator=(const SideMenuTab& other) = delete;
+			SideMenuTab& operator=(SideMenuTab&& other) = delete;
+
 			virtual void Generate(NewUi::ListElem& parent) = 0;
 
 			virtual void Activate() {}

@@ -100,13 +100,19 @@ void SideMenu::Update()
 		UI.AfterEdit();
 	}
 
-	//click
-	SideMenuTab* pClickedTab{ m_pPath->GetClickedTab() };
-	if (pClickedTab && pClickedTab != m_pActiveTab)
+	//update tab
+	SideMenuTab* pNewTab{ m_pPath->GetClickedTab() };
+	if (m_pRequestedTab)
+	{
+		pNewTab = m_pRequestedTab;
+		m_pRequestedTab = nullptr;
+	}
+
+	if (pNewTab && pNewTab != m_pActiveTab)
 	{
 		UI.BeforeEdit();
-		m_pPath->SetTab(*pClickedTab);
-		SetTab(*pClickedTab);
+		m_pPath->SetTab(*pNewTab);
+		ActivateNewTab(*pNewTab);
 		UI.AfterEdit();
 	}
 }
@@ -122,6 +128,11 @@ void SideMenu::Deactivate()
 }
 
 void SideMenu::SetTab(SideMenuTab& newTab)
+{
+	m_pRequestedTab = &newTab;
+}
+
+void SideMenu::ActivateNewTab(SideMenuTab& newTab)
 {
 	if (&newTab == m_pActiveTab)
 		return;
@@ -142,7 +153,7 @@ void SideMenu::SetTab(SideMenuTab& newTab)
 	//activate new
 	if (pCommon != &newTab)
 	{
-		SideMenuTab* pToActivate{ newTab.GetParentBefore(*pCommon)};
+		SideMenuTab* pToActivate{ newTab.GetParentBefore(*pCommon) };
 		while (pToActivate != &newTab)
 		{
 			pToActivate->Activate();

@@ -117,6 +117,7 @@
     <ClCompile Include="Physics\Collisions\LineDiskCollision.cpp" />
     <ClCompile Include="Applied\NewUi\Renderers\NewUiShapeRenderer.cpp" />
     <ClCompile Include="Applied\NewUi\Elements\ListPanel.cpp" />
+    <ClCompile Include="Applied\NewUi\Structures\SideMenu\Tabs\TabManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -279,6 +280,7 @@
     <ClInclude Include="Generation\SphereGenerator.h" />
     <ClInclude Include="Generation\CubeGenerator3.h" />
     <ClInclude Include="Generation\StripLoopCorneredGenerator.h" />
+    <ClInclude Include="Applied\NewUi\Structures\SideMenu\Tabs\TabManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
