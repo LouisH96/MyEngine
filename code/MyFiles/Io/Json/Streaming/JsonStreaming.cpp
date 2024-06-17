@@ -4,9 +4,11 @@
 #include <stack>
 #include <vector>
 
+#include "Io/Ascii/AsciiReader.h"
 #include "Io/Json/ElementType.h"
 #include "Io/Json/JsonElement.h"
 #include "Io/Json/JsonNumber.h"
+#include "Io/Json/JsonString.h"
 #include "Logger/Logger.h"
 
 using namespace MyEngine;
@@ -272,10 +274,14 @@ std::string Json::JsonStreaming::GetNextString(std::ifstream& stream)
 	{
 		if (begin == 0)
 		{
-			if (next == ' ' || next == '\n' || next == '\t') continue;
+			if (Io::AsciiReader::IsWhiteSpace(next) || next == ',') continue;
 			if (next != '"')
 			{
-				Logger::PrintError("Unexpected character in get next string");
+				std::stringstream ss{};
+				ss << "[JsonStreaming::GetNextString] "
+					<< "unexpected character in get next string: "
+					<< next << std::endl;
+				Logger::PrintError(ss.str());
 				return "";
 			}
 			begin = stream.tellg();
@@ -301,7 +307,7 @@ void Json::JsonStreaming::SkipWhiteSpace(std::ifstream& stream)
 {
 	char next;
 	while (stream.get(next))
-		if (next != ' ' && next != '\n' && next != '\t')
+		if (!Io::AsciiReader::IsWhiteSpace(next))
 		{
 			stream.seekg(-1, std::ios_base::cur);
 			return;
