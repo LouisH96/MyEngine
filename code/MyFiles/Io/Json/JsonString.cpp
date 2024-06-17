@@ -9,7 +9,10 @@ MyEngine::Io::Json::JsonString::JsonString(std::ifstream& stream)
 	const char first = stream.get();
 	if (first != '"')
 	{
-		Logger::PrintError("first char in JsonString should be \" instead of " + first + '\n');
+		std::stringstream ss{};
+		ss << "[JsonString::JsonString] first char in JsonString should be \" instead of ";
+		ss << first << std::endl;
+		Logger::PrintError(ss.str());
 		return;
 	}
 	const std::streampos begin = stream.tellg();
