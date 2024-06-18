@@ -12,7 +12,7 @@ namespace MyEngine
 	class MeshBuffersCommon
 	{
 	public:
-		void ActivateTopology();
+		void ActivateTopology() const;
 	};
 
 	template<typename Vertex, ModelTopology Topology>
@@ -20,7 +20,7 @@ namespace MyEngine
 		: public MeshBuffersCommon<Topology>
 	{
 	public:
-		void ActivateAndDraw();
+		void ActivateAndDraw() const;
 		void CreateBuffers(MeshData<Vertex, Topology>& data);
 
 		Rendering::Buffer<Vertex>VertexBuffer;
@@ -31,8 +31,8 @@ namespace MyEngine
 		: public MeshBuffersCommon<Topology>
 	{
 	public:
-		void Activate();
-		void ActivateAndDraw();
+		void Activate() const;
+		void ActivateAndDraw() const;
 		void CreateBuffers(MeshData<Vertex, Topology>& data);
 
 		Rendering::Buffer<Vertex> VertexBuffer;
@@ -67,14 +67,14 @@ namespace MyEngine
 
 	//---| Main Implementations |---
 	template<ModelTopology Topology>
-	inline void MeshBuffersCommon<Topology>::ActivateTopology()
+	inline void MeshBuffersCommon<Topology>::ActivateTopology() const
 	{
 		Rendering::PrimitiveTopology::Activate(Topology);
 	}
 
 	//---| Specialized Implemantions |---
 	template<typename Vertex, ModelTopology Topology>
-	inline void MeshBuffersWithoutIndices<Vertex, Topology>::ActivateAndDraw()
+	inline void MeshBuffersWithoutIndices<Vertex, Topology>::ActivateAndDraw() const
 	{
 		MeshBuffersCommon<Topology>::ActivateTopology();
 		VertexBuffer.Activate(0);
@@ -86,14 +86,14 @@ namespace MyEngine
 		VertexBuffer = Rendering::Buffer<Vertex>(data.Vertices, false);
 	}
 	template<typename Vertex, ModelTopology Topology>
-	inline void MeshBuffersWithIndices<Vertex, Topology>::Activate()
+	inline void MeshBuffersWithIndices<Vertex, Topology>::Activate() const
 	{
 		MeshBuffersCommon<Topology>::ActivateTopology();
 		VertexBuffer.Activate(0);
 		IndexBuffer.Activate();
 	}
 	template<typename Vertex, ModelTopology Topology>
-	inline void MeshBuffersWithIndices<Vertex, Topology>::ActivateAndDraw()
+	inline void MeshBuffersWithIndices<Vertex, Topology>::ActivateAndDraw() const
 	{
 		MeshBuffersCommon<Topology>::ActivateTopology();
 		VertexBuffer.Activate(0);
