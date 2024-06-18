@@ -144,3 +144,8 @@ void WorldMatrix::SetPitchRotation(Float4X4& m, float pitch)
 	m[1].Xyz() = { 0, cosPitch, -sinPitch };
 	m[2].Xyz() = { 0, sinPitch, cosPitch };
 }
+
+Float4X4 WorldMatrix::GetIdentity()
+{
+	return Float4X4::GetIdentity();
+}

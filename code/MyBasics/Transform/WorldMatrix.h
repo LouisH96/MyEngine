@@ -39,6 +39,8 @@ namespace MyEngine
 
 			static void SetPitchRotation(Float4X4& m, float pitch);
 
+			static Float4X4 GetIdentity();
+
 			template<typename T>
 			static void TransformPoint(const Matrix4X4<T>& matrix, Vector3<T>& point);
 
