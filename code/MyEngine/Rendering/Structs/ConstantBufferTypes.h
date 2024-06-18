@@ -57,6 +57,7 @@ namespace MyEngine
 
 			CB_ModelBuffer() = default;
 			explicit CB_ModelBuffer(const Game::Transform& transform);
+			explicit CB_ModelBuffer(const Float4X4& matrix);
 		};
 	}
 }

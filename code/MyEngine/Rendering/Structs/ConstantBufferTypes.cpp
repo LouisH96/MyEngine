@@ -58,3 +58,8 @@ CB_ModelBuffer::CB_ModelBuffer(const Transform& transform)
 	: ModelMatrix{ transform.AsMatrix() }
 {
 }
+
+CB_ModelBuffer::CB_ModelBuffer(const Float4X4& matrix)
+	: ModelMatrix{ matrix }
+{
+}
