@@ -24,7 +24,7 @@ void ArrowGenerator::CreatePivotArrows(Array<Rendering::V_PosColNorm>& vertices,
 
 	const int lineBeginIdx = arrowGenerator.GetSectionBegin(VertexSection::LineBegin);
 	const float angleStep = arrowGenerator.GetAngleStep();
-	for(int i = 0; i < nrSides; i++)
+	for (int i = 0; i < nrSides; i++)
 	{
 		const float c = cosf(i * angleStep);
 		const float diff = c * lineRadius;
@@ -39,7 +39,7 @@ void ArrowGenerator::CreatePivotArrows(Array<Rendering::V_PosColNorm>& vertices,
 	const unsigned idx = positions.GetSize();
 
 	//rotate to Z
-	for(unsigned i = 0; i < positions.GetSize(); i++)
+	for (unsigned i = 0; i < positions.GetSize(); i++)
 	{
 		const float oldPositionX = positions[i].x;
 		positions[i].x = positions[i].z;
@@ -50,7 +50,7 @@ void ArrowGenerator::CreatePivotArrows(Array<Rendering::V_PosColNorm>& vertices,
 		normals[i].z = oldNormalX;
 		normals[i].y = -normals[i].y;
 	}
-	
+
 	for (unsigned i = 0; i < positions.GetSize(); i++)
 		vertices[i + idx] = V_PosColNorm{ positions[i] * scale + origin, {.1f,.1f,.8f}, normals[i] };
 	for (int i = 0; i < arrowGenerator.GetNrIndices(); i++)
@@ -77,7 +77,7 @@ void ArrowGenerator::CreatePivotArrows(Array<Rendering::V_PosColNorm>& vertices,
 }
 
 ArrowGenerator::ArrowGenerator(int nrSides, bool capLineEnd, float lineLength, float lineRadius,
-                               float arrowLength, float arrowRadius)
+	float arrowLength, float arrowRadius)
 	: m_NrSides{ nrSides }
 	, m_CapLineEnd{ capLineEnd }
 	, m_LineRadius{ lineRadius }
@@ -151,11 +151,16 @@ int ArrowGenerator::GetSectionBegin(TriangleSection section) const
 }
 
 void ArrowGenerator::Generate(Array<Float3>& vertexPoints, Array<Float3>& vertexNormals,
-                              Array<int>& indices) const
+	Array<int>& indices) const
 {
 	vertexPoints = { GetNrVertices() };
 	vertexNormals = { GetNrVertices() };
 	indices = { GetNrTriangles() * 3 };
+
+	//TIP CALC
+	const float tipRadius{ sqrtf(m_ArrowRadius * m_ArrowRadius + m_ArrowLength * m_ArrowLength) };
+	const float tipNormalX{ m_ArrowRadius / tipRadius };
+	const float tipNormalScale{ m_ArrowLength / tipRadius };
 
 	//FOR EACH ANGLE
 	const float angleStep = Constants::PI / static_cast<float>(m_NrSides) * 2.f;
@@ -199,7 +204,8 @@ void ArrowGenerator::Generate(Array<Float3>& vertexPoints, Array<Float3>& vertex
 		vertexIdx = i + GetSectionBegin(VertexSection::Head);
 		point.y = -point.y;
 		vertexPoints[vertexIdx] = point;
-		vertexNormals[vertexIdx] = basicNormal;
+		vertexNormals[vertexIdx] = basicNormal * tipNormalScale;
+		vertexNormals[vertexIdx].x += tipNormalX;
 
 		currentAngle += angleStep;
 	}
@@ -207,7 +213,7 @@ void ArrowGenerator::Generate(Array<Float3>& vertexPoints, Array<Float3>& vertex
 	//TIP
 	int vertexIdx = GetSectionBegin(VertexSection::Tip);
 	vertexPoints[vertexIdx] = { m_LineLength + m_ArrowLength , 0, 0 };
-	vertexNormals[vertexIdx] = { .1f,0,0 };
+	vertexNormals[vertexIdx] = { 0,0,0 };
 
 	//INDICES
 	int indexIdx;
