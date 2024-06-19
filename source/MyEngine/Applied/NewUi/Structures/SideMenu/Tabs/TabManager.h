@@ -8,8 +8,8 @@ namespace MyEngine
 		class TabManager
 		{
 		public:
-			TabManager() = default;
-			TabManager(SideMenuTab& initTab);
+			TabManager(float width = 300);
+			TabManager(SideMenuTab& initTab, float width = 300);
 			virtual ~TabManager() = default;
 
 			void Update();

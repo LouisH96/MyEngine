@@ -4,7 +4,13 @@
 using namespace MyEngine;
 using namespace NewUi;
 
-TabManager::TabManager(SideMenuTab& initTab)
+TabManager::TabManager(float width)
+	: m_SideMenu{ width }
+{
+}
+
+TabManager::TabManager(SideMenuTab& initTab, float width)
+	: m_SideMenu{ width }
 {
 	SetTab(initTab);
 }
