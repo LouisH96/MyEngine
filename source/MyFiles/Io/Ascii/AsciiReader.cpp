@@ -26,7 +26,7 @@ bool AsciiReader::IsNumber(char c)
 
 bool AsciiReader::IsWhiteSpace(char c)
 {
-	return c == ' ' 
+	return c == ' '
 		|| c == '\n'
 		|| c == '\r'
 		|| c == '\t';
@@ -77,7 +77,10 @@ std::string AsciiReader::ReadUntil(std::istream& stream, char delim1, char orDel
 
 bool AsciiReader::ReadLine(std::istream& stream, std::string& string)
 {
-	return !!std::getline(stream, string);
+	bool succes{ !!std::getline(stream, string) };
+	if (string[string.size() - 1] == '\r')
+		string.pop_back();
+	return succes;
 }
 
 std::string AsciiReader::ReadUntil(char delim)
@@ -99,6 +102,9 @@ std::string AsciiReader::ReadLine()
 {
 	std::string line;
 	std::getline(m_Stream, line);
+	if (line[line.size() - 1] == '\r')
+		line.pop_back();
+
 	return line;
 }
 
