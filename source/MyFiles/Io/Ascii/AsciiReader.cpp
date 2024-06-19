@@ -93,6 +93,14 @@ std::string AsciiReader::ReadUntil(char delim1, char orDelim2)
 	return ReadUntil(m_Stream, delim1, orDelim2);
 }
 
+std::string AsciiReader::ReadUntil(const std::streampos& end)
+{
+	std::string result(end - m_Stream.tellg(), ' ');
+	m_Stream.read(&result[0], static_cast<std::streamsize>(result.size()));
+
+	return result;
+}
+
 bool AsciiReader::ReadLine(std::string& string)
 {
 	return ReadLine(m_Stream, string);
@@ -124,6 +132,112 @@ std::string AsciiReader::ReadUntilWhiteSpace()
 		}
 	}
 	return ReadFrom(begin);
+}
+
+std::string AsciiReader::Read(const std::streampos& begin, const std::streampos& end)
+{
+	const std::streampos current{ GetPos() };
+
+	MoveTo(begin);
+	const std::string read{ ReadUntil(end) };
+	MoveTo(current);
+	return read;
+}
+
+std::string AsciiReader::ReadLineUntilAndSkip(const std::string& target, bool* pFound)
+{
+	if (pFound) *pFound = false;
+
+	const std::streampos begin{ GetPos() };
+
+	char next{};
+	while (m_Stream.get(next))
+	{
+		//line end found before target begin
+		if (next == '\r' || next == '\n')
+		{
+			m_Stream.get(next);
+			if (next != '\r' && next != '\n') MoveBack(1);
+			return "";
+		}
+
+		//if first found
+		if (next == target[0])
+		{
+			const std::streampos targetBegin{ GetPos() + std::streamoff{-1} };
+			size_t iTarget{ 0 };
+
+			//search end
+			while (m_Stream.get(next))
+			{
+				//line end found before target end
+				if (next == '\r' || next == '\n')
+				{
+					m_Stream.get(next);
+					if (next != '\r' && next != '\n') MoveBack(1);
+					return "";
+				}
+
+				//if not matching char
+				if (next != target[++iTarget])
+					break;
+
+				//if target end
+				if (iTarget + 1 == target.size())
+				{
+					if (pFound) *pFound = true;
+					return Read(begin, targetBegin);
+				}
+			}
+		}
+	}
+	return std::string{};
+}
+
+bool AsciiReader::CheckAndSkip(const std::string& target)
+{
+	const std::streampos begin{ GetPos() };
+
+	char next{};
+	size_t iTarget{ 0 };
+
+	while (m_Stream.get(next))
+	{
+		if (next != target[iTarget])
+		{
+			MoveTo(begin);
+			return false;
+		}
+
+		iTarget++;
+		if (iTarget == target.size())
+			return true;
+	}
+
+	MoveTo(begin);
+	return false;
+}
+
+bool AsciiReader::CheckLineAndSkip(const std::string& target)
+{
+	if (!CheckAndSkip(target))
+		return false;
+
+	char next{};
+
+	if (!m_Stream.get(next))
+		return true;
+
+	if (next != '\r' && next != '\n')
+		return false;
+
+	if (!m_Stream.get(next))
+		return true;
+
+	if (next != '\r' && next != '\n')
+		MoveBack(1);
+
+	return true;
 }
 
 void AsciiReader::Move(std::istream& stream, int amount)

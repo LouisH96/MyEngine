@@ -29,9 +29,16 @@ namespace MyEngine
 			std::string ReadFrom(const std::streampos& pos) { return ReadFrom(m_Stream, pos); }
 			std::string ReadUntil(char delim);
 			std::string ReadUntil(char delim1, char orDelim2);
+			std::string ReadUntil(const std::streampos& end);
 			bool ReadLine(std::string& string);
 			std::string ReadLine();
 			std::string ReadUntilWhiteSpace();
+			
+			std::string Read(const std::streampos& begin, const std::streampos& end);
+			std::string ReadLineUntilAndSkip(const std::string& end, bool* pFound = nullptr);
+
+			bool CheckAndSkip(const std::string& target);
+			bool CheckLineAndSkip(const std::string& target);
 
 			//---| Other |---
 			static void Move(std::istream& stream, int amount);
