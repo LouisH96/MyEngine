@@ -31,3 +31,8 @@ std::string Convert::ToString(const Quaternion& quat)
 		<< ", " << ToString(quat.W) << ")";
 	return ss.str();
 }
+
+std::wstring Convert::ToWString(const std::string& string)
+{
+	return std::wstring{ string.begin(), string.end() };
+}

@@ -25,6 +25,8 @@ namespace MyEngine
 
 		template<typename T>
 		static std::string ToString(T value);
+
+		static std::wstring ToWString(const std::string& string);
 	};
 
 	template<typename T>
