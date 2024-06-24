@@ -8,6 +8,9 @@ namespace MyEngine
 
 		struct EmptyChildOptions
 		{
+			EmptyChildOptions() = default;
+			EmptyChildOptions(Elem* pChild);
+
 			Elem* pChild;
 		};
 	}
