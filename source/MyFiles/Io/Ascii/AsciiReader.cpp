@@ -218,6 +218,33 @@ bool AsciiReader::CheckAndSkip(const std::string& target)
 	return false;
 }
 
+bool AsciiReader::CheckEndOfLineAndSkip()
+{
+	char next;
+
+	if (!m_Stream.get(next))
+		return false;
+
+	if (next == '\r')
+	{
+		if (!m_Stream.get(next))
+		{
+			MoveBack(1); //not sure if need to be 1 or 2
+			return false;
+		}
+		if (next != '\n')
+			MoveBack(1);
+		return true;
+	}
+	else if (next != '\n')
+	{
+		MoveBack(1);
+		return false;
+	}
+	else
+		return true;
+}
+
 bool AsciiReader::CheckLineAndSkip(const std::string& target)
 {
 	if (!CheckAndSkip(target))
@@ -238,6 +265,26 @@ bool AsciiReader::CheckLineAndSkip(const std::string& target)
 		MoveBack(1);
 
 	return true;
+}
+
+bool AsciiReader::CheckReadUntil(char delim, std::string& out)
+{
+	const std::streampos begin{ GetPos() };
+
+	char next;
+	while (m_Stream.get(next))
+	{
+		if (next == delim)
+		{
+			MoveBack(1);
+			out = ReadFrom(begin);
+			MoveForward(1);
+			return true;
+		}
+	}
+
+	MoveTo(begin);
+	return false;
 }
 
 void AsciiReader::Move(std::istream& stream, int amount)

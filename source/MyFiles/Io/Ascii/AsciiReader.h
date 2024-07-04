@@ -38,7 +38,9 @@ namespace MyEngine
 			std::string ReadLineUntilAndSkip(const std::string& end, bool* pFound = nullptr);
 
 			bool CheckAndSkip(const std::string& target);
+			bool CheckEndOfLineAndSkip();
 			bool CheckLineAndSkip(const std::string& target);
+			bool CheckReadUntil(char delim, std::string& out);
 
 			//---| Other |---
 			static void Move(std::istream& stream, int amount);
