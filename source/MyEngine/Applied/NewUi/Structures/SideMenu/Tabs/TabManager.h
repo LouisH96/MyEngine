@@ -14,6 +14,7 @@ namespace MyEngine
 
 			void Update();
 			void SetTab(SideMenuTab& newTab);
+			void RefreshTab();
 
 		private:
 			SideMenu m_SideMenu;

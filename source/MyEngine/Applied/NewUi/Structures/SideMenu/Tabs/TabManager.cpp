@@ -24,3 +24,8 @@ void TabManager::SetTab(SideMenuTab& newTab)
 {
 	m_SideMenu.SetTab(newTab);
 }
+
+void TabManager::RefreshTab()
+{
+	m_SideMenu.RefreshTab();
+}

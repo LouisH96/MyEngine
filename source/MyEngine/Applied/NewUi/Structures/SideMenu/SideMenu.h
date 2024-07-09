@@ -19,6 +19,8 @@ namespace MyEngine
 			void Deactivate();
 			void SetTab(SideMenuTab& newTab); //Need to be called after a UI.BeforeEdit()
 
+			void RefreshTab();
+
 		private:
 			Extender* m_pExtender{};
 			SideMenuPath* m_pPath{};

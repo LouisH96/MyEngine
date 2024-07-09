@@ -132,6 +132,14 @@ void SideMenu::SetTab(SideMenuTab& newTab)
 	m_pRequestedTab = &newTab;
 }
 
+void SideMenu::RefreshTab()
+{
+	UI.BeforeEdit();
+	m_pContentList->DeleteAllChildren();
+	m_pActiveTab->Generate(*m_pContentList);
+	UI.AfterEdit();
+}
+
 void SideMenu::ActivateNewTab(SideMenuTab& newTab)
 {
 	if (&newTab == m_pActiveTab)
