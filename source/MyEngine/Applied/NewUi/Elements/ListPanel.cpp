@@ -104,7 +104,7 @@ void ListPanel::CreateLineOnOrigin(unsigned& iChild, float& lineFlowSize, float&
 	{
 		childPref.maxSize =
 			m_FlowDir.Abs() * (maxFlowSize - lineFlowSize)
-			+ m_FillDir.Abs() * (maxFillSize - lineFillSize);
+			+ m_FillDir.Abs() * maxFillSize;
 
 		//check child size
 		Elem& child{ GetChild(iChild) };
