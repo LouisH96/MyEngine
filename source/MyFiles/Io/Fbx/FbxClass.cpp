@@ -10,7 +10,6 @@
 
 using namespace MyEngine;
 using namespace Io::Fbx;
-using namespace Game;
 using namespace Wrapping;
 
 FbxClass::FbxClass(const std::wstring& path, float scale)

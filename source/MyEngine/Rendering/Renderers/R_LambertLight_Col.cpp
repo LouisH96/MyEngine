@@ -2,7 +2,7 @@
 #include "R_LambertLight_Col.h"
 
 #include "Framework/Resources.h"
-#include "Game/Camera/Camera.h"
+#include "Camera/Camera.h"
 #include "Rendering/State/Mesh.h"
 
 using namespace MyEngine;

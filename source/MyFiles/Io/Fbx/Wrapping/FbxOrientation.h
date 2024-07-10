@@ -31,7 +31,7 @@ namespace MyEngine
 					static Float3 ConvertRotation(const Float3& rotation);
 					template<typename T> static void ConvertRotations(FbxValueCurve<T>* pFirst);
 
-					Game::Transform MakeLocalTransform(const Wrapping::Model& model) const;
+					Transform MakeLocalTransform(const Wrapping::Model& model) const;
 
 				private:
 					float m_Scale{ 1 };

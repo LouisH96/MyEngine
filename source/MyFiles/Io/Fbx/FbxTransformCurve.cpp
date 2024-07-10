@@ -29,7 +29,7 @@ FbxTransformCurve::FbxTransformCurve(const Model& limbNode, const FbxAnimationLa
 	loadData.Orientation.ConvertRotations(m_RotationCurves);
 }
 
-MyEngine::Game::Transform FbxTransformCurve::AtTime(const uint64_t& time) const
+MyEngine::Transform FbxTransformCurve::AtTime(const uint64_t& time) const
 {
 	const Float3 translation{
 		m_TranslationCurves[0].ValueAtTime(time),
@@ -41,7 +41,7 @@ MyEngine::Game::Transform FbxTransformCurve::AtTime(const uint64_t& time) const
 		m_RotationCurves[1].ValueAtTime(time),
 		m_RotationCurves[2].ValueAtTime(time)
 	};
-	return Game::Transform{ translation, Quaternion::FromEulerDegrees(rotation) };
+	return Transform{ translation, Quaternion::FromEulerDegrees(rotation) };
 }
 
 bool FbxTransformCurve::IsInLayer(const FbxAnimationLayer& layer) const

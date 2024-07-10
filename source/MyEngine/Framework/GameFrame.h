@@ -6,7 +6,7 @@
 #include "Applied/NewUi/NewUiSystem.h"
 #include "Applied/NewUi/Elements/Root.h"
 #include "Debug/Rendering/DebugRenderer.h"
-#include "Game/Camera/Camera.h"
+#include "Camera/Camera.h"
 #include "Gui/FontRenderer.h"
 #include "Gui/GuiRenderer.h"
 #include "Other\Random.h"
@@ -36,7 +36,6 @@ namespace MyEngine
 			using namespace App;
 			using namespace Win32;
 			using namespace Rendering;
-			using namespace Game;
 
 			//BASIC
 			CppFramework framework{};

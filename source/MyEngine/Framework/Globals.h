@@ -2,6 +2,8 @@
 
 namespace MyEngine
 {
+	class Camera;
+
 	namespace NewUi
 	{
 		class NewUiSystem;
@@ -35,10 +37,6 @@ namespace MyEngine
 		}
 	}
 
-	namespace Game
-	{
-		class Camera;
-	}
 	namespace Rendering
 	{
 		class Canvas;
@@ -57,7 +55,7 @@ namespace MyEngine
 
 		static Rendering::Gpu* pGpu;
 		static const Rendering::Canvas* pCanvas;
-		static Game::Camera* pCamera;
+		static Camera* pCamera;
 		static Applied::Camera2D* pCamera2D;
 
 		static Gui::GuiRenderer* pGuiRenderer;

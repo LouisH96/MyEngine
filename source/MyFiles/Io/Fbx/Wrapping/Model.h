@@ -82,7 +82,7 @@ namespace MyEngine
 					const AnimationCurveNode* GetRotationCurveNode(int64_t layerId) const;
 					const AnimationCurveNode* GetScaleCurveNode(int64_t layerId) const;
 
-					Game::Transform MakeLocalTransform(float scale) const;
+					Transform MakeLocalTransform(float scale) const;
 
 				private:
 					int64_t m_Id{};

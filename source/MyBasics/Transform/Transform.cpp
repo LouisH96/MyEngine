@@ -3,7 +3,6 @@
 #include "WorldMatrix.h"
 
 using namespace MyEngine;
-using namespace Game;
 
 Transform::Transform(const Float3& position, const Quaternion& rotation)
 	: Position{ position }

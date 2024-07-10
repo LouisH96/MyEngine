@@ -46,7 +46,7 @@ namespace MyEngine
 				bool HasParent() const { return m_pParent; }
 				const FbxJoint& GetParent() const { return *m_pParent; }
 
-				const Game::Transform& GetLocalTransform() const { return m_LocalTransform; }
+				const Transform& GetLocalTransform() const { return m_LocalTransform; }
 				const Float4X4& GetBindTransform() const { return m_BindTransform; }
 
 				void PrintLocalData() const;
@@ -56,16 +56,16 @@ namespace MyEngine
 				const Float3& GetPostRotationEulers() const { return m_PostRotationEulers; }
 				const Float3& GetLclRotationEulers() const { return m_LclRotationEulers; }
 
-				const Game::Transform& GetPreRotationZYX() const { return m_PreRotationTransform; }
-				const Game::Transform& GetPostRotationXYZ() const { return m_PostRotationTransform; }
+				const Transform& GetPreRotationZYX() const { return m_PreRotationTransform; }
+				const Transform& GetPostRotationXYZ() const { return m_PostRotationTransform; }
 
 				void CalculateBindTransforms();
 
 			private:
 				std::string m_Name;
-				Game::Transform m_LocalTransform;
-				Game::Transform m_PreRotationTransform;
-				Game::Transform m_PostRotationTransform;
+				Transform m_LocalTransform;
+				Transform m_PreRotationTransform;
+				Transform m_PostRotationTransform;
 
 				Float4X4 m_BindTransform;
 				Array<FbxJoint*> m_Children;

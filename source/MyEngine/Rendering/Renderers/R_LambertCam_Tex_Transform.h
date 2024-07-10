@@ -10,11 +10,8 @@
 
 namespace MyEngine
 {
-	namespace Game
-	{
-		class Transform;
-		class Camera;
-	}
+	class Transform;
+	class Camera;
 
 	namespace Rendering
 	{
@@ -37,9 +34,9 @@ namespace MyEngine
 			void Render();
 
 			//---| Operations |---
-			void AddEntry(Mesh& mesh, Texture& texture, Game::Transform& transform);
-			void Remove(const Game::Transform& transform);
-			void Replace(const Game::Transform& old, Game::Transform& with);
+			void AddEntry(Mesh& mesh, Texture& texture, Transform& transform);
+			void Remove(const Transform& transform);
+			void Replace(const Transform& old, Transform& with);
 
 		private:
 			//---| Types |---
@@ -47,7 +44,7 @@ namespace MyEngine
 			{
 				Mesh* pMesh;
 				Texture* pTexture;
-				Game::Transform* pTransform;
+				Transform* pTransform;
 			};
 			struct DrawEntryMatrix
 			{

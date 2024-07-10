@@ -2,7 +2,7 @@
 #include "R_LambertCam_Tex_Tran_Inst.h"
 
 #include "Framework/Resources.h"
-#include "Game/Camera/Camera.h"
+#include "Camera/Camera.h"
 
 Rendering::R_LambertCam_Tex_Tran_Inst::R_LambertCam_Tex_Tran_Inst()
 	: m_InputLayout{ InputLayout::FromTypes<Vertex, Instance>() }

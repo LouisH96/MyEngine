@@ -2,7 +2,7 @@
 #include "R_LambertCam_Tex_Transform.h"
 
 #include "Framework/Resources.h"
-#include "Game/Camera/Camera.h"
+#include "Camera/Camera.h"
 #include "Rendering/State/Mesh.h"
 #include "Rendering/State/Texture.h"
 
@@ -36,19 +36,19 @@ void Rendering::R_LambertCam_Tex_Transform::Render()
 	}
 }
 
-void Rendering::R_LambertCam_Tex_Transform::AddEntry(Mesh& mesh, Texture& texture, Game::Transform& transform)
+void Rendering::R_LambertCam_Tex_Transform::AddEntry(Mesh& mesh, Texture& texture, Transform& transform)
 {
 	m_Entries.Add(DrawEntry{ &mesh, &texture, &transform });
 }
 
-void Rendering::R_LambertCam_Tex_Transform::Remove(const Game::Transform& transform)
+void Rendering::R_LambertCam_Tex_Transform::Remove(const Transform& transform)
 {
 	for (unsigned i = 0; i < m_Entries.GetSize(); i++)
 		if (m_Entries[i].pTransform == &transform)
 			m_Entries.RemoveAt(i);
 }
 
-void Rendering::R_LambertCam_Tex_Transform::Replace(const Game::Transform& old, Game::Transform& with)
+void Rendering::R_LambertCam_Tex_Transform::Replace(const Transform& old, Transform& with)
 {
 	for (unsigned i = 0; i < m_Entries.GetSize(); i++)
 		if (m_Entries[i].pTransform == &old)

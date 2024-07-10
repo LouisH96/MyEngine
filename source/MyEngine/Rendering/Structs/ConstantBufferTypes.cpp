@@ -2,7 +2,7 @@
 #include "ConstantBufferTypes.h"
 
 #include "Transform/Transform.h"
-#include "Game/Camera/Camera.h"
+#include "Camera/Camera.h"
 
 using namespace Rendering;
 

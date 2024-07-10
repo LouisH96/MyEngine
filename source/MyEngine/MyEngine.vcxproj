@@ -83,8 +83,8 @@
     <ClCompile Include="Rendering\DrawData\InstanceArray.cpp" />
     <ClCompile Include="App\FpsControl.cpp" />
     <ClCompile Include="Physics\CollisionDetection.cpp" />
-    <ClCompile Include="Game\Camera\FpsCameraController.cpp" />
-    <ClCompile Include="Game\Camera\Camera.cpp" />
+    <ClCompile Include="Camera\FpsCameraController.cpp" />
+    <ClCompile Include="Camera\Camera.cpp" />
     <ClCompile Include="Framework\CppFramework.cpp" />
     <ClCompile Include="Rendering\Renderers\R_LambertCam_Tex_Transform.cpp" />
     <ClCompile Include="Rendering\Renderers\R_LambertCam_Tex.cpp" />
@@ -103,8 +103,8 @@
     <ClCompile Include="Rendering\Structs\ConstantBufferTypes.cpp" />
     <ClCompile Include="Generation\MeshUtils.cpp" />
     <ClCompile Include="Rendering\Renderers\RendererFactory.cpp" />
-    <ClCompile Include="Game\Camera\OrbitCamera.cpp" />
-    <ClCompile Include="Game\Globals.cpp" />
+    <ClCompile Include="Camera\OrbitCamera.cpp" />
+    <ClCompile Include="Framework\Globals.cpp" />
     <ClCompile Include="Rendering\Dx\DxHelper.cpp" />
     <ClCompile Include="App\Win32\Keyboard_StateReader.cpp" />
     <ClCompile Include="App\Win32\Keyboard_MsgListener.cpp" />
@@ -240,8 +240,8 @@
     <ClInclude Include="Rendering\State\PrimitiveTopology.h" />
     <ClInclude Include="Rendering\DrawData\InstanceArray.h" />
     <ClInclude Include="Physics\CollisionDetection.h" />
-    <ClInclude Include="Game\Camera\FpsCameraController.h" />
-    <ClInclude Include="Game\Camera\Camera.h" />
+    <ClInclude Include="Camera\FpsCameraController.h" />
+    <ClInclude Include="Camera\Camera.h" />
     <ClInclude Include="Framework\CppFramework.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertCam_Tex_Transform.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertCam_Tex.h" />
@@ -264,8 +264,8 @@
     <ClInclude Include="Generation\MeshUtils.h" />
     <ClInclude Include="Rendering\Renderers\RendererFactory.h" />
     <ClInclude Include="Rendering\Renderers\BasicRenderer.h" />
-    <ClInclude Include="Game\Globals.h" />
-    <ClInclude Include="Game\Camera\OrbitCamera.h" />
+    <ClInclude Include="Framework\Globals.h" />
+    <ClInclude Include="Camera\OrbitCamera.h" />
     <ClInclude Include="App\FpsControl.h" />
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
     <ClInclude Include="App\Win32\Keyboard_StateReader.h" />

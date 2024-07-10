@@ -5,9 +5,9 @@
     <ClCompile Include="App\Win32\Window.cpp" />
     <ClCompile Include="App\FpsControl.cpp" />
     <ClCompile Include="Framework\Resources.cpp" />
-    <ClCompile Include="Game\Camera\OrbitCamera.cpp" />
+    <ClCompile Include="Camera\OrbitCamera.cpp" />
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="Game\Globals.cpp" />
+    <ClCompile Include="Framework\Globals.cpp" />
     <ClCompile Include="App\Win32\Screen.cpp" />
     <ClCompile Include="App\Win32\Keyboard_StateReader.cpp" />
     <ClCompile Include="App\Win32\Keyboard_MsgListener.cpp" />
@@ -35,8 +35,8 @@
     <ClCompile Include="Rendering\FpsDisplay.cpp" />
     <ClCompile Include="Geometry\Shapes\Capsule.cpp" />
     <ClCompile Include="Rendering\Renderers\R_LambertCam_Tex_Transform.cpp" />
-    <ClCompile Include="Game\Camera\Camera.cpp" />
-    <ClCompile Include="Game\Camera\FpsCameraController.cpp" />
+    <ClCompile Include="Camera\Camera.cpp" />
+    <ClCompile Include="Camera\FpsCameraController.cpp" />
     <ClCompile Include="Rendering\Renderers\R_LambertCam_Tex.cpp" />
     <ClCompile Include="Rendering\Renderers\R_LambertLight_Tex.cpp" />
     <ClCompile Include="Rendering\Renderers\R_LambertLight_Col.cpp" />
@@ -124,9 +124,9 @@
     <ClInclude Include="App\Win32\Window.h" />
     <ClInclude Include="App\FpsControl.h" />
     <ClInclude Include="Framework\Resources.h" />
-    <ClInclude Include="Game\Camera\OrbitCamera.h" />
+    <ClInclude Include="Camera\OrbitCamera.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Game\Globals.h" />
+    <ClInclude Include="Framework\Globals.h" />
     <ClInclude Include="App\Win32\Screen.h" />
     <ClInclude Include="App\Win32\Keyboard_StateReader.h" />
     <ClInclude Include="App\Win32\Keyboard_.h" />
@@ -161,8 +161,8 @@
     <ClInclude Include="Rendering\FpsDisplay.h" />
     <ClInclude Include="Geometry\Shapes\Capsule.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertCam_Tex_Transform.h" />
-    <ClInclude Include="Game\Camera\Camera.h" />
-    <ClInclude Include="Game\Camera\FpsCameraController.h" />
+    <ClInclude Include="Camera\Camera.h" />
+    <ClInclude Include="Camera\FpsCameraController.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertCam_Tex.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertLight_Tex.h" />
     <ClInclude Include="Rendering\Renderers\R_LambertLight_Col.h" />

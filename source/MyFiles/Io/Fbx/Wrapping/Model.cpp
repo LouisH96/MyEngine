@@ -152,10 +152,8 @@ const AnimationCurveNode* Model::GetScaleCurveNode(int64_t layerId) const
 	return nullptr;
 }
 
-MyEngine::Game::Transform Model::MakeLocalTransform(float scale) const
+MyEngine::Transform Model::MakeLocalTransform(float scale) const
 {
-	using namespace Game;
-
 	Transform preZYX{ {}, Quaternion::FromEulerDegrees({0,0,m_PreRotation.z}) };
 	preZYX = Transform::LocalToWorld({ {}, Quaternion::FromEulerDegrees({0, m_PreRotation.y, 0}) }, preZYX);
 	preZYX = Transform::LocalToWorld({ {}, Quaternion::FromEulerDegrees({m_PreRotation.x,0,0}) }, preZYX);

@@ -8,7 +8,6 @@
 
 using namespace MyEngine;
 using namespace Io::Fbx;
-using namespace Game;
 
 FbxJoint::FbxJoint(
 	const Wrapping::Model& model,

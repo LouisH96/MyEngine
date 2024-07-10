@@ -1,5 +1,5 @@
 #pragma once
-#include <Game/Camera/Camera.h>
+#include <Camera/Camera.h>
 #include <Rendering/State/BlendState.h>
 #include <Rendering/State/ConstantBuffer.h>
 #include <Rendering/State/DepthStencilState.h>

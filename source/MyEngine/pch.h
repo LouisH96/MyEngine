@@ -11,7 +11,7 @@
 
 #include <DataStructures/Array.h>
 #include <DataStructures/List.h>
-#include <Game/Globals.h>
+#include <Framework/Globals.h>
 #include <Transform/Transform.h>
 #include <App/Win32/Mouse.h>
 #include <App/Win32/Keyboard_MsgListener.h>
@@ -21,6 +21,5 @@
 #include <Debug/Rendering/DebugRenderer.h>
 
 using namespace MyEngine;
-using namespace Game;
 using namespace Debug;
 using namespace NewUi;

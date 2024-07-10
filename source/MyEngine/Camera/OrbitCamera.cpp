@@ -3,7 +3,7 @@
 
 #include <Windows.h>
 #include <App/Win32/Mouse.h>
-#include <Game/Camera/Camera.h>
+#include <Camera/Camera.h>
 #include <Math/Constants.h>
 
 using namespace App::Win32;

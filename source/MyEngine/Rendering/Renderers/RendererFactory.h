@@ -6,10 +6,7 @@
 
 namespace MyEngine
 {
-	namespace Game
-	{
-		class Camera;
-	}
+	class Camera;
 
 	namespace Rendering
 	{

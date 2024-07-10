@@ -2,7 +2,7 @@
 #include "R_LambertCam_Tex.h"
 
 #include <Framework/Resources.h>
-#include <Game/Camera/Camera.h>
+#include <Camera/Camera.h>
 #include <Rendering/State/Mesh.h>
 #include <Rendering/State/Texture.h>
 

@@ -1,7 +1,6 @@
 #include "WorldMatrix.h"
 
 using namespace MyEngine;
-using namespace Game;
 
 Float3 WorldMatrix::GetPosition(const Float4X4& world)
 {

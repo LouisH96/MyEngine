@@ -3,15 +3,9 @@
 
 namespace MyEngine
 {
-	namespace Game
-	{
-		class Camera;
-		class Transform;
-	}
-}
+	class Camera;
+	class Transform;
 
-namespace MyEngine
-{
 	namespace Rendering
 	{
 		struct CB_CamMat
@@ -19,7 +13,7 @@ namespace MyEngine
 			Float4X4 CameraMatrix{};
 
 			CB_CamMat() = default;
-			CB_CamMat(const Game::Camera& camera);
+			CB_CamMat(const Camera& camera);
 			explicit CB_CamMat(const Float4X4& viewProjection);
 			explicit CB_CamMat(const Float3& position, const Float4X4& viewProjection);
 		};
@@ -29,9 +23,9 @@ namespace MyEngine
 			Float3 CameraPos;
 			float padding = 0;
 
-			CB_CamMatPos(const Game::Camera& camera);
+			CB_CamMatPos(const Camera& camera);
 			explicit CB_CamMatPos(const Float3& position, const Float4X4& matrix);
-			explicit CB_CamMatPos(const Float3& position, const Float4X4& viewProjection, const Game::Transform& transform);
+			explicit CB_CamMatPos(const Float3& position, const Float4X4& viewProjection, const Transform& transform);
 		};
 		struct CB_CamPos
 		{
@@ -49,14 +43,14 @@ namespace MyEngine
 			Float3 Forward;
 			float Padding2{};
 
-			CB_Cam_View_ViewProj_Pos_For(const Game::Camera& camera);
+			CB_Cam_View_ViewProj_Pos_For(const Camera& camera);
 		};
 		struct CB_ModelBuffer
 		{
 			Float4X4 ModelMatrix{};
 
 			CB_ModelBuffer() = default;
-			explicit CB_ModelBuffer(const Game::Transform& transform);
+			explicit CB_ModelBuffer(const Transform& transform);
 			explicit CB_ModelBuffer(const Float4X4& matrix);
 		};
 	}

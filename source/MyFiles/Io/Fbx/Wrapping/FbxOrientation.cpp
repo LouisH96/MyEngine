@@ -37,10 +37,8 @@ Float3 FbxOrientation::ConvertRotation(const Float3& rotation)
 	};
 }
 
-Game::Transform FbxOrientation::MakeLocalTransform(const Model& model) const
+Transform FbxOrientation::MakeLocalTransform(const Model& model) const
 {
-	using namespace Game;
-
 	const Float3 preRotation{ ConvertRotation(model.GetPreRotation()) };
 	const Float3 rotation{ ConvertRotation(model.GetLclRotation()) };
 	const Float3 postRotation{ ConvertRotation(model.GetPostRotation()) };
