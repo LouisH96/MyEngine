@@ -96,5 +96,5 @@ Float3 Random::UnitVector3()
 
 Float3 Random::Position(const Float3& center, float maxDist, float minDist)
 {
-	return UnitVector3() * Range(minDist, maxDist);
+	return UnitVector3() * Range(minDist, maxDist) + center;
 }
