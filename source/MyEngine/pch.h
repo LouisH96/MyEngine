@@ -12,6 +12,7 @@
 #include <DataStructures/Array.h>
 #include <DataStructures/List.h>
 #include <Framework/Globals.h>
+#include <Framework/Resources.h>
 #include <Transform/Transform.h>
 #include <App/Win32/Mouse.h>
 #include <App/Win32/Keyboard_MsgListener.h>
