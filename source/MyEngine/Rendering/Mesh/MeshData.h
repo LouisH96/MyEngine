@@ -34,6 +34,10 @@ namespace MyEngine
 
 	//---| Specialized Classes |---
 	template<typename Vertex>
+	class MeshData<Vertex, ModelTopology::LineList>
+		: public MeshDataWithoutIndices<Vertex, ModelTopology::LineList>
+	{ };
+	template<typename Vertex>
 	class MeshData<Vertex, ModelTopology::LineStrip>
 		: public MeshDataWithoutIndices<Vertex, ModelTopology::LineStrip>
 	{ };
@@ -44,6 +48,15 @@ namespace MyEngine
 	template<typename Vertex>
 	class MeshData<Vertex, ModelTopology::TriangleStrip>
 		: public MeshDataWithoutIndices<Vertex, ModelTopology::TriangleStrip>
+	{ };
+
+	template<typename Vertex>
+	class MeshData<Vertex, ModelTopology::LineListIdx>
+		: public MeshDataWithIndices<Vertex, ModelTopology::LineListIdx>
+	{ };
+	template<typename Vertex>
+	class MeshData<Vertex, ModelTopology::LineStripIdx>
+		: public MeshDataWithIndices<Vertex, ModelTopology::LineStripIdx>
 	{ };
 	template<typename Vertex>
 	class MeshData<Vertex, ModelTopology::TriangleListIdx>

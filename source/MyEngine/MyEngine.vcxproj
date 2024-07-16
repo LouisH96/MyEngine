@@ -143,6 +143,9 @@
     <ClCompile Include="Applied\NewUi\Structures\SideMenu\Tabs\TabManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Applied\MeshMaker\Point.h" />
+    <ClInclude Include="Applied\MeshMaker\Quad.h" />
+    <ClInclude Include="Applied\MeshMaker\TopologyInfo.h" />
     <ClInclude Include="Applied\NewUi\Elements\AnchorParent.h" />
     <ClInclude Include="Applied\NewUi\Structures\SideMenu\Tabs\TitleTab.h" />
     <ClInclude Include="App\Win32\KeyCodes.h" />
@@ -169,6 +172,7 @@
     <ClInclude Include="Generation\SphereGenerator.h" />
     <ClInclude Include="Generation\StripLoopCorneredGenerator.h" />
     <ClInclude Include="Generation\StripLoopGenerator.h" />
+    <ClInclude Include="Applied\MeshMaker\Makers\Maker.h" />
     <ClInclude Include="Physics\Collisions\LineDiskCollision.h" />
     <ClInclude Include="Generation\DiskGenerator_TriangleListIdx.h" />
     <ClInclude Include="Geometry\Shapes\Hexagon.h" />
@@ -188,6 +192,8 @@
     <ClInclude Include="Applied\NewUi\NewUiSystem.h" />
     <ClInclude Include="Applied\NewUi\Elements\Label.h" />
     <ClInclude Include="Applied\NewUi\Elements\Margin.h" />
+    <ClInclude Include="Applied\MeshMaker\Makers\MakerResult.h" />
+    <ClInclude Include="Applied\MeshMaker\Makers\QuadMaker.h" />
     <ClInclude Include="Rendering\Mesh\MeshBuffers.h" />
     <ClInclude Include="Rendering\Mesh\MeshData.h" />
     <ClInclude Include="Rendering\ModelLoaders\ModelLoader.h" />
@@ -401,6 +407,7 @@
       <ExternalWarningLevel>Level1</ExternalWarningLevel>
       <ExceptionHandling>false</ExceptionHandling>
       <AdditionalOptions>-D_HAS_EXCEPTIONS=0 %(AdditionalOptions)</AdditionalOptions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -433,6 +440,7 @@
       <ExternalWarningLevel>Level1</ExternalWarningLevel>
       <ExceptionHandling>false</ExceptionHandling>
       <AdditionalOptions>-D_HAS_EXCEPTIONS=0 %(AdditionalOptions)</AdditionalOptions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -467,6 +475,7 @@
       <ExternalWarningLevel>Level1</ExternalWarningLevel>
       <ExceptionHandling>false</ExceptionHandling>
       <AdditionalOptions>-D_HAS_EXCEPTIONS=0 %(AdditionalOptions)</AdditionalOptions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -505,6 +514,7 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <AdditionalOptions>-D_HAS_EXCEPTIONS=0 %(AdditionalOptions)</AdditionalOptions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

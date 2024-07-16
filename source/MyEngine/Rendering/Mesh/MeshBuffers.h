@@ -45,6 +45,10 @@ namespace MyEngine
 
 	//---| Specialized Classes |---
 	template<typename Vertex>
+	class MeshBuffers<Vertex, ModelTopology::LineList>
+		: public MeshBuffersWithoutIndices<Vertex, ModelTopology::LineList>
+	{};
+	template<typename Vertex>
 	class MeshBuffers<Vertex, ModelTopology::LineStrip>
 		: public MeshBuffersWithoutIndices<Vertex, ModelTopology::LineStrip>
 	{};
@@ -55,6 +59,15 @@ namespace MyEngine
 	template<typename Vertex>
 	class MeshBuffers<Vertex, ModelTopology::TriangleStrip>
 		: public MeshBuffersWithoutIndices<Vertex, ModelTopology::TriangleStrip>
+	{};
+
+	template<typename Vertex>
+	class MeshBuffers<Vertex, ModelTopology::LineListIdx>
+		: public MeshBuffersWithIndices<Vertex, ModelTopology::LineListIdx>
+	{};
+	template<typename Vertex>
+	class MeshBuffers<Vertex, ModelTopology::LineStripIdx>
+		: public MeshBuffersWithIndices<Vertex, ModelTopology::LineStripIdx>
 	{};
 	template<typename Vertex>
 	class MeshBuffers<Vertex, ModelTopology::TriangleListIdx>
