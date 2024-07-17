@@ -4,8 +4,7 @@
 #include <Rendering\Mesh\MeshData.h>
 
 #include "MakerResult.h"
-#include "..\Point.h"
-#include "..\TopologyInfo.h"
+#include "..\MakerVertex.h"
 
 namespace MyEngine
 {
@@ -49,9 +48,7 @@ public:
 	template<unsigned ResultIndex>
 	void Add(const unsigned& index);
 
-	unsigned Transform(const Point<unsigned>& index);
-	unsigned Transform(const Point<Float3>& position);
-	unsigned Transform(const Point<Vertex>& vertex);
+	unsigned Transform(const MakerVertex* pVertex);
 
 	template<unsigned InputSize = ResultSize>
 	void AddAllToResult(const unsigned* pIndices);
@@ -82,25 +79,27 @@ inline void MakerBase2<Vertex, Topology, ResultSize, true>::AddAllToResult(const
 }
 
 template<typename Vertex, ModelTopology Topology, unsigned ResultSize>
-inline unsigned MakerBase2<Vertex, Topology, ResultSize, true>::Transform(const Point<unsigned>& index)
+inline unsigned MakerBase2<Vertex, Topology, ResultSize, true>::Transform(const MakerVertex* pVertex)
 {
-	return index.Index;
-}
-
-template<typename Vertex, ModelTopology Topology, unsigned ResultSize>
-inline unsigned MakerBase2<Vertex, Topology, ResultSize, true>::Transform(const Point<Float3>& position)
-{
-	Vertex vertex{};
-	vertex.Pos = position.Pos;
-	BaseClass::m_MeshData.Vertices.Add(vertex);
-	return BaseClass::m_MeshData.Vertices.GetSize() - 1;
-}
-
-template<typename Vertex, ModelTopology Topology, unsigned ResultSize>
-inline unsigned MakerBase2<Vertex, Topology, ResultSize, true>::Transform(const Point<Vertex>& point)
-{
-	BaseClass::m_MeshData.Vertices.Add(point.Vertex);
-	return BaseClass::m_MeshData.Vertices.GetSize() - 1;
+	if (const MakerPointVertex * pPointVertex{
+		dynamic_cast<const MakerPointVertex*>(pVertex) })
+	{
+		Vertex vertex{};
+		vertex.Pos = pPointVertex->Position;
+		BaseClass::m_MeshData.Vertices.Add(vertex);
+		return BaseClass::m_MeshData.Vertices.GetSize() - 1;
+	}
+	else if (const MakerFullVertex<Vertex>* pFull =
+		dynamic_cast<const MakerFullVertex<Vertex>*>(pVertex) )
+	{
+		BaseClass::m_MeshData.Vertices.Add(pFull->Vertex);
+		return BaseClass::m_MeshData.Vertices.GetSize() - 1;
+	}
+	else
+	{
+		//should be MakerRefVertex
+		return reinterpret_cast<const MakerRefVertex*>(pVertex)->Index;
+	}
 }
 
 #pragma endregion
@@ -120,8 +119,7 @@ protected:
 	template<unsigned ResultIndex>
 	void Add(const Vertex& index);
 
-	Vertex Transform(const Point<Float3>& position);
-	Vertex Transform(const Point<Vertex>& vertex);
+	Vertex Transform(const MakerVertex* pVertex);
 
 private:
 	using BaseClass = MakerBase1<Vertex, Topology, ResultSize>;
@@ -143,17 +141,26 @@ inline void MakerBase2<Vertex, Topology, ResultSize, false>::Add(const Vertex& v
 }
 
 template<typename Vertex, ModelTopology Topology, unsigned ResultSize>
-inline Vertex MakerBase2<Vertex, Topology, ResultSize, false>::Transform(const Point<Float3>& position)
+inline Vertex MakerBase2<Vertex, Topology, ResultSize, false>::Transform(const MakerVertex* pVertex)
 {
-	Vertex vertex{};
-	vertex.Pos = position.Pos;
-	return vertex;
-}
-
-template<typename Vertex, ModelTopology Topology, unsigned ResultSize>
-inline Vertex MakerBase2<Vertex, Topology, ResultSize, false>::Transform(const Point<Vertex>& vertex)
-{
-	return vertex.Vertex;
+	if (const MakerRefVertex * pRef{
+		dynamic_cast<const MakerRefVertex*>(pVertex) })
+	{
+		return BaseClass::m_MeshData.Vertices[pRef->Index];
+	}
+	else if (const MakerPointVertex* pPoint =
+		dynamic_cast<const MakerPointVertex*>(pVertex))
+	{
+		Vertex vertex{};
+		vertex.Pos = pPoint->Position;
+		return vertex;
+	}
+	else
+	{
+		const MakerFullVertex<Vertex>* pFull{
+			reinterpret_cast<const MakerFullVertex<Vertex>*>(pVertex) };
+		return pFull->Vertex;
+	}
 }
 
 #pragma endregion

@@ -40,8 +40,7 @@ public:
 
 	QuadMaker(MeshData<Vertex, Topology>& meshData);
 
-	template<typename T0, typename T1, typename T2, typename T3>
-	Result Make(const Quad<T0, T1, T2, T3>& quad);
+	Result Make(const Quad& quad);
 };
 
 template<typename Vertex, ModelTopology Topology>
@@ -50,16 +49,15 @@ inline QuadMaker<Vertex, Topology>::QuadMaker(MeshData<Vertex, Topology>& meshDa
 {
 }
 template<typename Vertex, ModelTopology Topology>
-template<typename T0, typename T1, typename T2, typename T3>
-inline typename QuadMaker<Vertex, Topology>::Result QuadMaker<Vertex, Topology>::Make(const Quad<T0, T1, T2, T3>& quad)
+inline typename QuadMaker<Vertex, Topology>::Result QuadMaker<Vertex, Topology>::Make(const Quad& quad)
 {
 	constexpr TopologyInfo::BaseType baseType{ TopologyInfo::GetBaseType(Topology) };
 
 	const DataType data[]{
-		BaseClass::Transform(quad.P0),
-		BaseClass::Transform(quad.P1),
-		BaseClass::Transform(quad.P2),
-		BaseClass::Transform(quad.P3),
+		BaseClass::Transform(quad.pVertices[0]),
+		BaseClass::Transform(quad.pVertices[1]),
+		BaseClass::Transform(quad.pVertices[2]),
+		BaseClass::Transform(quad.pVertices[3]),
 	};
 
 	if constexpr (TopologyInfo::HasIndices(Topology))

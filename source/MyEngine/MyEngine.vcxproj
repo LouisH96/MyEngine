@@ -143,9 +143,8 @@
     <ClCompile Include="Applied\NewUi\Structures\SideMenu\Tabs\TabManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Applied\MeshMaker\Point.h" />
+    <ClInclude Include="Applied\MeshMaker\MakerVertex.h" />
     <ClInclude Include="Applied\MeshMaker\Quad.h" />
-    <ClInclude Include="Applied\MeshMaker\TopologyInfo.h" />
     <ClInclude Include="Applied\NewUi\Elements\AnchorParent.h" />
     <ClInclude Include="Applied\NewUi\Structures\SideMenu\Tabs\TitleTab.h" />
     <ClInclude Include="App\Win32\KeyCodes.h" />
