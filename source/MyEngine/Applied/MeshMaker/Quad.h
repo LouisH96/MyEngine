@@ -1,5 +1,7 @@
 #pragma once
 
+#include <DataStructures\Pointers\SharedPtr.h>
+
 #include "MakerVertex.h"
 
 namespace MyEngine
@@ -12,11 +14,11 @@ public:
 	static constexpr unsigned NrVertices{ 4 };
 
 	Quad() = default;
-	Quad(const MakerVertex& p0, const MakerVertex& p1, const MakerVertex& p2, const MakerVertex& p3)
-		: pVertices{ &p0, &p1, &p2, &p3 }
+	Quad(SharedPtr<const MakerVertex> p0, SharedPtr<const MakerVertex> p1, SharedPtr<const MakerVertex> p2, SharedPtr<const MakerVertex> p3)
+		: Vertices{ p0, p1, p2, p3 }
 	{};
 
-	const MakerVertex* pVertices[NrVertices];
+	SharedPtr<const MakerVertex> Vertices[NrVertices];
 };
 }
 }

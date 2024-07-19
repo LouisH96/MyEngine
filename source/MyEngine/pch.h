@@ -11,6 +11,7 @@
 
 #include <DataStructures/Array.h>
 #include <DataStructures/List.h>
+//#include <DataStructures/Pointers/SharedPtr.h>
 #include <Framework/Globals.h>
 #include <Framework/Resources.h>
 #include <Transform/Transform.h>

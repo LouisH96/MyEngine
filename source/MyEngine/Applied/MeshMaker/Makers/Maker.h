@@ -95,10 +95,15 @@ inline unsigned MakerBase2<Vertex, Topology, ResultSize, true>::Transform(const 
 		BaseClass::m_MeshData.Vertices.Add(pFull->Vertex);
 		return BaseClass::m_MeshData.Vertices.GetSize() - 1;
 	}
+	else if(const MakerRefVertex* pRef =
+		dynamic_cast<const MakerRefVertex*>(pVertex))
+	{
+		return pRef->Index;
+	}
 	else
 	{
-		//should be MakerRefVertex
-		return reinterpret_cast<const MakerRefVertex*>(pVertex)->Index;
+		Logger::PrintError("[Maker::Transform] vertex of unknown type");
+		return 0;
 	}
 }
 
@@ -143,8 +148,8 @@ inline void MakerBase2<Vertex, Topology, ResultSize, false>::Add(const Vertex& v
 template<typename Vertex, ModelTopology Topology, unsigned ResultSize>
 inline Vertex MakerBase2<Vertex, Topology, ResultSize, false>::Transform(const MakerVertex* pVertex)
 {
-	if (const MakerRefVertex * pRef{
-		dynamic_cast<const MakerRefVertex*>(pVertex) })
+	if (const MakerRefVertex* pRef =
+		dynamic_cast<const MakerRefVertex*>(pVertex) )
 	{
 		return BaseClass::m_MeshData.Vertices[pRef->Index];
 	}
@@ -155,11 +160,15 @@ inline Vertex MakerBase2<Vertex, Topology, ResultSize, false>::Transform(const M
 		vertex.Pos = pPoint->Position;
 		return vertex;
 	}
+	else if (const MakerFullVertex<Vertex>* pFull =
+		dynamic_cast<const MakerFullVertex<Vertex>*>(pVertex))
+	{
+		return pFull->Vertex;
+	}
 	else
 	{
-		const MakerFullVertex<Vertex>* pFull{
-			reinterpret_cast<const MakerFullVertex<Vertex>*>(pVertex) };
-		return pFull->Vertex;
+		Logger::PrintError("[Maker<false>::Transform] unknown vertex");
+		return {};
 	}
 }
 

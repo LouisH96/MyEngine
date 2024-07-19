@@ -43,6 +43,7 @@
     <ClInclude Include="DataStructures\Container.h" />
     <ClInclude Include="FileUtils\Drive.h" />
     <ClInclude Include="FileUtils\FileUtils.h" />
+    <ClInclude Include="DataStructures\Pointers\SharedPtr.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Math\Quaternion.cpp" />

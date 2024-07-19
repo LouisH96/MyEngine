@@ -6,7 +6,7 @@ namespace MyEngine
 namespace MeshMaker
 {
 
-struct MakerVertex
+class MakerVertex
 {
 public:
 	MakerVertex() = default;
@@ -14,9 +14,10 @@ public:
 };
 
 template<typename TVertex>
-struct MakerFullVertex
+class MakerFullVertex
 	: public MakerVertex
 {
+public:
 	MakerFullVertex() = default;
 	MakerFullVertex(const TVertex& vertex)
 		: Vertex{ vertex }
@@ -24,23 +25,27 @@ struct MakerFullVertex
 	TVertex Vertex;
 };
 
-struct MakerPointVertex
+class MakerPointVertex
 	: public MakerVertex
 {
+public:
 	MakerPointVertex() = default;
 	MakerPointVertex(const Float3& position)
-		: Position{ position }
+		: MakerVertex{}
+		, Position{ position }
 	{};
 
 	Float3 Position;
 };
 
-struct MakerRefVertex
+class MakerRefVertex
 	: public MakerVertex
 {
+public:
 	MakerRefVertex() = default;
 	MakerRefVertex(unsigned index)
-		: Index{ index }
+		: MakerVertex{}
+		, Index{ index }
 	{};
 
 	unsigned Index;
