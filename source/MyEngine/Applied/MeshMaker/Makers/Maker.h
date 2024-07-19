@@ -13,73 +13,69 @@ namespace MeshMaker
 
 #pragma region Base1
 
-template<typename Vertex, ModelTopology Topology, unsigned ResultSize>
+template<typename Vertex, ModelTopology Topology>
 class MakerBase1
 {
 public:
 	MakerBase1(MeshData<Vertex, Topology>& meshData);
 
 protected:
-	MakerResult<ResultSize> m_Result;
+	MakerResult m_Result;
 	MeshData<Vertex, Topology>& m_MeshData;
 };
 
-template<typename Vertex, ModelTopology Topology, unsigned ResultSize>
-inline MakerBase1<Vertex, Topology, ResultSize>::MakerBase1(MeshData<Vertex, Topology>& meshData)
+template<typename Vertex, ModelTopology Topology>
+inline MakerBase1<Vertex, Topology>::MakerBase1(MeshData<Vertex, Topology>& meshData)
 	: m_MeshData{ meshData }
 {
 }
 
 #pragma endregion
 
-template<typename Vertex, ModelTopology Topology, unsigned ResultSize, bool HasIndexBuffer>
+template<typename Vertex, ModelTopology Topology, bool HasIndexBuffer>
 class MakerBase2;
 
 #pragma region Base2<true> - IndexBuffer
 
-template<typename Vertex, ModelTopology Topology, unsigned ResultSize>
-class MakerBase2<Vertex, Topology, ResultSize, true>
-	: public MakerBase1<Vertex, Topology, ResultSize>
+template<typename Vertex, ModelTopology Topology>
+class MakerBase2<Vertex, Topology, true>
+	: public MakerBase1<Vertex, Topology>
 {
 public:
 	using DataType = unsigned;
 	MakerBase2(MeshData<Vertex, Topology>& meshData);
 
-	template<unsigned ResultIndex>
 	void Add(const unsigned& index);
 
 	unsigned Transform(const MakerVertex* pVertex);
 
-	template<unsigned InputSize = ResultSize>
-	void AddAllToResult(const unsigned* pIndices);
+	void AddAllToResult(PtrRangeConst<unsigned> indices);
 
 private:
-	using BaseClass = MakerBase1<Vertex, Topology, ResultSize>;
+	using BaseClass = MakerBase1<Vertex, Topology>;
 };
 
-template<typename Vertex, ModelTopology Topology, unsigned ResultSize>
-inline MakerBase2<Vertex, Topology, ResultSize, true>::MakerBase2(MeshData<Vertex, Topology>& meshData)
+template<typename Vertex, ModelTopology Topology>
+inline MakerBase2<Vertex, Topology, true>::MakerBase2(MeshData<Vertex, Topology>& meshData)
 	: BaseClass{ meshData }
 {
 }
 
-template<typename Vertex, ModelTopology Topology, unsigned ResultSize>
-template<unsigned ResultIndex>
-inline void MakerBase2<Vertex, Topology, ResultSize, true>::Add(const unsigned& index)
+template<typename Vertex, ModelTopology Topology>
+inline void MakerBase2<Vertex, Topology, true>::Add(const unsigned& index)
 {
 	BaseClass::m_MeshData.Indices.Add(index);
 }
 
-template<typename Vertex, ModelTopology Topology, unsigned ResultSize>
-template<unsigned InputSize>
-inline void MakerBase2<Vertex, Topology, ResultSize, true>::AddAllToResult(const unsigned* pIndices)
+template<typename Vertex, ModelTopology Topology>
+inline void MakerBase2<Vertex, Topology, true>::AddAllToResult(PtrRangeConst<unsigned> data)
 {
-	for (unsigned i = 0; i < InputSize; i++)
-		BaseClass::m_Result.Indices[i] = pIndices[i];
+	for (unsigned i = 0; i < data.count; i++)
+		BaseClass::m_Result.Add(data.pData[i]);
 }
 
-template<typename Vertex, ModelTopology Topology, unsigned ResultSize>
-inline unsigned MakerBase2<Vertex, Topology, ResultSize, true>::Transform(const MakerVertex* pVertex)
+template<typename Vertex, ModelTopology Topology>
+inline unsigned MakerBase2<Vertex, Topology, true>::Transform(const MakerVertex* pVertex)
 {
 	if (const MakerPointVertex * pPointVertex{
 		dynamic_cast<const MakerPointVertex*>(pVertex) })
@@ -90,12 +86,12 @@ inline unsigned MakerBase2<Vertex, Topology, ResultSize, true>::Transform(const 
 		return BaseClass::m_MeshData.Vertices.GetSize() - 1;
 	}
 	else if (const MakerFullVertex<Vertex>* pFull =
-		dynamic_cast<const MakerFullVertex<Vertex>*>(pVertex) )
+		dynamic_cast<const MakerFullVertex<Vertex>*>(pVertex))
 	{
 		BaseClass::m_MeshData.Vertices.Add(pFull->Vertex);
 		return BaseClass::m_MeshData.Vertices.GetSize() - 1;
 	}
-	else if(const MakerRefVertex* pRef =
+	else if (const MakerRefVertex* pRef =
 		dynamic_cast<const MakerRefVertex*>(pVertex))
 	{
 		return pRef->Index;
@@ -111,9 +107,9 @@ inline unsigned MakerBase2<Vertex, Topology, ResultSize, true>::Transform(const 
 
 #pragma region Base2<false> - No IndexBuffer
 
-template<typename Vertex, ModelTopology Topology, unsigned ResultSize>
-class MakerBase2<Vertex, Topology, ResultSize, false>
-	: public MakerBase1<Vertex, Topology, ResultSize>
+template<typename Vertex, ModelTopology Topology>
+class MakerBase2<Vertex, Topology, false>
+	: public MakerBase1<Vertex, Topology>
 {
 public:
 	using DataType = Vertex;
@@ -121,35 +117,33 @@ public:
 
 protected:
 
-	template<unsigned ResultIndex>
 	void Add(const Vertex& index);
 
 	Vertex Transform(const MakerVertex* pVertex);
 
 private:
-	using BaseClass = MakerBase1<Vertex, Topology, ResultSize>;
+	using BaseClass = MakerBase1<Vertex, Topology>;
 };
 
-template<typename Vertex, ModelTopology Topology, unsigned ResultSize>
-inline MakerBase2<Vertex, Topology, ResultSize, false>::MakerBase2(MeshData<Vertex, Topology>& meshData)
+template<typename Vertex, ModelTopology Topology>
+inline MakerBase2<Vertex, Topology, false>::MakerBase2(MeshData<Vertex, Topology>& meshData)
 	: BaseClass{ meshData }
 {
 
 }
 
-template<typename Vertex, ModelTopology Topology, unsigned ResultSize>
-template<unsigned ResultIndex>
-inline void MakerBase2<Vertex, Topology, ResultSize, false>::Add(const Vertex& vertex)
+template<typename Vertex, ModelTopology Topology>
+inline void MakerBase2<Vertex, Topology, false>::Add(const Vertex& vertex)
 {
-	BaseClass::m_Result.Indices[ResultIndex] = BaseClass::m_MeshData.Vertices.GetSize();
+	BaseClass::m_Result.Indices.Add(BaseClass::m_MeshData.Vertices.GetSize());
 	BaseClass::m_MeshData.Vertices.Add(vertex);
 }
 
-template<typename Vertex, ModelTopology Topology, unsigned ResultSize>
-inline Vertex MakerBase2<Vertex, Topology, ResultSize, false>::Transform(const MakerVertex* pVertex)
+template<typename Vertex, ModelTopology Topology>
+inline Vertex MakerBase2<Vertex, Topology, false>::Transform(const MakerVertex* pVertex)
 {
 	if (const MakerRefVertex* pRef =
-		dynamic_cast<const MakerRefVertex*>(pVertex) )
+		dynamic_cast<const MakerRefVertex*>(pVertex))
 	{
 		return BaseClass::m_MeshData.Vertices[pRef->Index];
 	}
@@ -174,33 +168,31 @@ inline Vertex MakerBase2<Vertex, Topology, ResultSize, false>::Transform(const M
 
 #pragma endregion
 
-template<typename Vertex, ModelTopology Topology, unsigned ResultSize, bool HasIndexBuffer>
+template<typename Vertex, ModelTopology Topology, bool HasIndexBuffer>
 class MakerBase2
 {};
 
 #pragma region Maker
 
-template<typename Vertex, ModelTopology Topology, unsigned TResultSize>
+template<typename Vertex, ModelTopology Topology>
 class Maker
-	: public MakerBase2<Vertex, Topology, TResultSize, TopologyInfo::HasIndices(Topology)>
+	: public MakerBase2<Vertex, Topology, TopologyInfo::HasIndices(Topology)>
 {
 public:
-	static constexpr unsigned ResultSize{ TResultSize };
-	using BaseClass = MakerBase2<Vertex, Topology, TResultSize, TopologyInfo::HasIndices(Topology)>;
+	using BaseClass = MakerBase2<Vertex, Topology, TopologyInfo::HasIndices(Topology)>;
 	using DataType = typename BaseClass::DataType;
 
 	Maker(MeshData<Vertex, Topology>& meshData);
 
 };
 
-template<typename Vertex, ModelTopology Topology, unsigned TResultSize>
-inline Maker<Vertex, Topology, TResultSize>::Maker(MeshData<Vertex, Topology>& meshData)
+template<typename Vertex, ModelTopology Topology>
+inline Maker<Vertex, Topology>::Maker(MeshData<Vertex, Topology>& meshData)
 	: BaseClass{ meshData }
 {
 }
 
 #pragma endregion
-
 
 }
 }
