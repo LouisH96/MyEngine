@@ -100,10 +100,10 @@ template<typename O>
 inline SharedPtr<T>& SharedPtr<T>::CopyOperator(const SharedPtr<O>& other)
 {
 	if (&other == this)
-		return;
+		return *this;
 
 	if (other.m_pCounter == m_pCounter)
-		return;
+		return *this;
 
 	if (m_pCounter)
 	{
@@ -116,7 +116,7 @@ inline SharedPtr<T>& SharedPtr<T>::CopyOperator(const SharedPtr<O>& other)
 	m_pCounter = other.m_pCounter;
 	if (m_pCounter)
 	{
-		m_pCounter.count++;
+		m_pCounter->Count++;
 		m_pValue = other.m_pValue;
 	}
 
@@ -127,16 +127,16 @@ template<typename T>
 template<typename O>
 inline SharedPtr<T>& SharedPtr<T>::MoveOperator(SharedPtr<O>&& other)
 {
-	if (&other == this) return;
+	if (&other == this) return *this;
 
 	if (other.m_pCounter == m_pCounter)
 	{
 		if (m_pCounter)
 		{
-			m_pCounter.count--;
+			m_pCounter->Count--;
 			other.m_pCounter = nullptr;
 		}
-		return;
+		return *this;
 	}
 
 	if (m_pCounter)
@@ -225,12 +225,12 @@ template<typename T>
 template<typename O>
 inline SharedPtr<T>& SharedPtr<T>::operator=(SharedPtr<O>&& other)
 {
-	return MoveOperator(other);
+	return MoveOperator(std::move(other));
 }
 template<typename T>
 inline SharedPtr<T>& SharedPtr<T>::operator=(SharedPtr<T>&& other)
 {
-	return MoveOperator(other);
+	return MoveOperator(std::move(other));
 }
 template<typename T>
 inline const T& SharedPtr<T>::Get() const
