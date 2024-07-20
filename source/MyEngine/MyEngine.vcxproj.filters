@@ -118,6 +118,8 @@
     <ClCompile Include="Applied\NewUi\Renderers\NewUiShapeRenderer.cpp" />
     <ClCompile Include="Applied\NewUi\Elements\ListPanel.cpp" />
     <ClCompile Include="Applied\NewUi\Structures\SideMenu\Tabs\TabManager.cpp" />
+    <ClCompile Include="Applied\MeshMaker\Strip.cpp" />
+    <ClCompile Include="Applied\MeshMaker\Makers\MakerResult.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -286,6 +288,8 @@
     <ClInclude Include="Applied\MeshMaker\Makers\Maker.h" />
     <ClInclude Include="Applied\MeshMaker\Makers\QuadMaker.h" />
     <ClInclude Include="Applied\MeshMaker\Makers\MakerResult.h" />
+    <ClInclude Include="Applied\MeshMaker\Strip.h" />
+    <ClInclude Include="Applied\MeshMaker\Makers\StripMaker.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

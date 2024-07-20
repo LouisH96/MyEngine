@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Applied\MeshMaker\Makers\MakerResult.cpp" />
+    <ClCompile Include="Applied\MeshMaker\Strip.cpp" />
     <ClCompile Include="Applied\NewUi\Elements\AnchorParent.cpp" />
     <ClCompile Include="Applied\2D\Camera2D.cpp" />
     <ClCompile Include="Applied\2D\Camera2DController.cpp" />
@@ -143,8 +145,10 @@
     <ClCompile Include="Applied\NewUi\Structures\SideMenu\Tabs\TabManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Applied\MeshMaker\Makers\StripMaker.h" />
     <ClInclude Include="Applied\MeshMaker\MakerVertex.h" />
     <ClInclude Include="Applied\MeshMaker\Quad.h" />
+    <ClInclude Include="Applied\MeshMaker\Strip.h" />
     <ClInclude Include="Applied\NewUi\Elements\AnchorParent.h" />
     <ClInclude Include="Applied\NewUi\Structures\SideMenu\Tabs\TitleTab.h" />
     <ClInclude Include="App\Win32\KeyCodes.h" />
