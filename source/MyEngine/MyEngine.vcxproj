@@ -176,6 +176,7 @@
     <ClInclude Include="Generation\StripLoopCorneredGenerator.h" />
     <ClInclude Include="Generation\StripLoopGenerator.h" />
     <ClInclude Include="Applied\MeshMaker\Makers\Maker.h" />
+    <ClInclude Include="Applied\MeshMaker\MeshMakerHelper.h" />
     <ClInclude Include="Physics\Collisions\LineDiskCollision.h" />
     <ClInclude Include="Generation\DiskGenerator_TriangleListIdx.h" />
     <ClInclude Include="Geometry\Shapes\Hexagon.h" />
