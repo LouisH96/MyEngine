@@ -22,6 +22,7 @@ public:
 private:
 	void AddPhase_LineList(const Array<DataType>& data, const Strip& strip);
 	void AddPhase_LineStrip(const Array<DataType>& data, const Strip& strip);
+	void AddPhase_TriangleList(const Array<DataType>& data, const Strip& strip);
 };
 template<typename Vertex, ModelTopology Topology>
 inline StripMaker<Vertex, Topology>::StripMaker(MeshData<Vertex, Topology>& meshData)
@@ -52,8 +53,10 @@ inline MakerResult StripMaker<Vertex, Topology>::Make(const Strip& strip)
 		AddPhase_LineList(data, strip);
 	else if constexpr (baseType == TopologyInfo::BaseType::LineStrip)
 		AddPhase_LineStrip(data, strip);
+	else if constexpr (baseType == TopologyInfo::BaseType::TriangleList)
+		AddPhase_TriangleList(data, strip);
 
-	return MakerResult();
+	return BaseClass::m_Result;
 }
 template<typename Vertex, ModelTopology Topology>
 inline void StripMaker<Vertex, Topology>::AddPhase_LineList(const Array<DataType>& data, const Strip& strip)
@@ -109,6 +112,26 @@ inline void StripMaker<Vertex, Topology>::AddPhase_LineStrip(const Array<DataTyp
 		BaseClass::Add(data[second]);
 	}
 	BaseClass::Add(data.First());
+}
+template<typename Vertex, ModelTopology Topology>
+inline void StripMaker<Vertex, Topology>::AddPhase_TriangleList(const Array<DataType>& data, const Strip& strip)
+{
+	const unsigned nrEdges{ strip.GetEdges().GetSize() };
+	const unsigned nrWalls{ nrEdges - 1 };
+
+	for (unsigned iWall{ 0 }; iWall < nrWalls; iWall++)
+	{
+		const unsigned leftBot{ iWall * 2 };
+		const unsigned leftTop{ leftBot + 1 };
+		const unsigned rightBot{ leftTop + 1 };
+		const unsigned rightTop{ rightBot + 1 };
+		BaseClass::Add(data[leftBot]); //left-bot triangle
+		BaseClass::Add(data[leftTop]);
+		BaseClass::Add(data[rightBot]);
+		BaseClass::Add(data[leftTop]); //right-top triangle
+		BaseClass::Add(data[rightTop]);
+		BaseClass::Add(data[rightBot]);
+	}
 }
 }
 }
