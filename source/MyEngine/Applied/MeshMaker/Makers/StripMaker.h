@@ -86,12 +86,29 @@ inline void StripMaker<Vertex, Topology>::AddPhase_LineList(const Array<DataType
 template<typename Vertex, ModelTopology Topology>
 inline void StripMaker<Vertex, Topology>::AddPhase_LineStrip(const Array<DataType>& data, const Strip& strip)
 {
-	/* Function:
-		uses 2 zig - zag lines
-	*/
+	const unsigned nrEdges{ strip.GetEdges().GetSize() };
+	const unsigned nrWalls{ nrEdges - 1 };
 
 	//first zig-zag
+	BaseClass::Add(data.First());
+	for (unsigned iWall{ 0 }; iWall < nrWalls; iWall++)
+	{
+		const unsigned first{ iWall * 2 + 1 - iWall % 2 };
+		const unsigned second{ first + 2 };
+		BaseClass::Add(data[first]);
+		BaseClass::Add(data[second]);
+	}
+	BaseClass::Add(data[nrWalls * 2 + 1 - nrWalls % 2]);
 
+	//second zig-zag
+	for (unsigned iWall{ nrWalls - 1 }; iWall > 0; iWall--)
+	{
+		const unsigned first{ iWall * 2 + iWall % 2 };
+		const unsigned second{ first + 1 - iWall % 2 * 2 };
+		BaseClass::Add(data[first]);
+		BaseClass::Add(data[second]);
+	}
+	BaseClass::Add(data.First());
 }
 }
 }
