@@ -61,9 +61,14 @@ inline void StripMaker<Vertex, Topology>::AddPhase_LineList(const Array<DataType
 	const unsigned nrEdges{ strip.GetEdges().GetSize() };
 	const unsigned nrWalls{ nrEdges - 1 };
 
-	//left line
-	BaseClass::Add(data[0]);
-	BaseClass::Add(data[1]);
+	//vertical lines
+	for (unsigned iEdge{ 0 }; iEdge < nrEdges; iEdge++)
+	{
+		const unsigned bot{ iEdge * 2 };
+		const unsigned top{ bot + 1 };
+		BaseClass::Add(data[bot]);
+		BaseClass::Add(data[top]);
+	}
 
 	//horizontal line(s)
 	for (unsigned iWall{ 0 }; iWall < nrWalls; iWall++)
@@ -77,10 +82,6 @@ inline void StripMaker<Vertex, Topology>::AddPhase_LineList(const Array<DataType
 		BaseClass::Add(data[leftTop]);
 		BaseClass::Add(data[rightTop]);
 	}
-
-	//right line
-	BaseClass::Add(data[(nrEdges - 1) * 2]);
-	BaseClass::Add(data[(nrEdges - 1) * 2 + 1]);
 }
 template<typename Vertex, ModelTopology Topology>
 inline void StripMaker<Vertex, Topology>::AddPhase_LineStrip(const Array<DataType>& data, const Strip& strip)
