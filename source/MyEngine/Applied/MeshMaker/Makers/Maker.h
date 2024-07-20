@@ -132,7 +132,7 @@ inline MakerBase2<Vertex, Topology, false>::MakerBase2(MeshData<Vertex, Topology
 template<typename Vertex, ModelTopology Topology>
 inline void MakerBase2<Vertex, Topology, false>::Add(const Vertex& vertex)
 {
-	BaseClass::m_Result.Indices.Add(BaseClass::m_MeshData.Vertices.GetSize());
+	BaseClass::m_Result.Add(BaseClass::m_MeshData.Vertices.GetSize());
 	BaseClass::m_MeshData.Vertices.Add(vertex);
 }
 
