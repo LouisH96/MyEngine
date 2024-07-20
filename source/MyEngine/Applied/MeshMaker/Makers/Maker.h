@@ -45,10 +45,9 @@ public:
 	using DataType = unsigned;
 	MakerBase2(MeshData<Vertex, Topology>& meshData);
 
-	void Add(const unsigned& index);
-
+protected:
 	unsigned Transform(const MakerVertex* pVertex);
-
+	void Add(const unsigned& index);
 	void AddAllToResult(PtrRangeConst<unsigned> indices);
 
 private:
@@ -116,10 +115,8 @@ public:
 	MakerBase2(MeshData<Vertex, Topology>& meshData);
 
 protected:
-
-	void Add(const Vertex& index);
-
 	Vertex Transform(const MakerVertex* pVertex);
+	void Add(const Vertex& index);
 
 private:
 	using BaseClass = MakerBase1<Vertex, Topology>;
