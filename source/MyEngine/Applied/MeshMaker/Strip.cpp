@@ -3,7 +3,7 @@
 
 using namespace MeshMaker;
 
-void Strip::Add(Vertex bottom, Vertex top)
+void Strip::AddEdge(Vertex bottom, Vertex top)
 {
 	m_Edges.Add({ bottom, top });
 }
