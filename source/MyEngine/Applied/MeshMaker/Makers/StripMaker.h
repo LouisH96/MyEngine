@@ -41,8 +41,8 @@ inline MakerResult StripMaker<Vertex, Topology>::Make(const Strip& strip)
 	{
 		const Strip::Edge& edge{ strip.GetEdges()[iEdge] };
 
-		data[iData++] = BaseClass::Transform(&edge.Bottom.Get());
-		data[iData++] = BaseClass::Transform(&edge.Top.Get());
+		data[iData++] = BaseClass::Transform(edge.Bottom.Get());
+		data[iData++] = BaseClass::Transform(edge.Top.Get());
 	}
 	if constexpr (TopologyInfo::HasIndices(Topology))
 		BaseClass::AddAllToResult({ data });

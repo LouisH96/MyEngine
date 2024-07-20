@@ -46,7 +46,7 @@ public:
 	MakerBase2(MeshData<Vertex, Topology>& meshData);
 
 protected:
-	unsigned Transform(const MakerVertex* pVertex);
+	unsigned Transform(const MakerVertex& vertex);
 	void Add(const unsigned& index);
 	void AddAllToResult(PtrRangeConst<unsigned> indices);
 
@@ -74,10 +74,10 @@ inline void MakerBase2<Vertex, Topology, true>::AddAllToResult(PtrRangeConst<uns
 }
 
 template<typename Vertex, ModelTopology Topology>
-inline unsigned MakerBase2<Vertex, Topology, true>::Transform(const MakerVertex* pVertex)
+inline unsigned MakerBase2<Vertex, Topology, true>::Transform(const MakerVertex& vertex)
 {
 	if (const MakerPointVertex * pPointVertex{
-		dynamic_cast<const MakerPointVertex*>(pVertex) })
+		dynamic_cast<const MakerPointVertex*>(&vertex) })
 	{
 		Vertex vertex{};
 		vertex.Pos = pPointVertex->Position;
@@ -85,13 +85,13 @@ inline unsigned MakerBase2<Vertex, Topology, true>::Transform(const MakerVertex*
 		return BaseClass::m_MeshData.Vertices.GetSize() - 1;
 	}
 	else if (const MakerFullVertex<Vertex>* pFull =
-		dynamic_cast<const MakerFullVertex<Vertex>*>(pVertex))
+		dynamic_cast<const MakerFullVertex<Vertex>*>(&vertex))
 	{
 		BaseClass::m_MeshData.Vertices.Add(pFull->Vertex);
 		return BaseClass::m_MeshData.Vertices.GetSize() - 1;
 	}
 	else if (const MakerRefVertex* pRef =
-		dynamic_cast<const MakerRefVertex*>(pVertex))
+		dynamic_cast<const MakerRefVertex*>(&vertex))
 	{
 		return pRef->Index;
 	}
@@ -115,7 +115,7 @@ public:
 	MakerBase2(MeshData<Vertex, Topology>& meshData);
 
 protected:
-	Vertex Transform(const MakerVertex* pVertex);
+	Vertex Transform(const MakerVertex& vertex);
 	void Add(const Vertex& index);
 
 private:
@@ -137,22 +137,22 @@ inline void MakerBase2<Vertex, Topology, false>::Add(const Vertex& vertex)
 }
 
 template<typename Vertex, ModelTopology Topology>
-inline Vertex MakerBase2<Vertex, Topology, false>::Transform(const MakerVertex* pVertex)
+inline Vertex MakerBase2<Vertex, Topology, false>::Transform(const MakerVertex& vertex)
 {
 	if (const MakerRefVertex* pRef =
-		dynamic_cast<const MakerRefVertex*>(pVertex))
+		dynamic_cast<const MakerRefVertex*>(&vertex))
 	{
 		return BaseClass::m_MeshData.Vertices[pRef->Index];
 	}
 	else if (const MakerPointVertex* pPoint =
-		dynamic_cast<const MakerPointVertex*>(pVertex))
+		dynamic_cast<const MakerPointVertex*>(&vertex))
 	{
 		Vertex vertex{};
 		vertex.Pos = pPoint->Position;
 		return vertex;
 	}
 	else if (const MakerFullVertex<Vertex>* pFull =
-		dynamic_cast<const MakerFullVertex<Vertex>*>(pVertex))
+		dynamic_cast<const MakerFullVertex<Vertex>*>(&vertex))
 	{
 		return pFull->Vertex;
 	}

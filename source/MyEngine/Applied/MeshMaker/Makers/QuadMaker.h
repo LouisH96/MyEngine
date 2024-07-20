@@ -52,10 +52,10 @@ inline MakerResult QuadMaker<Vertex, Topology>::Make(const Quad& quad)
 	constexpr TopologyInfo::BaseType baseType{ TopologyInfo::GetBaseType(Topology) };
 
 	const DataType data[]{
-		BaseClass::Transform(&quad.Vertices[0].Get()),
-		BaseClass::Transform(&quad.Vertices[1].Get()),
-		BaseClass::Transform(&quad.Vertices[2].Get()),
-		BaseClass::Transform(&quad.Vertices[3].Get()),
+		BaseClass::Transform(quad.Vertices[0].Get()),
+		BaseClass::Transform(quad.Vertices[1].Get()),
+		BaseClass::Transform(quad.Vertices[2].Get()),
+		BaseClass::Transform(quad.Vertices[3].Get()),
 	};
 
 	if constexpr (TopologyInfo::HasIndices(Topology))
