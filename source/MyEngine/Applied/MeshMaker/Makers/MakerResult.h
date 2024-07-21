@@ -11,6 +11,7 @@ public:
 	MakerResult(unsigned capacity);
 
 	void Add(unsigned index);
+	void RemoveLast();
 
 	template<typename Function, typename Vertex>
 	void AdaptAll(Function function, List<Vertex>& vertices);

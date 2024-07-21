@@ -49,6 +49,7 @@ protected:
 	unsigned Transform(const MakerVertex& vertex);
 	void Add(const unsigned& index);
 	void Add(const unsigned& index, const Float3& normal);
+	void RemoveLast();
 	void AddAllToResult(PtrRangeConst<unsigned> indices);
 
 private:
@@ -72,6 +73,12 @@ inline void MakerBase2<Vertex, Topology, true>::Add(const unsigned& index, const
 {
 	BaseClass::m_MeshData.Indices.Add(index);
 	BaseClass::m_MeshData.Vertices[index].Normal = normal;
+}
+
+template<typename Vertex, ModelTopology Topology>
+inline void MakerBase2<Vertex, Topology, true>::RemoveLast()
+{
+	BaseClass::m_MeshData.Indices.RemoveLast();
 }
 
 template<typename Vertex, ModelTopology Topology>
@@ -126,6 +133,7 @@ protected:
 	Vertex Transform(const MakerVertex& vertex);
 	void Add(const Vertex& vertex);
 	void Add(const Vertex& vertex, const Float3& normal);
+	void RemoveLast();
 
 private:
 	using BaseClass = MakerBase1<Vertex, Topology>;
@@ -150,6 +158,13 @@ inline void MakerBase2<Vertex, Topology, false>::Add(const Vertex& vertex, const
 {
 	Add(vertex);
 	BaseClass::m_MeshData.Vertices.Last().Normal = normal;
+}
+
+template<typename Vertex, ModelTopology Topology>
+inline void MakerBase2<Vertex, Topology, false>::RemoveLast()
+{
+	BaseClass::m_Result.RemoveLast();
+	BaseClass::m_MeshData.Vertices.ReduceSize(1);
 }
 
 template<typename Vertex, ModelTopology Topology>
