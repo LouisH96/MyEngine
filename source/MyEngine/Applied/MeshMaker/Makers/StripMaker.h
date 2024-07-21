@@ -68,25 +68,33 @@ inline void StripMaker<Vertex, Topology>::AddPhase_LineList(const Array<DataType
 	const unsigned nrWalls{ nrEdges - 1 };
 
 	//vertical lines
-	for (unsigned iEdge{ 0 }; iEdge < nrEdges; iEdge++)
+	for (unsigned iWall{ 0 }; iWall < nrWalls; iWall++)
 	{
-		const unsigned bot{ iEdge * 2 };
+		const Float3& normal{ strip.GetNormals()[iWall] };
+		const unsigned bot{ iWall * 4 };
 		const unsigned top{ bot + 1 };
-		BaseClass::Add(data[bot]);
-		BaseClass::Add(data[top]);
+		BaseClass::Add(data[bot], normal);
+		BaseClass::Add(data[top], normal);
+	}
+	{
+		//last verical line
+		const Float3& normal{ strip.GetNormals().Last() };
+		BaseClass::Add(data[data.GetSize() - 2], normal);
+		BaseClass::Add(data[data.GetSize() - 1], normal);
 	}
 
 	//horizontal line(s)
 	for (unsigned iWall{ 0 }; iWall < nrWalls; iWall++)
 	{
-		const unsigned leftBot{ iWall * 2 };
+		const Float3& normal{ strip.GetNormals()[iWall] };
+		const unsigned leftBot{ iWall * 4 };
 		const unsigned leftTop{ leftBot + 1 };
 		const unsigned rightBot{ leftTop + 1 };
 		const unsigned rightTop{ rightBot + 1 };
-		BaseClass::Add(data[leftBot]);
-		BaseClass::Add(data[rightBot]);
-		BaseClass::Add(data[leftTop]);
-		BaseClass::Add(data[rightTop]);
+		BaseClass::Add(data[leftBot], normal);
+		BaseClass::Add(data[rightBot], normal);
+		BaseClass::Add(data[leftTop], normal);
+		BaseClass::Add(data[rightTop], normal);
 	}
 }
 template<typename Vertex, ModelTopology Topology>
