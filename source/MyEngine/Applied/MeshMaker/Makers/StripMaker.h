@@ -100,29 +100,35 @@ inline void StripMaker<Vertex, Topology>::AddPhase_LineList(const Array<DataType
 template<typename Vertex, ModelTopology Topology>
 inline void StripMaker<Vertex, Topology>::AddPhase_LineStrip(const Array<DataType>& data, const Strip& strip)
 {
+	const List<Float3>& normals{ strip.GetNormals() };
 	const unsigned nrEdges{ strip.GetEdges().GetSize() };
 	const unsigned nrWalls{ nrEdges - 1 };
 
 	//first zig-zag
-	BaseClass::Add(data.First());
+	BaseClass::Add(data.First(), normals.First());
 	for (unsigned iWall{ 0 }; iWall < nrWalls; iWall++)
 	{
-		const unsigned first{ iWall * 2 + 1 - iWall % 2 };
-		const unsigned second{ first + 2 };
-		BaseClass::Add(data[first]);
-		BaseClass::Add(data[second]);
+		const Float3& normal{ strip.GetNormals()[iWall] };
+		const unsigned first{ iWall * 4 + iWall % 2 };
+		const unsigned second{ first + 1 - iWall % 2 * 2 };
+		const unsigned third{ second + 2 };
+		BaseClass::Add(data[first], normal);
+		BaseClass::Add(data[second], normal);
+		BaseClass::Add(data[third], normal);
 	}
-	BaseClass::Add(data[nrWalls * 2 + 1 - nrWalls % 2]);
+	//BaseClass::RemoveLast();
 
 	//second zig-zag
-	for (unsigned iWall{ nrWalls - 1 }; iWall > 0; iWall--)
+	for (unsigned iWall{ nrWalls - 1 }; iWall != static_cast<unsigned>(-1); iWall--)
 	{
-		const unsigned first{ iWall * 2 + iWall % 2 };
-		const unsigned second{ first + 1 - iWall % 2 * 2 };
-		BaseClass::Add(data[first]);
-		BaseClass::Add(data[second]);
+		const Float3& normal{ strip.GetNormals()[iWall] };
+		const unsigned first{ iWall * 4 + 3 - iWall % 2 };
+		const unsigned second{ first - 1 + iWall % 2 * 2 };
+		const unsigned third{ second - 2 };
+		BaseClass::Add(data[first], normal);
+		BaseClass::Add(data[second], normal);
+		BaseClass::Add(data[third], normal);
 	}
-	BaseClass::Add(data.First());
 }
 template<typename Vertex, ModelTopology Topology>
 inline void StripMaker<Vertex, Topology>::AddPhase_TriangleList_Sharp(const Array<DataType>& data, const Strip& strip)
