@@ -291,6 +291,7 @@
     <ClInclude Include="Applied\MeshMaker\Strip.h" />
     <ClInclude Include="Applied\MeshMaker\Makers\StripMaker.h" />
     <ClInclude Include="Applied\MeshMaker\MeshMakerHelper.h" />
+    <ClInclude Include="Applied\MeshMaker\Line.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

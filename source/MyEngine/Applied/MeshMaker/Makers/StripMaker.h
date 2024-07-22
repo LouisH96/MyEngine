@@ -62,13 +62,13 @@ inline void StripMaker<Vertex, Topology>::TransformPhase(Array<DataType>& data, 
 {
 	for (unsigned iWall{ 0 }, iData{ 0 }; iWall < strip.GetNrWalls(); iWall++)
 	{
-		const Strip::Edge& edgeLeft{ strip.GetEdges()[iWall] };
-		const Strip::Edge& edgeRight{ strip.GetEdges()[iWall + 1] };
+		const Line& edgeLeft{ strip.GetEdges()[iWall] };
+		const Line& edgeRight{ strip.GetEdges()[iWall + 1] };
 
-		data[iData++] = BaseClass::Transform(edgeLeft.Bottom.Get());
-		data[iData++] = BaseClass::Transform(edgeLeft.Top.Get());
-		data[iData++] = BaseClass::Transform(edgeRight.Bottom.Get());
-		data[iData++] = BaseClass::Transform(edgeRight.Top.Get());
+		data[iData++] = BaseClass::Transform(edgeLeft[0].Get());
+		data[iData++] = BaseClass::Transform(edgeLeft[1].Get());
+		data[iData++] = BaseClass::Transform(edgeRight[0].Get());
+		data[iData++] = BaseClass::Transform(edgeRight[1].Get());
 	}
 }
 template<typename Vertex, ModelTopology Topology>
