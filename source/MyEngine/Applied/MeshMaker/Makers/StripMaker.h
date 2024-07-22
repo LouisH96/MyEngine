@@ -54,9 +54,9 @@ inline MakerResult StripMaker<Vertex, Topology>::Make_Sharp(const Strip& strip)
 
 	//Add phase
 	if constexpr (baseType == TopologyInfo::BaseType::LineList)
-		AddPhase_LineList(data, strip);
+		AddPhase_LineList_Sharp(data, strip);
 	else if constexpr (baseType == TopologyInfo::BaseType::LineStrip)
-		AddPhase_LineStrip(data, strip);
+		AddPhase_LineStrip_Sharp(data, strip);
 	else if constexpr (baseType == TopologyInfo::BaseType::TriangleList)
 		AddPhase_TriangleList_Sharp(data, strip);
 	else if constexpr (baseType == TopologyInfo::BaseType::TriangleStrip)
@@ -121,7 +121,7 @@ inline void StripMaker<Vertex, Topology>::AddPhase_LineStrip_Sharp(const Array<D
 		BaseClass::Add(data[second], normal);
 		BaseClass::Add(data[third], normal);
 	}
-	//BaseClass::RemoveLast();
+	BaseClass::RemoveLast();
 
 	//second zig-zag
 	for (unsigned iWall{ nrWalls - 1 }; iWall != static_cast<unsigned>(-1); iWall--)
