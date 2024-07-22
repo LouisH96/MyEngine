@@ -20,8 +20,8 @@ public:
 	MakerResult Make_Sharp(const Strip& strip);
 
 private:
-	void AddPhase_LineList(const Array<DataType>& data, const Strip& strip);
-	void AddPhase_LineStrip(const Array<DataType>& data, const Strip& strip);
+	void AddPhase_LineList_Sharp(const Array<DataType>& data, const Strip& strip);
+	void AddPhase_LineStrip_Sharp(const Array<DataType>& data, const Strip& strip);
 	void AddPhase_TriangleList_Sharp(const Array<DataType>& data, const Strip& strip);
 	void AddPhase_TriangleStrip_Sharp(const Array<DataType>& data, const Strip& strip);
 };
@@ -67,7 +67,7 @@ inline MakerResult StripMaker<Vertex, Topology>::Make_Sharp(const Strip& strip)
 	return BaseClass::m_Result;
 }
 template<typename Vertex, ModelTopology Topology>
-inline void StripMaker<Vertex, Topology>::AddPhase_LineList(const Array<DataType>& data, const Strip& strip)
+inline void StripMaker<Vertex, Topology>::AddPhase_LineList_Sharp(const Array<DataType>& data, const Strip& strip)
 {
 	const unsigned nrEdges{ strip.GetEdges().GetSize() };
 	const unsigned nrWalls{ nrEdges - 1 };
@@ -103,7 +103,7 @@ inline void StripMaker<Vertex, Topology>::AddPhase_LineList(const Array<DataType
 	}
 }
 template<typename Vertex, ModelTopology Topology>
-inline void StripMaker<Vertex, Topology>::AddPhase_LineStrip(const Array<DataType>& data, const Strip& strip)
+inline void StripMaker<Vertex, Topology>::AddPhase_LineStrip_Sharp(const Array<DataType>& data, const Strip& strip)
 {
 	const List<Float3>& normals{ strip.GetNormals() };
 	const unsigned nrEdges{ strip.GetEdges().GetSize() };
