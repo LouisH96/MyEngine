@@ -20,6 +20,7 @@ public:
 	MakerResult Make_Sharp(const Strip& strip);
 
 private:
+	void TransformPhase(Array<DataType>& data, const Strip& strip);
 	void AddPhase_LineList_Sharp(const Array<DataType>& data, const Strip& strip);
 	void AddPhase_LineStrip_Sharp(const Array<DataType>& data, const Strip& strip);
 	void AddPhase_TriangleList_Sharp(const Array<DataType>& data, const Strip& strip);
@@ -33,26 +34,16 @@ inline StripMaker<Vertex, Topology>::StripMaker(MeshData<Vertex, Topology>& mesh
 template<typename Vertex, ModelTopology Topology>
 inline MakerResult StripMaker<Vertex, Topology>::Make_Sharp(const Strip& strip)
 {
-	constexpr TopologyInfo::BaseType baseType{ TopologyInfo::GetBaseType(Topology) };
-	const unsigned nrEdges{ strip.GetEdges().GetSize() };
-	const unsigned nrWalls{ nrEdges - 1 };
-
 	//Transform phase
-	Array<DataType> data{ nrWalls * 4 };
-	for (unsigned iWall{ 0 }, iData{ 0 }; iWall < nrWalls; iWall++)
-	{
-		const Strip::Edge& edgeLeft{ strip.GetEdges()[iWall] };
-		const Strip::Edge& edgeRight{ strip.GetEdges()[iWall + 1] };
+	Array<DataType> data{ strip.GetNrWalls() * 4 };
+	TransformPhase(data, strip);
 
-		data[iData++] = BaseClass::Transform(edgeLeft.Bottom.Get());
-		data[iData++] = BaseClass::Transform(edgeLeft.Top.Get());
-		data[iData++] = BaseClass::Transform(edgeRight.Bottom.Get());
-		data[iData++] = BaseClass::Transform(edgeRight.Top.Get());
-	}
 	if constexpr (TopologyInfo::HasIndices(Topology))
 		BaseClass::AddAllToResult({ data });
 
 	//Add phase
+	constexpr TopologyInfo::BaseType baseType{ TopologyInfo::GetBaseType(Topology) };
+
 	if constexpr (baseType == TopologyInfo::BaseType::LineList)
 		AddPhase_LineList_Sharp(data, strip);
 	else if constexpr (baseType == TopologyInfo::BaseType::LineStrip)
@@ -67,12 +58,26 @@ inline MakerResult StripMaker<Vertex, Topology>::Make_Sharp(const Strip& strip)
 	return BaseClass::m_Result;
 }
 template<typename Vertex, ModelTopology Topology>
+inline void StripMaker<Vertex, Topology>::TransformPhase(Array<DataType>& data, const Strip& strip)
+{
+	for (unsigned iWall{ 0 }, iData{ 0 }; iWall < strip.GetNrWalls(); iWall++)
+	{
+		const Strip::Edge& edgeLeft{ strip.GetEdges()[iWall] };
+		const Strip::Edge& edgeRight{ strip.GetEdges()[iWall + 1] };
+
+		data[iData++] = BaseClass::Transform(edgeLeft.Bottom.Get());
+		data[iData++] = BaseClass::Transform(edgeLeft.Top.Get());
+		data[iData++] = BaseClass::Transform(edgeRight.Bottom.Get());
+		data[iData++] = BaseClass::Transform(edgeRight.Top.Get());
+	}
+}
+template<typename Vertex, ModelTopology Topology>
 inline void StripMaker<Vertex, Topology>::AddPhase_LineList_Sharp(const Array<DataType>& data, const Strip& strip)
 {
 	const unsigned nrEdges{ strip.GetEdges().GetSize() };
 	const unsigned nrWalls{ nrEdges - 1 };
 
-	//vertical lines
+	//vertical lines (wall left side)
 	for (unsigned iWall{ 0 }; iWall < nrWalls; iWall++)
 	{
 		const Float3& normal{ strip.GetNormals()[iWall] };
@@ -82,10 +87,10 @@ inline void StripMaker<Vertex, Topology>::AddPhase_LineList_Sharp(const Array<Da
 		BaseClass::Add(data[top], normal);
 	}
 	{
-		//last verical line
-		const Float3& normal{ strip.GetNormals().Last() };
-		BaseClass::Add(data[data.GetSize() - 2], normal);
-		BaseClass::Add(data[data.GetSize() - 1], normal);
+		//last verical line (wall right side)
+		const Float3& normal{ strip.GetNormals()[nrWalls] };
+		BaseClass::Add(data[(nrWalls - 1) * 4 + 2], normal);
+		BaseClass::Add(data[(nrWalls - 1) * 4 + 3], normal);
 	}
 
 	//horizontal line(s)
