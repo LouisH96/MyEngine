@@ -23,6 +23,7 @@ private:
 	void AddPhase_LineList(const Array<DataType>& data, const Strip& strip);
 	void AddPhase_LineStrip(const Array<DataType>& data, const Strip& strip);
 	void AddPhase_TriangleList_Sharp(const Array<DataType>& data, const Strip& strip);
+	void AddPhase_TriangleStrip_Sharp(const Array<DataType>& data, const Strip& strip);
 };
 template<typename Vertex, ModelTopology Topology>
 inline StripMaker<Vertex, Topology>::StripMaker(MeshData<Vertex, Topology>& meshData)
@@ -58,6 +59,10 @@ inline MakerResult StripMaker<Vertex, Topology>::Make_Sharp(const Strip& strip)
 		AddPhase_LineStrip(data, strip);
 	else if constexpr (baseType == TopologyInfo::BaseType::TriangleList)
 		AddPhase_TriangleList_Sharp(data, strip);
+	else if constexpr (baseType == TopologyInfo::BaseType::TriangleStrip)
+		AddPhase_TriangleStrip_Sharp(data, strip);
+	else
+		Logger::PrintError("[StripMaker::Make_Sharp] unknown topology");
 
 	return BaseClass::m_Result;
 }
@@ -139,7 +144,6 @@ inline void StripMaker<Vertex, Topology>::AddPhase_TriangleList_Sharp(const Arra
 	for (unsigned iWall{ 0 }; iWall < nrWalls; iWall++)
 	{
 		const Float3& normal{ strip.GetNormals()[iWall] };
-
 		const unsigned leftBot{ iWall * 4 };
 		const unsigned leftTop{ leftBot + 1 };
 		const unsigned rightBot{ leftTop + 1 };
@@ -150,6 +154,25 @@ inline void StripMaker<Vertex, Topology>::AddPhase_TriangleList_Sharp(const Arra
 		BaseClass::Add(data[leftTop], normal); //right-top triangle
 		BaseClass::Add(data[rightTop], normal);
 		BaseClass::Add(data[rightBot], normal);
+	}
+}
+template<typename Vertex, ModelTopology Topology>
+inline void StripMaker<Vertex, Topology>::AddPhase_TriangleStrip_Sharp(const Array<DataType>& data, const Strip& strip)
+{
+	const unsigned nrEdges{ strip.GetEdges().GetSize() };
+	const unsigned nrWalls{ nrEdges - 1 };
+
+	for (unsigned iWall{ 0 }; iWall < nrWalls; iWall++)
+	{
+		const Float3& normal{ strip.GetNormals()[iWall] };
+		const unsigned leftBot{ iWall * 4 };
+		const unsigned leftTop{ leftBot + 1 };
+		const unsigned rightBot{ leftTop + 1 };
+		const unsigned rightTop{ rightBot + 1 };
+		BaseClass::Add(data[leftBot], normal);
+		BaseClass::Add(data[leftTop], normal);
+		BaseClass::Add(data[rightBot], normal);
+		BaseClass::Add(data[rightTop], normal);
 	}
 }
 }
