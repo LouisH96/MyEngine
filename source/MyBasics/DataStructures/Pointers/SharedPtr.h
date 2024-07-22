@@ -56,12 +56,12 @@ public:
 	SharedPtr(SharedPtr&& other);
 
 	template<typename O>
-	SharedPtr<T>& operator=(const SharedPtr<O>& other);
-	SharedPtr<T>& operator=(const SharedPtr<T>& other);
+	SharedPtr<T>& operator=(const SharedPtr<O>& other) noexcept;
+	SharedPtr<T>& operator=(const SharedPtr<T>& other) noexcept;
 
 	template<typename O>
-	SharedPtr<T>& operator=(SharedPtr<O>&& other);
-	SharedPtr<T>& operator=(SharedPtr<T>&& other);
+	SharedPtr<T>& operator=(SharedPtr<O>&& other) noexcept;
+	SharedPtr<T>& operator=(SharedPtr<T>&& other) noexcept;
 
 	const T& Get() const;
 	T& Get();
@@ -212,23 +212,23 @@ inline SharedPtr<T>::SharedPtr(SharedPtr<T>&& other)
 }
 template<typename T>
 template<typename O>
-inline SharedPtr<T>& SharedPtr<T>::operator=(const SharedPtr<O>& other)
+inline SharedPtr<T>& SharedPtr<T>::operator=(const SharedPtr<O>& other) noexcept
 {
 	return CopyOperator(other);
 }
 template<typename T>
-inline SharedPtr<T>& SharedPtr<T>::operator=(const SharedPtr<T>& other)
+inline SharedPtr<T>& SharedPtr<T>::operator=(const SharedPtr<T>& other) noexcept
 {
 	return CopyOperator(other);
 }
 template<typename T>
 template<typename O>
-inline SharedPtr<T>& SharedPtr<T>::operator=(SharedPtr<O>&& other)
+inline SharedPtr<T>& SharedPtr<T>::operator=(SharedPtr<O>&& other) noexcept
 {
 	return MoveOperator(std::move(other));
 }
 template<typename T>
-inline SharedPtr<T>& SharedPtr<T>::operator=(SharedPtr<T>&& other)
+inline SharedPtr<T>& SharedPtr<T>::operator=(SharedPtr<T>&& other) noexcept
 {
 	return MoveOperator(std::move(other));
 }
