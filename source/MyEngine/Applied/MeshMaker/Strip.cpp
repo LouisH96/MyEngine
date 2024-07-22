@@ -12,3 +12,8 @@ void Strip::AddNormal(const Float3& normal)
 {
 	m_Normals.Add(normal);
 }
+
+const MeshMaker::Line& Strip::GetEdge(unsigned i) const
+{
+	return m_Edges[i];
+}

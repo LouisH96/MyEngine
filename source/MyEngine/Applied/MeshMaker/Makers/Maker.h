@@ -10,7 +10,6 @@ namespace MyEngine
 {
 namespace MeshMaker
 {
-
 #pragma region Base1
 
 template<typename Vertex, ModelTopology Topology>
@@ -45,8 +44,8 @@ public:
 	using DataType = unsigned;
 	MakerBase2(MeshData<Vertex, Topology>& meshData);
 
-protected:
 	unsigned Transform(const MakerVertex& vertex);
+	void FinishTransformPhase(Array<DataType>& data);
 	void Add(const unsigned& index);
 	void Add(const unsigned& index, const Float3& normal);
 	void RemoveLast();
@@ -78,7 +77,7 @@ inline void MakerBase2<Vertex, Topology, true>::Add(const unsigned& index, const
 template<typename Vertex, ModelTopology Topology>
 inline void MakerBase2<Vertex, Topology, true>::RemoveLast()
 {
-	BaseClass::m_MeshData.Indices.RemoveLast();
+	BaseClass::m_MeshData.Indices.ReduceSize(1);
 }
 
 template<typename Vertex, ModelTopology Topology>
@@ -116,6 +115,11 @@ inline unsigned MakerBase2<Vertex, Topology, true>::Transform(const MakerVertex&
 		return 0;
 	}
 }
+template<typename Vertex, ModelTopology Topology>
+inline void MakerBase2<Vertex, Topology, true>::FinishTransformPhase(Array<DataType>& data)
+{
+	AddAllToResult({ data });
+}
 
 #pragma endregion
 
@@ -129,8 +133,8 @@ public:
 	using DataType = Vertex;
 	MakerBase2(MeshData<Vertex, Topology>& meshData);
 
-protected:
 	Vertex Transform(const MakerVertex& vertex);
+	void FinishTransformPhase(Array<DataType>& data) {};
 	void Add(const Vertex& vertex);
 	void Add(const Vertex& vertex, const Float3& normal);
 	void RemoveLast();

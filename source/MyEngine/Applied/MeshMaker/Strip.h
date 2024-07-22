@@ -33,6 +33,8 @@ public:
 	const unsigned GetNrEdges() const { return m_Edges.GetSize(); }
 	const unsigned GetNrWalls() const { return m_Edges.GetSize() - 1; }
 
+	const Line& GetEdge(unsigned i) const;
+
 private:
 	List<Line> m_Edges;
 	List<Float3> m_Normals;

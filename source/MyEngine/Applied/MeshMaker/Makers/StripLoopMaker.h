@@ -1,17 +1,15 @@
 #pragma once
 
 #include "Maker.h"
-#include "..\Strip.h"
+#include "..\StripLoop.h"
 #include "StripMakerBase.h"
 
 namespace MyEngine
 {
 namespace MeshMaker
 {
-class StripMakerHelper;
-
 template<typename TVertex, ModelTopology TTopology>
-class StripMaker
+class StripLoopMaker
 	: private StripMakerBase<TVertex, TTopology>
 {
 public:
@@ -20,11 +18,10 @@ public:
 
 	using StripMakerBase<TVertex, TTopology>::StripMakerBase;
 
-	MakerResult Make_Sharp(const Strip& strip);
+	MakerResult Make_Sharp(const StripLoop& strip);
 };
-
 template<typename TVertex, ModelTopology TTopology>
-inline MakerResult StripMaker<TVertex, TTopology>::Make_Sharp(const Strip& strip)
+inline MakerResult StripLoopMaker<TVertex, TTopology>::Make_Sharp(const StripLoop& strip)
 {
 	return BaseClass::Make_Sharp(strip);
 }
