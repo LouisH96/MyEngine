@@ -74,8 +74,7 @@ inline void StripMaker<Vertex, Topology>::TransformPhase(Array<DataType>& data, 
 template<typename Vertex, ModelTopology Topology>
 inline void StripMaker<Vertex, Topology>::AddPhase_LineList_Sharp(const Array<DataType>& data, const Strip& strip)
 {
-	const unsigned nrEdges{ strip.GetEdges().GetSize() };
-	const unsigned nrWalls{ nrEdges - 1 };
+	const unsigned nrWalls{ strip.GetNrWalls() };
 
 	//vertical lines (wall left side)
 	for (unsigned iWall{ 0 }; iWall < nrWalls; iWall++)
@@ -111,8 +110,7 @@ template<typename Vertex, ModelTopology Topology>
 inline void StripMaker<Vertex, Topology>::AddPhase_LineStrip_Sharp(const Array<DataType>& data, const Strip& strip)
 {
 	const List<Float3>& normals{ strip.GetNormals() };
-	const unsigned nrEdges{ strip.GetEdges().GetSize() };
-	const unsigned nrWalls{ nrEdges - 1 };
+	const unsigned nrWalls{ strip.GetNrWalls() };
 
 	//first zig-zag
 	BaseClass::Add(data.First(), normals.First());
@@ -143,10 +141,7 @@ inline void StripMaker<Vertex, Topology>::AddPhase_LineStrip_Sharp(const Array<D
 template<typename Vertex, ModelTopology Topology>
 inline void StripMaker<Vertex, Topology>::AddPhase_TriangleList_Sharp(const Array<DataType>& data, const Strip& strip)
 {
-	const unsigned nrEdges{ strip.GetEdges().GetSize() };
-	const unsigned nrWalls{ nrEdges - 1 };
-
-	for (unsigned iWall{ 0 }; iWall < nrWalls; iWall++)
+	for (unsigned iWall{ 0 }; iWall < strip.GetNrWalls(); iWall++)
 	{
 		const Float3& normal{ strip.GetNormals()[iWall] };
 		const unsigned leftBot{ iWall * 4 };
@@ -164,10 +159,7 @@ inline void StripMaker<Vertex, Topology>::AddPhase_TriangleList_Sharp(const Arra
 template<typename Vertex, ModelTopology Topology>
 inline void StripMaker<Vertex, Topology>::AddPhase_TriangleStrip_Sharp(const Array<DataType>& data, const Strip& strip)
 {
-	const unsigned nrEdges{ strip.GetEdges().GetSize() };
-	const unsigned nrWalls{ nrEdges - 1 };
-
-	for (unsigned iWall{ 0 }; iWall < nrWalls; iWall++)
+	for (unsigned iWall{ 0 }; iWall < strip.GetNrWalls(); iWall++)
 	{
 		const Float3& normal{ strip.GetNormals()[iWall] };
 		const unsigned leftBot{ iWall * 4 };
