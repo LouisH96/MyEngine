@@ -217,10 +217,10 @@ public:
 	Maker(MeshData<Vertex, Topology>& meshData);
 
 protected:
-	void AddListQuad(const Array<DataType>& data,
+	void AddSharpQuad(const Array<DataType>& data,
 		const Float3& normal,
 		unsigned leftBot, unsigned leftTop,
-		unsigned rightBot, unsigned rightTop); //only for sharp mode
+		unsigned rightBot, unsigned rightTop); //careful, need to know the internal when using this
 };
 
 template<typename Vertex, ModelTopology Topology>
@@ -232,33 +232,59 @@ inline Maker<Vertex, Topology>::Maker(MeshData<Vertex, Topology>& meshData)
 #pragma endregion
 
 template<typename Vertex, ModelTopology Topology>
-inline void Maker<Vertex, Topology>::AddListQuad(const Array<DataType>& data,
+inline void Maker<Vertex, Topology>::AddSharpQuad(const Array<DataType>& data,
 	const Float3& normal,
 	unsigned leftBot, unsigned leftTop,
 	unsigned rightBot, unsigned rightTop)
 {
-	if constexpr (TopologyInfo::GetDrawType(Topology) == TopologyInfo::DrawType::Line)
+	if constexpr (TopologyInfo::IsListFormat(Topology))
 	{
-		BaseClass::Add(data[leftBot], normal);
-		BaseClass::Add(data[leftTop], normal);
+		if constexpr (TopologyInfo::IsLineType(Topology))
+		{
+			//LineList
+			BaseClass::Add(data[leftBot], normal);
+			BaseClass::Add(data[leftTop], normal);
 
-		BaseClass::Add(data[leftTop], normal);
-		BaseClass::Add(data[rightTop], normal);
+			BaseClass::Add(data[leftTop], normal);
+			BaseClass::Add(data[rightTop], normal);
 
-		BaseClass::Add(data[rightTop], normal);
-		BaseClass::Add(data[rightBot], normal);
+			BaseClass::Add(data[rightTop], normal);
+			BaseClass::Add(data[rightBot], normal);
 
-		BaseClass::Add(data[rightBot], normal);
-		BaseClass::Add(data[leftBot], normal);
+			BaseClass::Add(data[rightBot], normal);
+			BaseClass::Add(data[leftBot], normal);
+		}
+		else
+		{
+			//TriangleList
+			BaseClass::Add(data[leftBot], normal); //left-bot triangle
+			BaseClass::Add(data[leftTop], normal);
+			BaseClass::Add(data[rightBot], normal);
+
+			BaseClass::Add(data[leftTop], normal); //right-top triangle
+			BaseClass::Add(data[rightTop], normal);
+			BaseClass::Add(data[rightBot], normal);
+		}
 	}
-	else
+	else //FormatType::Strip
 	{
-		BaseClass::Add(data[leftBot], normal); //left-bot triangle
-		BaseClass::Add(data[leftTop], normal);
-		BaseClass::Add(data[rightBot], normal);
-		BaseClass::Add(data[leftTop], normal); //right-top triangle
-		BaseClass::Add(data[rightTop], normal);
-		BaseClass::Add(data[rightBot], normal);
+		if constexpr (TopologyInfo::IsLineType(Topology))
+		{
+			//LineStrip
+			BaseClass::Add(data[rightBot], normal);
+			BaseClass::Add(data[leftBot], normal);
+			BaseClass::Add(data[leftTop], normal);
+			BaseClass::Add(data[rightTop], normal);
+			BaseClass::Add(data[rightBot], normal);
+		}
+		else
+		{
+			//TriangleStrip
+			BaseClass::Add(data[leftBot], normal);
+			BaseClass::Add(data[leftTop], normal);
+			BaseClass::Add(data[rightBot], normal);
+			BaseClass::Add(data[rightTop], normal);
+		}
 	}
 }
 
