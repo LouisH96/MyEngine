@@ -1,121 +1,194 @@
 #pragma once
 #include <string>
+#include <Logger\Logger.h>
 
 namespace MyEngine
 {
-	enum class ModelTopology
-	{
-		LineList, LineListIdx,
-		LineStrip, LineStripIdx,
-		TriangleList, TriangleListIdx,
-		TriangleStrip, TriangleStripIdx,
+enum class ModelTopology
+{
+	LineList, LineListIdx,
+	LineStrip, LineStripIdx,
+	TriangleList, TriangleListIdx,
+	TriangleStrip, TriangleStripIdx,
 
-		Unknown
+	Unknown
+};
+
+class ModelTopologyToString
+{
+public:
+	template<ModelTopology Topology>
+	static std::string ToString();
+};
+
+template<>
+inline std::string ModelTopologyToString::ToString<ModelTopology::LineList>()
+{
+	return "LineList";
+}
+template<>
+inline std::string ModelTopologyToString::ToString<ModelTopology::LineListIdx>()
+{
+	return "LineListIdx";
+}
+template<>
+inline std::string ModelTopologyToString::ToString<ModelTopology::LineStrip>()
+{
+	return "LineStrip";
+}
+template<>
+inline std::string ModelTopologyToString::ToString<ModelTopology::LineStripIdx>()
+{
+	return "LineStripIdx";
+}
+template<>
+inline std::string ModelTopologyToString::ToString<ModelTopology::TriangleList>()
+{
+	return "TriangleList";
+}
+template<>
+inline std::string ModelTopologyToString::ToString<ModelTopology::TriangleListIdx>()
+{
+	return "TriangleListIdx";
+}
+template<>
+inline std::string ModelTopologyToString::ToString<ModelTopology::TriangleStrip>()
+{
+	return "TriangleStrip";
+}
+template<>
+inline std::string ModelTopologyToString::ToString<ModelTopology::TriangleStripIdx>()
+{
+	return "TriangleStripIdx";
+}
+
+class TopologyInfo
+{
+public:
+	enum class DrawType
+	{
+		Line, Triangle
+	};
+	enum class FormatType
+	{
+		List, Strip
+	};
+	enum class UnitType
+	{
+		Vertex, Index
+	};
+	enum class BaseType
+	{
+		LineList, LineStrip,
+		TriangleList, TriangleStrip
 	};
 
-	class ModelTopologyToString
+	static constexpr DrawType GetDrawType(ModelTopology topology)
 	{
-	public:
-		template<ModelTopology Topology>
-		static std::string ToString();
-	};
-
-	template<>
-	inline std::string ModelTopologyToString::ToString<ModelTopology::LineList>()
-	{
-		return "LineList";
-	}
-	template<>
-	inline std::string ModelTopologyToString::ToString<ModelTopology::LineListIdx>()
-	{
-		return "LineListIdx";
-	}
-	template<>
-	inline std::string ModelTopologyToString::ToString<ModelTopology::LineStrip>()
-	{
-		return "LineStrip";
-	}
-	template<>
-	inline std::string ModelTopologyToString::ToString<ModelTopology::LineStripIdx>()
-	{
-		return "LineStripIdx";
-	}
-	template<>
-	inline std::string ModelTopologyToString::ToString<ModelTopology::TriangleList>()
-	{
-		return "TriangleList";
-	}
-	template<>
-	inline std::string ModelTopologyToString::ToString<ModelTopology::TriangleListIdx>()
-	{
-		return "TriangleListIdx";
-	}
-	template<>
-	inline std::string ModelTopologyToString::ToString<ModelTopology::TriangleStrip>()
-	{
-		return "TriangleStrip";
-	}
-	template<>
-	inline std::string ModelTopologyToString::ToString<ModelTopology::TriangleStripIdx>()
-	{
-		return "TriangleStripIdx";
-	}
-
-	class TopologyInfo
-	{
-	public:
-		enum class BaseType
+		switch (topology)
 		{
-			LineList, LineStrip,
-			TriangleList, TriangleStrip
-		};
-
-		static constexpr BaseType GetBaseType(ModelTopology topology)
-		{
-			switch (topology)
-			{
-			case ModelTopology::LineList:
-			case ModelTopology::LineListIdx:
-				return BaseType::LineList;
-
-			case ModelTopology::LineStrip:
-			case ModelTopology::LineStripIdx:
-				return BaseType::LineStrip;
-
-			case ModelTopology::TriangleList:
-			case ModelTopology::TriangleListIdx:
-				return BaseType::TriangleList;
-
-			case ModelTopology::TriangleStrip:
-			case ModelTopology::TriangleStripIdx:
-				return BaseType::TriangleStrip;
-			}
+		case ModelTopology::LineList:
+		case ModelTopology::LineListIdx:
+		case ModelTopology::LineStrip:
+		case ModelTopology::LineStripIdx:
+			return DrawType::Line;
+		case ModelTopology::TriangleList:
+		case ModelTopology::TriangleListIdx:
+		case ModelTopology::TriangleStrip:
+		case ModelTopology::TriangleStripIdx:
+			return DrawType::Triangle;
+		default:
+			Logger::PrintError("[TopologyInfo::GetUnityType] unknown type");
+			return {};
 		}
+	}
 
-		static constexpr bool IsLineType(ModelTopology topology)
+	static constexpr FormatType GetFormatType(ModelTopology topology)
+	{
+		switch (topology)
 		{
-			switch (GetBaseType(topology))
-			{
-			case BaseType::LineList:
-			case BaseType::LineStrip:
-				return true;
-			default:
-				return false;
-			}
+		case ModelTopology::LineList:
+		case ModelTopology::LineListIdx:
+		case ModelTopology::TriangleList:
+		case ModelTopology::TriangleListIdx:
+			return FormatType::List;
+		case ModelTopology::LineStrip:
+		case ModelTopology::LineStripIdx:
+		case ModelTopology::TriangleStrip:
+		case ModelTopology::TriangleStripIdx:
+			return FormatType::Strip;
+		default:
+			Logger::PrintError("[TopologyInfo::GetFormatType] unknown type");
+			return {};
 		}
+	}
 
-		static constexpr bool HasIndices(ModelTopology topology)
+	static constexpr UnitType GetUnitType(ModelTopology topology)
+	{
+		switch (topology)
 		{
-			switch (topology)
-			{
-			case ModelTopology::LineListIdx:
-			case ModelTopology::LineStripIdx:
-			case ModelTopology::TriangleListIdx:
-			case ModelTopology::TriangleStripIdx:
-				return true;
-			default:
-				return false;
-			}
+		case ModelTopology::LineList:
+		case ModelTopology::LineStrip:
+		case ModelTopology::TriangleList:
+		case ModelTopology::TriangleStrip:
+			return UnitType::Vertex;
+		case ModelTopology::LineListIdx:
+		case ModelTopology::LineStripIdx:
+		case ModelTopology::TriangleListIdx:
+		case ModelTopology::TriangleStripIdx:
+			return UnitType::Index;
+		default:
+			Logger::PrintError("[TopologyInfo::GetUnityType] unknown type");
+			return {};
 		}
-	};
+	}
+
+	static constexpr BaseType GetBaseType(ModelTopology topology)
+	{
+		switch (topology)
+		{
+		case ModelTopology::LineList:
+		case ModelTopology::LineListIdx:
+			return BaseType::LineList;
+
+		case ModelTopology::LineStrip:
+		case ModelTopology::LineStripIdx:
+			return BaseType::LineStrip;
+
+		case ModelTopology::TriangleList:
+		case ModelTopology::TriangleListIdx:
+			return BaseType::TriangleList;
+
+		case ModelTopology::TriangleStrip:
+		case ModelTopology::TriangleStripIdx:
+			return BaseType::TriangleStrip;
+		}
+	}
+
+	static constexpr bool IsLineType(ModelTopology topology)
+	{
+		switch (GetBaseType(topology))
+		{
+		case BaseType::LineList:
+		case BaseType::LineStrip:
+			return true;
+		default:
+			return false;
+		}
+	}
+
+	static constexpr bool HasIndices(ModelTopology topology)
+	{
+		switch (topology)
+		{
+		case ModelTopology::LineListIdx:
+		case ModelTopology::LineStripIdx:
+		case ModelTopology::TriangleListIdx:
+		case ModelTopology::TriangleStripIdx:
+			return true;
+		default:
+			return false;
+		}
+	}
+};
 }
