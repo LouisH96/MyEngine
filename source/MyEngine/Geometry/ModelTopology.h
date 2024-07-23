@@ -167,28 +167,27 @@ public:
 
 	static constexpr bool IsLineType(ModelTopology topology)
 	{
-		switch (GetBaseType(topology))
-		{
-		case BaseType::LineList:
-		case BaseType::LineStrip:
-			return true;
-		default:
-			return false;
-		}
+		return GetDrawType(topology) == DrawType::Line;
+	}
+
+	static constexpr bool IsTriangleType(ModelTopology topology)
+	{
+		return GetDrawType(topology) == DrawType::Triangle;
 	}
 
 	static constexpr bool HasIndices(ModelTopology topology)
 	{
-		switch (topology)
-		{
-		case ModelTopology::LineListIdx:
-		case ModelTopology::LineStripIdx:
-		case ModelTopology::TriangleListIdx:
-		case ModelTopology::TriangleStripIdx:
-			return true;
-		default:
-			return false;
-		}
+		return GetUnitType(topology) == UnitType::Index;
+	}
+
+	static constexpr bool IsListFormat(ModelTopology topology)
+	{
+		return GetFormatType(topology) == FormatType::List;
+	}
+
+	static constexpr bool IsStripFormat(ModelTopology topology)
+	{
+		return GetFormatType(topology) == FormatType::Strip;
 	}
 };
 }
