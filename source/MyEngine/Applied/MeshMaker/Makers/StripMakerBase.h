@@ -24,11 +24,9 @@ public:
 
 protected:
 	template<typename TStrip>
-	void AddPhase_LineList_Sharp(const Array<DataType>& data, const TStrip& strip);
+	void AddPhase_List_Sharp(const Array<DataType>& data, const TStrip& strip);
 	template<typename TStrip>
 	void AddPhase_LineStrip_Sharp(const Array<DataType>& data, const TStrip& strip);
-	template<typename TStrip>
-	void AddPhase_TriangleList_Sharp(const Array<DataType>& data, const TStrip& strip);
 	template<typename TStrip>
 	void AddPhase_TriangleStrip_Sharp(const Array<DataType>& data, const TStrip& strip);
 
@@ -59,13 +57,12 @@ inline MakerResult StripMakerBase<TVertex, TTopology>::Make_Sharp(const TStrip& 
 
 	//Add phase
 	constexpr TopologyInfo::BaseType baseType{ TopologyInfo::GetBaseType(TTopology) };
+	constexpr TopologyInfo::FormatType formatType{ TopologyInfo::GetFormatType(TTopology) };
 
-	if constexpr (baseType == TopologyInfo::BaseType::LineList)
-		AddPhase_LineList_Sharp(data, strip);
+	if constexpr (formatType == TopologyInfo::FormatType::List)
+		AddPhase_List_Sharp(data, strip);
 	else if constexpr (baseType == TopologyInfo::BaseType::LineStrip)
 		AddPhase_LineStrip_Sharp(data, strip);
-	else if constexpr (baseType == TopologyInfo::BaseType::TriangleList)
-		AddPhase_TriangleList_Sharp(data, strip);
 	else if constexpr (baseType == TopologyInfo::BaseType::TriangleStrip)
 		AddPhase_TriangleStrip_Sharp(data, strip);
 	else
@@ -75,38 +72,18 @@ inline MakerResult StripMakerBase<TVertex, TTopology>::Make_Sharp(const TStrip& 
 }
 template<typename TVertex, ModelTopology TTopology>
 template<typename TStrip>
-inline void StripMakerBase<TVertex, TTopology>::AddPhase_LineList_Sharp(const Array<DataType>& data, const TStrip& strip)
+inline void StripMakerBase<TVertex, TTopology>::AddPhase_List_Sharp(const Array<DataType>& data, const TStrip& strip)
 {
-	const unsigned nrWalls{ strip.GetNrWalls() };
-
-	//vertical lines (wall's left side)
-	for (unsigned iWall{ 0 }; iWall < nrWalls; iWall++)
-	{
-		const Float3& normal{ strip.GetNormals()[iWall] };
-		const unsigned bot{ iWall * 4 };
-		const unsigned top{ bot + 1 };
-		BaseClass::Add(data[bot], normal);
-		BaseClass::Add(data[top], normal);
-	}
-	{
-		//last verical line (wall right side)
-		const Float3& normal{ strip.GetNormals()[nrWalls] };
-		BaseClass::Add(data[nrWalls * 4 - 2], normal);
-		BaseClass::Add(data[nrWalls * 4 - 1], normal);
-	}
-
-	//horizontal lines
-	for (unsigned iWall{ 0 }; iWall < nrWalls; iWall++)
+	for (unsigned iWall{ 0 }; iWall < strip.GetNrWalls(); iWall++)
 	{
 		const Float3& normal{ strip.GetNormals()[iWall] };
 		const unsigned leftBot{ iWall * 4 };
 		const unsigned leftTop{ leftBot + 1 };
 		const unsigned rightBot{ leftTop + 1 };
 		const unsigned rightTop{ rightBot + 1 };
-		BaseClass::Add(data[leftBot], normal);
-		BaseClass::Add(data[rightBot], normal);
-		BaseClass::Add(data[leftTop], normal);
-		BaseClass::Add(data[rightTop], normal);
+		BaseClass::AddListQuad(data, normal,
+			leftBot, leftTop,
+			rightBot, rightTop);
 	}
 }
 
@@ -143,27 +120,6 @@ inline void StripMakerBase<TVertex, TTopology>::AddPhase_LineStrip_Sharp(const A
 		BaseClass::Add(data[third], normal);
 	}
 }
-
-template<typename TVertex, ModelTopology TTopology>
-template<typename TStrip>
-inline void StripMakerBase<TVertex, TTopology>::AddPhase_TriangleList_Sharp(const Array<DataType>& data, const TStrip& strip)
-{
-	for (unsigned iWall{ 0 }; iWall < strip.GetNrWalls(); iWall++)
-	{
-		const Float3& normal{ strip.GetNormals()[iWall] };
-		const unsigned leftBot{ iWall * 4 };
-		const unsigned leftTop{ leftBot + 1 };
-		const unsigned rightBot{ leftTop + 1 };
-		const unsigned rightTop{ rightBot + 1 };
-		BaseClass::Add(data[leftBot], normal); //left-bot triangle
-		BaseClass::Add(data[leftTop], normal);
-		BaseClass::Add(data[rightBot], normal);
-		BaseClass::Add(data[leftTop], normal); //right-top triangle
-		BaseClass::Add(data[rightTop], normal);
-		BaseClass::Add(data[rightBot], normal);
-	}
-}
-
 template<typename TVertex, ModelTopology TTopology>
 template<typename TStrip>
 inline void StripMakerBase<TVertex, TTopology>::AddPhase_TriangleStrip_Sharp(const Array<DataType>& data, const TStrip& strip)
