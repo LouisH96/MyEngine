@@ -38,6 +38,9 @@ public:
 
 	const Line& GetEdge(unsigned i) const;
 
+	template<typename Adaptor>
+	void AdaptEdges(Adaptor adaptor);
+
 private:
 	List<Line> m_Edges;
 	List<Float3> m_Normals;
@@ -61,6 +64,12 @@ inline void Strip::CalculateNormals_Sharp(const MeshData<TVertex, Topology>& mes
 
 		m_Normals.Add(toLeftTop.Cross(toRightBot).Normalized());
 	}
+}
+template<typename Adaptor>
+inline void Strip::AdaptEdges(Adaptor adaptor)
+{
+	for (unsigned iEdge{ 0 }; iEdge < m_Edges.GetSize(); ++iEdge)
+		adaptor(m_Edges[iEdge]);
 }
 }
 }
