@@ -18,6 +18,9 @@ public:
 
 	Strip() = default;
 
+	void EnsureEdgesSize(unsigned size);
+	void EnsureNormalsSize(unsigned size);
+
 	void AddEdge(Vertex bottom, Vertex top);
 	void AddNormal(const Float3& normal);
 

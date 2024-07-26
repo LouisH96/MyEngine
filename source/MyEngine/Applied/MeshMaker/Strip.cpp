@@ -3,6 +3,16 @@
 
 using namespace MeshMaker;
 
+void Strip::EnsureEdgesSize(unsigned size)
+{
+	m_Edges.EnsureCapacity(size);
+}
+
+void Strip::EnsureNormalsSize(unsigned size)
+{
+	m_Normals.EnsureCapacity(size);
+}
+
 void Strip::AddEdge(Vertex bottom, Vertex top)
 {
 	m_Edges.Add({ bottom, top });
