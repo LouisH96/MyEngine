@@ -45,6 +45,7 @@ public:
 	MakerBase2(MeshData<Vertex, Topology>& meshData);
 
 	unsigned Transform(const MakerVertex& vertex);
+	unsigned Transform(const Float3& point);
 	void FinishTransformPhase(Array<DataType>& data);
 	void Add(const unsigned& index);
 	void Add(const unsigned& index, const Float3& normal);
@@ -116,6 +117,14 @@ inline unsigned MakerBase2<Vertex, Topology, true>::Transform(const MakerVertex&
 	}
 }
 template<typename Vertex, ModelTopology Topology>
+inline unsigned MakerBase2<Vertex, Topology, true>::Transform(const Float3& point)
+{
+	Vertex vertex{};
+	vertex.Pos = point;
+	BaseClass::m_MeshData.Vertices.Add(vertex);
+	return BaseClass::m_MeshData.Vertices.GetSize() - 1;
+}
+template<typename Vertex, ModelTopology Topology>
 inline void MakerBase2<Vertex, Topology, true>::FinishTransformPhase(Array<DataType>& data)
 {
 	AddAllToResult({ data });
@@ -134,6 +143,7 @@ public:
 	MakerBase2(MeshData<Vertex, Topology>& meshData);
 
 	Vertex Transform(const MakerVertex& vertex);
+	Vertex Transform(const Float3& point);
 	void FinishTransformPhase(Array<DataType>& data) {};
 	void Add(const Vertex& vertex);
 	void Add(const Vertex& vertex, const Float3& normal);
@@ -198,6 +208,15 @@ inline Vertex MakerBase2<Vertex, Topology, false>::Transform(const MakerVertex& 
 	}
 }
 
+template<typename Vertex, ModelTopology Topology>
+inline Vertex MakerBase2<Vertex, Topology, false>::Transform(const Float3& point)
+{
+	Vertex vertex{};
+	vertex.Pos = point;
+	return vertex;
+}
+
+
 #pragma endregion
 
 template<typename Vertex, ModelTopology Topology, bool HasIndexBuffer>
@@ -216,6 +235,8 @@ public:
 
 	Maker(MeshData<Vertex, Topology>& meshData);
 
+	void StartShape(); //prepares MeshData-buffers for new shape (only for strip format)
+
 protected:
 	void AddSharpQuad(const Array<DataType>& data,
 		const Float3& normal,
@@ -227,6 +248,35 @@ template<typename Vertex, ModelTopology Topology>
 inline Maker<Vertex, Topology>::Maker(MeshData<Vertex, Topology>& meshData)
 	: BaseClass{ meshData }
 {
+}
+
+template<typename Vertex, ModelTopology Topology>
+inline void Maker<Vertex, Topology>::StartShape()
+{
+	if constexpr (TopologyInfo::IsListFormat(Topology))
+		return;
+
+	if constexpr (TopologyInfo::HasIndices(Topology))
+	{
+		List<int>& indices{ BaseClass::m_MeshData.Indices };
+		if (indices.Empty())
+			return;
+
+		indices.Add(-1);
+	}
+	else
+	{
+		List<Vertex>& vertices{ BaseClass::m_MeshData.Vertices };
+		if (vertices.Empty())
+			return;
+
+		Vertex inf{};
+		inf.Pos = Float3{ std::numeric_limits<float>::infinity() };
+
+		vertices.Add(inf);
+		if constexpr (TopologyInfo::IsTriangleType(Topology))
+			vertices.Add(inf);
+	}
 }
 
 #pragma endregion
