@@ -8,9 +8,19 @@ MakerResult::MakerResult(unsigned capacity)
 {
 }
 
+void MakerResult::EnsureIncrease(unsigned increase)
+{
+	m_Indices.EnsureIncrease(increase);
+}
+
 void MakerResult::Add(unsigned index)
 {
 	m_Indices.Add(index);
+}
+
+void MakerResult::Add(const MakerResult& other)
+{
+	m_Indices.Add(other.m_Indices);
 }
 
 void MakerResult::RemoveLast()
