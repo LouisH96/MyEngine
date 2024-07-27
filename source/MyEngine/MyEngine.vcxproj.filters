@@ -121,6 +121,7 @@
     <ClCompile Include="Applied\MeshMaker\Strip.cpp" />
     <ClCompile Include="Applied\MeshMaker\Makers\MakerResult.cpp" />
     <ClCompile Include="Applied\MeshMaker\StripLoop.cpp" />
+    <ClCompile Include="Applied\MeshMaker\HoleArray.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -297,6 +298,8 @@
     <ClInclude Include="Applied\MeshMaker\StripLoop.h" />
     <ClInclude Include="Applied\MeshMaker\Makers\StripMakerBase.h" />
     <ClInclude Include="Applied\MeshMaker\MeshMakerOperations.h" />
+    <ClInclude Include="Applied\MeshMaker\HoleArray.h" />
+    <ClInclude Include="Applied\MeshMaker\Makers\HoleArrayMaker.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

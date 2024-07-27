@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Applied\MeshMaker\HoleArray.cpp" />
     <ClCompile Include="Applied\MeshMaker\Makers\MakerResult.cpp" />
     <ClCompile Include="Applied\MeshMaker\Strip.cpp" />
     <ClCompile Include="Applied\MeshMaker\StripLoop.cpp" />
@@ -146,7 +147,9 @@
     <ClCompile Include="Applied\NewUi\Structures\SideMenu\Tabs\TabManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Applied\MeshMaker\HoleArray.h" />
     <ClInclude Include="Applied\MeshMaker\Line.h" />
+    <ClInclude Include="Applied\MeshMaker\Makers\HoleArrayMaker.h" />
     <ClInclude Include="Applied\MeshMaker\Makers\StripLoopMaker.h" />
     <ClInclude Include="Applied\MeshMaker\Makers\StripMaker.h" />
     <ClInclude Include="Applied\MeshMaker\Makers\StripMakerBase.h" />
