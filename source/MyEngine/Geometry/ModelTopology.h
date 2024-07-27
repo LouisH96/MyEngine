@@ -162,6 +162,10 @@ public:
 		case ModelTopology::TriangleStrip:
 		case ModelTopology::TriangleStripIdx:
 			return BaseType::TriangleStrip;
+
+		default:
+			Logger::PrintError("[ModelTopology::GetBaseType] unknown type");
+			return {};
 		}
 	}
 
