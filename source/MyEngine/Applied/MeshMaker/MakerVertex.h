@@ -34,6 +34,10 @@ public:
 		: MakerVertex{}
 		, Position{ position }
 	{};
+	MakerPointVertex(float x, float y, float z)
+		: MakerVertex{}
+		, Position{ x,y,z }
+	{};
 
 	Float3 Position;
 };
