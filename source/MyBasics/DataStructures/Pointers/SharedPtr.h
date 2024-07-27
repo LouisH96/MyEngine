@@ -99,9 +99,6 @@ template<typename T>
 template<typename O>
 inline SharedPtr<T>& SharedPtr<T>::CopyOperator(const SharedPtr<O>& other)
 {
-	if (&other == this)
-		return *this;
-
 	if (other.m_pCounter == m_pCounter)
 		return *this;
 
@@ -127,8 +124,6 @@ template<typename T>
 template<typename O>
 inline SharedPtr<T>& SharedPtr<T>::MoveOperator(SharedPtr<O>&& other)
 {
-	if (&other == this) return *this;
-
 	if (other.m_pCounter == m_pCounter)
 	{
 		if (m_pCounter)
