@@ -1,11 +1,14 @@
 #pragma once
 
 #include <DataStructures\Pointers\SharedPtr.h>
+#include <Geometry\Shapes\Rects.h>
 
+#include "..\Shapes\Arc.h"
 #include "..\Shapes\HoleArray.h"
 #include "..\Shapes\Strip.h"
 #include "..\Shapes\Line.h"
 #include "..\Maker.h"
+#include "ArcMaker.h"
 #include "StripMaker.h"
 
 namespace MyEngine
@@ -19,19 +22,22 @@ class HoleArrayMaker
 public:
 	using BaseClass = Maker<TVertex, TTopology>;
 	using PointType = typename BaseClass::DataType;
-	using BaseClass::Transform;
 	using Maker<TVertex, TTopology>::Maker;
 
-	MakerResult Make(const HoleArray& holeArray);
+	MakerResult Make(const HoleArray& holeArray, RectFloat& bounds);
 
 private:
+	using BaseClass::Transform;
+	using BaseClass::GetPosition;
+
 	Strip MakeGapStrip(const HoleArray& holeArray);
 
-	void MakeStartCap(const HoleArray& holeArray, const Strip& firstGap);
-	void MakeEndCap(const HoleArray& holeArray, const Strip& lastGap);
+	void MakeStartCap(const HoleArray& holeArray, const Strip& firstGap, RectFloat& bounds);
+	void MakeEndCap(const HoleArray& holeArray, const Strip& lastGap, RectFloat& bounds);
 };
 template<typename TVertex, ModelTopology TTopology>
-inline MakerResult HoleArrayMaker<TVertex, TTopology>::Make(const HoleArray& holeArray)
+inline MakerResult HoleArrayMaker<TVertex, TTopology>::Make(
+	const HoleArray& holeArray, RectFloat& bounds)
 {
 	/*only even nrCorners, for now*/
 
@@ -58,21 +64,22 @@ inline MakerResult HoleArrayMaker<TVertex, TTopology>::Make(const HoleArray& hol
 				} };
 		};
 
-
 	//First/Left Cap
-	//BaseClass::StartShape();
+	BaseClass::StartShape();
+	MakeStartCap(holeArray, strip, bounds);
 
 	//Other Gaps
-
-	//Last/Right Cap
-
-
 	for (unsigned iGap = 0; iGap < holeArray.GetNrGaps(); iGap++)
 	{
 		BaseClass::StartShape();
 		BaseClass::m_Result.Add(stripMaker.Make_Sharp(strip));
-		strip.AdaptEdges(moveAdaptor);
+		if (iGap + 1 < holeArray.GetNrGaps())
+			strip.AdaptEdges(moveAdaptor);
 	}
+
+	//Last/Right Cap
+	BaseClass::StartShape();
+	MakeEndCap(holeArray, strip, bounds);
 
 	return BaseClass::m_Result;
 }
@@ -116,15 +123,109 @@ inline Strip HoleArrayMaker<TVertex, TTopology>::MakeGapStrip(const HoleArray& h
 	return strip;
 }
 template<typename TVertex, ModelTopology TTopology>
-inline void HoleArrayMaker<TVertex, TTopology>::MakeStartCap(const HoleArray& holeArray, const Strip& firstGap)
+inline void HoleArrayMaker<TVertex, TTopology>::MakeStartCap(
+	const HoleArray& holeArray, const Strip& firstGap, RectFloat& bounds)
 {
-	const PointType leftTop{ Transform({
-		0, 0, holeArray.GetHoleRadius() * 2}) };
-	const PointType leftBot{ Transform({0,0,0}) };
+	const float gapOffset{ -(holeArray.GetHoleRadius() * 2 + holeArray.GetHoleGap()) };
+	const unsigned nrCornersPerArc{ Uint::Ceil(firstGap.GetNrEdges() / 2.f) };
+	ArcMaker<TVertex, TTopology> arcMaker{ BaseClass::m_MeshData };
+
+	//get stripVertices
+	const unsigned topFirstEdgeIdx{ 0 };
+	const unsigned topLastEdgeIdx{ nrCornersPerArc - 1 };
+	const unsigned botFirstEdgeIdx{ firstGap.GetNrEdges() - nrCornersPerArc };
+	const unsigned botLastEdge{ firstGap.GetNrEdges() - 1 };
+
+	const MakerVertex& highestVertex{ firstGap.GetEdge(0)[1].Get() };
+	const MakerVertex& mostLeftVertex{ firstGap.GetEdge(topLastEdgeIdx)[1].Get() };
+	const MakerVertex& lowestVertex{ firstGap.GetEdge(botLastEdge)[1].Get() };
+
+	bounds.SetLeft(GetPosition(mostLeftVertex).x + gapOffset);
+	bounds.SetBottom(GetPosition(lowestVertex).z);
+	bounds.SetTopUseHeight(GetPosition(highestVertex).z);
+
+	Arc arc{};
+	arc.EnsureNrCorners(nrCornersPerArc);
+	arc.SetNormal({ 0,1,0 });
+
+	//top
+	arc.SetCenter(Float3::FromXz(bounds.GetLeftTop()));
+
+	for (unsigned iCorner{ 0 }; iCorner < nrCornersPerArc; ++iCorner)
+	{
+		const Float3 oppositePos{ GetPosition(firstGap.GetEdge(iCorner)[1]) };
+		const Float3 pos{
+			oppositePos.x + gapOffset,
+			oppositePos.y,
+			oppositePos.z };
+
+		arc.AddCorner(pos);
+	}
+	BaseClass::m_Result.Add(arcMaker.Make(arc));
+
+	//bot
+	BaseClass::StartShape();
+	arc.ClearCorners();
+	arc.SetCenter(Float3::FromXz(bounds.GetLeftBot()));
+
+	for (unsigned iCorner{ firstGap.GetNrEdges() - nrCornersPerArc }; iCorner < firstGap.GetNrEdges(); ++iCorner)
+	{
+		const Float3 oppositePos{ GetPosition(firstGap.GetEdge(iCorner)[1]) };
+		const Float3 pos{
+			oppositePos.x + gapOffset,
+			oppositePos.y,
+			oppositePos.z };
+
+		arc.AddCorner(pos);
+	}
+	BaseClass::m_Result.Add(arcMaker.Make(arc));
 }
 template<typename TVertex, ModelTopology TTopology>
-inline void HoleArrayMaker<TVertex, TTopology>::MakeEndCap(const HoleArray& holeArray, const Strip& lastGap)
+inline void HoleArrayMaker<TVertex, TTopology>::MakeEndCap(
+	const HoleArray& holeArray, const Strip& lastGap, RectFloat& bounds)
 {
+	const float gapOffset{ holeArray.GetHoleRadius() * 2 + holeArray.GetHoleGap() };
+	const unsigned nrCornersPerArc{ Uint::Ceil(lastGap.GetNrEdges() / 2.f) };
+	ArcMaker<TVertex, TTopology> arcMaker{ BaseClass::m_MeshData };
+
+	//Find right edge
+	const unsigned topLastEdgeIdx{ nrCornersPerArc - 1 };
+	const MakerVertex& mostRightVertex{ lastGap.GetEdge(topLastEdgeIdx)[0].Get() };
+
+	bounds.SetRightUseWidth(GetPosition(mostRightVertex).x + gapOffset);
+
+	//Setup arc
+	Arc arc{};
+	arc.EnsureNrCorners(nrCornersPerArc);
+	arc.SetNormal({ 0,1,0 });
+
+	//Top Arc
+	arc.SetCenter(Float3::FromXz(bounds.GetRightTop()));
+	for (unsigned iCorner{ nrCornersPerArc - 1 }; iCorner < Uint::Max(); --iCorner)
+	{
+		const Float3 stripPos{ GetPosition(lastGap.GetEdge(iCorner)[0]) };
+		const Float3 pos{
+			stripPos.x + gapOffset,
+			stripPos.y,
+			stripPos.z };
+		arc.AddCorner(pos);
+	}
+	BaseClass::m_Result.Add(arcMaker.Make(arc));
+
+	//Bot arc
+	BaseClass::StartShape();
+	arc.ClearCorners();
+	arc.SetCenter(Float3::FromXz(bounds.GetRightBot()));
+	for (unsigned iCorner{ lastGap.GetNrEdges() - 1 }; iCorner >= lastGap.GetNrEdges() - nrCornersPerArc; --iCorner)
+	{
+		const Float3 stripPos{ GetPosition(lastGap.GetEdge(iCorner)[0]) };
+		const Float3 pos{
+			stripPos.x + gapOffset,
+			stripPos.y,
+			stripPos.z };
+		arc.AddCorner(pos);
+	}
+	BaseClass::m_Result.Add(arcMaker.Make(arc));
 }
 
 }
