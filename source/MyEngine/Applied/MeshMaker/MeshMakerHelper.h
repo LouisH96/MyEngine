@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Rendering\Mesh\MeshData.h>
-#include "Line.h"
+#include "Shapes\Line.h"
 
 namespace MyEngine
 {
