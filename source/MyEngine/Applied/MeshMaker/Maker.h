@@ -5,6 +5,7 @@
 
 #include "MakerVertex.h"
 #include "MakerResult.h"
+#include "MeshMakerHelper.h"
 
 namespace MyEngine
 {
@@ -242,6 +243,8 @@ protected:
 		const Float3& normal,
 		unsigned leftBot, unsigned leftTop,
 		unsigned rightBot, unsigned rightTop); //careful, need to know the internal when using this
+	Float3 GetPosition(SharedPtr<const MakerVertex> vertex);
+	Float3 GetPosition(const MakerVertex& vertex);
 };
 
 template<typename Vertex, ModelTopology Topology>
@@ -342,6 +345,18 @@ inline void Maker<Vertex, Topology>::AddSharpQuad(const Array<DataType>& data,
 			BaseClass::Add(data[rightTop], normal);
 		}
 	}
+}
+
+template<typename Vertex, ModelTopology Topology>
+inline Float3 Maker<Vertex, Topology>::GetPosition(SharedPtr<const MakerVertex> vertex)
+{
+	return GetPosition(vertex.Get());
+}
+
+template<typename Vertex, ModelTopology Topology>
+inline Float3 Maker<Vertex, Topology>::GetPosition(const MakerVertex& vertex)
+{
+	return MeshMakerHelper::GetPosition(vertex, BaseClass::m_MeshData);
 }
 
 }
