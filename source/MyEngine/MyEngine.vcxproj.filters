@@ -122,6 +122,7 @@
     <ClCompile Include="Applied\MeshMaker\MakerResult.cpp" />
     <ClCompile Include="Applied\MeshMaker\Shapes\StripLoop.cpp" />
     <ClCompile Include="Applied\MeshMaker\Shapes\HoleArray.cpp" />
+    <ClCompile Include="Applied\MeshMaker\Shapes\Arc.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -300,6 +301,8 @@
     <ClInclude Include="Applied\MeshMaker\MeshMakerOperations.h" />
     <ClInclude Include="Applied\MeshMaker\Shapes\HoleArray.h" />
     <ClInclude Include="Applied\MeshMaker\Makers\HoleArrayMaker.h" />
+    <ClInclude Include="Applied\MeshMaker\Shapes\Arc.h" />
+    <ClInclude Include="Applied\MeshMaker\Makers\ArcMaker.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
