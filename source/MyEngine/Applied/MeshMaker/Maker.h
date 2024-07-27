@@ -263,6 +263,9 @@ inline void Maker<Vertex, Topology>::StartShape()
 			return;
 
 		indices.Add(-1);
+
+		if (indices.GetSize() % 2 == 1)
+			indices.Add(indices.Last());
 	}
 	else
 	{
@@ -276,6 +279,9 @@ inline void Maker<Vertex, Topology>::StartShape()
 		vertices.Add(inf);
 		if constexpr (TopologyInfo::IsTriangleType(Topology))
 			vertices.Add(inf);
+
+		if (vertices.GetSize() % 2 == 1)
+			vertices.Add(vertices.Last());
 	}
 }
 
