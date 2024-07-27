@@ -2,8 +2,8 @@
 
 #include <Rendering\Mesh\MeshData.h>
 
-#include "Maker.h"
-#include "..\Line.h"
+#include "..\Maker.h"
+#include "..\Shapes\Line.h"
 
 namespace MyEngine
 {

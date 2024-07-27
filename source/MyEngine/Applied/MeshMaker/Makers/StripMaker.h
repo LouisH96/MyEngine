@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Maker.h"
-#include "..\Strip.h"
+#include "..\Maker.h"
+#include "..\Shapes\Strip.h"
 #include "StripMakerBase.h"
 
 namespace MyEngine

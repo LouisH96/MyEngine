@@ -1,7 +1,7 @@
 #pragma once
 
 #include <DataStructures\Pointers\SharedPtr.h>
-#include "MakerVertex.h"
+#include "..\MakerVertex.h"
 
 namespace MyEngine
 {

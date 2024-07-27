@@ -118,10 +118,10 @@
     <ClCompile Include="Applied\NewUi\Renderers\NewUiShapeRenderer.cpp" />
     <ClCompile Include="Applied\NewUi\Elements\ListPanel.cpp" />
     <ClCompile Include="Applied\NewUi\Structures\SideMenu\Tabs\TabManager.cpp" />
-    <ClCompile Include="Applied\MeshMaker\Strip.cpp" />
-    <ClCompile Include="Applied\MeshMaker\Makers\MakerResult.cpp" />
-    <ClCompile Include="Applied\MeshMaker\StripLoop.cpp" />
-    <ClCompile Include="Applied\MeshMaker\HoleArray.cpp" />
+    <ClCompile Include="Applied\MeshMaker\Shapes\Strip.cpp" />
+    <ClCompile Include="Applied\MeshMaker\MakerResult.cpp" />
+    <ClCompile Include="Applied\MeshMaker\Shapes\StripLoop.cpp" />
+    <ClCompile Include="Applied\MeshMaker\Shapes\HoleArray.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -285,20 +285,20 @@
     <ClInclude Include="Generation\CubeGenerator3.h" />
     <ClInclude Include="Generation\StripLoopCorneredGenerator.h" />
     <ClInclude Include="Applied\NewUi\Structures\SideMenu\Tabs\TabManager.h" />
-    <ClInclude Include="Applied\MeshMaker\Quad.h" />
+    <ClInclude Include="Applied\MeshMaker\Shapes\Quad.h" />
     <ClInclude Include="Applied\MeshMaker\MakerVertex.h" />
-    <ClInclude Include="Applied\MeshMaker\Makers\Maker.h" />
+    <ClInclude Include="Applied\MeshMaker\Maker.h" />
     <ClInclude Include="Applied\MeshMaker\Makers\QuadMaker.h" />
-    <ClInclude Include="Applied\MeshMaker\Makers\MakerResult.h" />
-    <ClInclude Include="Applied\MeshMaker\Strip.h" />
+    <ClInclude Include="Applied\MeshMaker\MakerResult.h" />
+    <ClInclude Include="Applied\MeshMaker\Shapes\Strip.h" />
     <ClInclude Include="Applied\MeshMaker\Makers\StripMaker.h" />
     <ClInclude Include="Applied\MeshMaker\MeshMakerHelper.h" />
     <ClInclude Include="Applied\MeshMaker\Makers\StripLoopMaker.h" />
-    <ClInclude Include="Applied\MeshMaker\Line.h" />
-    <ClInclude Include="Applied\MeshMaker\StripLoop.h" />
+    <ClInclude Include="Applied\MeshMaker\Shapes\Line.h" />
+    <ClInclude Include="Applied\MeshMaker\Shapes\StripLoop.h" />
     <ClInclude Include="Applied\MeshMaker\Makers\StripMakerBase.h" />
     <ClInclude Include="Applied\MeshMaker\MeshMakerOperations.h" />
-    <ClInclude Include="Applied\MeshMaker\HoleArray.h" />
+    <ClInclude Include="Applied\MeshMaker\Shapes\HoleArray.h" />
     <ClInclude Include="Applied\MeshMaker\Makers\HoleArrayMaker.h" />
   </ItemGroup>
   <ItemGroup>

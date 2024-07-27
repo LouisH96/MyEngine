@@ -2,10 +2,10 @@
 
 #include <DataStructures\Pointers\SharedPtr.h>
 
-#include "..\HoleArray.h"
-#include "..\Strip.h"
-#include "..\Line.h"
-#include "Maker.h"
+#include "..\Shapes\HoleArray.h"
+#include "..\Shapes\Strip.h"
+#include "..\Shapes\Line.h"
+#include "..\Maker.h"
 #include "StripMaker.h"
 
 namespace MyEngine

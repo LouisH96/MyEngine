@@ -2,9 +2,10 @@
 
 #include <DataStructures\Pointers\SharedPtr.h>
 #include <Rendering\Mesh\MeshData.h>
-#include "MakerVertex.h"
+
+#include "..\MeshMakerHelper.h"
+#include "..\MakerVertex.h"
 #include "Line.h"
-#include "MeshMakerHelper.h"
 
 namespace MyEngine
 {

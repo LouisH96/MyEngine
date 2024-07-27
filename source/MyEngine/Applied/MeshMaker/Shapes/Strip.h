@@ -3,8 +3,8 @@
 #include <DataStructures\Pointers\SharedPtr.h>
 #include <Rendering\Mesh\MeshData.h>
 
-#include "MakerVertex.h"
-#include "MeshMakerHelper.h"
+#include "..\MakerVertex.h"
+#include "..\MeshMakerHelper.h"
 #include "Line.h"
 
 namespace MyEngine

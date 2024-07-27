@@ -3,8 +3,8 @@
 #include <Geometry\ModelTopology.h>
 #include <Rendering\Mesh\MeshData.h>
 
+#include "MakerVertex.h"
 #include "MakerResult.h"
-#include "..\MakerVertex.h"
 
 namespace MyEngine
 {

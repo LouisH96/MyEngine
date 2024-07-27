@@ -1,8 +1,8 @@
 #pragma once
 
-#include "..\Quad.h"
-#include "Maker.h"
-#include "MakerResult.h"
+#include "..\Maker.h"
+#include "..\Shapes\Quad.h"
+#include "..\MakerResult.h"
 
 namespace MyEngine
 {

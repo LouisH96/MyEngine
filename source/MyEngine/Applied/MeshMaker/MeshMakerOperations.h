@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Strip.h"
-#include "StripLoop.h"
+#include "Shapes\Strip.h"
+#include "Shapes\StripLoop.h"
 
 namespace MyEngine
 {
