@@ -3,11 +3,11 @@
 #include <DataStructures\Pointers\SharedPtr.h>
 #include <Geometry\Shapes\Rects.h>
 
+#include "..\Maker.h"
 #include "..\Shapes\Arc.h"
 #include "..\Shapes\HoleArray.h"
-#include "..\Shapes\Strip.h"
 #include "..\Shapes\Line.h"
-#include "..\Maker.h"
+#include "..\Shapes\Strip.h"
 #include "ArcMaker.h"
 #include "StripMaker.h"
 
@@ -29,8 +29,12 @@ public:
 private:
 	using BaseClass::Transform;
 	using BaseClass::GetPosition;
+	using BaseClass::m_MeshData;
 
-	Strip MakeGapStrip(const HoleArray& holeArray);
+	static void GetNrSides(unsigned nrCircleCorners, unsigned& left, unsigned& right);
+	static unsigned GetNrCornersPerArc(const Strip& gapStrip);
+
+	Strip MakeGapStrip(const HoleArray& holeArray, unsigned nrSides);
 
 	void MakeStartCap(const HoleArray& holeArray, const Strip& firstGap, RectFloat& bounds);
 	void MakeEndCap(const HoleArray& holeArray, const Strip& lastGap, RectFloat& bounds);
@@ -39,72 +43,76 @@ template<typename TVertex, ModelTopology TTopology>
 inline MakerResult HoleArrayMaker<TVertex, TTopology>::Make(
 	const HoleArray& holeArray, RectFloat& bounds)
 {
-	/*only even nrCorners, for now*/
-
-	const unsigned nrCornersPerSide{ Uint::Floor(holeArray.GetNrCornersPerHole() / 2) };
-	const unsigned nrQuadsPerSide{ nrCornersPerSide - 1 };
 	const unsigned nrGaps{ holeArray.GetNrHoles() - 1 };
+	unsigned nrSidesLeft, nrSidesRight;
+	GetNrSides(holeArray.GetNrCornersPerHole(), nrSidesLeft, nrSidesRight);
 
 	//---| Gaps |---
 
 	//Make vertices for 1 gap (and then copy & move them for others)
-	//note: for odd nrCorners there will be shared vertices
-	Strip strip{ MakeGapStrip(holeArray) };
+	//There is a strip for each side of the hole (left & right)
+	Strip strips[]{
+		MakeGapStrip(holeArray, nrSidesRight),
+		MakeGapStrip(holeArray, nrSidesLeft)
+	};
 
 	//display -for now- with SharpStripMaker
-	StripMaker<TVertex, TTopology> stripMaker{ BaseClass::m_MeshData };
+	StripMaker<TVertex, TTopology> stripMaker{ m_MeshData };
 
-	const float moveDistance{ holeArray.GetHoleRadius() * 2 + holeArray.GetHoleGap() };
-	auto moveAdaptor = [this, &moveDistance](Line& edge)
-		{
-			for (unsigned iVertex{ 0 }; iVertex < Line::NrVertices; iVertex++)
-				edge[iVertex] = SharedPtr<const MakerVertex>{ MakerPointVertex{
-						MeshMakerHelper::GetPosition(edge[iVertex].Get(), BaseClass::m_MeshData)
-						+ Float3{moveDistance, 0, 0}
-				} };
-		};
+	const Float3 holeInterval{ holeArray.GetHoleRadius() * 2 + holeArray.GetHoleGap(), 0,0 };
 
 	//First/Left Cap
-	BaseClass::StartShape();
-	MakeStartCap(holeArray, strip, bounds);
+	MakeStartCap(holeArray, strips[1], bounds);
+	strips[1].MoveEdges(holeInterval, m_MeshData);
 
 	//Other Gaps
 	for (unsigned iGap = 0; iGap < holeArray.GetNrGaps(); iGap++)
 	{
 		BaseClass::StartShape();
+		Strip& strip{ strips[iGap % 2] };
 		BaseClass::m_Result.Add(stripMaker.Make_Sharp(strip));
 		if (iGap + 1 < holeArray.GetNrGaps())
-			strip.AdaptEdges(moveAdaptor);
+			strip.MoveEdges(holeInterval * 2, m_MeshData);
 	}
 
 	//Last/Right Cap
-	BaseClass::StartShape();
-	MakeEndCap(holeArray, strip, bounds);
+	MakeEndCap(holeArray, strips[holeArray.GetNrGaps() % 2], bounds);
 
 	return BaseClass::m_Result;
 }
 template<typename TVertex, ModelTopology TTopology>
-inline Strip HoleArrayMaker<TVertex, TTopology>::MakeGapStrip(const HoleArray& holeArray)
+inline void HoleArrayMaker<TVertex, TTopology>::GetNrSides(unsigned nrCircleCorners, unsigned& left, unsigned& right)
+{
+	const unsigned half{ Uint::Floor(nrCircleCorners * .5f) };
+
+	left = half - 1 + (2 - half % 2) * (nrCircleCorners % 2);
+	right = half - 1 + (1 + half % 2) * (nrCircleCorners % 2);
+}
+template<typename TVertex, ModelTopology TTopology>
+inline unsigned HoleArrayMaker<TVertex, TTopology>::GetNrCornersPerArc(const Strip& gapStrip)
+{
+	return Uint::Ceil(gapStrip.GetNrEdges() * .5f);
+}
+template<typename TVertex, ModelTopology TTopology>
+inline Strip HoleArrayMaker<TVertex, TTopology>::MakeGapStrip(const HoleArray& holeArray, unsigned nrSides)
 {
 	const float radius{ holeArray.GetHoleRadius() };
-	const unsigned nrGaps{ holeArray.GetNrGaps() };
 	const float gapDistance{ holeArray.GetHoleGap() };
 
-	/*origin is at left-bot of the left/first hole */
-	const unsigned nrCornersPerSide{ Uint::Floor(holeArray.GetNrCornersPerHole() / 2) };
-	const unsigned nrQuadsPerSide{ nrCornersPerSide - 1 };
+	/*origin is at mathematical left-bot of the left/first hole */
+	const unsigned nrCorners{ nrSides + 1 };
 
 	Strip strip{};
-	strip.EnsureEdgesSize(nrCornersPerSide);
-	strip.EnsureNormalsSize(nrQuadsPerSide);
+	strip.EnsureEdgesSize(nrCorners);
+	strip.EnsureNormalsSize(nrSides);
 
 	//first vertex is 'left-top' (= highest of the left hole)
 	//and considered the left-bot of the strip
 	const float rightHoleX{ radius * 3 + gapDistance };
 	const float angleStep{ Constants::PI2 / holeArray.GetNrCornersPerHole() };
-	float angle{ (nrCornersPerSide - 1) * .5f * angleStep };
+	float angle{ nrSides * .5f * angleStep };
 
-	for (unsigned iCorner = 0; iCorner < nrCornersPerSide; iCorner++, angle -= angleStep)
+	for (unsigned iCorner = 0; iCorner < nrCorners; iCorner++, angle -= angleStep)
 	{
 		const float cornerX{ cosf(angle) * radius };
 		MakerPointVertex left{ {
@@ -126,11 +134,14 @@ template<typename TVertex, ModelTopology TTopology>
 inline void HoleArrayMaker<TVertex, TTopology>::MakeStartCap(
 	const HoleArray& holeArray, const Strip& firstGap, RectFloat& bounds)
 {
-	const float gapOffset{ -(holeArray.GetHoleRadius() * 2 + holeArray.GetHoleGap()) };
-	const unsigned nrCornersPerArc{ Uint::Ceil(firstGap.GetNrEdges() / 2.f) };
-	ArcMaker<TVertex, TTopology> arcMaker{ BaseClass::m_MeshData };
+	if (firstGap.GetNrEdges() <= 2)
+		return;
+	const unsigned nrCornersPerArc{ GetNrCornersPerArc(firstGap) };
 
-	//get stripVertices
+	const float gapOffset{ -(holeArray.GetHoleRadius() * 2 + holeArray.GetHoleGap()) };
+	ArcMaker<TVertex, TTopology> arcMaker{ m_MeshData };
+
+	//Find Bounds
 	const unsigned topFirstEdgeIdx{ 0 };
 	const unsigned topLastEdgeIdx{ nrCornersPerArc - 1 };
 	const unsigned botFirstEdgeIdx{ firstGap.GetNrEdges() - nrCornersPerArc };
@@ -144,31 +155,33 @@ inline void HoleArrayMaker<TVertex, TTopology>::MakeStartCap(
 	bounds.SetBottom(GetPosition(lowestVertex).z);
 	bounds.SetTopUseHeight(GetPosition(highestVertex).z);
 
+	//Setup Arc
 	Arc arc{};
 	arc.EnsureNrCorners(nrCornersPerArc);
 	arc.SetNormal({ 0,1,0 });
 
-	//top
+	//Add Top Arc
+	BaseClass::StartShape();
 	arc.SetCenter(Float3::FromXz(bounds.GetLeftTop()));
 
 	for (unsigned iCorner{ 0 }; iCorner < nrCornersPerArc; ++iCorner)
 	{
-		const Float3 oppositePos{ GetPosition(firstGap.GetEdge(iCorner)[1]) };
+		const Float3 stripPos{ GetPosition(firstGap.GetEdge(iCorner)[1]) };
 		const Float3 pos{
-			oppositePos.x + gapOffset,
-			oppositePos.y,
-			oppositePos.z };
+			stripPos.x + gapOffset,
+			stripPos.y,
+			stripPos.z };
 
 		arc.AddCorner(pos);
 	}
 	BaseClass::m_Result.Add(arcMaker.Make(arc));
 
-	//bot
+	//Add Bot Arc
 	BaseClass::StartShape();
 	arc.ClearCorners();
 	arc.SetCenter(Float3::FromXz(bounds.GetLeftBot()));
 
-	for (unsigned iCorner{ firstGap.GetNrEdges() - nrCornersPerArc }; iCorner < firstGap.GetNrEdges(); ++iCorner)
+	for (unsigned iCorner{ botFirstEdgeIdx }; iCorner < firstGap.GetNrEdges(); ++iCorner)
 	{
 		const Float3 oppositePos{ GetPosition(firstGap.GetEdge(iCorner)[1]) };
 		const Float3 pos{
@@ -184,43 +197,46 @@ template<typename TVertex, ModelTopology TTopology>
 inline void HoleArrayMaker<TVertex, TTopology>::MakeEndCap(
 	const HoleArray& holeArray, const Strip& lastGap, RectFloat& bounds)
 {
-	const float gapOffset{ holeArray.GetHoleRadius() * 2 + holeArray.GetHoleGap() };
-	const unsigned nrCornersPerArc{ Uint::Ceil(lastGap.GetNrEdges() / 2.f) };
+	if (lastGap.GetNrEdges() <= 2)
+		return;
+	const unsigned nrCornersPerArc{ GetNrCornersPerArc(lastGap) };
+
 	ArcMaker<TVertex, TTopology> arcMaker{ BaseClass::m_MeshData };
 
-	//Find right edge
+	//Find Bounds
 	const unsigned topLastEdgeIdx{ nrCornersPerArc - 1 };
 	const MakerVertex& mostRightVertex{ lastGap.GetEdge(topLastEdgeIdx)[0].Get() };
 
-	bounds.SetRightUseWidth(GetPosition(mostRightVertex).x + gapOffset);
+	bounds.SetRightUseWidth(GetPosition(mostRightVertex).x);
 
 	//Setup arc
 	Arc arc{};
 	arc.EnsureNrCorners(nrCornersPerArc);
 	arc.SetNormal({ 0,1,0 });
 
-	//Top Arc
+	//Add Top Arc
+	BaseClass::StartShape();
 	arc.SetCenter(Float3::FromXz(bounds.GetRightTop()));
-	for (unsigned iCorner{ nrCornersPerArc - 1 }; iCorner < Uint::Max(); --iCorner)
+	for (unsigned iCorner{ nrCornersPerArc - 1 }; iCorner != static_cast<unsigned>(-1); --iCorner)
 	{
 		const Float3 stripPos{ GetPosition(lastGap.GetEdge(iCorner)[0]) };
 		const Float3 pos{
-			stripPos.x + gapOffset,
+			stripPos.x,
 			stripPos.y,
 			stripPos.z };
 		arc.AddCorner(pos);
 	}
 	BaseClass::m_Result.Add(arcMaker.Make(arc));
 
-	//Bot arc
+	//Add Bot arc
 	BaseClass::StartShape();
 	arc.ClearCorners();
 	arc.SetCenter(Float3::FromXz(bounds.GetRightBot()));
-	for (unsigned iCorner{ lastGap.GetNrEdges() - 1 }; iCorner >= lastGap.GetNrEdges() - nrCornersPerArc; --iCorner)
+	for (unsigned iCorner{ lastGap.GetNrEdges() - 1 }; iCorner != static_cast<unsigned>(lastGap.GetNrEdges() - 1 - nrCornersPerArc); iCorner--)
 	{
 		const Float3 stripPos{ GetPosition(lastGap.GetEdge(iCorner)[0]) };
 		const Float3 pos{
-			stripPos.x + gapOffset,
+			stripPos.x,
 			stripPos.y,
 			stripPos.z };
 		arc.AddCorner(pos);
