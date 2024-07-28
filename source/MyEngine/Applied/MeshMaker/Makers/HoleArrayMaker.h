@@ -63,7 +63,8 @@ inline MakerResult HoleArrayMaker<TVertex, TTopology>::Make(
 
 	//First/Left Cap
 	MakeStartCap(holeArray, strips[1], bounds);
-	strips[1].MoveEdges(holeInterval, m_MeshData);
+	if (holeArray.GetNrHoles() > 1)
+		strips[1].MoveEdges(holeInterval, m_MeshData);
 
 	//Other Gaps
 	for (unsigned iGap = 0; iGap < holeArray.GetNrGaps(); iGap++)
