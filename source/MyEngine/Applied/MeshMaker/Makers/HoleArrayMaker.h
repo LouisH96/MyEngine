@@ -135,12 +135,8 @@ template<typename TVertex, ModelTopology TTopology>
 inline void HoleArrayMaker<TVertex, TTopology>::MakeStartCap(
 	const HoleArray& holeArray, const Strip& firstGap, RectFloat& bounds)
 {
-	if (firstGap.GetNrEdges() <= 2)
-		return;
 	const unsigned nrCornersPerArc{ GetNrCornersPerArc(firstGap) };
-
 	const float gapOffset{ -(holeArray.GetHoleRadius() * 2 + holeArray.GetHoleGap()) };
-	ArcMaker<TVertex, TTopology> arcMaker{ m_MeshData };
 
 	//Find Bounds
 	const unsigned topFirstEdgeIdx{ 0 };
@@ -155,6 +151,11 @@ inline void HoleArrayMaker<TVertex, TTopology>::MakeStartCap(
 	bounds.SetLeft(GetPosition(mostLeftVertex).x + gapOffset);
 	bounds.SetBottom(GetPosition(lowestVertex).z);
 	bounds.SetTopUseHeight(GetPosition(highestVertex).z);
+
+	//Prepare creation
+	if (firstGap.GetNrEdges() <= 2)
+		return;
+	ArcMaker<TVertex, TTopology> arcMaker{ m_MeshData };
 
 	//Setup Arc
 	Arc arc{};
@@ -198,17 +199,18 @@ template<typename TVertex, ModelTopology TTopology>
 inline void HoleArrayMaker<TVertex, TTopology>::MakeEndCap(
 	const HoleArray& holeArray, const Strip& lastGap, RectFloat& bounds)
 {
-	if (lastGap.GetNrEdges() <= 2)
-		return;
 	const unsigned nrCornersPerArc{ GetNrCornersPerArc(lastGap) };
-
-	ArcMaker<TVertex, TTopology> arcMaker{ BaseClass::m_MeshData };
 
 	//Find Bounds
 	const unsigned topLastEdgeIdx{ nrCornersPerArc - 1 };
 	const MakerVertex& mostRightVertex{ lastGap.GetEdge(topLastEdgeIdx)[0].Get() };
 
 	bounds.SetRightUseWidth(GetPosition(mostRightVertex).x);
+	
+	//Prepare creation
+	if (lastGap.GetNrEdges() <= 2)
+		return;
+	ArcMaker<TVertex, TTopology> arcMaker{ BaseClass::m_MeshData };
 
 	//Setup arc
 	Arc arc{};
