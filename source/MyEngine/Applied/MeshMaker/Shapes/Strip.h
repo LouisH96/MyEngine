@@ -41,6 +41,9 @@ public:
 	template<typename Adaptor>
 	void AdaptEdges(Adaptor adaptor);
 
+	template<typename TVertex, ModelTopology TTopology>
+	void MoveEdges(const Float3& movement, MeshData<TVertex, TTopology>& meshData);
+
 private:
 	List<Line> m_Edges;
 	List<Float3> m_Normals;
@@ -70,6 +73,22 @@ inline void Strip::AdaptEdges(Adaptor adaptor)
 {
 	for (unsigned iEdge{ 0 }; iEdge < m_Edges.GetSize(); ++iEdge)
 		adaptor(m_Edges[iEdge]);
+}
+template<typename TVertex, ModelTopology TTopology>
+inline void Strip::MoveEdges(const Float3& movement, MeshData<TVertex, TTopology>& meshData)
+{
+	for (unsigned iEdge{ 0 }; iEdge < m_Edges.GetSize(); ++iEdge)
+	{
+		Line& line{ m_Edges[iEdge] };
+
+		for (unsigned iVertex{ 0 }; iVertex < Line::NrVertices; ++iVertex)
+		{
+			SharedPtr<const MakerVertex>& lineEnd{ line[iVertex] };
+			const Float3 oldPos{ MeshMakerHelper::GetPosition(lineEnd.Get(), meshData)};
+
+			lineEnd = MakerPointVertex{ oldPos + movement };
+		}
+	}
 }
 }
 }
