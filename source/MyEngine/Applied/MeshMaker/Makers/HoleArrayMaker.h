@@ -176,14 +176,27 @@ inline void HoleArrayMaker<TVertex, TTopology>::MakeStartCap(
 
 		arc.AddCorner(pos);
 	}
-	BaseClass::m_Result.Add(arcMaker.Make(arc));
+	const MakerResult topArcResult{ arcMaker.Make(arc) };
+	BaseClass::m_Result.Add(topArcResult);
+
+	//Store shared vertex
+	unsigned sharedVertex{};
+	unsigned topArcStart{ botFirstEdgeIdx };
+	if (firstGap.GetNrEdges() % 2 == 1)
+	{
+		sharedVertex = topArcResult.GetIndices().Last();
+		++topArcStart;
+	}
 
 	//Add Bot Arc
 	BaseClass::StartShape();
 	arc.ClearCorners();
 	arc.SetCenter(Float3::FromXz(bounds.GetLeftBot()));
 
-	for (unsigned iCorner{ botFirstEdgeIdx }; iCorner < firstGap.GetNrEdges(); ++iCorner)
+	if (firstGap.GetNrEdges() % 2 == 1)
+		arc.AddCorner(MakerRefVertex{ sharedVertex });
+
+	for (unsigned iCorner{ topArcStart }; iCorner < firstGap.GetNrEdges(); ++iCorner)
 	{
 		const Float3 oppositePos{ GetPosition(firstGap.GetEdge(iCorner)[1]) };
 		const Float3 pos{
@@ -206,7 +219,7 @@ inline void HoleArrayMaker<TVertex, TTopology>::MakeEndCap(
 	const MakerVertex& mostRightVertex{ lastGap.GetEdge(topLastEdgeIdx)[0].Get() };
 
 	bounds.SetRightUseWidth(GetPosition(mostRightVertex).x);
-	
+
 	//Prepare creation
 	if (lastGap.GetNrEdges() <= 2)
 		return;
@@ -222,28 +235,34 @@ inline void HoleArrayMaker<TVertex, TTopology>::MakeEndCap(
 	arc.SetCenter(Float3::FromXz(bounds.GetRightTop()));
 	for (unsigned iCorner{ nrCornersPerArc - 1 }; iCorner != static_cast<unsigned>(-1); --iCorner)
 	{
-		const Float3 stripPos{ GetPosition(lastGap.GetEdge(iCorner)[0]) };
-		const Float3 pos{
-			stripPos.x,
-			stripPos.y,
-			stripPos.z };
+		const Float3 pos{ GetPosition(lastGap.GetEdge(iCorner)[0]) };
 		arc.AddCorner(pos);
 	}
-	BaseClass::m_Result.Add(arcMaker.Make(arc));
+	const MakerResult topArcResult{ arcMaker.Make(arc) };
+	BaseClass::m_Result.Add(topArcResult);
+
+	unsigned sharedVertexIdx{};
+	unsigned botArcEnd{ lastGap.GetNrEdges() - 1 - nrCornersPerArc };
+	if (lastGap.GetNrEdges() % 2 == 1)
+	{
+		sharedVertexIdx = topArcResult.GetIndices()[1];
+		++botArcEnd;
+	}
 
 	//Add Bot arc
 	BaseClass::StartShape();
 	arc.ClearCorners();
 	arc.SetCenter(Float3::FromXz(bounds.GetRightBot()));
-	for (unsigned iCorner{ lastGap.GetNrEdges() - 1 }; iCorner != static_cast<unsigned>(lastGap.GetNrEdges() - 1 - nrCornersPerArc); iCorner--)
+
+	for (unsigned iCorner{ lastGap.GetNrEdges() - 1 }; iCorner != botArcEnd; iCorner--)
 	{
-		const Float3 stripPos{ GetPosition(lastGap.GetEdge(iCorner)[0]) };
-		const Float3 pos{
-			stripPos.x,
-			stripPos.y,
-			stripPos.z };
+		const Float3 pos{ GetPosition(lastGap.GetEdge(iCorner)[0]) };
 		arc.AddCorner(pos);
 	}
+
+	if (lastGap.GetNrEdges() % 2 == 1)
+		arc.AddCorner(MakerRefVertex{ sharedVertexIdx });
+
 	BaseClass::m_Result.Add(arcMaker.Make(arc));
 }
 
