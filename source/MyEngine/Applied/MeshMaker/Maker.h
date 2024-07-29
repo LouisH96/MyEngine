@@ -48,8 +48,8 @@ public:
 	unsigned Transform(const MakerVertex& vertex);
 	unsigned Transform(const Float3& point);
 	void FinishTransformPhase(Array<DataType>& data);
-	void Add(const unsigned& index);
-	void Add(const unsigned& index, const Float3& normal);
+	unsigned Add(const unsigned& index);
+	unsigned Add(const unsigned& index, const Float3& normal);
 	void RemoveLast();
 	void AddAllToResult(PtrRangeConst<unsigned> indices);
 
@@ -64,16 +64,18 @@ inline MakerBase2<Vertex, Topology, true>::MakerBase2(MeshData<Vertex, Topology>
 }
 
 template<typename Vertex, ModelTopology Topology>
-inline void MakerBase2<Vertex, Topology, true>::Add(const unsigned& index)
+inline unsigned MakerBase2<Vertex, Topology, true>::Add(const unsigned& index)
 {
 	BaseClass::m_MeshData.Indices.Add(index);
+	return index;
 }
 
 template<typename Vertex, ModelTopology Topology>
-inline void MakerBase2<Vertex, Topology, true>::Add(const unsigned& index, const Float3& normal)
+inline unsigned MakerBase2<Vertex, Topology, true>::Add(const unsigned& index, const Float3& normal)
 {
 	BaseClass::m_MeshData.Indices.Add(index);
 	BaseClass::m_MeshData.Vertices[index].Normal = normal;
+	return index;
 }
 
 template<typename Vertex, ModelTopology Topology>
@@ -146,8 +148,8 @@ public:
 	Vertex Transform(const MakerVertex& vertex);
 	Vertex Transform(const Float3& point);
 	void FinishTransformPhase(Array<DataType>& data) {};
-	void Add(const Vertex& vertex);
-	void Add(const Vertex& vertex, const Float3& normal);
+	unsigned Add(const Vertex& vertex);
+	unsigned Add(const Vertex& vertex, const Float3& normal);
 	void RemoveLast();
 
 private:
@@ -162,17 +164,22 @@ inline MakerBase2<Vertex, Topology, false>::MakerBase2(MeshData<Vertex, Topology
 }
 
 template<typename Vertex, ModelTopology Topology>
-inline void MakerBase2<Vertex, Topology, false>::Add(const Vertex& vertex)
+inline unsigned MakerBase2<Vertex, Topology, false>::Add(const Vertex& vertex)
 {
-	BaseClass::m_Result.Add(BaseClass::m_MeshData.Vertices.GetSize());
+	const unsigned index{ BaseClass::m_MeshData.Vertices.GetSize() };
 	BaseClass::m_MeshData.Vertices.Add(vertex);
+	BaseClass::m_Result.Add(index);
+	return index;
 }
 
 template<typename Vertex, ModelTopology Topology>
-inline void MakerBase2<Vertex, Topology, false>::Add(const Vertex& vertex, const Float3& normal)
+inline unsigned MakerBase2<Vertex, Topology, false>::Add(const Vertex& vertex, const Float3& normal)
 {
-	Add(vertex);
-	BaseClass::m_MeshData.Vertices.Last().Normal = normal;
+	const unsigned index{ BaseClass::m_MeshData.Vertices.GetSize() };
+	BaseClass::m_MeshData.Vertices.Add(vertex);
+	BaseClass::m_MeshData.Vertices[index].Normal = normal;
+	BaseClass::m_Result.Add(index);
+	return index;
 }
 
 template<typename Vertex, ModelTopology Topology>
