@@ -125,6 +125,7 @@
     <ClCompile Include="Applied\MeshMaker\Shapes\Arc.cpp" />
     <ClCompile Include="Applied\MeshMaker\Makers\ArcMakerResult.cpp" />
     <ClCompile Include="Applied\MeshMaker\Shapes\SmoothStrip.cpp" />
+    <ClCompile Include="Applied\MeshMaker\Makers\StripResult.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -308,6 +309,7 @@
     <ClInclude Include="Applied\MeshMaker\Makers\ArcMakerResult.h" />
     <ClInclude Include="Applied\MeshMaker\Shapes\SmoothStrip.h" />
     <ClInclude Include="Applied\MeshMaker\Makers\SmoothStripMaker.h" />
+    <ClInclude Include="Applied\MeshMaker\Makers\StripResult.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
