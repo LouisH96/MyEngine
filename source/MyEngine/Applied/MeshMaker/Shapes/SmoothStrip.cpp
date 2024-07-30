@@ -3,7 +3,7 @@
 
 using namespace MeshMaker;
 
-void SmoothStrip::EnsureEdgeSize(unsigned size)
+void SmoothStrip::EnsureEdgesSize(unsigned size)
 {
     m_Edges.EnsureCapacity(size);
 }

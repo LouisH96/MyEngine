@@ -6,10 +6,9 @@
 #include "..\Maker.h"
 #include "..\Shapes\Arc.h"
 #include "..\Shapes\HoleArray.h"
-#include "..\Shapes\Line.h"
-#include "..\Shapes\Strip.h"
+#include "..\Shapes\SmoothStrip.h"
 #include "ArcMaker.h"
-#include "StripMaker.h"
+#include "SmoothStripMaker.h"
 
 namespace MyEngine
 {
@@ -32,12 +31,12 @@ private:
 	using BaseClass::m_MeshData;
 
 	static void GetNrSides(unsigned nrCircleCorners, unsigned& left, unsigned& right);
-	static unsigned GetNrCornersPerArc(const Strip& gapStrip);
+	static unsigned GetNrCornersPerArc(const SmoothStrip& gapStrip);
 
-	Strip MakeGapStrip(const HoleArray& holeArray, unsigned nrSides);
+	SmoothStrip MakeGapStrip(const HoleArray& holeArray, unsigned nrSides);
 
-	void MakeStartCap(const HoleArray& holeArray, const Strip& firstGap, RectFloat& bounds);
-	void MakeEndCap(const HoleArray& holeArray, const Strip& lastGap, RectFloat& bounds);
+	void MakeStartCap(const HoleArray& holeArray, const SmoothStrip& firstGap, RectFloat& bounds);
+	void MakeEndCap(const HoleArray& holeArray, const SmoothStrip& lastGap, RectFloat& bounds);
 };
 template<typename TVertex, ModelTopology TTopology>
 inline MakerResult HoleArrayMaker<TVertex, TTopology>::Make(
@@ -51,13 +50,13 @@ inline MakerResult HoleArrayMaker<TVertex, TTopology>::Make(
 
 	//Make vertices for 1 gap (and then copy & move them for others)
 	//There is a strip for each side of the hole (left & right)
-	Strip strips[]{
+	SmoothStrip strips[]{
 		MakeGapStrip(holeArray, nrSidesRight),
 		MakeGapStrip(holeArray, nrSidesLeft)
 	};
 
 	//display -for now- with SharpStripMaker
-	StripMaker<TVertex, TTopology> stripMaker{ m_MeshData };
+	SmoothStripMaker<TVertex, TTopology> stripMaker{ m_MeshData };
 
 	const Float3 holeInterval{ holeArray.GetHoleRadius() * 2 + holeArray.GetHoleGap(), 0,0 };
 
@@ -70,8 +69,8 @@ inline MakerResult HoleArrayMaker<TVertex, TTopology>::Make(
 	for (unsigned iGap = 0; iGap < holeArray.GetNrGaps(); iGap++)
 	{
 		BaseClass::StartShape();
-		Strip& strip{ strips[iGap % 2] };
-		BaseClass::m_Result.Add(stripMaker.Make_Sharp(strip));
+		SmoothStrip& strip{ strips[iGap % 2] };
+		BaseClass::m_Result.Add(stripMaker.Make(strip));
 		if (iGap + 1 < holeArray.GetNrGaps())
 			strip.MoveEdges(holeInterval * 2, m_MeshData);
 	}
@@ -90,12 +89,12 @@ inline void HoleArrayMaker<TVertex, TTopology>::GetNrSides(unsigned nrCircleCorn
 	right = half - 1 + (1 + half % 2) * (nrCircleCorners % 2);
 }
 template<typename TVertex, ModelTopology TTopology>
-inline unsigned HoleArrayMaker<TVertex, TTopology>::GetNrCornersPerArc(const Strip& gapStrip)
+inline unsigned HoleArrayMaker<TVertex, TTopology>::GetNrCornersPerArc(const SmoothStrip& gapStrip)
 {
 	return Uint::Ceil(gapStrip.GetNrEdges() * .5f);
 }
 template<typename TVertex, ModelTopology TTopology>
-inline Strip HoleArrayMaker<TVertex, TTopology>::MakeGapStrip(const HoleArray& holeArray, unsigned nrSides)
+inline SmoothStrip HoleArrayMaker<TVertex, TTopology>::MakeGapStrip(const HoleArray& holeArray, unsigned nrSides)
 {
 	const float radius{ holeArray.GetHoleRadius() };
 	const float gapDistance{ holeArray.GetHoleGap() };
@@ -103,9 +102,9 @@ inline Strip HoleArrayMaker<TVertex, TTopology>::MakeGapStrip(const HoleArray& h
 	/*origin is at mathematical left-bot of the left/first hole */
 	const unsigned nrCorners{ nrSides + 1 };
 
-	Strip strip{};
+	SmoothStrip strip{};
 	strip.EnsureEdgesSize(nrCorners);
-	strip.EnsureNormalsSize(nrSides);
+	strip.SetNormal({ 0,1,0 });
 
 	//first vertex is 'left-top' (= highest of the left hole)
 	//and considered the left-bot of the strip
@@ -127,13 +126,12 @@ inline Strip HoleArrayMaker<TVertex, TTopology>::MakeGapStrip(const HoleArray& h
 				left.Position.z
 		} };
 		strip.AddEdge(left, right);
-		strip.AddNormal({ 0,1,0 });
 	}
 	return strip;
 }
 template<typename TVertex, ModelTopology TTopology>
 inline void HoleArrayMaker<TVertex, TTopology>::MakeStartCap(
-	const HoleArray& holeArray, const Strip& firstGap, RectFloat& bounds)
+	const HoleArray& holeArray, const SmoothStrip& firstGap, RectFloat& bounds)
 {
 	const unsigned nrCornersPerArc{ GetNrCornersPerArc(firstGap) };
 	const float gapOffset{ -(holeArray.GetHoleRadius() * 2 + holeArray.GetHoleGap()) };
@@ -160,7 +158,7 @@ inline void HoleArrayMaker<TVertex, TTopology>::MakeStartCap(
 	//Setup Arc
 	Arc arc{};
 	arc.EnsureNrCorners(nrCornersPerArc);
-	arc.SetNormal({ 0,1,0 });
+	arc.SetNormal(firstGap.GetNormal());
 
 	//Add Top Arc
 	BaseClass::StartShape();
@@ -210,7 +208,7 @@ inline void HoleArrayMaker<TVertex, TTopology>::MakeStartCap(
 }
 template<typename TVertex, ModelTopology TTopology>
 inline void HoleArrayMaker<TVertex, TTopology>::MakeEndCap(
-	const HoleArray& holeArray, const Strip& lastGap, RectFloat& bounds)
+	const HoleArray& holeArray, const SmoothStrip& lastGap, RectFloat& bounds)
 {
 	const unsigned nrCornersPerArc{ GetNrCornersPerArc(lastGap) };
 
@@ -228,7 +226,7 @@ inline void HoleArrayMaker<TVertex, TTopology>::MakeEndCap(
 	//Setup arc
 	Arc arc{};
 	arc.EnsureNrCorners(nrCornersPerArc);
-	arc.SetNormal({ 0,1,0 });
+	arc.SetNormal(lastGap.GetNormal());
 
 	//Add Top Arc
 	BaseClass::StartShape();
