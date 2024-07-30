@@ -106,7 +106,6 @@ inline void SmoothStripMaker<TVertex, TTopology, TResult>::AddPhase_LineStrip(co
 	for (unsigned iWall{ 0 }; iWall < strip.GetNrWalls(); ++iWall)
 	{
 		const unsigned invMod{ 1 - iWall % 2 };
-
 		m_Result.SetPoint(iWall, invMod,
 			Add(points[iWall * 2 + invMod], normal));
 		m_Result.SetPoint(iWall + 1, invMod,
@@ -114,8 +113,10 @@ inline void SmoothStripMaker<TVertex, TTopology, TResult>::AddPhase_LineStrip(co
 	}
 	for (unsigned iWall{ strip.GetNrWalls() - 1 }; iWall != static_cast<unsigned>(-1); --iWall)
 	{
-		Add(points[iWall * 2 + 2 + iWall % 2], normal);
-		Add(points[iWall * 2 + 0 + iWall % 2], normal);
+		const unsigned mod{ iWall % 2 };
+		m_Result.SetPoint(iWall + 1, mod,
+			Add(points[iWall * 2 + 2 + mod], normal));
+		Add(points[iWall * 2 + 0 + mod], normal);
 	}
 }
 template<typename TVertex, ModelTopology TTopology, typename TResult>
