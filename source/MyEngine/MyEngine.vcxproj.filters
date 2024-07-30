@@ -306,7 +306,6 @@
     <ClInclude Include="Applied\MeshMaker\Shapes\Arc.h" />
     <ClInclude Include="Applied\MeshMaker\Makers\ArcMaker.h" />
     <ClInclude Include="Applied\MeshMaker\Makers\ArcMakerResult.h" />
-    <ClInclude Include="Applied\MeshMaker\MakerAdder.h" />
     <ClInclude Include="Applied\MeshMaker\Shapes\SmoothStrip.h" />
     <ClInclude Include="Applied\MeshMaker\Makers\SmoothStripMaker.h" />
   </ItemGroup>

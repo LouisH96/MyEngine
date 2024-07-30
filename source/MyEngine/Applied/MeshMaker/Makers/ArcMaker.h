@@ -8,7 +8,7 @@ namespace MyEngine
 {
 namespace MeshMaker
 {
-template<typename TVertex, ModelTopology TTopology, typename TResult = MakerResult>
+template<typename TVertex, ModelTopology TTopology, typename TResult = DefaultArcMakerResult>
 class ArcMaker
 	: private Maker<TVertex, TTopology, TResult>
 {

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <DataStructures\List.h>
-#include "..\MakerAdder.h"
 #include "..\MakerResult.h"
 
 namespace MyEngine
@@ -28,12 +27,11 @@ private:
 	Array<unsigned> m_ArcIndices; //first is (a) center, others is one of each corner
 };
 
-template<>
-class MakerAdder<MakerResult>
+class DefaultArcMakerResult
 	: public MakerResult
 {
 public:
-	void SetNrCorners(unsigned nrCorners) {};
+	void SetNrCorners(unsigned) {};
 
 	void SetCenter(unsigned) {};
 	void SetCorner(unsigned, unsigned) {};

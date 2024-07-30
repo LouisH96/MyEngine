@@ -3,7 +3,6 @@
 #include <Geometry\ModelTopology.h>
 #include <Rendering\Mesh\MeshData.h>
 
-#include "MakerAdder.h"
 #include "MakerVertex.h"
 #include "MakerResult.h"
 #include "MeshMakerHelper.h"
@@ -18,18 +17,18 @@ template<typename Vertex, ModelTopology Topology, typename TResult>
 class MakerBase1
 {
 public:
-	MakerBase1(MeshData<Vertex, Topology>& meshData, MakerAdder<TResult> adder);
+	MakerBase1(MeshData<Vertex, Topology>& meshData, TResult result);
 
 protected:
-	MakerAdder<TResult> m_Result;
+	TResult m_Result;
 	MeshData<Vertex, Topology>& m_MeshData;
 };
 
 template<typename Vertex, ModelTopology Topology, typename TResult>
 inline MakerBase1<Vertex, Topology, TResult>::MakerBase1(
-	MeshData<Vertex, Topology>& meshData, MakerAdder<TResult> adder)
+	MeshData<Vertex, Topology>& meshData, TResult result)
 	: m_MeshData{ meshData }
-	, m_Result{ adder }
+	, m_Result{ result }
 {
 }
 
@@ -46,7 +45,7 @@ class MakerBase2<Vertex, Topology, true, TResult>
 {
 public:
 	using DataType = unsigned;
-	MakerBase2(MeshData<Vertex, Topology>& meshData, MakerAdder<TResult> adder);
+	MakerBase2(MeshData<Vertex, Topology>& meshData, TResult result);
 
 	unsigned Transform(const MakerVertex& vertex);
 	unsigned Transform(const Float3& point);
@@ -62,8 +61,8 @@ private:
 
 template<typename Vertex, ModelTopology Topology, typename TResult>
 inline MakerBase2<Vertex, Topology, true, TResult>::MakerBase2(
-	MeshData<Vertex, Topology>& meshData, MakerAdder<TResult> adder)
-	: BaseClass{ meshData, adder }
+	MeshData<Vertex, Topology>& meshData, TResult result)
+	: BaseClass{ meshData, result }
 {
 }
 
@@ -147,7 +146,7 @@ class MakerBase2<Vertex, Topology, false, TResult>
 {
 public:
 	using DataType = Vertex;
-	MakerBase2(MeshData<Vertex, Topology>& meshData, MakerAdder<TResult> adder);
+	MakerBase2(MeshData<Vertex, Topology>& meshData, TResult result);
 
 	Vertex Transform(const MakerVertex& vertex);
 	Vertex Transform(const Float3& point);
@@ -162,8 +161,8 @@ private:
 
 template<typename Vertex, ModelTopology Topology, typename TResult>
 inline MakerBase2<Vertex, Topology, false, TResult>::MakerBase2(
-	MeshData<Vertex, Topology>& meshData, MakerAdder<TResult> adder)
-	: BaseClass{ meshData, adder }
+	MeshData<Vertex, Topology>& meshData, TResult result)
+	: BaseClass{ meshData, result }
 {
 
 }
@@ -246,7 +245,7 @@ public:
 	using BaseClass = MakerBase2<Vertex, Topology, TopologyInfo::HasIndices(Topology), TResult>;
 	using DataType = typename BaseClass::DataType;
 
-	Maker(MeshData<Vertex, Topology>& meshData, MakerAdder<TResult> adder = {});
+	Maker(MeshData<Vertex, Topology>& meshData, TResult result = {});
 
 	void StartShape(); //prepares MeshData-buffers for new shape (only for strip format)
 
@@ -261,8 +260,8 @@ protected:
 
 template<typename Vertex, ModelTopology Topology, typename TResult>
 inline Maker<Vertex, Topology, TResult>::Maker(
-	MeshData<Vertex, Topology>& meshData, MakerAdder<TResult> adder)
-	: BaseClass{ meshData, adder }
+	MeshData<Vertex, Topology>& meshData, TResult result)
+	: BaseClass{ meshData, result }
 {
 }
 
