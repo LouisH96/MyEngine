@@ -3,6 +3,7 @@
 #include <Geometry\ModelTopology.h>
 #include <Rendering\Mesh\MeshData.h>
 
+#include "MakerAdder.h"
 #include "MakerVertex.h"
 #include "MakerResult.h"
 #include "MeshMakerHelper.h"
@@ -13,37 +14,39 @@ namespace MeshMaker
 {
 #pragma region Base1
 
-template<typename Vertex, ModelTopology Topology>
+template<typename Vertex, ModelTopology Topology, typename TResult>
 class MakerBase1
 {
 public:
-	MakerBase1(MeshData<Vertex, Topology>& meshData);
+	MakerBase1(MeshData<Vertex, Topology>& meshData, MakerAdder<TResult> adder);
 
 protected:
-	MakerResult m_Result;
+	MakerAdder<TResult> m_Result;
 	MeshData<Vertex, Topology>& m_MeshData;
 };
 
-template<typename Vertex, ModelTopology Topology>
-inline MakerBase1<Vertex, Topology>::MakerBase1(MeshData<Vertex, Topology>& meshData)
+template<typename Vertex, ModelTopology Topology, typename TResult>
+inline MakerBase1<Vertex, Topology, TResult>::MakerBase1(
+	MeshData<Vertex, Topology>& meshData, MakerAdder<TResult> adder)
 	: m_MeshData{ meshData }
+	, m_Result{ adder }
 {
 }
 
 #pragma endregion
 
-template<typename Vertex, ModelTopology Topology, bool HasIndexBuffer>
+template<typename Vertex, ModelTopology Topology, bool HasIndexBuffer, typename TResult>
 class MakerBase2;
 
 #pragma region Base2<true> - IndexBuffer
 
-template<typename Vertex, ModelTopology Topology>
-class MakerBase2<Vertex, Topology, true>
-	: public MakerBase1<Vertex, Topology>
+template<typename Vertex, ModelTopology Topology, typename TResult>
+class MakerBase2<Vertex, Topology, true, TResult>
+	: public MakerBase1<Vertex, Topology, TResult>
 {
 public:
 	using DataType = unsigned;
-	MakerBase2(MeshData<Vertex, Topology>& meshData);
+	MakerBase2(MeshData<Vertex, Topology>& meshData, MakerAdder<TResult> adder);
 
 	unsigned Transform(const MakerVertex& vertex);
 	unsigned Transform(const Float3& point);
@@ -54,45 +57,46 @@ public:
 	void AddAllToResult(PtrRangeConst<unsigned> indices);
 
 private:
-	using BaseClass = MakerBase1<Vertex, Topology>;
+	using BaseClass = MakerBase1<Vertex, Topology, TResult>;
 };
 
-template<typename Vertex, ModelTopology Topology>
-inline MakerBase2<Vertex, Topology, true>::MakerBase2(MeshData<Vertex, Topology>& meshData)
-	: BaseClass{ meshData }
+template<typename Vertex, ModelTopology Topology, typename TResult>
+inline MakerBase2<Vertex, Topology, true, TResult>::MakerBase2(
+	MeshData<Vertex, Topology>& meshData, MakerAdder<TResult> adder)
+	: BaseClass{ meshData, adder }
 {
 }
 
-template<typename Vertex, ModelTopology Topology>
-inline unsigned MakerBase2<Vertex, Topology, true>::Add(const unsigned& index)
+template<typename Vertex, ModelTopology Topology, typename TResult>
+inline unsigned MakerBase2<Vertex, Topology, true, TResult>::Add(const unsigned& index)
 {
 	BaseClass::m_MeshData.Indices.Add(index);
 	return index;
 }
 
-template<typename Vertex, ModelTopology Topology>
-inline unsigned MakerBase2<Vertex, Topology, true>::Add(const unsigned& index, const Float3& normal)
+template<typename Vertex, ModelTopology Topology, typename TResult>
+inline unsigned MakerBase2<Vertex, Topology, true, TResult>::Add(const unsigned& index, const Float3& normal)
 {
 	BaseClass::m_MeshData.Indices.Add(index);
 	BaseClass::m_MeshData.Vertices[index].Normal = normal;
 	return index;
 }
 
-template<typename Vertex, ModelTopology Topology>
-inline void MakerBase2<Vertex, Topology, true>::RemoveLast()
+template<typename Vertex, ModelTopology Topology, typename TResult>
+inline void MakerBase2<Vertex, Topology, true, TResult>::RemoveLast()
 {
 	BaseClass::m_MeshData.Indices.ReduceSize(1);
 }
 
-template<typename Vertex, ModelTopology Topology>
-inline void MakerBase2<Vertex, Topology, true>::AddAllToResult(PtrRangeConst<unsigned> data)
+template<typename Vertex, ModelTopology Topology, typename TResult>
+inline void MakerBase2<Vertex, Topology, true, TResult>::AddAllToResult(PtrRangeConst<unsigned> data)
 {
 	for (unsigned i = 0; i < data.count; i++)
 		BaseClass::m_Result.Add(data.pData[i]);
 }
 
-template<typename Vertex, ModelTopology Topology>
-inline unsigned MakerBase2<Vertex, Topology, true>::Transform(const MakerVertex& vertex)
+template<typename Vertex, ModelTopology Topology, typename TResult>
+inline unsigned MakerBase2<Vertex, Topology, true, TResult>::Transform(const MakerVertex& vertex)
 {
 	if (const MakerPointVertex * pPointVertex{
 		dynamic_cast<const MakerPointVertex*>(&vertex) })
@@ -119,16 +123,16 @@ inline unsigned MakerBase2<Vertex, Topology, true>::Transform(const MakerVertex&
 		return 0;
 	}
 }
-template<typename Vertex, ModelTopology Topology>
-inline unsigned MakerBase2<Vertex, Topology, true>::Transform(const Float3& point)
+template<typename Vertex, ModelTopology Topology, typename TResult>
+inline unsigned MakerBase2<Vertex, Topology, true, TResult>::Transform(const Float3& point)
 {
 	Vertex vertex{};
 	vertex.Pos = point;
 	BaseClass::m_MeshData.Vertices.Add(vertex);
 	return BaseClass::m_MeshData.Vertices.GetSize() - 1;
 }
-template<typename Vertex, ModelTopology Topology>
-inline void MakerBase2<Vertex, Topology, true>::FinishTransformPhase(Array<DataType>& data)
+template<typename Vertex, ModelTopology Topology, typename TResult>
+inline void MakerBase2<Vertex, Topology, true, TResult>::FinishTransformPhase(Array<DataType>& data)
 {
 	AddAllToResult({ data });
 }
@@ -137,13 +141,13 @@ inline void MakerBase2<Vertex, Topology, true>::FinishTransformPhase(Array<DataT
 
 #pragma region Base2<false> - No IndexBuffer
 
-template<typename Vertex, ModelTopology Topology>
-class MakerBase2<Vertex, Topology, false>
-	: public MakerBase1<Vertex, Topology>
+template<typename Vertex, ModelTopology Topology, typename TResult>
+class MakerBase2<Vertex, Topology, false, TResult>
+	: public MakerBase1<Vertex, Topology, TResult>
 {
 public:
 	using DataType = Vertex;
-	MakerBase2(MeshData<Vertex, Topology>& meshData);
+	MakerBase2(MeshData<Vertex, Topology>& meshData, MakerAdder<TResult> adder);
 
 	Vertex Transform(const MakerVertex& vertex);
 	Vertex Transform(const Float3& point);
@@ -153,18 +157,19 @@ public:
 	void RemoveLast();
 
 private:
-	using BaseClass = MakerBase1<Vertex, Topology>;
+	using BaseClass = MakerBase1<Vertex, Topology, TResult>;
 };
 
-template<typename Vertex, ModelTopology Topology>
-inline MakerBase2<Vertex, Topology, false>::MakerBase2(MeshData<Vertex, Topology>& meshData)
-	: BaseClass{ meshData }
+template<typename Vertex, ModelTopology Topology, typename TResult>
+inline MakerBase2<Vertex, Topology, false, TResult>::MakerBase2(
+	MeshData<Vertex, Topology>& meshData, MakerAdder<TResult> adder)
+	: BaseClass{ meshData, adder }
 {
 
 }
 
-template<typename Vertex, ModelTopology Topology>
-inline unsigned MakerBase2<Vertex, Topology, false>::Add(const Vertex& vertex)
+template<typename Vertex, ModelTopology Topology, typename TResult>
+inline unsigned MakerBase2<Vertex, Topology, false, TResult>::Add(const Vertex& vertex)
 {
 	const unsigned index{ BaseClass::m_MeshData.Vertices.GetSize() };
 	BaseClass::m_MeshData.Vertices.Add(vertex);
@@ -172,8 +177,8 @@ inline unsigned MakerBase2<Vertex, Topology, false>::Add(const Vertex& vertex)
 	return index;
 }
 
-template<typename Vertex, ModelTopology Topology>
-inline unsigned MakerBase2<Vertex, Topology, false>::Add(const Vertex& vertex, const Float3& normal)
+template<typename Vertex, ModelTopology Topology, typename TResult>
+inline unsigned MakerBase2<Vertex, Topology, false, TResult>::Add(const Vertex& vertex, const Float3& normal)
 {
 	const unsigned index{ BaseClass::m_MeshData.Vertices.GetSize() };
 	BaseClass::m_MeshData.Vertices.Add(vertex);
@@ -182,15 +187,15 @@ inline unsigned MakerBase2<Vertex, Topology, false>::Add(const Vertex& vertex, c
 	return index;
 }
 
-template<typename Vertex, ModelTopology Topology>
-inline void MakerBase2<Vertex, Topology, false>::RemoveLast()
+template<typename Vertex, ModelTopology Topology, typename TResult>
+inline void MakerBase2<Vertex, Topology, false, TResult>::RemoveLast()
 {
 	BaseClass::m_Result.RemoveLast();
 	BaseClass::m_MeshData.Vertices.ReduceSize(1);
 }
 
-template<typename Vertex, ModelTopology Topology>
-inline Vertex MakerBase2<Vertex, Topology, false>::Transform(const MakerVertex& vertex)
+template<typename Vertex, ModelTopology Topology, typename TResult>
+inline Vertex MakerBase2<Vertex, Topology, false, TResult>::Transform(const MakerVertex& vertex)
 {
 	if (const MakerRefVertex* pRef =
 		dynamic_cast<const MakerRefVertex*>(&vertex))
@@ -211,13 +216,13 @@ inline Vertex MakerBase2<Vertex, Topology, false>::Transform(const MakerVertex& 
 	}
 	else
 	{
-		Logger::PrintError("[Maker<false>::Transform] unknown vertex");
+		Logger::PrintError("[Maker<false, TResult>::Transform] unknown vertex");
 		return {};
 	}
 }
 
-template<typename Vertex, ModelTopology Topology>
-inline Vertex MakerBase2<Vertex, Topology, false>::Transform(const Float3& point)
+template<typename Vertex, ModelTopology Topology, typename TResult>
+inline Vertex MakerBase2<Vertex, Topology, false, TResult>::Transform(const Float3& point)
 {
 	Vertex vertex{};
 	vertex.Pos = point;
@@ -227,21 +232,21 @@ inline Vertex MakerBase2<Vertex, Topology, false>::Transform(const Float3& point
 
 #pragma endregion
 
-template<typename Vertex, ModelTopology Topology, bool HasIndexBuffer>
+template<typename Vertex, ModelTopology Topology, bool HasIndexBuffer, typename TResult>
 class MakerBase2
 {};
 
 #pragma region Maker
 
-template<typename Vertex, ModelTopology Topology>
+template<typename Vertex, ModelTopology Topology, typename TResult>
 class Maker
-	: public MakerBase2<Vertex, Topology, TopologyInfo::HasIndices(Topology)>
+	: public MakerBase2<Vertex, Topology, TopologyInfo::HasIndices(Topology), TResult>
 {
 public:
-	using BaseClass = MakerBase2<Vertex, Topology, TopologyInfo::HasIndices(Topology)>;
+	using BaseClass = MakerBase2<Vertex, Topology, TopologyInfo::HasIndices(Topology), TResult>;
 	using DataType = typename BaseClass::DataType;
 
-	Maker(MeshData<Vertex, Topology>& meshData);
+	Maker(MeshData<Vertex, Topology>& meshData, MakerAdder<TResult> adder = {});
 
 	void StartShape(); //prepares MeshData-buffers for new shape (only for strip format)
 
@@ -254,14 +259,15 @@ protected:
 	Float3 GetPosition(const MakerVertex& vertex);
 };
 
-template<typename Vertex, ModelTopology Topology>
-inline Maker<Vertex, Topology>::Maker(MeshData<Vertex, Topology>& meshData)
-	: BaseClass{ meshData }
+template<typename Vertex, ModelTopology Topology, typename TResult>
+inline Maker<Vertex, Topology, TResult>::Maker(
+	MeshData<Vertex, Topology>& meshData, MakerAdder<TResult> adder)
+	: BaseClass{ meshData, adder }
 {
 }
 
-template<typename Vertex, ModelTopology Topology>
-inline void Maker<Vertex, Topology>::StartShape()
+template<typename Vertex, ModelTopology Topology, typename TResult>
+inline void Maker<Vertex, Topology, TResult>::StartShape()
 {
 	if constexpr (TopologyInfo::IsListFormat(Topology))
 		return;
@@ -297,8 +303,8 @@ inline void Maker<Vertex, Topology>::StartShape()
 
 #pragma endregion
 
-template<typename Vertex, ModelTopology Topology>
-inline void Maker<Vertex, Topology>::AddSharpQuad(const Array<DataType>& data,
+template<typename Vertex, ModelTopology Topology, typename TResult>
+inline void Maker<Vertex, Topology, TResult>::AddSharpQuad(const Array<DataType>& data,
 	const Float3& normal,
 	unsigned leftBot, unsigned leftTop,
 	unsigned rightBot, unsigned rightTop)
@@ -354,14 +360,14 @@ inline void Maker<Vertex, Topology>::AddSharpQuad(const Array<DataType>& data,
 	}
 }
 
-template<typename Vertex, ModelTopology Topology>
-inline Float3 Maker<Vertex, Topology>::GetPosition(SharedPtr<const MakerVertex> vertex)
+template<typename Vertex, ModelTopology Topology, typename TResult>
+inline Float3 Maker<Vertex, Topology, TResult>::GetPosition(SharedPtr<const MakerVertex> vertex)
 {
 	return GetPosition(vertex.Get());
 }
 
-template<typename Vertex, ModelTopology Topology>
-inline Float3 Maker<Vertex, Topology>::GetPosition(const MakerVertex& vertex)
+template<typename Vertex, ModelTopology Topology, typename TResult>
+inline Float3 Maker<Vertex, Topology, TResult>::GetPosition(const MakerVertex& vertex)
 {
 	return MeshMakerHelper::GetPosition(vertex, BaseClass::m_MeshData);
 }

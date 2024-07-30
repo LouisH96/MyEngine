@@ -11,10 +11,10 @@ namespace MeshMaker
 {
 template<typename TVertex, ModelTopology TTopology>
 class StripMakerBase
-	: private Maker<TVertex, TTopology>
+	: private Maker<TVertex, TTopology, MakerResult>
 {
 public:
-	using BaseClass = Maker<TVertex, TTopology>;
+	using BaseClass = Maker<TVertex, TTopology, MakerResult>;
 	using typename BaseClass::DataType;
 
 	StripMakerBase(MeshData<TVertex, TTopology>& meshData);

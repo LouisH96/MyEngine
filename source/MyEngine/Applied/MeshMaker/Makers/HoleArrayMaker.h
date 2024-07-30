@@ -17,12 +17,12 @@ namespace MeshMaker
 {
 template<typename TVertex, ModelTopology TTopology>
 class HoleArrayMaker
-	: private Maker<TVertex, TTopology>
+	: private Maker<TVertex, TTopology, MakerResult>
 {
 public:
-	using BaseClass = Maker<TVertex, TTopology>;
+	using BaseClass = Maker<TVertex, TTopology, MakerResult>;
 	using PointType = typename BaseClass::DataType;
-	using Maker<TVertex, TTopology>::Maker;
+	using Maker<TVertex, TTopology, MakerResult>::Maker;
 
 	MakerResult Make(const HoleArray& holeArray, RectFloat& bounds);
 
@@ -155,7 +155,7 @@ inline void HoleArrayMaker<TVertex, TTopology>::MakeStartCap(
 	//Prepare creation
 	if (firstGap.GetNrEdges() <= 2)
 		return;
-	ArcMaker<TVertex, TTopology> arcMaker{ m_MeshData };
+	ArcMaker<TVertex, TTopology, ArcMakerResult> arcMaker{ m_MeshData };
 
 	//Setup Arc
 	Arc arc{};
@@ -176,7 +176,7 @@ inline void HoleArrayMaker<TVertex, TTopology>::MakeStartCap(
 
 		arc.AddCorner(pos);
 	}
-	const MakerResult topArcResult{ arcMaker.Make(arc) };
+	const ArcMakerResult topArcResult{ arcMaker.Make(arc) };
 	BaseClass::m_Result.Add(topArcResult);
 
 	//Store shared vertex
@@ -184,7 +184,7 @@ inline void HoleArrayMaker<TVertex, TTopology>::MakeStartCap(
 	unsigned topArcStart{ botFirstEdgeIdx };
 	if (firstGap.GetNrEdges() % 2 == 1)
 	{
-		sharedVertex = topArcResult.GetIndices().Last();
+		sharedVertex = topArcResult.GetLastCorner();
 		++topArcStart;
 	}
 
@@ -223,7 +223,7 @@ inline void HoleArrayMaker<TVertex, TTopology>::MakeEndCap(
 	//Prepare creation
 	if (lastGap.GetNrEdges() <= 2)
 		return;
-	ArcMaker<TVertex, TTopology> arcMaker{ BaseClass::m_MeshData };
+	ArcMaker<TVertex, TTopology, ArcMakerResult> arcMaker{ BaseClass::m_MeshData };
 
 	//Setup arc
 	Arc arc{};
@@ -238,14 +238,14 @@ inline void HoleArrayMaker<TVertex, TTopology>::MakeEndCap(
 		const Float3 pos{ GetPosition(lastGap.GetEdge(iCorner)[0]) };
 		arc.AddCorner(pos);
 	}
-	const MakerResult topArcResult{ arcMaker.Make(arc) };
+	const ArcMakerResult topArcResult{ arcMaker.Make(arc) };
 	BaseClass::m_Result.Add(topArcResult);
 
 	unsigned sharedVertexIdx{};
 	unsigned botArcEnd{ lastGap.GetNrEdges() - 1 - nrCornersPerArc };
 	if (lastGap.GetNrEdges() % 2 == 1)
 	{
-		sharedVertexIdx = topArcResult.GetIndices()[1];
+		sharedVertexIdx = topArcResult.GetCorner(0);
 		++botArcEnd;
 	}
 
