@@ -37,3 +37,23 @@ unsigned StripResult::GetEdgeTop(unsigned iEdge)
 {
 	return m_Vertices[iEdge * 2 + 1];
 }
+
+unsigned StripResult::GetFirstEdgeBot() const
+{
+	return m_Vertices[0];
+}
+
+unsigned StripResult::GetFirstEdgeTop() const
+{
+	return m_Vertices[1];
+}
+
+unsigned StripResult::GetLastEdgeBot() const
+{
+	return m_Vertices[m_Vertices.GetSize() - 2];
+}
+
+unsigned StripResult::GetLastEdgeTop() const
+{
+	return m_Vertices[m_Vertices.GetSize() - 1];
+}

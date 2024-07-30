@@ -21,6 +21,11 @@ public:
 	unsigned GetEdgeBot(unsigned iEdge);
 	unsigned GetEdgeTop(unsigned iEdge);
 
+	unsigned GetFirstEdgeBot() const;
+	unsigned GetFirstEdgeTop() const;
+	unsigned GetLastEdgeBot() const;
+	unsigned GetLastEdgeTop() const;
+
 private:
 	Array<unsigned> m_Vertices;
 };
