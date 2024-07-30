@@ -18,6 +18,16 @@ void SmoothStrip::SetNormal(const Float3& normal)
     m_Normal = normal;
 }
 
+void SmoothStrip::SetEdgeBot(unsigned iEdge, Vertex vertex)
+{
+    m_Edges[iEdge][0] = vertex;
+}
+
+void SmoothStrip::SetEdgeTop(unsigned iEdge, Vertex vertex)
+{
+    m_Edges[iEdge][1] = vertex;
+}
+
 const MeshMaker::Line& SmoothStrip::GetEdge(unsigned i) const
 {
     return m_Edges[i % m_Edges.GetSize()];

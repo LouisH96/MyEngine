@@ -23,6 +23,9 @@ public:
 	void AddEdge(Vertex bottom, Vertex top);
 	void SetNormal(const Float3& normal);
 
+	void SetEdgeBot(unsigned iEdge, Vertex vertex);
+	void SetEdgeTop(unsigned iEdge, Vertex vertex);
+
 	const List<Line>& GetEdges() const { return m_Edges; }
 	List<Line>& GetEdges() { return m_Edges; }
 
