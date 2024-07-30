@@ -19,6 +19,7 @@ public:
 	unsigned GetCenter() const { return m_ArcIndices[0]; }
 	unsigned GetCorner(unsigned iCorner) const { return m_ArcIndices[1 + iCorner]; }
 
+	unsigned GetFirstCorner() const { return m_ArcIndices[1]; }
 	unsigned GetLastCorner() const { return m_ArcIndices.Last(); }
 
 private:
