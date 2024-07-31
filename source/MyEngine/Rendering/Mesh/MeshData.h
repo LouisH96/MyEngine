@@ -15,6 +15,8 @@ namespace MyEngine
 		static constexpr ModelTopology TOPOLOGY = Topology;
 
 		List<Vertex> Vertices;
+
+		void StartShape();
 	};
 
 	template<typename Vertex, ModelTopology Topology>
@@ -26,11 +28,47 @@ namespace MyEngine
 
 		List<Vertex> Vertices;
 		List<int> Indices;
+
+		void StartShape();
 	};
 
 	template<typename Vertex, ModelTopology Topology>
-	class MeshData
-	{ };
+	void MeshDataWithoutIndices<Vertex, Topology>::StartShape()
+	{
+		if constexpr (TopologyInfo::IsListFormat(Topology))
+			return;
+
+		if (Vertices.Empty())
+			return;
+
+		Vertex inf{};
+		inf.Pos = Float3{ std::numeric_limits<float>::infinity() };
+
+		Vertices.Add(inf);
+		if constexpr (TopologyInfo::IsTriangleType(Topology))
+			Vertices.Add(inf);
+
+		if (Vertices.GetSize() % 2 == 1)
+			Vertices.Add(Vertices.Last());
+	}
+
+	template<typename Vertex, ModelTopology Topology>
+	void MeshDataWithIndices<Vertex, Topology>::StartShape()
+	{
+		if constexpr (TopologyInfo::IsListFormat(Topology))
+			return;
+
+		if (Indices.Empty())
+			return;
+
+		Indices.Add(-1);
+
+		if (Indices.GetSize() % 2 == 1)
+			Indices.Add(-1);
+	}
+
+	template<typename Vertex, ModelTopology Topology>
+	class MeshData;
 
 	//---| Specialized Classes |---
 	template<typename Vertex>
