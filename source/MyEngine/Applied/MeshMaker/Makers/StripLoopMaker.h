@@ -18,10 +18,10 @@ public:
 
 	using StripMakerBase<TVertex, TTopology>::StripMakerBase;
 
-	MakerResult Make_Sharp(const StripLoop& strip);
+	MakerResult<TVertex, TTopology> Make_Sharp(const StripLoop& strip);
 };
 template<typename TVertex, ModelTopology TTopology>
-inline MakerResult StripLoopMaker<TVertex, TTopology>::Make_Sharp(const StripLoop& strip)
+inline MakerResult<TVertex, TTopology> StripLoopMaker<TVertex, TTopology>::Make_Sharp(const StripLoop& strip)
 {
 	return BaseClass::Make_Sharp(strip);
 }

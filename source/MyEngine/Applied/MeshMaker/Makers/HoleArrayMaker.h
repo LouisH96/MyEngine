@@ -16,19 +16,24 @@ namespace MeshMaker
 {
 template<typename TVertex, ModelTopology TTopology>
 class HoleArrayMaker
-	: private Maker<TVertex, TTopology, MakerResult>
+	: private Maker<TVertex, TTopology, MakerResult<TVertex, TTopology>>
 {
 public:
-	using BaseClass = Maker<TVertex, TTopology, MakerResult>;
+	using Result = MakerResult<TVertex, TTopology>;
+	using BaseClass = Maker<TVertex, TTopology, Result>;
 	using PointType = typename BaseClass::DataType;
-	using Maker<TVertex, TTopology, MakerResult>::Maker;
+	using Maker<TVertex, TTopology, Result>::Maker;
 
-	MakerResult Make(const HoleArray& holeArray, RectFloat& bounds);
+	Result Make(const HoleArray& holeArray, RectFloat& bounds);
 
 private:
 	using BaseClass::Transform;
 	using BaseClass::GetPosition;
 	using BaseClass::m_MeshData;
+	using BaseClass::m_Result;
+	using BaseClass::Begin;
+	using BaseClass::End;
+	using ArcResult = ArcMakerResult<TVertex, TTopology>;
 
 	static void GetNrSides(unsigned nrCircleCorners, unsigned& left, unsigned& right);
 	static unsigned GetNrCornersPerArc(const SmoothStrip& gapStrip);
@@ -39,9 +44,10 @@ private:
 	void MakeEndCap(const HoleArray& holeArray, const SmoothStrip& lastGap, SharedPtr<const MakerVertex>* pSharedVertices, RectFloat& bounds);
 };
 template<typename TVertex, ModelTopology TTopology>
-inline MakerResult HoleArrayMaker<TVertex, TTopology>::Make(
+inline MakerResult<TVertex, TTopology> HoleArrayMaker<TVertex, TTopology>::Make(
 	const HoleArray& holeArray, RectFloat& bounds)
 {
+	Begin();
 	const unsigned nrGaps{ holeArray.GetNrHoles() - 1 };
 	unsigned nrSidesLeft, nrSidesRight;
 	GetNrSides(holeArray.GetNrCornersPerHole(), nrSidesLeft, nrSidesRight);
@@ -56,7 +62,7 @@ inline MakerResult HoleArrayMaker<TVertex, TTopology>::Make(
 	};
 
 	//display -for now- with SharpStripMaker
-	SmoothStripMaker<TVertex, TTopology, StripResult> stripMaker{ m_MeshData };
+	SmoothStripMaker<TVertex, TTopology, StripResult<TVertex, TTopology>> stripMaker{ m_MeshData };
 	const Float3 holeInterval{ holeArray.GetHoleRadius() * 2 + holeArray.GetHoleGap(), 0,0 };
 
 	//Shared 'horizontal' vertices (top&bot)
@@ -80,7 +86,6 @@ inline MakerResult HoleArrayMaker<TVertex, TTopology>::Make(
 		}
 
 		const StripResult stripResult{ stripMaker.Make(strip) };
-		BaseClass::m_Result.Add(stripResult);
 
 		if (holeArray.GetNrCornersPerHole() % 2 == 1)
 		{
@@ -94,8 +99,9 @@ inline MakerResult HoleArrayMaker<TVertex, TTopology>::Make(
 
 	//Last/Right Cap
 	MakeEndCap(holeArray, strips[holeArray.GetNrGaps() % 2], sharedVertices, bounds);
+	End();
 
-	return BaseClass::m_Result;
+	return m_Result;
 }
 template<typename TVertex, ModelTopology TTopology>
 inline void HoleArrayMaker<TVertex, TTopology>::GetNrSides(unsigned nrCircleCorners, unsigned& left, unsigned& right)
@@ -177,7 +183,7 @@ inline void HoleArrayMaker<TVertex, TTopology>::MakeStartCap(
 			bounds.GetLeft(), 0, bounds.GetTop() };
 		return;
 	}
-	ArcMaker<TVertex, TTopology, ArcMakerResult> arcMaker{ m_MeshData };
+	ArcMaker<TVertex, TTopology, ArcResult> arcMaker{ m_MeshData };
 
 	//Setup Arc
 	Arc arc{};
@@ -198,7 +204,7 @@ inline void HoleArrayMaker<TVertex, TTopology>::MakeStartCap(
 
 		arc.AddCorner(pos);
 	}
-	const ArcMakerResult topArcResult{ arcMaker.Make(arc) };
+	const ArcResult topArcResult{ arcMaker.Make(arc) };
 
 	//Store shared-vertex between arcs
 	unsigned sharedVertex{};
@@ -227,7 +233,7 @@ inline void HoleArrayMaker<TVertex, TTopology>::MakeStartCap(
 
 		arc.AddCorner(pos);
 	}
-	const ArcMakerResult botArcResult{ arcMaker.Make(arc) };
+	const ArcResult botArcResult{ arcMaker.Make(arc) };
 
 	//Store shared vertices between cap & gap
 	if (holeArray.GetNrCornersPerHole() % 2 == 1)
@@ -235,12 +241,6 @@ inline void HoleArrayMaker<TVertex, TTopology>::MakeStartCap(
 		pSharedVertices[0] = MakerRefVertex{ botArcResult.GetLastCorner() };
 		pSharedVertices[1] = MakerRefVertex{ topArcResult.GetFirstCorner() };
 	}
-
-	//Add to result
-	BaseClass::m_Result.EnsureIncrease(
-		topArcResult.GetNrIndices() + botArcResult.GetNrIndices());
-	BaseClass::m_Result.Add(topArcResult);
-	BaseClass::m_Result.Add(botArcResult);
 }
 template<typename TVertex, ModelTopology TTopology>
 inline void HoleArrayMaker<TVertex, TTopology>::MakeEndCap(
@@ -258,7 +258,7 @@ inline void HoleArrayMaker<TVertex, TTopology>::MakeEndCap(
 	//Prepare creation
 	if (lastGap.GetNrEdges() <= 2)
 		return;
-	ArcMaker<TVertex, TTopology, ArcMakerResult> arcMaker{ BaseClass::m_MeshData };
+	ArcMaker<TVertex, TTopology, ArcResult> arcMaker{ BaseClass::m_MeshData };
 
 	//Setup arc
 	Arc arc{};
@@ -279,8 +279,7 @@ inline void HoleArrayMaker<TVertex, TTopology>::MakeEndCap(
 	if (holeArray.GetNrCornersPerHole() % 2 == 1)
 		arc.AddCorner(pSharedVertices[1]);
 
-	const ArcMakerResult topArcResult{ arcMaker.Make(arc) };
-	BaseClass::m_Result.Add(topArcResult);
+	const ArcResult topArcResult{ arcMaker.Make(arc) };
 
 	unsigned sharedVertexIdx{};
 	unsigned botArcEnd{ lastGap.GetNrEdges() - 1 - nrCornersPerArc };
@@ -307,7 +306,7 @@ inline void HoleArrayMaker<TVertex, TTopology>::MakeEndCap(
 	if (lastGap.GetNrEdges() % 2 == 1)
 		arc.AddCorner(MakerRefVertex{ sharedVertexIdx });
 
-	BaseClass::m_Result.Add(arcMaker.Make(arc));
+	arcMaker.Make(arc);
 }
 
 }

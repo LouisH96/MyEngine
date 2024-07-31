@@ -10,7 +10,8 @@ namespace MeshMaker
 {
 #define BASE_CLASS Maker<TVertex, TTopology, TResult>
 
-template<typename TVertex, ModelTopology TTopology, typename TResult = DefaultStripResult>
+template<typename TVertex, ModelTopology TTopology, 
+	typename TResult = DefaultStripResult<TVertex, TTopology>>
 class SmoothStripMaker
 	: private BASE_CLASS
 {
@@ -27,6 +28,8 @@ private:
 	using BaseClass::Add;
 	using BaseClass::Transform;
 	using BaseClass::m_Result;
+	using BaseClass::Begin;
+	using BaseClass::End;
 
 	void AddPhase_LineList(const SmoothStrip& strip, const Array<PointId>& points);
 	void AddPhase_LineStrip(const SmoothStrip& strip, const Array<PointId>& points);
@@ -45,6 +48,7 @@ inline SmoothStripMaker<TVertex, TTopology, TResult>::SmoothStripMaker(MeshData<
 template<typename TVertex, ModelTopology TTopology, typename TResult>
 inline typename SmoothStripMaker<TVertex, TTopology, TResult>::Result SmoothStripMaker<TVertex, TTopology, TResult>::Make(const SmoothStrip& strip)
 {
+	Begin();
 	m_Result.SetNrEdges(strip.GetNrEdges());
 
 	//Transform phase
@@ -55,7 +59,6 @@ inline typename SmoothStripMaker<TVertex, TTopology, TResult>::Result SmoothStri
 		points[iEdge * 2 + 0] = Transform(edge[0].Get());
 		points[iEdge * 2 + 1] = Transform(edge[1].Get());
 	}
-	BaseClass::FinishTransformPhase(points);
 
 	//Add phase
 	switch (TopologyInfo::GetBaseType(TTopology))
@@ -73,6 +76,7 @@ inline typename SmoothStripMaker<TVertex, TTopology, TResult>::Result SmoothStri
 		AddPhase_TriangleStrip(strip, points);
 		break;
 	}
+	End();
 	return BaseClass::m_Result;
 }
 template<typename TVertex, ModelTopology TTopology, typename TResult>

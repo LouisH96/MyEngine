@@ -8,8 +8,9 @@ namespace MyEngine
 {
 namespace MeshMaker
 {
-template<typename TVertex, ModelTopology TTopology, typename TResult = DefaultArcMakerResult>
-class ArcMaker
+template<typename TVertex, ModelTopology TTopology,
+	typename TResult = DefaultArcMakerResult<TVertex, TTopology>>
+	class ArcMaker
 	: private Maker<TVertex, TTopology, TResult>
 {
 public:
@@ -42,7 +43,6 @@ inline TResult ArcMaker<TVertex, TTopology, TResult>::Make(const Arc& arc)
 	for (unsigned iCorner{ 0 }; iCorner < arc.GetNrCorners(); iCorner++)
 		points[iCorner + 1] = Transform(arc.GetCorner(iCorner).Get());
 
-	BaseClass::FinishTransformPhase(points);
 
 	//---| Add Phase |---
 	switch (TopologyInfo::GetBaseType(TTopology))

@@ -7,8 +7,12 @@ namespace MyEngine
 {
 namespace MeshMaker
 {
+#define TEMP_DEF template<typename TVertex, ModelTopology TTopology>
+#define TEMP_ARG TVertex, TTopology
+
+template<typename TVertex, ModelTopology TTopology>
 class ArcMakerResult
-	: public MakerResult
+	: public MakerResult<TVertex, TTopology>
 {
 public:
 	void SetNrCorners(unsigned nrCorners);
@@ -28,8 +32,30 @@ private:
 	Array<unsigned> m_ArcIndices; //first is (a) center, others is one of each corner
 };
 
+TEMP_DEF
+inline void ArcMakerResult<TEMP_ARG>::SetNrCorners(unsigned nrCorners)
+{
+	m_ArcIndices = { nrCorners + 1 };
+}
+
+TEMP_DEF
+inline void ArcMakerResult<TEMP_ARG>::SetCenter(unsigned index)
+{
+	m_ArcIndices[0] = index;
+}
+
+TEMP_DEF
+inline void ArcMakerResult<TEMP_ARG>::SetCorner(unsigned iCorner, unsigned index)
+{
+	m_ArcIndices[1 + iCorner] = index;
+}
+
+#undef TEMP_ARG
+#undef TEMP_DEF
+
+template<typename TVertex, ModelTopology TTopology>
 class DefaultArcMakerResult
-	: public MakerResult
+	: public MakerResult<TVertex, TTopology>
 {
 public:
 	void SetNrCorners(unsigned) {};

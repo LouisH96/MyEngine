@@ -119,13 +119,10 @@
     <ClCompile Include="Applied\NewUi\Elements\ListPanel.cpp" />
     <ClCompile Include="Applied\NewUi\Structures\SideMenu\Tabs\TabManager.cpp" />
     <ClCompile Include="Applied\MeshMaker\Shapes\Strip.cpp" />
-    <ClCompile Include="Applied\MeshMaker\MakerResult.cpp" />
     <ClCompile Include="Applied\MeshMaker\Shapes\StripLoop.cpp" />
     <ClCompile Include="Applied\MeshMaker\Shapes\HoleArray.cpp" />
     <ClCompile Include="Applied\MeshMaker\Shapes\Arc.cpp" />
-    <ClCompile Include="Applied\MeshMaker\Makers\ArcMakerResult.cpp" />
     <ClCompile Include="Applied\MeshMaker\Shapes\SmoothStrip.cpp" />
-    <ClCompile Include="Applied\MeshMaker\Makers\StripResult.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -313,6 +310,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
+    <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="myNatvis.natvis" />

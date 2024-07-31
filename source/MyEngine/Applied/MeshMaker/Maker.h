@@ -18,6 +18,9 @@ class MakerBase1
 {
 public:
 	MakerBase1(MeshData<Vertex, Topology>& meshData, TResult result);
+	
+	void Begin();
+	void End();
 
 protected:
 	TResult m_Result;
@@ -32,6 +35,18 @@ inline MakerBase1<Vertex, Topology, TResult>::MakerBase1(
 {
 }
 
+template<typename Vertex, ModelTopology Topology, typename TResult>
+void MakerBase1<Vertex, Topology, TResult>::Begin()
+{
+	m_Result.Begin(m_MeshData);
+}
+
+template<typename Vertex, ModelTopology Topology, typename TResult>
+void MakerBase1<Vertex, Topology, TResult>::End()
+{
+	m_Result.End(m_MeshData);
+}
+
 #pragma endregion
 
 template<typename Vertex, ModelTopology Topology, bool HasIndexBuffer, typename TResult>
@@ -44,19 +59,20 @@ class MakerBase2<Vertex, Topology, true, TResult>
 	: public MakerBase1<Vertex, Topology, TResult>
 {
 public:
+	using BaseClass = MakerBase1<Vertex, Topology, TResult>;
 	using DataType = unsigned;
 	MakerBase2(MeshData<Vertex, Topology>& meshData, TResult result);
 
 	unsigned Transform(const MakerVertex& vertex);
 	unsigned Transform(const Float3& point);
-	void FinishTransformPhase(Array<DataType>& data);
 	unsigned Add(const unsigned& index);
 	unsigned Add(const unsigned& index, const Float3& normal);
 	void RemoveLast();
-	void AddAllToResult(PtrRangeConst<unsigned> indices);
 
 private:
 	using BaseClass = MakerBase1<Vertex, Topology, TResult>;
+	using BaseClass::Begin;
+	using BaseClass::End;
 };
 
 template<typename Vertex, ModelTopology Topology, typename TResult>
@@ -85,13 +101,6 @@ template<typename Vertex, ModelTopology Topology, typename TResult>
 inline void MakerBase2<Vertex, Topology, true, TResult>::RemoveLast()
 {
 	BaseClass::m_MeshData.Indices.ReduceSize(1);
-}
-
-template<typename Vertex, ModelTopology Topology, typename TResult>
-inline void MakerBase2<Vertex, Topology, true, TResult>::AddAllToResult(PtrRangeConst<unsigned> data)
-{
-	for (unsigned i = 0; i < data.count; i++)
-		BaseClass::m_Result.Add(data.pData[i]);
 }
 
 template<typename Vertex, ModelTopology Topology, typename TResult>
@@ -130,11 +139,6 @@ inline unsigned MakerBase2<Vertex, Topology, true, TResult>::Transform(const Flo
 	BaseClass::m_MeshData.Vertices.Add(vertex);
 	return BaseClass::m_MeshData.Vertices.GetSize() - 1;
 }
-template<typename Vertex, ModelTopology Topology, typename TResult>
-inline void MakerBase2<Vertex, Topology, true, TResult>::FinishTransformPhase(Array<DataType>& data)
-{
-	AddAllToResult({ data });
-}
 
 #pragma endregion
 
@@ -150,13 +154,14 @@ public:
 
 	Vertex Transform(const MakerVertex& vertex);
 	Vertex Transform(const Float3& point);
-	void FinishTransformPhase(Array<DataType>& data) {};
 	unsigned Add(const Vertex& vertex);
 	unsigned Add(const Vertex& vertex, const Float3& normal);
 	void RemoveLast();
 
 private:
 	using BaseClass = MakerBase1<Vertex, Topology, TResult>;
+	using BaseClass::Begin;
+	using BaseClass::End;
 };
 
 template<typename Vertex, ModelTopology Topology, typename TResult>
@@ -172,7 +177,6 @@ inline unsigned MakerBase2<Vertex, Topology, false, TResult>::Add(const Vertex& 
 {
 	const unsigned index{ BaseClass::m_MeshData.Vertices.GetSize() };
 	BaseClass::m_MeshData.Vertices.Add(vertex);
-	BaseClass::m_Result.Add(index);
 	return index;
 }
 
@@ -182,14 +186,12 @@ inline unsigned MakerBase2<Vertex, Topology, false, TResult>::Add(const Vertex& 
 	const unsigned index{ BaseClass::m_MeshData.Vertices.GetSize() };
 	BaseClass::m_MeshData.Vertices.Add(vertex);
 	BaseClass::m_MeshData.Vertices[index].Normal = normal;
-	BaseClass::m_Result.Add(index);
 	return index;
 }
 
 template<typename Vertex, ModelTopology Topology, typename TResult>
 inline void MakerBase2<Vertex, Topology, false, TResult>::RemoveLast()
 {
-	BaseClass::m_Result.RemoveLast();
 	BaseClass::m_MeshData.Vertices.ReduceSize(1);
 }
 
@@ -228,7 +230,6 @@ inline Vertex MakerBase2<Vertex, Topology, false, TResult>::Transform(const Floa
 	return vertex;
 }
 
-
 #pragma endregion
 
 template<typename Vertex, ModelTopology Topology, bool HasIndexBuffer, typename TResult>
@@ -244,6 +245,8 @@ class Maker
 public:
 	using BaseClass = MakerBase2<Vertex, Topology, TopologyInfo::HasIndices(Topology), TResult>;
 	using DataType = typename BaseClass::DataType;
+	using BaseClass::Begin;
+	using BaseClass::End;
 
 	Maker(MeshData<Vertex, Topology>& meshData, TResult result = {});
 

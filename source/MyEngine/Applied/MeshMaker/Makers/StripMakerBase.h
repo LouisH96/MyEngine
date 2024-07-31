@@ -11,16 +11,20 @@ namespace MeshMaker
 {
 template<typename TVertex, ModelTopology TTopology>
 class StripMakerBase
-	: private Maker<TVertex, TTopology, MakerResult>
+	: private Maker<TVertex, TTopology, MakerResult<TVertex, TTopology>>
 {
 public:
-	using BaseClass = Maker<TVertex, TTopology, MakerResult>;
+	using BaseClass = Maker<TVertex, TTopology, MakerResult<TVertex, TTopology>>;
 	using typename BaseClass::DataType;
 
 	StripMakerBase(MeshData<TVertex, TTopology>& meshData);
 
 	template<typename TStrip>
-	MakerResult Make_Sharp(const TStrip& strip);
+	MakerResult<TVertex, TTopology> Make_Sharp(const TStrip& strip);
+
+private:
+	using BaseClass::Begin;
+	using BaseClass::End;
 };
 
 template<typename TVertex, ModelTopology TTopology>
@@ -30,8 +34,9 @@ inline StripMakerBase<TVertex, TTopology>::StripMakerBase(MeshData<TVertex, TTop
 }
 template<typename TVertex, ModelTopology TTopology>
 template<typename TStrip>
-inline MakerResult StripMakerBase<TVertex, TTopology>::Make_Sharp(const TStrip& strip)
+inline MakerResult<TVertex, TTopology> StripMakerBase<TVertex, TTopology>::Make_Sharp(const TStrip& strip)
 {
+	Begin();
 	//Transform phase
 	Array<DataType> data{ strip.GetNrWalls() * 4 };
 	for (unsigned iWall{ 0 }, iData{ 0 }; iWall < strip.GetNrWalls(); iWall++)
@@ -58,7 +63,7 @@ inline MakerResult StripMakerBase<TVertex, TTopology>::Make_Sharp(const TStrip& 
 			leftBot, leftTop,
 			rightBot, rightTop);
 	}
-
+	End();
 	return BaseClass::m_Result;
 }
 }

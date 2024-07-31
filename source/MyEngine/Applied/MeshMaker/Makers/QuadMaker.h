@@ -30,15 +30,19 @@ constexpr unsigned QuadMakerHelper::GetNrVertices(ModelTopology Topology)
 
 template<typename Vertex, ModelTopology Topology>
 class QuadMaker
-	: public Maker<Vertex, Topology, MakerResult>
+	: public Maker<Vertex, Topology, MakerResult<Vertex, Topology>>
 {
 public:
-	using BaseClass = Maker<Vertex, Topology, MakerResult>;
+	using BaseClass = Maker<Vertex, Topology, MakerResult<Vertex, Topology>>;
 	using typename BaseClass::DataType;
 
 	QuadMaker(MeshData<Vertex, Topology>& meshData);
 
-	MakerResult Make(const Quad& quad);
+	MakerResult<Vertex, Topology> Make(const Quad& quad);
+
+private:
+	using BaseClass::Begin;
+	using BaseClass::End;
 };
 
 template<typename Vertex, ModelTopology Topology>
@@ -47,8 +51,9 @@ inline QuadMaker<Vertex, Topology>::QuadMaker(MeshData<Vertex, Topology>& meshDa
 {
 }
 template<typename Vertex, ModelTopology Topology>
-inline MakerResult QuadMaker<Vertex, Topology>::Make(const Quad& quad)
+inline MakerResult<Vertex, Topology> QuadMaker<Vertex, Topology>::Make(const Quad& quad)
 {
+	Begin();
 	constexpr TopologyInfo::BaseType baseType{ TopologyInfo::GetBaseType(Topology) };
 
 	const DataType data[]{
@@ -103,6 +108,7 @@ inline MakerResult QuadMaker<Vertex, Topology>::Make(const Quad& quad)
 		BaseClass::Add(data[3]);
 	}
 
+	End();
 	return BaseClass::m_Result;
 }
 }
