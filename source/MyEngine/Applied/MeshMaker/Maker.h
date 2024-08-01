@@ -4,7 +4,6 @@
 #include <Rendering\Mesh\MeshData.h>
 
 #include "MakerVertex.h"
-#include "MakerResult.h"
 #include "MeshMakerHelper.h"
 
 namespace MyEngine

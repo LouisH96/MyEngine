@@ -1,7 +1,6 @@
 #pragma once
 
-#include <DataStructures\List.h>
-#include "..\MakerResult.h"
+#include "MakerResult.h"
 
 namespace MyEngine
 {

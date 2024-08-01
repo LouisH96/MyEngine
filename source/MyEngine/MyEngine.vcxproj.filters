@@ -290,7 +290,7 @@
     <ClInclude Include="Applied\MeshMaker\MakerVertex.h" />
     <ClInclude Include="Applied\MeshMaker\Maker.h" />
     <ClInclude Include="Applied\MeshMaker\Makers\QuadMaker.h" />
-    <ClInclude Include="Applied\MeshMaker\MakerResult.h" />
+    <ClInclude Include="Applied\MeshMaker\Results\MakerResult.h" />
     <ClInclude Include="Applied\MeshMaker\Shapes\Strip.h" />
     <ClInclude Include="Applied\MeshMaker\Makers\StripMaker.h" />
     <ClInclude Include="Applied\MeshMaker\MeshMakerHelper.h" />
@@ -303,10 +303,10 @@
     <ClInclude Include="Applied\MeshMaker\Makers\HoleArrayMaker.h" />
     <ClInclude Include="Applied\MeshMaker\Shapes\Arc.h" />
     <ClInclude Include="Applied\MeshMaker\Makers\ArcMaker.h" />
-    <ClInclude Include="Applied\MeshMaker\Makers\ArcMakerResult.h" />
+    <ClInclude Include="Applied\MeshMaker\Results\ArcMakerResult.h" />
     <ClInclude Include="Applied\MeshMaker\Shapes\SmoothStrip.h" />
     <ClInclude Include="Applied\MeshMaker\Makers\SmoothStripMaker.h" />
-    <ClInclude Include="Applied\MeshMaker\Makers\StripResult.h" />
+    <ClInclude Include="Applied\MeshMaker\Results\StripResult.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

@@ -1,8 +1,8 @@
 #pragma once
 
 #include "..\Maker.h"
+#include "..\Results\ArcMakerResult.h"
 #include "..\Shapes\Arc.h"
-#include "ArcMakerResult.h"
 
 namespace MyEngine
 {

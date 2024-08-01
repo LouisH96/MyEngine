@@ -1,8 +1,8 @@
 #pragma once
 
 #include "..\Maker.h"
+#include "..\Results\StripResult.h"
 #include "..\Shapes\SmoothStrip.h"
-#include "StripResult.h"
 
 namespace MyEngine
 {
