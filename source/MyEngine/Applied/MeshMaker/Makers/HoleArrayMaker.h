@@ -9,22 +9,26 @@
 #include "..\Shapes\SmoothStrip.h"
 #include "ArcMaker.h"
 #include "SmoothStripMaker.h"
+#include "..\Results\HoleArrayResult.h"
 
 namespace MyEngine
 {
 namespace MeshMaker
 {
-template<typename TVertex, ModelTopology TTopology>
+
+#define TEMP_DEF template<typename TVertex, ModelTopology TTopology, typename TResult>
+#define TEMP_ARG TVertex, TTopology, TResult
+
+template<typename TVertex, ModelTopology TTopology, typename TResult = DefaultHoleArrayResult<TVertex, TTopology>>
 class HoleArrayMaker
-	: private Maker<TVertex, TTopology, MakerResult<TVertex, TTopology>>
+	: private Maker<TVertex, TTopology, TResult>
 {
 public:
-	using Result = MakerResult<TVertex, TTopology>;
-	using BaseClass = Maker<TVertex, TTopology, Result>;
+	using BaseClass = Maker<TVertex, TTopology, TResult>;
 	using PointType = typename BaseClass::DataType;
-	using Maker<TVertex, TTopology, Result>::Maker;
+	using Maker<TVertex, TTopology, TResult>::Maker;
 
-	Result Make(const HoleArray& holeArray, RectFloat& bounds);
+	TResult Make(const HoleArray& holeArray, RectFloat& bounds);
 
 private:
 	using BaseClass::Transform;
@@ -43,8 +47,9 @@ private:
 	void MakeStartCap(const HoleArray& holeArray, const SmoothStrip& firstGap, SharedPtr<const MakerVertex>* pSharedVertices, RectFloat& bounds);
 	void MakeEndCap(const HoleArray& holeArray, const SmoothStrip& lastGap, SharedPtr<const MakerVertex>* pSharedVertices, RectFloat& bounds);
 };
-template<typename TVertex, ModelTopology TTopology>
-inline MakerResult<TVertex, TTopology> HoleArrayMaker<TVertex, TTopology>::Make(
+
+TEMP_DEF
+inline TResult HoleArrayMaker<TEMP_ARG>::Make(
 	const HoleArray& holeArray, RectFloat& bounds)
 {
 	Begin();
@@ -103,21 +108,24 @@ inline MakerResult<TVertex, TTopology> HoleArrayMaker<TVertex, TTopology>::Make(
 
 	return m_Result;
 }
-template<typename TVertex, ModelTopology TTopology>
-inline void HoleArrayMaker<TVertex, TTopology>::GetNrSides(unsigned nrCircleCorners, unsigned& left, unsigned& right)
+
+TEMP_DEF
+inline void HoleArrayMaker<TEMP_ARG>::GetNrSides(unsigned nrCircleCorners, unsigned& left, unsigned& right)
 {
 	const unsigned half{ Uint::Floor(nrCircleCorners * .5f) };
 
 	left = half - 1 + (2 - half % 2) * (nrCircleCorners % 2);
 	right = half - 1 + (1 + half % 2) * (nrCircleCorners % 2);
 }
-template<typename TVertex, ModelTopology TTopology>
-inline unsigned HoleArrayMaker<TVertex, TTopology>::GetNrCornersPerArc(const SmoothStrip& gapStrip)
+
+TEMP_DEF
+inline unsigned HoleArrayMaker<TEMP_ARG>::GetNrCornersPerArc(const SmoothStrip& gapStrip)
 {
 	return Uint::Ceil(gapStrip.GetNrEdges() * .5f);
 }
-template<typename TVertex, ModelTopology TTopology>
-inline SmoothStrip HoleArrayMaker<TVertex, TTopology>::MakeGapStrip(const HoleArray& holeArray, unsigned nrSides)
+
+TEMP_DEF
+inline SmoothStrip HoleArrayMaker<TEMP_ARG>::MakeGapStrip(const HoleArray& holeArray, unsigned nrSides)
 {
 	const float radius{ holeArray.GetHoleRadius() };
 	const float gapDistance{ holeArray.GetHoleGap() };
@@ -152,8 +160,9 @@ inline SmoothStrip HoleArrayMaker<TVertex, TTopology>::MakeGapStrip(const HoleAr
 	}
 	return strip;
 }
-template<typename TVertex, ModelTopology TTopology>
-inline void HoleArrayMaker<TVertex, TTopology>::MakeStartCap(
+
+TEMP_DEF
+inline void HoleArrayMaker<TEMP_ARG>::MakeStartCap(
 	const HoleArray& holeArray, const SmoothStrip& firstGap,
 	SharedPtr<const MakerVertex>* pSharedVertices, RectFloat& bounds)
 {
@@ -205,6 +214,7 @@ inline void HoleArrayMaker<TVertex, TTopology>::MakeStartCap(
 		arc.AddCorner(pos);
 	}
 	const ArcResult topArcResult{ arcMaker.Make(arc) };
+	m_Result.SetLeftTop(topArcResult.GetCenter());
 
 	//Store shared-vertex between arcs
 	unsigned sharedVertex{};
@@ -234,6 +244,7 @@ inline void HoleArrayMaker<TVertex, TTopology>::MakeStartCap(
 		arc.AddCorner(pos);
 	}
 	const ArcResult botArcResult{ arcMaker.Make(arc) };
+	m_Result.SetLeftBot(botArcResult.GetCenter());
 
 	//Store shared vertices between cap & gap
 	if (holeArray.GetNrCornersPerHole() % 2 == 1)
@@ -242,8 +253,9 @@ inline void HoleArrayMaker<TVertex, TTopology>::MakeStartCap(
 		pSharedVertices[1] = MakerRefVertex{ topArcResult.GetFirstCorner() };
 	}
 }
-template<typename TVertex, ModelTopology TTopology>
-inline void HoleArrayMaker<TVertex, TTopology>::MakeEndCap(
+
+TEMP_DEF
+inline void HoleArrayMaker<TEMP_ARG>::MakeEndCap(
 	const HoleArray& holeArray, const SmoothStrip& lastGap,
 	SharedPtr<const MakerVertex>* pSharedVertices, RectFloat& bounds)
 {
@@ -280,6 +292,7 @@ inline void HoleArrayMaker<TVertex, TTopology>::MakeEndCap(
 		arc.AddCorner(pSharedVertices[1]);
 
 	const ArcResult topArcResult{ arcMaker.Make(arc) };
+	m_Result.SetRightTop(topArcResult.GetCenter());
 
 	unsigned sharedVertexIdx{};
 	unsigned botArcEnd{ lastGap.GetNrEdges() - 1 - nrCornersPerArc };
@@ -306,7 +319,8 @@ inline void HoleArrayMaker<TVertex, TTopology>::MakeEndCap(
 	if (lastGap.GetNrEdges() % 2 == 1)
 		arc.AddCorner(MakerRefVertex{ sharedVertexIdx });
 
-	arcMaker.Make(arc);
+	const ArcResult botArcResult{ arcMaker.Make(arc) };
+	m_Result.SetRightBot(botArcResult.GetCenter());
 }
 
 }

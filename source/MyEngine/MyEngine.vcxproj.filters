@@ -307,6 +307,7 @@
     <ClInclude Include="Applied\MeshMaker\Shapes\SmoothStrip.h" />
     <ClInclude Include="Applied\MeshMaker\Makers\SmoothStripMaker.h" />
     <ClInclude Include="Applied\MeshMaker\Results\StripResult.h" />
+    <ClInclude Include="Applied\MeshMaker\Results\HoleArrayResult.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
