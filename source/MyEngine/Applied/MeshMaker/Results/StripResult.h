@@ -102,9 +102,8 @@ inline unsigned StripResult<TEMP_ARG>::GetLastEdgeTop() const
 	return m_Vertices[m_Vertices.GetSize() - 1];
 }
 
-#undef FULL_CLASS
-#undef TEMPLATE
-#undef CLASS
+#undef TEMP_ARG
+#undef TEMP_DEF
 
 #pragma endregion
 
