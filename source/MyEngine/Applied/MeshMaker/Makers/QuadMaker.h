@@ -2,7 +2,7 @@
 
 #include "..\Maker.h"
 #include "..\Shapes\Quad.h"
-#include "..\MakerResult.h"
+#include "..\Results\MakerResult.h"
 
 namespace MyEngine
 {
@@ -62,9 +62,6 @@ inline MakerResult<Vertex, Topology> QuadMaker<Vertex, Topology>::Make(const Qua
 		BaseClass::Transform(quad.Vertices[2].Get()),
 		BaseClass::Transform(quad.Vertices[3].Get()),
 	};
-
-	if constexpr (TopologyInfo::HasIndices(Topology))
-		BaseClass::AddAllToResult(PtrRangeConst<unsigned>{data, sizeof(data) / sizeof(const DataType)});
 
 	if constexpr (baseType == TopologyInfo::BaseType::LineList)
 	{
