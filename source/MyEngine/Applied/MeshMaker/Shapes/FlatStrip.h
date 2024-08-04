@@ -11,12 +11,12 @@ namespace MyEngine
 {
 namespace MeshMaker
 {
-class FlatSmoothStrip
+class FlatStrip
 {
 public:
 	using Vertex = SharedPtr<const MakerVertex>;
 
-	FlatSmoothStrip() = default;
+	FlatStrip() = default;
 
 	void EnsureEdgesSize(unsigned size);
 
@@ -45,7 +45,7 @@ private:
 };
 
 template<typename TVertex, ModelTopology TTopology>
-inline void FlatSmoothStrip::MoveEdges(const Float3& movement, MeshData<TVertex, TTopology>& meshData)
+inline void FlatStrip::MoveEdges(const Float3& movement, MeshData<TVertex, TTopology>& meshData)
 {
 	for (unsigned iEdge{ 0 }; iEdge < m_Edges.GetSize(); ++iEdge)
 	{

@@ -3,7 +3,7 @@
 #include "..\Maker.h"
 #include "..\Results\HoleArrayResult.h"
 #include "..\Shapes\Arc.h"
-#include "..\Shapes\FlatSmoothStrip.h"
+#include "..\Shapes\FlatStrip.h"
 #include "..\Shapes\HoleArray.h"
 #include "ArcMaker.h"
 #include "SmoothStripMaker.h"
@@ -42,12 +42,12 @@ private:
 	using ArcResult = ArcMakerResult<TVertex, TTopology>;
 
 	static void GetNrSides(unsigned nrCircleCorners, unsigned& left, unsigned& right);
-	static unsigned GetNrCornersPerArc(const FlatSmoothStrip& gapStrip);
+	static unsigned GetNrCornersPerArc(const FlatStrip& gapStrip);
 
-	FlatSmoothStrip MakeGapStrip(const HoleArray& holeArray, unsigned nrSides);
+	FlatStrip MakeGapStrip(const HoleArray& holeArray, unsigned nrSides);
 
-	void MakeStartCap(const HoleArray& holeArray, const FlatSmoothStrip& firstGap, SharedPtr<const MakerVertex>* pSharedVertices, RectFloat& bounds);
-	void MakeEndCap(const HoleArray& holeArray, const FlatSmoothStrip& lastGap, SharedPtr<const MakerVertex>* pSharedVertices, RectFloat& bounds);
+	void MakeStartCap(const HoleArray& holeArray, const FlatStrip& firstGap, SharedPtr<const MakerVertex>* pSharedVertices, RectFloat& bounds);
+	void MakeEndCap(const HoleArray& holeArray, const FlatStrip& lastGap, SharedPtr<const MakerVertex>* pSharedVertices, RectFloat& bounds);
 };
 
 TEMP_DEF
@@ -63,7 +63,7 @@ inline TResult HoleArrayMaker<TEMP_ARG>::Make(
 
 	//Make vertices for 1 gap (and then copy & move them for others)
 	//There is a strip for each side of the hole (left & right)
-	FlatSmoothStrip strips[]{
+	FlatStrip strips[]{
 		MakeGapStrip(holeArray, nrSidesRight),
 		MakeGapStrip(holeArray, nrSidesLeft)
 	};
@@ -84,7 +84,7 @@ inline TResult HoleArrayMaker<TEMP_ARG>::Make(
 	for (unsigned iGap = 0; iGap < holeArray.GetNrGaps(); iGap++)
 	{
 		BaseClass::StartShape();
-		FlatSmoothStrip& strip{ strips[iGap % 2] };
+		FlatStrip& strip{ strips[iGap % 2] };
 
 		if (holeArray.GetNrCornersPerHole() % 2 == 1)
 		{
@@ -139,13 +139,13 @@ inline void HoleArrayMaker<TEMP_ARG>::GetNrSides(unsigned nrCircleCorners, unsig
 }
 
 TEMP_DEF
-inline unsigned HoleArrayMaker<TEMP_ARG>::GetNrCornersPerArc(const FlatSmoothStrip& gapStrip)
+inline unsigned HoleArrayMaker<TEMP_ARG>::GetNrCornersPerArc(const FlatStrip& gapStrip)
 {
 	return Uint::Ceil(gapStrip.GetNrEdges() * .5f);
 }
 
 TEMP_DEF
-inline FlatSmoothStrip HoleArrayMaker<TEMP_ARG>::MakeGapStrip(const HoleArray& holeArray, unsigned nrSides)
+inline FlatStrip HoleArrayMaker<TEMP_ARG>::MakeGapStrip(const HoleArray& holeArray, unsigned nrSides)
 {
 	const float radius{ holeArray.GetHoleRadius() };
 	const float gapDistance{ holeArray.GetHoleGap() };
@@ -153,7 +153,7 @@ inline FlatSmoothStrip HoleArrayMaker<TEMP_ARG>::MakeGapStrip(const HoleArray& h
 	/*origin is at mathematical left-bot of the left/first hole */
 	const unsigned nrCorners{ nrSides + 1 };
 
-	FlatSmoothStrip strip{};
+	FlatStrip strip{};
 	strip.EnsureEdgesSize(nrCorners);
 	strip.SetNormal({ 0,1,0 });
 
@@ -183,7 +183,7 @@ inline FlatSmoothStrip HoleArrayMaker<TEMP_ARG>::MakeGapStrip(const HoleArray& h
 
 TEMP_DEF
 inline void HoleArrayMaker<TEMP_ARG>::MakeStartCap(
-	const HoleArray& holeArray, const FlatSmoothStrip& firstGap,
+	const HoleArray& holeArray, const FlatStrip& firstGap,
 	SharedPtr<const MakerVertex>* pSharedVertices, RectFloat& bounds)
 {
 	const unsigned nrCornersPerArc{ GetNrCornersPerArc(firstGap) };
@@ -276,7 +276,7 @@ inline void HoleArrayMaker<TEMP_ARG>::MakeStartCap(
 
 TEMP_DEF
 inline void HoleArrayMaker<TEMP_ARG>::MakeEndCap(
-	const HoleArray& holeArray, const FlatSmoothStrip& lastGap,
+	const HoleArray& holeArray, const FlatStrip& lastGap,
 	SharedPtr<const MakerVertex>* pSharedVertices, RectFloat& bounds)
 {
 	const unsigned nrCornersPerArc{ GetNrCornersPerArc(lastGap) };
