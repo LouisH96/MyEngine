@@ -10,6 +10,8 @@
 #include "ArcMaker.h"
 #include "SmoothStripMaker.h"
 #include "..\Results\HoleArrayResult.h"
+#include <Math\Matrices.h>
+#include <Transform\WorldMatrix.h>
 
 namespace MyEngine
 {
@@ -29,6 +31,7 @@ public:
 	using Maker<TVertex, TTopology, TResult>::Maker;
 
 	TResult Make(const HoleArray& holeArray, RectFloat& bounds);
+	TResult Make(const HoleArray& holeArray, RectFloat& localBounds, const Float4X4& transformation);
 
 private:
 	using BaseClass::Transform;
@@ -107,6 +110,24 @@ inline TResult HoleArrayMaker<TEMP_ARG>::Make(
 	End();
 
 	return m_Result;
+}
+
+TEMP_DEF
+inline TResult HoleArrayMaker<TEMP_ARG>::Make(const HoleArray& holeArray, RectFloat& localBounds, const Float4X4& transformation)
+{
+	TResult result{ Make(holeArray, localBounds) };
+
+	const Float3 normal{ transformation.GetRow1().Xyz()};
+
+	auto adaptor = [&transformation, &normal](TVertex& vertex) {
+
+		WorldMatrix::TransformPoint(transformation, vertex.Pos);
+		vertex.Normal = normal;
+		};
+
+	result.AdaptAll(adaptor, BaseClass::m_MeshData);
+
+	return result;
 }
 
 TEMP_DEF
