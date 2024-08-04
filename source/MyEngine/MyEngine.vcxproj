@@ -21,7 +21,7 @@
   <ItemGroup>
     <ClCompile Include="Applied\MeshMaker\Shapes\Arc.cpp" />
     <ClCompile Include="Applied\MeshMaker\Shapes\HoleArray.cpp" />
-    <ClCompile Include="Applied\MeshMaker\Shapes\SmoothStrip.cpp" />
+    <ClCompile Include="Applied\MeshMaker\Shapes\FlatSmoothStrip.cpp" />
     <ClCompile Include="Applied\MeshMaker\Shapes\Strip.cpp" />
     <ClCompile Include="Applied\MeshMaker\Shapes\StripLoop.cpp" />
     <ClCompile Include="Applied\NewUi\Elements\AnchorParent.cpp" />
@@ -163,7 +163,7 @@
     <ClInclude Include="Applied\MeshMaker\MakerVertex.h" />
     <ClInclude Include="Applied\MeshMaker\MeshMakerOperations.h" />
     <ClInclude Include="Applied\MeshMaker\Shapes\Quad.h" />
-    <ClInclude Include="Applied\MeshMaker\Shapes\SmoothStrip.h" />
+    <ClInclude Include="Applied\MeshMaker\Shapes\FlatSmoothStrip.h" />
     <ClInclude Include="Applied\MeshMaker\Shapes\Strip.h" />
     <ClInclude Include="Applied\MeshMaker\Shapes\StripLoop.h" />
     <ClInclude Include="Applied\NewUi\Elements\AnchorParent.h" />

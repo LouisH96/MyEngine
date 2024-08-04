@@ -2,7 +2,7 @@
 
 #include "..\Maker.h"
 #include "..\Results\StripResult.h"
-#include "..\Shapes\SmoothStrip.h"
+#include "..\Shapes\FlatSmoothStrip.h"
 
 namespace MyEngine
 {
@@ -22,7 +22,7 @@ public:
 
 	SmoothStripMaker(MeshData<TVertex, TTopology>& meshData);
 
-	Result Make(const SmoothStrip& strip);
+	Result Make(const FlatSmoothStrip& strip);
 
 private:
 	using BaseClass::Add;
@@ -31,10 +31,10 @@ private:
 	using BaseClass::Begin;
 	using BaseClass::End;
 
-	void AddPhase_LineList(const SmoothStrip& strip, const Array<PointId>& points);
-	void AddPhase_LineStrip(const SmoothStrip& strip, const Array<PointId>& points);
-	void AddPhase_TriangleList(const SmoothStrip& strip, const Array<PointId>& points);
-	void AddPhase_TriangleStrip(const SmoothStrip& strip, const Array<PointId>& points);
+	void AddPhase_LineList(const FlatSmoothStrip& strip, const Array<PointId>& points);
+	void AddPhase_LineStrip(const FlatSmoothStrip& strip, const Array<PointId>& points);
+	void AddPhase_TriangleList(const FlatSmoothStrip& strip, const Array<PointId>& points);
+	void AddPhase_TriangleStrip(const FlatSmoothStrip& strip, const Array<PointId>& points);
 };
 
 #undef BASE_CLASS
@@ -46,7 +46,7 @@ inline SmoothStripMaker<TVertex, TTopology, TResult>::SmoothStripMaker(MeshData<
 {
 }
 template<typename TVertex, ModelTopology TTopology, typename TResult>
-inline typename SmoothStripMaker<TVertex, TTopology, TResult>::Result SmoothStripMaker<TVertex, TTopology, TResult>::Make(const SmoothStrip& strip)
+inline typename SmoothStripMaker<TVertex, TTopology, TResult>::Result SmoothStripMaker<TVertex, TTopology, TResult>::Make(const FlatSmoothStrip& strip)
 {
 	Begin();
 	m_Result.SetNrEdges(strip.GetNrEdges());
@@ -80,7 +80,7 @@ inline typename SmoothStripMaker<TVertex, TTopology, TResult>::Result SmoothStri
 	return BaseClass::m_Result;
 }
 template<typename TVertex, ModelTopology TTopology, typename TResult>
-inline void SmoothStripMaker<TVertex, TTopology, TResult>::AddPhase_LineList(const SmoothStrip& strip, const Array<PointId>& points)
+inline void SmoothStripMaker<TVertex, TTopology, TResult>::AddPhase_LineList(const FlatSmoothStrip& strip, const Array<PointId>& points)
 {
 	const Float3& normal{ strip.GetNormal() };
 
@@ -102,7 +102,7 @@ inline void SmoothStripMaker<TVertex, TTopology, TResult>::AddPhase_LineList(con
 	}
 }
 template<typename TVertex, ModelTopology TTopology, typename TResult>
-inline void SmoothStripMaker<TVertex, TTopology, TResult>::AddPhase_LineStrip(const SmoothStrip& strip, const Array<PointId>& points)
+inline void SmoothStripMaker<TVertex, TTopology, TResult>::AddPhase_LineStrip(const FlatSmoothStrip& strip, const Array<PointId>& points)
 {
 	const Float3& normal{ strip.GetNormal() };
 	m_Result.SetEdgeBot(0, Add(points[0], normal));
@@ -124,7 +124,7 @@ inline void SmoothStripMaker<TVertex, TTopology, TResult>::AddPhase_LineStrip(co
 	}
 }
 template<typename TVertex, ModelTopology TTopology, typename TResult>
-inline void SmoothStripMaker<TVertex, TTopology, TResult>::AddPhase_TriangleList(const SmoothStrip& strip, const Array<PointId>& points)
+inline void SmoothStripMaker<TVertex, TTopology, TResult>::AddPhase_TriangleList(const FlatSmoothStrip& strip, const Array<PointId>& points)
 {
 	const Float3& normal{ strip.GetNormal() };
 
@@ -144,7 +144,7 @@ inline void SmoothStripMaker<TVertex, TTopology, TResult>::AddPhase_TriangleList
 	}
 }
 template<typename TVertex, ModelTopology TTopology, typename TResult>
-inline void SmoothStripMaker<TVertex, TTopology, TResult>::AddPhase_TriangleStrip(const SmoothStrip& strip, const Array<PointId>& points)
+inline void SmoothStripMaker<TVertex, TTopology, TResult>::AddPhase_TriangleStrip(const FlatSmoothStrip& strip, const Array<PointId>& points)
 {
 	const Float3& normal{ strip.GetNormal() };
 

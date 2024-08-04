@@ -1,6 +1,8 @@
 #pragma once
 
-#include "..\Maker.h"
+#include <Geometry\ModelTopology.h>
+
+#include "..\Results\MakerResult.h"
 #include "..\Shapes\StripLoop.h"
 #include "StripMakerBase.h"
 
