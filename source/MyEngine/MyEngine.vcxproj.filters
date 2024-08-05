@@ -123,6 +123,7 @@
     <ClCompile Include="Applied\MeshMaker\Shapes\HoleArray.cpp" />
     <ClCompile Include="Applied\MeshMaker\Shapes\Arc.cpp" />
     <ClCompile Include="Applied\MeshMaker\Shapes\FlatStrip.cpp" />
+    <ClCompile Include="Applied\MeshMaker\Shapes\FlatStripLoop.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -308,6 +309,7 @@
     <ClInclude Include="Applied\MeshMaker\Makers\SmoothStripMaker.h" />
     <ClInclude Include="Applied\MeshMaker\Results\StripResult.h" />
     <ClInclude Include="Applied\MeshMaker\Results\HoleArrayResult.h" />
+    <ClInclude Include="Applied\MeshMaker\Shapes\FlatStripLoop.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

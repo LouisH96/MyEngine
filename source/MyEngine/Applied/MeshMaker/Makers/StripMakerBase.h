@@ -49,12 +49,11 @@ inline MakerResult<TVertex, TTopology> StripMakerBase<TVertex, TTopology>::Make_
 		data[iData++] = BaseClass::Transform(edgeRight[0].Get());
 		data[iData++] = BaseClass::Transform(edgeRight[1].Get());
 	}
-	BaseClass::FinishTransformPhase(data);
 
 	//Add phase
 	for (unsigned iWall{ 0 }; iWall < strip.GetNrWalls(); iWall++)
 	{
-		const Float3& normal{ strip.GetNormals()[iWall] };
+		const Float3& normal{ strip.GetNormal(iWall) };
 		const unsigned leftBot{ iWall * 4 };
 		const unsigned leftTop{ leftBot + 1 };
 		const unsigned rightBot{ leftTop + 1 };

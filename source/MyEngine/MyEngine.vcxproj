@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Applied\MeshMaker\Shapes\Arc.cpp" />
+    <ClCompile Include="Applied\MeshMaker\Shapes\FlatStripLoop.cpp" />
     <ClCompile Include="Applied\MeshMaker\Shapes\HoleArray.cpp" />
     <ClCompile Include="Applied\MeshMaker\Shapes\FlatStrip.cpp" />
     <ClCompile Include="Applied\MeshMaker\Shapes\Strip.cpp" />
@@ -154,6 +155,7 @@
     <ClInclude Include="Applied\MeshMaker\Results\HoleArrayResult.h" />
     <ClInclude Include="Applied\MeshMaker\Results\StripResult.h" />
     <ClInclude Include="Applied\MeshMaker\Shapes\Arc.h" />
+    <ClInclude Include="Applied\MeshMaker\Shapes\FlatStripLoop.h" />
     <ClInclude Include="Applied\MeshMaker\Shapes\HoleArray.h" />
     <ClInclude Include="Applied\MeshMaker\Shapes\Line.h" />
     <ClInclude Include="Applied\MeshMaker\Makers\HoleArrayMaker.h" />

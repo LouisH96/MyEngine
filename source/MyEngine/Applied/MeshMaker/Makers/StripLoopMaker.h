@@ -10,7 +10,9 @@ namespace MyEngine
 {
 namespace MeshMaker
 {
-template<typename TVertex, ModelTopology TTopology>
+template<
+	typename TVertex,
+	ModelTopology TTopology>
 class StripLoopMaker
 	: private StripMakerBase<TVertex, TTopology>
 {
@@ -20,10 +22,14 @@ public:
 
 	using StripMakerBase<TVertex, TTopology>::StripMakerBase;
 
-	MakerResult<TVertex, TTopology> Make_Sharp(const StripLoop& strip);
+	template<typename TStripLoop>
+	MakerResult<TVertex, TTopology> Make_Sharp(const TStripLoop& strip);
 };
-template<typename TVertex, ModelTopology TTopology>
-inline MakerResult<TVertex, TTopology> StripLoopMaker<TVertex, TTopology>::Make_Sharp(const StripLoop& strip)
+template<
+	typename TVertex,
+	ModelTopology TTopology>
+template<typename TStripLoop>
+inline MakerResult<TVertex, TTopology> StripLoopMaker<TVertex, TTopology>::Make_Sharp(const TStripLoop& strip)
 {
 	return BaseClass::Make_Sharp(strip);
 }
