@@ -22,6 +22,7 @@ namespace MyEngine
 	public:
 		void ActivateAndDraw() const;
 		void CreateBuffers(MeshData<Vertex, Topology>& data);
+		void CreateBuffers(PtrRangeConst<Vertex> vertices);
 
 		Rendering::Buffer<Vertex>VertexBuffer;
 	};
@@ -34,6 +35,7 @@ namespace MyEngine
 		void Activate() const;
 		void ActivateAndDraw() const;
 		void CreateBuffers(MeshData<Vertex, Topology>& data);
+		void CreateBuffers(PtrRangeConst<Vertex> vertices, PtrRangeConst<int> indices);
 
 		Rendering::Buffer<Vertex> VertexBuffer;
 		Rendering::IdxBuffer IndexBuffer;
@@ -99,6 +101,11 @@ namespace MyEngine
 		VertexBuffer = Rendering::Buffer<Vertex>(data.Vertices, false);
 	}
 	template<typename Vertex, ModelTopology Topology>
+	inline void MeshBuffersWithoutIndices<Vertex, Topology>::CreateBuffers(PtrRangeConst<Vertex> vertices)
+	{
+		VertexBuffer = Rendering::Buffer<Vertex>(vertices, false);
+	}
+	template<typename Vertex, ModelTopology Topology>
 	inline void MeshBuffersWithIndices<Vertex, Topology>::Activate() const
 	{
 		MeshBuffersCommon<Topology>::ActivateTopology();
@@ -118,5 +125,11 @@ namespace MyEngine
 	{
 		VertexBuffer = Rendering::Buffer<Vertex>(data.Vertices, false);
 		IndexBuffer = Rendering::IdxBuffer{ data.Indices };
+	}
+	template<typename Vertex, ModelTopology Topology>
+	inline void MeshBuffersWithIndices<Vertex, Topology>::CreateBuffers(PtrRangeConst<Vertex> vertices, PtrRangeConst<int> indices)
+	{
+		VertexBuffer = Rendering::Buffer<Vertex>(vertices, false);
+		IndexBuffer = Rendering::IdxBuffer(indices);
 	}
 }
