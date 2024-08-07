@@ -310,6 +310,13 @@
     <ClInclude Include="Applied\MeshMaker\Results\StripResult.h" />
     <ClInclude Include="Applied\MeshMaker\Results\HoleArrayResult.h" />
     <ClInclude Include="Applied\MeshMaker\Shapes\FlatStripLoop.h" />
+    <ClInclude Include="Applied\MeshMaker2\MakerData.h" />
+    <ClInclude Include="Applied\MeshMaker2\MakerVertex.h" />
+    <ClInclude Include="Applied\MeshMaker2\MakerResult.h" />
+    <ClInclude Include="Applied\MeshMaker2\Quad\Quad.h" />
+    <ClInclude Include="Applied\MeshMaker2\Quad\QuadMaker.h" />
+    <ClInclude Include="Applied\MeshMaker2\Maker.h" />
+    <ClInclude Include="Applied\MeshMaker2\Quad\QuadResult.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

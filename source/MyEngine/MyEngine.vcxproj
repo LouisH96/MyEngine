@@ -149,6 +149,13 @@
     <ClCompile Include="Applied\NewUi\Structures\SideMenu\Tabs\TabManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Applied\MeshMaker2\Maker.h" />
+    <ClInclude Include="Applied\MeshMaker2\MakerData.h" />
+    <ClInclude Include="Applied\MeshMaker2\MakerResult.h" />
+    <ClInclude Include="Applied\MeshMaker2\Quad\QuadMaker.h" />
+    <ClInclude Include="Applied\MeshMaker2\MakerVertex.h" />
+    <ClInclude Include="Applied\MeshMaker2\Quad\Quad.h" />
+    <ClInclude Include="Applied\MeshMaker2\Quad\QuadResult.h" />
     <ClInclude Include="Applied\MeshMaker\Makers\ArcMaker.h" />
     <ClInclude Include="Applied\MeshMaker\Results\ArcMakerResult.h" />
     <ClInclude Include="Applied\MeshMaker\Makers\SmoothStripMaker.h" />
