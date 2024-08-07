@@ -194,4 +194,40 @@ public:
 		return GetFormatType(topology) == FormatType::Strip;
 	}
 };
+
+class TopologyBaseType
+{
+public:
+	class LineList {};
+	class LineStrip {};
+	class TriangleList {};
+	class TriangleStrip {};
+
+	template<TopologyInfo::BaseType TBaseType>
+	struct ToBaseType;
+
+	template<ModelTopology TTopology>
+	using FromModelTopology = typename ToBaseType<TopologyInfo::GetBaseType(TTopology)>::Type;
+
+	template<>
+	struct ToBaseType<TopologyInfo::BaseType::LineList>
+	{
+		using Type = LineList;
+	};
+	template<>
+	struct ToBaseType<TopologyInfo::BaseType::LineStrip>
+	{
+		using Type = LineStrip;
+	};
+	template<>
+	struct ToBaseType<TopologyInfo::BaseType::TriangleList>
+	{
+		using Type = TriangleList;
+	};
+	template<>
+	struct ToBaseType<TopologyInfo::BaseType::TriangleStrip>
+	{
+		using Type = TriangleStrip;
+	};
+};
 }
