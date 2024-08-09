@@ -29,6 +29,10 @@ public:
 	template<typename TResult = EmptyQuadResult<TVertex, TTopology>>
 	TResult Make(Quad<TVertex>& quad);
 
+	//---| Get |---
+	MakerData<TVertex, TTopology>& GetData() { return m_Data; }
+	const MakerData<TVertex, TTopology>& GetData() const { return m_Data; }
+
 private:
 	MakerResult<TVertex, TTopology> m_Result{};
 	MakerData<TVertex, TTopology>& m_Data{};
