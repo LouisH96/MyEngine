@@ -21,6 +21,9 @@ public:
 	virtual TVertex& GetVertex(const MakerDataBase<TVertex, false>& data) = 0;
 	virtual TVertex& GetVertex(const MakerDataBase<TVertex, true>& data) = 0;
 
+	virtual const TVertex& GetVertex(const MakerDataBase<TVertex, false>& data) const = 0;
+	virtual const TVertex& GetVertex(const MakerDataBase<TVertex, true>& data) const = 0;
+
 	virtual TVertex MakeShapeVertex(MakerDataBase<TVertex, false>& data) = 0;
 	virtual int MakeShapeVertex(MakerDataBase<TVertex, true>& data) = 0;
 };
@@ -41,8 +44,17 @@ public:
 	template<typename O>
 	MakerVertex(SharedPtr<O>&& other) : SharedPtr<MakerVertexContent<TVertex>>{ std::move(other) } {}
 
-	TVertex& GetVertex(const MakerDataBase<TVertex, false>& data) { return Get().GetVertex(data); }
-	TVertex& GetVertex(const MakerDataBase<TVertex, true>& data) { return Get().GetVertex(data); }
+	template<bool THasIndices>
+	TVertex& GetVertex(const MakerDataBase<TVertex, THasIndices>& data) { return Get().GetVertex(data); }
+
+	template<bool THasIndices>
+	const TVertex& GetVertex(const MakerDataBase<TVertex, THasIndices>& data) const { return Get().GetVertex(data); }
+
+	template<bool THasIndices>
+	const Float3& GetPosition(const MakerDataBase<TVertex, THasIndices>& data) const;
+
+	template<bool THasIndices>
+	Float3& GetPosition(MakerDataBase<TVertex, THasIndices>& data);
 
 	template<bool THasIndices>
 	void SetNormal(const Float3& normal, const MakerDataBase<TVertex, THasIndices>& data);
@@ -50,6 +62,20 @@ public:
 	TVertex MakeShapeVertex(MakerDataBase<TVertex, false>& data) { return Get().MakeShapeVertex(data); }
 	int MakeShapeVertex(MakerDataBase<TVertex, true>& data) { return Get().MakeShapeVertex(data); }
 };
+
+template<typename TVertex>
+template<bool THasIndices>
+inline const Float3& MakerVertex<TVertex>::GetPosition(const MakerDataBase<TVertex, THasIndices>& data) const
+{
+	return GetVertex(data).Pos;
+}
+
+template<typename TVertex>
+template<bool THasIndices>
+inline Float3& MakerVertex<TVertex>::GetPosition(MakerDataBase<TVertex, THasIndices>& data)
+{
+	return GetVertex(data).Pos;
+}
 
 template<typename TVertex>
 template<bool THasIndices>
@@ -73,6 +99,12 @@ public:
 		return Vertex;
 	}
 	TVertex& GetVertex(const MakerDataBase<TVertex, true>& data) override {
+		return Vertex;
+	}
+	const TVertex& GetVertex(const MakerDataBase<TVertex, false>& data) const override {
+		return Vertex;
+	}
+	const TVertex& GetVertex(const MakerDataBase<TVertex, true>& data) const override {
 		return Vertex;
 	}
 
@@ -148,10 +180,17 @@ struct RefMakerVertexContent
 public:
 	int Index;
 
-	TVertex GetVertex(const MakerDataBase<TVertex, false>& data) override {
+	TVertex& GetVertex(const MakerDataBase<TVertex, false>& data) override {
 		return data.Vertices[Index];
 	}
-	TVertex GetVertex(const MakerDataBase<TVertex, true>& data) override {
+	TVertex& GetVertex(const MakerDataBase<TVertex, true>& data) override {
+		return data.Vertices[Index];
+	}
+
+	const TVertex& GetVertex(const MakerDataBase<TVertex, false>& data) const override {
+		return data.Vertices[Index];
+	}
+	const TVertex& GetVertex(const MakerDataBase<TVertex, true>& data) const override {
 		return data.Vertices[Index];
 	}
 
