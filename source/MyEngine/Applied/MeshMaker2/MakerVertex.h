@@ -9,21 +9,40 @@ namespace MyEngine
 namespace MeshMaker2
 {
 
-#pragma region MakerVertex
+template<typename TVertex>
+struct FullMakerVertexContent;
+template<typename TVertex>
+struct RefMakerVertexContent;
 
 template<typename TVertex>
 struct MakerVertexContent
 {
 public:
+	template<bool THasIndices>
+	using Data = MakerDataBase<TVertex, THasIndices>;
+
+	//---| Construction |---
 	MakerVertexContent() = default;
 	virtual ~MakerVertexContent() = default;
 
+	//---| Vertex |---
 	virtual TVertex& GetVertex(const MakerDataBase<TVertex, false>& data) = 0;
 	virtual TVertex& GetVertex(const MakerDataBase<TVertex, true>& data) = 0;
 
 	virtual const TVertex& GetVertex(const MakerDataBase<TVertex, false>& data) const = 0;
 	virtual const TVertex& GetVertex(const MakerDataBase<TVertex, true>& data) const = 0;
 
+	template<bool THasIndices>
+	void TrySetPosition(const Float3& position, Data<THasIndices>& data) const {};
+	template<bool THasIndices>
+	void TrySetPosition(const Float3& position, Data<THasIndices>& data) { GetVertex(data).Pos = position; };
+
+	template<bool THasIndices>
+	void TrySetNormal(const Float3& normal, Data<THasIndices>& data) const {};
+	template<bool THasIndices>
+	void TrySetNormal(const Float3& normal, Data<THasIndices>& data) { GetVertex(data).Normal = normal; }
+
+	//---| ShapeVertex |---
 	virtual TVertex MakeShapeVertex(MakerDataBase<TVertex, false>& data) = 0;
 	virtual int MakeShapeVertex(MakerDataBase<TVertex, true>& data) = 0;
 };
@@ -37,6 +56,10 @@ private:
 	using BaseClass::Get;
 
 public:
+	template<bool THasIndices>
+	using Data = MakerDataBase<TVertex, THasIndices>;
+
+	//---| Construction |---
 	MakerVertex() = default;
 
 	template<typename O>
@@ -44,55 +67,41 @@ public:
 	template<typename O>
 	MakerVertex(SharedPtr<O>&& other) : SharedPtr<MakerVertexContent<TVertex>>{ std::move(other) } {}
 
+	template<template<typename> typename O>
+	MakerVertex(const O<TVertex>& content) : SharedPtr<MakerVertexContent<TVertex>>{ content } {}
+
+	//---| Vertex |---
 	template<bool THasIndices>
-	TVertex& GetVertex(const MakerDataBase<TVertex, THasIndices>& data) { return Get().GetVertex(data); }
+	const TVertex& GetVertex(const Data<THasIndices>& data) const { return Get().GetVertex(data); }
 
 	template<bool THasIndices>
-	const TVertex& GetVertex(const MakerDataBase<TVertex, THasIndices>& data) const { return Get().GetVertex(data); }
+	const Float3& GetPosition(const Data<THasIndices>& data) const { return Get().GetPosition(data); }
+	template<bool THasIndices>
+	const Float3& GetNormal(const Data<THasIndices>& data) const { return Get().GetNormal(data); }
 
 	template<bool THasIndices>
-	const Float3& GetPosition(const MakerDataBase<TVertex, THasIndices>& data) const;
+	void TrySetPosition(const Float3& position, Data<THasIndices>& data) { Get().TrySetPosition(position, data); }
+	template<bool THasIndices>
+	void TrySetPosition(const Float3& position, Data<THasIndices>& data) const { Get().TrySetPosition(position, data); }
 
 	template<bool THasIndices>
-	Float3& GetPosition(MakerDataBase<TVertex, THasIndices>& data);
-
+	void TrySetNormal(const Float3& normal, Data<THasIndices>& data) { Get().TrySetNormal(normal, data); }
 	template<bool THasIndices>
-	void SetNormal(const Float3& normal, const MakerDataBase<TVertex, THasIndices>& data);
+	void TrySetNormal(const Float3& normal, Data<THasIndices>& data) const { Get().TrySetNormal(normal, data); }
 
+	//---| ShapeVertex |---
 	TVertex MakeShapeVertex(MakerDataBase<TVertex, false>& data) { return Get().MakeShapeVertex(data); }
 	int MakeShapeVertex(MakerDataBase<TVertex, true>& data) { return Get().MakeShapeVertex(data); }
 };
-
-template<typename TVertex>
-template<bool THasIndices>
-inline const Float3& MakerVertex<TVertex>::GetPosition(const MakerDataBase<TVertex, THasIndices>& data) const
-{
-	return GetVertex(data).Pos;
-}
-
-template<typename TVertex>
-template<bool THasIndices>
-inline Float3& MakerVertex<TVertex>::GetPosition(MakerDataBase<TVertex, THasIndices>& data)
-{
-	return GetVertex(data).Pos;
-}
-
-template<typename TVertex>
-template<bool THasIndices>
-inline void MakerVertex<TVertex>::SetNormal(const Float3& normal, const MakerDataBase<TVertex, THasIndices>& data)
-{
-	GetVertex(data).Normal = normal;
-}
-
-#pragma endregion
-
-#pragma region FullVertex
 
 template<typename TVertex>
 struct FullMakerVertexContent
 	: public MakerVertexContent<TVertex>
 {
 public:
+	FullMakerVertexContent() = default;
+	FullMakerVertexContent(TVertex vertex) : Vertex{ vertex } {};
+
 	TVertex Vertex{};
 
 	TVertex& GetVertex(const MakerDataBase<TVertex, false>& data) override {
@@ -108,70 +117,9 @@ public:
 		return Vertex;
 	}
 
-	TVertex MakeShapeVertex(MakerDataBase<TVertex, false>& data) override;
-	int MakeShapeVertex(MakerDataBase<TVertex, true>& data) override;
+	TVertex MakeShapeVertex(MakerDataBase<TVertex, false>& data) override { return Vertex; };
+	int MakeShapeVertex(MakerDataBase<TVertex, true>& data) override { return static_cast<int>(data.Vertices.Add(Vertex)); }
 };
-
-template<typename TVertex>
-inline TVertex FullMakerVertexContent<TVertex>::MakeShapeVertex(MakerDataBase<TVertex, false>& data)
-{
-	return Vertex;
-}
-
-template<typename TVertex>
-inline int FullMakerVertexContent<TVertex>::MakeShapeVertex(MakerDataBase<TVertex, true>& data)
-{
-	return static_cast<int>(data.Vertices.Add(Vertex));
-}
-
-template<typename TVertex>
-class FullMakerVertex final
-	: public SharedPtr<FullMakerVertexContent<TVertex>>
-{
-private:
-	using BaseClass = SharedPtr<FullMakerVertexContent<TVertex>>;
-	using BaseClass::Get;
-
-public:
-	FullMakerVertex() = default;
-	FullMakerVertex(const TVertex& vertex);
-	FullMakerVertex(const Float3& position);
-	FullMakerVertex(const Float3& position, const Float3& normal);
-
-	TVertex& GetVertex() { return BaseClass::Get().Vertex; }
-	const TVertex& GetVertex() const { return BaseClass::Get().Vertex; }
-
-	void SetPosition(const Float3& newPosition) { GetVertex().Pos = newPosition; }
-	Float3& GetPosition() { return GetVertex().Pos; }
-	const Float3& GetPosition() const { return GetVertex().Pos; }
-
-	void SetNormal(const Float3& newNormal) { GetVertex().Normal = newNormal; }
-	Float3& GetNormal() { return GetVertex().Normal; }
-	const Float3& GetNormal() const { return GetVertex().Normal; }
-};
-
-template<typename TVertex>
-inline FullMakerVertex<TVertex>::FullMakerVertex(const TVertex& vertex)
-	: SharedPtr<FullMakerVertexContent<TVertex>>{ vertex }
-{
-}
-template<typename TVertex>
-inline FullMakerVertex<TVertex>::FullMakerVertex(const Float3& position)
-	: SharedPtr<FullMakerVertexContent<TVertex>>{ {} }
-{
-	SetPosition(position);
-}
-template<typename TVertex>
-inline FullMakerVertex<TVertex>::FullMakerVertex(const Float3& position, const Float3& normal)
-	: SharedPtr<FullMakerVertexContent<TVertex>>{ {} }
-{
-	SetPosition(position);
-	SetNormal(normal);
-}
-
-#pragma endregion
-
-#pragma region RefVertex
 
 template<typename TVertex>
 struct RefMakerVertexContent
@@ -194,50 +142,74 @@ public:
 		return data.Vertices[Index];
 	}
 
-	TVertex MakeShapeVertex(MakerDataBase<TVertex, false>& data) override;
-	int MakeShapeVertex(MakerDataBase<TVertex, true>& data) override;
+	TVertex MakeShapeVertex(MakerDataBase<TVertex, false>& data) override { return data.Vertices[Index]; }
+	int MakeShapeVertex(MakerDataBase<TVertex, true>& data) override { return Index; }
 };
 
-template<typename TVertex>
-inline TVertex RefMakerVertexContent<TVertex>::MakeShapeVertex(MakerDataBase<TVertex, false>& data)
-{
-	return data.Vertices[Index];
-}
 
 template<typename TVertex>
-inline int RefMakerVertexContent<TVertex>::MakeShapeVertex(MakerDataBase<TVertex, true>& data)
+class MakeVertex
 {
-	return Index;
-}
-
-template<typename TVertex>
-class RefMakerVertex
-	: public SharedPtr<RefMakerVertexContent<TVertex>>
-{
-private:
-	using BaseClass = SharedPtr<RefMakerVertexContent<TVertex>>;
-	using BaseClass::Get;
-
 public:
-	RefMakerVertex() = default;
-	RefMakerVertex(int index);
+	static MakerVertex<TVertex> Full(const TVertex& vertex);
+	static MakerVertex<TVertex> Full(const Float3& position);
+	static MakerVertex<TVertex> Full(const Float3& position, const Float3& normal);
+	static MakerVertex<TVertex> ConstFull(const TVertex& vertex);
+	static MakerVertex<TVertex> ConstFull(const Float3& position, const Float3& normal);
 
-	void SetIndex(int index);
-	int GetIndex() const { return Get().Index; }
+	static MakerVertex<TVertex> Ref(int index);
+	static MakerVertex<TVertex> ConstRef(int index);
 };
 
 template<typename TVertex>
-inline RefMakerVertex<TVertex>::RefMakerVertex(int index)
-	: BaseClass{ index }
-{};
-
-template<typename TVertex>
-inline void RefMakerVertex<TVertex>::SetIndex(int index)
+inline MakerVertex<TVertex> MakeVertex<TVertex>::Full(const TVertex& vertex)
 {
-	Get().Index = index;
+	return MakerVertex<TVertex>{ FullMakerVertexContent<TVertex>{vertex} };
 }
 
-#pragma endregion
+template<typename TVertex>
+inline MakerVertex<TVertex> MakeVertex<TVertex>::Full(const Float3& position)
+{
+	TVertex vertex{};
+	vertex.Pos = position;
+	return Full(vertex);
+}
+
+template<typename TVertex>
+inline MakerVertex<TVertex> MakeVertex<TVertex>::Full(const Float3& position, const Float3& normal)
+{
+	TVertex vertex{};
+	vertex.Pos = position;
+	vertex.Normal = normal;
+	return Full(vertex);
+}
+
+template<typename TVertex>
+inline MakerVertex<TVertex> MakeVertex<TVertex>::ConstFull(const TVertex& vertex)
+{
+	return SharedPtr<const FullMakerVertexContent<TVertex>>{ vertex };
+}
+
+template<typename TVertex>
+inline MakerVertex<TVertex> MakeVertex<TVertex>::ConstFull(const Float3& position, const Float3& normal)
+{
+	TVertex vertex{};
+	vertex.Pos = position;
+	vertex.Normal = normal;
+	return ConstFull(vertex);
+}
+
+template<typename TVertex>
+inline MakerVertex<TVertex> MakeVertex<TVertex>::Ref(int index)
+{
+	return MakerVertex<TVertex>{ RefMakerVertexContent<TVertex>{ index } };
+}
+
+template<typename TVertex>
+inline MakerVertex<TVertex> MakeVertex<TVertex>::ConstRef(int index)
+{
+	return SharedPtr<const RefMakerVertexContent<TVertex>>{ index };
+}
 
 }
 }

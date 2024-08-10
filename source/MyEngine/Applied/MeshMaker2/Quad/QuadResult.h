@@ -32,10 +32,10 @@ public:
 	void AddRightBot(int rightBot) { m_Vertices[BaseQuad::IDX_RIGHT_BOT] = rightBot; }
 	void AddRightTop(int rightTop) { m_Vertices[BaseQuad::IDX_RIGHT_TOP] = rightTop; }
 
-	RefMakerVertex<TVertex> GetLeftBot() const { return { m_Vertices[BaseQuad::IDX_LEFT_BOT] }; }
-	RefMakerVertex<TVertex> GetLeftTop() const { return { m_Vertices[BaseQuad::IDX_LEFT_TOP] }; }
-	RefMakerVertex<TVertex> GetRightBot() const { return { m_Vertices[BaseQuad::IDX_RIGHT_BOT] }; }
-	RefMakerVertex<TVertex> GetRightTop() const { return { m_Vertices[BaseQuad::IDX_RIGHT_TOP] }; }
+	int GetLeftBot() const { return  m_Vertices[BaseQuad::IDX_LEFT_BOT]; }
+	int GetLeftTop() const { return  m_Vertices[BaseQuad::IDX_LEFT_TOP]; }
+	int GetRightBot() const { return  m_Vertices[BaseQuad::IDX_RIGHT_BOT]; }
+	int GetRightTop() const { return  m_Vertices[BaseQuad::IDX_RIGHT_TOP]; }
 
 private:
 	int m_Vertices[BaseQuad::NR_VERTICES];

@@ -66,10 +66,10 @@ inline TResult QuadMaker<TVertex, TTopology, TResult>::Make()
 	m_Result.Begin(m_Data);
 
 	//set normals
-	m_Quad.GetLeftBot().SetNormal(m_Quad.GetNormal(), m_Data);
-	m_Quad.GetLeftTop().SetNormal(m_Quad.GetNormal(), m_Data);
-	m_Quad.GetRightBot().SetNormal(m_Quad.GetNormal(), m_Data);
-	m_Quad.GetRightTop().SetNormal(m_Quad.GetNormal(), m_Data);
+	m_Quad.GetLeftBot().TrySetNormal(m_Quad.GetNormal(), m_Data);
+	m_Quad.GetLeftTop().TrySetNormal(m_Quad.GetNormal(), m_Data);
+	m_Quad.GetRightBot().TrySetNormal(m_Quad.GetNormal(), m_Data);
+	m_Quad.GetRightTop().TrySetNormal(m_Quad.GetNormal(), m_Data);
 
 	//create shape vertices
 	const StackArray<ShapeVertex, NrShapeVertices> shapeVertices{
