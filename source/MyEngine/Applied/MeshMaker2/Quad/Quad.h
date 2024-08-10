@@ -33,15 +33,14 @@ public:
 	MakerVertex<TVertex> GetRightBot() const { return m_Vertices[IDX_RIGHT_BOT]; }
 	MakerVertex<TVertex> GetRightTop() const { return m_Vertices[IDX_RIGHT_TOP]; }
 
-	void SetNormal(const Float3& normal) { m_Normal = normal; }
-	const Float3& GetNormal() const { return m_Normal; }
+	template<bool THasIndices>
+	void TrySetNormal(const Float3& normal, MakerDataBase<TVertex, THasIndices>& data);
 
-	template<ModelTopology TTopology>
-	void CalculateNormal(const MakerData<TVertex, TTopology>& data);
+	template<bool THasIndices>
+	void CalculateNormal(MakerDataBase<TVertex, THasIndices>& data);
 
 private:
 	MakerVertex<TVertex> m_Vertices[NR_VERTICES];
-	Float3 m_Normal;
 };
 
 template<typename TVertex>
@@ -59,8 +58,16 @@ inline void Quad<TVertex>::SetRight(Edge<TVertex> right)
 }
 
 template<typename TVertex>
-template<ModelTopology TTopology>
-inline void Quad<TVertex>::CalculateNormal(const MakerData<TVertex, TTopology>& data)
+template<bool THasIndices>
+inline void Quad<TVertex>::TrySetNormal(const Float3& normal, MakerDataBase<TVertex, THasIndices>& data)
+{
+	for (unsigned i{ 0 }; i < NR_VERTICES; ++i)
+		m_Vertices[i].TrySetNormal(normal, data);
+}
+
+template<typename TVertex>
+template<bool THasIndices>
+inline void Quad<TVertex>::CalculateNormal(MakerDataBase<TVertex, THasIndices>& data)
 {
 	const Float3 leftBot{ GetLeftBot().GetPosition(data) };
 	const Float3 leftTop{ GetLeftTop().GetPosition(data) };
@@ -69,7 +76,8 @@ inline void Quad<TVertex>::CalculateNormal(const MakerData<TVertex, TTopology>& 
 	const Float3 up{ leftTop - leftBot };
 	const Float3 right{ rightBot - leftBot };
 
-	m_Normal = up.Cross(right).Normalized();
+	const Float3 normal{ up.Cross(right).Normalized() };
+	TrySetNormal(normal, data);
 }
 
 }
