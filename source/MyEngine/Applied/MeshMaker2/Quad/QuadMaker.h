@@ -8,7 +8,7 @@ namespace MyEngine
 {
 namespace MeshMaker2
 {
-template<typename TVertex, ModelTopology TTopology, typename TResult>
+template<typename TVertex, ModelTopology TTopology, typename TResult = EmptyQuadResult<TVertex, TTopology>>
 class QuadMaker
 {
 public:
@@ -64,12 +64,6 @@ inline TResult QuadMaker<TVertex, TTopology, TResult>::Make()
 {
 	//create result
 	m_Result.Begin(m_Data);
-
-	//set normals
-	m_Quad.GetLeftBot().TrySetNormal(m_Quad.GetNormal(), m_Data);
-	m_Quad.GetLeftTop().TrySetNormal(m_Quad.GetNormal(), m_Data);
-	m_Quad.GetRightBot().TrySetNormal(m_Quad.GetNormal(), m_Data);
-	m_Quad.GetRightTop().TrySetNormal(m_Quad.GetNormal(), m_Data);
 
 	//create shape vertices
 	const StackArray<ShapeVertex, NrShapeVertices> shapeVertices{
