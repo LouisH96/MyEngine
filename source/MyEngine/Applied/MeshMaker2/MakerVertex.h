@@ -75,9 +75,9 @@ public:
 	const TVertex& GetVertex(const Data<THasIndices>& data) const { return Get().GetVertex(data); }
 
 	template<bool THasIndices>
-	const Float3& GetPosition(const Data<THasIndices>& data) const { return Get().GetPosition(data); }
+	const Float3& GetPosition(const Data<THasIndices>& data) const { return Get().GetVertex(data).Pos; }
 	template<bool THasIndices>
-	const Float3& GetNormal(const Data<THasIndices>& data) const { return Get().GetNormal(data); }
+	const Float3& GetNormal(const Data<THasIndices>& data) const { return Get().GetVertex(data).Normal; }
 
 	template<bool THasIndices>
 	void TrySetPosition(const Float3& position, Data<THasIndices>& data) { Get().TrySetPosition(position, data); }
