@@ -317,6 +317,9 @@
     <ClInclude Include="Applied\MeshMaker2\Quad\QuadMaker.h" />
     <ClInclude Include="Applied\MeshMaker2\Maker.h" />
     <ClInclude Include="Applied\MeshMaker2\Quad\QuadResult.h" />
+    <ClInclude Include="Applied\MeshMaker2\Strip\Strip.h" />
+    <ClInclude Include="Applied\MeshMaker2\Shapes\Edge.h" />
+    <ClInclude Include="Applied\MeshMaker2\Strip\StripMaker.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

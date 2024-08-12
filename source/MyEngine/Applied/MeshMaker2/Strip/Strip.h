@@ -1,0 +1,164 @@
+#pragma once
+
+#include "..\MakerData.h"
+#include "..\Quad\Quad.h"
+#include "..\Shapes\Edge.h"
+
+namespace MyEngine
+{
+namespace MeshMaker2
+{
+
+enum class StripEdgeStyle {
+	Smooth, Sharp
+};
+
+enum class StripEndStyle {
+	Open, Closed
+};
+
+template<typename TVertex, StripEndStyle TEndStyle, StripEdgeStyle TEdgeStyle>
+class Strip;
+
+template<typename TVertex, StripEndStyle TEndStyle>
+using SharpStrip = Strip<TVertex, TEndStyle, StripEdgeStyle::Sharp>;
+
+template<typename TVertex, StripEndStyle TEndStyle>
+using SmoothStrip = Strip<TVertex, TEndStyle, StripEdgeStyle::Smooth>;
+
+template<typename TVertex, StripEndStyle TEndStyle, StripEdgeStyle TEdgeStyle>
+class Strip
+{
+public:
+	template<bool THasIndices>
+	using Data = MakerDataBase<TVertex, THasIndices>;
+
+	Strip() = default;
+
+	void AddEdge(Edge<TVertex> edge);
+
+	unsigned GetNrShapeEdges() const; //a shared edge counts as one
+	unsigned GetNrWalls() const;
+
+	Edge<TVertex> GetWallLeftEdge(unsigned iWall) const;
+	Edge<TVertex> GetWallRightEdge(unsigned iWall) const;
+	Edge<TVertex> GetShapeEdge(unsigned iEdge) const; //doesnt change if shared or split edges
+
+	template<bool THasIndices>
+	void CalculateNormals(Data<THasIndices>& data);
+
+private:
+	List<Edge<TVertex>> m_Edges;
+};
+
+template<typename TVertex, StripEndStyle TEndStyle, StripEdgeStyle TEdgeStyle>
+inline void Strip<TVertex, TEndStyle, TEdgeStyle>::AddEdge(Edge<TVertex> edge)
+{
+	m_Edges.Add(edge);
+}
+
+template<typename TVertex, StripEndStyle TEndStyle, StripEdgeStyle TEdgeStyle>
+inline unsigned Strip<TVertex, TEndStyle, TEdgeStyle>::GetNrShapeEdges() const
+{
+	if constexpr (TEdgeStyle == StripEdgeStyle::Sharp)
+	{
+		unsigned count{ m_Edges.GetSize() / 2 };
+		if constexpr (TEndStyle == StripEndStyle::Open)
+			++count;
+		return count;
+	}
+	else
+		return m_Edges.GetSize();
+}
+
+template<typename TVertex, StripEndStyle TEndStyle, StripEdgeStyle TEdgeStyle>
+inline unsigned Strip<TVertex, TEndStyle, TEdgeStyle>::GetNrWalls() const
+{
+	unsigned count;
+
+	if constexpr (TEdgeStyle == StripEdgeStyle::Sharp)
+		count = m_Edges.GetSize() / 2;
+	else
+	{
+		count = m_Edges.GetSize();
+		if constexpr (TEndStyle == StripEndStyle::Open)
+			--count;
+	}
+
+	return count;
+}
+
+template<typename TVertex, StripEndStyle TEndStyle, StripEdgeStyle TEdgeStyle>
+inline Edge<TVertex> Strip<TVertex, TEndStyle, TEdgeStyle>::GetWallLeftEdge(unsigned iWall) const
+{
+	if constexpr (TEndStyle == StripEndStyle::Closed)
+		iWall %= GetNrWalls();
+
+	if constexpr (TEdgeStyle == StripEdgeStyle::Sharp)
+		return m_Edges[iWall * 2];
+	else 
+		return m_Edges[iWall];
+}
+
+template<typename TVertex, StripEndStyle TEndStyle, StripEdgeStyle TEdgeStyle>
+inline Edge<TVertex> Strip<TVertex, TEndStyle, TEdgeStyle>::GetWallRightEdge(unsigned iWall) const
+{
+	if constexpr (TEdgeStyle == StripEdgeStyle::Sharp)
+	{
+		if constexpr (TEndStyle == StripEndStyle::Closed)
+			iWall %= GetNrWalls();
+		return m_Edges[iWall * 2 + 1];
+	}
+	else
+	{
+		iWall++;
+		if constexpr (TEndStyle == StripEndStyle::Closed)
+			iWall %= GetNrWalls();
+		return m_Edges[iWall];
+	}
+}
+
+template<typename TVertex, StripEndStyle TEndStyle, StripEdgeStyle TEdgeStyle>
+inline Edge<TVertex> Strip<TVertex, TEndStyle, TEdgeStyle>::GetShapeEdge(unsigned iEdge) const
+{
+	if constexpr (TEdgeStyle == StripEdgeStyle::Smooth)
+	{
+		if constexpr (TEndStyle == StripEndStyle::Closed)
+			iEdge %= m_Edges.GetSize();
+		return m_Edges[iEdge];
+	}
+	else //Sharp
+	{
+		if (iEdge == 0)
+			return m_Edges[0];
+
+		iEdge = iEdge * 2 - 1;
+		if constexpr (TEndStyle == StripEndStyle::Closed)
+			iEdge %= m_Edges.GetSize();
+		return m_Edges[iEdge];
+	}
+}
+
+template<typename TVertex, StripEndStyle TEndStyle, StripEdgeStyle TEdgeStyle>
+template<bool THasIndices>
+inline void Strip<TVertex, TEndStyle, TEdgeStyle>::CalculateNormals(Data<THasIndices>& data)
+{
+	if constexpr (TEdgeStyle == StripEdgeStyle::Sharp)
+	{
+		for (unsigned iWall{ 0 }; iWall < GetNrWalls(); ++iWall)
+		{
+			Quad<TVertex> quad{};
+			quad.SetLeft(GetWallLeftEdge(iWall));
+			quad.SetRight(GetWallRightEdge(iWall));
+			quad.CalculateNormal(data);
+		}
+	}
+	else
+	{
+		//todo:
+		//requires Slerp
+	}
+}
+
+}
+}

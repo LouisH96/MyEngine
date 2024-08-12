@@ -6,6 +6,7 @@
 #include "Quad\Quad.h"
 #include "Quad\QuadMaker.h"
 #include "Quad\QuadResult.h"
+#include "Strip\StripMaker.h"
 #include <Geometry\ModelTopology.h>
 
 namespace MyEngine
@@ -23,6 +24,7 @@ public:
 	MakerResult<TVertex, TTopology> GetResult()const { return m_Result; }
 
 	//---| Make Vertices |---
+	MakerVertex<TVertex> FullVertex(const TVertex& vertex) const;
 	MakerVertex<TVertex> FullVertex(const Float3& position) const;
 	MakerVertex<TVertex> FullVertex(const Float3& position, const Float3& normal) const;
 	MakerVertex<TVertex> ConstFullVertex(const Float3& position) const;
@@ -33,6 +35,9 @@ public:
 	//---| Make Shapes |---
 	template<typename TResult = EmptyQuadResult<TVertex, TTopology>>
 	TResult Make(Quad<TVertex>& quad);
+
+	template<StripEndStyle TEndStyle, StripEdgeStyle TEdgeStyle>
+	MakerResult<TVertex, TTopology> Make(Strip<TVertex, TEndStyle, TEdgeStyle>& strip);
 
 	//---| Get |---
 	MakerData<TVertex, TTopology>& GetData() { return m_Data; }
@@ -47,6 +52,12 @@ template<typename TVertex, ModelTopology TTopology>
 inline Maker<TVertex, TTopology>::Maker(MakerData<TVertex, TTopology>& makerData)
 	: m_Data{ makerData }
 {
+}
+
+template<typename TVertex, ModelTopology TTopology>
+inline MakerVertex<TVertex> Maker<TVertex, TTopology>::FullVertex(const TVertex& vertex) const
+{
+	return MakeVertex<TVertex>::Full(vertex);
 }
 
 template<typename TVertex, ModelTopology TTopology>
@@ -90,6 +101,14 @@ template<typename TResult>
 inline TResult Maker<TVertex, TTopology>::Make(Quad<TVertex>& quad)
 {
 	QuadMaker<TVertex, TTopology, TResult> maker{ m_Data , quad };
+	return maker.Make();
+}
+
+template<typename TVertex, ModelTopology TTopology>
+template<StripEndStyle TEndStyle, StripEdgeStyle TEdgeStyle>
+inline MakerResult<TVertex, TTopology> Maker<TVertex, TTopology>::Make(Strip<TVertex, TEndStyle, TEdgeStyle>& strip)
+{
+	StripMaker<TVertex, TTopology, TEdgeStyle, TEndStyle> maker{ m_Data, strip };
 	return maker.Make();
 }
 

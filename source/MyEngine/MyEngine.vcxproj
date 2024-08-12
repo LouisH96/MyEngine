@@ -156,6 +156,9 @@
     <ClInclude Include="Applied\MeshMaker2\MakerVertex.h" />
     <ClInclude Include="Applied\MeshMaker2\Quad\Quad.h" />
     <ClInclude Include="Applied\MeshMaker2\Quad\QuadResult.h" />
+    <ClInclude Include="Applied\MeshMaker2\Shapes\Edge.h" />
+    <ClInclude Include="Applied\MeshMaker2\Strip\Strip.h" />
+    <ClInclude Include="Applied\MeshMaker2\Strip\StripMaker.h" />
     <ClInclude Include="Applied\MeshMaker\Makers\ArcMaker.h" />
     <ClInclude Include="Applied\MeshMaker\Results\ArcMakerResult.h" />
     <ClInclude Include="Applied\MeshMaker\Makers\SmoothStripMaker.h" />
