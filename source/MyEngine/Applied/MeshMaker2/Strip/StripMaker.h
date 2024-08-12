@@ -58,7 +58,7 @@ inline MakerResult<TVertex, TTopology> StripMaker<TVertex, TTopology, TEdgeStyle
 	}
 	else
 	{
-		if constexpr (TEdgeStyle == StripEdgeStyle::Sharp)
+		if constexpr (TEdgeStyle == StripEdgeStyle::Split)
 			Make_Triangles_Sharp();
 		else
 			Make_Triangles_Smooth();
@@ -97,8 +97,8 @@ template<typename TVertex, ModelTopology TTopology, StripEdgeStyle TEdgeStyle, S
 inline Array<typename StripMaker<TVertex, TTopology, TEdgeStyle, TEndStyle>::ShapeVertex>
 StripMaker<TVertex, TTopology, TEdgeStyle, TEndStyle>::CreateSplitEdgeShapeVertices()
 {
-	if constexpr (TEdgeStyle != StripEdgeStyle::Sharp)
-		Logger::PrintWarning("[StripMaker::CreateSplitEdgeShapeVertices] should only be called with Sharp edges");
+	if constexpr (TEdgeStyle != StripEdgeStyle::Split)
+		Logger::PrintWarning("[StripMaker::CreateSplitEdgeShapeVertices] should only be called with Split edges");
 
 	Array<ShapeVertex> vertices{ m_Strip.GetNrWalls() * 4 };
 	for (unsigned iWall{ 0 }; iWall < m_Strip.GetNrWalls(); ++iWall)

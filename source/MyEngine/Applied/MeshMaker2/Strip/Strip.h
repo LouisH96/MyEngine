@@ -10,7 +10,7 @@ namespace MeshMaker2
 {
 
 enum class StripEdgeStyle {
-	Smooth, Sharp
+	Shared, Split
 };
 
 enum class StripEndStyle {
@@ -21,10 +21,10 @@ template<typename TVertex, StripEndStyle TEndStyle, StripEdgeStyle TEdgeStyle>
 class Strip;
 
 template<typename TVertex, StripEndStyle TEndStyle>
-using SharpStrip = Strip<TVertex, TEndStyle, StripEdgeStyle::Sharp>;
+using SharedStrip = Strip<TVertex, TEndStyle, StripEdgeStyle::Shared>;
 
 template<typename TVertex, StripEndStyle TEndStyle>
-using SmoothStrip = Strip<TVertex, TEndStyle, StripEdgeStyle::Smooth>;
+using SplitStrip = Strip<TVertex, TEndStyle, StripEdgeStyle::Split>;
 
 template<typename TVertex, StripEndStyle TEndStyle, StripEdgeStyle TEdgeStyle>
 class Strip
@@ -60,7 +60,7 @@ inline void Strip<TVertex, TEndStyle, TEdgeStyle>::AddEdge(Edge<TVertex> edge)
 template<typename TVertex, StripEndStyle TEndStyle, StripEdgeStyle TEdgeStyle>
 inline unsigned Strip<TVertex, TEndStyle, TEdgeStyle>::GetNrShapeEdges() const
 {
-	if constexpr (TEdgeStyle == StripEdgeStyle::Sharp)
+	if constexpr (TEdgeStyle == StripEdgeStyle::Split)
 	{
 		unsigned count{ m_Edges.GetSize() / 2 };
 		if constexpr (TEndStyle == StripEndStyle::Open)
@@ -76,7 +76,7 @@ inline unsigned Strip<TVertex, TEndStyle, TEdgeStyle>::GetNrWalls() const
 {
 	unsigned count;
 
-	if constexpr (TEdgeStyle == StripEdgeStyle::Sharp)
+	if constexpr (TEdgeStyle == StripEdgeStyle::Split)
 		count = m_Edges.GetSize() / 2;
 	else
 	{
@@ -94,7 +94,7 @@ inline Edge<TVertex> Strip<TVertex, TEndStyle, TEdgeStyle>::GetWallLeftEdge(unsi
 	if constexpr (TEndStyle == StripEndStyle::Closed)
 		iWall %= GetNrWalls();
 
-	if constexpr (TEdgeStyle == StripEdgeStyle::Sharp)
+	if constexpr (TEdgeStyle == StripEdgeStyle::Split)
 		return m_Edges[iWall * 2];
 	else 
 		return m_Edges[iWall];
@@ -103,7 +103,7 @@ inline Edge<TVertex> Strip<TVertex, TEndStyle, TEdgeStyle>::GetWallLeftEdge(unsi
 template<typename TVertex, StripEndStyle TEndStyle, StripEdgeStyle TEdgeStyle>
 inline Edge<TVertex> Strip<TVertex, TEndStyle, TEdgeStyle>::GetWallRightEdge(unsigned iWall) const
 {
-	if constexpr (TEdgeStyle == StripEdgeStyle::Sharp)
+	if constexpr (TEdgeStyle == StripEdgeStyle::Split)
 	{
 		if constexpr (TEndStyle == StripEndStyle::Closed)
 			iWall %= GetNrWalls();
@@ -121,13 +121,13 @@ inline Edge<TVertex> Strip<TVertex, TEndStyle, TEdgeStyle>::GetWallRightEdge(uns
 template<typename TVertex, StripEndStyle TEndStyle, StripEdgeStyle TEdgeStyle>
 inline Edge<TVertex> Strip<TVertex, TEndStyle, TEdgeStyle>::GetShapeEdge(unsigned iEdge) const
 {
-	if constexpr (TEdgeStyle == StripEdgeStyle::Smooth)
+	if constexpr (TEdgeStyle == StripEdgeStyle::Shared)
 	{
 		if constexpr (TEndStyle == StripEndStyle::Closed)
 			iEdge %= m_Edges.GetSize();
 		return m_Edges[iEdge];
 	}
-	else //Sharp
+	else //Split
 	{
 		if (iEdge == 0)
 			return m_Edges[0];
@@ -143,7 +143,7 @@ template<typename TVertex, StripEndStyle TEndStyle, StripEdgeStyle TEdgeStyle>
 template<bool THasIndices>
 inline void Strip<TVertex, TEndStyle, TEdgeStyle>::CalculateNormals(Data<THasIndices>& data)
 {
-	if constexpr (TEdgeStyle == StripEdgeStyle::Sharp)
+	if constexpr (TEdgeStyle == StripEdgeStyle::Split)
 	{
 		for (unsigned iWall{ 0 }; iWall < GetNrWalls(); ++iWall)
 		{
