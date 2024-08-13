@@ -6,6 +6,7 @@
 #include "Quad\Quad.h"
 #include "Quad\QuadMaker.h"
 #include "Quad\QuadResult.h"
+#include "Arc\ArcMaker.h"
 #include "Strip\StripMaker.h"
 #include <Geometry\ModelTopology.h>
 
@@ -38,6 +39,9 @@ public:
 
 	template<StripEndStyle TEndStyle, StripEdgeStyle TEdgeStyle>
 	MakerResult<TVertex, TTopology> Make(Strip<TVertex, TEndStyle, TEdgeStyle>& strip);
+
+	template<ArcEdgeStyle TEdgeStyle>
+	MakerResult<TVertex, TTopology> Make(Arc<TVertex, TEdgeStyle>& arc);
 
 	//---| Get |---
 	MakerData<TVertex, TTopology>& GetData() { return m_Data; }
@@ -109,6 +113,14 @@ template<StripEndStyle TEndStyle, StripEdgeStyle TEdgeStyle>
 inline MakerResult<TVertex, TTopology> Maker<TVertex, TTopology>::Make(Strip<TVertex, TEndStyle, TEdgeStyle>& strip)
 {
 	StripMaker<TVertex, TTopology, TEdgeStyle, TEndStyle> maker{ m_Data, strip };
+	return maker.Make();
+}
+
+template<typename TVertex, ModelTopology TTopology>
+template<ArcEdgeStyle TEdgeStyle>
+inline MakerResult<TVertex, TTopology> Maker<TVertex, TTopology>::Make(Arc<TVertex, TEdgeStyle>& arc)
+{
+	ArcMaker<TVertex, TTopology, TEdgeStyle> maker{ m_Data, arc };
 	return maker.Make();
 }
 

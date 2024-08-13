@@ -149,6 +149,8 @@
     <ClCompile Include="Applied\NewUi\Structures\SideMenu\Tabs\TabManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Applied\MeshMaker2\Arc\Arc.h" />
+    <ClInclude Include="Applied\MeshMaker2\Arc\ArcMaker.h" />
     <ClInclude Include="Applied\MeshMaker2\Maker.h" />
     <ClInclude Include="Applied\MeshMaker2\MakerData.h" />
     <ClInclude Include="Applied\MeshMaker2\MakerResult.h" />

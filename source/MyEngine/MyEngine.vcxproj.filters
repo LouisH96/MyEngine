@@ -320,6 +320,8 @@
     <ClInclude Include="Applied\MeshMaker2\Strip\Strip.h" />
     <ClInclude Include="Applied\MeshMaker2\Shapes\Edge.h" />
     <ClInclude Include="Applied\MeshMaker2\Strip\StripMaker.h" />
+    <ClInclude Include="Applied\MeshMaker2\Arc\Arc.h" />
+    <ClInclude Include="Applied\MeshMaker2\Arc\ArcMaker.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
