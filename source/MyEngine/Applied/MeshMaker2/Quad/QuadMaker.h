@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Quad.h"
+#include "QuadResult.h"
 #include <DataStructures\StackArray.h>
 #include <Geometry\ModelTopology.h>
 
