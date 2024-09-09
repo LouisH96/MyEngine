@@ -19,7 +19,7 @@ void Resources::Init()
 		m_GlobalPath = args[1];
 	else
 	{
-		Logger::PrintError("Global resources path should be defined in args");
+		m_GlobalPath = m_LocalPath;
 		return;
 	}
 
