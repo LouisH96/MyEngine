@@ -66,6 +66,9 @@ public:
 	int Add(const TVertex& shapeVertex);
 
 	template<ModelTopology TTopology>
+	void StartShape();
+
+	template<ModelTopology TTopology>
 	void MakeBuffers(MeshBuffers<TVertex, TTopology>& buffers) const;
 };
 
@@ -79,6 +82,9 @@ public:
 	MakerDataIndices Indices;
 
 	int Add(int shapeVertex);
+
+	template<ModelTopology TTopology>
+	void StartShape();
 
 	template<ModelTopology TTopology>
 	void MakeBuffers(MeshBuffers<TVertex, TTopology>& buffers) const;
@@ -100,6 +106,27 @@ inline int MakerDataBase<TVertex, false>::Add(const TVertex& shapeVertex)
 
 template<typename TVertex>
 template<ModelTopology TTopology>
+inline void MakerDataBase<TVertex, false>::StartShape()
+{
+	if constexpr (TopologyInfo::IsListFormat(TTopology))
+		return;
+
+	if (Vertices.GetSize() == 0)
+		return;
+
+	TVertex inf{};
+	inf.Pos = Float3{ std::numeric_limits<float>::infinity() };
+
+	Vertices.Add(inf);
+	if constexpr (TopologyInfo::IsTriangleType(TTopology))
+		Vertices.Add(inf);
+
+	if (Vertices.GetSize() % 2 == 1)
+		Vertices.Add(inf);
+}
+
+template<typename TVertex>
+template<ModelTopology TTopology>
 inline void MakerDataBase<TVertex, true>::MakeBuffers(MeshBuffers<TVertex, TTopology>& buffers) const
 {
 	buffers.CreateBuffers(Vertices.Vertices, Indices.Indices);
@@ -110,6 +137,23 @@ inline int MakerDataBase<TVertex, true>::Add(int shapeVertex)
 {
 	Indices.Add(shapeVertex);
 	return shapeVertex;
+}
+
+template<typename TVertex>
+template<ModelTopology TTopology>
+inline void MakerDataBase<TVertex, true>::StartShape()
+{
+	if constexpr (TopologyInfo::IsListFormat(TTopology))
+		return;
+
+	if (Indices.GetSize() == 0)
+		return;
+
+	Indices.Add(-1);
+
+	if (Indices.GetSize() % 2 == 1)
+		Indices.Add(-1);
+
 }
 
 }

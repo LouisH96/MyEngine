@@ -3,6 +3,7 @@
 #include "..\MakerData.h"
 #include "..\MakerResult.h"
 #include "Strip.h"
+#include "StripResult.h"
 
 namespace MyEngine
 {
@@ -13,7 +14,8 @@ template<
 	typename TVertex,
 	ModelTopology TTopology,
 	StripEdgeStyle TEdgeStyle,
-	StripEndStyle TEndStyle
+	StripEndStyle TEndStyle,
+	typename TResult = EmptyStripResult<TVertex, TTopology>
 >
 class StripMaker
 {
@@ -25,10 +27,10 @@ public:
 		MakerData<TVertex, TTopology>& data,
 		TStrip& strip);
 
-	MakerResult<TVertex, TTopology> Make();
+	TResult Make();
 
 private:
-	MakerResult<TVertex, TTopology> m_Result;
+	TResult m_Result;
 	MakerData<TVertex, TTopology>& m_Data;
 	TStrip& m_Strip;
 
@@ -38,17 +40,27 @@ private:
 	void Make_Lines();
 	void Make_Triangles_Sharp();
 	void Make_Triangles_Smooth();
+
+	//AddHelper
+	void AddWallLeftBot(unsigned iWall, const Array<ShapeVertex>& vertices);
+	void AddWallLeftTop(unsigned iWall, const Array<ShapeVertex>& vertices);
+	void AddWallRightBot(unsigned iWall, const Array<ShapeVertex>& vertices);
+	void AddWallRightTop(unsigned iWall, const Array<ShapeVertex>& vertices);
 };
 
-template<typename TVertex, ModelTopology TTopology, StripEdgeStyle TEdgeStyle, StripEndStyle TEndStyle>
-inline StripMaker<TVertex, TTopology, TEdgeStyle, TEndStyle>::StripMaker(MakerData<TVertex, TTopology>& data, TStrip& strip)
+template<typename TVertex, ModelTopology TTopology,
+	StripEdgeStyle TEdgeStyle, StripEndStyle TEndStyle,
+	typename TResult>
+inline StripMaker<TVertex, TTopology, TEdgeStyle, TEndStyle, TResult>::StripMaker(MakerData<TVertex, TTopology>& data, TStrip& strip)
 	: m_Data{ data }
 	, m_Strip{ strip }
 {
 }
 
-template<typename TVertex, ModelTopology TTopology, StripEdgeStyle TEdgeStyle, StripEndStyle TEndStyle>
-inline MakerResult<TVertex, TTopology> StripMaker<TVertex, TTopology, TEdgeStyle, TEndStyle>::Make()
+template<typename TVertex, ModelTopology TTopology,
+	StripEdgeStyle TEdgeStyle, StripEndStyle TEndStyle,
+	typename TResult>
+inline TResult StripMaker<TVertex, TTopology, TEdgeStyle, TEndStyle, TResult>::Make()
 {
 	m_Result.Begin(m_Data);
 
@@ -68,9 +80,11 @@ inline MakerResult<TVertex, TTopology> StripMaker<TVertex, TTopology, TEdgeStyle
 	return m_Result;
 }
 
-template<typename TVertex, ModelTopology TTopology, StripEdgeStyle TEdgeStyle, StripEndStyle TEndStyle>
-inline Array<typename StripMaker<TVertex, TTopology, TEdgeStyle, TEndStyle>::ShapeVertex>
-StripMaker<TVertex, TTopology, TEdgeStyle, TEndStyle>::CreateSharedEdgeShapeVertices()
+template<typename TVertex, ModelTopology TTopology,
+	StripEdgeStyle TEdgeStyle, StripEndStyle TEndStyle,
+	typename TResult>
+inline Array<typename StripMaker<TVertex, TTopology, TEdgeStyle, TEndStyle, TResult>::ShapeVertex>
+StripMaker<TVertex, TTopology, TEdgeStyle, TEndStyle, TResult>::CreateSharedEdgeShapeVertices()
 {
 	unsigned nrVertices{ m_Strip.GetNrShapeEdges() * 2 };
 	if constexpr (TEndStyle == StripEndStyle::Closed)
@@ -93,9 +107,11 @@ StripMaker<TVertex, TTopology, TEdgeStyle, TEndStyle>::CreateSharedEdgeShapeVert
 	return vertices;
 }
 
-template<typename TVertex, ModelTopology TTopology, StripEdgeStyle TEdgeStyle, StripEndStyle TEndStyle>
-inline Array<typename StripMaker<TVertex, TTopology, TEdgeStyle, TEndStyle>::ShapeVertex>
-StripMaker<TVertex, TTopology, TEdgeStyle, TEndStyle>::CreateSplitEdgeShapeVertices()
+template<typename TVertex, ModelTopology TTopology,
+	StripEdgeStyle TEdgeStyle, StripEndStyle TEndStyle,
+	typename TResult>
+inline Array<typename StripMaker<TVertex, TTopology, TEdgeStyle, TEndStyle, TResult>::ShapeVertex>
+StripMaker<TVertex, TTopology, TEdgeStyle, TEndStyle, TResult>::CreateSplitEdgeShapeVertices()
 {
 	if constexpr (TEdgeStyle != StripEdgeStyle::Split)
 		Logger::PrintWarning("[StripMaker::CreateSplitEdgeShapeVertices] should only be called with Split edges");
@@ -114,72 +130,75 @@ StripMaker<TVertex, TTopology, TEdgeStyle, TEndStyle>::CreateSplitEdgeShapeVerti
 	return vertices;
 }
 
-template<typename TVertex, ModelTopology TTopology, StripEdgeStyle TEdgeStyle, StripEndStyle TEndStyle>
-inline void StripMaker<TVertex, TTopology, TEdgeStyle, TEndStyle>::Make_Lines()
+template<typename TVertex, ModelTopology TTopology,
+	StripEdgeStyle TEdgeStyle, StripEndStyle TEndStyle,
+	typename TResult>
+inline void StripMaker<TVertex, TTopology, TEdgeStyle, TEndStyle, TResult>::Make_Lines()
 {
 	const Array<ShapeVertex> vertices{ CreateSharedEdgeShapeVertices() };
 
 	if constexpr (TopologyInfo::IsListFormat(TTopology))
 	{
 		/* Used for all LineList's */
-		for (unsigned iVertex{ 0 }; iVertex + 2 < vertices.GetSize(); iVertex += 2)
+		for (unsigned iWall{ 0 }; iWall < m_Strip.GetNrWalls(); ++iWall)
 		{
 			//Vertical
-			m_Data.Add(vertices[iVertex]);
-			m_Data.Add(vertices[iVertex + 1]);
+			AddWallLeftBot(iWall, vertices);
+			AddWallLeftTop(iWall, vertices);
 
 			//Bot
-			m_Data.Add(vertices[iVertex]);
-			m_Data.Add(vertices[iVertex + 2]);
+			AddWallLeftBot(iWall, vertices);
+			AddWallRightBot(iWall, vertices);
+
 			//Top
-			m_Data.Add(vertices[iVertex + 1]);
-			m_Data.Add(vertices[iVertex + 3]);
+			AddWallLeftTop(iWall, vertices);
+			AddWallRightTop(iWall, vertices);
 		}
 		if constexpr (TEndStyle == StripEndStyle::Open)
 		{
-			m_Data.Add(vertices[vertices.GetSize() - 2]);
-			m_Data.Add(vertices[vertices.GetSize() - 1]);
+			AddWallRightBot(m_Strip.GetNrWalls() - 1, vertices);
+			AddWallRightTop(m_Strip.GetNrWalls() - 1, vertices);
 		}
 	}
 	else
 	{
 		/* Used for all LineStrip's */
 		//Zig-Zag (note: vertices contains duplicate of first edge at the end, if Closed)
-		m_Data.Add(vertices[0]);
-
-		int stepChange{ -2 }; //will be 2 or -2
-		int step{ 3 }; //will be 1 or 3
-
-		int left{ -2 }; //first step will change this into 1
-		int right{ 0 }; //first step will change this into 3
+		AddWallLeftBot(0, vertices);
 
 		for (unsigned iWall{ 0 }; iWall < m_Strip.GetNrWalls(); ++iWall)
 		{
-			left += step;
-			right += step;
-			step += stepChange;
-			stepChange *= -1;
-
-			m_Data.Add(vertices[left]);
-			m_Data.Add(vertices[right]);
+			if (iWall % 2 == 0)
+			{
+				AddWallLeftTop(iWall, vertices);
+				AddWallRightTop(iWall, vertices);
+			}
+			else
+			{
+				AddWallLeftBot(iWall, vertices);
+				AddWallRightBot(iWall, vertices);
+			}
 		}
-		left -= stepChange / 2;
-		right -= stepChange / 2;
-		for (unsigned iWall{ 0 }; iWall < m_Strip.GetNrWalls(); ++iWall)
+		for (unsigned iWall{ m_Strip.GetNrWalls() - 1 }; iWall != Uint::Cast(-1); --iWall)
 		{
-			m_Data.Add(vertices[right]);
-			m_Data.Add(vertices[left]);
-
-			left -= step;
-			right -= step;
-			step += stepChange;
-			stepChange *= -1;
+			if (iWall % 2 == 0)
+			{
+				AddWallRightBot(iWall, vertices);
+				AddWallLeftBot(iWall, vertices);
+			}
+			else
+			{
+				AddWallRightTop(iWall, vertices);
+				AddWallRightBot(iWall, vertices);
+			}
 		}
 	}
 }
 
-template<typename TVertex, ModelTopology TTopology, StripEdgeStyle TEdgeStyle, StripEndStyle TEndStyle>
-inline void StripMaker<TVertex, TTopology, TEdgeStyle, TEndStyle>::Make_Triangles_Sharp()
+template<typename TVertex, ModelTopology TTopology,
+	StripEdgeStyle TEdgeStyle, StripEndStyle TEndStyle,
+	typename TResult>
+inline void StripMaker<TVertex, TTopology, TEdgeStyle, TEndStyle, TResult>::Make_Triangles_Sharp()
 {
 	const Array<ShapeVertex> vertices{ CreateSplitEdgeShapeVertices() };
 
@@ -187,29 +206,31 @@ inline void StripMaker<TVertex, TTopology, TEdgeStyle, TEndStyle>::Make_Triangle
 	{
 		for (unsigned iWall{ 0 }; iWall < m_Strip.GetNrWalls(); ++iWall)
 		{
-			m_Data.Add(vertices[iWall * 4 + 0]);
-			m_Data.Add(vertices[iWall * 4 + 1]);
-			m_Data.Add(vertices[iWall * 4 + 2]);
+			AddWallLeftBot(iWall, vertices);
+			AddWallLeftTop(iWall, vertices);
+			AddWallRightBot(iWall, vertices);
 
-			m_Data.Add(vertices[iWall * 4 + 1]);
-			m_Data.Add(vertices[iWall * 4 + 3]);
-			m_Data.Add(vertices[iWall * 4 + 2]);
+			AddWallLeftTop(iWall, vertices);
+			AddWallRightTop(iWall, vertices);
+			AddWallRightBot(iWall, vertices);
 		}
 	}
 	else //Strip
 	{
 		for (unsigned iWall{ 0 }; iWall < m_Strip.GetNrWalls(); ++iWall)
 		{
-			m_Data.Add(vertices[iWall * 4 + 0]);
-			m_Data.Add(vertices[iWall * 4 + 1]);
-			m_Data.Add(vertices[iWall * 4 + 2]);
-			m_Data.Add(vertices[iWall * 4 + 3]);
+			AddWallLeftBot(iWall, vertices);
+			AddWallLeftTop(iWall, vertices);
+			AddWallRightBot(iWall, vertices);
+			AddWallRightTop(iWall, vertices);
 		}
 	}
 }
 
-template<typename TVertex, ModelTopology TTopology, StripEdgeStyle TEdgeStyle, StripEndStyle TEndStyle>
-inline void StripMaker<TVertex, TTopology, TEdgeStyle, TEndStyle>::Make_Triangles_Smooth()
+template<typename TVertex, ModelTopology TTopology,
+	StripEdgeStyle TEdgeStyle, StripEndStyle TEndStyle,
+	typename TResult>
+inline void StripMaker<TVertex, TTopology, TEdgeStyle, TEndStyle, TResult>::Make_Triangles_Smooth()
 {
 	const Array<ShapeVertex> vertices{ CreateSharedEdgeShapeVertices() }; // will copy first edge in last indices when Closed
 
@@ -217,28 +238,58 @@ inline void StripMaker<TVertex, TTopology, TEdgeStyle, TEndStyle>::Make_Triangle
 	{
 		for (unsigned iWall{ 0 }; iWall < m_Strip.GetNrWalls(); ++iWall)
 		{
-			m_Data.Add(vertices[iWall * 2 + 0]);
-			m_Data.Add(vertices[iWall * 2 + 1]);
-			m_Data.Add(vertices[iWall * 2 + 2]);
+			AddWallLeftBot(iWall, vertices);
+			AddWallLeftTop(iWall, vertices);
+			AddWallRightBot(iWall, vertices);
 
-			m_Data.Add(vertices[iWall * 2 + 1]);
-			m_Data.Add(vertices[iWall * 2 + 3]);
-			m_Data.Add(vertices[iWall * 2 + 2]);
+			AddWallLeftTop(iWall, vertices);
+			AddWallRightTop(iWall, vertices);
+			AddWallRightBot(iWall, vertices);
 		}
 	}
 	else //Strip
 	{
-		for (unsigned iEdge{ 0 }; iEdge < m_Strip.GetNrShapeEdges(); ++iEdge)
+		for (unsigned iWall{ 0 }; iWall < m_Strip.GetNrWalls(); ++iWall)
 		{
-			m_Data.Add(vertices[iEdge * 2 + 0]);
-			m_Data.Add(vertices[iEdge * 2 + 1]);
+			AddWallLeftBot(iWall, vertices);
+			AddWallLeftTop(iWall, vertices);
 		}
+
 		if constexpr (TEndStyle == StripEndStyle::Closed)
 		{
-			m_Data.Add(vertices[0]);
-			m_Data.Add(vertices[1]);
+			AddWallLeftBot(0, vertices);
+			AddWallLeftTop(0, vertices);
+		}
+		else
+		{
+			AddWallRightBot(m_Strip.GetNrWalls() - 1, vertices);
+			AddWallRightTop(m_Strip.GetNrWalls() - 1, vertices);
 		}
 	}
+}
+
+template<typename TVertex, ModelTopology TTopology, StripEdgeStyle TEdgeStyle, StripEndStyle TEndStyle, typename TResult>
+inline void StripMaker<TVertex, TTopology, TEdgeStyle, TEndStyle, TResult>::AddWallLeftBot(unsigned iWall, const Array<ShapeVertex>& vertices)
+{
+	m_Result.AddEdgeBot(iWall, m_Data.Add(vertices[iWall * 2]));
+}
+
+template<typename TVertex, ModelTopology TTopology, StripEdgeStyle TEdgeStyle, StripEndStyle TEndStyle, typename TResult>
+inline void StripMaker<TVertex, TTopology, TEdgeStyle, TEndStyle, TResult>::AddWallLeftTop(unsigned iWall, const Array<ShapeVertex>& vertices)
+{
+	m_Result.AddEdgeTop(iWall, m_Data.Add(vertices[iWall * 2 + 1]));
+}
+
+template<typename TVertex, ModelTopology TTopology, StripEdgeStyle TEdgeStyle, StripEndStyle TEndStyle, typename TResult>
+inline void StripMaker<TVertex, TTopology, TEdgeStyle, TEndStyle, TResult>::AddWallRightBot(unsigned iWall, const Array<ShapeVertex>& vertices)
+{
+	m_Result.AddEdgeBot(iWall + 1, m_Data.Add(vertices[iWall * 2 + 2]));
+}
+
+template<typename TVertex, ModelTopology TTopology, StripEdgeStyle TEdgeStyle, StripEndStyle TEndStyle, typename TResult>
+inline void StripMaker<TVertex, TTopology, TEdgeStyle, TEndStyle, TResult>::AddWallRightTop(unsigned iWall, const Array<ShapeVertex>& vertices)
+{
+	m_Result.AddEdgeTop(iWall + 1, m_Data.Add(vertices[iWall * 2 + 3]));
 }
 
 }

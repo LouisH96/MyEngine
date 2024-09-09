@@ -36,6 +36,8 @@ public:
 	Strip() = default;
 
 	void AddEdge(Edge<TVertex> edge);
+	void SetEdgeBot(unsigned iEdge, MakerVertex<TVertex> vertex);
+	void SetEdgeTop(unsigned iEdge, MakerVertex<TVertex> vertex);
 
 	unsigned GetNrShapeEdges() const; //a shared edge counts as one
 	unsigned GetNrWalls() const;
@@ -55,6 +57,18 @@ template<typename TVertex, StripEndStyle TEndStyle, StripEdgeStyle TEdgeStyle>
 inline void Strip<TVertex, TEndStyle, TEdgeStyle>::AddEdge(Edge<TVertex> edge)
 {
 	m_Edges.Add(edge);
+}
+
+template<typename TVertex, StripEndStyle TEndStyle, StripEdgeStyle TEdgeStyle>
+inline void Strip<TVertex, TEndStyle, TEdgeStyle>::SetEdgeBot(unsigned iEdge, MakerVertex<TVertex> vertex)
+{
+	m_Edges[iEdge].Vertices[0] = vertex;
+}
+
+template<typename TVertex, StripEndStyle TEndStyle, StripEdgeStyle TEdgeStyle>
+inline void Strip<TVertex, TEndStyle, TEdgeStyle>::SetEdgeTop(unsigned iEdge, MakerVertex<TVertex> vertex)
+{
+	m_Edges[iEdge].Vertices[1] = vertex;
 }
 
 template<typename TVertex, StripEndStyle TEndStyle, StripEdgeStyle TEdgeStyle>

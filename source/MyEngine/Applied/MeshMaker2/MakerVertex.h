@@ -26,8 +26,8 @@ public:
 	virtual ~MakerVertexContent() = default;
 
 	//---| Vertex |---
-	virtual TVertex& GetVertex(const MakerDataBase<TVertex, false>& data) = 0;
-	virtual TVertex& GetVertex(const MakerDataBase<TVertex, true>& data) = 0;
+	virtual TVertex& GetVertex(MakerDataBase<TVertex, false>& data) = 0;
+	virtual TVertex& GetVertex(MakerDataBase<TVertex, true>& data) = 0;
 
 	virtual const TVertex& GetVertex(const MakerDataBase<TVertex, false>& data) const = 0;
 	virtual const TVertex& GetVertex(const MakerDataBase<TVertex, true>& data) const = 0;
@@ -70,6 +70,9 @@ public:
 	template<template<typename> typename O>
 	MakerVertex(const O<TVertex>& content) : SharedPtr<MakerVertexContent<TVertex>>{ content } {}
 
+	//---| Other |---
+	bool IsEmpty() const { return &Get() == nullptr; }
+
 	//---| Vertex |---
 	template<bool THasIndices>
 	const TVertex& GetVertex(const Data<THasIndices>& data) const { return Get().GetVertex(data); }
@@ -104,10 +107,10 @@ public:
 
 	TVertex Vertex{};
 
-	TVertex& GetVertex(const MakerDataBase<TVertex, false>& data) override {
+	TVertex& GetVertex(MakerDataBase<TVertex, false>& data) override {
 		return Vertex;
 	}
-	TVertex& GetVertex(const MakerDataBase<TVertex, true>& data) override {
+	TVertex& GetVertex(MakerDataBase<TVertex, true>& data) override {
 		return Vertex;
 	}
 	const TVertex& GetVertex(const MakerDataBase<TVertex, false>& data) const override {
@@ -126,12 +129,15 @@ struct RefMakerVertexContent
 	: public MakerVertexContent<TVertex>
 {
 public:
+	RefMakerVertexContent() = default;
+	RefMakerVertexContent(int index) : Index{ index } {}
+
 	int Index;
 
-	TVertex& GetVertex(const MakerDataBase<TVertex, false>& data) override {
+	TVertex& GetVertex(MakerDataBase<TVertex, false>& data) override {
 		return data.Vertices[Index];
 	}
-	TVertex& GetVertex(const MakerDataBase<TVertex, true>& data) override {
+	TVertex& GetVertex(MakerDataBase<TVertex, true>& data) override {
 		return data.Vertices[Index];
 	}
 
@@ -154,11 +160,11 @@ public:
 	static MakerVertex<TVertex> Full(const TVertex& vertex);
 	static MakerVertex<TVertex> Full(const Float3& position);
 	static MakerVertex<TVertex> Full(const Float3& position, const Float3& normal);
-	static MakerVertex<TVertex> ConstFull(const TVertex& vertex);
-	static MakerVertex<TVertex> ConstFull(const Float3& position, const Float3& normal);
+	static MakerVertex<const TVertex> ConstFull(const TVertex& vertex);
+	static MakerVertex<const TVertex> ConstFull(const Float3& position, const Float3& normal);
 
 	static MakerVertex<TVertex> Ref(int index);
-	static MakerVertex<TVertex> ConstRef(int index);
+	static MakerVertex<const TVertex> ConstRef(int index);
 };
 
 template<typename TVertex>
@@ -185,13 +191,13 @@ inline MakerVertex<TVertex> MakeVertex<TVertex>::Full(const Float3& position, co
 }
 
 template<typename TVertex>
-inline MakerVertex<TVertex> MakeVertex<TVertex>::ConstFull(const TVertex& vertex)
+inline MakerVertex<const TVertex> MakeVertex<TVertex>::ConstFull(const TVertex& vertex)
 {
 	return SharedPtr<const FullMakerVertexContent<TVertex>>{ vertex };
 }
 
 template<typename TVertex>
-inline MakerVertex<TVertex> MakeVertex<TVertex>::ConstFull(const Float3& position, const Float3& normal)
+inline MakerVertex<const TVertex> MakeVertex<TVertex>::ConstFull(const Float3& position, const Float3& normal)
 {
 	TVertex vertex{};
 	vertex.Pos = position;
@@ -206,7 +212,7 @@ inline MakerVertex<TVertex> MakeVertex<TVertex>::Ref(int index)
 }
 
 template<typename TVertex>
-inline MakerVertex<TVertex> MakeVertex<TVertex>::ConstRef(int index)
+inline MakerVertex<const TVertex> MakeVertex<TVertex>::ConstRef(int index)
 {
 	return SharedPtr<const RefMakerVertexContent<TVertex>>{ index };
 }

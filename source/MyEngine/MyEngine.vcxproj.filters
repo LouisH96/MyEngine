@@ -322,6 +322,10 @@
     <ClInclude Include="Applied\MeshMaker2\Strip\StripMaker.h" />
     <ClInclude Include="Applied\MeshMaker2\Arc\Arc.h" />
     <ClInclude Include="Applied\MeshMaker2\Arc\ArcMaker.h" />
+    <ClInclude Include="Applied\MeshMaker2\HoleArray\HoleArray.h" />
+    <ClInclude Include="Applied\MeshMaker2\HoleArray\HoleArrayMaker.h" />
+    <ClInclude Include="Applied\MeshMaker2\Arc\ArcResult.h" />
+    <ClInclude Include="Applied\MeshMaker2\Strip\StripResult.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

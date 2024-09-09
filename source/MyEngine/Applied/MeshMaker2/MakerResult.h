@@ -69,6 +69,8 @@ public:
 	}
 
 	unsigned GetNrVertices() const { return m_Vertices.GetSize(); }
+	unsigned GetVerticesBegin() const { return m_Vertices.VerticesBegin; }
+	unsigned GetVerticesEnd() const { return m_Vertices.VerticesEnd; }
 
 	template<typename Function>
 	void AdaptAll(Function function, MakerDataType& data) const {
@@ -95,6 +97,10 @@ public:
 	}
 
 	unsigned GetNrVertices() const { return m_Vertices.GetSize(); }
+	unsigned GetVerticesBegin() const { return m_Vertices.VerticesBegin; }
+	unsigned GetVerticesEnd() const { return m_Vertices.VerticesEnd; }
+	unsigned GetIndicesBegin() const { return m_Indices.IndicesBegin; }
+	unsigned GetIndicesEnd() const { return m_Indices.IndicesEnd; }
 
 	template<typename Function>
 	void AdaptAll(Function function, MakerDataType& data) const {

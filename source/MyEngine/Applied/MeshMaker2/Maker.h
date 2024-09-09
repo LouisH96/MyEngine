@@ -8,6 +8,8 @@
 #include "Quad\QuadResult.h"
 #include "Arc\ArcMaker.h"
 #include "Strip\StripMaker.h"
+#include "HoleArray\HoleArray.h"
+#include "HoleArray\HoleArrayMaker.h"
 #include <Geometry\ModelTopology.h>
 
 namespace MyEngine
@@ -40,8 +42,10 @@ public:
 	template<StripEndStyle TEndStyle, StripEdgeStyle TEdgeStyle>
 	MakerResult<TVertex, TTopology> Make(Strip<TVertex, TEndStyle, TEdgeStyle>& strip);
 
-	template<ArcEdgeStyle TEdgeStyle>
-	MakerResult<TVertex, TTopology> Make(Arc<TVertex, TEdgeStyle>& arc);
+	template<typename TResult, ArcEdgeStyle TEdgeStyle>
+	TResult Make(Arc<TVertex, TEdgeStyle>& arc);
+
+	MakerResult<TVertex, TTopology> Make(HoleArray<TVertex>& holeArray);
 
 	//---| Get |---
 	MakerData<TVertex, TTopology>& GetData() { return m_Data; }
@@ -117,10 +121,17 @@ inline MakerResult<TVertex, TTopology> Maker<TVertex, TTopology>::Make(Strip<TVe
 }
 
 template<typename TVertex, ModelTopology TTopology>
-template<ArcEdgeStyle TEdgeStyle>
-inline MakerResult<TVertex, TTopology> Maker<TVertex, TTopology>::Make(Arc<TVertex, TEdgeStyle>& arc)
+template<typename TResult, ArcEdgeStyle TEdgeStyle>
+inline TResult Maker<TVertex, TTopology>::Make(Arc<TVertex, TEdgeStyle>& arc)
 {
-	ArcMaker<TVertex, TTopology, TEdgeStyle> maker{ m_Data, arc };
+	ArcMaker<TVertex, TTopology, TResult, TEdgeStyle> maker{ m_Data, arc };
+	return maker.Make();
+}
+
+template<typename TVertex, ModelTopology TTopology>
+inline MakerResult<TVertex, TTopology> Maker<TVertex, TTopology>::Make(HoleArray<TVertex>& holeArray)
+{
+	HoleArrayMaker<TVertex, TTopology> maker{ m_Data, holeArray };
 	return maker.Make();
 }
 

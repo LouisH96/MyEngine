@@ -151,6 +151,9 @@
   <ItemGroup>
     <ClInclude Include="Applied\MeshMaker2\Arc\Arc.h" />
     <ClInclude Include="Applied\MeshMaker2\Arc\ArcMaker.h" />
+    <ClInclude Include="Applied\MeshMaker2\Arc\ArcResult.h" />
+    <ClInclude Include="Applied\MeshMaker2\HoleArray\HoleArray.h" />
+    <ClInclude Include="Applied\MeshMaker2\HoleArray\HoleArrayMaker.h" />
     <ClInclude Include="Applied\MeshMaker2\Maker.h" />
     <ClInclude Include="Applied\MeshMaker2\MakerData.h" />
     <ClInclude Include="Applied\MeshMaker2\MakerResult.h" />
@@ -161,6 +164,7 @@
     <ClInclude Include="Applied\MeshMaker2\Shapes\Edge.h" />
     <ClInclude Include="Applied\MeshMaker2\Strip\Strip.h" />
     <ClInclude Include="Applied\MeshMaker2\Strip\StripMaker.h" />
+    <ClInclude Include="Applied\MeshMaker2\Strip\StripResult.h" />
     <ClInclude Include="Applied\MeshMaker\Makers\ArcMaker.h" />
     <ClInclude Include="Applied\MeshMaker\Results\ArcMakerResult.h" />
     <ClInclude Include="Applied\MeshMaker\Makers\SmoothStripMaker.h" />
