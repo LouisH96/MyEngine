@@ -9,7 +9,7 @@ Rendering::DepthStencilState::DepthStencilState(bool useDepth)
 	D3D11_DEPTH_STENCIL_DESC dsDesc{};
 
 	// Depth test parameters
-	dsDesc.DepthEnable = true;
+	dsDesc.DepthEnable = useDepth;
 	dsDesc.DepthFunc = useDepth ? D3D11_COMPARISON_LESS_EQUAL : D3D11_COMPARISON_ALWAYS;
 	dsDesc.DepthWriteMask = useDepth ? D3D11_DEPTH_WRITE_MASK_ALL : D3D11_DEPTH_WRITE_MASK_ZERO;
 
