@@ -2,6 +2,7 @@
 #pragma once
 #include "Array.h"
 #include "List.h"
+#include "StackArray.h"
 
 namespace MyEngine
 {
@@ -16,6 +17,8 @@ namespace MyEngine
 	{
 	public:
 		typedef const Target& (GetterType)(const Data&);
+		template<unsigned C>
+		PtrRangeConst(const StackArray<Data, C>& source);
 		PtrRangeConst(const Array<Data>& source);
 		PtrRangeConst(const List<Data>& source);
 		PtrRangeConst(const Data* pData, unsigned count);
@@ -28,6 +31,14 @@ namespace MyEngine
 		const Target& Last() const;
 		const Target* End() const;
 	};
+
+	template<typename Target, typename Data, const Target& (Getter)(const Data&)>
+	template<unsigned C>
+	inline PtrRangeConst<Target, Data, Getter>::PtrRangeConst(const StackArray<Data, C>& source)
+		: pData{source.GetData()}
+		, count{C}
+	{
+	}
 
 	template <typename Target, typename Data, const Target& (Getter)(const Data&)>
 	PtrRangeConst<Target, Data, Getter>::PtrRangeConst(const Array<Data>& source)
