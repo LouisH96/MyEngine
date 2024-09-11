@@ -65,8 +65,8 @@ namespace MyEngine
 		InputLayout InputLayout::FromTypes()
 		{
 			Array<Element> elements{ Vertex::NR_ELEMENTS + Instance::NR_ELEMENTS };
-			for (int i = 0; i < Vertex::NR_ELEMENTS; i++) elements[i] = Vertex::ELEMENTS[i];
-			for (int i = 0; i < Instance::NR_ELEMENTS; i++) elements[i + Vertex::NR_ELEMENTS] = Instance::ELEMENTS[i];
+			for (unsigned i = 0; i < Vertex::NR_ELEMENTS; i++) elements[i] = Vertex::ELEMENTS[i];
+			for (unsigned i = 0; i < Instance::NR_ELEMENTS; i++) elements[i + Vertex::NR_ELEMENTS] = Instance::ELEMENTS[i];
 			return { elements.GetData(), elements.GetSize() };
 		}
 

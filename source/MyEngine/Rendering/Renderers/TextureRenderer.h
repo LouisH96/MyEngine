@@ -74,7 +74,7 @@ namespace MyEngine
 		template <typename Vertex, typename CamData>
 		TextureRenderer<Vertex, CamData>::~TextureRenderer()
 		{
-			for (int i = 0; i < m_Meshes.GetSize(); i++)
+			for (unsigned i = 0; i < m_Meshes.GetSize(); i++)
 			{
 				delete m_Meshes[i].pMesh;
 				delete m_Meshes[i].pTexture;
@@ -92,7 +92,7 @@ namespace MyEngine
 			m_InputLayout.Activate();
 			m_BlendState.Activate();
 			m_Shader.Activate();
-			for (int i = 0; i < m_Meshes.GetSize(); i++)
+			for (unsigned i = 0; i < m_Meshes.GetSize(); i++)
 			{
 				if (!m_Meshes[i].Active) continue;
 				m_Meshes[i].pTexture->ActivatePs();

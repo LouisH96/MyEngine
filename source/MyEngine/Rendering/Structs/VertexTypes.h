@@ -11,7 +11,7 @@ namespace MyEngine
 			Float2 pos;
 
 			static const InputLayout::Element ELEMENTS[];
-			static const int NR_ELEMENTS;
+			static const unsigned NR_ELEMENTS;
 
 			static Array<V_Pos2> GetCenterRect();
 

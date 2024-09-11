@@ -5,7 +5,7 @@ const Rendering::InputLayout::Element Rendering::V_Pos2::ELEMENTS[] =
 {
 	{"POSITION", InputLayout::ElementType::Float2}
 };
-const int Rendering::V_Pos2::NR_ELEMENTS = sizeof ELEMENTS / sizeof(InputLayout::Element);
+const unsigned Rendering::V_Pos2::NR_ELEMENTS = sizeof ELEMENTS / sizeof(InputLayout::Element);
 
 const Rendering::InputLayout::Element Rendering::V_Pos2Col::ELEMENTS[] =
 {
