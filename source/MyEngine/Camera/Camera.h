@@ -37,6 +37,7 @@ namespace MyEngine
 		const Float3& GetPosition() const { return m_Position; }
 		float GetHalfFov() const; //in radians
 		float GetTanHalfFov() const { return m_TanHalfFov; }
+		float GetAspectRatio() const { return m_AspectRatio; }
 
 		Ray GetMouseRay(float rayLength = 100);
 		Ray GetRay(const Int2& pixel, float rayLength = 1) const;
