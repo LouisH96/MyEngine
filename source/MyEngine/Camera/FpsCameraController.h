@@ -11,7 +11,7 @@ namespace MyEngine
 		explicit FpsCameraController(Camera& camera);
 		void Update();
 
-		void SetLookAroundSpeed(Float2 speed) { m_LookAroundSpeed = speed; }
+		void SetLookAroundSpeed(Float2 speed) { m_LookAroundSpeed = speed * Constants::TO_RAD; }
 		void SetPosition(const Float3& position) { m_Position = position; }
 		void SetPositionY(float y) { m_Position.y = y; }
 		void SetPositionXz(const Float2& position);;
