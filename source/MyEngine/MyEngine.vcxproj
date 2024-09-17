@@ -38,6 +38,7 @@
     <ClCompile Include="Applied\NewUi\Elements\Border.cpp" />
     <ClCompile Include="Applied\NewUi\Renderers\NewUiShapeRenderer.cpp" />
     <ClCompile Include="Applied\NewUi\Elements\ListPanel.cpp" />
+    <ClCompile Include="Rendering\State\DepthStencilBuffer.cpp" />
     <ClCompile Include="Physics\Collisions\LineDiskCollision.cpp" />
     <ClCompile Include="Geometry\Shapes\Hexagon.cpp" />
     <ClCompile Include="Generation\HexGenerator.cpp" />
@@ -198,6 +199,7 @@
     <ClInclude Include="Applied\NewUi\Elements\Border.h" />
     <ClInclude Include="Applied\NewUi\Structures\SideMenu\Tabs\FunctionTab.h" />
     <ClInclude Include="Applied\NewUi\Renderers\NewUiShapeRenderer.h" />
+    <ClInclude Include="Rendering\State\DepthStencilBuffer.h" />
     <ClInclude Include="Generation\CubeGenerator2.h" />
     <ClInclude Include="Generation\CubeGenerator2_TriangleList.h" />
     <ClInclude Include="Generation\CubeGenerator3.h" />

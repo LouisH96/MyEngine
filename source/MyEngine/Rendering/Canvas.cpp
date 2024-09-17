@@ -1,11 +1,11 @@
 #include "pch.h"
 #include "Canvas.h"
 
-#include <dxgi1_2.h>
-
 #include "Dx/DxHelper.h"
-#include "App/Win32/Window.h"
 #include "Gpu.h"
+#include <App/Win32/Window.h>
+
+#include <dxgi1_2.h>
 
 using namespace Rendering;
 
@@ -15,42 +15,41 @@ Canvas::Canvas(App::Win32::Window& window, const Float3& color)
 {
 	InitSwapChain(window);
 	InitRenderTarget();
-	InitDepthStencil();
+	m_DepthStencilBuffer.Init(m_Size);
 	SetViewPort();
 
 	if (Globals::pCanvas) Logger::PrintError("Global canvas already set");
 	Globals::pCanvas = this;
 }
 
-void Canvas::Activate() const
+void Canvas::Activate()
 {
 	//Rendertarget
-	Globals::pGpu->GetContext().OMSetRenderTargets(1, &m_pMainRenderTargetView, m_pDepthStencilView);
+	Globals::pGpu->GetContext().OMSetRenderTargets(1, &m_pMainRenderTargetView, m_DepthStencilBuffer.GetView());
 }
 
 Canvas::~Canvas()
 {
 	SAFE_RELEASE(m_pMainRenderTargetView);
 	SAFE_RELEASE(m_pSwapChain);
-	SAFE_RELEASE(m_pDepthStencilView);
 }
 
-void Canvas::ClearDepthBuffer() const
+void Canvas::ClearDepthBuffer()
 {
-	Globals::pGpu->GetContext().ClearDepthStencilView(m_pDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+	Globals::pGpu->GetContext().ClearDepthStencilView(m_DepthStencilBuffer.GetView(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 }
 
-void Canvas::BeginPaint() const
+void Canvas::BeginPaint()
 {
 	Clear();
 	Activate();
 }
 
-void Canvas::Clear() const
+void Canvas::Clear()
 {
 	/* clear the back buffer to cornflower blue for the new frame */
 	Globals::pGpu->GetContext().ClearRenderTargetView(
-		m_pMainRenderTargetView,  &m_Color.x);
+		m_pMainRenderTargetView, &m_Color.x);
 	ClearDepthBuffer();
 }
 
@@ -67,13 +66,12 @@ App::ResizedEvent Canvas::OnWindowResized(Int2 newSize)
 		m_Size,
 		newSize,
 	};
-	SAFE_RELEASE(m_pDepthStencilView);
 	SAFE_RELEASE(m_pMainRenderTargetView);
 	m_Size = newSize;
 	const HRESULT result{ m_pSwapChain->ResizeBuffers(0, newSize.x, newSize.y, DXGI_FORMAT_UNKNOWN, 0) };
 	if (FAILED(result)) Logger::PrintError("[Canvas::OnWindowResized] failed resizing buffer");
 	InitRenderTarget();
-	InitDepthStencil();
+	m_DepthStencilBuffer.Update(m_Size);
 	SetViewPort();
 	return event;
 }
@@ -114,44 +112,6 @@ void Canvas::InitRenderTarget()
 	pBackBuffer->Release();
 }
 
-void Canvas::InitDepthStencil()
-{
-	//TEXTURE
-	ID3D11Texture2D* pTempTexture{};
-	D3D11_TEXTURE2D_DESC descDepth{};
-	descDepth.Width = m_Size.x;
-	descDepth.Height = m_Size.y;
-	descDepth.MipLevels = 1;
-	descDepth.ArraySize = 1;
-	descDepth.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-	descDepth.SampleDesc.Count = 1;
-	descDepth.SampleDesc.Quality = 0;
-	descDepth.Usage = D3D11_USAGE_DEFAULT;
-	descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-	descDepth.CPUAccessFlags = 0;
-	descDepth.MiscFlags = 0;
-	HRESULT hr = Globals::pGpu->GetDevice().CreateTexture2D(&descDepth, nullptr, &pTempTexture);
-
-	if (FAILED(hr))
-	{
-		std::cout << "depthStencil-Texture creation failed\n";
-		return;
-	}
-
-	//VIEW
-	D3D11_DEPTH_STENCIL_VIEW_DESC descDSV{};
-	descDSV.Format = descDepth.Format;
-	descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
-	descDSV.Texture2D.MipSlice = 0;
-
-	// Create the depth stencil view
-	hr = Globals::pGpu->GetDevice().CreateDepthStencilView(pTempTexture, // Depth stencil texture
-		&descDSV, // Depth stencil desc
-		&m_pDepthStencilView);  // [out] Depth stencil view
-
-	pTempTexture->Release();
-}
-
 void Canvas::SetViewPort()
 {
 	m_ViewPort = {
@@ -163,7 +123,7 @@ void Canvas::SetViewPort()
 }
 
 void Canvas::GetFactory2(IDXGIDevice2*& pDevice2, IDXGIAdapter*& pAdapter,
-                         IDXGIFactory2*& pFactory) const
+	IDXGIFactory2*& pFactory) const
 {
 	HRESULT hr = Globals::pGpu->GetDevice().QueryInterface(__uuidof(IDXGIDevice2), reinterpret_cast<void**>(&pDevice2));
 	if (FAILED(hr))

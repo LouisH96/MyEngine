@@ -124,6 +124,7 @@
     <ClCompile Include="Applied\MeshMaker\Shapes\Arc.cpp" />
     <ClCompile Include="Applied\MeshMaker\Shapes\FlatStrip.cpp" />
     <ClCompile Include="Applied\MeshMaker\Shapes\FlatStripLoop.cpp" />
+    <ClCompile Include="Rendering\State\DepthStencilBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -326,6 +327,7 @@
     <ClInclude Include="Applied\MeshMaker2\HoleArray\HoleArrayMaker.h" />
     <ClInclude Include="Applied\MeshMaker2\Arc\ArcResult.h" />
     <ClInclude Include="Applied\MeshMaker2\Strip\StripResult.h" />
+    <ClInclude Include="Rendering\State\DepthStencilBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
