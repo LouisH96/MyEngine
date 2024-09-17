@@ -89,6 +89,7 @@ namespace MyEngine
 				Globals::pUi->Update();
 
 				//RENDER
+				pApp->PreRender();
 				canvas.BeginPaint();
 				pApp->Render();
 				DebugRenderer::Render();
