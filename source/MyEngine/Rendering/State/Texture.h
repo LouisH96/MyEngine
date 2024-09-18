@@ -16,6 +16,7 @@ namespace MyEngine
 			Texture(const std::wstring& path);
 			Texture(Image* pImage, bool dynamic = false);
 			Texture(Image& image, bool dynamic = false);
+			Texture(ID3D11ShaderResourceView* pResourceView);
 			Texture() = default;
 			~Texture();
 			Texture(const Texture& other) = delete;

@@ -214,6 +214,12 @@ Rendering::Texture::Texture(Image& image, bool dynamic)
 {
 }
 
+Rendering::Texture::Texture(ID3D11ShaderResourceView* pResourceView)
+	: m_pShaderResourceView{ pResourceView }
+	, m_pTexture{ nullptr }
+{
+}
+
 Rendering::Texture::~Texture()
 {
 	if (m_pTexture) m_pTexture->Release();
