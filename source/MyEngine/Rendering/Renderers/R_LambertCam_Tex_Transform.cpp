@@ -15,7 +15,7 @@ Rendering::R_LambertCam_Tex_Transform::R_LambertCam_Tex_Transform()
 {
 }
 
-void Rendering::R_LambertCam_Tex_Transform::Render()
+void Rendering::R_LambertCam_Tex_Transform::Render_Internal()
 {
 	using namespace DirectX;
 	m_DepthStencilState.Activate();
@@ -23,7 +23,6 @@ void Rendering::R_LambertCam_Tex_Transform::Render()
 	m_RasterizerState.Activate();
 	m_InputLayout.Activate();
 	m_BlendState.Activate();
-	m_Shader.Activate();
 	for (unsigned i = 0; i < m_Entries.GetSize(); i++)
 	{
 		m_CameraConstantBuffer.Update(CB_CamMatPos{ Globals::pCamera->GetPosition(), Globals::pCamera->GetViewProjection()});

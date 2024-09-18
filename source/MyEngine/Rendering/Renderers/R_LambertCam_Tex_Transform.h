@@ -31,6 +31,7 @@ namespace MyEngine
 			R_LambertCam_Tex_Transform& operator=(R_LambertCam_Tex_Transform&& other) noexcept = delete;
 
 			//---| Loop |---
+			template<Shader::Function::Flag Function = Shader::Function::Both, bool UnsetOthers = true>
 			void Render();
 
 			//---| Operations |---
@@ -63,6 +64,15 @@ namespace MyEngine
 			ConstantBuffer<CB_CamMatPos> m_CameraConstantBuffer;
 			ConstantBuffer<CB_ModelBuffer> m_ModelConstantBuffer;
 			Array<DrawEntry> m_Entries;
+
+			void Render_Internal();
 		};
+
+		template<Shader::Function::Flag Function, bool UnsetOthers>
+		inline void R_LambertCam_Tex_Transform::Render()
+		{
+			m_Shader.Activate<Function, UnsetOthers>();
+			Render_Internal();
+		}
 	}
 }
