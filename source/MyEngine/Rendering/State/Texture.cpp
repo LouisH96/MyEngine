@@ -5,7 +5,9 @@
 #include <Rendering/Gpu.h>
 #include <Image/Image.h>
 
-Rendering::Texture::Texture(const std::wstring& path)
+using namespace Rendering;
+
+Texture::Texture(const std::wstring& path)
 {
 	//https://www.braynzarsoft.net/viewtutorial/q16390-directx-12-textures-from-file
 	static IWICImagingFactory* wicFactory;
@@ -170,7 +172,7 @@ Rendering::Texture::Texture(const std::wstring& path)
 	delete[] pImageData;
 }
 
-Rendering::Texture::Texture(Image* pImage, bool dynamic)
+Texture::Texture(Image* pImage, bool dynamic)
 {
 	D3D11_TEXTURE2D_DESC desc{};
 	desc.Width = pImage->GetWidth();
@@ -209,18 +211,18 @@ Rendering::Texture::Texture(Image* pImage, bool dynamic)
 	}
 }
 
-Rendering::Texture::Texture(Image& image, bool dynamic)
+Texture::Texture(Image& image, bool dynamic)
 	: Texture{ &image, dynamic }
 {
 }
 
-Rendering::Texture::Texture(ID3D11ShaderResourceView* pResourceView)
+Texture::Texture(ID3D11ShaderResourceView* pResourceView)
 	: m_pShaderResourceView{ pResourceView }
 	, m_pTexture{ nullptr }
 {
 }
 
-Rendering::Texture::~Texture()
+Texture::~Texture()
 {
 	if (m_pTexture) m_pTexture->Release();
 	if (m_pShaderResourceView) m_pShaderResourceView->Release();
@@ -228,7 +230,7 @@ Rendering::Texture::~Texture()
 	m_pTexture = nullptr;
 }
 
-Rendering::Texture::Texture(Texture&& other) noexcept
+Texture::Texture(Texture&& other) noexcept
 	: m_pTexture{ other.m_pTexture }
 	, m_pShaderResourceView{ other.m_pShaderResourceView }
 {
@@ -236,7 +238,7 @@ Rendering::Texture::Texture(Texture&& other) noexcept
 	other.m_pShaderResourceView = nullptr;
 }
 
-Rendering::Texture& Rendering::Texture::operator=(Texture&& other) noexcept
+Texture& Texture::operator=(Texture&& other) noexcept
 {
 	if (&other == this) return *this;
 	m_pTexture = other.m_pTexture;
@@ -246,23 +248,23 @@ Rendering::Texture& Rendering::Texture::operator=(Texture&& other) noexcept
 	return *this;
 }
 
-void Rendering::Texture::ActivateVs() const
+void Texture::ActivateVs() const
 {
 	Globals::pGpu->GetContext().VSSetShaderResources(0, 1, &m_pShaderResourceView);
 }
 
-void Rendering::Texture::ActivatePs() const
+void Texture::ActivatePs() const
 {
 	Globals::pGpu->GetContext().PSSetShaderResources(0, 1, &m_pShaderResourceView);
 }
 
-void Rendering::Texture::Activate() const
+void Texture::Activate() const
 {
 	Globals::pGpu->GetContext().PSSetShaderResources(0, 1, &m_pShaderResourceView);
 	Globals::pGpu->GetContext().VSSetShaderResources(0, 1, &m_pShaderResourceView);
 }
 
-void Rendering::Texture::Update(const Image& image)
+void Texture::Update(const Image& image)
 {
 	D3D11_MAPPED_SUBRESOURCE mappedResource{};
 	const HRESULT result{ Globals::pGpu->GetContext().Map(m_pTexture, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource) };
@@ -271,7 +273,7 @@ void Rendering::Texture::Update(const Image& image)
 	Globals::pGpu->GetContext().Unmap(m_pTexture, 0);
 }
 
-DXGI_FORMAT Rendering::Texture::GetDXGIFormatFromWICFormat(WICPixelFormatGUID& wicFormatGuid)
+DXGI_FORMAT Texture::GetDXGIFormatFromWICFormat(WICPixelFormatGUID& wicFormatGuid)
 {
 	if (wicFormatGuid == GUID_WICPixelFormat128bppRGBAFloat) return DXGI_FORMAT_R32G32B32A32_FLOAT;
 	if (wicFormatGuid == GUID_WICPixelFormat64bppRGBAHalf) return DXGI_FORMAT_R16G16B16A16_FLOAT;
@@ -291,7 +293,7 @@ DXGI_FORMAT Rendering::Texture::GetDXGIFormatFromWICFormat(WICPixelFormatGUID& w
 	return DXGI_FORMAT_UNKNOWN;
 }
 
-WICPixelFormatGUID Rendering::Texture::GetConvertToWICFormat(WICPixelFormatGUID& wicFormatGUID)
+WICPixelFormatGUID Texture::GetConvertToWICFormat(WICPixelFormatGUID& wicFormatGUID)
 {
 	if (wicFormatGUID == GUID_WICPixelFormatBlackWhite) return GUID_WICPixelFormat8bppGray;
 	if (wicFormatGUID == GUID_WICPixelFormat1bppIndexed) return GUID_WICPixelFormat32bppRGBA;
@@ -337,7 +339,7 @@ WICPixelFormatGUID Rendering::Texture::GetConvertToWICFormat(WICPixelFormatGUID&
 	return GUID_WICPixelFormatDontCare;
 }
 
-int Rendering::Texture::GetDXGIFormatBitsPerPixel(DXGI_FORMAT& dxgiFormat)
+int Texture::GetDXGIFormatBitsPerPixel(DXGI_FORMAT& dxgiFormat)
 {
 	if (dxgiFormat == DXGI_FORMAT_R32G32B32A32_FLOAT) return 128;
 	if (dxgiFormat == DXGI_FORMAT_R16G16B16A16_FLOAT) return 64;
