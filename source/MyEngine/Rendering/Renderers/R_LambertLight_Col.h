@@ -36,7 +36,7 @@ public:
 	R_LambertLight_Col& operator=(R_LambertLight_Col&& other) noexcept = delete;
 
 	//---| Loop |---
-	template<Shader::Function::Flag F = Shader::Function::Both>
+	template<Shader::Function::Flag F = Shader::Function::Both, bool UnsetOthers = true>
 	void Render();
 
 	//---| Operations |---
@@ -56,10 +56,10 @@ private:
 	void Render_Internal();
 };
 
-template<Shader::Function::Flag F>
+template<Shader::Function::Flag F, bool UnsetOthers>
 inline void R_LambertLight_Col::Render()
 {
-	m_Shader.Activate<Shader::Function::Both, false>();
+	m_Shader.Activate<F, UnsetOthers>();
 	Render_Internal();
 }
 }
