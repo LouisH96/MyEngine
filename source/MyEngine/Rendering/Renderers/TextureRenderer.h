@@ -30,6 +30,7 @@ namespace MyEngine
 			TextureRenderer& operator=(TextureRenderer&& other) noexcept = delete;
 
 			//---| Loop |---
+			template<Shader::Function::Flag Function = Shader::Function::Both, bool UnsetOthers = true>
 			void Render();
 
 			//---| Operations |---
@@ -62,6 +63,8 @@ namespace MyEngine
 			InputLayout m_InputLayout;
 			ConstantBuffer<CamData> m_ConstantBuffer;
 			Array<MeshData> m_Meshes{};
+
+			void Render_Internal();
 		};
 
 		template <typename Vertex, typename CamData>
@@ -81,8 +84,16 @@ namespace MyEngine
 			}
 		}
 
+		template<typename Vertex, typename CamData>
+		template<Shader::Function::Flag Function, bool UnsetOthers>
+		inline void TextureRenderer<Vertex, CamData>::Render()
+		{
+			m_Shader.Activate<Function, UnsetOthers>();
+			Render_Internal();
+		}
+
 		template <typename Vertex, typename CamData>
-		void TextureRenderer<Vertex, CamData>::Render()
+		void TextureRenderer<Vertex, CamData>::Render_Internal()
 		{
 			m_DepthStencilState.Activate();
 			m_Sampler.ActivatePs();
@@ -91,7 +102,6 @@ namespace MyEngine
 			m_RasterizerState.Activate();
 			m_InputLayout.Activate();
 			m_BlendState.Activate();
-			m_Shader.Activate();
 			for (unsigned i = 0; i < m_Meshes.GetSize(); i++)
 			{
 				if (!m_Meshes[i].Active) continue;

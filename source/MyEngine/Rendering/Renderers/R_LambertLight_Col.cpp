@@ -5,9 +5,9 @@
 #include "Camera/Camera.h"
 #include "Rendering/State/Mesh.h"
 
-using namespace MyEngine;
+using namespace Rendering;
 
-Rendering::R_LambertLight_Col::R_LambertLight_Col(bool isWireframe)
+R_LambertLight_Col::R_LambertLight_Col(bool isWireframe)
 	: m_RasterizerState{ isWireframe }
 	, m_InputLayout{ Vertex::ELEMENTS, Vertex::NR_ELEMENTS }
 	, m_Shader{ Resources::GlobalShader(L"LambertLight_Col.hlsl") }
@@ -15,7 +15,7 @@ Rendering::R_LambertLight_Col::R_LambertLight_Col(bool isWireframe)
 {
 }
 
-void Rendering::R_LambertLight_Col::Render()
+void R_LambertLight_Col::Render_Internal()
 {
 	using namespace DirectX;
 	m_DepthStencilState.Activate();
@@ -23,7 +23,6 @@ void Rendering::R_LambertLight_Col::Render()
 	m_RasterizerState.Activate();
 	m_InputLayout.Activate();
 	m_BlendState.Activate();
-	m_Shader.Activate();
 	for (unsigned i = 0; i < m_Entries.GetSize(); i++)
 	{
 		m_CameraConstantBuffer.Update(CB_CamMatPos{ Globals::pCamera->GetPosition(), Globals::pCamera->GetViewProjection()});
@@ -33,7 +32,7 @@ void Rendering::R_LambertLight_Col::Render()
 	}
 }
 
-void Rendering::R_LambertLight_Col::AddEntry(Mesh& mesh)
+void R_LambertLight_Col::AddEntry(Mesh& mesh)
 {
 	m_Entries.Add(&mesh);
 }

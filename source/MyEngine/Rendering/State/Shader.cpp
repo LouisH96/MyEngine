@@ -3,7 +3,9 @@
 
 #include "../Dx/DxHelper.h"
 
-Rendering::Shader::Shader(Shader&& other) noexcept
+using namespace Rendering;
+
+Shader::Shader(Shader&& other) noexcept
 	: m_pVertexShader{ other.m_pVertexShader }
 	, m_pPixelShader{ other.m_pPixelShader }
 {
@@ -11,7 +13,7 @@ Rendering::Shader::Shader(Shader&& other) noexcept
 	other.m_pPixelShader = nullptr;
 }
 
-Rendering::Shader& Rendering::Shader::operator=(Shader&& other) noexcept
+Shader& Shader::operator=(Shader&& other) noexcept
 {
 	if (&other == this) return *this;
 
@@ -24,26 +26,40 @@ Rendering::Shader& Rendering::Shader::operator=(Shader&& other) noexcept
 	return *this;
 }
 
-Rendering::Shader::Shader(const std::wstring& fullPath)
+Shader::Shader(const std::wstring& fullPath)
 {
 	InitShaders(fullPath);
 }
 
-Rendering::Shader::~Shader()
+Shader::~Shader()
 {
 	SAFE_RELEASE(m_pPixelShader);
 	SAFE_RELEASE(m_pVertexShader);
 }
 
-void Rendering::Shader::Activate() const
+void Shader::ActivateVs() const
 {
 	Globals::pGpu->GetContext().VSSetShader(m_pVertexShader, nullptr, 0);
+}
+
+void Shader::ActivatePs() const
+{
 	Globals::pGpu->GetContext().PSSetShader(m_pPixelShader, nullptr, 0);
 }
 
-void Rendering::Shader::InitShaders(const std::wstring& fullPath)
+void Shader::InitShaders(const std::wstring& fullPath)
 {
 	Dx::DxHelper::CreateVertexShader(fullPath, "vs_main", m_pVertexShader);
 	Dx::DxHelper::CreatePixelShader(fullPath, "ps_main", m_pPixelShader);
+}
+
+void Shader::UnsetPs() const
+{
+	Globals::pGpu->GetContext().PSSetShader(nullptr, nullptr, 0);
+}
+
+void Shader::UnsetVs() const
+{
+	Globals::pGpu->GetContext().VSSetShader(nullptr, nullptr, 0);
 }
 
