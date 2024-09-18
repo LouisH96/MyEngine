@@ -36,7 +36,7 @@ Canvas::~Canvas()
 
 void Canvas::ClearDepthBuffer()
 {
-	Globals::pGpu->GetContext().ClearDepthStencilView(m_DepthStencilBuffer.GetView(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+	m_DepthStencilBuffer.Clear();
 }
 
 void Canvas::BeginPaint()

@@ -35,6 +35,11 @@ bool DepthStencilBuffer::Update(const Int2& size)
 	return Init(size);
 }
 
+void DepthStencilBuffer::Clear()
+{
+	Globals::pGpu->GetContext().ClearDepthStencilView(m_pView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+}
+
 DepthStencilBuffer::~DepthStencilBuffer()
 {
 	SAFE_RELEASE(m_pView);

@@ -12,6 +12,7 @@ public:
 	DepthStencilBuffer() = default;
 	bool Init(const Int2& size);
 	bool Update(const Int2& size);
+	void Clear();
 	~DepthStencilBuffer();
 
 	ID3D11DepthStencilView* GetView() { return m_pView; };
