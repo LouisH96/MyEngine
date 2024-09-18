@@ -7,15 +7,16 @@
 #include "Rendering/State/Texture.h"
 
 using namespace MyEngine;
+using namespace Rendering;
 
-Rendering::R_LambertCam_Tex_Transform::R_LambertCam_Tex_Transform()
-	: m_InputLayout{Vertex::ELEMENTS, Vertex::NR_ELEMENTS }
+R_LambertCam_Tex_Transform::R_LambertCam_Tex_Transform()
+	: m_InputLayout{ Vertex::ELEMENTS, Vertex::NR_ELEMENTS }
 	, m_Shader{ Resources::GlobalShader(L"LambertCam_Tex_Tran_Solo.hlsl") }
 	, m_Entries{ 0 }
 {
 }
 
-void Rendering::R_LambertCam_Tex_Transform::Render_Internal()
+void R_LambertCam_Tex_Transform::Render_Internal()
 {
 	using namespace DirectX;
 	m_DepthStencilState.Activate();
@@ -25,7 +26,7 @@ void Rendering::R_LambertCam_Tex_Transform::Render_Internal()
 	m_BlendState.Activate();
 	for (unsigned i = 0; i < m_Entries.GetSize(); i++)
 	{
-		m_CameraConstantBuffer.Update(CB_CamMatPos{ Globals::pCamera->GetPosition(), Globals::pCamera->GetViewProjection()});
+		m_CameraConstantBuffer.Update(CB_CamMatPos{ Globals::pCamera->GetPosition(), Globals::pCamera->GetViewProjection() });
 		m_CameraConstantBuffer.Activate();
 		m_ModelConstantBuffer.Update(CB_ModelBuffer{ *m_Entries[i].pTransform });
 		m_ModelConstantBuffer.Activate(1);
@@ -35,19 +36,19 @@ void Rendering::R_LambertCam_Tex_Transform::Render_Internal()
 	}
 }
 
-void Rendering::R_LambertCam_Tex_Transform::AddEntry(Mesh& mesh, Texture& texture, Transform& transform)
+void R_LambertCam_Tex_Transform::AddEntry(Mesh& mesh, Texture& texture, Transform& transform)
 {
 	m_Entries.Add(DrawEntry{ &mesh, &texture, &transform });
 }
 
-void Rendering::R_LambertCam_Tex_Transform::Remove(const Transform& transform)
+void R_LambertCam_Tex_Transform::Remove(const Transform& transform)
 {
 	for (unsigned i = 0; i < m_Entries.GetSize(); i++)
 		if (m_Entries[i].pTransform == &transform)
 			m_Entries.RemoveAt(i);
 }
 
-void Rendering::R_LambertCam_Tex_Transform::Replace(const Transform& old, Transform& with)
+void R_LambertCam_Tex_Transform::Replace(const Transform& old, Transform& with)
 {
 	for (unsigned i = 0; i < m_Entries.GetSize(); i++)
 		if (m_Entries[i].pTransform == &old)
