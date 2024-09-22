@@ -63,3 +63,8 @@ void Rendering::InstanceArray::EnsureInstanceCapacity(unsigned minCapacity, bool
 	if (m_Capacities[IDX_INSTANCES] >= minCapacity) return;
 	SetInstanceCapacity(minCapacity, immutable);
 }
+
+void Rendering::InstanceArray::EndUpdateInstances()
+{
+	Globals::pGpu->GetContext().Unmap(m_pBuffers[IDX_INSTANCES], 0);
+}

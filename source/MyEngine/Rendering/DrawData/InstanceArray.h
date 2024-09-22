@@ -22,6 +22,12 @@ namespace MyEngine
 				unsigned instanceStride, unsigned instancesCapacity = 5,
 				bool verticesImmutable = true, bool instancesImmutable = true,
 				ModelTopology topology = ModelTopology::TriangleList);
+			template<typename Vertex>
+			InstanceArray(
+				PtrRangeConst<Vertex> vertex, unsigned instanceStride,
+				unsigned instancesCapacity = 5,
+				bool verticesImmutable = true, bool instancesImmutable = false,
+				ModelTopology topology = ModelTopology::TriangleList);
 			template<typename Vertex, typename Instance>
 			InstanceArray(
 				const Vertex* pVertices, unsigned nrVertices,
@@ -49,6 +55,10 @@ namespace MyEngine
 			void EnsureInstanceCapacity(unsigned minCapacity, bool immutable);
 			template<typename Instance> void UpdateInstances(const Instance* pInstances, unsigned nrInstances);
 
+			template<typename Instance> Instance* BeginUpdateInstances(bool& success);
+			template<typename Instance> Instance* BeginUpdateInstances();
+			void EndUpdateInstances();
+
 			template<typename Vertex> void SetVertices(const Vertex* pVertices, unsigned nrVertices, bool immutable = true);
 			template<typename Instance> void SetInstances(const Instance* pInstances, unsigned nrInstances, bool immutable = true);
 
@@ -57,12 +67,12 @@ namespace MyEngine
 			static constexpr int IDX_VERTICES = 0;
 
 			static constexpr int IDX_INSTANCES = 1;
-			D3D11_PRIMITIVE_TOPOLOGY m_Topology;
+			D3D11_PRIMITIVE_TOPOLOGY m_Topology{};
 			ID3D11Buffer* m_pBuffers[NR_BUFFERS];
-			unsigned m_Strides[NR_BUFFERS];
-			unsigned m_Offsets[NR_BUFFERS];
-			unsigned m_Counts[NR_BUFFERS];
-			unsigned m_Capacities[NR_BUFFERS];
+			unsigned m_Strides[NR_BUFFERS]{};
+			unsigned m_Offsets[NR_BUFFERS]{};
+			unsigned m_Counts[NR_BUFFERS]{};
+			unsigned m_Capacities[NR_BUFFERS]{};
 		};
 
 		template <typename Vertex>
@@ -79,6 +89,22 @@ namespace MyEngine
 		{
 			Dx::DxHelper::CreateVertexBuffer(m_pBuffers[IDX_VERTICES], pVertices, nrVertices, verticesImmutable);
 			Dx::DxHelper::CreateVertexBuffer(m_pBuffers[IDX_INSTANCES], instanceStride, instancesCapacity, instancesImmutable);;
+		}
+
+		template<typename Vertex>
+		InstanceArray::InstanceArray(
+			PtrRangeConst<Vertex> vertices, unsigned instanceStride,
+			unsigned instancesCapacity,
+			bool verticesImmutable, bool instancesImmutable,
+			ModelTopology topology)
+			: m_Topology{ PrimitiveTopology::ToDx(topology) }
+			, m_Strides{ sizeof(Vertex), instanceStride }
+			, m_Offsets{ 0, 0 }
+			, m_Counts{ vertices.count, 0 }
+			, m_Capacities{ vertices.count, instancesCapacity }
+		{
+			Dx::DxHelper::CreateVertexBuffer(m_pBuffers[IDX_VERTICES], vertices.pData, vertices.count, verticesImmutable);
+			Dx::DxHelper::CreateVertexBuffer(m_pBuffers[IDX_INSTANCES], instanceStride, instancesCapacity, instancesImmutable);
 		}
 
 		template <typename Vertex, typename Instance>
@@ -122,5 +148,24 @@ namespace MyEngine
 			memcpy(mappedResource.pData, pInstances, nrInstances * sizeof(Instance));
 			Globals::pGpu->GetContext().Unmap(m_pBuffers[IDX_INSTANCES], 0);
 		}
+
+		template<typename Instance>
+		inline Instance* InstanceArray::BeginUpdateInstances(bool& success)
+		{
+			D3D11_MAPPED_SUBRESOURCE mappedResource{};
+			const HRESULT result{ Globals::pGpu->GetContext().Map(m_pBuffers[IDX_INSTANCES], 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource) };
+			if (FAILED(result)) {
+				Logger::PrintError("[InstanceArray::BeginUpdateInstance] Failed mapping resource");
+			}
+			return reinterpret_cast<Instance*>(mappedResource.pData);
+		}
+
+		template<typename Instance>
+		inline Instance* InstanceArray::BeginUpdateInstances()
+		{
+			bool success{ false };
+			return BeginUpdateInstances<Instance>(success);
+		}
+
 	}
 }
