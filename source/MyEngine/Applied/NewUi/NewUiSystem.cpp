@@ -22,6 +22,7 @@ void NewUiSystem::OnCanvasResized(const App::ResizedEvent& event)
 {
 	m_ShapeRenderer.OnCanvasResized(event);
 	m_FontRenderer.OnCanvasResized(event);
+	m_ImageRenderer.OnCanvasResized(event);
 	m_Root.OnCanvasResized(event);
 }
 
@@ -104,6 +105,7 @@ void NewUiSystem::Update()
 void NewUiSystem::Render()
 {
 	m_ShapeRenderer.Render();
+	m_ImageRenderer.Render();
 	m_FontRenderer.Render();
 }
 
@@ -128,12 +130,14 @@ void NewUiSystem::BeforeEdit()
 		ClearDebugBorder();
 
 	m_pCurrentElem = nullptr;
+	m_ImageRenderer.Clear();
 	m_Root.ClearTree();
 }
 
 void NewUiSystem::AfterEdit()
 {
 	m_Root.CreateTree();
+	m_ImageRenderer.CreateBuffer();
 }
 
 void NewUiSystem::ClearDebugBorder()

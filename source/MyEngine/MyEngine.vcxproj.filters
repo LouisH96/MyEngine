@@ -44,7 +44,6 @@
     <ClCompile Include="Debug\Rendering\DebugSpheres.cpp" />
     <ClCompile Include="Rendering\DrawData\InstanceArray.cpp" />
     <ClCompile Include="Debug\Rendering\DebugLines.cpp" />
-    <ClCompile Include="Rendering\DrawData\VertexArray.cpp" />
     <ClCompile Include="Rendering\State\PrimitiveTopology.cpp" />
     <ClCompile Include="Gui\GuiRenderer.cpp" />
     <ClCompile Include="Rendering\Font\FontAtlas.cpp" />
@@ -125,6 +124,8 @@
     <ClCompile Include="Applied\MeshMaker\Shapes\FlatStrip.cpp" />
     <ClCompile Include="Applied\MeshMaker\Shapes\FlatStripLoop.cpp" />
     <ClCompile Include="Rendering\State\DepthStencilBuffer.cpp" />
+    <ClCompile Include="Applied\NewUi\Elements\Image.cpp" />
+    <ClCompile Include="Applied\NewUi\Renderers\NewUiImageRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -328,6 +329,8 @@
     <ClInclude Include="Applied\MeshMaker2\Arc\ArcResult.h" />
     <ClInclude Include="Applied\MeshMaker2\Strip\StripResult.h" />
     <ClInclude Include="Rendering\State\DepthStencilBuffer.h" />
+    <ClInclude Include="Applied\NewUi\Elements\Image.h" />
+    <ClInclude Include="Applied\NewUi\Renderers\NewUiImageRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

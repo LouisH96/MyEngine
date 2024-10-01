@@ -2,6 +2,7 @@
 #include "NewUiFontRenderer.h"
 #include "Elements/Root.h"
 #include "Renderers/NewUiShapeRenderer.h"
+#include "Renderers\NewUiImageRenderer.h"
 
 namespace MyEngine
 {
@@ -27,6 +28,7 @@ namespace MyEngine
 
 			NewUiFontRenderer& GetFontRenderer() { return m_FontRenderer; }
 			NewUiShapeRenderer& GetShapeRenderer() { return m_ShapeRenderer; }
+			NewUiImageRenderer& GetImageRenderer() { return m_ImageRenderer; }
 
 			static const Float3 COLOR_DARK;
 			static const Float3 COLOR_MEDIUM;
@@ -41,11 +43,12 @@ namespace MyEngine
 
 			Root m_Root;
 			NewUiFontRenderer m_FontRenderer;
+			NewUiShapeRenderer m_ShapeRenderer;
+			NewUiImageRenderer m_ImageRenderer;
 
 			Elem* m_pCurrentElem;
 			CurrentElemState m_CurrentElemState;
 
-			NewUiShapeRenderer m_ShapeRenderer;
 
 			static constexpr unsigned NR_DEBUG_BORDER_SHAPES{ 4 };
 			unsigned m_DebugBorder[NR_DEBUG_BORDER_SHAPES]{};
