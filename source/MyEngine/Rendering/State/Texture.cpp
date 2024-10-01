@@ -241,6 +241,8 @@ Texture::Texture(Texture&& other) noexcept
 Texture& Texture::operator=(Texture&& other) noexcept
 {
 	if (&other == this) return *this;
+	if (m_pTexture) m_pTexture->Release();
+	if (m_pShaderResourceView) m_pShaderResourceView->Release();
 	m_pTexture = other.m_pTexture;
 	m_pShaderResourceView = other.m_pShaderResourceView;
 	other.m_pTexture = nullptr;
