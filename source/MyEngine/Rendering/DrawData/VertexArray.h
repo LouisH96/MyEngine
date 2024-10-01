@@ -49,6 +49,9 @@ namespace MyEngine
 			void EnsureCapacity(unsigned int minCapacity, bool immutable);
 			void UpdateData(const Vertex* pData, int dataCount);
 
+			Vertex* BeginUpdateData();
+			void EndUpdateData();
+
 		private:
 			ID3D11Buffer* m_pBuffer;
 			unsigned int m_Stride;
@@ -189,6 +192,21 @@ namespace MyEngine
 			const HRESULT result{ Globals::pGpu->GetContext().Map(m_pBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource) };
 			if (FAILED(result)) Logger::PrintError("Failed updating VertexArray data");
 			memcpy(mappedResource.pData, pData, dataCount * sizeof(Vertex));
+			Globals::pGpu->GetContext().Unmap(m_pBuffer, 0);
+		}
+
+		template<typename Vertex>
+		inline Vertex* VertexArray<Vertex>::BeginUpdateData()
+		{
+			D3D11_MAPPED_SUBRESOURCE mappedResource{};
+			const HRESULT result{ Globals::pGpu->GetContext().Map(m_pBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0 ,&mappedResource) };
+			if (FAILED(result))
+				Logger::PrintError("[VertexArray::BeginUpdateData] mapping failed");
+			return reinterpret_cast<Vertex*>(mappedResource.pData);
+		}
+		template<typename Vertex>
+		inline void VertexArray<Vertex>::EndUpdateData()
+		{
 			Globals::pGpu->GetContext().Unmap(m_pBuffer, 0);
 		}
 	}
