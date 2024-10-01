@@ -75,11 +75,16 @@ namespace MyEngine
 				if (window.IsResized())
 				{
 					const ResizedEvent resizedEvent{ canvas.OnWindowResized(window.GetClientSize()) };
+
+					Globals::pUi->BeforeEdit();
+					Globals::pUi->OnCanvasResized(resizedEvent);
+
 					camera.OnCanvasResized(resizedEvent);
 					Globals::pGuiRenderer->OnCanvasResized(resizedEvent);
 					Globals::pFontRenderer->OnCanvasResized(resizedEvent);
 					pApp->OnCanvasResized(resizedEvent);
-					Globals::pUi->OnCanvasResized(resizedEvent);
+
+					Globals::pUi->AfterEdit();
 				}
 
 				//UPDATE

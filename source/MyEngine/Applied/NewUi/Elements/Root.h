@@ -12,7 +12,7 @@ namespace MyEngine
 		public:
 			explicit Root(const Float2& initSize);
 
-			void UpdateRootSize(const Float2& size);
+			void OnCanvasResized(const App::ResizedEvent& event);
 			void AddChild(Elem* pChild);
 			const std::string GetTypeName() const override;
 

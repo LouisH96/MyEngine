@@ -22,7 +22,7 @@ void NewUiSystem::OnCanvasResized(const App::ResizedEvent& event)
 {
 	m_ShapeRenderer.OnCanvasResized(event);
 	m_FontRenderer.OnCanvasResized(event);
-	m_Root.UpdateRootSize(event.NewSize);
+	m_Root.OnCanvasResized(event);
 }
 
 void NewUiSystem::Update()

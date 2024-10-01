@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Root.h"
 
+#include <App\ResizedEvent.h>
+
 using namespace NewUi;
 
 Root::Root(const Float2& initSize)
@@ -9,11 +11,9 @@ Root::Root(const Float2& initSize)
 	SetRelativePosition({});
 }
 
-void Root::UpdateRootSize(const Float2& size)
+void Root::OnCanvasResized(const App::ResizedEvent& event)
 {
-	SetSize(size);
-	ClearTree();
-	CreateTree();
+	SetSize(event.NewSize);
 }
 
 void Root::AddChild(Elem* pChild)
