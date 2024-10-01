@@ -14,7 +14,9 @@ namespace MyEngine
 			const std::string GetTypeName() const override { return "Extender"; }
 			void UpdateSizeAndTreePositions(const ResizePref& pref) override;
 
-			void SetValueX(float valueX) { m_SizeDef.Value.x = valueX; }
+			void SetSizeDef(const Float2& value) { m_SizeDef.Value = value; }
+			void SetSizeDefX(float valueX) { m_SizeDef.Value.x = valueX; }
+			void SetSizeDefY(float valueY) { m_SizeDef.Value.y = valueY; }
 
 		private:
 			void Clear() override;
