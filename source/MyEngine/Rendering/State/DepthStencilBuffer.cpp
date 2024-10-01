@@ -29,10 +29,10 @@ bool DepthStencilBuffer::Init(const Int2& size, bool asShaderResource)
 	return success;
 }
 
-bool DepthStencilBuffer::Update(const Int2& size)
+bool DepthStencilBuffer::Update(const Int2& size, bool asShaderResource)
 {
 	SAFE_RELEASE(m_pView);
-	return Init(size);
+	return Init(size, asShaderResource);
 }
 
 void DepthStencilBuffer::Clear()

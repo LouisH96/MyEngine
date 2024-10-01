@@ -11,7 +11,7 @@ class DepthStencilBuffer
 public:
 	DepthStencilBuffer() = default;
 	bool Init(const Int2& size, bool asShaderResource = false);
-	bool Update(const Int2& size);
+	bool Update(const Int2& size, bool asShaderResource = false);
 	void Clear();
 	~DepthStencilBuffer();
 
