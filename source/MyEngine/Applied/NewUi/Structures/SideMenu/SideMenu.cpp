@@ -96,7 +96,7 @@ void SideMenu::Update()
 	if (m_Dragging)
 	{
 		UI.BeforeEdit();
-		m_pExtender->SetValueX(mouse.x);
+		m_pExtender->SetSizeDefX(mouse.x);
 		UI.AfterEdit();
 	}
 
