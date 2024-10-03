@@ -16,7 +16,7 @@ Canvas::Canvas(App::Win32::Window& window, const Float3& color)
 	InitSwapChain(window);
 	InitRenderTarget();
 	m_DepthStencilBuffer.Init(m_Size);
-	SetViewPort();
+	m_Viewport = { m_Size };
 
 	if (Globals::pCanvas) Logger::PrintError("Global canvas already set");
 	Globals::pCanvas = this;
@@ -26,6 +26,7 @@ void Canvas::Activate()
 {
 	//Rendertarget
 	Globals::pGpu->GetContext().OMSetRenderTargets(1, &m_pMainRenderTargetView, m_DepthStencilBuffer.GetView());
+	m_Viewport.Activate();
 }
 
 Canvas::~Canvas()
@@ -72,7 +73,7 @@ App::ResizedEvent Canvas::OnWindowResized(Int2 newSize)
 	if (FAILED(result)) Logger::PrintError("[Canvas::OnWindowResized] failed resizing buffer");
 	InitRenderTarget();
 	m_DepthStencilBuffer.Update(m_Size);
-	SetViewPort();
+	m_Viewport = { m_Size };
 	return event;
 }
 
@@ -110,12 +111,6 @@ void Canvas::InitRenderTarget()
 	if (pBackBuffer)
 		Globals::pGpu->GetDevice().CreateRenderTargetView(pBackBuffer, nullptr, &m_pMainRenderTargetView);
 	pBackBuffer->Release();
-}
-
-void Canvas::SetViewPort()
-{
-	m_Viewport = { m_Size };
-	m_Viewport.Activate();
 }
 
 void Canvas::GetFactory2(IDXGIDevice2*& pDevice2, IDXGIAdapter*& pAdapter,

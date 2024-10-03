@@ -60,7 +60,6 @@ private:
 
 	void InitSwapChain(const App::Win32::Window& window);
 	void InitRenderTarget();
-	void SetViewPort();
 
 	void GetFactory2(IDXGIDevice2*& pDevice2, IDXGIAdapter*& pAdapter, IDXGIFactory2*& pFactory) const;//clean after use
 };
