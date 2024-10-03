@@ -50,6 +50,7 @@ namespace MyEngine
 		T Length() const;
 		T LengthSq() const;
 		T Dot(const Vector4& other) const;
+		T Dot(const Vector3<T>& other) const;
 		void Normalize();
 		Vector4 Normalized() const;
 
@@ -114,6 +115,7 @@ namespace MyEngine
 	template <typename T> T Vector4<T>::Length() const { return sqrtf(x * x + y * y + z * z + w * w); }
 	template <typename T> T Vector4<T>::LengthSq() const { return x * x + y * y + z * z + w * w; }
 	template <typename T> T Vector4<T>::Dot(const Vector4& other) const { return { x * other.x + y * other.y + z * other.z + w * other.w }; }
+	template <typename T> T Vector4<T>::Dot(const Vector3<T>& other) const { return { x * other.x + y * other.y + z * other.z }; }
 
 	template <typename T>
 	void Vector4<T>::Normalize()
