@@ -126,6 +126,7 @@
     <ClCompile Include="Rendering\State\DepthStencilBuffer.cpp" />
     <ClCompile Include="Applied\NewUi\Elements\Image.cpp" />
     <ClCompile Include="Applied\NewUi\Renderers\NewUiImageRenderer.cpp" />
+    <ClCompile Include="Rendering\State\Viewport.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -331,6 +332,7 @@
     <ClInclude Include="Rendering\State\DepthStencilBuffer.h" />
     <ClInclude Include="Applied\NewUi\Elements\Image.h" />
     <ClInclude Include="Applied\NewUi\Renderers\NewUiImageRenderer.h" />
+    <ClInclude Include="Rendering\State\Viewport.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

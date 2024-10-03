@@ -1,6 +1,7 @@
 #pragma once
 
 #include "State\DepthStencilBuffer.h"
+#include "State\Viewport.h"
 #include <App\ResizedEvent.h>
 
 #include <d3d11.h>
@@ -47,7 +48,7 @@ public:
 private:
 	IDXGISwapChain1* m_pSwapChain{};
 	ID3D11RenderTargetView* m_pMainRenderTargetView{};
-	D3D11_VIEWPORT m_ViewPort{};
+	Viewport m_Viewport;
 
 	DepthStencilBuffer m_DepthStencilBuffer;
 

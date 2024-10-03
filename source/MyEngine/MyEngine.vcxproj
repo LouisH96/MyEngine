@@ -149,6 +149,7 @@
     <ClCompile Include="Applied\NewUi\Structures\SideMenu\SideMenuPathHelper.cpp" />
     <ClCompile Include="Applied\NewUi\Structures\SideMenu\Tabs\SideMenuTab.cpp" />
     <ClCompile Include="Applied\NewUi\Structures\SideMenu\Tabs\TabManager.cpp" />
+    <ClCompile Include="Rendering\State\Viewport.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Applied\MeshMaker2\Arc\Arc.h" />
@@ -354,6 +355,7 @@
     <ClInclude Include="Applied\NewUi\Structures\SideMenu\SideMenuPathHelper.h" />
     <ClInclude Include="Applied\NewUi\Structures\SideMenu\Tabs\SideMenuTab.h" />
     <ClInclude Include="Applied\NewUi\Structures\SideMenu\Tabs\TabManager.h" />
+    <ClInclude Include="Rendering\State\Viewport.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

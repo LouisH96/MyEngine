@@ -114,12 +114,8 @@ void Canvas::InitRenderTarget()
 
 void Canvas::SetViewPort()
 {
-	m_ViewPort = {
-	  0.0f, 0.0f,
-	 static_cast<float>(m_Size.x),
-	 static_cast<float>(m_Size.y),
-	  0.0f, 1.0f };
-	Globals::pGpu->GetContext().RSSetViewports(1, &m_ViewPort);
+	m_Viewport = { m_Size };
+	m_Viewport.Activate();
 }
 
 void Canvas::GetFactory2(IDXGIDevice2*& pDevice2, IDXGIAdapter*& pAdapter,
