@@ -90,7 +90,11 @@ Float4X4 WorldMatrix::Translation(const Float3& translation)
 Float4X4 WorldMatrix::Rotation(const Float3& forward)
 {
 	Float4X4 world{};
-	const Float3 right{ Float3{0,1,0}.Cross(forward).Normalized() };
+	Float3 right;
+	if (forward.x == 0 && abs(forward.y) == 1 && forward.z == 0)
+		right = { 1,0,0 };
+	else
+		right = Float3{ 0,1,0 }.Cross(forward).Normalized();
 	const Float3 up{ forward.Cross(right).Normalized() };
 	world.SetRow0(right);
 	world.SetRow1(up);
@@ -111,6 +115,23 @@ Float4X4 WorldMatrix::Rotation(float yaw, float pitch)
 			Float4{sinPitch, cosPitch,0, 0},
 			Float4{sinYaw * cosPitch, -sinPitch * sinYaw, cosYaw, 0},
 			Float4{0,0,0,1}
+	};
+}
+
+Float4X4 WorldMatrix::ViewFrom(const Float3& forward, const Float3& position)
+{
+	Float3 right;
+	if (forward.x == 0 && abs(forward.y) == 1 && forward.z == 0)
+		right = { 1,0,0 };
+	else
+		right = Float3{ 0,1,0 }.Cross(forward).Normalized();
+	const Float3 up{ forward.Cross(right).Normalized() };
+
+	return Float4X4{
+		Float4{right, -right.Dot(position)},
+		Float4{up, -up.Dot(position)},
+		Float4{forward, -forward.Dot(position)},
+		Float4{0,0,0,1}
 	};
 }
 
