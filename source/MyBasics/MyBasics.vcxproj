@@ -201,6 +201,7 @@
     <ClInclude Include="Timing\Time.h" />
     <ClInclude Include="Transform\Transform.h" />
     <ClInclude Include="Transform\WorldMatrix.h" />
+    <ClInclude Include="Transform\ViewMatrix.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FileUtils\Drive.cpp" />
@@ -216,6 +217,7 @@
     <ClCompile Include="Timing\Time.cpp" />
     <ClCompile Include="Transform\Transform.cpp" />
     <ClCompile Include="Transform\WorldMatrix.cpp" />
+    <ClCompile Include="Transform\ViewMatrix.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
