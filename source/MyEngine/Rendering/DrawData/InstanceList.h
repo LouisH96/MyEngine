@@ -30,7 +30,7 @@ namespace MyEngine
 			void EnsureCapacity(int minCapacity);
 			void SetCount(int count);
 
-			unsigned GetSize() const { return m_CpuInstances.GetSizeU(); }
+			unsigned GetSize() const { return m_CpuInstances.GetSize(); }
 			Instance& operator[](unsigned idx);
 			const Instance& operator[](unsigned idx) const;
 			const Instance& First() const { return m_CpuInstances.First(); }
