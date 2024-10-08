@@ -30,6 +30,7 @@ public:
 	void Add(const T& value1, const T& value2);
 	void Add(const T& value1, const T& value2, const T& value3);
 	void Add(const List& list);
+	void Add(const Array<T>& arr);
 	void AddMultipleTimes(const T& value, unsigned count);
 	void Insert(int idx, const T& value);
 	void InsertEmpty(int idx, int amount);
@@ -216,6 +217,15 @@ void List<T>::Add(const List& list)
 
 	std::copy(list.GetData(), &list.GetData()[list.GetSize()], &m_pData[m_Size]);
 	m_Size += list.GetSize();
+}
+
+template <typename T>
+void List<T>::Add(const Array<T>& arr)
+{
+	_AddHelper helper{ _PreAdd(arr.GetSize()) };
+
+	std::copy(arr.GetData(), &arr.GetData()[arr.GetSize()], &m_pData[m_Size]);
+	m_Size += arr.GetSize();
 }
 
 template <typename T>
