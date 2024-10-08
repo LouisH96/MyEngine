@@ -17,6 +17,8 @@ namespace MyEngine
 		List<Vertex> Vertices;
 
 		void StartShape();
+		void Clear();
+		void Add(const MeshDataWithoutIndices<Vertex, Topology>& other);
 	};
 
 	template<typename Vertex, ModelTopology Topology>
@@ -30,6 +32,8 @@ namespace MyEngine
 		List<int> Indices;
 
 		void StartShape();
+		void Clear();
+		void Add(const MeshDataWithIndices<Vertex, Topology>& other);
 	};
 
 	template<typename Vertex, ModelTopology Topology>
@@ -53,6 +57,18 @@ namespace MyEngine
 	}
 
 	template<typename Vertex, ModelTopology Topology>
+	void MeshDataWithoutIndices<Vertex, Topology>::Clear()
+	{
+		Vertices.Clear();
+	}
+
+	template<typename Vertex, ModelTopology Topology>
+	void MeshDataWithoutIndices<Vertex, Topology>::Add(const MeshDataWithoutIndices<Vertex, Topology>& other)
+	{
+		Vertices.Add(other.Vertices);
+	}
+
+	template<typename Vertex, ModelTopology Topology>
 	void MeshDataWithIndices<Vertex, Topology>::StartShape()
 	{
 		if constexpr (TopologyInfo::IsListFormat(Topology))
@@ -65,6 +81,29 @@ namespace MyEngine
 
 		if (Indices.GetSize() % 2 == 1)
 			Indices.Add(-1);
+	}
+
+	template<typename Vertex, ModelTopology Topology>
+	void MeshDataWithIndices<Vertex, Topology>::Clear()
+	{
+		Vertices.Clear();
+		Indices.Clear();
+	}
+
+	template<typename Vertex, ModelTopology Topology>
+	void MeshDataWithIndices<Vertex, Topology>::Add(const MeshDataWithIndices<Vertex, Topology>& other)
+	{
+		const unsigned idxOffset{ Vertices.GetSize() };
+		Vertices.Add(other.Vertices);
+
+		for (unsigned iIndex{ 0 }; iIndex < other.Indices.GetSize(); ++iIndex)
+		{
+			const int index{ other.Indices[iIndex] };
+			if (index == -1)
+				Indices.Add(index);
+			else
+				Indices.Add(index + idxOffset);
+		}
 	}
 
 	template<typename Vertex, ModelTopology Topology>
