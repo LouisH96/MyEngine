@@ -18,6 +18,8 @@ public:
 	ID3D11DepthStencilView* GetView() { return m_pView; };
 	const ID3D11DepthStencilView* GetView() const { return m_pView; }
 
+	ID3D11ShaderResourceView* MakeShaderResourceView() const;
+
 private:
 	ID3D11DepthStencilView* m_pView{ nullptr };
 
