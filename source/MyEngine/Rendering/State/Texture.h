@@ -24,11 +24,13 @@ public:
 	Texture(Texture&& other) noexcept;
 	Texture& operator=(Texture&& other) noexcept;
 
-	void ActivateVs() const;
-	void ActivatePs() const;
-	void Activate() const;
+	void ActivateVs(unsigned slot = 0) const;
+	void ActivatePs(unsigned slot = 0) const;
+	void Activate(unsigned slot = 0) const;
 
 	void Update(const Image& image);
+
+	static void Unset(unsigned slot);
 
 private:
 	ID3D11Texture2D* m_pTexture{};

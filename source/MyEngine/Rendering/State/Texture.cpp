@@ -250,20 +250,20 @@ Texture& Texture::operator=(Texture&& other) noexcept
 	return *this;
 }
 
-void Texture::ActivateVs() const
+void Texture::ActivateVs(unsigned slot) const
 {
-	Globals::pGpu->GetContext().VSSetShaderResources(0, 1, &m_pShaderResourceView);
+	Globals::pGpu->GetContext().VSSetShaderResources(slot, 1, &m_pShaderResourceView);
 }
 
-void Texture::ActivatePs() const
+void Texture::ActivatePs(unsigned slot) const
 {
-	Globals::pGpu->GetContext().PSSetShaderResources(0, 1, &m_pShaderResourceView);
+	Globals::pGpu->GetContext().PSSetShaderResources(slot, 1, &m_pShaderResourceView);
 }
 
-void Texture::Activate() const
+void Texture::Activate(unsigned slot) const
 {
-	Globals::pGpu->GetContext().PSSetShaderResources(0, 1, &m_pShaderResourceView);
-	Globals::pGpu->GetContext().VSSetShaderResources(0, 1, &m_pShaderResourceView);
+	Globals::pGpu->GetContext().PSSetShaderResources(slot, 1, &m_pShaderResourceView);
+	Globals::pGpu->GetContext().VSSetShaderResources(slot, 1, &m_pShaderResourceView);
 }
 
 void Texture::Update(const Image& image)
@@ -273,6 +273,15 @@ void Texture::Update(const Image& image)
 	if (FAILED(result)) Logger::PrintError("Failed mapping texture");
 	memcpy(mappedResource.pData, image.GetData(), image.GetBytesPerRow() * image.GetHeight());
 	Globals::pGpu->GetContext().Unmap(m_pTexture, 0);
+}
+
+void Texture::Unset(unsigned slot)
+{
+	ID3D11ShaderResourceView* view[]{
+		nullptr
+	};
+	Globals::pGpu->GetContext().VSSetShaderResources(slot, 1, view);
+	Globals::pGpu->GetContext().PSSetShaderResources(slot, 1, view);
 }
 
 DXGI_FORMAT Texture::GetDXGIFormatFromWICFormat(WICPixelFormatGUID& wicFormatGuid)
