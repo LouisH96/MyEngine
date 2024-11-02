@@ -72,7 +72,7 @@ ID3D11Texture2D* DepthStencilBuffer::MakeTexture(const Int2& size, bool asShader
 	return pTexture;
 }
 
-ID3D11ShaderResourceView* MyEngine::Rendering::DepthStencilBuffer::MakeShaderResourceView() const
+ID3D11ShaderResourceView* DepthStencilBuffer::MakeShaderResourceView() const
 {
 	//Get
 	CD3D11_DEPTH_STENCIL_VIEW_DESC dsViewDesc;
