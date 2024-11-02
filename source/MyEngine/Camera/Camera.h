@@ -29,6 +29,9 @@ namespace MyEngine
 		const Float3& GetUp() const;
 		const Float3& GetForward() const;
 
+		Float3 GetRightXz() const;
+		Float3 GetForwardXz() const;
+
 		const Float4X4& GetProjection() const { return m_Projection; }
 		const Float4X4& GetWorld() const { return m_World; }
 		const Float4X4& GetView() const { return m_View; }

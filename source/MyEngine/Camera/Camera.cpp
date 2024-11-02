@@ -79,9 +79,9 @@ void Camera::SetRotation(float pitch, float yaw)
 	const float yawCos = cosf(yaw);
 	const float yawSin = sinf(yaw);
 
-	m_World.SetCol0({ yawCos, -yawSin * pitchSin, -yawSin * pitchCos });
+	m_World.SetCol0({ yawCos, yawSin * pitchSin, yawSin * pitchCos });
 	m_World.SetCol1({ 0, pitchCos, -pitchSin });
-	m_World.SetCol2({ yawSin, yawCos * pitchSin, yawCos * pitchCos });
+	m_World.SetCol2({ -yawSin, yawCos * pitchSin, yawCos * pitchCos });
 }
 
 const Float3& Camera::GetRight() const
@@ -97,6 +97,22 @@ const Float3& Camera::GetUp() const
 const Float3& Camera::GetForward() const
 {
 	return m_World.GetRow2().Xyz();
+}
+
+Float3 Camera::GetRightXz() const
+{
+	return {
+		m_World.GetCol0().x, 0,
+		m_World.GetCol2().x
+	};
+}
+
+Float3 Camera::GetForwardXz() const
+{
+	return {
+		m_World.GetCol0().z, 0,
+		m_World.GetCol2().z
+	};
 }
 
 float Camera::GetHalfFov() const
