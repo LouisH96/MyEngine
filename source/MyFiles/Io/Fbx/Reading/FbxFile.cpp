@@ -2,14 +2,20 @@
 
 #include "Logger/Logger.h"
 
-MyEngine::Io::Fbx::Reading::FbxFile::FbxFile(bool isBinary)
+using namespace MyEngine;
+using namespace Io::Fbx::Reading;
+
+FbxFile::FbxFile(bool isBinary)
 	: m_IsBinary(isBinary)
 {
 }
 
-void MyEngine::Io::Fbx::Reading::FbxFile::SetVersion(uint32_t version)
+void FbxFile::SetVersion(uint32_t version)
 {
-	Logger::Print("Reading FbxVersion", version);
+	static constexpr bool printVersion{ false };
+	if (printVersion)
+		Logger::Print("Reading FbxVersion", version);
+
 	if (version != 7300 &&
 		version != 7400 &&
 		version != 7500 &&
