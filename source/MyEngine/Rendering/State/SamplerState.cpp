@@ -7,19 +7,37 @@
 
 using namespace Rendering;
 
-SamplerState::SamplerState(BorderMode borderX, BorderMode borderY)
+SamplerState::SamplerState(BorderMode borderX, BorderMode borderY, Filter filter)
 {
-	const D3D11_SAMPLER_DESC desc{ MakeDesc(borderX, borderY) };
+	Desc desc{ MakeDesc() };
+	SetBorderMode(desc, borderX, borderY);
+	SetFilter(desc, filter);
 	MakeDx(desc);
 }
 
-SamplerState::SamplerState(BorderMode borderX, BorderMode borderY, Float4 value)
+SamplerState::SamplerState(BorderMode borderX, BorderMode borderY, const Float4& outsideValue, Filter filter)
 {
-	D3D11_SAMPLER_DESC desc{ MakeDesc(borderX, borderY) };
-	desc.BorderColor[0] = value.x;
-	desc.BorderColor[1] = value.y;
-	desc.BorderColor[2] = value.z;
-	desc.BorderColor[3] = value.w;
+	Desc desc{ MakeDesc() };
+	SetBorderMode(desc, borderX, borderY);
+	SetOutsideValue(desc, outsideValue);
+	SetFilter(desc, filter);
+	MakeDx(desc);
+}
+
+SamplerState::SamplerState(BorderMode borderX, BorderMode borderY, Filter filter, Comparison comparison)
+{
+	Desc desc{ MakeDesc() };
+	SetBorderMode(desc, borderX, borderY);
+	SetFilter(desc, filter, comparison);
+	MakeDx(desc);
+}
+
+SamplerState::SamplerState(BorderMode borderX, BorderMode borderY, const Float4& outsideValue, Filter filter, Comparison comparison)
+{
+	Desc desc{ MakeDesc() };
+	SetBorderMode(desc, borderX, borderY);
+	SetOutsideValue(desc, outsideValue);
+	SetFilter(desc, filter, comparison);
 	MakeDx(desc);
 }
 
@@ -56,6 +74,8 @@ constexpr D3D11_TEXTURE_ADDRESS_MODE SamplerState::ToDx(BorderMode mode)
 		return D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_BORDER;
 	if (mode == BorderMode::MirrorOnce)
 		return D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_MIRROR_ONCE;
+
+	return {};
 }
 
 constexpr SamplerState::BorderMode SamplerState::ToBorderMode(D3D11_TEXTURE_ADDRESS_MODE mode)
@@ -70,17 +90,82 @@ constexpr SamplerState::BorderMode SamplerState::ToBorderMode(D3D11_TEXTURE_ADDR
 		return BorderMode::Value;
 	if (mode == D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_MIRROR_ONCE)
 		return BorderMode::MirrorOnce;
+
+	return {};
 }
 
-constexpr D3D11_SAMPLER_DESC SamplerState::MakeDesc(BorderMode borderX, BorderMode borderY)
+constexpr D3D11_FILTER SamplerState::ToDx(Filter filter)
+{
+	if (filter == Filter::Point)
+		return D3D11_FILTER_MIN_MAG_MIP_POINT;
+	if (filter == Filter::Linear)
+		return D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+	if (filter == Filter::Anisotropic)
+		return D3D11_FILTER_ANISOTROPIC;
+
+	return {};
+}
+
+constexpr D3D11_FILTER SamplerState::ToDxWithCompare(Filter filter)
+{
+	if (filter == Filter::Point)
+		return D3D11_FILTER_COMPARISON_MIN_MAG_MIP_POINT;
+	if (filter == Filter::Linear)
+		return D3D11_FILTER_COMPARISON_MIN_MAG_MIP_LINEAR;
+	if (filter == Filter::Anisotropic)
+		return D3D11_FILTER_COMPARISON_ANISOTROPIC;
+
+	return {};
+}
+
+constexpr D3D11_COMPARISON_FUNC SamplerState::ToDx(Comparison comparison)
+{
+	if (comparison == Comparison::Equal)
+		return D3D11_COMPARISON_EQUAL;
+	if (comparison == Comparison::NotEqual)
+		return D3D11_COMPARISON_NOT_EQUAL;
+	if (comparison == Comparison::Less)
+		return D3D11_COMPARISON_LESS;
+	if (comparison == Comparison::LessEqual)
+		return D3D11_COMPARISON_LESS_EQUAL;
+	if (comparison == Comparison::Greater)
+		return D3D11_COMPARISON_GREATER;
+	if (comparison == Comparison::GreaterEqual)
+		return D3D11_COMPARISON_GREATER_EQUAL;
+
+	return {};
+}
+
+constexpr SamplerState::Desc SamplerState::MakeDesc()
 {
 	D3D11_SAMPLER_DESC desc{};
-	desc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+	desc.AddressW = D3D11_TEXTURE_ADDRESS_MIRROR;
+	return desc;
+}
+
+void SamplerState::SetBorderMode(Desc& desc, BorderMode borderX, BorderMode borderY)
+{
 	desc.AddressU = ToDx(borderX);
 	desc.AddressV = ToDx(borderY);
-	desc.AddressW = D3D11_TEXTURE_ADDRESS_MIRROR;
-	desc.ComparisonFunc = D3D11_COMPARISON_NEVER;
-	return desc;
+}
+
+void SamplerState::SetOutsideValue(Desc& desc, const Float4& outsideValue)
+{
+	desc.BorderColor[0] = outsideValue.x;
+	desc.BorderColor[1] = outsideValue.y;
+	desc.BorderColor[2] = outsideValue.z;
+	desc.BorderColor[3] = outsideValue.w;
+}
+
+void SamplerState::SetFilter(Desc& desc, Filter filter)
+{
+	desc.Filter = ToDx(filter);
+}
+
+void SamplerState::SetFilter(Desc& desc, Filter filter, Comparison comparison)
+{
+	desc.Filter = ToDxWithCompare(filter);
+	desc.ComparisonFunc = ToDx(comparison);
 }
 
 void SamplerState::MakeDx(const D3D11_SAMPLER_DESC& desc)
