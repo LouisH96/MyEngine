@@ -19,4 +19,7 @@ namespace MyEngine
 		static constexpr float FLOAT_INVALID = std::numeric_limits<float>::infinity();
 		static constexpr float FLOAT_INFINITY = std::numeric_limits<float>::infinity();
 	};
+
+	static constexpr float ToRad(float degrees) { return degrees * Constants::TO_RAD; }
+	static constexpr float ToDeg(float radians) { return radians * Constants::TO_DEG; }
 }
