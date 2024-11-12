@@ -40,7 +40,7 @@ namespace MyEngine
 			//BASIC
 			CppFramework framework{};
 			Window window{ windowName, options };
-			Gpu gpu{ window };
+			Gpu gpu{ };
 			Canvas canvas{ window, options.BackgroundColor };
 
 			if (gameFrameOptions.RandomSeed)

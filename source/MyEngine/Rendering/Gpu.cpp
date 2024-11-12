@@ -9,8 +9,9 @@
 #include "Dx/DxHelper.h"
 #include "App/Win32/Window.h"
 
-Rendering::Gpu::Gpu(App::Win32::Window& window)
-	: m_Window{ window }
+using namespace Rendering;
+
+Gpu::Gpu()
 {
 	Init();
 
@@ -18,18 +19,18 @@ Rendering::Gpu::Gpu(App::Win32::Window& window)
 	Globals::pGpu = this;
 }
 
-Rendering::Gpu::~Gpu()
+Gpu::~Gpu()
 {
 	Release();
 }
 
-void Rendering::Gpu::Release()
+void Gpu::Release()
 {
 	SAFE_RELEASE(m_pContext);
 	SAFE_RELEASE(m_pDevice);
 }
 
-void Rendering::Gpu::Init()
+void Gpu::Init()
 {
 	UINT createDeviceFlags = 0;
 #if defined(_DEBUG)
