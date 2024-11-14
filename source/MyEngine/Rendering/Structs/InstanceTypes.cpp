@@ -1,25 +1,27 @@
 #include "pch.h"
 #include "InstanceTypes.h"
 
-const Rendering::InputLayout::Element Rendering::I_Pos2Col::ELEMENTS[] =
+using namespace Rendering;
+
+const InputLayout::Element I_Pos2Col::ELEMENTS[] =
 {
 	{"INST_OFFSET", InputLayout::ElementType::Float2, 1, InputLayout::SlotClass::PerInstance},
 	{"INST_SIZE", InputLayout::ElementType::Float2, 1, InputLayout::SlotClass::PerInstance},
 	{"INST_COLOR", InputLayout::ElementType::Float3, 1, InputLayout::SlotClass::PerInstance }
 };
-const int Rendering::I_Pos2Col::NR_ELEMENTS = sizeof ELEMENTS / sizeof(InputLayout::Element);
+const int I_Pos2Col::NR_ELEMENTS = sizeof ELEMENTS / sizeof(InputLayout::Element);
 
-bool Rendering::I_Pos2Col::IsValid() const
+bool I_Pos2Col::IsValid() const
 {
 	return size.x != 0;
 }
 
-void Rendering::I_Pos2Col::Invalidate()
+void I_Pos2Col::Invalidate()
 {
 	size.x = 0;
 }
 
-const Rendering::InputLayout::Element Rendering::I_Pos2UvCol::ELEMENTS[] =
+const InputLayout::Element I_Pos2UvCol::ELEMENTS[] =
 {
 	{"INST_POS_OFFSET", InputLayout::ElementType::Float2, 1, InputLayout::SlotClass::PerInstance},
 	{"INST_SIZE", InputLayout::ElementType::Float2, 1, InputLayout::SlotClass::PerInstance},
@@ -28,34 +30,39 @@ const Rendering::InputLayout::Element Rendering::I_Pos2UvCol::ELEMENTS[] =
 	{"INST_COLOR", InputLayout::ElementType::Float3, 1, InputLayout::SlotClass::PerInstance}
 };
 
-bool Rendering::I_Pos2UvCol::IsValid() const
+bool I_Pos2UvCol::IsValid() const
 {
 	return posScale.x != 0;
 }
 
-void Rendering::I_Pos2UvCol::Invalidate()
+void I_Pos2UvCol::Invalidate()
 {
 	posScale.x = 0;
 }
 
-const Rendering::InputLayout::Element Rendering::I_ModelMatrices::ELEMENTS[] =
+const InputLayout::Element I_ModelMatrix::ELEMENTS[] =
+{
+	{"INST_MODEL", InputLayout::ElementType::Float4X4, 1, InputLayout::SlotClass::PerInstance},
+};
+
+const InputLayout::Element I_ModelMatrices::ELEMENTS[] =
 {
 	{"INST_MODEL", InputLayout::ElementType::Float4X4, 1, InputLayout::SlotClass::PerInstance},
 	{"INST_MODEL_VIEW_PROJECTION", InputLayout::ElementType::Float4X4, 1, InputLayout::SlotClass::PerInstance}
 };
 
-const Rendering::InputLayout::Element Rendering::I_PosCol::ELEMENTS[] =
+const InputLayout::Element I_PosCol::ELEMENTS[] =
 {
 	{"INST_POS", InputLayout::ElementType::Float3, 1, InputLayout::SlotClass::PerInstance},
 	{"INST_COLOR", InputLayout::ElementType::Float3, 1, InputLayout::SlotClass::PerInstance}
 };
 
-bool Rendering::I_PosCol::IsValid() const
+bool I_PosCol::IsValid() const
 {
 	return pos.y >= 8192.f;
 }
 
-void Rendering::I_PosCol::Invalidate()
+void I_PosCol::Invalidate()
 {
 	pos.y = 8192.f;
 }

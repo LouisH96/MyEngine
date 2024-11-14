@@ -44,6 +44,13 @@ namespace MyEngine
 			const Float2& GetCenter() const { return posOffset; }
 			const Float2& GetSize() const { return posScale; }
 		};
+		struct I_ModelMatrix
+		{
+			Float4X4 model;
+
+			static const InputLayout::Element ELEMENTS[];
+			static constexpr int NR_ELEMENTS = 1;
+		};
 		struct I_ModelMatrices
 		{
 			Float4X4 model;
