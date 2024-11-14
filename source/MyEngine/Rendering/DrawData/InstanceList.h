@@ -75,15 +75,7 @@ namespace MyEngine
 		template <typename Vertex, typename Instance>
 		void InstanceList<Vertex, Instance>::Draw()
 		{
-			if (m_CpuInstances.IsEmpty()) return;
-			if (m_Changed)
-			{
-				m_Changed = false;
-				m_DrawBatch.EnsureInstanceCapacity(m_CpuInstances.GetCapacity(), false);
-				m_DrawBatch.UpdateInstances(m_CpuInstances.GetData(), m_CpuInstances.GetSize());
-				m_DrawBatch.SetInstanceCount(m_CpuInstances.GetSize());
-			}
-			m_DrawBatch.Draw(m_CpuInstances.GetSize());
+			Draw(m_CpuInstances.GetSize());
 		}
 
 		template <typename Vertex, typename Instance>
@@ -93,8 +85,9 @@ namespace MyEngine
 			if (m_Changed)
 			{
 				m_Changed = false;
-				m_DrawBatch.EnsureInstanceCapacity(count, false);
-				m_DrawBatch.UpdateInstances(m_CpuInstances.GetData(), count);
+				m_DrawBatch.EnsureInstanceCapacity(m_CpuInstances.GetCapacity(), false);
+				m_DrawBatch.UpdateInstances(m_CpuInstances.GetData(), m_CpuInstances.GetSize());
+				m_DrawBatch.SetInstanceCount(m_CpuInstances.GetSize());
 			}
 			m_DrawBatch.Draw(count);
 		}
