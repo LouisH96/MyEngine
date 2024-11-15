@@ -46,20 +46,20 @@ SamplerState::~SamplerState()
 	m_pSamplerState->Release();
 }
 
-void SamplerState::ActivateVs() const
+void SamplerState::ActivateVs(unsigned slot) const
 {
-	Globals::pGpu->GetContext().VSSetSamplers(0, 1, &m_pSamplerState);
+	Globals::pGpu->GetContext().VSSetSamplers(slot, 1, &m_pSamplerState);
 }
 
-void SamplerState::ActivatePs() const
+void SamplerState::ActivatePs(unsigned slot) const
 {
-	Globals::pGpu->GetContext().PSSetSamplers(0, 1, &m_pSamplerState);
+	Globals::pGpu->GetContext().PSSetSamplers(slot, 1, &m_pSamplerState);
 }
 
-void SamplerState::Activate() const
+void SamplerState::Activate(unsigned slot) const
 {
-	Globals::pGpu->GetContext().PSSetSamplers(0, 1, &m_pSamplerState);
-	Globals::pGpu->GetContext().VSSetSamplers(0, 1, &m_pSamplerState);
+	Globals::pGpu->GetContext().PSSetSamplers(slot, 1, &m_pSamplerState);
+	Globals::pGpu->GetContext().VSSetSamplers(slot, 1, &m_pSamplerState);
 }
 
 constexpr D3D11_TEXTURE_ADDRESS_MODE SamplerState::ToDx(BorderMode mode)

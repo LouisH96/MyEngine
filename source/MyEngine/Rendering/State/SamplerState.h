@@ -45,9 +45,9 @@ public:
 	SamplerState& operator=(const SamplerState& other) = delete;
 	SamplerState& operator=(SamplerState&& other) noexcept = delete;
 
-	void ActivateVs() const;
-	void ActivatePs() const;
-	void Activate() const;
+	void ActivateVs(unsigned slot = 0) const;
+	void ActivatePs(unsigned slot = 0) const;
+	void Activate(unsigned slot = 0) const;
 
 private:
 	using Desc = D3D11_SAMPLER_DESC;
