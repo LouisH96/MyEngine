@@ -80,6 +80,7 @@ namespace MyEngine
 			std::string GetString();
 			bool Good();
 			bool IsOpen();
+			bool Eof();
 
 		private:
 			std::ifstream m_Stream;

@@ -511,3 +511,8 @@ bool AsciiReader::IsOpen()
 {
 	return m_Stream.is_open();
 }
+
+bool AsciiReader::Eof()
+{
+	return m_Stream.eof();
+}
