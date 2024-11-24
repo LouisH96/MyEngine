@@ -17,7 +17,7 @@ FbxFile AsciiFbxReader::Read(std::ifstream&& stream)
 	//read
 	AsciiReader reader{ std::move(stream) };
 
-	while (!stream.eof())
+	while (!reader.Eof())
 	{
 		SkipUseless(reader);
 		ReadElement(reader, file.GetRoot().CreateChild());
@@ -33,7 +33,7 @@ void AsciiFbxReader::SkipUseless(AsciiReader& reader)
 	{
 		if (next == ';')
 			reader.IgnoreLine();
-		else if (next != ' ' && next != '\t' && next != '\n')
+		else if (next != ' ' && next != '\t' && next != '\n' && next != '\r')
 		{
 			reader.Move(-1);
 			return;
@@ -113,7 +113,8 @@ FbxProperty* AsciiFbxReader::ReadNextProperty(AsciiReader& reader)
 			reader.Ignore(1);
 			return new FbxPropString("Y");
 		}
-		Logger::PrintError("[AsciiFbxReader::ReadProperties] unexpected character: " + ToString::Convert(reader.PeekChar()));
+		const char unexpectedChar{ reader.PeekChar() };
+		Logger::PrintError("[AsciiFbxReader::ReadProperties] unexpected character: " + ToString::Convert(unexpectedChar));
 		return nullptr;
 	}
 }
@@ -130,8 +131,8 @@ FbxProperty* AsciiFbxReader::ReadStringProperty(AsciiReader& reader)
 
 FbxProperty* AsciiFbxReader::ReadArrayProperty(AsciiReader& reader)
 {
-	FbxPropArray<double>* pProp{new FbxPropArray<double>()};
-	Array<double>& a{pProp->GetValues()};
+	FbxPropArray<double>* pProp{ new FbxPropArray<double>() };
+	Array<double>& a{ pProp->GetValues() };
 
 	reader.Ignore(1);
 	a.EnsureSize(reader.GetInteger());
