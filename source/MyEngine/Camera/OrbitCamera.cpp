@@ -126,6 +126,6 @@ void OrbitCamera::MouseRotation()
 {
 	constexpr float radiansPerPixel = Constants::PI / 10;
 	const Int2& mouseDelta = Globals::pMouse->GetMovement();
-	m_Yaw += static_cast<float>(mouseDelta.x) * -radiansPerPixel;
-	m_Pitch += static_cast<float>(mouseDelta.y) * radiansPerPixel;
+	m_Yaw += static_cast<float>(mouseDelta.x) * radiansPerPixel;
+	m_Pitch += static_cast<float>(mouseDelta.y) * radiansPerPixel; //because mouse-y axis goes down
 }

@@ -333,6 +333,8 @@
     <ClInclude Include="Applied\NewUi\Elements\Image.h" />
     <ClInclude Include="Applied\NewUi\Renderers\NewUiImageRenderer.h" />
     <ClInclude Include="Rendering\State\Viewport.h" />
+    <ClInclude Include="Animations\Animation.h" />
+    <ClInclude Include="Animations\Animator.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

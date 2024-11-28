@@ -152,6 +152,8 @@
     <ClCompile Include="Rendering\State\Viewport.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Animations\Animation.h" />
+    <ClInclude Include="Animations\Animator.h" />
     <ClInclude Include="Applied\MeshMaker2\Arc\Arc.h" />
     <ClInclude Include="Applied\MeshMaker2\Arc\ArcMaker.h" />
     <ClInclude Include="Applied\MeshMaker2\Arc\ArcResult.h" />
