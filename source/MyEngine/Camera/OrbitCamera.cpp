@@ -93,7 +93,7 @@ void OrbitCamera::MoveRelative(const Float3& movement)
 {
 	const float yawRad = m_Yaw * Constants::TO_RAD;
 	const float yawCos = cosf(yawRad);
-	const float yawSin = sinf(yawRad);
+	const float yawSin = -sinf(yawRad);
 	constexpr float xy = 0;
 	const float xx = yawCos;
 	const float xz = yawSin;
