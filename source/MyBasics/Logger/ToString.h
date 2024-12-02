@@ -6,6 +6,7 @@
 #include "DataStructures/Array.h"
 #include "Math/Vector2.h"
 #include "Math/Vector3.h"
+#include <Transform\Transform.h>
 
 namespace MyEngine
 {
@@ -75,6 +76,28 @@ namespace MyEngine
 	inline std::string ToString::Convert(const char& c)
 	{
 		return { c };
+	}
+
+	template<>
+	inline std::string ToString::Convert(const Quaternion& quaternion)
+	{
+		std::stringstream ss{};
+		ss << "(" << quaternion.Xyz.x
+			<< ", " << quaternion.Xyz.y
+			<< ", " << quaternion.Xyz.z
+			<< ", " << quaternion.W
+			<< ")";
+		return ss.str();
+	}
+
+	template<>
+	inline std::string ToString::Convert(const Transform& transform)
+	{
+		std::stringstream ss{};
+		ss << "(Pos: " << Convert(transform.Position)
+			<< ", Rot:" << Convert(transform.Rotation)
+			<< ")";
+		return ss.str();
 	}
 
 	template<typename T>
