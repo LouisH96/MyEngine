@@ -25,7 +25,7 @@ namespace MyEngine
 		void GetSurroundingValues(const T& value, const T*& before, const T*& after) const;
 		void GetSurroundingIndices(const T& value, int& before, int& after) const;
 
-		int GetSize() const { return m_Array.GetSize(); }
+		unsigned GetSize() const { return m_Array.GetSize(); }
 		const Array<T>& GetArray() const { return m_Array; }
 		const T& operator[](int idx) const;
 
