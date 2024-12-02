@@ -81,11 +81,13 @@ namespace MyEngine
 		const Vector4<T>& operator[](int idx) const;
 		Matrix4X4 operator*(const Matrix4X4& r) const;
 		Matrix4X4& operator*=(const Matrix4X4& r);
+		bool operator==(const Matrix4X4& other) const;
+		bool operator!=(const Matrix4X4& other) const;
 
 		Matrix4X4 GetTranspose() const;
 
 	private:
-		Vector4<T> m_Cols[4];
+		Vector4<T> m_Cols[NR_COLS];
 	};
 
 	template <typename T>
@@ -414,6 +416,21 @@ namespace MyEngine
 		m_Cols[0].w = rows[3].Dot(r.GetCol0()); m_Cols[1].w = rows[3].Dot(r.GetCol1());
 		m_Cols[2].w = rows[3].Dot(r.GetCol2()); m_Cols[3].w = rows[3].Dot(r.GetCol3());
 		return *this;
+	}
+
+	template<typename T>
+	inline bool Matrix4X4<T>::operator==(const Matrix4X4& other) const
+	{
+		for (unsigned i{ 0 }; i < NR_COLS; ++i)
+			if (m_Cols[i] != other.m_Cols[i])
+				return false;
+		return true;
+	}
+
+	template<typename T>
+	inline bool Matrix4X4<T>::operator!=(const Matrix4X4& other) const
+	{
+		return !(*this == other);
 	}
 
 	template <typename T>
