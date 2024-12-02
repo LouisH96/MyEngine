@@ -24,6 +24,8 @@ namespace MyEngine
 		Vector4& operator=(Vector4&& other) noexcept = default;
 
 		//---| Operations |---
+		bool operator==(const Vector4& other) const;
+		bool operator!=(const Vector4& other)const;
 		Vector4 operator+(const Vector4& r) const;
 		Vector4 operator-(const Vector4& r) const;
 		Vector4 operator+(const T& r) const;
@@ -67,6 +69,19 @@ namespace MyEngine
 	template <typename T>template <typename D>
 	Vector4<T>::Vector4(const Vector4<D>& other)
 		: x{ static_cast<T>(other.x) }, y{ static_cast<T>(other.y) }, z{ static_cast<T>(other.z) }, w{ static_cast<T>(other.w) } {}
+
+	template<typename T>
+	bool Vector4<T>::operator==(const Vector4<T>& other) const
+	{
+		return x == other.x && y == other.y
+			&& z == other.z && w == other.w;
+	}
+
+	template<typename T>
+	bool Vector4<T>::operator!=(const Vector4<T>& other) const
+	{
+		return !(*this == other);
+	}
 
 	template <typename T> Vector4<T> Vector4<T>::operator+(const Vector4& r) const { return { x + r.x, y + r.y, z + r.z, w + r.w }; }
 	template <typename T> Vector4<T> Vector4<T>::operator-(const Vector4& r) const { return { x - r.x, y - r.y, z - r.z, w - r.w }; }
