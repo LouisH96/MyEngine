@@ -28,8 +28,13 @@ namespace MyEngine
 				Transform AtTime(const uint64_t& time) const;
 				bool IsInLayer(const FbxAnimationLayer& layer) const;
 
+				const FbxValueCurve<float>* GetCurves(unsigned iProperty) const;
+				const FbxValueCurve<float>* GetTranslationCurves() const { return m_TranslationCurves; }
+				const FbxValueCurve<float>* GetRotationCurves() const { return m_RotationCurves; }
+				const FbxValueCurve<float>* GetScaleCurves() const { return m_ScaleCurves; }
+
 			private:
-				const FbxAnimationLayer* m_pLayer;
+				const FbxAnimationLayer* m_pLayer{};
 				FbxValueCurve<float> m_TranslationCurves[3];
 				FbxValueCurve<float> m_RotationCurves[3];
 				FbxValueCurve<float> m_ScaleCurves[3];

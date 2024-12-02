@@ -24,8 +24,12 @@ namespace MyEngine
 
 				void Print() const;
 
+				unsigned GetNrValues() const { return m_Times.GetSize(); }
+				const SortedArray<uint64_t> GetTimes() const { return m_Times; }
+				const Array<T>& GetValues() const { return m_Values; }
+
 			private:
-				T m_DefaultValue;
+				T m_DefaultValue{};
 				SortedArray<uint64_t> m_Times;
 				Array<T> m_Values;
 			};
@@ -80,6 +84,7 @@ namespace MyEngine
 			template <typename T>
 			void FbxValueCurve<T>::Print() const
 			{
+				std::cout << "NrEntries: " << m_Times.GetSize() << std::endl;
 				for (unsigned i = 0; i < m_Times.GetSize(); i++)
 					std::cout << Convert::ToString(m_Times[i]) << ": " << Convert::ToString(m_Values[i]) << std::endl;
 			}

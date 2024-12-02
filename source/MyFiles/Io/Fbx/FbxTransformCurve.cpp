@@ -49,6 +49,17 @@ bool FbxTransformCurve::IsInLayer(const FbxAnimationLayer& layer) const
 	return &layer == m_pLayer;
 }
 
+const FbxValueCurve<float>* FbxTransformCurve::GetCurves(unsigned iProperty) const
+{
+	switch (iProperty)
+	{
+	default:
+	case 0: return m_TranslationCurves;
+	case 1: return m_RotationCurves;
+	case 2: return m_ScaleCurves;
+	}
+}
+
 void FbxTransformCurve::FromAnimationCurveNode(const AnimationCurveNode& node, FbxValueCurve<float>* pValueCurves)
 {
 	if (node.GetAnimationCurves().GetSize() == 0)
