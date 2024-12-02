@@ -24,7 +24,7 @@ namespace MyEngine
 			public:
 				//---| Constructor/Destructor |---
 				FbxJoint() = default;
-				FbxJoint(const Wrapping::Model& model, const FbxLoadData& loadData);
+				FbxJoint(const Wrapping::Model& model, const FbxLoadData& loadData, unsigned id);
 
 				//---| Move/Copy |---
 				FbxJoint(const FbxJoint& other) = delete;
@@ -51,6 +51,7 @@ namespace MyEngine
 
 				void PrintLocalData() const;
 				const std::string& GetName() const { return m_Name; }
+				unsigned GetId() const { return m_Id; }
 
 				const Float3& GetPreRotationEulers() const { return m_PreRotationEulers; }
 				const Float3& GetPostRotationEulers() const { return m_PostRotationEulers; }
@@ -63,6 +64,7 @@ namespace MyEngine
 
 			private:
 				std::string m_Name;
+				unsigned m_Id;
 				Transform m_LocalTransform;
 				Transform m_PreRotationTransform;
 				Transform m_PostRotationTransform;

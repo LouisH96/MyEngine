@@ -51,7 +51,8 @@ void FbxSkeleton::PrintLocalJointData() const
 
 void FbxSkeleton::CreateJoints(const Wrapping::Model& model, FbxLoadData& loadData)
 {
-	m_Joints.Add(FbxJoint{ model, loadData });
+	const unsigned id{ m_Joints.GetSize() };
+	m_Joints.Add(FbxJoint{ model, loadData, id });
 	loadData.ModelToJoint.Add(model.GetId(), m_Joints.GetSize() - 1);
 
 	for (unsigned i = 0; i < model.GetChildModels().GetSize(); i++)

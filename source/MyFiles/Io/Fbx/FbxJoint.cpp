@@ -11,9 +11,11 @@ using namespace Io::Fbx;
 
 FbxJoint::FbxJoint(
 	const Wrapping::Model& model,
-	const FbxLoadData& loadData)
+	const FbxLoadData& loadData,
+	unsigned id)
 	: m_Name{ model.GetName() }
 	, m_Curves{ loadData.pFbxClass->GetNrOfAnimationLayers() }
+	, m_Id{ id }
 {
 	//ANIMATION
 	for (unsigned iAnimation = 0, iCurve = 0; iAnimation < loadData.pFbxClass->GetAnimations().GetSize(); iAnimation++)
@@ -63,6 +65,7 @@ FbxJoint::FbxJoint(
 
 FbxJoint::FbxJoint(FbxJoint&& other) noexcept
 	: m_Name{ std::move(other.m_Name) }
+	, m_Id{ other.m_Id }
 	, m_LocalTransform(other.m_LocalTransform)
 	, m_PreRotationTransform{ other.m_PreRotationTransform }
 	, m_PostRotationTransform{ other.m_PostRotationTransform }
@@ -84,6 +87,7 @@ FbxJoint::FbxJoint(FbxJoint&& other) noexcept
 FbxJoint& FbxJoint::operator=(FbxJoint&& other) noexcept
 {
 	m_Name = std::move(other.m_Name);
+	m_Id = other.m_Id;
 	m_LocalTransform = other.m_LocalTransform;
 	m_BindTransform = other.m_BindTransform;
 	m_Children = std::move(other.m_Children);
