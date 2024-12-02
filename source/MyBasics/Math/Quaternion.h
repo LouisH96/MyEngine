@@ -49,5 +49,7 @@ namespace MyEngine
 		//---| Data |---
 		Float3 Xyz;
 		float W;
+
+		Float4 AsVector() const { return { Xyz.x, Xyz.y, Xyz.z, W }; }
 	};
 }
