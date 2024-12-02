@@ -46,6 +46,7 @@
     <ClInclude Include="DataStructures\Pointers\SharedPtr.h" />
     <ClInclude Include="DataStructures\StackArray.h" />
     <ClInclude Include="Transform\ViewMatrix.h" />
+    <ClInclude Include="Math\Math.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Math\Quaternion.cpp" />
