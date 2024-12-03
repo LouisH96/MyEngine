@@ -127,6 +127,9 @@
     <ClCompile Include="Applied\NewUi\Elements\Image.cpp" />
     <ClCompile Include="Applied\NewUi\Renderers\NewUiImageRenderer.cpp" />
     <ClCompile Include="Rendering\State\Viewport.cpp" />
+    <ClCompile Include="Animations\Animation.cpp" />
+    <ClCompile Include="Animations\JointsTimeValues.cpp" />
+    <ClCompile Include="Animations\JointsChildren.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -335,6 +338,8 @@
     <ClInclude Include="Rendering\State\Viewport.h" />
     <ClInclude Include="Animations\Animation.h" />
     <ClInclude Include="Animations\Animator.h" />
+    <ClInclude Include="Animations\JointsTimeValues.h" />
+    <ClInclude Include="Animations\JointsChildren.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
