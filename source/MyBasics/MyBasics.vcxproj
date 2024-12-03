@@ -157,6 +157,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Timing\AvgCounter.h" />
     <ClInclude Include="DataStructures\Adders\ArrayAdder.h" />
     <ClInclude Include="DataStructures\Adders\IncrementRefAdder.h" />
     <ClInclude Include="DataStructures\Adders\ListAdder.h" />
@@ -205,6 +206,7 @@
     <ClInclude Include="Transform\ViewMatrix.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Timing\AvgCounter.cpp" />
     <ClCompile Include="FileUtils\Drive.cpp" />
     <ClCompile Include="FileUtils\FileUtils.cpp" />
     <ClCompile Include="Math\Vectors.cpp" />

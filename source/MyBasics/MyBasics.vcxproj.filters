@@ -47,6 +47,7 @@
     <ClInclude Include="DataStructures\StackArray.h" />
     <ClInclude Include="Transform\ViewMatrix.h" />
     <ClInclude Include="Math\Math.h" />
+    <ClInclude Include="Timing\AvgCounter.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Math\Quaternion.cpp" />
@@ -63,5 +64,6 @@
     <ClCompile Include="FileUtils\FileUtils.cpp" />
     <ClCompile Include="Math\Vectors.cpp" />
     <ClCompile Include="Transform\ViewMatrix.cpp" />
+    <ClCompile Include="Timing\AvgCounter.cpp" />
   </ItemGroup>
 </Project>
