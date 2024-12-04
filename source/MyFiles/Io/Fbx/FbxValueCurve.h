@@ -25,7 +25,7 @@ namespace MyEngine
 				void Print() const;
 
 				unsigned GetNrValues() const { return m_Times.GetSize(); }
-				const SortedArray<uint64_t> GetTimes() const { return m_Times; }
+				const SortedArray<uint64_t>& GetTimes() const { return m_Times; }
 				const Array<T>& GetValues() const { return m_Values; }
 
 			private:
