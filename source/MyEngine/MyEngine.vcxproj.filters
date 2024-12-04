@@ -130,6 +130,7 @@
     <ClCompile Include="Animations\Animation.cpp" />
     <ClCompile Include="Animations\JointsTimeValues.cpp" />
     <ClCompile Include="Animations\JointsChildren.cpp" />
+    <ClCompile Include="Animations\SkeletonData.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -340,6 +341,7 @@
     <ClInclude Include="Animations\Animator.h" />
     <ClInclude Include="Animations\JointsTimeValues.h" />
     <ClInclude Include="Animations\JointsChildren.h" />
+    <ClInclude Include="Animations\SkeletonData.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

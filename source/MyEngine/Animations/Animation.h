@@ -1,6 +1,7 @@
 #pragma once
 #include "JointsTimeValues.h"
 #include "JointsChildren.h"
+#include "SkeletonData.h"
 
 namespace MyEngine
 {
@@ -24,10 +25,7 @@ public:
 
 private:
 	JointsTimeValues m_TimeValues;
-	JointsChildren m_ChildrenLookup;
-	Array<Quaternion> m_PreAndPostRotations;
-	Array<Float4X4> m_BindTransforms;
-	Array<unsigned> m_RootJoints;
+	SkeletonData m_Skeleton;
 
 	ModelBuffer m_ModelBuffer;
 

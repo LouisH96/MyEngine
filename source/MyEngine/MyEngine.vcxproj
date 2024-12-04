@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations\Animation.cpp" />
+    <ClCompile Include="Animations\SkeletonData.cpp" />
     <ClCompile Include="Applied\MeshMaker\Shapes\Arc.cpp" />
     <ClCompile Include="Applied\MeshMaker\Shapes\FlatStripLoop.cpp" />
     <ClCompile Include="Applied\MeshMaker\Shapes\HoleArray.cpp" />
@@ -157,6 +158,7 @@
   <ItemGroup>
     <ClInclude Include="Animations\Animation.h" />
     <ClInclude Include="Animations\Animator.h" />
+    <ClInclude Include="Animations\SkeletonData.h" />
     <ClInclude Include="Applied\MeshMaker2\Arc\Arc.h" />
     <ClInclude Include="Applied\MeshMaker2\Arc\ArcMaker.h" />
     <ClInclude Include="Applied\MeshMaker2\Arc\ArcResult.h" />
