@@ -190,9 +190,10 @@ float Quaternion::Dot(const Quaternion& a, const Quaternion& b)
 Quaternion Quaternion::Slerp(const Quaternion& a, const Quaternion& b, float t)
 {
 	//https://stackoverflow.com/questions/62943083/interpolate-between-two-quaternions-the-long-way
-	const float angle{ acosf(Dot(a,b)) };
-	if (angle == 0)
+	const float dot{ Dot(a,b) };
+	if (dot >= 1.f)
 		return a;
+	const float angle{ acosf(dot) };
 	const float denom{ 1.f / sinf(angle) };
 	return (a * sinf((1.f - t) * angle) + b * sinf(t * angle)) * denom;
 }
