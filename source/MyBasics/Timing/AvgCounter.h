@@ -14,6 +14,8 @@ public:
 	void Begin();
 	void End();
 
+	bool IsInFirstHalf() const { return m_Count < (m_Interval / 2); }
+
 private:
 	std::string m_Name;
 	App::Time::TimePoint m_Prev{};
