@@ -20,6 +20,7 @@ namespace MyEngine
 				explicit FbxValueCurve(const Wrapping::AnimationCurve& curve);
 
 				T ValueAtTime(const uint64_t& time) const;
+				void GetValues(const uint64_t& time, float& t, T& before, T& after) const;
 				void ScaleValues(float scale);
 
 				void Print() const;
@@ -71,6 +72,25 @@ namespace MyEngine
 
 				const float alpha{ Float::Unlerp(time, m_Times[idxBefore], m_Times[idxAfter]) };
 				return Float::Lerp(alpha, m_Values[idxBefore], m_Values[idxAfter]);
+			}
+
+			template<typename T>
+			inline void FbxValueCurve<T>::GetValues(const uint64_t& time, float& t, T& before, T& after) const
+			{
+				if (m_Times.GetSize() == 0) return m_DefaultValue;
+
+				int idxBefore, idxAfter;
+				m_Times.GetSurroundingIndices(time, idxBefore, idxAfter);
+
+				if (idxBefore == -1)
+					idxBefore = 0;
+				if (idxAfter == -1)
+					idxAfter = m_Values.GetSize() - 1;
+
+				before = m_Values[idxBefore];
+				after = m_Values[idxAfter];
+
+				t = Float::Unlerp(time, m_Times[idxBefore], m_Times[idxAfter]);
 			}
 
 			template <typename T>
