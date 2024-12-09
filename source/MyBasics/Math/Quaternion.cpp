@@ -122,7 +122,7 @@ Quaternion Quaternion::FromEulerDegrees(const Float3& eulers)
 		sr * cp * cy - cr * sp * sy,
 		cr * sp * cy + sr * cp * sy,
 		cr * cp * sy - sr * sp * cy},
-		cr* cp* cy + sr * sp * sy };
+		cr * cp * cy + sr * sp * sy };
 }
 
 Quaternion Quaternion::operator*(const Quaternion& other) const
@@ -135,6 +135,17 @@ void Quaternion::operator*=(const Quaternion& other)
 {
 	Xyz = Xyz.Cross(other.Xyz) + other.Xyz * W + Xyz * other.W;
 	W = W * other.W - Xyz.Dot(other.Xyz);
+}
+
+Quaternion Quaternion::operator*(float scale) const
+{
+	return Quaternion{ Xyz * scale, W * scale };
+}
+
+void Quaternion::operator*=(float scale)
+{
+	Xyz *= scale;
+	W *= scale;
 }
 
 Quaternion Quaternion::operator-() const
@@ -168,6 +179,24 @@ Float3 Quaternion::GetRotatedPoint(const Float3& point) const
 	return (*this * Quaternion{ point, 0 } *-*this).Xyz;
 }
 
+float Quaternion::Dot(const Quaternion& a, const Quaternion& b)
+{
+	return a.Xyz.x * b.Xyz.x
+		+ a.Xyz.y * b.Xyz.y
+		+ a.Xyz.z * b.Xyz.z
+		+ a.W * b.W;
+}
+
+Quaternion Quaternion::Slerp(const Quaternion& a, const Quaternion& b, float t)
+{
+	//https://stackoverflow.com/questions/62943083/interpolate-between-two-quaternions-the-long-way
+	const float angle{ acosf(Dot(a,b)) };
+	if (angle == 0)
+		return a;
+	const float denom{ 1.f / sinf(angle) };
+	return (a * sinf((1.f - t) * angle) + b * sinf(t * angle)) * denom;
+}
+
 Quaternion Quaternion::Normalized() const
 {
 	const float invLength{ 1.f / GetLength() };
@@ -179,6 +208,17 @@ void Quaternion::Normalize()
 	const float invLength{ 1.f / GetLength() };
 	Xyz *= invLength;
 	W *= invLength;
+}
+
+Quaternion Quaternion::operator+(const Quaternion& other) const
+{
+	return { Xyz + other.Xyz, W + other.W };
+}
+
+void Quaternion::operator+=(const Quaternion& other)
+{
+	Xyz += other.Xyz;
+	W += other.W;
 }
 
 Float3 Quaternion::GetForward() const

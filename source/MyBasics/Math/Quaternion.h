@@ -29,12 +29,20 @@ namespace MyEngine
 		void RotateBy(const Float3& axis, float radians);
 		void RotatePoint(Float3& point) const;
 		Float3 GetRotatedPoint(const Float3& point) const;
+		static float Dot(const Quaternion& a, const Quaternion& b);
+		static Quaternion Slerp(const Quaternion& a, const Quaternion& b, float t);
 
 		Quaternion Normalized() const;
 		void Normalize();
 
+		Quaternion operator+(const Quaternion& other) const;
+		void operator+=(const Quaternion& other);
+
 		Quaternion operator*(const Quaternion& other) const;
 		void operator*=(const Quaternion& other);
+
+		Quaternion operator*(float scale) const;
+		void operator*=(float scale);
 
 		Quaternion operator-() const;
 		void Inverse();
