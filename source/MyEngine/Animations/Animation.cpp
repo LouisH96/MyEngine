@@ -28,14 +28,14 @@ void Animation::UpdateModelBuffer(float time)
 void Animation::UpdateTransforms(float time, unsigned iJoint, const Transform& parent)
 {
 	const Float3 position{ m_TimeValues.GetPosition(iJoint, time) };
-	const Float3 rotation{ m_TimeValues.GetEulerDegrees(iJoint, time) };
+	const Quaternion rotation{ m_TimeValues.GetQuaternion(iJoint, time) };
 
 	const SkeletonData::JointData& jointData{ m_Skeleton.GetJointData(iJoint) };
 
 	Transform world{ parent };
 	world = Transform::LocalToWorld({ position, {} }, world);
 	world = Transform::LocalToWorld({ {}, jointData.PreRotation }, world);
-	world = Transform::LocalToWorld({ {}, Quaternion::FromEulerDegrees(rotation) }, world);
+	world = Transform::LocalToWorld({ {}, rotation }, world);
 	world = Transform::LocalToWorld({ {}, jointData.PostRotation }, world);
 
 	m_ModelBuffer.BoneTransforms[iJoint] =
