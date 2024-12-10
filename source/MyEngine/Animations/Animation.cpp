@@ -32,11 +32,7 @@ void Animation::UpdateTransforms(float time, unsigned iJoint, const Transform& p
 
 	const SkeletonData::JointData& jointData{ m_Skeleton.GetJointData(iJoint) };
 
-	Transform world{ parent };
-	world = Transform::LocalToWorld({ position, {} }, world);
-	world = Transform::LocalToWorld({ {}, jointData.PreRotation }, world);
-	world = Transform::LocalToWorld({ {}, rotation }, world);
-	world = Transform::LocalToWorld({ {}, jointData.PostRotation }, world);
+	const Transform world{ Transform::LocalToWorld({position, rotation}, {parent}) };
 
 	m_ModelBuffer.BoneTransforms[iJoint] =
 		jointData.BindTransform * world.AsMatrix();

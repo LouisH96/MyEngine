@@ -68,8 +68,6 @@ void SkeletonData::FillMemory(const FbxSkeleton& skeleton)
 	{
 		const FbxJoint& joint{ joints[iJoint] };
 		JointData& jointData{ m_JointData[iJoint] };
-		jointData.PreRotation = joint.GetPreRotationZYX().Rotation;
-		jointData.PostRotation = joint.GetPostRotationXYZ().Rotation;
 		jointData.BindTransform = joint.GetBindTransform();
 	}
 }

@@ -18,8 +18,6 @@ class SkeletonData
 {
 public:
 	struct JointData {
-		Quaternion PreRotation;
-		Quaternion PostRotation;
 		Float4X4 BindTransform;
 	};
 
@@ -35,7 +33,7 @@ private:
 	//Then Lookup-table for each joints towards the beginning of their children (in this array)
 	//Then list of children (that gets referenced by the lookup-table)
 	Array<unsigned> m_BoneRelations;
-	unsigned* m_pLookup;
+	unsigned* m_pLookup{};
 
 	Array<JointData> m_JointData;
 

@@ -79,7 +79,8 @@ private:
 		SortedList<uint64_t>& times, uint64_t startTime, uint64_t stopEnd, float normalizeTime);
 
 	static void AddRotationPropertyList(float*& pData,
-		const Io::Fbx::FbxTransformCurve* pTransformCurve,
+		const Io::Fbx::FbxTransformCurve* pTransformCurve, 
+		const Quaternion& preRotation, const Quaternion& postRotation,
 		SortedList<uint64_t>& times, uint64_t startTime, uint64_t stopEnd, float normalizeTime);
 
 	template<unsigned TPropertySize>

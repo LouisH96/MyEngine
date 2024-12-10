@@ -102,7 +102,8 @@ void JointsTimeValues::FillData(const List<FbxJoint>& joints, const FbxAnimation
 		AddDefaultPropertyList(0, pData, pCurves,
 			times, startTime, endTime, normalizeTime);
 
-		AddRotationPropertyList(pData, pCurves,
+		AddRotationPropertyList(pData, pCurves, 
+			joint.GetPreRotationZYX().Rotation, joint.GetPostRotationXYZ().Rotation,
 			times, startTime, endTime, normalizeTime);
 
 		AddDefaultPropertyList(2, pData, pCurves,
@@ -225,6 +226,7 @@ void JointsTimeValues::AddDefaultPropertyList(
 void JointsTimeValues::AddRotationPropertyList(
 	float*& pData,
 	const FbxTransformCurve* pTransformCurve,
+	const Quaternion& preRotation, const Quaternion& postRotation,
 	SortedList<uint64_t>& times, uint64_t startTime, uint64_t stopTime, float normalizeTime)
 {
 	const FbxValueCurve<float>* pCurves{ pTransformCurve->GetRotationCurves() };
@@ -244,7 +246,7 @@ void JointsTimeValues::AddRotationPropertyList(
 			pCurves[2].ValueAtTime(time)
 		};
 		const Quaternion quaternion{
-			Quaternion::FromEulerDegrees(eulers) };
+			preRotation * Quaternion::FromEulerDegrees(eulers) * postRotation };
 
 		Write(pData, quaternion);
 	}
