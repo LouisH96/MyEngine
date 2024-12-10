@@ -152,3 +152,12 @@ Float4X4 WorldMatrix::GetIdentity()
 {
 	return Float4X4::GetIdentity();
 }
+
+Float4X4 WorldMatrix::FromPosAndQuat(const Float3& pos, const Quaternion& quat)
+{
+	Float4X4 m{ quat.AsMatrix() };
+	m[0][3] = pos.x;
+	m[1][3] = pos.y;
+	m[2][3] = pos.z;
+	return m;
+}

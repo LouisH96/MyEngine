@@ -1,6 +1,7 @@
 #pragma once
 #include "Math/Matrices.h"
 #include "Math/Vectors.h"
+#include "Math/Quaternion.h"
 
 namespace MyEngine
 {
@@ -47,6 +48,8 @@ namespace MyEngine
 
 		template<typename T> static void Inverse(Matrix4X4<T>& matrix);
 		template<typename T> static Matrix4X4<T> GetInversed(const Matrix4X4<T>& matrix);
+
+		static Float4X4 FromPosAndQuat(const Float3& pos, const Quaternion& quat);
 
 		//---| DxMatrix3X3 |---
 		template<typename T> static DxMatrix3X3<T> CreateDx3X3(const Vector2<T>& position);
