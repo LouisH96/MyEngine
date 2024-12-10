@@ -22,20 +22,18 @@ void Animation::UpdateModelBuffer(float time)
 	const unsigned* pRoot{};
 	const unsigned* pRootEnd{ m_Skeleton.GetRootJointsIt(pRoot) };
 	while (pRoot != pRootEnd)
-		UpdateTransforms(time, *pRoot++, Transform{});
+		UpdateTransforms(time, *pRoot++, WorldMatrix::GetIdentity());
 }
 
-void Animation::UpdateTransforms(float time, unsigned iJoint, const Transform& parent)
+void Animation::UpdateTransforms(float time, unsigned iJoint, const Float4X4& parent)
 {
 	const Float3 position{ m_TimeValues.GetPosition(iJoint, time) };
 	const Quaternion rotation{ m_TimeValues.GetQuaternion(iJoint, time) };
+	const Float4X4 world{ WorldMatrix::FromPosAndQuat(position, rotation) * parent};
 
 	const SkeletonData::JointData& jointData{ m_Skeleton.GetJointData(iJoint) };
-
-	const Transform world{ Transform::LocalToWorld({position, rotation}, {parent}) };
-
 	m_ModelBuffer.BoneTransforms[iJoint] =
-		jointData.BindTransform * world.AsMatrix();
+		jointData.BindTransform * world;
 
 	const unsigned* pChild{};
 	const unsigned* pChildEnd{ m_Skeleton.GetChildrenIt(pChild, iJoint) };

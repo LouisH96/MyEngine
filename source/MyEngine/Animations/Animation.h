@@ -29,7 +29,7 @@ private:
 
 	ModelBuffer m_ModelBuffer;
 
-	void UpdateTransforms(float time, unsigned iJoint, const Transform& parent);
+	void UpdateTransforms(float time, unsigned iJoint, const Float4X4& parent);
 };
 }
 }
