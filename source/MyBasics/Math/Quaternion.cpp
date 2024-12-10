@@ -187,15 +187,20 @@ float Quaternion::Dot(const Quaternion& a, const Quaternion& b)
 		+ a.W * b.W;
 }
 
+Quaternion Quaternion::Lerp(const Quaternion& a, const Quaternion& b, float t)
+{
+	return Quaternion{ a * (1.f - t) + b * t }.Normalized();
+}
+
 Quaternion Quaternion::Slerp(const Quaternion& a, const Quaternion& b, float t)
 {
-	//https://stackoverflow.com/questions/62943083/interpolate-between-two-quaternions-the-long-way
+	//https://stackoverflow.com/questions/62943083
 	const float dot{ Dot(a,b) };
 	if (dot >= 1.f)
 		return a;
 	const float angle{ acosf(dot) };
 	const float denom{ 1.f / sinf(angle) };
-	return (a * sinf((1.f - t) * angle) + b * sinf(t * angle)) * denom;
+	return a * (sinf((1.f - t) * angle) * denom) + b * (sinf(t * angle) * denom);
 }
 
 Quaternion Quaternion::Normalized() const
@@ -238,6 +243,39 @@ float Quaternion::GetLength() const
 Float3 Quaternion::GetRotationAxis() const
 {
 	return Xyz / sinf(acosf(W));
+}
+
+Float4X4 Quaternion::AsMatrix() const
+{
+	//https://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToMatrix/index.htm
+	Float4X4 m{};
+
+	//diagonal
+	const float xSq2{ 2 * Xyz.x * Xyz.x };
+	const float ySq2{ 2 * Xyz.y * Xyz.y };
+	const float zSq2{ 2 * Xyz.z * Xyz.z };
+	m[0][0] = 1.f - ySq2 - zSq2;
+	m[1][1] = 1.f - xSq2 - zSq2;
+	m[2][2] = 1.f - xSq2 - ySq2;
+
+	//other
+	const float xy2{ Xyz.x * Xyz.y * 2 };
+	const float zw2{ Xyz.z * W * 2 };
+	m[0][1] = xy2 - zw2;
+	m[1][0] = xy2 + zw2;
+
+	const float xz2{ Xyz.x * Xyz.z * 2 };
+	const float yw2{ Xyz.y * W * 2 };
+	m[0][2] = xz2 + yw2;
+	m[2][0] = xz2 - yw2;
+
+	const float yz2{ Xyz.y * Xyz.z * 2 };
+	const float xw2{ Xyz.x * W * 2 };
+	m[1][2] = yz2 - xw2;
+	m[2][1] = yz2 + xw2;
+
+	m[3][3] = 1.f;
+	return m;
 }
 
 Float3 Quaternion::GetUp() const

@@ -30,6 +30,7 @@ namespace MyEngine
 		void RotatePoint(Float3& point) const;
 		Float3 GetRotatedPoint(const Float3& point) const;
 		static float Dot(const Quaternion& a, const Quaternion& b);
+		static Quaternion Lerp(const Quaternion& a, const Quaternion& b, float t);
 		static Quaternion Slerp(const Quaternion& a, const Quaternion& b, float t);
 
 		Quaternion Normalized() const;
@@ -53,6 +54,7 @@ namespace MyEngine
 		Float3 GetForward() const;
 		float GetLength() const;
 		Float3 GetRotationAxis() const;
+		Float4X4 AsMatrix() const;
 
 		//---| Data |---
 		Float3 Xyz;
