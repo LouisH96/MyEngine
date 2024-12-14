@@ -2,6 +2,7 @@
 #include "JointsTimeValues.h"
 #include "JointsChildren.h"
 #include "SkeletonData.h"
+#include "CachedData.h"
 
 namespace MyEngine
 {
@@ -26,6 +27,7 @@ public:
 private:
 	JointsTimeValues m_TimeValues;
 	SkeletonData m_Skeleton;
+	CachedData m_Cache;
 
 	ModelBuffer m_ModelBuffer;
 

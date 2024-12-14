@@ -15,6 +15,7 @@ Animation::Animation(const FbxClass& fbx, const FbxAnimation& animation)
 
 	m_TimeValues = { joints, animation, layer };
 	m_Skeleton = { fbx.GetSkeleton() };
+	m_Cache = { m_TimeValues };
 }
 
 void Animation::UpdateModelBuffer(float time)
@@ -27,9 +28,11 @@ void Animation::UpdateModelBuffer(float time)
 
 void Animation::UpdateTransforms(float time, unsigned iJoint, const Float4X4& parent)
 {
-	const Float3 position{ m_TimeValues.GetPosition(iJoint, time) };
-	const Quaternion rotation{ m_TimeValues.GetQuaternion(iJoint, time) };
-	const Float4X4 world{ WorldMatrix::FromPosAndQuat(position, rotation) * parent};
+	const JointCacheData& cache{ m_Cache.Get(m_TimeValues, iJoint, time) };
+
+	const Float3 position{ cache.GetPosition(time)};
+	const Quaternion rotation{ cache.GetRotation(time)};
+	const Float4X4 world{ WorldMatrix::FromPosAndQuat(position, rotation) * parent };
 
 	const SkeletonData::JointData& jointData{ m_Skeleton.GetJointData(iJoint) };
 	m_ModelBuffer.BoneTransforms[iJoint] =

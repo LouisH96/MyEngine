@@ -42,6 +42,7 @@
     <ClCompile Include="Applied\NewUi\Elements\ListPanel.cpp" />
     <ClCompile Include="Applied\NewUi\Elements\Image.cpp" />
     <ClCompile Include="Applied\NewUi\Renderers\NewUiImageRenderer.cpp" />
+    <ClCompile Include="Animations\CachedData.cpp" />
     <ClCompile Include="Animations\JointsTimeValues.cpp" />
     <ClCompile Include="Animations\JointsChildren.cpp" />
     <ClCompile Include="Rendering\State\DepthStencilBuffer.cpp" />
@@ -210,6 +211,7 @@
     <ClInclude Include="Applied\NewUi\Renderers\NewUiShapeRenderer.h" />
     <ClInclude Include="Applied\NewUi\Elements\Image.h" />
     <ClInclude Include="Applied\NewUi\Renderers\NewUiImageRenderer.h" />
+    <ClInclude Include="Animations\CachedData.h" />
     <ClInclude Include="Animations\JointsTimeValues.h" />
     <ClInclude Include="Animations\JointsChildren.h" />
     <ClInclude Include="Rendering\State\DepthStencilBuffer.h" />

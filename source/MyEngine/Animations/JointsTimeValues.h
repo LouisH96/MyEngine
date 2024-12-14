@@ -5,6 +5,38 @@ namespace MyEngine
 {
 namespace Animations
 {
+struct JointCacheData {
+
+	struct Float3Data {
+		Float3 Begin;
+		Float3 Delta;
+	};
+	struct QuaternionData {
+		Quaternion Begin;
+		Quaternion End;
+		float Angle{};
+		float Denom{};
+		float InvDuration{};
+	};
+
+	template<typename T>
+	struct Property {
+		float BeginTime{};
+		float EndTime{};
+		unsigned ValueIndex{};
+
+		T Data;
+	};
+
+	Property<Float3Data> Position;
+	Property<QuaternionData> Rotation;
+	Property<Float3Data> Scale;
+
+	Float3 GetPosition(float time) const;
+	Quaternion GetRotation(float time) const;
+	Float3 GetScale(float time) const;
+};
+
 class JointsTimeValues
 {
 public:
@@ -14,9 +46,16 @@ public:
 		const Io::Fbx::FbxAnimation& animation,
 		const Io::Fbx::FbxAnimationLayer& animLayer);
 
+	unsigned GetNrJoints() const { return (m_Lookup.GetSize() - 1) / NR_PROPERTIES; }
+
 	Float3 GetPosition(unsigned iJoint, float time) const;
 	Quaternion GetQuaternion(unsigned iJoint, float time) const;
 	Float3 GetScale(unsigned iJoint, float time) const;
+
+	void CacheData(JointCacheData& joint, unsigned iJoint, float time) const;
+	void CachePosition(JointCacheData& joint, unsigned iJoint, float time) const;
+	void CacheRotation(JointCacheData& joint, unsigned iJoint, float time) const;
+	void CacheScale(JointCacheData& joint, unsigned iJoint, float time) const;
 
 private:
 	static constexpr unsigned ORDER_PROPERTY_POSITION{ 0 };
@@ -62,6 +101,11 @@ private:
 	Float3 FindFloat3(unsigned iFirst, unsigned iEnd, float time) const;
 	Quaternion FindRotation(unsigned iFirst, unsigned iEnd, float time) const;
 
+	void CacheBasicProperty(
+		JointCacheData::Property<JointCacheData::Float3Data>& property, unsigned iLookup, float time) const;
+	void CacheRotation(
+		JointCacheData::Property<JointCacheData::QuaternionData>& property, unsigned iLookup, float time) const;
+
 	//input is pointer to 3 curves
 	static void AddTimes(SortedList<uint64_t>& times, const Io::Fbx::FbxValueCurve<float>* pCurves, uint64_t startTime, uint64_t endTime);
 	static const unsigned GetLookupSize(const List<Io::Fbx::FbxJoint>& joints);
@@ -79,7 +123,7 @@ private:
 		SortedList<uint64_t>& times, uint64_t startTime, uint64_t stopEnd, float normalizeTime);
 
 	static void AddRotationPropertyList(float*& pData,
-		const Io::Fbx::FbxTransformCurve* pTransformCurve, 
+		const Io::Fbx::FbxTransformCurve* pTransformCurve,
 		const Quaternion& preRotation, const Quaternion& postRotation,
 		SortedList<uint64_t>& times, uint64_t startTime, uint64_t stopEnd, float normalizeTime);
 
