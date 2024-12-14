@@ -196,7 +196,7 @@ Quaternion Quaternion::Slerp(const Quaternion& a, const Quaternion& b, float t)
 {
 	//https://stackoverflow.com/questions/62943083
 	const float dot{ Dot(a,b) };
-	if (dot >= 1.f)
+	if (abs(dot) >= 1)
 		return a;
 	const float angle{ acosf(dot) };
 	const float denom{ 1.f / sinf(angle) };
