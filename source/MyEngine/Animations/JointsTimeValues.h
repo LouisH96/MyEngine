@@ -1,5 +1,6 @@
 #pragma once
 #include <Io\Fbx\FbxClass.h>
+#include <Math\Constants.h>
 
 namespace MyEngine
 {
@@ -23,7 +24,7 @@ struct JointCacheData {
 	struct Property {
 		float BeginTime{};
 		float EndTime{};
-		unsigned ValueIndex{};
+		unsigned IEndValue{};
 
 		T Data;
 	};
@@ -52,10 +53,14 @@ public:
 	Quaternion GetQuaternion(unsigned iJoint, float time) const;
 	Float3 GetScale(unsigned iJoint, float time) const;
 
-	void CacheData(JointCacheData& joint, unsigned iJoint, float time) const;
-	void CachePosition(JointCacheData& joint, unsigned iJoint, float time) const;
-	void CacheRotation(JointCacheData& joint, unsigned iJoint, float time) const;
-	void CacheScale(JointCacheData& joint, unsigned iJoint, float time) const;
+	template<unsigned IProperty, typename TData>
+	void SetInitCacheTime(JointCacheData::Property<TData>& property, unsigned iJoint) const;
+
+	template<unsigned IProperty, typename TData>
+	void UpdateCacheTime(JointCacheData::Property<TData>& property, unsigned iJoint, float targetTime) const;
+
+	template<typename TData>
+	void UpdateCacheValues(JointCacheData::Property<TData>& property) const;
 
 private:
 	static constexpr unsigned ORDER_PROPERTY_POSITION{ 0 };
@@ -101,11 +106,6 @@ private:
 	Float3 FindFloat3(unsigned iFirst, unsigned iEnd, float time) const;
 	Quaternion FindRotation(unsigned iFirst, unsigned iEnd, float time) const;
 
-	void CacheBasicProperty(
-		JointCacheData::Property<JointCacheData::Float3Data>& property, unsigned iLookup, float time) const;
-	void CacheRotation(
-		JointCacheData::Property<JointCacheData::QuaternionData>& property, unsigned iLookup, float time) const;
-
 	//input is pointer to 3 curves
 	static void AddTimes(SortedList<uint64_t>& times, const Io::Fbx::FbxValueCurve<float>* pCurves, uint64_t startTime, uint64_t endTime);
 	static const unsigned GetLookupSize(const List<Io::Fbx::FbxJoint>& joints);
@@ -133,6 +133,91 @@ private:
 	template<unsigned TPropertySize>
 	static const float* FindAfter(const float* pBegin, const float* pEnd, float time);
 };
+template<unsigned IProperty, typename TData>
+inline void JointsTimeValues::SetInitCacheTime(JointCacheData::Property<TData>& property, unsigned iJoint) const
+{
+	property.IEndValue = m_Lookup[iJoint * NR_PROPERTIES + IProperty] + SIZE_PROPERTY[IProperty];
+	property.EndTime = m_Data[property.IEndValue];
+	property.BeginTime = 0;
+}
+template<unsigned IProperty, typename TData>
+inline void JointsTimeValues::UpdateCacheTime(JointCacheData::Property<TData>& property, unsigned iJoint, float targetTime) const
+{
+	const float* pData{ &m_Data[property.IEndValue] + SIZE_PROPERTY[IProperty] };
+
+	while (true)
+	{
+		const float& time{ *pData };
+
+		if (time >= targetTime)
+		{
+			//found next
+			property.BeginTime = *(pData - SIZE_PROPERTY[IProperty]);
+			property.EndTime = time;
+			property.IEndValue = static_cast<unsigned>(pData - m_Data.GetData());
+			return;
+		}
+		else
+		{
+			if (time < property.EndTime)
+			{
+				//Out of bounds/into next property
+				pData = &m_Data[m_Lookup[iJoint * NR_PROPERTIES + IProperty]];
+				property.EndTime = *pData;
+			}
+			pData += SIZE_PROPERTY[IProperty];
+		}
+	}
+}
+template<>
+inline void JointsTimeValues::UpdateCacheValues(
+	JointCacheData::Property<JointCacheData::Float3Data>& property) const
+{
+	const float* pData{ &m_Data[property.IEndValue] };
+	property.Data.Begin.x = pData[-3];
+	property.Data.Begin.y = pData[-2];
+	property.Data.Begin.z = pData[-1];
+
+	property.Data.Delta.x = pData[1];
+	property.Data.Delta.y = pData[2];
+	property.Data.Delta.z = pData[3];
+	property.Data.Delta =
+		(property.Data.Delta - property.Data.Begin) / (property.EndTime - property.BeginTime);
+}
+template<>
+inline void JointsTimeValues::UpdateCacheValues(
+	JointCacheData::Property<JointCacheData::QuaternionData>& property) const
+{
+	const float* pData{ &m_Data[property.IEndValue] };
+
+	//Set time
+	property.Data.InvDuration = 1.f / (property.EndTime - property.BeginTime);
+
+	//Set values
+	property.Data.Begin.Xyz.x = pData[-4];
+	property.Data.Begin.Xyz.y = pData[-3];
+	property.Data.Begin.Xyz.z = pData[-2];
+	property.Data.Begin.W = pData[-1];
+
+	property.Data.End.Xyz.x = pData[1];
+	property.Data.End.Xyz.y = pData[2];
+	property.Data.End.Xyz.z = pData[3];
+	property.Data.End.W = pData[4];
+
+	//coming from Quaternion::Slerp
+	float dot{ Quaternion::Dot(property.Data.Begin,property.Data.End) };
+	if (abs(dot) >= 1)
+	{
+		property.Data.InvDuration = 0;
+		property.Data.Angle = Constants::PI_DIV2_S;
+		property.Data.Denom = 1;
+	}
+	else
+	{
+		property.Data.Angle = acosf(dot);
+		property.Data.Denom = 1.f / sinf(property.Data.Angle);
+	}
+}
 template<unsigned IProperty>
 inline void JointsTimeValues::AddIdentityProperty(float*& pData)
 {

@@ -36,29 +36,6 @@ Float3 JointsTimeValues::GetScale(unsigned iJoint, float time) const
 	return FindFloat3(m_Lookup[iLookup], m_Lookup[iLookup + 1], time);
 }
 
-void JointsTimeValues::CacheData(JointCacheData& joint, unsigned iJoint, float time) const
-{
-	unsigned iLookup{ iJoint * NR_PROPERTIES };
-	CacheBasicProperty(joint.Position, iLookup++, time);
-	CacheRotation(joint.Rotation, iLookup++, time);
-	CacheBasicProperty(joint.Scale, iLookup, time);
-}
-
-void JointsTimeValues::CachePosition(JointCacheData& joint, unsigned iJoint, float time) const
-{
-	CacheBasicProperty(joint.Position, iJoint * NR_PROPERTIES + ORDER_PROPERTY_POSITION, time);
-}
-
-void JointsTimeValues::CacheRotation(JointCacheData& joint, unsigned iJoint, float time) const
-{
-	CacheRotation(joint.Rotation, iJoint * NR_PROPERTIES + ORDER_PROPERTY_ROTATION, time);
-}
-
-void JointsTimeValues::CacheScale(JointCacheData& joint, unsigned iJoint, float time) const
-{
-	CacheBasicProperty(joint.Scale, iJoint * NR_PROPERTIES + ORDER_PROPERTY_SCALE, time);
-}
-
 void JointsTimeValues::FillLookup(const List<FbxJoint>& joints, const FbxAnimationLayer& animLayer,
 	uint64_t startTime, uint64_t endTime)
 {
@@ -101,7 +78,8 @@ void JointsTimeValues::FillData(const List<FbxJoint>& joints, const FbxAnimation
 	const float normalizeTime{ 1.f / static_cast<float>(endTime - startTime) };
 	SortedList<uint64_t> times{};
 
-	m_Data = Array<float>{ m_Lookup.Last() };
+	m_Data = Array<float>{ m_Lookup.Last() + 1 };
+	m_Data.Last() = -1;
 
 	float* pData{ m_Data.GetData() };
 	for (unsigned iJoint{ 0 }; iJoint < joints.GetSize(); ++iJoint)
@@ -157,77 +135,6 @@ Quaternion JointsTimeValues::FindRotation(unsigned iFirst, unsigned iEnd, float 
 	const float alpha{ Float::Unlerp(time, *pBefore, *pAfter) };
 
 	return Quaternion::Slerp(beforeValue, afterValue, alpha);
-}
-
-void JointsTimeValues::CacheBasicProperty(
-	JointCacheData::Property<JointCacheData::Float3Data>& property, unsigned iLookup, float time) const
-{
-	//Search
-	const float* pDataEnd{ &m_Data[m_Lookup[iLookup + 1]] };
-
-	const float* pBefore{
-		FindBefore<4>(&m_Data[m_Lookup[iLookup]], pDataEnd, time) };
-	const float* pAfter{
-		FindAfter<4>(pBefore, pDataEnd, time) };
-
-	//Set time
-	property.BeginTime = *pBefore;
-	property.EndTime = *pAfter;
-	const float invDuration{ 1.f / (property.EndTime - property.BeginTime) };
-
-	//Set values
-	property.Data.Begin.x = pBefore[1];
-	property.Data.Begin.y = pBefore[2];
-	property.Data.Begin.z = pBefore[3];
-
-	property.Data.Delta.x = pAfter[1];
-	property.Data.Delta.y = pAfter[2];
-	property.Data.Delta.z = pAfter[3];
-
-	property.Data.Delta -= property.Data.Begin;
-	property.Data.Delta *= invDuration;
-}
-
-void JointsTimeValues::CacheRotation(
-	JointCacheData::Property<JointCacheData::QuaternionData>& property, unsigned iLookup, float time) const
-{
-	//Search
-	const float* pDataEnd{ &m_Data[m_Lookup[iLookup + 1]] };
-
-	const float* pBefore{
-		FindBefore<5>(&m_Data[m_Lookup[iLookup]], pDataEnd, time) };
-	const float* pAfter{
-		FindAfter<5>(pBefore, pDataEnd, time) };
-
-	//Set time
-	property.BeginTime = *pBefore;
-	property.EndTime = *pAfter;
-	property.Data.InvDuration = 1.f / (property.EndTime - property.BeginTime);
-
-	//Set values
-	property.Data.Begin.Xyz.x = pBefore[1];
-	property.Data.Begin.Xyz.y = pBefore[2];
-	property.Data.Begin.Xyz.z = pBefore[3];
-	property.Data.Begin.W = pBefore[4];
-
-	property.Data.End.Xyz.x = pAfter[1];
-	property.Data.End.Xyz.y = pAfter[2];
-	property.Data.End.Xyz.z = pAfter[3];
-	property.Data.End.W = pAfter[4];
-
-	//coming from Quaternion::Slerp
-	float dot{ Quaternion::Dot(property.Data.Begin,property.Data.End) };
-	if (abs(dot) >= 1)
-	{
-		property.Data.InvDuration = 0;
-		property.Data.Angle = Constants::PI_DIV2_S;
-		property.Data.Denom = 1;
-	}
-	else
-	{
-		property.Data.Angle = acosf(dot);
-		property.Data.Denom = 1.f / sinf(property.Data.Angle);
-	}
 }
 
 void JointsTimeValues::AddTimes(
@@ -364,3 +271,4 @@ Float3 JointCacheData::GetScale(float time) const
 {
 	return Scale.Data.Begin + Scale.Data.Delta * (time - Scale.BeginTime);
 }
+
