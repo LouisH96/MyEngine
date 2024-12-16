@@ -6,38 +6,6 @@ namespace MyEngine
 {
 namespace Animations
 {
-struct JointCacheData {
-
-	struct Float3Data {
-		Float3 Begin;
-		Float3 Delta;
-	};
-	struct QuaternionData {
-		Quaternion Begin;
-		Quaternion End;
-		float Angle{};
-		float Denom{};
-		float InvDuration{};
-	};
-
-	template<typename T>
-	struct Property {
-		float BeginTime{};
-		float EndTime{};
-		unsigned IEndValue{};
-
-		T Data;
-	};
-
-	Property<Float3Data> Position;
-	Property<QuaternionData> Rotation;
-	Property<Float3Data> Scale;
-
-	Float3 GetPosition(float time) const;
-	Quaternion GetRotation(float time) const;
-	Float3 GetScale(float time) const;
-};
-
 class JointsTimeValues
 {
 public:
@@ -52,15 +20,6 @@ public:
 	Float3 GetPosition(unsigned iJoint, float time) const;
 	Quaternion GetQuaternion(unsigned iJoint, float time) const;
 	Float3 GetScale(unsigned iJoint, float time) const;
-
-	template<unsigned IProperty, typename TData>
-	void SetInitCacheTime(JointCacheData::Property<TData>& property, unsigned iJoint) const;
-
-	template<unsigned IProperty, typename TData>
-	void UpdateCacheTime(JointCacheData::Property<TData>& property, unsigned iJoint, float targetTime) const;
-
-	template<typename TData>
-	void UpdateCacheValues(JointCacheData::Property<TData>& property) const;
 
 private:
 	static constexpr unsigned ORDER_PROPERTY_POSITION{ 0 };
@@ -132,92 +91,10 @@ private:
 
 	template<unsigned TPropertySize>
 	static const float* FindAfter(const float* pBegin, const float* pEnd, float time);
+
+	friend class CachedData;
+	friend struct JointCacheData;
 };
-template<unsigned IProperty, typename TData>
-inline void JointsTimeValues::SetInitCacheTime(JointCacheData::Property<TData>& property, unsigned iJoint) const
-{
-	property.IEndValue = m_Lookup[iJoint * NR_PROPERTIES + IProperty] + SIZE_PROPERTY[IProperty];
-	property.EndTime = m_Data[property.IEndValue];
-	property.BeginTime = 0;
-}
-template<unsigned IProperty, typename TData>
-inline void JointsTimeValues::UpdateCacheTime(JointCacheData::Property<TData>& property, unsigned iJoint, float targetTime) const
-{
-	const float* pData{ &m_Data[property.IEndValue] + SIZE_PROPERTY[IProperty] };
-
-	while (true)
-	{
-		const float& time{ *pData };
-
-		if (time >= targetTime)
-		{
-			//found next
-			property.BeginTime = *(pData - SIZE_PROPERTY[IProperty]);
-			property.EndTime = time;
-			property.IEndValue = static_cast<unsigned>(pData - m_Data.GetData());
-			return;
-		}
-		else
-		{
-			if (time < property.EndTime)
-			{
-				//Out of bounds/into next property
-				pData = &m_Data[m_Lookup[iJoint * NR_PROPERTIES + IProperty]];
-				property.EndTime = *pData;
-			}
-			pData += SIZE_PROPERTY[IProperty];
-		}
-	}
-}
-template<>
-inline void JointsTimeValues::UpdateCacheValues(
-	JointCacheData::Property<JointCacheData::Float3Data>& property) const
-{
-	const float* pData{ &m_Data[property.IEndValue] };
-	property.Data.Begin.x = pData[-3];
-	property.Data.Begin.y = pData[-2];
-	property.Data.Begin.z = pData[-1];
-
-	property.Data.Delta.x = pData[1];
-	property.Data.Delta.y = pData[2];
-	property.Data.Delta.z = pData[3];
-	property.Data.Delta =
-		(property.Data.Delta - property.Data.Begin) / (property.EndTime - property.BeginTime);
-}
-template<>
-inline void JointsTimeValues::UpdateCacheValues(
-	JointCacheData::Property<JointCacheData::QuaternionData>& property) const
-{
-	const float* pData{ &m_Data[property.IEndValue] };
-
-	//Set time
-	property.Data.InvDuration = 1.f / (property.EndTime - property.BeginTime);
-
-	//Set values
-	property.Data.Begin.Xyz.x = pData[-4];
-	property.Data.Begin.Xyz.y = pData[-3];
-	property.Data.Begin.Xyz.z = pData[-2];
-	property.Data.Begin.W = pData[-1];
-
-	property.Data.End.Xyz.x = pData[1];
-	property.Data.End.Xyz.y = pData[2];
-	property.Data.End.Xyz.z = pData[3];
-	property.Data.End.W = pData[4];
-
-	//coming from Quaternion::Slerp
-	float dot{ Quaternion::Dot(property.Data.Begin,property.Data.End) };
-	if (abs(dot) >= 1)
-	{
-		property.Data.InvDuration = 0;
-		property.Data.Angle = Constants::PI_DIV2_S;
-		property.Data.Denom = 1;
-	}
-	else
-	{
-		property.Data.Angle = acosf(dot);
-		property.Data.Denom = 1.f / sinf(property.Data.Angle);
-	}
-}
 template<unsigned IProperty>
 inline void JointsTimeValues::AddIdentityProperty(float*& pData)
 {
@@ -268,4 +145,3 @@ inline void JointsTimeValues::AddIdentityValue<JointsTimeValues::ORDER_PROPERTY_
 }
 }
 }
-

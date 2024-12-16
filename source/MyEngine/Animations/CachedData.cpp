@@ -9,35 +9,37 @@ CachedData::CachedData(const JointsTimeValues& source)
 	: m_Data{ source.GetNrJoints() }
 {
 	for (unsigned iJoint{ 0 }; iJoint < m_Data.GetSize(); ++iJoint)
-	{
-		JointCacheData& joint{ m_Data[iJoint] };
-		
-		source.SetInitCacheTime<0>(joint.Position, iJoint);
-		source.UpdateCacheValues(joint.Position);
-
-		source.SetInitCacheTime<1>(joint.Rotation, iJoint);
-		source.UpdateCacheValues(joint.Rotation);
-	}
+		m_Data[iJoint].Init(source, iJoint);
 }
 
 const JointCacheData& CachedData::Get(const JointsTimeValues& source, unsigned iJoint, float time)
 {
 	JointCacheData& data{ m_Data[iJoint] };
 
-	if (time < data.Position.BeginTime || time > data.Position.EndTime)
-	{
-		source.UpdateCacheTime<0>(data.Position, iJoint, time);
-		source.UpdateCacheValues(data.Position);
-	}
+	if (data.Position.NeedUpdate(time))
+		data.Position.Update<0>(source, iJoint, time);
 
-	if (time < data.Rotation.BeginTime || time > data.Rotation.EndTime)
-	{
-		source.UpdateCacheTime<1>(data.Rotation, iJoint, time);
-		source.UpdateCacheValues(data.Rotation);
-	}
-
-	//if (time < data.Scale.BeginTime || time > data.Scale.EndTime)
-	//	source.CacheRotation(data, iJoint, time);
+	if (data.Rotation.NeedUpdate(time))
+		data.Rotation.Update<1>(source, iJoint, time);
 
 	return data;
 }
+
+Float3 JointCacheData::GetPosition(float time) const
+{
+	return Position.Data.Begin + Position.Data.Delta * (time - Position.BeginTime);
+}
+
+Quaternion JointCacheData::GetRotation(float time) const
+{
+	time = (time - Rotation.BeginTime) * Rotation.Data.InvDuration;
+
+	return
+		Rotation.Data.Begin * (sinf((1.f - time) * Rotation.Data.Angle) * Rotation.Data.Denom)
+		+ Rotation.Data.End * (sinf(time * Rotation.Data.Angle) * Rotation.Data.Denom);
+}
+
+//Float3 JointCacheData::GetScale(float time) const
+//{
+//	return Scale.Data.Begin + Scale.Data.Delta * (time - Scale.BeginTime);
+//}

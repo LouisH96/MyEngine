@@ -253,22 +253,4 @@ void JointsTimeValues::AddRotationPropertyList(
 	}
 }
 
-Float3 JointCacheData::GetPosition(float time) const
-{
-	return Position.Data.Begin + Position.Data.Delta * (time - Position.BeginTime);
-}
-
-Quaternion JointCacheData::GetRotation(float time) const
-{
-	time = (time - Rotation.BeginTime) * Rotation.Data.InvDuration;
-
-	return
-		Rotation.Data.Begin * (sinf((1.f - time) * Rotation.Data.Angle) * Rotation.Data.Denom)
-		+ Rotation.Data.End * (sinf(time * Rotation.Data.Angle) * Rotation.Data.Denom);
-}
-
-Float3 JointCacheData::GetScale(float time) const
-{
-	return Scale.Data.Begin + Scale.Data.Delta * (time - Scale.BeginTime);
-}
 
