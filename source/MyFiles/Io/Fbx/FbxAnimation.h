@@ -36,6 +36,10 @@ namespace MyEngine
 				const uint64_t& GetReferenceStart() const { return m_ReferenceStart; }
 				const uint64_t& GetReferenceStop() const { return m_ReferenceStop; }
 
+				float GetDuration() const { return GetLocalDuration(); }
+				float GetLocalDuration() const;
+				float GetReferenceDuration() const;
+
 			private:
 				std::string m_Name;
 				int64_t m_Id{};

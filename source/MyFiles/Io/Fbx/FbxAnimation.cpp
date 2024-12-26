@@ -16,3 +16,16 @@ Fbx::FbxAnimation::FbxAnimation(const Wrapping::AnimationStack& animationStack)
 	for (unsigned i = 0; i < animationStack.GetAnimationLayers().GetSize(); i++)
 		m_Layers[i] = FbxAnimationLayer{ *animationStack.GetAnimationLayers()[i] };
 }
+
+float Fbx::FbxAnimation::GetLocalDuration() const
+{
+	const double second{ static_cast<double>(uint64_t{0x800000000}) };
+	return static_cast<float>((m_LocalStop - m_LocalStart) / second);
+}
+
+float Fbx::FbxAnimation::GetReferenceDuration() const
+{
+	const double second{ static_cast<double>(uint64_t{0x800000000}) };
+	return static_cast<float>((m_ReferenceStop - m_ReferenceStart) / second);
+}
+
