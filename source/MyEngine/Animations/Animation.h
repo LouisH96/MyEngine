@@ -1,4 +1,5 @@
 #pragma once
+#include "BonesBuffer.h"
 #include "JointsTimeValues.h"
 #include "JointsChildren.h"
 #include "SkeletonData.h"
@@ -11,27 +12,29 @@ namespace Animations
 class Animation
 {
 public:
-	struct ModelBuffer
-	{
-		static constexpr unsigned MAX_BONES = 100;
-		Float4X4 BoneTransforms[MAX_BONES];
-		Float4X4 World;
-	};
-
 	Animation() = default;
 	Animation(const Io::Fbx::FbxClass& fbx, const Io::Fbx::FbxAnimation& animation);
 
-	void UpdateModelBuffer(float time);
-	const ModelBuffer& GetModelBuffer() const { return m_ModelBuffer; }
+	void UpdateModelBuffer(float time, BonesBuffer& buffer) const;
+	void UpdateModelBuffer(float time, BonesBuffer& buffer, CachedData& cache) const;
+
+	float GetDuration() const { return m_Duration; }
+
+	CachedData MakeCachedData() const;
 
 private:
 	JointsTimeValues m_TimeValues;
 	SkeletonData m_Skeleton;
-	CachedData m_Cache;
+	float m_Duration;
 
-	ModelBuffer m_ModelBuffer;
+	void UpdateTransforms(
+		float time, unsigned iJoint,
+		const Float4X4& parent, BonesBuffer& buffer) const;
 
-	void UpdateTransforms(float time, unsigned iJoint, const Float4X4& parent);
+	void UpdateTransforms(
+		float time, unsigned iJoint,
+		const Float4X4& parent, CachedData& cache,
+		BonesBuffer& buffer) const;
 };
 }
 }
