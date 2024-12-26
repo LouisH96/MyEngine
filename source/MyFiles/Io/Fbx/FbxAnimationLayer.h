@@ -23,8 +23,8 @@ namespace MyEngine
 				int64_t GetId() const { return m_Id; }
 
 			private:
-				std::string m_Name;
-				int64_t m_Id;
+				std::string m_Name{};
+				int64_t m_Id{};
 			};
 		}
 	}

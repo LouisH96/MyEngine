@@ -28,7 +28,7 @@ namespace MyEngine
 
 					int64_t Id{};
 					std::string Type;
-					Reading::FbxElement* pProperties70; //temp
+					Reading::FbxElement* pProperties70{}; //temp
 
 					void SetParentModel(const Model& parentModel);
 					void AddAnimationCurveNode(const AnimationCurveNode& animationCurveNode);
