@@ -70,6 +70,7 @@ namespace MyEngine
 		//---| Functions: Other |---
 		void DeleteAll() const; //calls delete on all (doesn't clear array)
 		void CopyTo(Array& dest, int destIdx);
+		Data* TakeData();
 
 	private:
 		Data* m_pData;
@@ -345,6 +346,15 @@ namespace MyEngine
 	void Array<Data>::CopyTo(Array& dest, int destIdx)
 	{
 		std::copy(m_pData, &m_pData[m_Size], &dest.m_pData[destIdx]);
+	}
+
+	template<typename Data>
+	inline Data* Array<Data>::TakeData()
+	{
+		m_Size = 0;
+		Data* pData{ m_pData };
+		m_pData = nullptr;
+		return pData;
 	}
 
 	template <typename Data>
