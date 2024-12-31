@@ -16,6 +16,8 @@ public:
 	List(int capacity);
 	~List();
 
+	List(Array<T>&& array);
+
 	//---| Move/Copy |---
 	List(const List& other);
 	List(List&& other) noexcept;
@@ -94,7 +96,8 @@ List<T>::List(int capacity)
 	: m_pData{ new T[capacity] }
 	, m_Capacity{ static_cast<unsigned>(capacity) }
 	, m_Size{ 0 }
-{ }
+{
+}
 
 template <typename T>
 List<T>::List(unsigned capacity)
@@ -112,6 +115,15 @@ List<T>::~List()
 	m_pData = nullptr;
 	m_Capacity = 0;
 	m_Size = 0;
+}
+
+template<typename T>
+inline List<T>::List(Array<T>&& array)
+	: m_pData{}
+	, m_Capacity{ array.GetSize() }
+	, m_Size{ array.GetSize() }
+{
+	m_pData = array.TakeData();
 }
 
 template <typename T>
