@@ -8,6 +8,7 @@ Animator::Animator(const Animation& animation)
 	, m_TimeScale{ 1.f / animation.GetDuration() }
 	, m_Cache{ animation.MakeCachedData() }
 {
+	SetTime(animation, 0);
 }
 
 void Animator::ProgressTime(const Animation& animation)
