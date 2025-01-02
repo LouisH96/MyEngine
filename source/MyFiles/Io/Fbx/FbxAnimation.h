@@ -40,6 +40,8 @@ namespace MyEngine
 				float GetLocalDuration() const;
 				float GetReferenceDuration() const;
 
+				static float ToSeconds(uint64_t time);
+
 			private:
 				std::string m_Name;
 				int64_t m_Id{};

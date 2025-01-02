@@ -19,13 +19,18 @@ Fbx::FbxAnimation::FbxAnimation(const Wrapping::AnimationStack& animationStack)
 
 float Fbx::FbxAnimation::GetLocalDuration() const
 {
-	const double second{ static_cast<double>(uint64_t{0x800000000}) };
-	return static_cast<float>((m_LocalStop - m_LocalStart) / second);
+	return ToSeconds(m_LocalStop - m_LocalStart);
 }
 
 float Fbx::FbxAnimation::GetReferenceDuration() const
 {
-	const double second{ static_cast<double>(uint64_t{0x800000000}) };
-	return static_cast<float>((m_ReferenceStop - m_ReferenceStart) / second);
+	return ToSeconds(m_ReferenceStop - m_ReferenceStart);
 }
+
+float Fbx::FbxAnimation::ToSeconds(uint64_t time)
+{
+	const double second{ static_cast<double>(uint64_t{0x800000000}) };
+	return static_cast<float>(time / second);
+}
+
 

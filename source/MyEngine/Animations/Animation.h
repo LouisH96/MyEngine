@@ -16,6 +16,7 @@ public:
 
 	Animation() = default;
 	Animation(const Io::Fbx::FbxClass& fbx, const Io::Fbx::FbxAnimation& animation);
+	Animation(const Io::Fbx::FbxClass& fbx, const Io::Fbx::FbxAnimation& animation, uint64_t start, uint64_t end);
 
 	void UpdateModelBuffer(float time, BonesBuffer& buffer) const;
 	void UpdateModelBuffer(float time, BonesBuffer& buffer, CachedData& cache) const;

@@ -14,6 +14,11 @@ public:
 		const List<Io::Fbx::FbxJoint>& joints,
 		const Io::Fbx::FbxAnimation& animation,
 		const Io::Fbx::FbxAnimationLayer& animLayer);
+	JointsTimeValues(
+		const List<Io::Fbx::FbxJoint>& joints,
+		const Io::Fbx::FbxAnimation& animation,
+		const Io::Fbx::FbxAnimationLayer& animLayer,
+		uint64_t start, uint64_t end);
 
 	unsigned GetNrJoints() const { return (m_Lookup.GetSize() - 1) / NR_PROPERTIES; }
 
