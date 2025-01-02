@@ -153,3 +153,17 @@ std::wstring FileUtils::GetFileName(const std::wstring fullFilePath)
 
 	return fullFilePath.substr(begin, end - begin);
 }
+
+std::wstring FileUtils::GetFolder(const std::wstring fullFilePath)
+{
+	size_t end{ fullFilePath.size() - 1 };
+
+	while (end > 0)
+	{
+		const wchar_t endChar{ fullFilePath[end] };
+		if (endChar == '\\' || endChar == '/')
+			return fullFilePath.substr(0, end + 1);
+		--end;
+	}
+	return fullFilePath;
+}
