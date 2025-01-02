@@ -24,7 +24,7 @@ namespace MyEngine
 			Float3 col;
 
 			static const InputLayout::Element ELEMENTS[];
-			static constexpr int NR_ELEMENTS = 2;
+			static constexpr unsigned NR_ELEMENTS = 2;
 
 			bool IsValid() const { return pos.x != -9999.f; }
 			void Invalidate() { pos.x = -9999.f; }
@@ -35,7 +35,7 @@ namespace MyEngine
 			Float2 uv;
 
 			static const InputLayout::Element ELEMENTS[];
-			static constexpr int NR_ELEMENTS = 2;
+			static constexpr unsigned NR_ELEMENTS = 2;
 
 			static Array<V_Pos2Uv> GetCenterRect();
 		};
@@ -46,7 +46,7 @@ namespace MyEngine
 			Float2 uv;
 
 			static const InputLayout::Element ELEMENTS[];
-			static constexpr int NR_ELEMENTS = 3;
+			static constexpr unsigned NR_ELEMENTS = 3;
 
 			bool IsValid() const { return pos.x != Float::MAX; }
 			void Invalidate() { pos.x = Float::MAX; }
@@ -58,7 +58,7 @@ namespace MyEngine
 			Float3 Position{};
 			Float3 Normal{};
 			static const InputLayout::Element ELEMENTS[];
-			static constexpr int NR_ELEMENTS = 2;
+			static constexpr unsigned NR_ELEMENTS = 2;
 		};
 		struct V_PosCol
 		{
@@ -66,7 +66,7 @@ namespace MyEngine
 			Float3 Color{};
 
 			static const InputLayout::Element ELEMENTS[];
-			static constexpr int NR_ELEMENTS = 2;
+			static constexpr unsigned NR_ELEMENTS = 2;
 		};
 		struct V_PosColNorm
 		{
@@ -75,7 +75,7 @@ namespace MyEngine
 			Float3 Normal{};
 
 			static const InputLayout::Element ELEMENTS[];
-			static constexpr int NR_ELEMENTS = 3;
+			static constexpr unsigned NR_ELEMENTS = 3;
 		};
 		struct V_PosNorCol
 		{
@@ -84,7 +84,7 @@ namespace MyEngine
 			Float3 Color{};
 
 			static const InputLayout::Element ELEMENTS[];
-			static constexpr int NR_ELEMENTS = 3;
+			static constexpr unsigned NR_ELEMENTS = 3;
 		};
 		struct V_PosUv
 		{
@@ -92,7 +92,7 @@ namespace MyEngine
 			Float2 Uv{};
 
 			static const InputLayout::Element ELEMENTS[];
-			static constexpr int NR_ELEMENTS = 2;
+			static constexpr unsigned NR_ELEMENTS = 2;
 		};
 		struct V_PosNorUv
 		{
@@ -101,7 +101,18 @@ namespace MyEngine
 			Float2 Uv{};
 
 			static const InputLayout::Element ELEMENTS[];
-			static constexpr int NR_ELEMENTS = 3;
+			static constexpr unsigned NR_ELEMENTS = 3;
+		};
+		struct V_PosNorUvSkin
+		{
+			Float3 Pos{};
+			Float3 Normal{};
+			Float2 Uv{};
+			Int4 BoneIds{};
+			Float4 BoneWeights{};
+
+			static const InputLayout::Element ELEMENTS[];
+			static constexpr unsigned NR_ELEMENTS = 5;
 		};
 	}
 }
