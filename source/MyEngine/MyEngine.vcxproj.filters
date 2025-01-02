@@ -133,6 +133,7 @@
     <ClCompile Include="Animations\JointsChildren.cpp" />
     <ClCompile Include="Animations\SkeletonData.cpp" />
     <ClCompile Include="Animations\Animator.cpp" />
+    <ClCompile Include="Rendering\Dx\ShaderIncludes.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -346,6 +347,7 @@
     <ClInclude Include="Animations\SkeletonData.h" />
     <ClInclude Include="Animations\Animator.h" />
     <ClInclude Include="Animations\BonesBuffer.h" />
+    <ClInclude Include="Rendering\Dx\ShaderIncludes.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

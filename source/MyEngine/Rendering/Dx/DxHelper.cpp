@@ -6,6 +6,7 @@
 #include <d3dcompiler.h>
 
 #include "String/Convert.h"
+#include "ShaderIncludes.h"
 
 void MyEngine::Rendering::Dx::DxHelper::CreateVertexShader(const std::wstring& path, const std::string& functionName,
                                                            ID3D11VertexShader*& pVertexShader)
@@ -73,10 +74,12 @@ void MyEngine::Rendering::Dx::DxHelper::CompileFromFile(const std::wstring& path
 
 	ID3DBlob* pErrorBlob{};
 
+	ShaderIncludes includes{path};
+
 	const HRESULT hr = D3DCompileFromFile(
 		path.c_str(),
 		nullptr,
-		D3D_COMPILE_STANDARD_FILE_INCLUDE,
+		&includes,
 		functionName.c_str(),
 		target.c_str(),
 		flags,
