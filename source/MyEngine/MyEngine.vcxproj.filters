@@ -346,7 +346,6 @@
     <ClInclude Include="Animations\JointsChildren.h" />
     <ClInclude Include="Animations\SkeletonData.h" />
     <ClInclude Include="Animations\Animator.h" />
-    <ClInclude Include="Animations\BonesBuffer.h" />
     <ClInclude Include="Rendering\Dx\ShaderIncludes.h" />
   </ItemGroup>
   <ItemGroup>

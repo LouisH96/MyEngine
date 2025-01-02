@@ -53,5 +53,10 @@ namespace MyEngine
 			explicit CB_ModelBuffer(const Transform& transform);
 			explicit CB_ModelBuffer(const Float4X4& matrix);
 		};
+		struct CB_BonesBuffer
+		{
+			static constexpr unsigned MAX_BONES = 100;
+			Float4X4 BoneTransforms[MAX_BONES];
+		};
 	}
 }

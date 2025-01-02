@@ -1,5 +1,4 @@
 #pragma once
-#include "BonesBuffer.h"
 #include "JointsTimeValues.h"
 #include "JointsChildren.h"
 #include "SkeletonData.h"
@@ -12,6 +11,9 @@ namespace Animations
 class Animation
 {
 public:
+	static constexpr unsigned MAX_BONES = 100;
+	using BonesBuffer = Rendering::CB_BonesBuffer;
+
 	Animation() = default;
 	Animation(const Io::Fbx::FbxClass& fbx, const Io::Fbx::FbxAnimation& animation);
 

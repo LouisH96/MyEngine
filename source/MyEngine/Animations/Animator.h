@@ -1,8 +1,6 @@
 #pragma once
-
 #include "Animation.h"
 #include "CachedData.h"
-#include "BonesBuffer.h"
 
 namespace MyEngine
 {
@@ -20,13 +18,13 @@ public:
 	void SetTime(const Animation& animation, float time);
 	void SetNormalizedTime(const Animation& animation, float time);
 
-	const BonesBuffer& GetBonesBuffer() const { return m_Buffer; }
+	const Animation::BonesBuffer& GetBonesBuffer() const { return m_Buffer; }
 
 private:
-	BonesBuffer m_Buffer;
+	Animation::BonesBuffer m_Buffer;
 	CachedData m_Cache;
-	float m_Time;
-	float m_TimeScale;
+	float m_Time{ 0 };
+	float m_TimeScale{ 1 };
 };
 }
 }
