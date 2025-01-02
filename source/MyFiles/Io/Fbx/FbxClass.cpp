@@ -180,3 +180,19 @@ void FbxClass::MakeTriangleList(Geometry& geomStruct, const FbxOrientation& orie
 
 	}*/
 }
+
+Int4 FbxClass::BlendData::IndicesAsInt4() const
+{
+	return Int4{
+		jointIdx[0], jointIdx[1],
+		jointIdx[2], jointIdx[3]
+	};
+}
+
+Float4 FbxClass::BlendData::WeightsAsFloat4() const
+{
+	return Float4{
+		weight[0], weight[1],
+		weight[2], weight[3]
+	};
+}

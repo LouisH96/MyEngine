@@ -24,7 +24,11 @@ namespace MyEngine
 					static constexpr unsigned NR_WEIGHTS{ 4 };
 					int jointIdx[NR_WEIGHTS];
 					float weight[NR_WEIGHTS];
+
+					Int4 IndicesAsInt4() const;
+					Float4 WeightsAsFloat4() const;
 				};
+
 				struct Geometry
 				{
 					std::string Name{};
