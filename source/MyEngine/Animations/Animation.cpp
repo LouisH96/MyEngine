@@ -45,6 +45,27 @@ CachedData Animation::MakeCachedData() const
 	return CachedData{ m_TimeValues };
 }
 
+Float4X4 Animation::GetModelMatrix(unsigned iJoint, float time) const
+{
+	Float4X4 matrix{ Float4X4::GetIdentity() };
+
+	while (iJoint != Uint::MAX)
+	{
+		const Float3 position{ m_TimeValues.GetPosition(iJoint, time) };
+		const Quaternion rotation{ m_TimeValues.GetQuaternion(iJoint, time) };
+		matrix *= WorldMatrix::FromPosAndQuat(position, rotation);
+
+		iJoint = m_Skeleton.FindParent(iJoint);
+	}
+
+	return matrix;
+}
+
+Float3 Animation::GetModelPosition(unsigned iJoint, float time) const
+{
+	return WorldMatrix::GetPosition(GetModelMatrix(iJoint, time));
+}
+
 void Animation::UpdateTransforms(float time, unsigned iJoint, const Float4X4& parent, BonesBuffer& buffer) const
 {
 	const Float3 position{ m_TimeValues.GetPosition(iJoint, time) };

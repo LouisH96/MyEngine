@@ -25,10 +25,15 @@ public:
 
 	CachedData MakeCachedData() const;
 
+	Float4X4 GetModelMatrix(unsigned iJoint, float time) const;
+	Float3 GetModelPosition(unsigned iJoint, float time) const;
+
+	const SkeletonData& GetSkeleton() const { return m_Skeleton; }
+
 private:
 	JointsTimeValues m_TimeValues;
 	SkeletonData m_Skeleton;
-	float m_Duration;
+	float m_Duration{};
 
 	void UpdateTransforms(
 		float time, unsigned iJoint,
