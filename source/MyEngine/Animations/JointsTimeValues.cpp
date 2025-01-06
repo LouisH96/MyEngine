@@ -124,7 +124,7 @@ Float3 JointsTimeValues::FindFloat3(unsigned iFirst, unsigned iEnd, float target
 {
 	//Sequential search
 	const float* pBefore{ FindBefore<4>(&m_Data[iFirst], &m_Data[iEnd], targetTime) };
-	const float* pAfter{ FindAfter<4>(pBefore, &m_Data[iEnd], targetTime) };
+	const float* pAfter{ pBefore + 4 };
 
 	const Float3 beforeValue{ pBefore[1], pBefore[2], pBefore[3] };
 	const Float3 afterValue{ pAfter[1], pAfter[2], pAfter[3] };
@@ -136,7 +136,7 @@ Float3 JointsTimeValues::FindFloat3(unsigned iFirst, unsigned iEnd, float target
 Quaternion JointsTimeValues::FindRotation(unsigned iFirst, unsigned iEnd, float time) const
 {
 	const float* pBefore{ FindBefore<5>(&m_Data[iFirst], &m_Data[iEnd], time) };
-	const float* pAfter{ FindAfter<5>(pBefore, &m_Data[iEnd], time) };
+	const float* pAfter{ pBefore + 5 };
 
 	const Quaternion beforeValue{ {pBefore[1],pBefore[2], pBefore[3]}, pBefore[4] };
 	const Quaternion afterValue{ {pAfter[1],pAfter[2], pAfter[3]}, pAfter[4] };
