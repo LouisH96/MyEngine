@@ -28,6 +28,8 @@ public:
 	const unsigned* GetChildrenIt(const unsigned*& pFirst, unsigned iJoint) const;
 	const JointData& GetJointData(unsigned iJoint) const { return m_JointData[iJoint]; }
 
+	unsigned FindParent(unsigned iJoint) const;
+
 private:
 	//First List of RootJoints
 	//Then Lookup-table for each joints towards the beginning of their children (in this array)
@@ -39,6 +41,8 @@ private:
 
 	void CreateMemory(const Io::Fbx::FbxSkeleton& skeleton);
 	void FillMemory(const Io::Fbx::FbxSkeleton& skeleton);
+
+	unsigned GetNrJoints() const;
 };
 }
 }

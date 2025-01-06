@@ -24,6 +24,37 @@ const unsigned* SkeletonData::GetChildrenIt(const unsigned*& pFirst, unsigned iJ
 	return &m_BoneRelations[m_pLookup[iJoint + 1]];
 }
 
+unsigned SkeletonData::FindParent(unsigned iJoint) const
+{
+	const unsigned* const pChildrenBegin{ &m_pLookup[GetNrJoints() + 1] };
+	const unsigned* const pChildrenEnd{ &m_BoneRelations[m_BoneRelations.GetSize()] };
+
+	const unsigned* pChildrenIt{ pChildrenBegin };
+	while (pChildrenIt < pChildrenEnd)
+	{
+		if (*pChildrenIt == iJoint)
+		{
+			const unsigned index{ static_cast<unsigned>(pChildrenIt - m_BoneRelations.GetData()) };
+
+			const unsigned* const pLookupBegin{ m_pLookup };
+			const unsigned* const pLookupEnd{ pChildrenBegin };
+
+			const unsigned* pLookupIt{ pLookupBegin };
+			const unsigned* pLookupItNext{ pLookupIt + 1 };
+
+			while (pLookupIt != pLookupEnd)
+			{
+				if (*pLookupIt <= index && *pLookupItNext > index)
+					return static_cast<unsigned>(pLookupIt - m_pLookup);
+				++pLookupIt;
+				++pLookupItNext;
+			}
+		}
+		++pChildrenIt;
+	}
+	return Uint::MAX;
+}
+
 void SkeletonData::CreateMemory(const FbxSkeleton& skeleton)
 {
 	const List<FbxJoint>& joints{ skeleton.GetJoints() };
@@ -70,4 +101,9 @@ void SkeletonData::FillMemory(const FbxSkeleton& skeleton)
 		JointData& jointData{ m_JointData[iJoint] };
 		jointData.BindTransform = joint.GetBindTransform();
 	}
+}
+
+unsigned SkeletonData::GetNrJoints() const
+{
+	return m_JointData.GetSize();
 }
