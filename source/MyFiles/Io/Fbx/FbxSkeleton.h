@@ -33,6 +33,7 @@ namespace MyEngine
 				FbxJoint& GetJoint(unsigned idx) { return m_Joints[idx]; }
 				const Array<FbxJoint*>& GetRootJoints() const { return m_RootJoints; }
 				unsigned GetNrJoints() const;
+				const FbxJoint& GetJoint(unsigned iJoint) const { return m_Joints[iJoint]; }
 
 				void PrintLocalJointData() const;
 
