@@ -14,6 +14,7 @@ namespace MyEngine
 		public:
 			explicit ConstantBuffer();
 			explicit ConstantBuffer(const Data& initData);
+			explicit ConstantBuffer(unsigned size); //when array of Data
 			~ConstantBuffer();
 			ConstantBuffer(const ConstantBuffer& other) = delete;
 			ConstantBuffer(ConstantBuffer&& other) noexcept = delete;
@@ -23,7 +24,9 @@ namespace MyEngine
 			void ActivateVs(int index = 0) const;
 			void ActivatePs(int index = 0) const;
 			void Activate(int index = 0) const;
-			void Update(const Data& newData) const;
+			void Update(const Data& newData);
+			void Update(const Data* pNewData, unsigned count);
+			void Update(const Array<Data>& data);
 
 		private:
 			ID3D11Buffer* m_pBuffer{};
@@ -39,6 +42,12 @@ namespace MyEngine
 		ConstantBuffer<Data>::ConstantBuffer(const Data& initData)
 		{
 			Dx::DxHelper::CreateDynamicConstantBuffer<const Data>(m_pBuffer, &initData);
+		}
+
+		template<typename Data>
+		inline ConstantBuffer<Data>::ConstantBuffer(unsigned size)
+		{
+			Dx::DxHelper::CreateDynamicConstantBuffer<const Data>(m_pBuffer, size);
 		}
 
 		template <typename Data>
@@ -67,9 +76,21 @@ namespace MyEngine
 		}
 
 		template <typename Data>
-		void ConstantBuffer<Data>::Update(const Data& newData) const
+		void ConstantBuffer<Data>::Update(const Data& newData)
 		{
 			Dx::DxHelper::UpdateBuffer(*m_pBuffer, newData);
+		}
+
+		template <typename Data>
+		void ConstantBuffer<Data>::Update(const Data* pNewData, unsigned count)
+		{
+			Dx::DxHelper::UpdateBuffer(m_pBuffer, pNewData, count);
+		}
+
+		template<typename Data>
+		void ConstantBuffer<Data>::Update(const Array<Data>& data)
+		{
+			Update(data.GetData(), data.GetSize());
 		}
 	}
 }

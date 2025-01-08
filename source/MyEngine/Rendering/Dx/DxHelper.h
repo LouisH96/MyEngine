@@ -36,6 +36,8 @@ namespace MyEngine
 				template <typename T>
 				static void CreateDynamicConstantBuffer(ID3D11Buffer*& pBuffer, T* pInitData = nullptr);
 				template <typename T>
+				static void CreateDynamicConstantBuffer(ID3D11Buffer*& pBuffer, unsigned count, T* pInitData = nullptr);
+				template <typename T>
 				static void CreateImmutableConstantBuffer(ID3D11Buffer*& pBuffer, T& initData = nullptr);
 
 				template <typename T>
@@ -90,6 +92,28 @@ namespace MyEngine
 					: nullptr };
 
 				const HRESULT result = Globals::pGpu->GetDevice().CreateBuffer(&desc, pDataResource, &pBuffer);
+				if (FAILED(result))
+				{
+					Logger::PrintError("[DxHelper::CreateDynamicConstantBuffer]", result);
+					AssertMultipleOf16(sizeof(T));
+				}
+			}
+			template<typename T>
+			inline void DxHelper::CreateDynamicConstantBuffer(ID3D11Buffer*& pBuffer, unsigned count, T* pInitData)
+			{
+				const D3D11_BUFFER_DESC desc
+				{
+					sizeof(T) * count, D3D11_USAGE_DYNAMIC, D3D11_BIND_CONSTANT_BUFFER,
+					D3D11_CPU_ACCESS_WRITE, 0, 0
+				};
+
+				const D3D11_SUBRESOURCE_DATA dataResource{ pInitData };
+				const D3D11_SUBRESOURCE_DATA* pDataResource{ pInitData
+					? &dataResource
+					: nullptr };
+				const HRESULT result{
+					Globals::pGpu->GetDevice().CreateBuffer(&desc, pDataResource, &pBuffer)
+				};
 				if (FAILED(result))
 				{
 					Logger::PrintError("[DxHelper::CreateDynamicConstantBuffer]", result);
