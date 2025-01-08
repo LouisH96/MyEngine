@@ -29,6 +29,7 @@ public:
 	const JointData& GetJointData(unsigned iJoint) const { return m_JointData[iJoint]; }
 
 	unsigned FindParent(unsigned iJoint) const;
+	unsigned GetNrBones() const { return m_JointData.GetSize(); }
 
 private:
 	//First List of RootJoints

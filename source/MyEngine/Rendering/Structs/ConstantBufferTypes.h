@@ -55,7 +55,7 @@ namespace MyEngine
 		};
 		struct CB_BonesBuffer
 		{
-			static constexpr unsigned MAX_BONES = 100;
+			static constexpr unsigned MAX_BONES = 1024;
 			Float4X4 BoneTransforms[MAX_BONES];
 		};
 	}

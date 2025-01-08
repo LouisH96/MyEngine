@@ -21,14 +21,15 @@ public:
 	void SetTime(const Animation& animation, float time);
 	void SetNormalizedTime(const Animation& animation, float time);
 
-	const Animation::BonesBuffer& GetBonesBuffer() const { return m_Buffer; }
+	const Array<Float4X4>& GetBones() const { return m_Bones; }
+
 	const float GetNormalizedTime() const { return m_Time; }
 
 	void SetDuration(float duration);
 	void SetTimeScale(float timeScale);
 
 private:
-	Animation::BonesBuffer m_Buffer;
+	Array<Float4X4> m_Bones;
 	CachedData m_Cache;
 	float m_Time{ 0 };
 	float m_TimeScale{ 1 };

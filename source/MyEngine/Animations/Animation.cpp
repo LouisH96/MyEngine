@@ -24,20 +24,20 @@ Animation::Animation(
 	m_Skeleton = { fbx.GetSkeleton() };
 }
 
-void Animation::UpdateModelBuffer(float time, BonesBuffer& buffer) const
+void Animation::UpdateBonesBuffer(float time, Array<Float4X4>& bones) const
 {
 	const unsigned* pRoot{};
 	const unsigned* pRootEnd{ m_Skeleton.GetRootJointsIt(pRoot) };
 	while (pRoot != pRootEnd)
-		UpdateTransforms(time, *pRoot++, WorldMatrix::GetIdentity(), buffer);
+		UpdateTransforms(time, *pRoot++, WorldMatrix::GetIdentity(), bones);
 }
 
-void Animation::UpdateModelBuffer(float time, BonesBuffer& buffer, CachedData& cache) const
+void Animation::UpdateBonesBuffer(float time, Array<Float4X4>& bones, CachedData& cache) const
 {
 	const unsigned* pRoot{};
 	const unsigned* pRootEnd{ m_Skeleton.GetRootJointsIt(pRoot) };
 	while (pRoot != pRootEnd)
-		UpdateTransforms(time, *pRoot++, WorldMatrix::GetIdentity(), cache, buffer);
+		UpdateTransforms(time, *pRoot++, WorldMatrix::GetIdentity(), cache, bones);
 }
 
 CachedData Animation::MakeCachedData() const
@@ -66,23 +66,23 @@ Float3 Animation::GetModelPosition(unsigned iJoint, float time) const
 	return WorldMatrix::GetPosition(GetModelMatrix(iJoint, time));
 }
 
-void Animation::UpdateTransforms(float time, unsigned iJoint, const Float4X4& parent, BonesBuffer& buffer) const
+void Animation::UpdateTransforms(float time, unsigned iJoint, const Float4X4& parent, Array<Float4X4>& bones) const
 {
 	const Float3 position{ m_TimeValues.GetPosition(iJoint, time) };
 	const Quaternion rotation{ m_TimeValues.GetQuaternion(iJoint, time) };
 	const Float4X4 world{ WorldMatrix::FromPosAndQuat(position, rotation) * parent };
 
 	const SkeletonData::JointData& jointData{ m_Skeleton.GetJointData(iJoint) };
-	buffer.BoneTransforms[iJoint] =
+	bones[iJoint] =
 		jointData.BindTransform * world;
 
 	const unsigned* pChild{};
 	const unsigned* pChildEnd{ m_Skeleton.GetChildrenIt(pChild, iJoint) };
 	while (pChild != pChildEnd)
-		UpdateTransforms(time, *pChild++, world, buffer);
+		UpdateTransforms(time, *pChild++, world, bones);
 }
 
-void Animation::UpdateTransforms(float time, unsigned iJoint, const Float4X4& parent, CachedData& cache, BonesBuffer& buffer) const
+void Animation::UpdateTransforms(float time, unsigned iJoint, const Float4X4& parent, CachedData& cache, Array<Float4X4>& bones) const
 {
 	const JointCacheData& jointCache{ cache.Get(m_TimeValues, iJoint, time) };
 
@@ -91,11 +91,11 @@ void Animation::UpdateTransforms(float time, unsigned iJoint, const Float4X4& pa
 	const Float4X4 world{ WorldMatrix::FromPosAndQuat(position, rotation) * parent };
 
 	const SkeletonData::JointData& jointData{ m_Skeleton.GetJointData(iJoint) };
-	buffer.BoneTransforms[iJoint] =
+	bones[iJoint] =
 		jointData.BindTransform * world;
 
 	const unsigned* pChild{};
 	const unsigned* pChildEnd{ m_Skeleton.GetChildrenIt(pChild, iJoint) };
 	while (pChild != pChildEnd)
-		UpdateTransforms(time, *pChild++, world, cache, buffer);
+		UpdateTransforms(time, *pChild++, world, cache, bones);
 }

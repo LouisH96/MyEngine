@@ -11,15 +11,12 @@ namespace Animations
 class Animation
 {
 public:
-	static constexpr unsigned MAX_BONES = 100;
-	using BonesBuffer = Rendering::CB_BonesBuffer;
-
 	Animation() = default;
 	Animation(const Io::Fbx::FbxClass& fbx, const Io::Fbx::FbxAnimation& animation);
 	Animation(const Io::Fbx::FbxClass& fbx, const Io::Fbx::FbxAnimation& animation, uint64_t start, uint64_t end);
 
-	void UpdateModelBuffer(float time, BonesBuffer& buffer) const;
-	void UpdateModelBuffer(float time, BonesBuffer& buffer, CachedData& cache) const;
+	void UpdateBonesBuffer(float time, Array<Float4X4>& bones) const;
+	void UpdateBonesBuffer(float time, Array<Float4X4>& bones, CachedData& cache) const;
 
 	float GetDuration() const { return m_Duration; }
 
@@ -29,6 +26,7 @@ public:
 	Float3 GetModelPosition(unsigned iJoint, float time) const;
 
 	const SkeletonData& GetSkeleton() const { return m_Skeleton; }
+	unsigned GetNrBones() const { return m_Skeleton.GetNrBones(); }
 
 private:
 	JointsTimeValues m_TimeValues;
@@ -37,12 +35,12 @@ private:
 
 	void UpdateTransforms(
 		float time, unsigned iJoint,
-		const Float4X4& parent, BonesBuffer& buffer) const;
+		const Float4X4& parent, Array<Float4X4>& bones) const;
 
 	void UpdateTransforms(
 		float time, unsigned iJoint,
 		const Float4X4& parent, CachedData& cache,
-		BonesBuffer& buffer) const;
+		Array<Float4X4>& bones) const;
 };
 }
 }
