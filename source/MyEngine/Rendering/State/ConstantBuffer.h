@@ -28,6 +28,9 @@ namespace MyEngine
 			void Update(const Data* pNewData, unsigned count);
 			void Update(const Array<Data>& data);
 
+			Data* StartUpdate();
+			void EndUpdate();
+
 		private:
 			ID3D11Buffer* m_pBuffer{};
 		};
@@ -91,6 +94,16 @@ namespace MyEngine
 		void ConstantBuffer<Data>::Update(const Array<Data>& data)
 		{
 			Update(data.GetData(), data.GetSize());
+		}
+		template<typename Data>
+		inline Data* ConstantBuffer<Data>::StartUpdate()
+		{
+			return Dx::DxHelper::StartUpdateBuffer<Data>(m_pBuffer);
+		}
+		template<typename Data>
+		inline void ConstantBuffer<Data>::EndUpdate()
+		{
+			Dx::DxHelper::EndUpdateBuffer(m_pBuffer);
 		}
 	}
 }
