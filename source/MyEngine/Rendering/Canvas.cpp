@@ -57,7 +57,10 @@ void Canvas::Clear()
 void Canvas::Present() const
 {
 	DXGI_PRESENT_PARAMETERS param{ 0,nullptr,0,nullptr };
-	m_pSwapChain->Present1(0, DXGI_PRESENT_DO_NOT_WAIT, &param);
+
+	const HRESULT result{ m_pSwapChain->Present1(1, 0, &param) };
+	if (FAILED(result))
+		Logger::PrintError("SwapChain", result);
 }
 
 App::ResizedEvent Canvas::OnWindowResized(Int2 newSize)

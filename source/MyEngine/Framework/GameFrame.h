@@ -68,7 +68,7 @@ namespace MyEngine
 			while (!window.IsDestroyed())
 			{
 				//FPS
-				fpsControl.Wait();
+				fpsControl.NoWait();
 
 				//WINDOW MESSAGES
 				window.HandleMessages();
