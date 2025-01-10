@@ -45,6 +45,7 @@ namespace MyEngine
 			//---| Functions |---
 			void Draw() override;
 			void Draw(unsigned instanceCount) const;
+			void Draw(unsigned begin, unsigned count) const;
 
 			unsigned GetVertexCount() const { return m_Counts[IDX_VERTICES]; }
 			unsigned GetInstanceCount() const { return m_Counts[IDX_INSTANCES]; }

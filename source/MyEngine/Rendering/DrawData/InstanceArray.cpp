@@ -51,6 +51,13 @@ void Rendering::InstanceArray::Draw(unsigned instanceCount) const
 	Globals::pGpu->GetContext().DrawInstanced(m_Counts[IDX_VERTICES], instanceCount, 0, 0);
 }
 
+void Rendering::InstanceArray::Draw(unsigned begin, unsigned count) const
+{
+	Globals::pGpu->GetContext().IASetVertexBuffers(0, 2, m_pBuffers, m_Strides, m_Offsets);
+	Globals::pGpu->GetContext().IASetPrimitiveTopology(m_Topology);
+	Globals::pGpu->GetContext().DrawInstanced(m_Counts[IDX_VERTICES], count, 0, begin);
+}
+
 void Rendering::InstanceArray::SetInstanceCapacity(unsigned capacity, bool immutable)
 {
 	m_pBuffers[IDX_INSTANCES]->Release();
