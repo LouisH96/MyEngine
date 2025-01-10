@@ -46,6 +46,7 @@ namespace MyEngine
 		const Data& operator[](unsigned idx) const;
 		const Data& Last() const;
 		const Data& First() const;
+		const Data* End() const;
 		const Data* GetData() const { return m_pData; }
 
 		//---| Functions: Insert |---
@@ -70,6 +71,7 @@ namespace MyEngine
 		//---| Functions: Other |---
 		void DeleteAll() const; //calls delete on all (doesn't clear array)
 		void CopyTo(Array& dest, int destIdx);
+		void CopyTo(Data* pData) const;
 		Data* TakeData();
 
 	private:
@@ -328,6 +330,12 @@ namespace MyEngine
 		return m_pData[0];
 	}
 
+	template<typename Data>
+	inline const Data* Array<Data>::End() const
+	{
+		return &m_pData[m_Size];
+	}
+
 	template <typename Data>
 	void Array<Data>::InsertRevert(unsigned idx, const Data& value)
 	{
@@ -346,6 +354,12 @@ namespace MyEngine
 	void Array<Data>::CopyTo(Array& dest, int destIdx)
 	{
 		std::copy(m_pData, &m_pData[m_Size], &dest.m_pData[destIdx]);
+	}
+
+	template<typename Data>
+	inline void Array<Data>::CopyTo(Data* pData) const
+	{
+		std::copy(m_pData, &m_pData[m_Size], pData);
 	}
 
 	template<typename Data>
