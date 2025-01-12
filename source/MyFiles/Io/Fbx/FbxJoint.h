@@ -64,7 +64,7 @@ namespace MyEngine
 
 			private:
 				std::string m_Name;
-				unsigned m_Id;
+				unsigned m_Id{};
 				Transform m_LocalTransform;
 				Transform m_PreRotationTransform;
 				Transform m_PostRotationTransform;
