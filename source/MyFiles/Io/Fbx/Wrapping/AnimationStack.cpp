@@ -12,7 +12,7 @@ MyEngine::Io::Fbx::Wrapping::AnimationStack::AnimationStack(Reading::FbxElement&
 	LocalStart = properties.GetUInt64("LocalStart", 0);
 	LocalStop = properties.GetUInt64("LocalStop");
 	ReferenceStart = properties.GetUInt64("ReferenceStart", 0);
-	ReferenceStop = properties.GetUInt64("ReferenceStop");
+	ReferenceStop = properties.GetUInt64("ReferenceStop", 0);
 }
 
 void MyEngine::Io::Fbx::Wrapping::AnimationStack::AddAnimationLayer(const AnimationLayer& animationLayer)
