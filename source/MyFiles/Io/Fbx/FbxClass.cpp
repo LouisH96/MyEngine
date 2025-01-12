@@ -12,8 +12,8 @@ using namespace MyEngine;
 using namespace Io::Fbx;
 using namespace Wrapping;
 
-FbxClass::FbxClass(const std::wstring& path, float scale)
-	: FbxClass{ FbxData{path}, scale }
+FbxClass::FbxClass(const std::wstring& path, float scale, bool print)
+	: FbxClass{ FbxData{path, print}, scale }
 {
 }
 

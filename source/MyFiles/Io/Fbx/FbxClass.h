@@ -42,7 +42,7 @@ namespace MyEngine
 				};
 
 				//---| Construction |---
-				explicit FbxClass(const std::wstring& path, float scale);
+				explicit FbxClass(const std::wstring& path, float scale, bool print = false);
 				explicit FbxClass(Wrapping::FbxData&& data, float scale);
 				~FbxClass() = default;
 

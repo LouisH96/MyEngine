@@ -32,8 +32,8 @@ namespace MyEngine
 				{
 				public:
 					//---| Construction |---
-					explicit FbxData(const std::wstring& path);
-					explicit FbxData(Reading::FbxFile data);
+					explicit FbxData(const std::wstring& path, bool print = false);
+					explicit FbxData(Reading::FbxFile data, bool print = false);
 					~FbxData() = default;
 
 					FbxData(const FbxData& other) = delete;

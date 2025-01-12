@@ -8,16 +8,18 @@
 using namespace MyEngine::Io::Fbx::Wrapping;
 using namespace MyEngine::Io::Fbx::Reading;
 
-FbxData::FbxData(const std::wstring& path)
-	: FbxData{ FbxReader::Read(path) }
-{}
+FbxData::FbxData(const std::wstring& path, bool print)
+	: FbxData{ FbxReader::Read(path), print }
+{
+}
 
-FbxData::FbxData(FbxFile data)
+FbxData::FbxData(FbxFile data, bool print)
 {
 	FbxElement& objects{ *data.GetRoot().GetChild("Objects") };
 	FbxElement& connections{ *data.GetRoot().GetChild("Connections") };
 
-	//data.GetRoot().Print();
+	if (print)
+		data.GetRoot().Print(false);
 
 	ReadInfo(data.GetRoot());
 	ReadGeometry(objects);
