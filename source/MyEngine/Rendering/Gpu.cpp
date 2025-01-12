@@ -67,9 +67,18 @@ void Gpu::Init()
 	D3D_FEATURE_LEVEL featureLevel;
 	constexpr D3D_FEATURE_LEVEL featureLevelArray[2] = { D3D_FEATURE_LEVEL_11_0, D3D_FEATURE_LEVEL_10_0, };
 
-	//if (D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, createDeviceFlags, featureLevelArray, 2, D3D11_SDK_VERSION, &d, &m_pSwapChain, &m_pDevice, &featureLevel, &m_pContext) != S_OK)
-	if (D3D11CreateDevice(pBestAdapter, D3D_DRIVER_TYPE_UNKNOWN, nullptr, createDeviceFlags, featureLevelArray, 2, D3D11_SDK_VERSION, &m_pDevice, &featureLevel, &m_pContext) != S_OK)
-		Logger::PrintError("[Gpu::Init] CreateDeviceD3D failed");
+	const HRESULT result{
+		D3D11CreateDevice(
+			pBestAdapter,
+			D3D_DRIVER_TYPE_UNKNOWN, nullptr, //unknown has to be picked if adapter != null
+			createDeviceFlags,
+			featureLevelArray, 2,
+			D3D11_SDK_VERSION,
+			&m_pDevice, &featureLevel, &m_pContext)
+	};
+
+	if (FAILED(result))
+		Logger::PrintError("[Gpu::Init, CreateDevice]", result);
 
 	pBestAdapter->Release();
 }
