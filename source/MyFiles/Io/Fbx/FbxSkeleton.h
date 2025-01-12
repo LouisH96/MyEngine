@@ -31,14 +31,14 @@ namespace MyEngine
 
 				const List<FbxJoint>& GetJoints() const { return m_Joints; }
 				FbxJoint& GetJoint(unsigned idx) { return m_Joints[idx]; }
-				const Array<FbxJoint*>& GetRootJoints() const { return m_RootJoints; }
+				FbxJoint& GetRootJoint() { return m_Joints.First(); }
+				const FbxJoint& GetRootJoint() const { return m_Joints.First(); }
 				unsigned GetNrJoints() const;
 				const FbxJoint& GetJoint(unsigned iJoint) const { return m_Joints[iJoint]; }
 
 				void PrintLocalJointData() const;
 
 			private:
-				Array<FbxJoint*> m_RootJoints;
 				List<FbxJoint> m_Joints;
 
 				void CreateJoints(const Wrapping::Model& model, FbxLoadData& loadData);

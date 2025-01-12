@@ -38,6 +38,9 @@ FbxData::FbxData(FbxFile data, bool print)
 	ReadCollections(objects);
 
 	HandleConnections();
+
+	//'fix' (sometimes to the root comes with Null as type)
+	TrySetRootLimbNode();
 }
 
 MyEngine::Array<Model> FbxData::GetModelsOfType(const std::string& typeName) const
@@ -61,25 +64,13 @@ MyEngine::Array<Model> FbxData::GetLimbNodes() const
 	return GetModelsOfType("LimbNode");
 }
 
-const Model* FbxData::GetARootLimbNode() const
+const Model* FbxData::FindRootLimbNode() const
 {
-	for (unsigned iModel = 0; iModel < m_Models.GetSize(); iModel++)
+	for (unsigned i{ 0 }; i < m_Models.GetSize(); ++i)
 	{
-		const Model& model{ m_Models[iModel] };
-		if (model.GetTypeName() != "LimbNode") continue;
-
-		//find root connection
-		for (unsigned iConnection = 0; iConnection < m_Connections.GetSize(); iConnection++)
-		{
-			const Connection& connection{ m_Connections[iConnection] };
-			if (connection.ChildId != model.GetId()) continue;
-			if (connection.ParentId == 0)
-				return &model;
-
-			const Model* pParent{ FindModel(connection.ParentId) };
-			if (pParent->GetTypeName() == "Null")
-				return &model;
-		}
+		const Model& model{ m_Models[i] };
+		if (model.GetType() == Model::Type::Root)
+			return &model;
 	}
 	return nullptr;
 }
@@ -687,6 +678,24 @@ void FbxData::HandleMaterialConnection(FbxWrapMaterial& material, const Connecti
 	}
 
 	PrintUnhandledConnectionError(FindTypeName(connection.ParentId), "Material");
+}
+
+bool FbxData::TrySetRootLimbNode()
+{
+	for (unsigned i{ 0 }; i < m_Models.GetSize(); ++i)
+	{
+		Model& model{ m_Models[i] };
+		if (model.GetType() == Model::Type::Root)
+			return true;
+
+		if (model.GetType() == Model::Type::LimbNode)
+		{
+			Model& rootParent{ model.GetRootParentModel() };
+			rootParent.SetType(Model::Type::Root);
+			return true;
+		}
+	}
+	return false;
 }
 
 std::string FbxData::FindTypeName(const int64_t& id) const

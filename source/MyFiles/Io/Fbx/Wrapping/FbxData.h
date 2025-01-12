@@ -59,7 +59,7 @@ namespace MyEngine
 
 					Array<Model> GetModelsOfType(const std::string& typeName) const;
 					Array<Model> GetLimbNodes() const;
-					const Model* GetARootLimbNode() const;
+					const Model* FindRootLimbNode() const;
 
 					Geometry* FindGeometry(const int64_t& id);
 					Model* FindModel(const int64_t& id);
@@ -135,6 +135,8 @@ namespace MyEngine
 					void HandleVideoConnection(Video& video, const Connection& connection);
 					void HandleTextureConnection(FbxWrapTexture& texture, const Connection& connection);
 					void HandleMaterialConnection(FbxWrapMaterial& material, const Connection& connection);
+
+					bool TrySetRootLimbNode();
 
 					std::string FindTypeName(const int64_t& id) const;
 					static void PrintUnhandledConnectionError(const std::string& parentType, const std::string& childType);

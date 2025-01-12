@@ -24,7 +24,6 @@ public:
 	SkeletonData() = default;
 	SkeletonData(const Io::Fbx::FbxSkeleton& skeleton);
 
-	const unsigned* GetRootJointsIt(const unsigned*& pFirst) const;
 	const unsigned* GetChildrenIt(const unsigned*& pFirst, unsigned iJoint) const;
 	const JointData& GetJointData(unsigned iJoint) const { return m_JointData[iJoint]; }
 
@@ -32,12 +31,9 @@ public:
 	unsigned GetNrBones() const { return m_JointData.GetSize(); }
 
 private:
-	//First List of RootJoints
-	//Then Lookup-table for each joints towards the beginning of their children (in this array)
+	//First Lookup-table for each joints towards the beginning of their children (in this array)
 	//Then list of children (that gets referenced by the lookup-table)
 	Array<unsigned> m_BoneRelations;
-	unsigned* m_pLookup{};
-
 	Array<JointData> m_JointData;
 
 	void CreateMemory(const Io::Fbx::FbxSkeleton& skeleton);

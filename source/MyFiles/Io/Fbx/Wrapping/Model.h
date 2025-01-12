@@ -57,12 +57,13 @@ namespace MyEngine
 					int GetShading() const { return m_Shading; }
 					const std::string& GetCulling() const { return m_Culling; }
 					Type GetType() const { return m_Type; }
+					void SetType(Type type) { m_Type = type; }
 
 					std::string& GetName() { return m_Name; }
 					bool IsLimbNode() const;
 					bool HasParent() const { return m_pParentModel; }
 
-					void SetParentModel(const Model& parent);
+					void SetParentModel(Model& parent);
 					void SetNodeAttribute(const NodeAttribute& nodeAttribute);
 					void AddChildModel(const Model& child);
 					void AddDeformer(const Deformer& deformer);
@@ -73,6 +74,7 @@ namespace MyEngine
 					const Array<const Model*>& GetChildModels() const { return m_ChildModels; }
 					Array<const Model*> GetLimbNodes() const;
 					const Model& GetRootParentModel() const;
+					Model& GetRootParentModel();
 					const Model* GetParentModel() const { return m_pParentModel; }
 					Array<const Model*> GetChildrenBreadthFirst() const;
 					void AddChildrenBreadthFirst(Array<const Model*>& models) const;
@@ -107,7 +109,7 @@ namespace MyEngine
 					std::string m_Culling{};
 					Type m_Type{ Other };
 
-					const Model* m_pParentModel{};
+					Model* m_pParentModel{};
 					const NodeAttribute* m_pNodeAttribute{};
 					Array<const Model*> m_ChildModels{};
 					Array<const Deformer*> m_Deformers{};

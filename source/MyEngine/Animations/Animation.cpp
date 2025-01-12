@@ -26,18 +26,12 @@ Animation::Animation(
 
 void Animation::UpdateBonesBuffer(float time, Array<Float4X4>& bones) const
 {
-	const unsigned* pRoot{};
-	const unsigned* pRootEnd{ m_Skeleton.GetRootJointsIt(pRoot) };
-	while (pRoot != pRootEnd)
-		UpdateTransforms(time, *pRoot++, WorldMatrix::GetIdentity(), bones);
+	UpdateTransforms(time, 0, WorldMatrix::GetIdentity(), bones);
 }
 
 void Animation::UpdateBonesBuffer(float time, Array<Float4X4>& bones, CachedData& cache) const
 {
-	const unsigned* pRoot{};
-	const unsigned* pRootEnd{ m_Skeleton.GetRootJointsIt(pRoot) };
-	while (pRoot != pRootEnd)
-		UpdateTransforms(time, *pRoot++, WorldMatrix::GetIdentity(), cache, bones);
+	UpdateTransforms(time, 0, WorldMatrix::GetIdentity(), cache, bones);
 }
 
 CachedData Animation::MakeCachedData() const

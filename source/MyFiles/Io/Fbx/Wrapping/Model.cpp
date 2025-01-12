@@ -42,7 +42,7 @@ bool Model::IsLimbNode() const
 	return m_TypeName == "LimbNode";
 }
 
-void Model::SetParentModel(const Model& parent)
+void Model::SetParentModel(Model& parent)
 {
 	if (m_pParentModel)
 		Logger::PrintError("ParentModel already set");
@@ -93,6 +93,13 @@ MyEngine::Array<const Model*> Model::GetLimbNodes() const
 }
 
 const Model& Model::GetRootParentModel() const
+{
+	if (m_pParentModel)
+		return m_pParentModel->GetRootParentModel();
+	return *this;
+}
+
+Model& Model::GetRootParentModel()
 {
 	if (m_pParentModel)
 		return m_pParentModel->GetRootParentModel();

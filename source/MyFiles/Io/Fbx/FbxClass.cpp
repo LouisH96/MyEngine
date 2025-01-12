@@ -26,14 +26,11 @@ FbxClass::FbxClass(FbxData&& data, float scale)
 
 	FbxClassWeights weightsManager{ data.GetGeometries() };
 
-	if (data.GetARootLimbNode())
-	{
-		m_Animations = { data.GetAnimationStacks().GetSize() };
-		for (unsigned i = 0; i < m_Animations.GetSize(); i++)
-			m_Animations[i] = FbxAnimation{ data.GetAnimationStacks()[i] };
+	m_Animations = { data.GetAnimationStacks().GetSize() };
+	for (unsigned i = 0; i < m_Animations.GetSize(); i++)
+		m_Animations[i] = FbxAnimation{ data.GetAnimationStacks()[i] };
 
-		m_Skeleton = FbxSkeleton{ loadData };
-	}
+	m_Skeleton = FbxSkeleton{ loadData };
 
 	m_Geometries = { data.GetGeometries().GetSize() };
 	for (unsigned iGeom = 0; iGeom < m_Geometries.GetSize(); iGeom++)
@@ -72,7 +69,7 @@ FbxClass::FbxClass(FbxData&& data, float scale)
 			WorldMatrix::TransformPoint(transform, point);
 		}
 
-		for(unsigned iNormal = 0; iNormal < modelGeometry.Normals.GetSize(); iNormal++)
+		for (unsigned iNormal = 0; iNormal < modelGeometry.Normals.GetSize(); iNormal++)
 		{
 			Float3& normal{ modelGeometry.Normals[iNormal] };
 			normal.x = -normal.x;

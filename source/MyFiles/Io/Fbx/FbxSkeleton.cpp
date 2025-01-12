@@ -7,35 +7,17 @@ using namespace MyEngine::Io::Fbx;
 
 FbxSkeleton::FbxSkeleton(FbxLoadData& loadData)
 {
-	List<unsigned> rootJointIds{};
-
-	const Wrapping::Model* pRoot{ loadData.pFbxData->GetARootLimbNode() };
-	if (pRoot->GetParentModel())
+	const Wrapping::Model* pRoot{ loadData.pFbxData->FindRootLimbNode() };
+	if (!pRoot)
 	{
-		pRoot = pRoot->GetParentModel();
-		m_RootJoints = { pRoot->GetChildModels().GetSize() };
-		for (unsigned i = 0; i < m_RootJoints.GetSize(); i++)
-		{
-			rootJointIds.Add(m_Joints.GetSize());
-			CreateJoints(*pRoot->GetChildModels()[i], loadData);
-		}
-
-		for (unsigned i = 0; i < m_RootJoints.GetSize(); i++)
-			SetParentChildRelations(*pRoot->GetChildModels()[i], loadData);
-	}
-	else
-	{
-		m_RootJoints = { 1 };
-		rootJointIds.Add(0);
-		CreateJoints(*pRoot, loadData);
-		SetParentChildRelations(*pRoot, loadData);
+		Logger::PrintWarning("[FbxSkeleton] model doesn't have a root limbNode");
+		return;
 	}
 
-	for (unsigned i = 0; i < rootJointIds.GetSize(); i++)
-	{
-		m_RootJoints[i] = &m_Joints[rootJointIds[i]];
-		m_RootJoints[i]->CalculateBindTransforms();
-	}
+	CreateJoints(*pRoot, loadData);
+
+	SetParentChildRelations(*pRoot, loadData);
+	GetRootJoint().CalculateBindTransforms();
 }
 
 unsigned FbxSkeleton::GetNrJoints() const
@@ -45,8 +27,7 @@ unsigned FbxSkeleton::GetNrJoints() const
 
 void FbxSkeleton::PrintLocalJointData() const
 {
-	for (unsigned i = 0; i < m_RootJoints.GetSize(); i++)
-		m_RootJoints[i]->PrintLocalData();
+	GetRootJoint().PrintLocalData();
 }
 
 void FbxSkeleton::CreateJoints(const Wrapping::Model& model, FbxLoadData& loadData)
