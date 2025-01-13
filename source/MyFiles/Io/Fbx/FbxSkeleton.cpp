@@ -9,10 +9,7 @@ FbxSkeleton::FbxSkeleton(FbxLoadData& loadData)
 {
 	const Wrapping::Model* pRoot{ loadData.pFbxData->FindRootLimbNode() };
 	if (!pRoot)
-	{
-		Logger::PrintWarning("[FbxSkeleton] model doesn't have a root limbNode");
 		return;
-	}
 
 	CreateJoints(*pRoot, loadData);
 
