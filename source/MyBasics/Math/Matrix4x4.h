@@ -81,6 +81,10 @@ namespace MyEngine
 		const Vector4<T>& operator[](int idx) const;
 		Matrix4X4 operator*(const Matrix4X4& r) const;
 		Matrix4X4& operator*=(const Matrix4X4& r);
+		Matrix4X4 operator+(const Matrix4X4& r) const;
+		Matrix4X4& operator+=(const Matrix4X4& r);
+		Matrix4X4 operator-(const Matrix4X4& r) const;
+		Matrix4X4& operator-=(const Matrix4X4& r);
 		bool operator==(const Matrix4X4& other) const;
 		bool operator!=(const Matrix4X4& other) const;
 
@@ -415,6 +419,48 @@ namespace MyEngine
 
 		m_Cols[0].w = rows[3].Dot(r.GetCol0()); m_Cols[1].w = rows[3].Dot(r.GetCol1());
 		m_Cols[2].w = rows[3].Dot(r.GetCol2()); m_Cols[3].w = rows[3].Dot(r.GetCol3());
+		return *this;
+	}
+
+	template<typename T>
+	inline Matrix4X4<T> Matrix4X4<T>::operator+(const Matrix4X4& r) const
+	{
+		return Matrix4X4{
+			m_Cols[0] + r.m_Cols[0],
+			m_Cols[1] + r.m_Cols[1],
+			m_Cols[2] + r.m_Cols[2],
+			m_Cols[3] + r.m_Cols[3],
+		};
+	}
+
+	template<typename T>
+	inline Matrix4X4<T>& Matrix4X4<T>::operator+=(const Matrix4X4& r)
+	{
+		m_Cols[0] += r.m_Cols[0];
+		m_Cols[1] += r.m_Cols[1];
+		m_Cols[2] += r.m_Cols[2];
+		m_Cols[3] += r.m_Cols[3];
+		return *this;
+	}
+
+	template<typename T>
+	inline Matrix4X4<T> Matrix4X4<T>::operator-(const Matrix4X4& r) const
+	{
+		return Matrix4X4{
+			m_Cols[0] - r.m_Cols[0],
+			m_Cols[1] - r.m_Cols[1],
+			m_Cols[2] - r.m_Cols[2],
+			m_Cols[3] - r.m_Cols[3],
+		};
+	}
+
+	template<typename T>
+	inline Matrix4X4<T>& Matrix4X4<T>::operator-=(const Matrix4X4& r)
+	{
+		m_Cols[0] -= r.m_Cols[0];
+		m_Cols[1] -= r.m_Cols[1];
+		m_Cols[2] -= r.m_Cols[2];
+		m_Cols[3] -= r.m_Cols[3];
 		return *this;
 	}
 
