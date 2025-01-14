@@ -125,6 +125,24 @@ void WorldMatrix::Translate(Float4X4& m, const Float3& translation)
 	m[2].w += translation.z;
 }
 
+void WorldMatrix::TranslateRelative(Float4X4& m, const Float3& translation)
+{
+	Float3 movement{};
+	movement += GetRight(m) * translation.x;
+	movement += GetUp(m) * translation.y;
+	movement += GetForward(m) * translation.z;
+
+	Translate(m, movement);
+}
+
+void WorldMatrix::TranslateRelativeXz(Float4X4& m, const Float2& translation)
+{
+	Float3 relative{};
+	relative += GetRight(m) * translation.x;
+	relative += GetForward(m) * translation.y;
+	Translate(m, relative);
+}
+
 void WorldMatrix::TranslateRelativeX(Float4X4& m, float translation)
 {
 	m[0][3] += m[0][0] * translation;

@@ -33,6 +33,9 @@ namespace MyEngine
 		static Float4X4 Rotation(float yaw, float pitch);
 
 		static void Translate(Float4X4& m, const Float3& translation);
+
+		static void TranslateRelative(Float4X4& m, const Float3& translation);
+		static void TranslateRelativeXz(Float4X4& m, const Float2& translation);
 		static void TranslateRelativeX(Float4X4& m, float translation);
 		static void TranslateRelativeY(Float4X4& m, float translation);
 
