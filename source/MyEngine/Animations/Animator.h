@@ -12,8 +12,8 @@ public:
 	Animator() = default;
 	Animator(const Animation& animation);
 
-	void ProgressTime(const Animation& animation);
-	void ProgressTime(const Animation& animation, float time);
+	unsigned ProgressTime(const Animation& animation);
+	unsigned ProgressTime(const Animation& animation, float time); //return nr of times it crossed the end
 
 	void ProgressTimeUntil(const Animation& animation, float limit);
 	void ProgressTimeUntil(const Animation& animation, float limit, float amount);
@@ -27,6 +27,8 @@ public:
 
 	void SetDuration(float duration);
 	void SetTimeScale(float timeScale);
+
+	Float2 GetRootXz() const;
 
 private:
 	Array<Float4X4> m_Bones;

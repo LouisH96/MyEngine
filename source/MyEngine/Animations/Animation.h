@@ -25,6 +25,8 @@ public:
 	Float4X4 GetModelMatrix(unsigned iJoint, float time) const;
 	Float3 GetModelPosition(unsigned iJoint, float time) const;
 
+	Float2 GetFullRootMotionXz() const;
+
 	const SkeletonData& GetSkeleton() const { return m_Skeleton; }
 	unsigned GetNrBones() const { return m_Skeleton.GetNrBones(); }
 

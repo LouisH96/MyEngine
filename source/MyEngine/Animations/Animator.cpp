@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Animator.h"
 
+#include <Transform\WorldMatrix.h>
+
 using namespace MyEngine::Animations;
 
 Animator::Animator(const Animation& animation)
@@ -12,18 +14,22 @@ Animator::Animator(const Animation& animation)
 	SetTime(animation, 0);
 }
 
-void Animator::ProgressTime(const Animation& animation)
+unsigned Animator::ProgressTime(const Animation& animation)
 {
-	ProgressTime(animation, DELTA_TIME);
+	return ProgressTime(animation, DELTA_TIME);
 }
 
-void Animator::ProgressTime(const Animation& animation, float time)
+unsigned Animator::ProgressTime(const Animation& animation, float time)
 {
+	unsigned nrLoops{ 0 };
 	m_Time += time * m_TimeScale;
 	while (m_Time >= 1.f)
+	{
 		m_Time -= 1.f;
-
+		nrLoops++;
+	}
 	animation.UpdateBonesBuffer(m_Time, m_Bones, m_Cache);
+	return nrLoops;
 }
 
 void Animator::ProgressTimeUntil(const Animation& animation, float limit)
@@ -89,4 +95,9 @@ void Animator::SetDuration(float duration)
 void Animator::SetTimeScale(float timeScale)
 {
 	m_TimeScale = timeScale;
+}
+
+Float2 Animator::GetRootXz() const
+{
+	return WorldMatrix::GetPositionXz(m_Bones.First());
 }

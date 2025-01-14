@@ -60,6 +60,13 @@ Float3 Animation::GetModelPosition(unsigned iJoint, float time) const
 	return WorldMatrix::GetPosition(GetModelMatrix(iJoint, time));
 }
 
+Float2 Animation::GetFullRootMotionXz() const
+{
+	const Float2 begin{ m_TimeValues.GetPosition(0,0).Xz() };
+	const Float2 end{ m_TimeValues.GetPosition(0,1).Xz() };
+	return end - begin;
+}
+
 void Animation::UpdateTransforms(float time, unsigned iJoint, const Float4X4& parent, Array<Float4X4>& bones) const
 {
 	const Float3 position{ m_TimeValues.GetPosition(iJoint, time) };
