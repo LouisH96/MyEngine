@@ -2,11 +2,12 @@
 #include "CollisionDetection.h"
 
 #include "Geometry/Shapes/Sphere.h"
+#include "Geometry/Shapes/Triangle.h"
 
 using namespace Physics;
 
 bool CollisionDetection::Detect(const Float3& from, const Float3& to,
-                                const Array<Float3>& vertices, const Array<Float3>& triangleNormals, Collision& collision)
+	const Array<Float3>& vertices, const Array<Float3>& triangleNormals, Collision& collision)
 {
 	float rayLength;
 	const Float3 ray{ (to - from).Normalized(rayLength) };
@@ -31,7 +32,7 @@ bool CollisionDetection::Detect(const Float3& from, const Float3& to,
 }
 
 bool CollisionDetection::Detect(const Float3& from, const Float3& to,
-                                const Array<Float3>& vertices, const Array<Float3>& triangleNormals, const Array<int>& indices, Collision& collision)
+	const Array<Float3>& vertices, const Array<Float3>& triangleNormals, const Array<int>& indices, Collision& collision)
 {
 	float rayLength;
 	const Float3 ray{ (to - from).Normalized(rayLength) };
@@ -79,9 +80,27 @@ bool CollisionDetection::Detect(
 	return false;
 }
 
+bool CollisionDetection::IsLineInTriangle(
+	const Float3& l0, const Float3& l1,
+	const Float3& t0, const Float3& t1, const Float3& t2,
+	const Float3& tNormal,
+	Collision& collision)
+{
+	float rayLength;
+	const Float3 ray{ (l1 - l0).Normalized(rayLength) };
+
+	const float time{ GetTime(t0, tNormal, l0, ray) };
+	if (time < 0 || time > rayLength) return false;
+
+	const Float3 hitPoint{ l0 + ray * time };
+	if (!IsPlanePointInTriangle(hitPoint, t0, t1, t2, tNormal)) return false;
+	collision.position = hitPoint;
+	return true;
+}
+
 bool CollisionDetection::IsPlanePointInTriangle(const Float3& point,
-                                                const Float3& v0, const Float3& v1, const Float3& v2,
-                                                const Float3& triangleNormal)
+	const Float3& v0, const Float3& v1, const Float3& v2,
+	const Float3& triangleNormal)
 {
 	const Float3 edge01{ v1 - v0 };
 	const Float3 v0ToPoint{ point - v0 };
