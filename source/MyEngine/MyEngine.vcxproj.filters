@@ -134,6 +134,7 @@
     <ClCompile Include="Animations\SkeletonData.cpp" />
     <ClCompile Include="Animations\Animator.cpp" />
     <ClCompile Include="Rendering\Dx\ShaderIncludes.cpp" />
+    <ClCompile Include="Animations\AnimationUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -347,6 +348,7 @@
     <ClInclude Include="Animations\SkeletonData.h" />
     <ClInclude Include="Animations\Animator.h" />
     <ClInclude Include="Rendering\Dx\ShaderIncludes.h" />
+    <ClInclude Include="Animations\AnimationUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
