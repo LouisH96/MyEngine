@@ -135,6 +135,7 @@
     <ClCompile Include="Animations\Animator.cpp" />
     <ClCompile Include="Rendering\Dx\ShaderIncludes.cpp" />
     <ClCompile Include="Animations\AnimationUtils.cpp" />
+    <ClCompile Include="Geometry\Shapes\Triangle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -349,6 +350,7 @@
     <ClInclude Include="Animations\Animator.h" />
     <ClInclude Include="Rendering\Dx\ShaderIncludes.h" />
     <ClInclude Include="Animations\AnimationUtils.h" />
+    <ClInclude Include="Geometry\Shapes\Triangle.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
