@@ -88,6 +88,12 @@ namespace MyEngine
 		bool operator==(const Matrix4X4& other) const;
 		bool operator!=(const Matrix4X4& other) const;
 
+		Matrix4X4 operator*(float r) const;
+		Matrix4X4& operator*=(float r);
+
+		Vector3<T> AppliedToPoint(const Vector3<T>& v) const; // (rowVector,1) * matrix
+		Vector3<T> AppliedToVector(const Vector3<T>& v) const; // (rowVector,0) * matrix
+
 		Matrix4X4 GetTranspose() const;
 
 	private:
@@ -477,6 +483,47 @@ namespace MyEngine
 	inline bool Matrix4X4<T>::operator!=(const Matrix4X4& other) const
 	{
 		return !(*this == other);
+	}
+
+	template<typename T>
+	inline Matrix4X4<T> Matrix4X4<T>::operator*(float r) const
+	{
+		return Matrix4X4<T>{
+			m_Cols[0] * r,
+				m_Cols[1] * r,
+				m_Cols[2] * r,
+				m_Cols[3] * r,
+		};
+	}
+
+	template<typename T>
+	inline Matrix4X4<T>& Matrix4X4<T>::operator*=(float r)
+	{
+		m_Cols[0] *= r;
+		m_Cols[1] *= r;
+		m_Cols[2] *= r;
+		m_Cols[3] *= r;
+		return *this;
+	}
+
+	template<typename T>
+	inline Vector3<T> Matrix4X4<T>::AppliedToPoint(const Vector3<T>& v) const
+	{
+		return Vector3<T>{
+			v.x* m_Cols[0].x + v.y * m_Cols[0].y + v.z * m_Cols[0].z + m_Cols[0].w,
+				v.x* m_Cols[1].x + v.y * m_Cols[1].y + v.z * m_Cols[1].z + m_Cols[1].w,
+				v.x* m_Cols[2].x + v.y * m_Cols[2].y + v.z * m_Cols[2].z + m_Cols[2].w,
+		};
+	}
+
+	template<typename T>
+	inline Vector3<T> Matrix4X4<T>::AppliedToVector(const Vector3<T>& v) const
+	{
+		return Vector3<T>{
+			v.x* m_Cols[0].x + v.y * m_Cols[0].y + v.z * m_Cols[0].z + m_Cols[0].w,
+				v.x* m_Cols[1].x + v.y * m_Cols[1].y + v.z * m_Cols[1].z + m_Cols[1].w,
+				v.x* m_Cols[2].x + v.y * m_Cols[2].y + v.z * m_Cols[2].z + m_Cols[2].w,
+		};
 	}
 
 	template <typename T>
