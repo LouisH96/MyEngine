@@ -44,6 +44,7 @@ namespace MyEngine
 		void Set(T f, int i);
 
 		Vector2<T> Xz() const;
+		void AddXz(const Vector2<T>& xz);
 
 		void Reverse();
 		void Scale(const Vector3& r);
@@ -156,6 +157,13 @@ namespace MyEngine
 	Vector2<T> Vector3<T>::Xz() const
 	{
 		return { x, z };
+	}
+
+	template<typename T>
+	inline void Vector3<T>::AddXz(const Vector2<T>& xz)
+	{
+		x += xz.x;
+		z += xz.y;
 	}
 
 	template <typename T>
