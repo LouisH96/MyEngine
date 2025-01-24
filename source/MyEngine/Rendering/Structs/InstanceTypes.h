@@ -12,7 +12,7 @@ namespace MyEngine
 			Float3 color;
 
 			static const InputLayout::Element ELEMENTS[];
-			static const int NR_ELEMENTS;
+			static constexpr unsigned NR_ELEMENTS{ 3 };
 
 			bool IsValid() const;
 			void Invalidate();
@@ -33,7 +33,7 @@ namespace MyEngine
 
 			//combined with V_Pos2Uv
 			static const InputLayout::Element ELEMENTS[];
-			static constexpr int NR_ELEMENTS = 5;
+			static constexpr unsigned NR_ELEMENTS{ 5 };
 
 			bool IsValid() const;
 			void Invalidate();
@@ -49,7 +49,7 @@ namespace MyEngine
 			Float4X4 model;
 
 			static const InputLayout::Element ELEMENTS[];
-			static constexpr int NR_ELEMENTS = 1;
+			static constexpr unsigned NR_ELEMENTS{ 1 };
 		};
 		struct I_ModelMatrices
 		{
@@ -57,7 +57,7 @@ namespace MyEngine
 			Float4X4 modelViewProj;
 
 			static const InputLayout::Element ELEMENTS[];
-			static constexpr int NR_ELEMENTS = 2;
+			static constexpr unsigned NR_ELEMENTS{ 2 };
 		};
 		struct I_PosCol
 		{
@@ -65,7 +65,7 @@ namespace MyEngine
 			Float3 col;
 
 			static const InputLayout::Element ELEMENTS[];
-			static constexpr int NR_ELEMENTS = 2;
+			static constexpr unsigned NR_ELEMENTS{ 2 };
 
 			bool IsValid() const;
 			void Invalidate();

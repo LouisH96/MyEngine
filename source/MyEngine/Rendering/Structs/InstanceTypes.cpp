@@ -9,7 +9,6 @@ const InputLayout::Element I_Pos2Col::ELEMENTS[] =
 	{"INST_SIZE", InputLayout::ElementType::Float2, 1, InputLayout::SlotClass::PerInstance},
 	{"INST_COLOR", InputLayout::ElementType::Float3, 1, InputLayout::SlotClass::PerInstance }
 };
-const int I_Pos2Col::NR_ELEMENTS = sizeof ELEMENTS / sizeof(InputLayout::Element);
 
 bool I_Pos2Col::IsValid() const
 {
