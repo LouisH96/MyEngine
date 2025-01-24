@@ -52,6 +52,16 @@ namespace MyEngine
 		void operator/=(const T& r);
 		Vector2 operator-() const;
 
+		template<typename TR>
+		Vector2 operator*(const Vector2<TR>& r) const;
+		template<typename TR>
+		void operator*= (const Vector2<TR>& r);
+
+		template<typename TR>
+		Vector2 operator*(const TR& r) const;
+		template<typename TR>
+		void operator*=(const TR& r);
+
 		T Get(int i) const;
 		void Set(T v, int i);
 
@@ -111,13 +121,28 @@ namespace MyEngine
 		return *this;
 	}
 
+	template<typename T>
+	template<typename TR>
+	inline Vector2<T> Vector2<T>::operator*(const TR& r) const
+	{
+		return { static_cast<T>(x * r), static_cast<T>(y * r) };
+	}
+
+	template<typename T>
+	template<typename TR>
+	inline void Vector2<T>::operator*=(const TR& r)
+	{
+		x *= r;
+		y *= r;
+	}
+
 	template <typename T>
 	bool Vector2<T>::operator==(const Vector2& other)
 	{
 		return x == other.x && y == other.y;
 	}
 
-	template <typename T> Vector2<T> Vector2<T>::operator+(const Vector2& r) const { return { static_cast<T>(x + r.x), static_cast<T>(y + r.y) }; }
+	template <typename T>Vector2<T> Vector2<T>::operator+(const Vector2& r) const { return { static_cast<T>(x + r.x), static_cast<T>(y + r.y) }; }
 	template <typename T> Vector2<T> Vector2<T>::operator-(const Vector2& r) const { return { static_cast<T>(x - r.x), static_cast<T>(y - r.y) }; }
 
 	template <typename T>
@@ -157,6 +182,21 @@ namespace MyEngine
 	template <typename T> void Vector2<T>::operator-=(const T& r) { x -= r; y -= r; }
 	template <typename T> void Vector2<T>::operator*=(const T& r) { x *= r; y *= r; }
 	template <typename T> void Vector2<T>::operator/=(const T& r) { x /= r; y /= r; }
+	
+	template <typename T>
+	template <typename TR>
+	Vector2<T> Vector2<T>::operator*(const Vector2<TR>& r) const
+	{
+		return { static_cast<T>(x * r.x), static_cast<T>(y * r.y) };
+	}
+
+	template <typename T>
+	template <typename TR>
+	void Vector2<T>::operator*=(const Vector2<TR>& r)
+	{
+		x *= r.x;
+		y *= r.y;
+	}
 
 	template <typename T>
 	Vector2<T> Vector2<T>::operator-() const
