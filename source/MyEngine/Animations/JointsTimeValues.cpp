@@ -10,7 +10,7 @@ JointsTimeValues::JointsTimeValues(
 	const List<FbxJoint>& joints,
 	const Io::Fbx::FbxAnimation& animation,
 	const FbxAnimationLayer& animLayer)
-	: JointsTimeValues{ joints, animation, animLayer,
+	: JointsTimeValues{ joints, animLayer,
 	animation.GetLocalStart(),
 	animation.GetLocalStop() }
 {
@@ -18,7 +18,6 @@ JointsTimeValues::JointsTimeValues(
 
 JointsTimeValues::JointsTimeValues(
 	const List<Io::Fbx::FbxJoint>& joints,
-	const Io::Fbx::FbxAnimation& animation,
 	const Io::Fbx::FbxAnimationLayer& animLayer,
 	uint64_t start, uint64_t end)
 {

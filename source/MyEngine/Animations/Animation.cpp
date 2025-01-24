@@ -20,7 +20,7 @@ Animation::Animation(
 	const Io::Fbx::FbxAnimationLayer& layer{ animation.GetLayers().First() };
 	const List<FbxJoint>& joints{ fbx.GetSkeleton().GetJoints() };
 
-	m_TimeValues = { joints, animation, layer, start, end };
+	m_TimeValues = { joints, layer, start, end };
 	m_Skeleton = { fbx.GetSkeleton() };
 }
 
