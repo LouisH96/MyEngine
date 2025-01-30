@@ -9,7 +9,7 @@ FpsCameraController::FpsCameraController()
 }
 
 FpsCameraController::FpsCameraController(Camera& camera)
-	: m_Camera{ camera }
+	: m_pCamera{ &camera }
 	, m_LookAroundSpeed{ 0.25 * Constants::TO_RAD, 0.25 * Constants::TO_RAD }
 	, m_Pitch{ 0 }
 	, m_Yaw{ 0 }
@@ -29,8 +29,8 @@ void FpsCameraController::Update()
 		m_Pitch = -max;
 
 	//CAMERA
-	m_Camera.SetRotation(m_Pitch, m_Yaw);
-	m_Camera.SetPosition(m_Position);
+	m_pCamera->SetRotation(m_Pitch, m_Yaw);
+	m_pCamera->SetPosition(m_Position);
 }
 
 void FpsCameraController::SetPositionXz(const Float2& position)
@@ -65,13 +65,13 @@ Transform FpsCameraController::GetTransform() const
 
 Float3 FpsCameraController::GetRelativeMovement(const Float2& movement) const
 {
-	return m_Camera.GetRightXz() * movement.x
-		+ m_Camera.GetForwardXz().NormalizedSafe() * movement.y;
+	return m_pCamera->GetRightXz() * movement.x
+		+ m_pCamera->GetForwardXz().NormalizedSafe() * movement.y;
 }
 
 Float3 FpsCameraController::GetRelativeMovement(const Float3& movement) const
 {
-	return m_Camera.GetRightXz() * movement.x
-		+ m_Camera.GetForwardXz().NormalizedSafe() * movement.z
+	return m_pCamera->GetRightXz() * movement.x
+		+ m_pCamera->GetForwardXz().NormalizedSafe() * movement.z
 		+ Float3{ 0,movement.y, 0 };
 }
