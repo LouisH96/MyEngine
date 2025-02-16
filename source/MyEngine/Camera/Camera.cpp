@@ -84,17 +84,17 @@ void Camera::SetRotation(float pitch, float yaw)
 	m_World.SetCol2({ -yawSin, yawCos * pitchSin, yawCos * pitchCos });
 }
 
-const Float3& Camera::GetRight() const
+Float3 Camera::GetRight() const
 {
 	return m_World.GetRow0().Xyz();
 }
 
-const Float3& Camera::GetUp() const
+Float3 Camera::GetUp() const
 {
 	return m_World.GetRow1().Xyz();
 }
 
-const Float3& Camera::GetForward() const
+Float3 Camera::GetForward() const
 {
 	return m_World.GetRow2().Xyz();
 }

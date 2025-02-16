@@ -25,9 +25,9 @@ namespace MyEngine
 		void SetForward(const Float3& forward);
 		void SetRotation(float pitch, float yaw);
 
-		const Float3& GetRight() const;
-		const Float3& GetUp() const;
-		const Float3& GetForward() const;
+		Float3 GetRight() const;
+		Float3 GetUp() const;
+		Float3 GetForward() const;
 
 		Float3 GetRightXz() const;
 		Float3 GetForwardXz() const;
