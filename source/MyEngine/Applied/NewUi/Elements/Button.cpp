@@ -3,7 +3,6 @@
 
 #include "Applied/NewUi/NewUiFontRenderer.h"
 #include "Applied/NewUi/NewUiSystem.h"
-#include "Gui/GuiRenderer.h"
 
 using namespace NewUi;
 
@@ -20,19 +19,19 @@ Button::Button(const std::string& text, Function function, FunctionArg functionA
 
 void Button::ToDefaultState()
 {
-	GUI.SetColor(m_BorderId, NewUiSystem::COLOR_MEDIUM);
+	UI_RECT.SetColor(m_BorderId, NewUiSystem::COLOR_MEDIUM);
 	NEW_FONT.EditColor(m_TextId, NewUiSystem::COLOR_MEDIUM);
 }
 
 void Button::ToHoverState()
 {
-	GUI.SetColor(m_BorderId, NewUiSystem::COLOR_LIGHT);
+	UI_RECT.SetColor(m_BorderId, NewUiSystem::COLOR_LIGHT);
 	NEW_FONT.EditColor(m_TextId, NewUiSystem::COLOR_LIGHT);
 }
 
 void Button::ToPressedState()
 {
-	GUI.SetColor(m_BorderId, NewUiSystem::COLOR_MEDIUM);
+	UI_RECT.SetColor(m_BorderId, NewUiSystem::COLOR_MEDIUM);
 	NEW_FONT.EditColor(m_TextId, NewUiSystem::COLOR_LIGHT);
 }
 
@@ -56,8 +55,8 @@ void Button::UpdateSizeAndTreePositions(const ResizePref& pref)
 
 void Button::Clear()
 {
-	GUI.Remove(m_BorderId);
-	GUI.Remove(m_BackgroundId);
+	UI_RECT.Remove(m_BorderId);
+	UI_RECT.Remove(m_BackgroundId);
 	NEW_FONT.Remove(m_TextId);
 }
 
@@ -69,8 +68,8 @@ void Button::Create()
 	const Float2 textSize{ NEW_FONT.GetTextSize_XCenter(m_Text, m_FontSize) };
 	const Float2 textPos{ (GetSize() - textSize) / 2.f + GetPosition() };
 
-	m_BorderId = GUI.Add({ -1,-1 }, GetPosition(), GetSize(), NewUiSystem::COLOR_MEDIUM);
-	m_BackgroundId = GUI.Add({ -1,-1 }, bgPos, bgSize, NewUiSystem::COLOR_DARK);
+	m_BorderId = UI_RECT.Add({ GetPosition(), GetSize() }, NewUiSystem::COLOR_MEDIUM);
+	m_BackgroundId = UI_RECT.Add({bgPos, bgSize}, NewUiSystem::COLOR_DARK);
 	m_TextId = NEW_FONT.Add_XCenter({ m_Text, m_FontSize, NewUiSystem::COLOR_MEDIUM }, textPos);
 }
 

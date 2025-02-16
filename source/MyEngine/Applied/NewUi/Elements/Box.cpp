@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Box.h"
 
-#include "Gui/GuiRenderer.h"
+#include <Applied\NewUi\NewUiSystem.h>
 
 using namespace NewUi;
 
@@ -27,10 +27,11 @@ const std::string Box::GetTypeName() const
 
 void Box::Clear()
 {
-	GUI.Remove(m_BoxId);
+	UI.GetRectRenderer().Remove(m_BoxId);
 }
 
 void Box::Create()
 {
-	m_BoxId = GUI.Add({ -1,-1 }, GetBounds().GetLeftBot(), GetBounds().GetSize(), m_Color);
+	m_BoxId = UI.GetRectRenderer().Add(
+		{ GetBounds().GetLeftBot(), GetBounds().GetSize() }, m_Color);
 }

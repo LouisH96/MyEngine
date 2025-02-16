@@ -45,7 +45,6 @@
     <ClCompile Include="Rendering\DrawData\InstanceArray.cpp" />
     <ClCompile Include="Debug\Rendering\DebugLines.cpp" />
     <ClCompile Include="Rendering\State\PrimitiveTopology.cpp" />
-    <ClCompile Include="Gui\GuiRenderer.cpp" />
     <ClCompile Include="Rendering\Font\FontAtlas.cpp" />
     <ClCompile Include="Generation\PlaneGeneration.cpp" />
     <ClCompile Include="Rendering\State\DepthStencilState.cpp" />
@@ -58,7 +57,6 @@
     <ClCompile Include="Generation\PrismGenerator.cpp" />
     <ClCompile Include="Gui\NdcUtils.cpp" />
     <ClCompile Include="App\ResizedEvent.cpp" />
-    <ClCompile Include="Gui\FontRenderer.cpp" />
     <ClCompile Include="Rendering\Font\FontAtlasLookup.cpp" />
     <ClCompile Include="Geometry\Shapes\CubeAA.cpp" />
     <ClCompile Include="Rendering\Buffers\IdxBuffer.cpp" />
@@ -76,13 +74,11 @@
     <ClCompile Include="Debug\Rendering\DebugCones.cpp" />
     <ClCompile Include="Physics\Collisions\ConeCubeCollision.cpp" />
     <ClCompile Include="Generation\TriangleGenerator.cpp" />
-    <ClCompile Include="Applied\Gui\VerticalButtonList.cpp" />
     <ClCompile Include="Generation\HexGenerator.cpp" />
     <ClCompile Include="Geometry\Shapes\Hexagon.cpp" />
     <ClCompile Include="Applied\Prefabs\PivotRenderer.cpp" />
     <ClCompile Include="Applied\2D\Camera2D.cpp" />
     <ClCompile Include="Applied\2D\Camera2DController.cpp" />
-    <ClCompile Include="Gui\UiRect.cpp" />
     <ClCompile Include="Rendering\State\PixelShader.cpp" />
     <ClCompile Include="Applied\NodeGraph\NodeGraphRenderer.cpp" />
     <ClCompile Include="Applied\NodeGraph\NodeGraph.cpp" />
@@ -136,6 +132,7 @@
     <ClCompile Include="Rendering\Dx\ShaderIncludes.cpp" />
     <ClCompile Include="Animations\AnimationUtils.cpp" />
     <ClCompile Include="Geometry\Shapes\Triangle.cpp" />
+    <ClCompile Include="Applied\NewUi\Renderers\NewUiRectRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -191,7 +188,6 @@
     <ClInclude Include="Debug\Rendering\DebugLines.h" />
     <ClInclude Include="Rendering\DrawData\VertexArray.h" />
     <ClInclude Include="Rendering\State\PrimitiveTopology.h" />
-    <ClInclude Include="Gui\GuiRenderer.h" />
     <ClInclude Include="Rendering\DrawData\VertexList.h" />
     <ClInclude Include="Rendering\Font\FontAtlas.h" />
     <ClInclude Include="Generation\PlaneGeneration.h" />
@@ -215,8 +211,6 @@
     <ClInclude Include="Rendering\Buffers\InvalidateBuffer.h" />
     <ClInclude Include="Gui\NdcUtils.h" />
     <ClInclude Include="App\ResizedEvent.h" />
-    <ClInclude Include="Rendering\Renderers\NdcRectRenderer.h" />
-    <ClInclude Include="Gui\FontRenderer.h" />
     <ClInclude Include="Rendering\Font\FontAtlasLookup.h" />
     <ClInclude Include="Geometry\Shapes\CubeAA.h" />
     <ClInclude Include="Geometry\Shapes\Rect.h" />
@@ -236,13 +230,11 @@
     <ClInclude Include="Debug\Rendering\DebugCones.h" />
     <ClInclude Include="Physics\Collisions\ConeCubeCollision.h" />
     <ClInclude Include="Generation\TriangleGenerator.h" />
-    <ClInclude Include="Applied\Gui\VerticalButtonList.h" />
     <ClInclude Include="Generation\HexGenerator.h" />
     <ClInclude Include="Geometry\Shapes\Hexagon.h" />
     <ClInclude Include="Applied\Prefabs\PivotRenderer.h" />
     <ClInclude Include="Applied\2D\Camera2D.h" />
     <ClInclude Include="Applied\2D\Camera2DController.h" />
-    <ClInclude Include="Gui\UiRect.h" />
     <ClInclude Include="Generation\RectGenerator.h" />
     <ClInclude Include="Geometry\ModelTopology.h" />
     <ClInclude Include="Generation\DiskGenerator_TriangleListIdx.h" />
@@ -351,6 +343,7 @@
     <ClInclude Include="Rendering\Dx\ShaderIncludes.h" />
     <ClInclude Include="Animations\AnimationUtils.h" />
     <ClInclude Include="Geometry\Shapes\Triangle.h" />
+    <ClInclude Include="Applied\NewUi\Renderers\NewUiRectRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

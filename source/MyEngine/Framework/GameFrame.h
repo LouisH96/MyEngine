@@ -7,8 +7,6 @@
 #include "Applied/NewUi/Elements/Root.h"
 #include "Debug/Rendering/DebugRenderer.h"
 #include "Camera/Camera.h"
-#include "Gui/FontRenderer.h"
-#include "Gui/GuiRenderer.h"
 #include "Other\Random.h"
 #include "Rendering/Canvas.h"
 #include "Rendering/FpsDisplay.h"
@@ -52,8 +50,6 @@ namespace MyEngine
 
 			//RENDERING
 			DebugRenderer::Init();
-			Globals::pGuiRenderer = new Gui::GuiRenderer();
-			Globals::pFontRenderer = new Gui::FontRenderer();
 			Globals::pUi = new NewUi::NewUiSystem(canvas.GetSize());
 
 			//FPS
@@ -80,8 +76,6 @@ namespace MyEngine
 					Globals::pUi->OnCanvasResized(resizedEvent);
 
 					camera.OnCanvasResized(resizedEvent);
-					Globals::pGuiRenderer->OnCanvasResized(resizedEvent);
-					Globals::pFontRenderer->OnCanvasResized(resizedEvent);
 					pApp->OnCanvasResized(resizedEvent);
 
 					Globals::pUi->AfterEdit();
@@ -100,8 +94,6 @@ namespace MyEngine
 				DebugRenderer::Render();
 				canvas.ClearDepthBuffer();
 				pApp->RenderUi();
-				Globals::pGuiRenderer->Render();
-				Globals::pFontRenderer->Render();
 				Globals::pUi->Render();
 				fpsDisplay.Render();
 				canvas.Present();
@@ -109,8 +101,6 @@ namespace MyEngine
 
 			delete pApp;
 			delete Globals::pUi;
-			delete Globals::pGuiRenderer;
-			delete Globals::pFontRenderer;
 			DebugRenderer::Release();
 		}
 	}

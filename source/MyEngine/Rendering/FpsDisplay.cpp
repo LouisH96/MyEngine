@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "FpsDisplay.h"
 
-#include <Gui/FontRenderer.h>
 #include <Io/Ttf/TtfReader.h>
 
 using namespace MyEngine;
@@ -13,7 +12,8 @@ Rendering::FpsDisplay::FpsDisplay()
 
 void Rendering::FpsDisplay::Render()
 {
-	Globals::pFontRenderer->Remove(m_TextId);
+	//todo
+	//Globals::pFontRenderer->Remove(m_TextId);
 	SetText();
 }
 
@@ -35,5 +35,5 @@ void Rendering::FpsDisplay::SetText()
 		fps -= static_cast<float>(current * 1000);
 		fps *= 10;
 	}
-	m_TextId = Globals::pFontRenderer->AddRightBot({ &chars[first] }, 9, { -5, 5 }, { 1,1,0 }, 1);
+	//m_TextId = Globals::pFontRenderer->AddRightBot({ &chars[first] }, 9, { -5, 5 }, { 1,1,0 }, 1);
 }

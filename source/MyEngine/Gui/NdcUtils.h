@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Geometry\Shapes\Rects.h>
+
 namespace MyEngine
 {
 	namespace Gui
@@ -25,6 +27,9 @@ namespace MyEngine
 			static Float2 UpdateInvCanvasSize(const Int2& newSize, Float2& invCanvasSize);
 
 			static void Resize(const Float2& scale, const Float2& pivot, Float2& rectCenter, Float2& rectSize);
+
+			static RectFloat ScreenRectToNdc(const RectFloat& rect);
+			static RectFloat ScreenRectToNdc(Float2 invCanvasSize, const RectFloat& rect);
 
 			static void ScreenRectToNdc(const Float2& invCanvasSize, const Float2& offset, const Float2& size, const Float2& pivot, Float2& rectCenter, Float2& rectSize);
 			static void ScreenRectToNdc(const Float2& invCanvasSize, const Float2& canvasPivot, const Float2& offset, const Float2& size, const Float2& elementPivot, Float2& rectCenter, Float2& rectSize);

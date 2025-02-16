@@ -3,7 +3,6 @@
 
 #include "SideMenuPathHelper.h"
 #include "Applied/NewUi/NewUiSystem.h"
-#include "Gui/GuiRenderer.h"
 #include "Tabs/SideMenuTab.h"
 
 using namespace NewUi;
@@ -70,7 +69,7 @@ void SideMenuPath::Clear()
 	for (unsigned i = 0; i < m_ButtonInfo.GetSize(); i++)
 	{
 		ButtonInfo& info{ m_ButtonInfo[i] };
-		GUI.Remove(info.BackgroundId);
+		UI_RECT.Remove(info.BackgroundId);
 		NEW_FONT.Remove(info.TextId);
 
 		if (info.ArrowId != Uint::MAX)
@@ -97,7 +96,7 @@ void SideMenuPath::Create()
 		const Float2 textPosition{ GetPosition() + info.Pos + (buttonSize - textSize) / 2 };
 		const Float2 buttonPos{ GetPosition() + info.Pos };
 
-		info.BackgroundId = GUI.Add({ -1,-1 }, buttonPos, buttonSize, NewUiSystem::COLOR_DARK);
+		info.BackgroundId = UI_RECT.Add({ buttonPos, buttonSize }, NewUiSystem::COLOR_DARK);
 		info.TextId = NEW_FONT.Add_XCenter({ buttonText, FONT_SIZE, NewUiSystem::COLOR_MEDIUM }, textPosition);
 
 		if (i == 0)

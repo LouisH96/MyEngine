@@ -2,7 +2,6 @@
 #include "Border.h"
 
 #include "Applied/NewUi/NewUiSystem.h"
-#include "Gui/GuiRenderer.h"
 
 using namespace NewUi;
 
@@ -29,13 +28,13 @@ void Border::UpdateSizeAndTreePositions(const ResizePref& pref)
 
 void Border::Clear()
 {
-	GUI.Remove(m_BorderId);
-	GUI.Remove(m_BackgroundId);
+	UI_RECT.Remove(m_BorderId);
+	UI_RECT.Remove(m_BackgroundId);
 }
 
 void Border::Create()
 {
-	m_BorderId = GUI.Add({ -1,-1 }, GetPosition(), GetSize(), NewUiSystem::COLOR_MEDIUM);
-	m_BackgroundId = GUI.Add({ -1,-1 }, GetPosition() + NewUiSystem::BORDER_THICKNESS, GetSize() - NewUiSystem::BORDER_THICKNESS * 2, NewUiSystem::COLOR_DARK);
+	m_BorderId = UI_RECT.Add({ GetPosition(), GetSize() }, NewUiSystem::COLOR_MEDIUM);
+	m_BackgroundId = UI_RECT.Add({ GetPosition() + NewUiSystem::BORDER_THICKNESS, GetSize() - NewUiSystem::BORDER_THICKNESS * 2 }, NewUiSystem::COLOR_DARK);
 
 }

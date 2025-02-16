@@ -9,7 +9,6 @@
 #include "Applied/NewUi/Elements/Extender.h"
 #include "Applied/NewUi/Elements/ListElem.h"
 #include "Applied/NewUi/Elements/Margin.h"
-#include "Gui/GuiRenderer.h"
 #include "Tabs/TitleTab.h"
 
 using namespace NewUi;

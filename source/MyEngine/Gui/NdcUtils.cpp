@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "NdcUtils.h"
 
+#include <Geometry\Shapes\Rects.h>
+#include <Rendering\Canvas.h>
+
 using namespace Gui;
 
 Float2 NdcUtils::GetMouseNdc(const Float2& invCanvasSize)
@@ -36,6 +39,20 @@ void NdcUtils::Resize(const Float2& scale, const Float2& pivot, Float2& rectCent
 	rectCenter *= scale;
 	rectCenter += pivot;
 	rectSize *= scale;
+}
+
+RectFloat NdcUtils::ScreenRectToNdc(const RectFloat& rect)
+{
+	return ScreenRectToNdc(CANVAS.GetInvSize(), rect);
+}
+
+RectFloat NdcUtils::ScreenRectToNdc(Float2 invCanvasSize, const RectFloat& rect)
+{
+	invCanvasSize *= 2;
+	return RectFloat{
+		rect.GetLeftBot() * invCanvasSize - 1,
+		rect.GetSize() * invCanvasSize
+	};
 }
 
 void NdcUtils::ScreenRectToNdc(const Float2& invCanvasSize, const Float2& offset, const Float2& size,

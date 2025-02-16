@@ -32,6 +32,7 @@
     <ClCompile Include="Applied\NewUi\Elements\AnchorParent.cpp" />
     <ClCompile Include="Applied\2D\Camera2D.cpp" />
     <ClCompile Include="Applied\2D\Camera2DController.cpp" />
+    <ClCompile Include="Applied\NewUi\Renderers\NewUiRectRenderer.cpp" />
     <ClCompile Include="Applied\NewUi\Structures\SideMenu\Tabs\TitleTab.cpp" />
     <ClCompile Include="Applied\NodeGraph\Fbx\FbxGraphMapper.cpp" />
     <ClCompile Include="Applied\NewUi\Elem.cpp" />
@@ -53,7 +54,6 @@
     <ClCompile Include="Geometry\Shapes\Hexagon.cpp" />
     <ClCompile Include="Generation\HexGenerator.cpp" />
     <ClCompile Include="Applied\NodeGraph\GraphSorter.cpp" />
-    <ClCompile Include="Gui\UiRect.cpp" />
     <ClCompile Include="Applied\NodeGraph\NodeGraphRenderer.cpp" />
     <ClCompile Include="Applied\NodeGraph\NodeGraph.cpp" />
     <ClCompile Include="Applied\NodeGraph\Node.cpp" />
@@ -95,7 +95,6 @@
     <ClCompile Include="Rendering\State\DepthStencilState.cpp" />
     <ClCompile Include="Generation\PlaneGeneration.cpp" />
     <ClCompile Include="Rendering\Font\FontAtlas.cpp" />
-    <ClCompile Include="Gui\GuiRenderer.cpp" />
     <ClCompile Include="Rendering\State\PrimitiveTopology.cpp" />
     <ClCompile Include="Rendering\DrawData\InstanceArray.cpp" />
     <ClCompile Include="App\FpsControl.cpp" />
@@ -146,9 +145,7 @@
     <ClCompile Include="Rendering\Structs\VertexTypes.cpp" />
     <ClCompile Include="Rendering\Renderers\Texture2DRenderer.cpp" />
     <ClCompile Include="Rendering\DrawData\VertexIdxArray.cpp" />
-    <ClCompile Include="Gui\FontRenderer.cpp" />
     <ClCompile Include="Generation\TriangleGenerator.cpp" />
-    <ClCompile Include="Applied\Gui\VerticalButtonList.cpp" />
     <ClCompile Include="Font\TextAssembler.cpp" />
     <ClCompile Include="Applied\NewUi\Elements\Root.cpp" />
     <ClCompile Include="Applied\NewUi\Structures\SideMenu\SideMenu.cpp" />
@@ -201,6 +198,7 @@
     <ClInclude Include="Applied\MeshMaker\Shapes\Strip.h" />
     <ClInclude Include="Applied\MeshMaker\Shapes\StripLoop.h" />
     <ClInclude Include="Applied\NewUi\Elements\AnchorParent.h" />
+    <ClInclude Include="Applied\NewUi\Renderers\NewUiRectRenderer.h" />
     <ClInclude Include="Applied\NewUi\Structures\SideMenu\Tabs\TitleTab.h" />
     <ClInclude Include="App\Win32\KeyCodes.h" />
     <ClInclude Include="Applied\2D\Camera2D.h" />
@@ -242,7 +240,6 @@
     <ClInclude Include="Geometry\ModelTopology.h" />
     <ClInclude Include="Geometry\Shapes\TriangleBase.h" />
     <ClInclude Include="Applied\NodeGraph\GraphSorter.h" />
-    <ClInclude Include="Gui\UiRect.h" />
     <ClInclude Include="Applied\NodeGraph\NodeGraphRenderer.h" />
     <ClInclude Include="Applied\NodeGraph\NodeGraph.h" />
     <ClInclude Include="Applied\NodeGraph\Node.h" />
@@ -290,7 +287,6 @@
     <ClInclude Include="Framework\GameFrame.h" />
     <ClInclude Include="Generation\PrismGenerator.h" />
     <ClInclude Include="Gui\NdcUtils.h" />
-    <ClInclude Include="Rendering\Renderers\NdcRectRenderer.h" />
     <ClInclude Include="Rendering\Buffers\InvalidateBuffer.h" />
     <ClInclude Include="Rendering\Buffers\Buffer.h" />
     <ClInclude Include="App\ResizedEvent.h" />
@@ -304,7 +300,6 @@
     <ClInclude Include="Generation\PlaneGeneration.h" />
     <ClInclude Include="Rendering\DrawData\InstanceList.h" />
     <ClInclude Include="Rendering\Font\FontAtlas.h" />
-    <ClInclude Include="Gui\GuiRenderer.h" />
     <ClInclude Include="Rendering\State\PrimitiveTopology.h" />
     <ClInclude Include="Rendering\DrawData\InstanceArray.h" />
     <ClInclude Include="Physics\CollisionDetection.h" />
@@ -361,9 +356,7 @@
     <ClInclude Include="Rendering\Renderers\Texture2DRenderer.h" />
     <ClInclude Include="Rendering\DrawData\VertexIdxArray.h" />
     <ClInclude Include="Rendering\DrawData\VertexIdxList.h" />
-    <ClInclude Include="Gui\FontRenderer.h" />
     <ClInclude Include="Generation\TriangleGenerator.h" />
-    <ClInclude Include="Applied\Gui\VerticalButtonList.h" />
     <ClInclude Include="Font\TextAssembler.h" />
     <ClInclude Include="Applied\NewUi\Elements\Root.h" />
     <ClInclude Include="Applied\NewUi\Structures\SideMenu\SideMenu.h" />

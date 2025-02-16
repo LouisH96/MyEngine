@@ -58,9 +58,6 @@ namespace MyEngine
 		static Camera* pCamera;
 		static Applied::Camera2D* pCamera2D;
 
-		static Gui::GuiRenderer* pGuiRenderer;
-		static Gui::FontRenderer* pFontRenderer;
-
 		static NewUi::NewUiSystem* pUi;
 	};
 }
@@ -73,8 +70,7 @@ namespace MyEngine
 #define CANVAS (*Globals::pCanvas)
 #define CAMERA (*Globals::pCamera)
 #define CAMERA_2D (*Globals::pCamera2D)
-#define GUI (*Globals::pGuiRenderer)
-#define FONT (*Globals::pFontRenderer)
+
 #define UI (*Globals::pUi)
 #define UI_RECT (UI.GetRectRenderer())
 #define UI_SHAPE (UI.GetShapeRenderer())
