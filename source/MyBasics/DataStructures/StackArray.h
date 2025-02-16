@@ -20,6 +20,9 @@ public:
 	const T& operator[](unsigned index) const { return m_Data[index]; }
 	T& operator[](unsigned index) { return m_Data[index]; }
 
+	const T* GetData() const { return m_Data; }
+	T* GetData() { return m_Data; }
+
 private:
 	T m_Data[TSize]{};
 };
