@@ -65,3 +65,10 @@ void I_PosCol::Invalidate()
 {
 	pos.y = 8192.f;
 }
+
+const InputLayout::Element I_Pos3Size2Col::ELEMENTS[] =
+{
+	{"INST_POSITION", InputLayout::ElementType::Float3, 1, InputLayout::SlotClass::PerInstance},
+	{"INST_COLOR", InputLayout::ElementType::Float3, 1, InputLayout::SlotClass::PerInstance},
+	{"INST_SIZE", InputLayout::ElementType::Float2, 1, InputLayout::SlotClass::PerInstance}
+};

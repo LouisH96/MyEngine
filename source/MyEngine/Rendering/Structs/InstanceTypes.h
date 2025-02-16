@@ -70,5 +70,17 @@ namespace MyEngine
 			bool IsValid() const;
 			void Invalidate();
 		};
+		struct I_Pos3Size2Col
+		{
+			Float3 Position;
+			Float3 Color;
+			Float2 Size;
+
+			bool IsValid() const { return Size.x != 0.f; }
+			void Invalidate() { Size.x = 0.f; }
+
+			static const Rendering::InputLayout::Element ELEMENTS[];
+			static constexpr unsigned NR_ELEMENTS{ 3 };
+		};
 	}
 }
