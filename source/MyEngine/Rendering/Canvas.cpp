@@ -11,6 +11,7 @@ using namespace Rendering;
 
 Canvas::Canvas(App::Win32::Window& window, const Float3& color)
 	: m_Size{ window.GetClientSize() }
+	, m_InvSize{ 1.f / window.GetClientWidthF(), 1.f / window.GetClientHeightF() }
 	, m_Color{ color.x, color.y, color.z, 1 }
 {
 	InitSwapChain(window);
@@ -72,6 +73,7 @@ App::ResizedEvent Canvas::OnWindowResized(Int2 newSize)
 	};
 	SAFE_RELEASE(m_pMainRenderTargetView);
 	m_Size = newSize;
+	m_InvSize = { 1.f / newSize.x, 1.f / newSize.y };
 	const HRESULT result{ m_pSwapChain->ResizeBuffers(0, newSize.x, newSize.y, DXGI_FORMAT_UNKNOWN, 0) };
 	if (FAILED(result)) Logger::PrintError("[Canvas::OnWindowResized] failed resizing buffer");
 	InitRenderTarget();

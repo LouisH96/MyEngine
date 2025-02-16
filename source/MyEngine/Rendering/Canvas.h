@@ -44,6 +44,7 @@ public:
 	float GetHeightF() const { return static_cast<float>(m_Size.y); }
 	float GetAspectRatio() const { return Float::Cast(m_Size.x) / m_Size.y; }
 	float GetInvAspectRatio() const { return static_cast<float>(m_Size.y) / static_cast<float>(m_Size.x); }
+	const Float2& GetInvSize() const { return m_InvSize; }
 
 private:
 	IDXGISwapChain1* m_pSwapChain{};
@@ -53,6 +54,7 @@ private:
 	DepthStencilBuffer m_DepthStencilBuffer;
 
 	Int2 m_Size;
+	Float2 m_InvSize;
 	Float4 m_Color;
 
 	void Clear();
