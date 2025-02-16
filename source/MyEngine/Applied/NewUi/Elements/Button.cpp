@@ -20,19 +20,19 @@ Button::Button(const std::string& text, Function function, FunctionArg functionA
 void Button::ToDefaultState()
 {
 	UI_RECT.SetColor(m_BorderId, NewUiSystem::COLOR_MEDIUM);
-	NEW_FONT.EditColor(m_TextId, NewUiSystem::COLOR_MEDIUM);
+	UI_FONT.EditColor(m_TextId, NewUiSystem::COLOR_MEDIUM);
 }
 
 void Button::ToHoverState()
 {
 	UI_RECT.SetColor(m_BorderId, NewUiSystem::COLOR_LIGHT);
-	NEW_FONT.EditColor(m_TextId, NewUiSystem::COLOR_LIGHT);
+	UI_FONT.EditColor(m_TextId, NewUiSystem::COLOR_LIGHT);
 }
 
 void Button::ToPressedState()
 {
 	UI_RECT.SetColor(m_BorderId, NewUiSystem::COLOR_MEDIUM);
-	NEW_FONT.EditColor(m_TextId, NewUiSystem::COLOR_LIGHT);
+	UI_FONT.EditColor(m_TextId, NewUiSystem::COLOR_LIGHT);
 }
 
 void Button::OnClick()
@@ -42,7 +42,7 @@ void Button::OnClick()
 
 void Button::UpdateSizeAndTreePositions(const ResizePref& pref)
 {
-	const Float2 textSize{ NEW_FONT.GetTextSize_XCenter(m_Text, m_FontSize) };
+	const Float2 textSize{ UI_FONT.GetTextSize_XCenter(m_Text, m_FontSize) };
 	const Float2 insideSize{ textSize + MARGIN * 2 };
 	Float2 borderSize{ insideSize + Float2{NewUiSystem::BORDER_THICKNESS}*2 };
 
@@ -57,7 +57,7 @@ void Button::Clear()
 {
 	UI_RECT.Remove(m_BorderId);
 	UI_RECT.Remove(m_BackgroundId);
-	NEW_FONT.Remove(m_TextId);
+	UI_FONT.Remove(m_TextId);
 }
 
 void Button::Create()
@@ -65,12 +65,12 @@ void Button::Create()
 	const Float2 bgSize{ GetSize() - Float2{ NewUiSystem::BORDER_THICKNESS }*2 };
 	const Float2 bgPos{ GetPosition() + Float2{ NewUiSystem::BORDER_THICKNESS } };
 
-	const Float2 textSize{ NEW_FONT.GetTextSize_XCenter(m_Text, m_FontSize) };
+	const Float2 textSize{ UI_FONT.GetTextSize_XCenter(m_Text, m_FontSize) };
 	const Float2 textPos{ (GetSize() - textSize) / 2.f + GetPosition() };
 
 	m_BorderId = UI_RECT.Add({ GetPosition(), GetSize() }, NewUiSystem::COLOR_MEDIUM);
 	m_BackgroundId = UI_RECT.Add({bgPos, bgSize}, NewUiSystem::COLOR_DARK);
-	m_TextId = NEW_FONT.Add_XCenter({ m_Text, m_FontSize, NewUiSystem::COLOR_MEDIUM }, textPos);
+	m_TextId = UI_FONT.Add_XCenter({ m_Text, m_FontSize, NewUiSystem::COLOR_MEDIUM }, textPos);
 }
 
 const std::string Button::GetTypeName() const

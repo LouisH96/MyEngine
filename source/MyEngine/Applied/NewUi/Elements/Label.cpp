@@ -19,7 +19,7 @@ Label::Label(const std::string& text, const Float3& color, float fontSize)
 
 void Label::UpdateSizeAndTreePositions(const ResizePref& pref)
 {
-	const Float2 textSize{ NEW_FONT.GetTextSize_XCenter(m_Text, m_FontSize) };
+	const Float2 textSize{ UI_FONT.GetTextSize_XCenter(m_Text, m_FontSize) };
 
 	AssertWithinMaxSize(textSize, pref);
 	SetSize(textSize);
@@ -27,10 +27,10 @@ void Label::UpdateSizeAndTreePositions(const ResizePref& pref)
 
 void Label::Clear()
 {
-	NEW_FONT.Remove(m_TextId);
+	UI_FONT.Remove(m_TextId);
 }
 
 void Label::Create()
 {
-	m_TextId = NEW_FONT.Add_XCenter({ m_Text, m_FontSize, m_Color }, GetPosition());
+	m_TextId = UI_FONT.Add_XCenter({ m_Text, m_FontSize, m_Color }, GetPosition());
 }

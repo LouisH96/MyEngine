@@ -10,8 +10,8 @@ using namespace NewUi;
 const Float2 SideMenuPath::BUTTON_MARGIN{ 7,4 };
 
 SideMenuPath::SideMenuPath()
-	: m_ArrowSize{ NEW_FONT.GetTextSize_XCenter(">", FONT_SIZE) }
-	, m_PointsSize{ NEW_FONT.GetTextSize_XCenter("...", FONT_SIZE) }
+	: m_ArrowSize{ UI_FONT.GetTextSize_XCenter(">", FONT_SIZE) }
+	, m_PointsSize{ UI_FONT.GetTextSize_XCenter("...", FONT_SIZE) }
 {
 }
 
@@ -42,7 +42,7 @@ void SideMenuPath::SetTab(SideMenuTab& tab)
 
 void SideMenuPath::AddButton(SideMenuTab& tab)
 {
-	const Float2 textSize{ NEW_FONT.GetTextSize_XCenter(tab.GetTitle(), FONT_SIZE) };
+	const Float2 textSize{ UI_FONT.GetTextSize_XCenter(tab.GetTitle(), FONT_SIZE) };
 
 	ButtonInfo button{};
 	button.Text = tab.GetTitle();
@@ -70,11 +70,11 @@ void SideMenuPath::Clear()
 	{
 		ButtonInfo& info{ m_ButtonInfo[i] };
 		UI_RECT.Remove(info.BackgroundId);
-		NEW_FONT.Remove(info.TextId);
+		UI_FONT.Remove(info.TextId);
 
 		if (info.ArrowId != Uint::MAX)
 		{
-			NEW_FONT.Remove(info.ArrowId);
+			UI_FONT.Remove(info.ArrowId);
 			info.ArrowId = Uint::MAX;
 		}
 	}
@@ -88,7 +88,7 @@ void SideMenuPath::Create()
 
 		const std::string& buttonText{ info.DisplayPoints ? "..." : info.Text };
 
-		const Float2 textSize{ NEW_FONT.GetTextSize_XCenter(buttonText, FONT_SIZE) };
+		const Float2 textSize{ UI_FONT.GetTextSize_XCenter(buttonText, FONT_SIZE) };
 		const Float2 buttonSize{ info.DisplayPoints
 			? Float2{ m_PointsSize.x + BUTTON_MARGIN.x * 2, info.Size.y}
 			: info.Size };
@@ -97,13 +97,13 @@ void SideMenuPath::Create()
 		const Float2 buttonPos{ GetPosition() + info.Pos };
 
 		info.BackgroundId = UI_RECT.Add({ buttonPos, buttonSize }, NewUiSystem::COLOR_DARK);
-		info.TextId = NEW_FONT.Add_XCenter({ buttonText, FONT_SIZE, NewUiSystem::COLOR_MEDIUM }, textPosition);
+		info.TextId = UI_FONT.Add_XCenter({ buttonText, FONT_SIZE, NewUiSystem::COLOR_MEDIUM }, textPosition);
 
 		if (i == 0)
 			continue;
 
 		const Float2 arrowPos{ buttonPos.x - m_ArrowSize.x - ARROW_MARGIN, buttonPos.y + (buttonSize.y - m_ArrowSize.y) / 2 };
-		info.ArrowId = NEW_FONT.Add_XCenter({ ">", FONT_SIZE, NewUiSystem::COLOR_DARK }, arrowPos);
+		info.ArrowId = UI_FONT.Add_XCenter({ ">", FONT_SIZE, NewUiSystem::COLOR_DARK }, arrowPos);
 	}
 }
 

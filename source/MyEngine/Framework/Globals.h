@@ -75,4 +75,4 @@ namespace MyEngine
 #define UI_RECT (UI.GetRectRenderer())
 #define UI_SHAPE (UI.GetShapeRenderer())
 #define UI_IMAGE (UI.GetImageRenderer())
-#define NEW_FONT (Globals::pUi->GetFontRenderer())
+#define UI_FONT (Globals::pUi->GetFontRenderer())
