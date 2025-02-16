@@ -104,6 +104,8 @@ void NewUiSystem::Update()
 
 void NewUiSystem::Render()
 {
+	m_RectRenderer.Render();
+
 	m_ShapeRenderer.Render();
 	m_ImageRenderer.Render();
 	m_FontRenderer.Render();

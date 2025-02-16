@@ -76,4 +76,7 @@ namespace MyEngine
 #define GUI (*Globals::pGuiRenderer)
 #define FONT (*Globals::pFontRenderer)
 #define UI (*Globals::pUi)
+#define UI_RECT (UI.GetRectRenderer())
+#define UI_SHAPE (UI.GetShapeRenderer())
+#define UI_IMAGE (UI.GetImageRenderer())
 #define NEW_FONT (Globals::pUi->GetFontRenderer())

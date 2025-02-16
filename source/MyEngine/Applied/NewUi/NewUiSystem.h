@@ -3,6 +3,7 @@
 #include "Elements/Root.h"
 #include "Renderers/NewUiShapeRenderer.h"
 #include "Renderers\NewUiImageRenderer.h"
+#include "Renderers\NewUiRectRenderer.h"
 
 namespace MyEngine
 {
@@ -26,6 +27,7 @@ namespace MyEngine
 			void BeforeEdit();
 			void AfterEdit();
 
+			NewUiRectRenderer& GetRectRenderer() { return m_RectRenderer; }
 			NewUiFontRenderer& GetFontRenderer() { return m_FontRenderer; }
 			NewUiShapeRenderer& GetShapeRenderer() { return m_ShapeRenderer; }
 			NewUiImageRenderer& GetImageRenderer() { return m_ImageRenderer; }
@@ -42,6 +44,7 @@ namespace MyEngine
 			};
 
 			Root m_Root;
+			NewUiRectRenderer m_RectRenderer;
 			NewUiFontRenderer m_FontRenderer;
 			NewUiShapeRenderer m_ShapeRenderer;
 			NewUiImageRenderer m_ImageRenderer;
