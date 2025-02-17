@@ -50,7 +50,7 @@ namespace MyEngine
 		float* m_pData{}; //first xPositions, than heights, than verOffset
 
 		float m_MaxTextHeight{}; //the max height of a text (tail & head included), in x-space
-		float m_SpaceWidthInWuvSpace; //in width-uv-space
+		float m_SpaceWidthInWuvSpace{}; //in width-uv-space
 		float m_HuvSpaceToXSpace{}; // (1 / UvHeightOfX) -> convert from height-uv-space to x-space
 		float m_WuvSpaceToXSpace{}; // convert width-uv-space to x-space
 
