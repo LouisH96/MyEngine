@@ -70,3 +70,8 @@ void AnchorParent::Clear()
 void AnchorParent::Create()
 {
 }
+
+Float2 AnchorChild::GetChildPosition(const Float2& parentSize) const
+{
+	return parentSize * ParentAnchor - pChild->GetSize() * ChildAnchor;
+}

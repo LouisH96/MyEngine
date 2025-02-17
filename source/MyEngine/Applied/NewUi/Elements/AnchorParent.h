@@ -10,6 +10,9 @@ namespace MyEngine
 			Elem* pChild{};
 			Float2 ParentAnchor;
 			Float2 ChildAnchor;
+
+			//relative to parent
+			Float2 GetChildPosition(const Float2& parentSize) const;
 		};
 
 		class AnchorParent final
