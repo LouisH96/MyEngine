@@ -3,6 +3,7 @@
 
 #include "App/ResizedEvent.h"
 #include "Elements/Button.h"
+#include <Rendering\Canvas.h>
 
 using namespace NewUi;
 
@@ -23,7 +24,10 @@ void NewUiSystem::OnCanvasResized(const App::ResizedEvent& event)
 	m_ShapeRenderer.OnCanvasResized(event);
 	m_FontRenderer.OnCanvasResized(event);
 	m_ImageRenderer.OnCanvasResized(event);
-	m_Root.OnCanvasResized(event);
+
+	Elem* pRoot{ &m_Root };
+	pRoot->UpdateSizeAndTreePositions(GetRootResizePref());
+	pRoot->UpdateTreePositions({});
 }
 
 void NewUiSystem::Update()
@@ -133,12 +137,19 @@ void NewUiSystem::BeforeEdit()
 
 	m_pCurrentElem = nullptr;
 	m_ImageRenderer.Clear();
-	m_Root.ClearTree();
+
+	Elem* pRoot{ &m_Root };
+	pRoot->ClearTree();
 }
 
 void NewUiSystem::AfterEdit()
 {
-	m_Root.CreateTree();
+	Elem* pRoot{ &m_Root };
+
+	pRoot->UpdateSizeAndTreePositions(GetRootResizePref());
+	pRoot->UpdateTreePositions({});
+	pRoot->CreateTree();
+
 	m_ImageRenderer.CreateBuffer();
 }
 
@@ -182,4 +193,13 @@ void NewUiSystem::CreateDebugBorder(const Elem& elem)
 	pos.y -= elem.GetHeight() + thickness;
 
 	m_DebugBorder[3] = m_ShapeRenderer.Rect(pos, size, color);
+}
+
+ResizePref NewUiSystem::GetRootResizePref() const
+{
+	ResizePref pref{};
+	pref.minSize = { 0,0 };
+	pref.maxSize = CANVAS.GetSize();
+	pref.SetMax();
+	return pref;
 }

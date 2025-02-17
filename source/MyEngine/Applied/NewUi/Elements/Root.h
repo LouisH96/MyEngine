@@ -12,19 +12,14 @@ namespace MyEngine
 		public:
 			explicit Root(const Float2& initSize);
 
-			void OnCanvasResized(const App::ResizedEvent& event);
 			void AddChild(Elem* pChild);
 			const std::string GetTypeName() const override;
 
-			void Clear() override;
-			void Create() override;
-
-			using ParentElem::ClearTree;
-			using ParentElem::CreateTree;
-
 		private:
 			void UpdateSizeAndTreePositions(const ResizePref& pref) override;
-			
+
+			void Clear() override;
+			void Create() override;
 		};
 	}
 }

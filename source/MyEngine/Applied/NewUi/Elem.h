@@ -87,7 +87,7 @@ namespace MyEngine
 
 			template<typename T>
 			friend class ParentElem;
-			friend class Root;
+			friend class NewUiSystem;
 		};
 	}
 }
