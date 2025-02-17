@@ -81,7 +81,7 @@ unsigned NewUiFontRenderer::Add(const TextInfo& text, const Float2& position)
 	return id;
 }
 
-unsigned NewUiFontRenderer::Add_XCenter(const TextInfo& text, const Float2& position)
+unsigned NewUiFontRenderer::Add(const TextInfo& text, const Float2& position, const Float2& pivot)
 {
 	Entry* pEntry;
 	const unsigned id{ m_Entries.Validate(pEntry) };
@@ -89,10 +89,15 @@ unsigned NewUiFontRenderer::Add_XCenter(const TextInfo& text, const Float2& posi
 	m_Assembler.AssembleInto_XCenter([&text](const Float2& pos, const Float2& uv)
 		{
 			return Vertex{ pos, text.Color, uv };
-		}, ListAdder<Vertex>{pEntry->Vertices}, (position - m_HalfScreenSize)* m_ScreenSpaceToNdc, { 0,0 }, text.Text, m_ScreenSpaceToNdc* text.Scale);
+		}, ListAdder<Vertex>{pEntry->Vertices}, (position - m_HalfScreenSize)* m_ScreenSpaceToNdc, pivot, text.Text, m_ScreenSpaceToNdc* text.Scale);
 
 	m_NrVertices += pEntry->Vertices.GetSize();
 	return id;
+}
+
+unsigned NewUiFontRenderer::Add_XCenter(const TextInfo& text, const Float2& position)
+{
+	return Add(text, position, { 0,0 });
 }
 
 void NewUiFontRenderer::Remove(unsigned id)

@@ -23,6 +23,9 @@ namespace MyEngine
 			void Render();
 
 			unsigned Add(const TextInfo& text, const Float2& position);
+
+			//x-center mode by default
+			unsigned Add(const TextInfo& text, const Float2& position, const Float2& pivot);
 			unsigned Add_XCenter(const TextInfo& text, const Float2& position);
 			void Remove(unsigned id);
 			void Clear();
