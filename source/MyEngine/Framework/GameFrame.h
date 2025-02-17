@@ -4,7 +4,6 @@
 #include "App/Win32/Window.h"
 #include "Applied/NewUi/NewUiFontRenderer.h"
 #include "Applied/NewUi/NewUiSystem.h"
-#include "Applied/NewUi/Elements/Root.h"
 #include "Debug/Rendering/DebugRenderer.h"
 #include "Camera/Camera.h"
 #include "Other\Random.h"

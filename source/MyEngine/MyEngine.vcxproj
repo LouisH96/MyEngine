@@ -147,7 +147,6 @@
     <ClCompile Include="Rendering\DrawData\VertexIdxArray.cpp" />
     <ClCompile Include="Generation\TriangleGenerator.cpp" />
     <ClCompile Include="Font\TextAssembler.cpp" />
-    <ClCompile Include="Applied\NewUi\Elements\Root.cpp" />
     <ClCompile Include="Applied\NewUi\Structures\SideMenu\SideMenu.cpp" />
     <ClCompile Include="Applied\NewUi\SizeDef.cpp" />
     <ClCompile Include="Applied\NewUi\Structures\SideMenu\SideMenuPath.cpp" />
@@ -358,7 +357,6 @@
     <ClInclude Include="Rendering\DrawData\VertexIdxList.h" />
     <ClInclude Include="Generation\TriangleGenerator.h" />
     <ClInclude Include="Font\TextAssembler.h" />
-    <ClInclude Include="Applied\NewUi\Elements\Root.h" />
     <ClInclude Include="Applied\NewUi\Structures\SideMenu\SideMenu.h" />
     <ClInclude Include="Applied\NewUi\SizeDef.h" />
     <ClInclude Include="Applied\NewUi\Structures\SideMenu\SideMenuPath.h" />

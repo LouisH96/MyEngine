@@ -88,7 +88,6 @@
     <ClCompile Include="Applied\NodeGraph\NodeGraphFontRenderer.cpp" />
     <ClCompile Include="Applied\NodeGraph\GraphSorter.cpp" />
     <ClCompile Include="Applied\NodeGraph\Fbx\FbxGraphMapper.cpp" />
-    <ClCompile Include="Applied\NewUi\Elements\Root.cpp" />
     <ClCompile Include="Applied\NewUi\Elem.cpp" />
     <ClCompile Include="Applied\NewUi\EmptyChildOptions.cpp" />
     <ClCompile Include="Applied\NewUi\Elements\Box.cpp" />
@@ -251,7 +250,6 @@
     <ClInclude Include="Applied\NodeGraph\NodeGraphFontRenderer.h" />
     <ClInclude Include="Applied\NodeGraph\GraphSorter.h" />
     <ClInclude Include="Applied\NodeGraph\Fbx\FbxGraphMapper.h" />
-    <ClInclude Include="Applied\NewUi\Elements\Root.h" />
     <ClInclude Include="Applied\NewUi\Elem.h" />
     <ClInclude Include="Applied\NewUi\ParentElem.h" />
     <ClInclude Include="Applied\NewUi\EmptyChildOptions.h" />

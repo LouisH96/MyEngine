@@ -12,7 +12,7 @@ const Float3 NewUiSystem::COLOR_MEDIUM = Float3{ .4f };
 const Float3 NewUiSystem::COLOR_LIGHT = Float3{ .6f };
 
 NewUiSystem::NewUiSystem(const Float2& screenSize)
-	: m_Root{ screenSize }
+	: m_Root{}
 	, m_FontRenderer{ screenSize }
 	, m_pCurrentElem{ nullptr }
 	, m_CurrentElemState() //no need
@@ -115,9 +115,10 @@ void NewUiSystem::Render()
 	m_FontRenderer.Render();
 }
 
-void NewUiSystem::AddChild(Elem* pChild)
+void NewUiSystem::AddChild(Elem* pChild,
+	const Float2& parentPivot, const Float2& childPivot)
 {
-	m_Root.AddChild(pChild);
+	m_Root.AddChild({ pChild, parentPivot, childPivot });
 }
 
 void NewUiSystem::RemoveChild(Elem* pChild)

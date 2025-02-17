@@ -18,17 +18,13 @@ SideMenu::SideMenu(float width)
 {
 	UI.BeforeEdit();
 
-	//Main Elem
-	AnchorParent* pAnchor{ new AnchorParent() };
-	UI.AddChild(pAnchor);
-
 	//Extender
 	SizeDef extenderSize;
 	extenderSize.HorizontalMode = SizeDef::Mode::Pixels;
 	extenderSize.VerticalMode = SizeDef::Mode::Percentage;
 	extenderSize.Value = { width,1.f };
 	Extender* pExtender{ new Extender(extenderSize) };
-	pAnchor->AddChild(pExtender, { 0,1 });
+	UI.AddChild(pExtender);
 
 	//Background
 	pExtender->AddChild({ new Box(NewUiSystem::COLOR_MEDIUM) });

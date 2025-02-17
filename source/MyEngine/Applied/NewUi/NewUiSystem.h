@@ -1,6 +1,6 @@
 #pragma once
 #include "NewUiFontRenderer.h"
-#include "Elements/Root.h"
+#include "Elements/AnchorParent.h"
 #include "Renderers/NewUiShapeRenderer.h"
 #include "Renderers\NewUiImageRenderer.h"
 #include "Renderers\NewUiRectRenderer.h"
@@ -20,7 +20,7 @@ namespace MyEngine
 			void Update();
 			void Render();
 
-			void AddChild(Elem* pChild);
+			void AddChild(Elem* pChild, const Float2& parentPivot = {0,0}, const Float2& childPivot = {0,0});
 			void RemoveChild(Elem* pChild);
 			void DeleteChild(Elem* pChild);
 
@@ -43,7 +43,7 @@ namespace MyEngine
 				Hovered, Pressed
 			};
 
-			Root m_Root;
+			AnchorParent m_Root;
 			NewUiRectRenderer m_RectRenderer;
 			NewUiFontRenderer m_FontRenderer;
 			NewUiShapeRenderer m_ShapeRenderer;
