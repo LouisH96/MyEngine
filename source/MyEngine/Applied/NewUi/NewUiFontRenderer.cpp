@@ -53,7 +53,7 @@ void NewUiFontRenderer::Update()
 void NewUiFontRenderer::Render()
 {
 	Update();
-	PrimitiveTopology::Activate(ModelTopology::TriangleList);
+	PrimitiveTopology::Activate(TOPOLOGY);
 	m_RasterizerState.Activate();
 	m_InputLayout.Activate();
 	m_Shader.Activate();

@@ -42,6 +42,8 @@ namespace MyEngine
 				bool IsValid() const { return Vertices.Any(); }
 				void Invalidate() { Vertices.Clear(); }
 			};
+			static constexpr ModelTopology TOPOLOGY{ ModelTopology::TriangleList };
+			static constexpr unsigned VERTICES_PER_CHAR{ 6 };
 
 			Rendering::InputLayout m_InputLayout;
 			Rendering::Shader m_Shader;
