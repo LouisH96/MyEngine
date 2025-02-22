@@ -1,6 +1,8 @@
 #pragma once
 #define INVALIDATE_LIST_DEBUG
 
+#include "PtrRangeConst.h"
+
 namespace MyEngine
 {
 	template<typename Data>
