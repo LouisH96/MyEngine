@@ -26,8 +26,8 @@ namespace MyEngine
 			static const InputLayout::Element ELEMENTS[];
 			static constexpr unsigned NR_ELEMENTS = 2;
 
-			bool IsValid() const { return pos.x != -9999.f; }
-			void Invalidate() { pos.x = -9999.f; }
+			bool IsValid() const { return pos.x != Float::INVALID; }
+			void Invalidate() { pos.x = Float::INVALID; }
 		};
 		struct V_Pos2Uv
 		{
