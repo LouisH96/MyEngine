@@ -25,6 +25,8 @@ void Label::UpdateSizeAndTreePositions(const ResizePref& pref)
 
 #ifdef MY_DEBUG
 	AssertWithinMaxSize(textSize, pref);
+#else
+	UNREFERENCED_PARAMETER(pref);
 #endif
 	SetSize(textSize);
 }
