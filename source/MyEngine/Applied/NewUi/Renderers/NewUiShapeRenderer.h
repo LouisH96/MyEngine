@@ -20,7 +20,7 @@ namespace MyEngine
 			void Remove(unsigned id);
 			unsigned Rect(Float2 leftBot, Float2 size, const Float3& color);
 			unsigned Line(Float2 begin, Float2 end, float thickness, const Float3& color);
-			unsigned Circle(Float2 center, DiskGenerator<TOPOLOGY>::Options options, const Float3& color);
+			unsigned Circle(Float2 center, Generation::DiskGenerator<TOPOLOGY>::Options options, const Float3& color);
 
 		private:
 			using Vertex = Rendering::V_Pos2Col;

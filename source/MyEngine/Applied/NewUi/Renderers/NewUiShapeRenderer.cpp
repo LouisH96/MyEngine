@@ -1,8 +1,9 @@
 #include "pch.h"
 #include "NewUiShapeRenderer.h"
 
-#include "Framework/Resources.h"
-#include "Rendering/Canvas.h"
+#include <Framework/Resources.h>
+#include <Generation\DiskGenerator.h>
+#include <Rendering/Canvas.h>
 
 using namespace NewUi;
 using namespace Rendering;
@@ -120,14 +121,14 @@ unsigned NewUiShapeRenderer::Line(Float2 begin, Float2 end, float thickness, con
 	return shapeId;
 }
 
-unsigned NewUiShapeRenderer::Circle(Float2 center, DiskGenerator<TOPOLOGY>::Options options, const Float3& color)
+unsigned NewUiShapeRenderer::Circle(Float2 center, Generation::DiskGenerator<TOPOLOGY>::Options options, const Float3& color)
 {
 	Shape* pShape;
 	const unsigned shapeId{ m_Shapes.Validate(pShape) };
 
 	Adder adder{ *pShape, m_Vertices };
 
-	using Generator = DiskGenerator<TOPOLOGY>;
+	using Generator = Generation::DiskGenerator<TOPOLOGY>;
 	Generator::Generate([center, color, this](const Float2& point)
 		{
 			return Vertex{ (point + center) * m_ToNdcMultiplier - 1 , color };
