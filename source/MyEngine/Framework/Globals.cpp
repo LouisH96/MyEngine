@@ -9,4 +9,4 @@ Rendering::Gpu* Globals::pGpu = nullptr;
 const Rendering::Canvas* Globals::pCanvas = nullptr;
 Camera* Globals::pCamera = nullptr;
 Applied::Camera2D* Globals::pCamera2D = nullptr;
-NewUi::NewUiSystem* Globals::pUi{};
+Ui::UiSystem* Globals::pUi{};

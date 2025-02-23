@@ -4,10 +4,10 @@ namespace MyEngine
 {
 class Camera;
 
-namespace NewUi
+namespace Ui
 {
-class NewUiSystem;
-class NewUiFontRenderer;
+class UiSystem;
+class UiFontRenderer;
 class Root;
 }
 
@@ -58,7 +58,7 @@ public:
 	static Camera* pCamera;
 	static Applied::Camera2D* pCamera2D;
 
-	static NewUi::NewUiSystem* pUi;
+	static Ui::UiSystem* pUi;
 };
 }
 

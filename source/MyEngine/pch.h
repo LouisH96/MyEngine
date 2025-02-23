@@ -26,5 +26,5 @@
 
 using namespace MyEngine;
 using namespace Debug;
-using namespace NewUi;
+using namespace Ui;
 using namespace Timing;

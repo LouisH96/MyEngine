@@ -8,8 +8,8 @@
 #include "Rendering/Canvas.h"
 #include "Rendering/FpsDisplay.h"
 #include "Rendering/Gpu.h"
-#include <Applied\NewUi\NewUiSystem.h>
-#include <Applied\NewUi\Renderers\NewUiFontRenderer.h>
+#include <Ui\UiSystem.h>
+#include <Ui\Renderers\UiFontRenderer.h>
 
 namespace MyEngine
 {
@@ -49,7 +49,7 @@ void GameFrame::Run(const std::wstring& windowName, App::Win32::Window::Options 
 
 	//RENDERING
 	DebugRenderer::Init();
-	Globals::pUi = new NewUi::NewUiSystem(canvas.GetSize());
+	Globals::pUi = new Ui::UiSystem(canvas.GetSize());
 
 	//FPS
 	FpsDisplay fpsDisplay{};
