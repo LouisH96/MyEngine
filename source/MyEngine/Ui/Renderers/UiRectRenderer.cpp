@@ -8,7 +8,7 @@ using namespace Rendering;
 
 UiRectRenderer::UiRectRenderer()
 	: m_Shader{ Resources::GlobalShader(L"Gui.hlsl") }
-	, m_InputLayout{ InputLayout::FromTypes2<Vertex, Instance>() }
+	, m_InputLayout{ InputLayout::FromTypes<Vertex, Instance>() }
 	, m_Instances{ 4 }
 {
 	StackArray<Vertex, 4> vertices{};
