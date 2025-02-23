@@ -3,6 +3,8 @@
 
 #include "..\UiSystem.h"
 
+//#define MY_DEBUG
+
 using namespace Ui;
 
 Label::Label(const std::string& text, float fontSize)
@@ -21,7 +23,9 @@ void Label::UpdateSizeAndTreePositions(const ResizePref& pref)
 {
 	const Float2 textSize{ UI_FONT.GetTextSize_XCenter(m_Text, m_FontSize) };
 
+#ifdef MY_DEBUG
 	AssertWithinMaxSize(textSize, pref);
+#endif
 	SetSize(textSize);
 }
 
@@ -34,3 +38,5 @@ void Label::Create()
 {
 	m_TextId = UI_FONT.Add_XCenter({ m_Text, m_FontSize, m_Color }, GetPosition());
 }
+
+#undef MY_DEBUG

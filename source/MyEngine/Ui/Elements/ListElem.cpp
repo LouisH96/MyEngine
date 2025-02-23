@@ -5,6 +5,8 @@
 
 using namespace Ui;
 
+//#define MY_DEBUG
+
 ListElem::ListElem(const Settings& settings)
 	:m_ChildMargin{ settings.ChildMargin }
 	, m_UniformChildWidth{ settings.UniformChildWidth }
@@ -31,8 +33,10 @@ void ListElem::UpdateSizeAndTreePositions(const ResizePref& pref)
 		UpdateChildSize(i, childPref);
 
 		const float childWidth{ child.GetWidth() };
+#ifdef MY_DEBUG
 		if (childWidth > pref.maxSize.x) //warning should come from button. Child shouldn't be able to be too big here.
 			Logger::PrintWarning("[ListElem::UpdateSizeAndTreePositions] child's width is wider than list's max width");
+#endif
 
 		childBounds.x = Float::Max(childBounds.x, childWidth);
 		childBounds.y += child.GetHeight() + m_ChildMargin;
@@ -46,8 +50,10 @@ void ListElem::UpdateSizeAndTreePositions(const ResizePref& pref)
 	listSize.x = Float::Max(pref.minSize.x, listSize.x);
 	listSize.y = Float::Max(pref.minSize.y, listSize.y);
 
+#ifdef MY_DEBUG
 	if (listSize.y > pref.maxSize.y) //should be handled earlier
 		Logger::PrintWarning("[ListElem::UpdateSizeAndTreePositions] list's height is higher than it's max");
+#endif
 
 	if (pref.horMode == FillMode::Max)
 		listSize.x = pref.maxSize.x;
@@ -105,3 +111,5 @@ void ListElem::Clear()
 void ListElem::Create()
 {
 }
+
+#undef MY_DEBUG

@@ -4,6 +4,8 @@
 #include "..\UiSystem.h"
 #include "..\Renderers\UiFontRenderer.h"
 
+//#define MY_DEBUG
+
 using namespace Ui;
 
 const Float2 Button::MARGIN{ 15.f, 11.f };
@@ -48,7 +50,9 @@ void Button::UpdateSizeAndTreePositions(const ResizePref& pref)
 	if (pref.horMode == FillMode::Max)
 		borderSize.x = pref.maxSize.x;
 
+#ifdef MY_DEBUG
 	AssertWithinMaxSize(borderSize, pref);
+#endif
 	SetSize(borderSize);
 }
 
@@ -76,3 +80,5 @@ const std::string Button::GetTypeName() const
 {
 	return "Button";
 }
+
+#undef MY_DEBUG
