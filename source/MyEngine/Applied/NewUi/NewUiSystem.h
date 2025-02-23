@@ -1,6 +1,6 @@
 #pragma once
 #include "Elements\AnchorParent.h"
-#include "NewUiFontRenderer.h"
+#include "Renderers\NewUiFontRenderer.h"
 #include "Renderers\NewUiImageRenderer.h"
 #include "Renderers\NewUiRectRenderer.h"
 #include "Renderers\NewUiShapeRenderer.h"

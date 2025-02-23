@@ -1,15 +1,15 @@
 #pragma once
-#include "CppFramework.h"
 #include "App/FpsControl.h"
 #include "App/Win32/Window.h"
-#include "Applied/NewUi/NewUiFontRenderer.h"
-#include "Applied/NewUi/NewUiSystem.h"
-#include "Debug/Rendering/DebugRenderer.h"
 #include "Camera/Camera.h"
+#include "CppFramework.h"
+#include "Debug/Rendering/DebugRenderer.h"
 #include "Other\Random.h"
 #include "Rendering/Canvas.h"
 #include "Rendering/FpsDisplay.h"
 #include "Rendering/Gpu.h"
+#include <Applied\NewUi\NewUiSystem.h>
+#include <Applied\NewUi\Renderers\NewUiFontRenderer.h>
 
 namespace MyEngine
 {

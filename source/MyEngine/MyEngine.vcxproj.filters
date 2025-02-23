@@ -94,7 +94,7 @@
     <ClCompile Include="Applied\NewUi\Elements\RelativeParent.cpp" />
     <ClCompile Include="Applied\NewUi\Elements\ListElem.cpp" />
     <ClCompile Include="Applied\NewUi\Elements\Button.cpp" />
-    <ClCompile Include="Applied\NewUi\NewUiFontRenderer.cpp" />
+    <ClCompile Include="Applied\NewUi\Renderers\NewUiFontRenderer.cpp" />
     <ClCompile Include="Applied\NewUi\NewUiSystem.cpp" />
     <ClCompile Include="Applied\NewUi\Elements\AnchorParent.cpp" />
     <ClCompile Include="Applied\NewUi\Elements\Label.cpp" />
@@ -257,7 +257,7 @@
     <ClInclude Include="Applied\NewUi\Elements\RelativeParent.h" />
     <ClInclude Include="Applied\NewUi\Elements\ListElem.h" />
     <ClInclude Include="Applied\NewUi\Elements\Button.h" />
-    <ClInclude Include="Applied\NewUi\NewUiFontRenderer.h" />
+    <ClInclude Include="Applied\NewUi\Renderers\NewUiFontRenderer.h" />
     <ClInclude Include="Applied\NewUi\NewUiSystem.h" />
     <ClInclude Include="Applied\NewUi\Elements\AnchorParent.h" />
     <ClInclude Include="Applied\NewUi\Elements\Label.h" />

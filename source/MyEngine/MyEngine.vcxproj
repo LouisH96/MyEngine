@@ -61,7 +61,7 @@
     <ClCompile Include="Applied\NodeGraph\NodeGrabbing.cpp" />
     <ClCompile Include="Applied\NodeGraph\NodeGraphFontRenderer.cpp" />
     <ClCompile Include="Applied\NewUi\Elements\ListElem.cpp" />
-    <ClCompile Include="Applied\NewUi\NewUiFontRenderer.cpp" />
+    <ClCompile Include="Applied\NewUi\Renderers\NewUiFontRenderer.cpp" />
     <ClCompile Include="Applied\NewUi\NewUiSystem.cpp" />
     <ClCompile Include="Applied\NewUi\Elements\Label.cpp" />
     <ClCompile Include="Applied\NewUi\Elements\Margin.cpp" />
@@ -247,7 +247,7 @@
     <ClInclude Include="Applied\NodeGraph\NodeGraphFontRenderer.h" />
     <ClInclude Include="Applied\NewUi\ParentElem.h" />
     <ClInclude Include="Applied\NewUi\Elements\ListElem.h" />
-    <ClInclude Include="Applied\NewUi\NewUiFontRenderer.h" />
+    <ClInclude Include="Applied\NewUi\Renderers\NewUiFontRenderer.h" />
     <ClInclude Include="Applied\NewUi\NewUiSystem.h" />
     <ClInclude Include="Applied\NewUi\Elements\Label.h" />
     <ClInclude Include="Applied\NewUi\Elements\Margin.h" />
