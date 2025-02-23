@@ -68,6 +68,11 @@ void Elem::SetHeight(float height)
 	m_Bounds.SetHeight(height);
 }
 
+void Elem::RequestUpdate()
+{
+	UI_TREE.RequestUpdate();
+}
+
 void Elem::AssertWithinMaxSize(const Float2& desired, const ResizePref& pref)
 {
 	if (desired.x > pref.maxSize.x)

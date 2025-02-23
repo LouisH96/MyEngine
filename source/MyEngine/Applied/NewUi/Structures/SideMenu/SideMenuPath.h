@@ -1,6 +1,7 @@
 #pragma once
-#include "Applied/NewUi/EmptyChildOptions.h"
-#include "Applied/NewUi/ParentElem.h"
+#include <Applied\NewUi\EmptyChildOptions.h>
+#include <Applied\NewUi\ParentElem.h>
+#include <Applied\NewUi\GraphicsId.h>
 
 namespace MyEngine
 {
@@ -22,14 +23,16 @@ namespace MyEngine
 			struct ButtonInfo
 			{
 				std::string Text;
-				unsigned BackgroundId;
-				unsigned TextId;
-				unsigned ArrowId{ Uint::MAX };
-				SideMenuTab* pTab;
+				RectId BackgroundId{};
+				FontId TextId{};
+				FontId ArrowId{};
+				SideMenuTab* pTab{};
 
 				Float2 Size;
 				Float2 Pos;
 				bool DisplayPoints{ false };
+
+				void ClearGraphics();
 			};
 
 			void UpdateSizeAndTreePositions(const ResizePref& pref) override;

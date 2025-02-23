@@ -2,8 +2,8 @@
 #include "SideMenuPath.h"
 
 #include "SideMenuPathHelper.h"
-#include "Applied/NewUi/NewUiSystem.h"
 #include "Tabs/SideMenuTab.h"
+#include <Applied/NewUi/NewUiSystem.h>
 
 using namespace NewUi;
 
@@ -36,8 +36,12 @@ SideMenuTab* SideMenuPath::GetClickedTab() const
 
 void SideMenuPath::SetTab(SideMenuTab& tab)
 {
+	for (unsigned iButton{ 0 }; iButton < m_ButtonInfo.GetSize(); ++iButton)
+		m_ButtonInfo[iButton].ClearGraphics();
 	m_ButtonInfo.Clear();
+
 	AddSelfAfterParent(tab);
+	RequestUpdate();
 }
 
 void SideMenuPath::AddButton(SideMenuTab& tab)
@@ -69,14 +73,7 @@ void SideMenuPath::Clear()
 	for (unsigned i = 0; i < m_ButtonInfo.GetSize(); i++)
 	{
 		ButtonInfo& info{ m_ButtonInfo[i] };
-		UI_RECT.Remove(info.BackgroundId);
-		UI_FONT.Remove(info.TextId);
-
-		if (info.ArrowId != Uint::MAX)
-		{
-			UI_FONT.Remove(info.ArrowId);
-			info.ArrowId = Uint::MAX;
-		}
+		info.ClearGraphics();
 	}
 }
 
@@ -112,4 +109,11 @@ void SideMenuPath::AddSelfAfterParent(SideMenuTab& tab)
 	if (tab.GetParent())
 		AddSelfAfterParent(*tab.GetParent());
 	AddButton(tab);
+}
+
+void SideMenuPath::ButtonInfo::ClearGraphics()
+{
+	BackgroundId.Clear();
+	TextId.Clear();
+	ArrowId.Clear();
 }

@@ -1,5 +1,6 @@
 #pragma once
-#include "Applied/NewUi/Elem.h"
+#include "..\Elem.h"
+#include "..\GraphicsId.h"
 
 namespace MyEngine
 {
@@ -19,20 +20,20 @@ namespace MyEngine
 			void ToPressedState() override;
 			void OnClick() override;
 
+			const std::string GetTypeName() const override;
+
 		private:
 			void UpdateSizeAndTreePositions(const ResizePref& pref) override;
 			void Clear() override;
 			void Create() override;
 
-			const std::string GetTypeName() const override;
-
 			static const Float2 MARGIN;
 
 			std::string m_Text;
 			float m_FontSize;
-			unsigned m_BorderId{};
-			unsigned m_BackgroundId{};
-			unsigned m_TextId{};
+			RectId m_BorderId{};
+			RectId m_BackgroundId{};
+			FontId m_TextId{};
 			Function m_Function;
 			FunctionArg m_FunctionArg;
 		};

@@ -28,7 +28,6 @@ namespace MyEngine
 			bool m_Dragging{ false };
 
 			SideMenuTab* m_pActiveTab;
-			SideMenuTab* m_pRequestedTab{ nullptr };
 
 			void ActivateNewTab(SideMenuTab& newTab);
 		};

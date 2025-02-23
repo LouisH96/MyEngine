@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "Button.h"
 
-#include "Applied/NewUi/NewUiFontRenderer.h"
-#include "Applied/NewUi/NewUiSystem.h"
+#include "..\NewUiFontRenderer.h"
+#include "..\NewUiSystem.h"
 
 using namespace NewUi;
 
@@ -14,25 +14,24 @@ Button::Button(const std::string& text, Function function, FunctionArg functionA
 	, m_Function{ function }
 	, m_FunctionArg{ functionArg }
 {
-
 }
 
 void Button::ToDefaultState()
 {
-	UI_RECT.SetColor(m_BorderId, NewUiSystem::COLOR_MEDIUM);
-	UI_FONT.EditColor(m_TextId, NewUiSystem::COLOR_MEDIUM);
+	UI_RECT.SetColor(m_BorderId.GetId(), NewUiSystem::COLOR_MEDIUM);
+	UI_FONT.EditColor(m_TextId.GetId(), NewUiSystem::COLOR_MEDIUM);
 }
 
 void Button::ToHoverState()
 {
-	UI_RECT.SetColor(m_BorderId, NewUiSystem::COLOR_LIGHT);
-	UI_FONT.EditColor(m_TextId, NewUiSystem::COLOR_LIGHT);
+	UI_RECT.SetColor(m_BorderId.GetId(), NewUiSystem::COLOR_LIGHT);
+	UI_FONT.EditColor(m_TextId.GetId(), NewUiSystem::COLOR_LIGHT);
 }
 
 void Button::ToPressedState()
 {
-	UI_RECT.SetColor(m_BorderId, NewUiSystem::COLOR_MEDIUM);
-	UI_FONT.EditColor(m_TextId, NewUiSystem::COLOR_LIGHT);
+	UI_RECT.SetColor(m_BorderId.GetId(), NewUiSystem::COLOR_MEDIUM);
+	UI_FONT.EditColor(m_TextId.GetId(), NewUiSystem::COLOR_LIGHT);
 }
 
 void Button::OnClick()
@@ -55,9 +54,9 @@ void Button::UpdateSizeAndTreePositions(const ResizePref& pref)
 
 void Button::Clear()
 {
-	UI_RECT.Remove(m_BorderId);
-	UI_RECT.Remove(m_BackgroundId);
-	UI_FONT.Remove(m_TextId);
+	m_BorderId.Clear();
+	m_BackgroundId.Clear();
+	m_TextId.Clear();
 }
 
 void Button::Create()

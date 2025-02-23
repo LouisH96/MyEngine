@@ -71,13 +71,10 @@ namespace MyEngine
 				{
 					const ResizedEvent resizedEvent{ canvas.OnWindowResized(window.GetClientSize()) };
 
-					Globals::pUi->BeforeEdit();
 					Globals::pUi->OnCanvasResized(resizedEvent);
 
 					camera.OnCanvasResized(resizedEvent);
 					pApp->OnCanvasResized(resizedEvent);
-
-					Globals::pUi->AfterEdit();
 				}
 
 				//UPDATE

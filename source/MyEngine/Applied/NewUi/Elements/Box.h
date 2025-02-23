@@ -1,5 +1,6 @@
 #pragma once
-#include "Applied/NewUi/Elem.h"
+#include "..\Elem.h"
+#include "..\GraphicsId.h"
 
 namespace MyEngine
 {
@@ -15,7 +16,7 @@ public:
 	const std::string GetTypeName() const override;
 
 private:
-	unsigned m_BoxId{ Scalar<unsigned>::INVALID };
+	RectId m_BoxId{ };
 	Float3 m_Color;
 
 	void Clear() override;

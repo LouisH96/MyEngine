@@ -1,9 +1,14 @@
 #include "pch.h"
 #include "Border.h"
 
-#include "Applied/NewUi/NewUiSystem.h"
+#include "..\NewUiSystem.h"
 
 using namespace NewUi;
+
+Border::Border()
+	: ParentElem<EmptyChildOptions>{}
+{;
+}
 
 void Border::UpdateSizeAndTreePositions(const ResizePref& pref)
 {
@@ -28,13 +33,12 @@ void Border::UpdateSizeAndTreePositions(const ResizePref& pref)
 
 void Border::Clear()
 {
-	UI_RECT.Remove(m_BorderId);
-	UI_RECT.Remove(m_BackgroundId);
+	m_BorderId.Clear();
+	m_BackgroundId.Clear();
 }
 
 void Border::Create()
 {
 	m_BorderId = UI_RECT.Add({ GetPosition(), GetSize() }, NewUiSystem::COLOR_MEDIUM);
 	m_BackgroundId = UI_RECT.Add({ GetPosition() + NewUiSystem::BORDER_THICKNESS, GetSize() - NewUiSystem::BORDER_THICKNESS * 2 }, NewUiSystem::COLOR_DARK);
-
 }

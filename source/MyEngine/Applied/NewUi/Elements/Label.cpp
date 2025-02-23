@@ -27,7 +27,7 @@ void Label::UpdateSizeAndTreePositions(const ResizePref& pref)
 
 void Label::Clear()
 {
-	UI_FONT.Remove(m_TextId);
+	m_TextId.Clear();
 }
 
 void Label::Create()

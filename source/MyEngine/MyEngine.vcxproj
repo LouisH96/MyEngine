@@ -34,6 +34,7 @@
     <ClCompile Include="Applied\2D\Camera2DController.cpp" />
     <ClCompile Include="Applied\NewUi\Renderers\NewUiRectRenderer.cpp" />
     <ClCompile Include="Applied\NewUi\Structures\SideMenu\Tabs\TitleTab.cpp" />
+    <ClCompile Include="Applied\NewUi\TreeManager.cpp" />
     <ClCompile Include="Applied\NodeGraph\Fbx\FbxGraphMapper.cpp" />
     <ClCompile Include="Applied\NewUi\Elem.cpp" />
     <ClCompile Include="Applied\NewUi\EmptyChildOptions.cpp" />
@@ -197,8 +198,10 @@
     <ClInclude Include="Applied\MeshMaker\Shapes\Strip.h" />
     <ClInclude Include="Applied\MeshMaker\Shapes\StripLoop.h" />
     <ClInclude Include="Applied\NewUi\Elements\AnchorParent.h" />
+    <ClInclude Include="Applied\NewUi\GraphicsId.h" />
     <ClInclude Include="Applied\NewUi\Renderers\NewUiRectRenderer.h" />
     <ClInclude Include="Applied\NewUi\Structures\SideMenu\Tabs\TitleTab.h" />
+    <ClInclude Include="Applied\NewUi\TreeManager.h" />
     <ClInclude Include="App\Win32\KeyCodes.h" />
     <ClInclude Include="Applied\2D\Camera2D.h" />
     <ClInclude Include="Applied\2D\Camera2DController.h" />
@@ -221,7 +224,6 @@
     <ClInclude Include="Generation\CubeGenerator2.h" />
     <ClInclude Include="Generation\CubeGenerator2_TriangleList.h" />
     <ClInclude Include="Generation\CubeGenerator3.h" />
-    <ClInclude Include="Generation\DiskGenerator_TriangleList.h" />
     <ClInclude Include="Applied\NewUi\Elements\ListPanel.h" />
     <ClInclude Include="Generation\EllipsoidGenerator.h" />
     <ClInclude Include="Generation\EllipsoidGenerator2.h" />
@@ -233,7 +235,6 @@
     <ClInclude Include="Applied\MeshMaker\Maker.h" />
     <ClInclude Include="Applied\MeshMaker\MeshMakerHelper.h" />
     <ClInclude Include="Physics\Collisions\LineDiskCollision.h" />
-    <ClInclude Include="Generation\DiskGenerator_TriangleListIdx.h" />
     <ClInclude Include="Geometry\Shapes\Hexagon.h" />
     <ClInclude Include="Generation\HexGenerator.h" />
     <ClInclude Include="Geometry\ModelTopology.h" />

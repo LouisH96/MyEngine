@@ -1,10 +1,10 @@
 #include "pch.h"
 #include "NewUiFontRenderer.h"
 
-#include "App/ResizedEvent.h"
-#include "DataStructures/Adders/ListAdder.h"
-#include "Framework/Resources.h"
-#include "Rendering/Font/FontAtlas.h"
+#include <App/ResizedEvent.h>
+#include <DataStructures/Adders/ListAdder.h>
+#include <Framework/Resources.h>
+#include <Rendering/Font/FontAtlas.h>
 
 using namespace NewUi;
 using namespace Rendering;
@@ -17,7 +17,7 @@ NewUiFontRenderer::NewUiFontRenderer(const Float2& screenSize)
 	, m_ScreenSpaceToNdc{ CalculateScreenSpaceToNdc(screenSize) }
 	, m_HalfScreenSize{ screenSize / 2.f }
 {
-	Font::FontAtlas fontAtlas{ 64, Resources::Global(LR"(Fonts/Cascadia.ttf)")};
+	Font::FontAtlas fontAtlas{ 64, Resources::Global(LR"(Fonts/Cascadia.ttf)") };
 	m_FontAtlas = Texture{ fontAtlas.GetImage() };
 	m_Assembler = TextAssembler{ std::move(fontAtlas) };
 }
@@ -102,7 +102,8 @@ unsigned NewUiFontRenderer::Add_XCenter(const TextInfo& text, const Float2& posi
 
 void NewUiFontRenderer::Remove(unsigned id)
 {
-	m_NrVertices -= static_cast<const InvalidateList<Entry>&>(m_Entries).Get(id).Vertices.GetSize();
+	const List<Vertex>& vertices{ m_Entries.Get(id).Vertices };
+	m_NrVertices -= vertices.GetSize();
 	m_Entries.Invalidate(id);
 }
 

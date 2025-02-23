@@ -72,6 +72,7 @@ namespace MyEngine
 #define CAMERA_2D (*Globals::pCamera2D)
 
 #define UI (*Globals::pUi)
+#define UI_TREE (UI.GetTreeManager())
 #define UI_RECT (UI.GetRectRenderer())
 #define UI_SHAPE (UI.GetShapeRenderer())
 #define UI_IMAGE (UI.GetImageRenderer())

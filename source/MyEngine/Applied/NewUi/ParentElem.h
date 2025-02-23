@@ -67,6 +67,7 @@ namespace MyEngine
 				delete m_Children[i].pChild;
 				m_Children[i].pChild = nullptr;
 			}
+			RequestUpdate();
 		}
 
 		template <typename ChildData>
@@ -76,6 +77,8 @@ namespace MyEngine
 				m_NrVisibleChilds++;
 
 			m_Children.Add(child);
+
+			RequestUpdate();
 		}
 
 		template <typename ChildData>
@@ -88,6 +91,7 @@ namespace MyEngine
 				if (m_Children[i].pChild == pChild)
 				{
 					m_Children.Remove(i);
+					RequestUpdate();
 					return;
 				}
 			Logger::PrintWarning("[ParentElem::RemoveChild] couldn't find child");
@@ -104,8 +108,10 @@ namespace MyEngine
 			for (unsigned i = 0; i < m_Children.GetSize(); i++)
 				if (m_Children[i].pChild == pChild)
 				{
+					m_Children[i].pChild->ClearTree();
 					delete m_Children[i].pChild;
 					m_Children.Remove(i);
+					RequestUpdate();
 					return;
 				}
 			Logger::PrintWarning("[ParentElem::DeleteChild] couldn't find child");
@@ -119,21 +125,29 @@ namespace MyEngine
 			if (m_NrVisibleChilds == m_Children.GetSize())
 				m_NrVisibleChilds--;
 
+			m_Children[idx].pChild->ClearTree();
 			delete m_Children[idx].pChild;
 			m_Children.Remove(idx);
 
 			if (m_NrVisibleChilds + 1 == m_Children.GetSize())
 				m_NrVisibleChilds++;
+
+			RequestUpdate();
 		}
 
 		template <typename ChildData>
 		void ParentElem<ChildData>::DeleteAllChildren()
 		{
 			for (unsigned i = 0; i < m_Children.GetSize(); ++i)
+			{
+				m_Children[i].pChild->ClearTree();
 				delete m_Children[i].pChild;
+			}
 			m_Children.Clear();
 
 			m_NrVisibleChilds = 0;
+
+			RequestUpdate();
 		}
 
 		template <typename ChildData>

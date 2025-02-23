@@ -1,5 +1,6 @@
 #pragma once
-#include "Applied/NewUi/Elem.h"
+#include "..\Elem.h"
+#include "..\GraphicsId.h"
 
 namespace MyEngine
 {
@@ -23,7 +24,7 @@ namespace MyEngine
 			Float3 m_Color;
 			float m_FontSize;
 
-			unsigned m_TextId{};
+			FontId m_TextId{};
 		};
 	}
 }

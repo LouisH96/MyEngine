@@ -2,22 +2,20 @@
 #include "SideMenu.h"
 
 #include "SideMenuPath.h"
-#include "Applied/NewUi/NewUiSystem.h"
-#include "Applied/NewUi/Elements/AnchorParent.h"
-#include "Applied/NewUi/Elements/Border.h"
-#include "Applied/NewUi/Elements/Box.h"
-#include "Applied/NewUi/Elements/Extender.h"
-#include "Applied/NewUi/Elements/ListElem.h"
-#include "Applied/NewUi/Elements/Margin.h"
 #include "Tabs/TitleTab.h"
+#include <Applied/NewUi/Elements/AnchorParent.h>
+#include <Applied/NewUi/Elements/Border.h>
+#include <Applied/NewUi/Elements/Box.h>
+#include <Applied/NewUi/Elements/Extender.h>
+#include <Applied/NewUi/Elements/ListElem.h>
+#include <Applied/NewUi/Elements/Margin.h>
+#include <Applied/NewUi/NewUiSystem.h>
 
 using namespace NewUi;
 
 SideMenu::SideMenu(float width)
 	: m_pActiveTab{ nullptr }
 {
-	UI.BeforeEdit();
-
 	//Extender
 	SizeDef extenderSize;
 	extenderSize.HorizontalMode = SizeDef::Mode::Pixels;
@@ -68,8 +66,6 @@ SideMenu::SideMenu(float width)
 	listSettings.ChildMargin = 10.f;
 	m_pContentList = new ListElem(listSettings);
 	pContentAnchor->AddChild({ m_pContentList, {.5f,1}, {.5f, 1} });
-
-	UI.AfterEdit();
 }
 
 void SideMenu::Update()
@@ -90,25 +86,15 @@ void SideMenu::Update()
 
 	if (m_Dragging)
 	{
-		UI.BeforeEdit();
 		m_pExtender->SetSizeDefX(mouse.x);
-		UI.AfterEdit();
 	}
 
 	//update tab
 	SideMenuTab* pNewTab{ m_pPath->GetClickedTab() };
-	if (m_pRequestedTab)
-	{
-		pNewTab = m_pRequestedTab;
-		m_pRequestedTab = nullptr;
-	}
-
 	if (pNewTab && pNewTab != m_pActiveTab)
 	{
-		UI.BeforeEdit();
 		m_pPath->SetTab(*pNewTab);
 		ActivateNewTab(*pNewTab);
-		UI.AfterEdit();
 	}
 }
 
@@ -124,15 +110,14 @@ void SideMenu::Deactivate()
 
 void SideMenu::SetTab(SideMenuTab& newTab)
 {
-	m_pRequestedTab = &newTab;
+	m_pPath->SetTab(newTab);
+	ActivateNewTab(newTab);
 }
 
 void SideMenu::RefreshTab()
 {
-	UI.BeforeEdit();
 	m_pContentList->DeleteAllChildren();
 	m_pActiveTab->Generate(*m_pContentList);
-	UI.AfterEdit();
 }
 
 void SideMenu::ActivateNewTab(SideMenuTab& newTab)
@@ -166,10 +151,11 @@ void SideMenu::ActivateNewTab(SideMenuTab& newTab)
 	}
 
 	//ui elements
-
 	m_pContentList->DeleteAllChildren();
 	m_pActiveTab = &newTab;
 	m_pActiveTab->Generate(*m_pContentList);
 
 	m_pPath->SetTab(*m_pActiveTab);
+
+	UI_TREE.RequestUpdate();
 }

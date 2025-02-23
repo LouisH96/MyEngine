@@ -1,9 +1,10 @@
 #pragma once
+#include "Elements\AnchorParent.h"
 #include "NewUiFontRenderer.h"
-#include "Elements/AnchorParent.h"
-#include "Renderers/NewUiShapeRenderer.h"
 #include "Renderers\NewUiImageRenderer.h"
 #include "Renderers\NewUiRectRenderer.h"
+#include "Renderers\NewUiShapeRenderer.h"
+#include "TreeManager.h"
 
 namespace MyEngine
 {
@@ -20,17 +21,17 @@ namespace MyEngine
 			void Update();
 			void Render();
 
-			void AddChild(Elem* pChild, const Float2& parentPivot = {0,0}, const Float2& childPivot = {0,0});
+			void AddChild(Elem* pChild,
+				const Float2& parentPivot = {},
+				const Float2& childPivot = {});
 			void RemoveChild(Elem* pChild);
 			void DeleteChild(Elem* pChild);
-
-			void BeforeEdit();
-			void AfterEdit();
 
 			NewUiRectRenderer& GetRectRenderer() { return m_RectRenderer; }
 			NewUiFontRenderer& GetFontRenderer() { return m_FontRenderer; }
 			NewUiShapeRenderer& GetShapeRenderer() { return m_ShapeRenderer; }
 			NewUiImageRenderer& GetImageRenderer() { return m_ImageRenderer; }
+			TreeManager& GetTreeManager() { return m_Tree; }
 
 			static const Float3 COLOR_DARK;
 			static const Float3 COLOR_MEDIUM;
@@ -43,7 +44,7 @@ namespace MyEngine
 				Hovered, Pressed
 			};
 
-			AnchorParent m_Root;
+			TreeManager m_Tree;
 			NewUiRectRenderer m_RectRenderer;
 			NewUiFontRenderer m_FontRenderer;
 			NewUiShapeRenderer m_ShapeRenderer;
@@ -60,7 +61,9 @@ namespace MyEngine
 			void CreateDebugBorder();
 			void CreateDebugBorder(const Elem& elem);
 
-			ResizePref GetRootResizePref() const;
+			void UpdateCurrentElemState();
+
+			void RecreateTree();
 		};
 	}
 }

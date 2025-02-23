@@ -1,5 +1,5 @@
 #pragma once
-#include "Geometry/Shapes/Rects.h"
+#include <Geometry/Shapes/Rects.h>
 
 namespace MyEngine
 {
@@ -56,6 +56,8 @@ namespace MyEngine
 			void SetWidth(float width);
 			void SetHeight(float height);
 
+			void RequestUpdate();
+
 			static void AssertWithinMaxSize(const Float2& desired, const ResizePref& pref);
 
 			static NewUiShapeRenderer& Draw();
@@ -87,7 +89,7 @@ namespace MyEngine
 
 			template<typename T>
 			friend class ParentElem;
-			friend class NewUiSystem;
+			friend class TreeManager;
 		};
 	}
 }

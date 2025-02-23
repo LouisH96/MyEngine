@@ -12,8 +12,7 @@ const Float3 NewUiSystem::COLOR_MEDIUM = Float3{ .4f };
 const Float3 NewUiSystem::COLOR_LIGHT = Float3{ .6f };
 
 NewUiSystem::NewUiSystem(const Float2& screenSize)
-	: m_Root{}
-	, m_FontRenderer{ screenSize }
+	: m_FontRenderer{ screenSize }
 	, m_pCurrentElem{ nullptr }
 	, m_CurrentElemState() //no need
 {
@@ -24,16 +23,86 @@ void NewUiSystem::OnCanvasResized(const App::ResizedEvent& event)
 	m_ShapeRenderer.OnCanvasResized(event);
 	m_FontRenderer.OnCanvasResized(event);
 	m_ImageRenderer.OnCanvasResized(event);
-
-	Elem* pRoot{ &m_Root };
-	pRoot->UpdateSizeAndTreePositions(GetRootResizePref());
-	pRoot->UpdateTreePositions({});
+	m_Tree.RequestUpdate();
 }
 
 void NewUiSystem::Update()
 {
-	const Float2 mouse{ static_cast<float>(MOUSE.GetPos().x), m_Root.GetHeight() - MOUSE.GetPos().y };
-	Elem* pUnderMouse{ m_Root.GetElemAt(mouse) };
+	if (m_Tree.NedUpdate())
+		RecreateTree();
+	UpdateCurrentElemState();
+}
+
+void NewUiSystem::Render()
+{
+	m_RectRenderer.Render();
+
+	m_ShapeRenderer.Render();
+	m_ImageRenderer.Render();
+	m_FontRenderer.Render();
+}
+
+void NewUiSystem::AddChild(Elem* pChild,
+	const Float2& parentPivot, const Float2& childPivot)
+{
+	m_Tree.GetRoot().AddChild({ pChild, parentPivot, childPivot });
+}
+
+void NewUiSystem::RemoveChild(Elem* pChild)
+{
+	m_Tree.GetRoot().RemoveChild(pChild);
+}
+
+void NewUiSystem::DeleteChild(Elem* pChild)
+{
+	m_Tree.GetRoot().DeleteChild(pChild);
+}
+
+void NewUiSystem::ClearDebugBorder()
+{
+	for (unsigned i = 0; i < NR_DEBUG_BORDER_SHAPES; ++i)
+		m_ShapeRenderer.Remove(m_DebugBorder[i]);
+}
+
+void NewUiSystem::CreateDebugBorder()
+{
+	CreateDebugBorder(*m_pCurrentElem);
+}
+
+void NewUiSystem::CreateDebugBorder(const Elem& elem)
+{
+	//outside border
+	constexpr float thickness{ 2 };
+	static const Float3 color{ .75f,0,0 };
+
+	//left
+	Float2 pos{ elem.GetBounds().GetLeftBot() };
+	pos -= Float2{ thickness, thickness };
+	Float2 size{ thickness, elem.GetHeight() + thickness * 2 };
+
+	m_DebugBorder[0] = m_ShapeRenderer.Rect(pos, size, color);
+
+	//right
+	pos.x += thickness + elem.GetWidth();
+
+	m_DebugBorder[1] = m_ShapeRenderer.Rect(pos, size, color);
+
+	//top
+	pos = elem.GetBounds().GetLeftTop();
+	pos -= Float2{ thickness, 0 };
+	size = Float2{ elem.GetWidth() + thickness * 2, thickness };
+
+	m_DebugBorder[2] = m_ShapeRenderer.Rect(pos, size, color);
+
+	//bot
+	pos.y -= elem.GetHeight() + thickness;
+
+	m_DebugBorder[3] = m_ShapeRenderer.Rect(pos, size, color);
+}
+
+void NewUiSystem::UpdateCurrentElemState()
+{
+	Elem* pUnderMouse{ m_Tree.GetElemUnderMouse() };
 
 	if (!(m_pCurrentElem || pUnderMouse))
 		return;
@@ -106,101 +175,12 @@ void NewUiSystem::Update()
 	}
 }
 
-void NewUiSystem::Render()
-{
-	m_RectRenderer.Render();
-
-	m_ShapeRenderer.Render();
-	m_ImageRenderer.Render();
-	m_FontRenderer.Render();
-}
-
-void NewUiSystem::AddChild(Elem* pChild,
-	const Float2& parentPivot, const Float2& childPivot)
-{
-	m_Root.AddChild({ pChild, parentPivot, childPivot });
-}
-
-void NewUiSystem::RemoveChild(Elem* pChild)
-{
-	m_Root.RemoveChild(pChild);
-}
-
-void NewUiSystem::DeleteChild(Elem* pChild)
-{
-	m_Root.DeleteChild(pChild);
-}
-
-void NewUiSystem::BeforeEdit()
+void NewUiSystem::RecreateTree()
 {
 	if (m_ShowDebugBorder && m_pCurrentElem)
 		ClearDebugBorder();
 
 	m_pCurrentElem = nullptr;
-	m_ImageRenderer.Clear();
 
-	Elem* pRoot{ &m_Root };
-	pRoot->ClearTree();
-}
-
-void NewUiSystem::AfterEdit()
-{
-	Elem* pRoot{ &m_Root };
-
-	pRoot->UpdateSizeAndTreePositions(GetRootResizePref());
-	pRoot->UpdateTreePositions({});
-	pRoot->CreateTree();
-
-	m_ImageRenderer.CreateBuffer();
-}
-
-void NewUiSystem::ClearDebugBorder()
-{
-	for (unsigned i = 0; i < NR_DEBUG_BORDER_SHAPES; ++i)
-		m_ShapeRenderer.Remove(m_DebugBorder[i]);
-}
-
-void NewUiSystem::CreateDebugBorder()
-{
-	CreateDebugBorder(*m_pCurrentElem);
-}
-
-void NewUiSystem::CreateDebugBorder(const Elem& elem)
-{
-	//outside border
-	constexpr float thickness{ 2 };
-	static const Float3 color{ .75f,0,0 };
-
-	//left
-	Float2 pos{ elem.GetBounds().GetLeftBot() };
-	pos -= Float2{ thickness, thickness };
-	Float2 size{ thickness, elem.GetHeight() + thickness * 2 };
-
-	m_DebugBorder[0] = m_ShapeRenderer.Rect(pos, size, color);
-
-	//right
-	pos.x += thickness + elem.GetWidth();
-
-	m_DebugBorder[1] = m_ShapeRenderer.Rect(pos, size, color);
-
-	//top
-	pos = elem.GetBounds().GetLeftTop();
-	pos -= Float2{ thickness, 0 };
-	size = Float2{ elem.GetWidth() + thickness * 2, thickness };
-
-	m_DebugBorder[2] = m_ShapeRenderer.Rect(pos, size, color);
-
-	//bot
-	pos.y -= elem.GetHeight() + thickness;
-
-	m_DebugBorder[3] = m_ShapeRenderer.Rect(pos, size, color);
-}
-
-ResizePref NewUiSystem::GetRootResizePref() const
-{
-	ResizePref pref{};
-	pref.minSize = { 0,0 };
-	pref.maxSize = CANVAS.GetSize();
-	pref.SetMax();
-	return pref;
+	m_Tree.RecreateTree();
 }

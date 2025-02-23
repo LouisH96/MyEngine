@@ -1,14 +1,17 @@
 #pragma once
-#include "Applied/NewUi/EmptyChildOptions.h"
-#include "Applied/NewUi/ParentElem.h"
+#include "..\EmptyChildOptions.h"
+#include "..\GraphicsId.h"
+#include "..\ParentElem.h"
 
 namespace MyEngine
 {
 	namespace NewUi
 	{
-		class Border final : public ParentElem<EmptyChildOptions>
+		class Border final
+			: public ParentElem<EmptyChildOptions>
 		{
 		public:
+			Border();
 			const std::string GetTypeName() const override { return "Border"; }
 
 		private:
@@ -16,8 +19,8 @@ namespace MyEngine
 			void Clear() override;
 			void Create() override;
 
-			unsigned m_BorderId{};
-			unsigned m_BackgroundId{};
+			RectId m_BorderId{};
+			RectId m_BackgroundId{};
 		};
 	}
 }

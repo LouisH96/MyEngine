@@ -24,6 +24,24 @@ void Extender::UpdateSizeAndTreePositions(const ResizePref& pref)
 	}
 }
 
+void Extender::SetSizeDef(const Float2& value)
+{
+	m_SizeDef.Value = value;
+	RequestUpdate();
+}
+
+void Extender::SetSizeDefX(float valueX)
+{
+	m_SizeDef.Value.x = valueX;
+	RequestUpdate();
+}
+
+void Extender::SetSizeDefY(float valueY)
+{
+	m_SizeDef.Value.y = valueY;
+	RequestUpdate();
+}
+
 void Extender::Clear()
 {
 }
