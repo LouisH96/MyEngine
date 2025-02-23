@@ -4,31 +4,31 @@
 
 namespace MyEngine
 {
-	namespace NewUi
+namespace NewUi
+{
+class ListElem final
+	: public ParentElem<EmptyChildOptions>
+{
+public:
+	struct Settings
 	{
-		class ListElem final
-			: public ParentElem<EmptyChildOptions>
-		{
-		public:
-			struct Settings
-			{
-				float ChildMargin{ 5.f };
-				bool UniformChildWidth{ true };
-			};
+		float ChildMargin{ 5.f };
+		bool UniformChildWidth{ true };
+	};
 
-			explicit ListElem(const Settings& settings);
+	explicit ListElem(const Settings& settings);
 
-			void AddChild(Elem* pChild);
+	void AddChild(Elem* pChild);
 
-			void UpdateSizeAndTreePositions(const ResizePref& pref) override;
-			const std::string GetTypeName() const override;
+	void UpdateSizeAndTreePositions(const ResizePref& pref) override;
+	const std::string GetTypeName() const override;
 
-		private:
-			float m_ChildMargin;
-			bool m_UniformChildWidth;
+private:
+	float m_ChildMargin;
+	bool m_UniformChildWidth;
 
-			void Clear() override;
-			void Create() override;
-		};
-	}
+	void Clear() override;
+	void Create() override;
+};
+}
 }

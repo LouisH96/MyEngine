@@ -2,34 +2,34 @@
 
 namespace MyEngine
 {
-	namespace NewUi
-	{
-		class SideMenuTab;
-		class ListElem;
-		class SideMenuPath;
-		class Extender;
+namespace NewUi
+{
+class SideMenuTab;
+class ListElem;
+class SideMenuPath;
+class Extender;
 
-		class SideMenu
-		{
-		public:
-			explicit SideMenu(float width = 300.f);
+class SideMenu
+{
+public:
+	explicit SideMenu(float width = 300.f);
 
-			void Update();
+	void Update();
 
-			void Deactivate();
-			void SetTab(SideMenuTab& newTab); //Need to be called after a UI.BeforeEdit()
+	void Deactivate();
+	void SetTab(SideMenuTab& newTab); //Need to be called after a UI.BeforeEdit()
 
-			void RefreshTab();
+	void RefreshTab();
 
-		private:
-			Extender* m_pExtender{};
-			SideMenuPath* m_pPath{};
-			ListElem* m_pContentList{};
-			bool m_Dragging{ false };
+private:
+	Extender* m_pExtender{};
+	SideMenuPath* m_pPath{};
+	ListElem* m_pContentList{};
+	bool m_Dragging{ false };
 
-			SideMenuTab* m_pActiveTab;
+	SideMenuTab* m_pActiveTab;
 
-			void ActivateNewTab(SideMenuTab& newTab);
-		};
-	}
+	void ActivateNewTab(SideMenuTab& newTab);
+};
+}
 }

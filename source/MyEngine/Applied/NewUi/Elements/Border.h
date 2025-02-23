@@ -5,22 +5,22 @@
 
 namespace MyEngine
 {
-	namespace NewUi
-	{
-		class Border final
-			: public ParentElem<EmptyChildOptions>
-		{
-		public:
-			Border();
-			const std::string GetTypeName() const override { return "Border"; }
+namespace NewUi
+{
+class Border final
+	: public ParentElem<EmptyChildOptions>
+{
+public:
+	Border();
+	const std::string GetTypeName() const override { return "Border"; }
 
-		private:
-			void UpdateSizeAndTreePositions(const ResizePref& pref) override;
-			void Clear() override;
-			void Create() override;
+private:
+	void UpdateSizeAndTreePositions(const ResizePref& pref) override;
+	void Clear() override;
+	void Create() override;
 
-			RectId m_BorderId{};
-			RectId m_BackgroundId{};
-		};
-	}
+	RectId m_BorderId{};
+	RectId m_BackgroundId{};
+};
+}
 }

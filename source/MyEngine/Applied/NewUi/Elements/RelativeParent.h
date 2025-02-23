@@ -3,31 +3,31 @@
 
 namespace MyEngine
 {
-	namespace NewUi
-	{
-		class Elem;
+namespace NewUi
+{
+class Elem;
 
-		struct RelativeChild
-		{
-			Elem* pChild{};
+struct RelativeChild
+{
+	Elem* pChild{};
 
-			float MaxWidthRatio{ .5f };
-			float MaxHeightRatio{ .5f };
-		};
+	float MaxWidthRatio{ .5f };
+	float MaxHeightRatio{ .5f };
+};
 
-		class RelativeParent final
-				: public ParentElem<RelativeChild>
-		{
-		public:
-			RelativeParent();
+class RelativeParent final
+	: public ParentElem<RelativeChild>
+{
+public:
+	RelativeParent();
 
-			void UpdateSizeAndTreePositions(const ResizePref& pref) override;
-			const std::string GetTypeName() const override;
+	void UpdateSizeAndTreePositions(const ResizePref& pref) override;
+	const std::string GetTypeName() const override;
 
-		private:
-			void Clear() override;
-			void Create() override;
+private:
+	void Clear() override;
+	void Create() override;
 
-		};
-	}
+};
+}
 }

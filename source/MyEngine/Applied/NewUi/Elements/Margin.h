@@ -4,20 +4,20 @@
 
 namespace MyEngine
 {
-	namespace NewUi
-	{
-		class Margin final : public ParentElem<EmptyChildOptions>
-		{
-		public:
-			explicit Margin(float margin);
-			const std::string GetTypeName() const override { return "Margin"; }
+namespace NewUi
+{
+class Margin final : public ParentElem<EmptyChildOptions>
+{
+public:
+	explicit Margin(float margin);
+	const std::string GetTypeName() const override { return "Margin"; }
 
-		private:
-			void UpdateSizeAndTreePositions(const ResizePref& pref) override;
-			void Clear() override;
-			void Create() override;
+private:
+	void UpdateSizeAndTreePositions(const ResizePref& pref) override;
+	void Clear() override;
+	void Create() override;
 
-			float m_Margin;
-		};
-	}
+	float m_Margin;
+};
+}
 }

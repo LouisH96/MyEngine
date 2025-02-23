@@ -3,14 +3,14 @@
 
 namespace MyEngine
 {
-	namespace NewUi
-	{
-		class TitleTab final : public SideMenuTab
-		{
-		public:
-			explicit TitleTab(const std::string& title, SideMenuTab* pParent);
+namespace NewUi
+{
+class TitleTab final : public SideMenuTab
+{
+public:
+	explicit TitleTab(const std::string& title, SideMenuTab* pParent);
 
-			void Generate(ListElem& parent) override;
-		};
-	}
+	void Generate(ListElem& parent) override;
+};
+}
 }

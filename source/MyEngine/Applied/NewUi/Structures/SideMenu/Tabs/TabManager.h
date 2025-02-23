@@ -3,21 +3,21 @@
 
 namespace MyEngine
 {
-	namespace NewUi
-	{
-		class TabManager
-		{
-		public:
-			TabManager(float width = 300);
-			TabManager(SideMenuTab& initTab, float width = 300);
-			virtual ~TabManager() = default;
+namespace NewUi
+{
+class TabManager
+{
+public:
+	TabManager(float width = 300);
+	TabManager(SideMenuTab& initTab, float width = 300);
+	virtual ~TabManager() = default;
 
-			void Update();
-			void SetTab(SideMenuTab& newTab);
-			void RefreshTab();
+	void Update();
+	void SetTab(SideMenuTab& newTab);
+	void RefreshTab();
 
-		private:
-			SideMenu m_SideMenu;
-		};
-	}
+private:
+	SideMenu m_SideMenu;
+};
+}
 }
