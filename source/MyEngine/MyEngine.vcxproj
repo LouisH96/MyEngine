@@ -32,6 +32,9 @@
     <ClCompile Include="Ui\Elements\AnchorParent.cpp" />
     <ClCompile Include="Applied\2D\Camera2D.cpp" />
     <ClCompile Include="Applied\2D\Camera2DController.cpp" />
+    <ClCompile Include="Ui\Elements\IsClickedElem.cpp" />
+    <ClCompile Include="Ui\Elements\ToggleBtnBase.cpp" />
+    <ClCompile Include="Ui\GraphicsId.cpp" />
     <ClCompile Include="Ui\Renderers\UiRectRenderer.cpp" />
     <ClCompile Include="Ui\Structures\SideMenu\Tabs\TitleTab.cpp" />
     <ClCompile Include="Ui\TreeManager.cpp" />
@@ -198,7 +201,10 @@
     <ClInclude Include="Applied\MeshMaker\Shapes\Strip.h" />
     <ClInclude Include="Applied\MeshMaker\Shapes\StripLoop.h" />
     <ClInclude Include="Other\Color.h" />
+    <ClInclude Include="Ui\Elements\AllElements.h" />
     <ClInclude Include="Ui\Elements\AnchorParent.h" />
+    <ClInclude Include="Ui\Elements\IsClickedElem.h" />
+    <ClInclude Include="Ui\Elements\ToggleBtnBase.h" />
     <ClInclude Include="Ui\GraphicsId.h" />
     <ClInclude Include="Ui\Renderers\UiRectRenderer.h" />
     <ClInclude Include="Ui\Structures\SideMenu\Tabs\TitleTab.h" />
