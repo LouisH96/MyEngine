@@ -343,6 +343,7 @@
     <ClInclude Include="Ui\Renderers\UiRectRenderer.h" />
     <ClInclude Include="Ui\TreeManager.h" />
     <ClInclude Include="Ui\GraphicsId.h" />
+    <ClInclude Include="Other\Color.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
