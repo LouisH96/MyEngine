@@ -48,6 +48,21 @@ Elem* Elem::GetElemAt(const Float2& position)
 		? this : nullptr;
 }
 
+void Elem::SetTakeMouse(bool takeMouse)
+{
+	m_TakeMouse = takeMouse;
+}
+
+void Elem::SetChildrenTakeMouse(bool)
+{
+}
+
+void Elem::MakeTakeMouseParent()
+{
+	SetTakeMouse(true);
+	SetChildrenTakeMouse(false);
+}
+
 void Elem::SetSize(const Float2& size)
 {
 	m_Bounds.SetSize(size);

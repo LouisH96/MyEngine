@@ -27,7 +27,7 @@ struct ResizePref
 class Elem
 {
 public:
-	Elem(bool takeMouse = true);
+	Elem(bool takeMouse = false);
 	Elem(const Elem& other) = delete;
 	Elem(Elem&& other) noexcept = delete;
 	Elem& operator=(const Elem& other) = delete;
@@ -49,6 +49,10 @@ public:
 	virtual void OnClick() {}
 
 	virtual const std::string GetTypeName() const = 0;
+
+	void SetTakeMouse(bool takeMouse);
+	virtual void SetChildrenTakeMouse(bool takeMouse);
+	void MakeTakeMouseParent();
 
 protected:
 	void SetSize(const Float2& size);
