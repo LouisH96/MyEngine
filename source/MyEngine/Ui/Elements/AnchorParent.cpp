@@ -10,56 +10,67 @@ AnchorParent::AnchorParent()
 
 void AnchorParent::AddChild(Elem* pElem, const Float2& anchor)
 {
-	ParentElem::AddChild({ pElem, anchor, anchor });
+	ParentElem::AddChild({ pElem, anchor, anchor, FillMode::Min, FillMode::Min });
 }
 
 void AnchorParent::AddChild(Elem* pElem, const Float2& parentAnchor, const Float2& childAnchor)
 {
-	ParentElem::AddChild({ pElem, parentAnchor, childAnchor });
+	ParentElem::AddChild({ pElem, parentAnchor, childAnchor, FillMode::Min, FillMode::Min });
 }
 
 void AnchorParent::UpdateSizeAndTreePositions(const ResizePref& pref)
 {
 	SetSize(pref);
 
+	//pref.minSize not taking into account (for now)
 	ResizePref childPref;
 	childPref.minSize = {};
-	childPref.SetMin();
 
-	for (unsigned i = 0; i < GetNrChildren(); i++)
+	//Child Sizes
+	for (unsigned iChild = 0; iChild < GetNrChildren(); iChild++)
 	{
-		const AnchorChild& child{ GetChildData(i) };
+		const AnchorChild& child{ GetChildData(iChild) };
+		childPref.horMode = child.FillHor;
+		childPref.verMode = child.FillVer;
+		childPref.maxSize = pref.maxSize;
 
 		//Width
-		const float parentSizeLeft{ GetWidth() * child.ParentAnchor.x };
-		const float parentSizeRight{ GetWidth() - parentSizeLeft };
-
-		const float maxLeft{ child.ChildAnchor.x != 0 ? parentSizeLeft / child.ChildAnchor.x
-			: Constants::FLOAT_INFINITY };
-		const float maxRight{ child.ChildAnchor.x != 1 ? parentSizeRight / (1 - child.ChildAnchor.x)
-			: Constants::FLOAT_INFINITY };
-
-		childPref.maxSize.x = Float::Min(maxLeft, maxRight);
+		if (child.ParentAnchor.x < child.ChildAnchor.x)
+			childPref.maxSize.x *= child.ParentAnchor.x / child.ChildAnchor.x;
+		else if(child.ParentAnchor.x > child.ChildAnchor.x)
+			childPref.maxSize.x *=
+			(1 - child.ParentAnchor.x) /
+			(1 - child.ChildAnchor.x);
 
 		//Height
-		const float parentSizeBot{ GetHeight() * child.ParentAnchor.y };
-		const float parentSizeTop{ GetHeight() - parentSizeBot };
+		if (child.ParentAnchor.y < child.ChildAnchor.y)
+			childPref.maxSize.y *= child.ParentAnchor.y / child.ChildAnchor.y;
+		else if(child.ParentAnchor.y > child.ChildAnchor.y)
+			childPref.maxSize.y *=
+			(1 - child.ParentAnchor.y) /
+			(1 - child.ChildAnchor.y);
 
-		const float maxBot{ child.ChildAnchor.y != 0 ? parentSizeBot / child.ChildAnchor.y
-			: Constants::FLOAT_INFINITY };
-		const float maxTop{ child.ChildAnchor.y != 1 ? parentSizeTop / (1 - child.ChildAnchor.y)
-			: Constants::FLOAT_INFINITY };
+		UpdateChildSize(iChild, childPref);
 
-		childPref.maxSize.y = Float::Min(maxTop, maxBot);
+		//Update my size
+			const Float2& childSize{ GetChild(iChild).GetSize() };
+			SetWidth(Float::Max(GetWidth(), childSize.x));
+			SetHeight(Float::Max(GetHeight(), childSize.y));
+	}
 
-		//
-		UpdateChildSize(i, childPref);
-		const Float2 childPos
-		{
-			parentSizeLeft - child.ChildAnchor.x * ChildWidth(i),
-			parentSizeBot - child.ChildAnchor.y * ChildHeight(i)
-		};
-		SetChildPosition(i, childPos);
+	//Position childs
+	for (unsigned iChild{ 0 }; iChild < GetNrChildren(); ++iChild)
+	{
+		const AnchorChild& child{ GetChildData(iChild) };
+		const Float2& childSize{ GetChild(iChild).GetSize() };
+
+		Float2 pos{};
+		pos.x = child.ParentAnchor.x * GetWidth();
+		pos.x -= child.ChildAnchor.x * childSize.x;
+
+		pos.y = child.ParentAnchor.y * GetHeight();
+		pos.y -= child.ChildAnchor.y * childSize.y;
+		SetChildPosition(iChild, pos);
 	}
 }
 
@@ -69,6 +80,22 @@ void AnchorParent::Clear()
 
 void AnchorParent::Create()
 {
+}
+
+void AnchorChild::SetFillMin()
+{
+	SetFill(FillMode::Min);
+}
+
+void AnchorChild::SetFillMax()
+{
+	SetFill(FillMode::Max);
+}
+
+void AnchorChild::SetFill(FillMode fillMode)
+{
+	FillHor = fillMode;
+	FillVer = fillMode;
 }
 
 Float2 AnchorChild::GetChildPosition(const Float2& parentSize) const

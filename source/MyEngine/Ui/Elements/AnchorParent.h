@@ -10,12 +10,18 @@ struct AnchorChild
 	Elem* pChild{};
 	Float2 ParentAnchor;
 	Float2 ChildAnchor;
+	FillMode FillHor{ FillMode::Min };
+	FillMode FillVer{ FillMode::Min };
+
+	void SetFillMin();
+	void SetFillMax();
+	void SetFill(FillMode fillMode);
 
 	//relative to parent
 	Float2 GetChildPosition(const Float2& parentSize) const;
 };
 
-class AnchorParent final
+class AnchorParent
 	: public ParentElem<AnchorChild>
 {
 public:
