@@ -39,13 +39,38 @@ Float2 SizeDef::GetSize(const Float2& parentSize) const
 
 	if (HorizontalMode == Mode::Percentage)
 		size.x = parentSize.x * Value.x;
-	else
+	else if (HorizontalMode == Mode::Pixels)
 		size.x = Value.x;
 
 	if (VerticalMode == Mode::Percentage)
 		size.y = parentSize.y * Value.y;
-	else
+	else if (VerticalMode == Mode::Pixels)
 		size.y = Value.y;
+	else
+		size.y = size.x * Value.y;
+
+	if (HorizontalMode == Mode::PercentageOfOther)
+		size.x = size.y * Value.x;
 
 	return size;
+}
+
+SizeDef SizeDef::Pixels(const Float2& values)
+{
+	return { Mode::Pixels, values };
+}
+
+SizeDef SizeDef::Pixels(float width, float height)
+{
+	return { Mode::Pixels, {width, height} };
+}
+
+SizeDef SizeDef::Percentages(const Float2& values)
+{
+	return { Mode::Percentage, values };
+}
+
+SizeDef SizeDef::Percentages(float width, float height)
+{
+	return { Mode::Percentage, {width, height} };
 }
