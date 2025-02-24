@@ -15,6 +15,11 @@ class Elem;
 class UiSystem
 {
 public:
+	enum CurrentElemState
+	{
+		Hovered, Pressed
+	};
+
 	explicit UiSystem(const Float2& screenSize);
 
 	void OnCanvasResized(const App::ResizedEvent& event);
@@ -38,12 +43,10 @@ public:
 	static const Float3 COLOR_LIGHT;
 	static constexpr float BORDER_THICKNESS{ 4.f };
 
-private:
-	enum CurrentElemState
-	{
-		Hovered, Pressed
-	};
+	Elem* GetCurrentElem() { return m_pCurrentElem; }
+	CurrentElemState GetCurrentElemState() const { return m_CurrentElemState; }
 
+private:
 	TreeManager m_Tree;
 	UiRectRenderer m_RectRenderer;
 	UiFontRenderer m_FontRenderer;
