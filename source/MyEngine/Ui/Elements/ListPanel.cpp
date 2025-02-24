@@ -97,7 +97,7 @@ void ListPanel::CreateLineOnOrigin(unsigned& iChild, float& lineFlowSize, float&
 	ResizePref childPref;
 	childPref.SetMin();
 
-	lineFlowSize = -m_ChildMargin;
+	lineFlowSize = 0;
 	lineFillSize = 0;
 
 	for (; iChild < GetNrChildren(); iChild++)
@@ -114,7 +114,7 @@ void ListPanel::CreateLineOnOrigin(unsigned& iChild, float& lineFlowSize, float&
 		const float childFillSize{ abs(child.GetSize().Dot(m_FillDir)) };
 
 		const float futureLineFillSize{ Float::Max(lineFillSize, childFillSize) };
-		const float futureLineFlowSize{ lineFlowSize + childFlowSize + m_ChildMargin };
+		const float futureLineFlowSize{ lineFlowSize + childFlowSize };
 
 		if (futureLineFillSize > maxFillSize)
 		{
@@ -135,18 +135,20 @@ void ListPanel::CreateLineOnOrigin(unsigned& iChild, float& lineFlowSize, float&
 		}
 
 		//place child on origin axis
-		Float2 childPos{ m_FlowDir * (lineFlowSize + m_ChildMargin + childFlowSize * .5f) }; //child center
+		Float2 childPos{ m_FlowDir * (lineFlowSize + childFlowSize * .5f) }; //child center
 		childPos -= child.GetSize() * .5f; //child origin
 
 		SetChildPosition(iChild, childPos);
 
 		//apply changes
 		lineFillSize = futureLineFillSize;
-		lineFlowSize = futureLineFlowSize;
+		lineFlowSize = futureLineFlowSize + m_ChildMargin;
 		m_NrVisibleChilds++;
 	}
 
-	if (lineFlowSize < 0)
+	if (lineFlowSize > 0)
+		lineFlowSize -= m_ChildMargin;
+	else if (lineFlowSize < 0)
 		lineFlowSize = 0;
 }
 
