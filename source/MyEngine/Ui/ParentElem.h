@@ -29,6 +29,8 @@ public:
 
 	Elem* GetElemAt(const Float2& position) override;
 
+	void SetChildrenTakeMouse(bool takeMouse) override;
+
 protected:
 	void SetChildPosition(unsigned childIdx, const Float2& relativePosition);
 	void UpdateChildSize(unsigned childIdx, const ResizePref& pref);
@@ -167,6 +169,17 @@ Elem* ParentElem<ChildData>::GetElemAt(const Float2& position)
 			return pUnder;
 	}
 	return Elem::GetElemAt(position);
+}
+
+template<typename ChildData>
+inline void ParentElem<ChildData>::SetChildrenTakeMouse(bool takeMouse)
+{
+	for (unsigned iChild{ 0 }; iChild < m_Children.GetSize(); ++iChild)
+	{
+		Elem& child{ *m_Children[iChild].pChild };
+		child.SetTakeMouse(takeMouse);
+		child.SetChildrenTakeMouse(takeMouse);
+	}
 }
 
 template <typename ChildData>
