@@ -25,7 +25,7 @@ public:
 
 	static constexpr unsigned EMPTY{ Uint::MAX };
 
-private:
+protected:
 	unsigned m_Id{ EMPTY };
 
 	TRenderer& GetRenderer();
@@ -87,10 +87,19 @@ inline UiImageRenderer& GraphicsId<UiImageRenderer>::GetRenderer()
 	return UI_IMAGE;
 }
 
-using RectId = GraphicsId<UiRectRenderer>;
 using FontId = GraphicsId<UiFontRenderer>;
 using ImageId = GraphicsId<UiImageRenderer>;
 using ShapeId = GraphicsId<UiShapeRenderer>;
+
+class RectId
+	: public GraphicsId<UiRectRenderer>
+{
+public:
+	RectId() = default;
+	RectId(unsigned id);
+
+	void SetColor(const Float3& newColor);
+};
 
 }
 }
