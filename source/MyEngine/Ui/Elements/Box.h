@@ -15,6 +15,8 @@ public:
 	void UpdateSizeAndTreePositions(const ResizePref& pref) override;
 	const std::string GetTypeName() const override;
 
+	void SetColor(const Float3& newColor);
+
 private:
 	RectId m_BoxId{ };
 	Float3 m_Color;

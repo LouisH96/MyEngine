@@ -20,6 +20,12 @@ const std::string Box::GetTypeName() const
 	return "Box";
 }
 
+void Box::SetColor(const Float3& newColor)
+{
+	m_Color = newColor;
+	m_BoxId.SetColor(newColor);
+}
+
 void Box::Clear()
 {
 	m_BoxId.Clear();
