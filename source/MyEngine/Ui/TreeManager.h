@@ -21,7 +21,7 @@ public:
 
 private:
 	AnchorParent m_Root;
-	bool m_NeedUpdate;
+	bool m_NeedUpdate{ false };
 
 	void ClearGraphics();
 	void CreateGraphics();
