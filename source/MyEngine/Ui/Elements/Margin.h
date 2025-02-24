@@ -11,6 +11,8 @@ class Margin final : public ParentElem<EmptyChildOptions>
 public:
 	explicit Margin(float margin);
 	const std::string GetTypeName() const override { return "Margin"; }
+	
+	float GetMargin() const { return m_Margin; }
 
 private:
 	void UpdateSizeAndTreePositions(const ResizePref& pref) override;
