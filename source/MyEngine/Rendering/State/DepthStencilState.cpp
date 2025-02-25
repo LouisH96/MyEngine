@@ -32,7 +32,7 @@ Rendering::DepthStencilState::DepthStencilState(bool useDepth)
 
 	// Create depth stencil state
 	const HRESULT result{ Globals::pGpu->GetDevice().CreateDepthStencilState(&dsDesc, &m_pState) };
-	if (FAILED(result)) Logger::PrintError("Failed creating DepthStencilBuffer");
+	if (FAILED(result)) Logger::Error("Failed creating DepthStencilBuffer");
 }
 
 Rendering::DepthStencilState::~DepthStencilState()

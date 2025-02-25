@@ -22,7 +22,7 @@ bool DepthStencilBuffer::Init(const Int2& size, bool asShaderResource)
 			pTexture, &desc, &m_pView)
 	};
 	if (FAILED(result)) {
-		Logger::PrintError("[DepthStencilBuffer] Failed creating view.");
+		Logger::Error("[DepthStencilBuffer] Failed creating view.");
 		success = false;
 	}
 	pTexture->Release();
@@ -66,7 +66,7 @@ ID3D11Texture2D* DepthStencilBuffer::MakeTexture(const Int2& size, bool asShader
 		Globals::pGpu->GetDevice().CreateTexture2D(&desc, nullptr, &pTexture)
 	};
 	if (FAILED(result)) {
-		Logger::PrintError("[DepthStencilBuffer::MakeTexture] Failed creating texture.");
+		Logger::Error("[DepthStencilBuffer::MakeTexture] Failed creating texture.");
 		return nullptr;
 	}
 	return pTexture;
@@ -95,7 +95,7 @@ ID3D11ShaderResourceView* DepthStencilBuffer::MakeShaderResourceView() const
 	SAFE_RELEASE(dsResource);
 
 	if (FAILED(result)) {
-		Logger::PrintError("[ShadowMapController::MakeTexture]");
+		Logger::Error("[ShadowMapController::MakeTexture]");
 		SAFE_RELEASE(pShaderResourceView);
 	}
 

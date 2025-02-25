@@ -35,7 +35,7 @@ void ListElem::UpdateSizeAndTreePositions(const ResizePref& pref)
 		const float childWidth{ child.GetWidth() };
 #ifdef MY_DEBUG
 		if (childWidth > pref.maxSize.x) //warning should come from button. Child shouldn't be able to be too big here.
-			Logger::PrintWarning("[ListElem::UpdateSizeAndTreePositions] child's width is wider than list's max width");
+			Logger::Warning("[ListElem::UpdateSizeAndTreePositions] child's width is wider than list's max width");
 #endif
 
 		childBounds.x = Float::Max(childBounds.x, childWidth);
@@ -52,7 +52,7 @@ void ListElem::UpdateSizeAndTreePositions(const ResizePref& pref)
 
 #ifdef MY_DEBUG
 	if (listSize.y > pref.maxSize.y) //should be handled earlier
-		Logger::PrintWarning("[ListElem::UpdateSizeAndTreePositions] list's height is higher than it's max");
+		Logger::Warning("[ListElem::UpdateSizeAndTreePositions] list's height is higher than it's max");
 #endif
 
 	if (pref.horMode == FillMode::Max)

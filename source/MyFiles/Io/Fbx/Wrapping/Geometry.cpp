@@ -25,7 +25,7 @@ int64_t Geometry::GetRootModelId() const
 void Geometry::SetRootModel(const Model& model)
 {
 	if (m_pRootModel)
-		Logger::PrintError("RootModel of geometry already set");
+		Logger::Error("RootModel of geometry already set");
 	m_pRootModel = &model;
 	m_Name = model.GetName();
 }

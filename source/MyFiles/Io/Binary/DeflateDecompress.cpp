@@ -31,8 +31,8 @@ DeflateDecompress::DeflateDecompress(std::istream& stream)
 		case 1: HandleFixedBlock(); break;
 		case 2: HandleDynamicBlock(); break;
 		case 0: HandleNoCompression(); return;
-		case 3: Logger::PrintError("Block-type was 3 which shouldn't be used"); return;
-		default: Logger::PrintError("Unknown block-type (BTYPE) of " + std::to_string(bType)); return;
+		case 3: Logger::Error("Block-type was 3 which shouldn't be used"); return;
+		default: Logger::Error("Unknown block-type (BTYPE) of " + std::to_string(bType)); return;
 		}
 	}
 }
@@ -85,7 +85,7 @@ void DeflateDecompress::HandleLengthDistancePair(uint16_t lengthCode)
 #ifdef DEFLATE_DECOMPRESS_DEBUG
 	if (lengthCode < 257 || lengthCode >285)
 	{
-		Logger::PrintError("length-code(" + std::to_string(lengthCode) + ") should be [257-285]");
+		Logger::Error("length-code(" + std::to_string(lengthCode) + ") should be [257-285]");
 		throw 0;
 	}
 #endif
@@ -221,7 +221,7 @@ void DeflateDecompress::GetCodeLengths(Array<uint8_t>& output, const Array<uint1
 			iCodeLength += nrCopies - 1;
 			continue;;
 		}
-		Logger::PrintError("Unknown codeLengthSymbolCode found");
+		Logger::Error("Unknown codeLengthSymbolCode found");
 		return;
 	}
 }
@@ -241,7 +241,7 @@ uint8_t DeflateDecompress::GetNextClSymbol(const Array<uint16_t>& clSymbolCodes,
 				shortest = clSymbolCodeLengths[i];
 		if (shortest == 255u)
 		{
-			Logger::PrintError("No shorter code found");
+			Logger::Error("No shorter code found");
 			return 0;
 		}
 
@@ -302,7 +302,7 @@ void DeflateDecompress::ReadDynamicBlockData(const Array<uint16_t>& llCodes, con
 				m_Output.push_back(newChars[i]);
 			continue;
 		}
-		Logger::PrintError("Unknown code");
+		Logger::Error("Unknown code");
 		return;
 	}
 }
@@ -321,7 +321,7 @@ uint16_t DeflateDecompress::GetNextCl(const Array<uint16_t>& codes, const Array<
 				shortest = codeLengths[i];
 		if (shortest == 255)
 		{
-			Logger::PrintError("No shorter code found");
+			Logger::Error("No shorter code found");
 			return 0;
 		}
 

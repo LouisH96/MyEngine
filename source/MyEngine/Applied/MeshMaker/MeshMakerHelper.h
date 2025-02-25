@@ -43,7 +43,7 @@ inline Float3 MeshMakerHelper::GetPosition(const MakerVertex& makerVertex, const
 	}
 	else
 	{
-		Logger::PrintError("[MeshMakerHelper::GetPosition] unknown MakerVertex-type");
+		Logger::Error("[MeshMakerHelper::GetPosition] unknown MakerVertex-type");
 		return {};
 	}
 }
@@ -94,7 +94,7 @@ inline SharedPtr<const MakerVertex> MeshMakerHelper::GetMoved(
 	}
 	else
 	{
-		Logger::PrintError("[MeshMakerHelper::GetMoved] unknown MakerVertex-type");
+		Logger::Error("[MeshMakerHelper::GetMoved] unknown MakerVertex-type");
 		return {};
 	}
 }

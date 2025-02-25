@@ -112,7 +112,7 @@ List<std::wstring> FileUtils::GetFiles(const std::wstring directory)
 
 	if ((findHandle = FindFirstFile(pattern.c_str(), &data)) == INVALID_HANDLE_VALUE)
 	{
-		Logger::PrintError("[FileUtils::ListFiles] Invalid handle value");
+		Logger::Error("[FileUtils::ListFiles] Invalid handle value");
 		return files;
 	}
 

@@ -188,12 +188,12 @@ Array<int> Generation::Shapes::GetIndicesToCapCircle(int nrPoints)
 {
 	if (nrPoints < 4)
 	{
-		Logger::PrintError("CapCircle function need at least 4 points");
+		Logger::Error("CapCircle function need at least 4 points");
 		return{};
 	}
 	if (nrPoints % 2 != 0)
 	{
-		Logger::PrintError("CapCircle function need even nr of points");
+		Logger::Error("CapCircle function need even nr of points");
 		return{};
 	}
 

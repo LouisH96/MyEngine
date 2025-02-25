@@ -172,5 +172,5 @@ void SamplerState::MakeDx(const D3D11_SAMPLER_DESC& desc)
 {
 	const HRESULT result{ Globals::pGpu->GetDevice().CreateSamplerState(&desc, &m_pSamplerState) };
 	if (FAILED(result))
-		Logger::PrintError("Failed creating samplerState");
+		Logger::Error("Failed creating samplerState");
 }

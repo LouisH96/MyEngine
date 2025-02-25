@@ -114,7 +114,7 @@ int ArrowGenerator::GetSectionLength(VertexSection section) const
 	case VertexSection::Tip: return 1;
 	case VertexSection::Last:
 	default:
-		Logger::PrintError("Unknown ArrowGenerator-VertexSection");
+		Logger::Error("Unknown ArrowGenerator-VertexSection");
 		return -1;;
 	}
 }
@@ -137,7 +137,7 @@ int ArrowGenerator::GetSectionLength(TriangleSection section) const
 	case TriangleSection::Head: return m_NrSides;
 	case TriangleSection::Last:
 	default:
-		Logger::PrintError("Unknown ArrowGenerator-TriangleSection");
+		Logger::Error("Unknown ArrowGenerator-TriangleSection");
 		return -1;
 	}
 }

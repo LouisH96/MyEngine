@@ -10,7 +10,7 @@ MyEngine::Io::Json::JsonArray::JsonArray(std::ifstream& stream)
 	const char first = stream.get();
 	if (first != '[')
 	{
-		Logger::PrintError("first char in JsonArray should be [ instead of " + first + '\n');
+		Logger::Error("first char in JsonArray should be [ instead of " + first + '\n');
 		return;
 	}
 	char c;
@@ -24,7 +24,7 @@ MyEngine::Io::Json::JsonArray::JsonArray(std::ifstream& stream)
 		const auto nextType = FindElementType(stream);
 		if (nextType == ElementType::Unknown)
 		{
-			Logger::PrintError("unknown state in array");
+			Logger::Error("unknown state in array");
 			return;
 		}
 		auto pElement = ReadElement(stream);

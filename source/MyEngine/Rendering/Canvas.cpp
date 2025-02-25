@@ -19,7 +19,7 @@ Canvas::Canvas(App::Win32::Window& window, const Float3& color)
 	m_DepthStencilBuffer.Init(m_Size);
 	m_Viewport = { m_Size };
 
-	if (Globals::pCanvas) Logger::PrintError("Global canvas already set");
+	if (Globals::pCanvas) Logger::Error("Global canvas already set");
 	Globals::pCanvas = this;
 }
 
@@ -61,7 +61,7 @@ void Canvas::Present() const
 
 	const HRESULT result{ m_pSwapChain->Present1(1, 0, &param) };
 	if (FAILED(result))
-		Logger::PrintError("SwapChain", result);
+		Logger::Error("SwapChain", result);
 }
 
 App::ResizedEvent Canvas::OnWindowResized(Int2 newSize)
@@ -75,7 +75,7 @@ App::ResizedEvent Canvas::OnWindowResized(Int2 newSize)
 	m_Size = newSize;
 	m_InvSize = { 1.f / newSize.x, 1.f / newSize.y };
 	const HRESULT result{ m_pSwapChain->ResizeBuffers(0, newSize.x, newSize.y, DXGI_FORMAT_UNKNOWN, 0) };
-	if (FAILED(result)) Logger::PrintError("[Canvas::OnWindowResized] failed resizing buffer");
+	if (FAILED(result)) Logger::Error("[Canvas::OnWindowResized] failed resizing buffer");
 	InitRenderTarget();
 	m_DepthStencilBuffer.Update(m_Size);
 	m_Viewport = { m_Size };
@@ -102,7 +102,7 @@ void Canvas::InitSwapChain(const App::Win32::Window& window)
 	GetFactory2(pDevice2, pAdapter, pFactory);
 
 	if (pFactory->CreateSwapChainForHwnd(&Globals::pGpu->GetDevice(), window.GetWindowHandle(), &desc, nullptr, nullptr, &m_pSwapChain) != S_OK)
-		Logger::PrintError("Canvas::InitSwapChain");
+		Logger::Error("Canvas::InitSwapChain");
 
 	pFactory->Release();
 	pAdapter->Release();
@@ -123,13 +123,13 @@ void Canvas::GetFactory2(IDXGIDevice2*& pDevice2, IDXGIAdapter*& pAdapter,
 {
 	HRESULT hr = Globals::pGpu->GetDevice().QueryInterface(__uuidof(IDXGIDevice2), reinterpret_cast<void**>(&pDevice2));
 	if (FAILED(hr))
-		Logger::PrintError("Canvas::GetFactory2::Device2");
+		Logger::Error("Canvas::GetFactory2::Device2");
 
 	hr = pDevice2->GetParent(__uuidof(IDXGIAdapter), reinterpret_cast<void**>(&pAdapter));
 	if (FAILED(hr))
-		Logger::PrintError("Canvas::GetFactory2::Adapter");
+		Logger::Error("Canvas::GetFactory2::Adapter");
 
 	hr = pAdapter->GetParent(__uuidof(IDXGIFactory2), reinterpret_cast<void**>(&pFactory));
 	if (FAILED(hr))
-		Logger::PrintError("Canvas::GetFactory2::Factory");
+		Logger::Error("Canvas::GetFactory2::Factory");
 }

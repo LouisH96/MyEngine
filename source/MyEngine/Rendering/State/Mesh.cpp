@@ -41,7 +41,7 @@ void Mesh::InitVertexBuffer(const void* pInitVertices, bool immutable)
 	const D3D11_SUBRESOURCE_DATA srData{ pInitVertices,0,0 };
 	const HRESULT hr = Globals::pGpu->GetDevice().CreateBuffer(&vertexBufferDesc, &srData, &m_pVertexBuffer);
 	if (FAILED(hr))
-		Logger::PrintError("Mesh::InitVertexBuffer");
+		Logger::Error("Mesh::InitVertexBuffer");
 }
 
 Mesh::~Mesh()

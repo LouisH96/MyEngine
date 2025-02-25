@@ -49,12 +49,12 @@ namespace MyEngine
 				, m_Values{ curve.KeyValueFloats }
 			{
 				if (m_Times.GetSize() != m_Values.GetSize())
-					Logger::PrintError(
+					Logger::Error(
 						"[FbxValueCurve] Times(" + Convert::ToString(m_Times.GetSize()) +
 						") and Values(" + Convert::ToString(m_Values.GetSize()) +
 						") should have equal lengths");
 				if (!curve.KeyTimes.IsSorted())
-					Logger::PrintError("[FbxValueCurve] Times is expected to be sorted");
+					Logger::Error("[FbxValueCurve] Times is expected to be sorted");
 			}
 
 			template <typename T>

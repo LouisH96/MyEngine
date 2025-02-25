@@ -21,7 +21,7 @@ void FbxFile::SetVersion(uint32_t version)
 		version != 7500 &&
 		version != 7700)
 	{
-		Logger::PrintError("[FbxFile] Unsupported FbxVersion: " + std::to_string(version));
+		Logger::Error("[FbxFile] Unsupported FbxVersion: " + std::to_string(version));
 		return;
 	}
 	m_Version = version;

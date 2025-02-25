@@ -73,7 +73,7 @@ namespace MyEngine
 		{
 			D3D11_MAPPED_SUBRESOURCE mappedResource{};
 			const HRESULT result{ Globals::pGpu->GetContext().Map(m_pBuffers[IDX_VERTICES], 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource) };
-			if (FAILED(result)) Logger::PrintError("[VertexIdxArray] Failed updating vertices");
+			if (FAILED(result)) Logger::Error("[VertexIdxArray] Failed updating vertices");
 			memcpy(mappedResource.pData, pVertices, nrVertices * sizeof(Vertex));
 			Globals::pGpu->GetContext().Unmap(m_pBuffers[IDX_VERTICES], 0);
 		}

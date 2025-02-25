@@ -175,7 +175,7 @@ namespace MyEngine
 		if (i == -1)
 		{
 #ifdef SORTED_LIST_DEBUG
-			Logger::PrintError("[SortedList::RemoveSection] Value not found");
+			Logger::Error("[SortedList::RemoveSection] Value not found");
 #endif
 			return false;
 		}

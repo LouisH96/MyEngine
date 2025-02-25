@@ -41,7 +41,7 @@ MyEngine::Io::Json::ElementType MyEngine::Io::Json::JsonElement::FindElementType
 		if (JsonString::DetectType(c)) return ElementType::String;
 		if (JsonNumber::DetectType(c)) return ElementType::Number;
 		if (JsonNull::DetectType(c)) return ElementType::Null;
-		Logger::PrintError("Unknown character");
+		Logger::Error("Unknown character");
 		return ElementType::Unknown;
 	}
 	return ElementType::Unknown;
@@ -58,7 +58,7 @@ MyEngine::Io::Json::JsonElement* MyEngine::Io::Json::JsonElement::ReadElement(st
 	case ElementType::Null: return new JsonNull(stream);
 	case ElementType::Unknown:
 	default:
-		Logger::PrintError("Unknown ElementType");
+		Logger::Error("Unknown ElementType");
 		return nullptr;
 	}
 }
@@ -74,7 +74,7 @@ std::string MyEngine::Io::Json::JsonElement::TypeToString(ElementType type)
 	case ElementType::Null: return "Null";
 	case ElementType::Unknown: return "Unknown";
 	default: 
-		Logger::PrintError("Unknown ElementType");
+		Logger::Error("Unknown ElementType");
 		return "";
 	}
 }

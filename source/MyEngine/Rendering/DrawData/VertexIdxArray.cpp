@@ -81,7 +81,7 @@ void Rendering::VertexIdxArray::UpdateIndices(const int* pIndices, unsigned nrIn
 {
 	D3D11_MAPPED_SUBRESOURCE mappedResource{};
 	const HRESULT result{ Globals::pGpu->GetContext().Map(m_pBuffers[IDX_INDICES], 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource) };
-	if (FAILED(result)) Logger::PrintError("[VertexIdxArray] Failed updating indices");
+	if (FAILED(result)) Logger::Error("[VertexIdxArray] Failed updating indices");
 	memcpy(mappedResource.pData, pIndices, nrIndices * sizeof(int));
 	Globals::pGpu->GetContext().Unmap(m_pBuffers[IDX_INDICES], 0);
 }

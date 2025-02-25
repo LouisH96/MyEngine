@@ -22,7 +22,7 @@ FontRasterizer::FontRasterizer(const Glyph& glyph, int nrCols, int nrRows)
 void FontRasterizer::DrawBounds(const Float3& color, const Float3& offset) const
 {
 	//todo:
-	Logger::PrintError("[FontRasterizer]: DebugRenderer not in MyBasics");
+	Logger::Error("[FontRasterizer]: DebugRenderer not in MyBasics");
 
 	//DebugRenderer::AddRect(m_Glyph.GetMinBounds(), m_Glyph.GetMaxBounds(), offset, color);
 }
@@ -30,7 +30,7 @@ void FontRasterizer::DrawBounds(const Float3& color, const Float3& offset) const
 void FontRasterizer::DrawGrid(const Float3& offset, const Float3& color) const
 {
 	//todo:
-	Logger::PrintError("[FontRasterizer]: DebugRenderer not in MyBasics");
+	Logger::Error("[FontRasterizer]: DebugRenderer not in MyBasics");
 
 	//DebugRenderer::AddGridXy(offset, m_Glyph.GetSize(), m_NrCols, m_NrRows, color);
 }
@@ -38,7 +38,7 @@ void FontRasterizer::DrawGrid(const Float3& offset, const Float3& color) const
 void FontRasterizer::DrawIntersections(const Float3& offset, const Float2& bounds) const
 {
 	//todo:
-	Logger::PrintError("[FontRasterizer]: DebugRenderer not in MyBasics");
+	Logger::Error("[FontRasterizer]: DebugRenderer not in MyBasics");
 
 	/*const Double2 glyphSize{ m_Glyph.GetSize() };
 

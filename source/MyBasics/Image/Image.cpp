@@ -125,7 +125,7 @@ void MyEngine::Rendering::Image::CopyTo(Image& dest, const Int2& position) const
 {
 	if (!dest.IsInBounds(position + GetSize() - Int2{1, 1}))
 	{
-		Logger::PrintError("Image would be copied outside destination image");
+		Logger::Error("Image would be copied outside destination image");
 		//return;
 	}
 

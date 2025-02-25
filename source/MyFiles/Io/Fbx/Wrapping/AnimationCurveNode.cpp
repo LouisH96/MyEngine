@@ -82,14 +82,14 @@ void AnimationCurveNode::AddAnimationCurve(const AnimationCurve& animationCurve)
 void AnimationCurveNode::SetParentModel(const Model& model)
 {
 	if (m_pParentModel)
-		Logger::PrintError("AnimationCurveNode already has a parent model");
+		Logger::Error("AnimationCurveNode already has a parent model");
 	m_pParentModel = &model;
 }
 
 void AnimationCurveNode::SetAnimationLayer(const AnimationLayer& animationLayer)
 {
 	if (m_pAnimationLayer)
-		Logger::PrintError("AnimationCurveNode already has an animationLayer");
+		Logger::Error("AnimationCurveNode already has an animationLayer");
 	m_pAnimationLayer = &animationLayer;
 }
 
@@ -109,7 +109,7 @@ AnimationCurveNode::NodeType AnimationCurveNode::GetNodeType(
 	if (cleaned == "S") return NodeType::Scale;
 	if (cleaned == "filmboxTypeID") return NodeType::FilmboxTypeId;
 	if (cleaned == "FocalLength") return NodeType::FocalLength;
-	Logger::PrintWarning("Unknown AnimationCurveNode type: " + cleaned);
+	Logger::Warning("Unknown AnimationCurveNode type: " + cleaned);
 	return NodeType::Other;
 }
 
@@ -121,13 +121,13 @@ void AnimationCurveNode::Print() const
 		std::cout << "LockInfluenceWeight: " << m_Value.boolValue << std::endl;
 		break;
 	case NodeType::Translation:
-		std::cout << "Translation: " << ToString::Convert(m_Value.vectorValue) << std::endl;
+		std::cout << "Translation: " << Convert::ToString(m_Value.vectorValue) << std::endl;
 		break;
 	case NodeType::Rotation:
-		std::cout << "Rotation: " << ToString::Convert(m_Value.vectorValue) << std::endl;
+		std::cout << "Rotation: " << Convert::ToString(m_Value.vectorValue) << std::endl;
 		break;
 	case NodeType::Scale:
-		std::cout << "Scale: " << ToString::Convert(m_Value.vectorValue) << std::endl;
+		std::cout << "Scale: " << Convert::ToString(m_Value.vectorValue) << std::endl;
 		break;
 	case NodeType::Visibility:
 		std::cout << "Visibility: " << m_Value.boolValue << std::endl;

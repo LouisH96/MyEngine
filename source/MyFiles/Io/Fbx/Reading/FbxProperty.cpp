@@ -28,7 +28,7 @@ MyEngine::Io::Fbx::Reading::FbxProperty* MyEngine::Io::Fbx::Reading::FbxProperty
 	case 'S': return new FbxPropString(stream);
 	case 'R': return new FbxPropRaw(stream);
 	default:
-		Logger::PrintError("Unknown property type in fbx: " + std::string{ c });
+		Logger::Error("Unknown property type in fbx: " + std::string{ c });
 		return nullptr;
 	}
 }

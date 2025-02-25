@@ -24,6 +24,12 @@ namespace MyEngine
 		static std::string ToString(const Vector3<T>& vector);
 
 		template<typename T>
+		static std::string ToString(const Array<T>& array);
+
+		template<typename T>
+		static std::string ToString(const List<T>& list);
+
+		template<typename T>
 		static std::string ToString(T value);
 
 		static std::wstring ToWString(const std::string& string);
@@ -46,6 +52,32 @@ namespace MyEngine
 		ss << "(" << ToString(vector.x)
 			<< ", " << ToString(vector.y)
 			<< ", " << ToString(vector.z) << ")";
+		return ss.str();
+	}
+
+	template<typename T>
+	inline std::string Convert::ToString(const Array<T>& array)
+	{
+		std::stringstream ss{};
+		ss << "Array[" << array.GetSize() << "]" << std::endl;
+		for (unsigned i{ 0 }; i < array.GetSize(); ++i)
+		{
+			ss << " [" << i << "] ";
+			ss << ToString(array[i]) << std::endl;;
+		}
+		return ss.str();
+	}
+
+	template<typename T>
+	inline std::string Convert::ToString(const List<T>& list)
+	{
+		std::stringstream ss{};
+		ss << "List[" << list.GetSize() << "," << list.GetCapacity() << "]" << std::endl;
+		for (unsigned i{ 0 }; i < list.GetSize(); ++i)
+		{
+			ss << " [" << i << "] ";
+			ss << ToString(list[i]) << std::endl;;
+		}
 		return ss.str();
 	}
 

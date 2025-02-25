@@ -129,7 +129,7 @@ inline const float* JointsTimeValues::FindAfter(const float* pData, const float*
 			return pData;
 		pData += TPropertySize;
 	}
-	Logger::PrintError("[JointsTimeValues::FindAfter] time not found");
+	Logger::Error("[JointsTimeValues::FindAfter] time not found");
 	return nullptr;
 }
 template<>

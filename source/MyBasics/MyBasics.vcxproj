@@ -157,6 +157,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Logger\BasicLogger.h" />
     <ClInclude Include="Timing\AvgCounter.h" />
     <ClInclude Include="DataStructures\Adders\ArrayAdder.h" />
     <ClInclude Include="DataStructures\Adders\IncrementRefAdder.h" />
@@ -189,7 +190,6 @@
     <ClInclude Include="Timing\Interval.h" />
     <ClInclude Include="Timing\Counter.h" />
     <ClInclude Include="Logger\Logger.h" />
-    <ClInclude Include="Logger\ToString.h" />
     <ClInclude Include="Math\Constants.h" />
     <ClInclude Include="Math\Matrices.h" />
     <ClInclude Include="Math\Matrix4x4.h" />
@@ -206,6 +206,7 @@
     <ClInclude Include="Transform\ViewMatrix.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Logger\BasicLogger.cpp" />
     <ClCompile Include="Timing\AvgCounter.cpp" />
     <ClCompile Include="FileUtils\Drive.cpp" />
     <ClCompile Include="FileUtils\FileUtils.cpp" />

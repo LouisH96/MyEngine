@@ -41,7 +41,7 @@ Array<Double2> ContourOperations::ToPoints(const Array<TtfPoint>& contourPoints,
 {
 	if (nrPointsPerSegment < 2)
 	{
-		Logger::PrintError("Need at least 2 points per segment");
+		Logger::Error("Need at least 2 points per segment");
 		return{};
 	}
 
@@ -106,7 +106,7 @@ Array<Double2> ContourOperations::ToPoints(const Segment& segment, unsigned nrPo
 	}
 	if (nrPoints < 2)
 	{
-		Logger::PrintError("Need at least 2 points for segment");
+		Logger::Error("Need at least 2 points for segment");
 		return {};
 	}
 	Array<Double2> points{ nrPoints };

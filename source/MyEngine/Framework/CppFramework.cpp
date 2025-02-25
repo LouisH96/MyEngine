@@ -2,6 +2,7 @@
 #include "CppFramework.h"
 
 #include "Resources.h"
+#include <Logger\BasicLogger.h>
 
 #define _CRTDBG_MAP_ALLOC
 #define _LEAK_TO_CONSOLE
@@ -16,7 +17,7 @@ Framework::CppFramework::CppFramework()
 #endif
 #endif
 	Resources::Init();
-	Logger::SetColorWhite();
+	BasicLogger::Init();
 }
 
 Framework::CppFramework::~CppFramework()

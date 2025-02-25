@@ -68,7 +68,7 @@ Deformer::Deformer(Reading::FbxElement& object)
 	else if (type == "Skin")
 		m_pData = new DeformerSkinData(object);
 	else
-		Logger::PrintWarning("[Deformer] unknown deformer type: " + type);
+		Logger::Warning("[Deformer] unknown deformer type: " + type);
 }
 
 Deformer::~Deformer()
@@ -135,14 +135,14 @@ Deformer& Deformer::operator=(Deformer&& other) noexcept
 void Deformer::SetParentGeometry(const Geometry& geometry)
 {
 	if (m_pParentDeformer || m_pParentGeometry)
-		Logger::PrintError("Deformer already has a parent");
+		Logger::Error("Deformer already has a parent");
 	m_pParentGeometry = &geometry;
 }
 
 void Deformer::SetParentDeformer(const Deformer& deformer)
 {
 	if (m_pParentDeformer || m_pParentGeometry)
-		Logger::PrintError("Deformer already has a parent");
+		Logger::Error("Deformer already has a parent");
 	m_pParentDeformer = &deformer;
 }
 
@@ -154,6 +154,6 @@ void Deformer::AddChildDeformer(const Deformer& deformer)
 void Deformer::SetModel(const Model& model)
 {
 	if (m_pModel)
-		Logger::PrintError("[Deformer::SetModel] Model already set");
+		Logger::Error("[Deformer::SetModel] Model already set");
 	m_pModel = &model;
 }

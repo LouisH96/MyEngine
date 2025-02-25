@@ -21,7 +21,7 @@ Rendering::RasterizerState::RasterizerState(bool isWireframe)
 
 	const HRESULT result = Globals::pGpu->GetDevice().CreateRasterizerState(&desc, &m_pState);
 	if (FAILED(result))
-		Logger::PrintError("RasterizerState");
+		Logger::Error("RasterizerState");
 }
 
 Rendering::RasterizerState::~RasterizerState()

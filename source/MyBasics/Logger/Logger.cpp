@@ -1,192 +1,93 @@
 #include "Logger.h"
 
-#include <comdef.h>
-#include <Windows.h>
-#include <iostream>
-#include <locale>
-#include <iomanip>
-#include <sstream>
-
-#include "String/Convert.h"
-
 using namespace MyEngine;
 
-std::string Logger::GetLogLine(const std::string& logMessage)
+void Logger::Print(const std::string& msg)
 {
-	tm tm{};
-	const time_t now = time(nullptr);
-	localtime_s(&tm, &now);
-
-	constexpr unsigned timeFormatLength = 11;
-	std::string datetime(timeFormatLength + logMessage.size() + 1, 0);
-	datetime[datetime.size() - 1] = '\n';
-	std::strftime(&datetime[0], timeFormatLength + 1, "[%T] ", &tm);
-
-	datetime.replace(timeFormatLength, logMessage.size(), logMessage);
-	return datetime;
+	BasicLogger::Print(msg);
 }
 
-void Logger::Print(const std::string& logMessage)
+void Logger::BeginPrint()
 {
-	std::cout << GetLogLine(logMessage);
+	BasicLogger::BeginPrint();
 }
 
-void Logger::Print(const std::string& prefix, float value)
+void Logger::BeginPrint(const std::string& msg)
 {
-	std::stringstream ss;
-	AddPrefix(ss, prefix);
-	ss << value;
-	Print(ss.str());
+	BasicLogger::BeginPrint(msg);
 }
 
-void Logger::Print(float x, float y, float z)
+void Logger::ContinuePrint(const std::string& msg)
 {
-	Print(ToString(x, y, z));
+	BasicLogger::ContinuePrint(msg);
 }
 
-void Logger::PrintXYZ(const float* x)
+void Logger::EndPrint()
 {
-	Print(ToStringXYZ(x));
+	BasicLogger::EndPrint();
 }
 
-void Logger::PrintXYZ(const Float3& vector)
+void Logger::EndPrint(const std::string& msg)
 {
-	Print(ToStringXYZ(vector));
+	BasicLogger::EndPrint(msg);
 }
 
-void Logger::PrintXYZ(const std::string& prefix, const Float3& vector)
+void Logger::Warning(const std::string& msg)
 {
-	std::stringstream ss;
-	AddPrefix(ss, prefix);
-	ss << ToStringXYZ(vector);
-	Print(ss.str());
+	BasicLogger::Warning(msg);
 }
 
-void Logger::PrintXY(const Int2& vector)
+void Logger::BeginWarning()
 {
-	Print(ToStringXY(vector));
+	BasicLogger::BeginWarning();
 }
 
-void Logger::PrintXY(const std::string& prefix, const Int2& vector)
+void Logger::BeginWarning(const std::string& msg)
 {
-	std::stringstream ss;
-	AddPrefix(ss, prefix);
-	ss << ToStringXY(vector);
-	Print(ss.str());
+	BasicLogger::BeginWarning(msg);
 }
 
-void Logger::PrintError(const std::string& message)
+void Logger::ContinueWarning(const std::string& msg)
 {
-	std::stringstream ss;
-	ss << "[Error] ";
-	ss << message;
-	SetColorRed();
-	Print(ss.str());
-	SetColorWhite();
+	BasicLogger::ContinueWarning(msg);
 }
 
-void Logger::PrintWarning(const std::string& message)
+void Logger::EndWarning()
 {
-	std::stringstream ss;
-	ss << "[Warning] ";
-	ss << message;
-	SetColorYellow();
-	Print(ss.str());
-	SetColorWhite();
+	BasicLogger::EndWarning();
 }
 
-void Logger::PrintError(const std::string& first, const HRESULT& hResult)
+void Logger::EndWarning(const std::string& msg)
 {
-	const _com_error error{ hResult };
-	const std::wstring wString = { error.ErrorMessage() };
-	BeginError(first + " Dx(");
-	EndError(Convert::ToString(wString) + ")");
+	BasicLogger::EndWarning(msg);
+}
+
+void Logger::Error(const std::string& msg)
+{
+	BasicLogger::Error(msg);
 }
 
 void Logger::BeginError()
 {
-	SetColorRed();
-	std::cout << "[Error] ";
+	BasicLogger::BeginError();
+}
+
+void Logger::BeginError(const std::string& msg)
+{
+	BasicLogger::BeginError(msg);
+}
+
+void Logger::ContinueError(const std::string& msg)
+{
+	BasicLogger::ContinueError(msg);
 }
 
 void Logger::EndError()
 {
-	std::cout << std::endl;
-	SetColorWhite();
+	BasicLogger::EndError();
 }
 
-void Logger::BeginError(const std::string& string)
+void Logger::EndError(const std::string& msg)
 {
-	BeginError();
-	std::cout << string;
-}
-
-void Logger::ContinueError(const std::string& string)
-{
-	std::cout << string;
-}
-
-void Logger::EndError(const std::string& string)
-{
-	std::cout << string;
-	EndError();
-}
-
-std::string Logger::ToStringXY(const Int2& vector)
-{
-	std::stringstream ss{};
-	ss << "(";
-	ss << std::to_string(vector.x);
-	ss << ",";
-	ss << std::to_string(vector.y);
-	ss << ")";
-	return ss.str();
-}
-
-void Logger::SetColorWhite()
-{
-	SetColor(7);
-}
-
-void Logger::SetColorYellow()
-{
-	SetColor(14);
-}
-
-void Logger::SetColorRed()
-{
-	SetColor(12);
-}
-
-void Logger::SetColor(short attribute)
-{
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), attribute);
-}
-
-void Logger::AddPrefix(std::stringstream& ss, const std::string& prefix)
-{
-	ss << prefix << ": ";
-}
-
-std::string Logger::ToStringXYZ(const float* x)
-{
-	return ToString(x[0], x[1], x[2]);
-}
-
-std::string Logger::ToStringXYZ(const Float3& vector)
-{
-	return ToString(vector.x, vector.y, vector.z);
-}
-
-std::string Logger::ToString(float x, float y, float z)
-{
-	std::stringstream ss{};
-	ss << "(";
-	ss << std::to_string(x);
-	ss << ",";
-	ss << std::to_string(y);
-	ss << ",";
-	ss << std::to_string(z);
-	ss << ")";
-	return ss.str();
+	BasicLogger::EndError(msg);
 }

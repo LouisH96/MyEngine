@@ -190,7 +190,7 @@ namespace MyEngine
 		{
 			D3D11_MAPPED_SUBRESOURCE mappedResource{};
 			const HRESULT result{ Globals::pGpu->GetContext().Map(m_pBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource) };
-			if (FAILED(result)) Logger::PrintError("Failed updating VertexArray data");
+			if (FAILED(result)) Logger::Error("Failed updating VertexArray data");
 			memcpy(mappedResource.pData, pData, dataCount * sizeof(Vertex));
 			Globals::pGpu->GetContext().Unmap(m_pBuffer, 0);
 		}
@@ -201,7 +201,7 @@ namespace MyEngine
 			D3D11_MAPPED_SUBRESOURCE mappedResource{};
 			const HRESULT result{ Globals::pGpu->GetContext().Map(m_pBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0 ,&mappedResource) };
 			if (FAILED(result))
-				Logger::PrintError("[VertexArray::BeginUpdateData] mapping failed");
+				Logger::Error("[VertexArray::BeginUpdateData] mapping failed");
 			return reinterpret_cast<Vertex*>(mappedResource.pData);
 		}
 		template<typename Vertex>

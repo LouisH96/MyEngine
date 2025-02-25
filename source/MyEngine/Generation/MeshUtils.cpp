@@ -10,12 +10,12 @@ void MeshUtils::CapCircle(int nrPoints, int arrayOffset, int valueOffset, Array<
 {
 	if (nrPoints % 2 != 0)
 	{
-		Logger::PrintError("NrPoints should be even");
+		Logger::Error("NrPoints should be even");
 		return;
 	}
 	if (static_cast<unsigned>(arrayOffset + GetNrTrianglesToCapCircle(nrPoints) * 3) >= indices.GetSize())
 	{
-		Logger::PrintError("Indices-Array is not big enough for adding cap-circle indices");
+		Logger::Error("Indices-Array is not big enough for adding cap-circle indices");
 		return;
 	}
 	const int half = nrPoints / 2;
@@ -93,7 +93,7 @@ int MeshUtils::GetNrTrianglesToCapCircle(int nrCirclePoints)
 void MeshUtils::AssertCapCirclePoints(int nrCirclePoints)
 {
 	if (nrCirclePoints < 4)
-		Logger::PrintError("Need at least 4 points to cap a circle");
+		Logger::Error("Need at least 4 points to cap a circle");
 	if (nrCirclePoints % 2 != 0)
-		Logger::PrintError("Number of points need to be even to cap a circle");
+		Logger::Error("Number of points need to be even to cap a circle");
 }

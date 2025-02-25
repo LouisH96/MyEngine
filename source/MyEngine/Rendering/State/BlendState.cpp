@@ -16,7 +16,7 @@ Rendering::BlendState::BlendState()
 	desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
 	desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
 	const HRESULT result{ Globals::pGpu->GetDevice().CreateBlendState(&desc, &m_pBlendState) };
-	if (FAILED(result)) Logger::PrintError("Failed creating BlendState");
+	if (FAILED(result)) Logger::Error("Failed creating BlendState");
 }
 
 Rendering::BlendState::~BlendState()

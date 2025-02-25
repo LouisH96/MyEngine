@@ -115,7 +115,7 @@ uint16_t CMapTable::EncodingSubTable::GetGlyphIndex(uint16_t codePoint) const
 		if (startCode > codePoint)
 		{
 #ifdef LOCAL_DEBUG
-			Logger::PrintWarning("[CMapTable::GetGlyphIndex] GlyphIndex not in table");
+			Logger::Warning("[CMapTable::GetGlyphIndex] GlyphIndex not in table");
 #endif
 			return Scalar<uint16_t>::Max();
 		}
@@ -125,7 +125,7 @@ uint16_t CMapTable::EncodingSubTable::GetGlyphIndex(uint16_t codePoint) const
 		const int idx = idRangeOffset / 2 + i + (codePoint - startCode) - m_Format.idRangeOffset.GetSize();
 		return m_Format.glyphIdArray[idx];
 	}
-	Logger::PrintError("GlyphIndex not found, but should have been");
+	Logger::Error("GlyphIndex not found, but should have been");
 	return -1;
 }
 
@@ -140,7 +140,7 @@ uint16_t CMapTable::EncodingSubTable::GetCodePoint(uint16_t glyphIndex) const
 		return static_cast<uint16_t>(possibleCodePoint);
 	}
 
-	Logger::PrintError("[CMapTable::EncodingSubTable::GetCodePoint] should check for glyphIdArray data");
+	Logger::Error("[CMapTable::EncodingSubTable::GetCodePoint] should check for glyphIdArray data");
 	/*Array<int> options{ m_Format.idRangeOffset.GetSize() };
 	for (unsigned i = 0; i < m_Format.idRangeOffset.GetSize(); i++)
 	{
@@ -168,5 +168,5 @@ void CMapTable::Validate() const
 	for (unsigned i = 0; i < m_SubTables.GetSize(); i++)
 		if (m_SubTables[i].GetPlatformId() == 0 && m_SubTables[i].GetPlatformSpecificId() == 3)
 			return;
-	Logger::PrintError("SubTable with PlatformID 0 & PlatformSpecificID 3 not found");
+	Logger::Error("SubTable with PlatformID 0 & PlatformSpecificID 3 not found");
 }

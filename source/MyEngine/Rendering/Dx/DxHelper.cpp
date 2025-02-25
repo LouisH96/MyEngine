@@ -21,7 +21,7 @@ void MyEngine::Rendering::Dx::DxHelper::CreateVertexShader(const std::wstring& p
 		&pVertexShader);
 
 	if (FAILED(hr))
-		Logger::PrintError("DxHelper::CreateVertexShader - Error");
+		Logger::Error("DxHelper::CreateVertexShader - Error");
 }
 
 void MyEngine::Rendering::Dx::DxHelper::CreatePixelShader(const std::wstring& path, const std::string& functionName,
@@ -37,7 +37,7 @@ void MyEngine::Rendering::Dx::DxHelper::CreatePixelShader(const std::wstring& pa
 		&pVertexShader);
 
 	if (FAILED(hr))
-		Logger::PrintError("DxHelper::CreatePixelShader - Error");
+		Logger::Error("DxHelper::CreatePixelShader - Error");
 }
 
 void MyEngine::Rendering::Dx::DxHelper::CreateComputeShader(const std::wstring& path, const std::string& functionName,
@@ -53,7 +53,7 @@ void MyEngine::Rendering::Dx::DxHelper::CreateComputeShader(const std::wstring& 
 		&pShader);
 
 	if (FAILED(hr))
-		Logger::PrintError("DxHelper::CreateComputeShader - Error");
+		Logger::Error("DxHelper::CreateComputeShader - Error");
 }
 
 void MyEngine::Rendering::Dx::DxHelper::CompileFromFile(const std::wstring& path, const std::string& functionName, ID3DBlob*& pBlob)
@@ -100,16 +100,16 @@ void MyEngine::Rendering::Dx::DxHelper::CompileFromFile(const std::wstring& path
 		}
 		if (FAILED(hr))
 		{
-			Logger::PrintError(ss.str());
+			Logger::Error(ss.str());
 			if (pBlob)
 				pBlob->Release();
 		}
 		else
-			Logger::PrintWarning(ss.str());
+			Logger::Warning(ss.str());
 	}
 	else if (FAILED(hr))
 	{
-		Logger::PrintWarning("[DxHelper::CompileFromFile] failed");
+		Logger::Warning("[DxHelper::CompileFromFile] failed");
 		if (pBlob)
 			pBlob->Release();
 	}
@@ -140,7 +140,7 @@ void Rendering::Dx::DxHelper::CreateIndexBuffer(ID3D11Buffer*& pIndexBuffer, uns
 	desc.CPUAccessFlags = immutable ? 0 : D3D11_CPU_ACCESS_WRITE;
 	desc.MiscFlags = 0;
 	const HRESULT result{ Globals::pGpu->GetDevice().CreateBuffer(&desc, nullptr, &pIndexBuffer) };
-	if (FAILED(result))Logger::PrintError("[DxHelper::CreateIndexBuffer] Failed creating index-buffer");
+	if (FAILED(result))Logger::Error("[DxHelper::CreateIndexBuffer] Failed creating index-buffer");
 }
 
 void MyEngine::Rendering::Dx::DxHelper::CreateIndexBuffer(ID3D11Buffer*& pIndexBuffer, const int* pInitIndices, int nrInitIndices)
@@ -159,7 +159,7 @@ void MyEngine::Rendering::Dx::DxHelper::CreateIndexBuffer(ID3D11Buffer*& pIndexB
 
 	const HRESULT result = Globals::pGpu->GetDevice().CreateBuffer(&desc, &initData, &pIndexBuffer);
 	if (FAILED(result))
-		Logger::PrintError("CreateIndexBuffer");
+		Logger::Error("CreateIndexBuffer");
 }
 
 void Rendering::Dx::DxHelper::CreateIndexBuffer(ID3D11Buffer*& pIndexBuffer, const int* pIndices, int nrIndices, bool immutable)
@@ -175,7 +175,7 @@ void Rendering::Dx::DxHelper::CreateIndexBuffer(ID3D11Buffer*& pIndexBuffer, con
 
 	const HRESULT result = Globals::pGpu->GetDevice().CreateBuffer(&desc, &initData, &pIndexBuffer);
 	if (FAILED(result))
-		Logger::PrintError("Failed creating index-buffer");
+		Logger::Error("Failed creating index-buffer");
 }
 
 void Rendering::Dx::DxHelper::CreateIndexBuffer(ID3D11Buffer*& pIndexBuffer, const Array<int>& indices, bool immutable)
@@ -201,7 +201,7 @@ void Rendering::Dx::DxHelper::CreateVertexBuffer(ID3D11Buffer*& pBuffer, unsigne
 	};
 	const HRESULT result{ Globals::pGpu->GetDevice().CreateBuffer(&desc, nullptr, &pBuffer) };
 	if (FAILED(result))
-		Logger::PrintError("Failed creating Vertex-Buffer");
+		Logger::Error("Failed creating Vertex-Buffer");
 }
 
 std::string Rendering::Dx::DxHelper::GetHResultString(const HRESULT& result)
@@ -214,5 +214,5 @@ std::string Rendering::Dx::DxHelper::GetHResultString(const HRESULT& result)
 void Rendering::Dx::DxHelper::AssertMultipleOf16(unsigned sizeOf)
 {
 	if (sizeOf % 16 != 0)
-		Logger::PrintWarning("[DxHelper] buffer size should be multiple of 16");
+		Logger::Warning("[DxHelper] buffer size should be multiple of 16");
 }

@@ -15,7 +15,7 @@ Gpu::Gpu()
 {
 	Init();
 
-	if (Globals::pGpu) Logger::PrintError("A second gpu is made");
+	if (Globals::pGpu) Logger::Error("A second gpu is made");
 	Globals::pGpu = this;
 }
 
@@ -36,7 +36,7 @@ void Gpu::Init()
 	IDXGIFactory* pFactory{};
 
 	if (FAILED(CreateDXGIFactory(__uuidof(IDXGIFactory), reinterpret_cast<void**>(&pFactory))))
-		Logger::PrintError("[Gpu::Init] failed creating factory");
+		Logger::Error("[Gpu::Init] failed creating factory");
 
 	IDXGIAdapter* pAdapter{};
 	IDXGIAdapter* pBestAdapter{};
@@ -57,7 +57,7 @@ void Gpu::Init()
 	SAFE_RELEASE(pFactory);
 	
 	if (!pBestAdapter)
-		Logger::PrintError("[Gpu::Init] no adapter found");
+		Logger::Error("[Gpu::Init] no adapter found");
 
 	UINT createDeviceFlags = 0;
 #if defined(_DEBUG)
@@ -78,7 +78,7 @@ void Gpu::Init()
 	};
 
 	if (FAILED(result))
-		Logger::PrintError("[Gpu::Init, CreateDevice]", result);
+		Logger::Error("[Gpu::Init, CreateDevice]", result);
 
 	pBestAdapter->Release();
 }

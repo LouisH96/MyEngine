@@ -202,7 +202,7 @@ namespace MyEngine
 	{
 #ifdef INVALIDATE_LIST_DEBUG
 		if (!IsEmpty(m_GapIndicator))
-			Logger::PrintError("[InvalidateList::Add] GapIndicator is not empty");
+			Logger::Error("[InvalidateList::Add] GapIndicator is not empty");
 #endif
 		m_Changed = true;
 		const unsigned idx{ m_GapIndicator };
@@ -234,9 +234,9 @@ namespace MyEngine
 	{
 #ifdef INVALIDATE_LIST_DEBUG
 		if (idx == m_GapIndicator)
-			Logger::PrintError("[InvalidateList::Remove] idx is same as gap-indicator");
+			Logger::Error("[InvalidateList::Remove] idx is same as gap-indicator");
 		if (idx >= m_End)
-			Logger::PrintError("[InvalidateList::Remove] idx is equal or bigger than end");
+			Logger::Error("[InvalidateList::Remove] idx is equal or bigger than end");
 #endif
 		m_Changed = true;
 		m_pData[idx].Invalidate();
@@ -389,13 +389,13 @@ namespace MyEngine
 	{
 #ifdef INVALIDATE_LIST_DEBUG
 		if (!IsEmpty(m_First))
-			Logger::PrintError("[InvalidateList::UpdateFirstIndicator] expected first to be empty");
+			Logger::Error("[InvalidateList::UpdateFirstIndicator] expected first to be empty");
 #endif
 		while (++m_First < m_End)
 			if (!IsEmpty(m_First))
 				return;
 #ifdef INVALIDATE_LIST_DEBUG
-		Logger::PrintError("[InvalidateList::UpdateFirstIndicator] didn't expect to reach end");
+		Logger::Error("[InvalidateList::UpdateFirstIndicator] didn't expect to reach end");
 #endif
 	}
 
@@ -414,7 +414,7 @@ namespace MyEngine
 	{
 #ifdef INVALIDATE_LIST_DEBUG
 		if (!IsEmpty(m_GapIndicator))
-			Logger::PrintError("[InvalidateList::Add] GapIndicator is not empty");
+			Logger::Error("[InvalidateList::Add] GapIndicator is not empty");
 #endif
 		m_Changed = true;
 		return m_GapIndicator;
@@ -433,9 +433,9 @@ namespace MyEngine
 	{
 #ifdef INVALIDATE_LIST_DEBUG
 		if (!IsEmpty(m_End - 1))
-			Logger::PrintError("[InvalidateList::UpdateEndIndicator] shouldn't call this if last isn't empty");
+			Logger::Error("[InvalidateList::UpdateEndIndicator] shouldn't call this if last isn't empty");
 		if (m_First != 0 && IsEmpty(m_First))
-			Logger::PrintError("[InvalidateList::UpdateEndIndicator] first should be 0 or not empty");
+			Logger::Error("[InvalidateList::UpdateEndIndicator] first should be 0 or not empty");
 #endif
 		unsigned last{ m_End - 1 };
 		while (--last >= m_First)
@@ -447,7 +447,7 @@ namespace MyEngine
 
 #ifdef INVALIDATE_LIST_DEBUG
 		if (last != 0 || m_First != 0)
-			Logger::PrintError("[InvalidateList::UpdateEndIndicator] expected last & first to be 0");
+			Logger::Error("[InvalidateList::UpdateEndIndicator] expected last & first to be 0");
 #endif
 		m_End = 0;
 	}

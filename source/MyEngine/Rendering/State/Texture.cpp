@@ -27,7 +27,7 @@ Texture::Texture(const std::wstring& path)
 			__uuidof(IWICImagingFactory),
 			reinterpret_cast<LPVOID*>(&wicFactory));
 		if (FAILED(hr))
-			Logger::PrintError("Failed creating wicFactory");
+			Logger::Error("Failed creating wicFactory");
 	}
 
 	hr = wicFactory->CreateDecoderFromFilename(
@@ -38,21 +38,21 @@ Texture::Texture(const std::wstring& path)
 		&pWicDecoder);
 
 	if (FAILED(hr))
-		Logger::PrintError("Failed creating decoder");
+		Logger::Error("Failed creating decoder");
 
 	hr = pWicDecoder->GetFrame(0, &pWicFrame);
 	if (FAILED(hr))
-		Logger::PrintError("Failed getting first frame");
+		Logger::Error("Failed getting first frame");
 
 	WICPixelFormatGUID pixelFormat;
 	hr = pWicFrame->GetPixelFormat(&pixelFormat);
 	if (FAILED(hr))
-		Logger::PrintError("Failed getting pixel format");
+		Logger::Error("Failed getting pixel format");
 
 	unsigned textureWidth, textureHeight;
 	hr = pWicFrame->GetSize(&textureWidth, &textureHeight);
 	if (FAILED(hr))
-		Logger::PrintError("Failed getting texture size");
+		Logger::Error("Failed getting texture size");
 
 	DXGI_FORMAT dxgiFormat = GetDXGIFormatFromWICFormat(pixelFormat);
 
@@ -65,7 +65,7 @@ Texture::Texture(const std::wstring& path)
 		//return if no dxgi compatible format was found
 		if (convertToPixelFormat == GUID_WICPixelFormatDontCare)
 		{
-			Logger::PrintError("No dxgi compatible format was found");
+			Logger::Error("No dxgi compatible format was found");
 			return;
 		}
 
@@ -76,7 +76,7 @@ Texture::Texture(const std::wstring& path)
 		hr = wicFactory->CreateFormatConverter(&pWicConverter);
 		if (FAILED(hr))
 		{
-			Logger::PrintError("Failed creating format converter");
+			Logger::Error("Failed creating format converter");
 			return;
 		}
 
@@ -85,7 +85,7 @@ Texture::Texture(const std::wstring& path)
 		hr = pWicConverter->CanConvert(pixelFormat, convertToPixelFormat, &canConvert);
 		if (FAILED(hr) || !canConvert)
 		{
-			Logger::PrintError("Cannot convert");
+			Logger::Error("Cannot convert");
 			return;
 		}
 
@@ -93,7 +93,7 @@ Texture::Texture(const std::wstring& path)
 		hr = pWicConverter->Initialize(pWicFrame, convertToPixelFormat, WICBitmapDitherTypeErrorDiffusion, 0, 0, WICBitmapPaletteTypeCustom);
 		if (FAILED(hr))
 		{
-			Logger::PrintError("Failed initializing wicConverter");
+			Logger::Error("Failed initializing wicConverter");
 			return;
 		}
 		//this is so we know to get the image data from the wicConverter (otherwise we will get from wicFrame)
@@ -114,7 +114,7 @@ Texture::Texture(const std::wstring& path)
 		hr = pWicConverter->CopyPixels(nullptr, bytesPerRow, imageSize, pImageData);
 		if (FAILED(hr))
 		{
-			Logger::PrintError("Failed copying pixels from converter");
+			Logger::Error("Failed copying pixels from converter");
 			return;
 		}
 	}
@@ -124,7 +124,7 @@ Texture::Texture(const std::wstring& path)
 		hr = pWicFrame->CopyPixels(nullptr, bytesPerRow, imageSize, pImageData);
 		if (FAILED(hr))
 		{
-			Logger::PrintError("Failed copying pixels from frame");
+			Logger::Error("Failed copying pixels from frame");
 			return;
 		}
 	}
@@ -152,7 +152,7 @@ Texture::Texture(const std::wstring& path)
 	hr = Globals::pGpu->GetDevice().CreateTexture2D(&desc, &initData, &pTexture);
 	if (FAILED(hr))
 	{
-		Logger::PrintError("Failed creating Texture2D");
+		Logger::Error("Failed creating Texture2D");
 		return;
 	}
 
@@ -164,7 +164,7 @@ Texture::Texture(const std::wstring& path)
 	Globals::pGpu->GetDevice().CreateShaderResourceView(pTexture, &srvDesc, &m_pShaderResourceView);
 	if (FAILED(hr))
 	{
-		Logger::PrintError("Failed to create shaderResource");
+		Logger::Error("Failed to create shaderResource");
 		return;
 	}
 
@@ -194,7 +194,7 @@ Texture::Texture(Image* pImage, bool dynamic)
 	HRESULT hr = Globals::pGpu->GetDevice().CreateTexture2D(&desc, &initData, &m_pTexture);
 	if (FAILED(hr))
 	{
-		Logger::PrintError("Failed creating Texture2D");
+		Logger::Error("Failed creating Texture2D");
 		return;
 	}
 
@@ -206,7 +206,7 @@ Texture::Texture(Image* pImage, bool dynamic)
 	hr = Globals::pGpu->GetDevice().CreateShaderResourceView(m_pTexture, &srvDesc, &m_pShaderResourceView);
 	if (FAILED(hr))
 	{
-		Logger::PrintError("Failed to create shaderResource");
+		Logger::Error("Failed to create shaderResource");
 		return;
 	}
 }
@@ -270,7 +270,7 @@ void Texture::Update(const Image& image)
 {
 	D3D11_MAPPED_SUBRESOURCE mappedResource{};
 	const HRESULT result{ Globals::pGpu->GetContext().Map(m_pTexture, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource) };
-	if (FAILED(result)) Logger::PrintError("Failed mapping texture");
+	if (FAILED(result)) Logger::Error("Failed mapping texture");
 	memcpy(mappedResource.pData, image.GetData(), image.GetBytesPerRow() * image.GetHeight());
 	Globals::pGpu->GetContext().Unmap(m_pTexture, 0);
 }
@@ -367,6 +367,6 @@ int Texture::GetDXGIFormatBitsPerPixel(DXGI_FORMAT& dxgiFormat)
 	if (dxgiFormat == DXGI_FORMAT_R16_UNORM) return 16;
 	if (dxgiFormat == DXGI_FORMAT_R8_UNORM) return 8;
 	if (dxgiFormat == DXGI_FORMAT_A8_UNORM) return 8;
-	Logger::PrintError("Bits per pixel not found for format");
+	Logger::Error("Bits per pixel not found for format");
 	return 0;
 }

@@ -45,14 +45,14 @@ bool Model::IsLimbNode() const
 void Model::SetParentModel(Model& parent)
 {
 	if (m_pParentModel)
-		Logger::PrintError("ParentModel already set");
+		Logger::Error("ParentModel already set");
 	m_pParentModel = &parent;
 }
 
 void Model::SetNodeAttribute(const NodeAttribute& nodeAttribute)
 {
 	if (m_pNodeAttribute)
-		Logger::PrintError("NodeAttribute in model already set");
+		Logger::Error("NodeAttribute in model already set");
 	m_pNodeAttribute = &nodeAttribute;
 }
 
@@ -79,7 +79,7 @@ void Model::AddMaterial(const FbxWrapMaterial& material)
 void Model::SetCollection(const CollectionExclusive& collection)
 {
 	if (m_pCollection)
-		Logger::PrintError("Model already has a CollectionExclusive");
+		Logger::Error("Model already has a CollectionExclusive");
 	m_pCollection = &collection;
 }
 

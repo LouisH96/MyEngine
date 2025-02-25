@@ -39,7 +39,7 @@ Rendering::InputLayout::InputLayout(const Element* pElements, unsigned nrElement
 		}
 		if (pBlob)
 			pBlob->Release();
-		Logger::PrintError(error);
+		Logger::Error(error);
 		std::cout << "Shader: \n" << dummyShaderText << std::endl;
 	}
 
@@ -49,7 +49,7 @@ Rendering::InputLayout::InputLayout(const Element* pElements, unsigned nrElement
 		pBlob->GetBufferPointer(), pBlob->GetBufferSize(),
 		&m_pInputLayout);
 	if (FAILED(result))
-		Logger::PrintError("[InputLayout::Constructor]", result);
+		Logger::Error("[InputLayout::Constructor]", result);
 
 	SAFE_RELEASE(pBlob);
 	SAFE_RELEASE(pErrorBlob);
@@ -97,7 +97,7 @@ DXGI_FORMAT Rendering::InputLayout::ToDxFormat(ElementType type)
 	case ElementType::Uint2: return DXGI_FORMAT_R32G32_UINT;
 	case ElementType::Uint: return DXGI_FORMAT_R32_UINT;
 	default:
-		Logger::PrintError("ElementType not supported");
+		Logger::Error("ElementType not supported");
 		return DXGI_FORMAT_UNKNOWN;
 	}
 }
@@ -106,7 +106,7 @@ D3D11_INPUT_CLASSIFICATION Rendering::InputLayout::ToDx(SlotClass slotClass)
 {
 	switch (slotClass)
 	{
-	default: Logger::PrintError("Unknown SlotClass");
+	default: Logger::Error("Unknown SlotClass");
 	case SlotClass::PerVertex: return D3D11_INPUT_PER_VERTEX_DATA;
 	case SlotClass::PerInstance: return D3D11_INPUT_PER_INSTANCE_DATA;
 	}
@@ -158,7 +158,7 @@ std::string Rendering::InputLayout::ToTypeString(ElementType type)
 	case ElementType::Uint2: return "uint2";
 	case ElementType::Uint: return "uint";
 	default:
-		Logger::PrintError("ElementType not supported");
+		Logger::Error("ElementType not supported");
 		return "";
 	}
 }

@@ -96,7 +96,7 @@ void ParentElem<ChildData>::RemoveChild(Elem* pChild)
 			RequestUpdate();
 			return;
 		}
-	Logger::PrintWarning("[ParentElem::RemoveChild] couldn't find child");
+	Logger::Warning("[ParentElem::RemoveChild] couldn't find child");
 	if (m_NrVisibleChilds + 1 == m_Children.GetSize())
 		m_NrVisibleChilds++;
 }
@@ -116,7 +116,7 @@ void ParentElem<ChildData>::DeleteChild(Elem* pChild)
 			RequestUpdate();
 			return;
 		}
-	Logger::PrintWarning("[ParentElem::DeleteChild] couldn't find child");
+	Logger::Warning("[ParentElem::DeleteChild] couldn't find child");
 	if (m_NrVisibleChilds + 1 == m_Children.GetSize())
 		m_NrVisibleChilds++;
 }

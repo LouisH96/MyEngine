@@ -12,7 +12,7 @@ MyEngine::Io::Fbx::Reading::FbxFile MyEngine::Io::Fbx::Reading::FbxReader::Read(
 	std::ifstream stream{ path, std::ifstream::binary };
 	if (!stream.is_open())
 	{
-		Logger::PrintError("[BinaryFbxReader] could not open file");
+		Logger::Error("[BinaryFbxReader] could not open file");
 		return {};
 	}
 

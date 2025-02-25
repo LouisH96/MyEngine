@@ -94,7 +94,7 @@ namespace MyEngine
 				const HRESULT result = Globals::pGpu->GetDevice().CreateBuffer(&desc, pDataResource, &pBuffer);
 				if (FAILED(result))
 				{
-					Logger::PrintError("[DxHelper::CreateDynamicConstantBuffer]", result);
+					Logger::Error("[DxHelper::CreateDynamicConstantBuffer]", result);
 					AssertMultipleOf16(sizeof(T));
 				}
 			}
@@ -116,7 +116,7 @@ namespace MyEngine
 				};
 				if (FAILED(result))
 				{
-					Logger::PrintError("[DxHelper::CreateDynamicConstantBuffer]", result);
+					Logger::Error("[DxHelper::CreateDynamicConstantBuffer]", result);
 					AssertMultipleOf16(sizeof(T));
 				}
 			}
@@ -132,7 +132,7 @@ namespace MyEngine
 				const D3D11_SUBRESOURCE_DATA dataResource{ &initData };
 				const HRESULT result = Globals::pGpu->GetDevice().CreateBuffer(&desc, &dataResource, &pBuffer);
 				if (FAILED(result))
-					Logger::PrintError("DxHelper::CreateImmutableConstantBuffer");
+					Logger::Error("DxHelper::CreateImmutableConstantBuffer");
 			}
 
 			template <typename T>
@@ -150,7 +150,7 @@ namespace MyEngine
 			{
 				D3D11_MAPPED_SUBRESOURCE mapped{};
 				const HRESULT result{ Globals::pGpu->GetContext().Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped) };
-				if (FAILED(result)) Logger::PrintError("[DxHelper::UpdateBuffer] failed updating buffer");
+				if (FAILED(result)) Logger::Error("[DxHelper::UpdateBuffer] failed updating buffer");
 				std::copy(pData, &pData[count], static_cast<T*>(mapped.pData));
 				Globals::pGpu->GetContext().Unmap(buffer, 0);
 			}
@@ -161,7 +161,7 @@ namespace MyEngine
 				D3D11_MAPPED_SUBRESOURCE resource{};
 				const HRESULT result{ GPU.GetContext().Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &resource) };
 				if (FAILED(result))
-					Logger::PrintError("[DxHelper::StartUpdateBuffer] failed mapping buffer");
+					Logger::Error("[DxHelper::StartUpdateBuffer] failed mapping buffer");
 				return static_cast<T*>(resource.pData);
 			}
 
@@ -186,11 +186,11 @@ namespace MyEngine
 
 				HRESULT result = Globals::pGpu->GetDevice().CreateBuffer(&bufferDesc, &resource, &pBuffer);
 				if (FAILED(result))
-					Logger::PrintError("DxHelper::CreateStructuredBuffer - Buffer");
+					Logger::Error("DxHelper::CreateStructuredBuffer - Buffer");
 
 				result = Globals::pGpu->GetDevice().CreateUnorderedAccessView(pBuffer, &viewDesc, &pView);
 				if (FAILED(result))
-					Logger::PrintError("DxHelper::CreateStructuredBuffer - View");
+					Logger::Error("DxHelper::CreateStructuredBuffer - View");
 			}
 
 			template <typename T>
@@ -220,7 +220,7 @@ namespace MyEngine
 				};
 				const HRESULT result{ Globals::pGpu->GetDevice().CreateBuffer(&desc, nullptr, &pBuffer) };
 				if (FAILED(result))
-					Logger::PrintError("Failed creating Vertex-Buffer");
+					Logger::Error("Failed creating Vertex-Buffer");
 			}
 
 			template <typename T>
@@ -238,7 +238,7 @@ namespace MyEngine
 				const D3D11_SUBRESOURCE_DATA initData{ pData,0,0 };
 				const HRESULT result{ Globals::pGpu->GetDevice().CreateBuffer(&desc, &initData, &pBuffer) };
 				if (FAILED(result))
-					Logger::PrintError("Failed creating Vertex-Buffer");
+					Logger::Error("Failed creating Vertex-Buffer");
 			}
 
 			template <typename T>
@@ -288,11 +288,11 @@ namespace MyEngine
 
 				HRESULT result = Globals::pGpu->GetDevice().CreateBuffer(&bufferDesc, &resource, &pBuffer);
 				if (FAILED(result))
-					Logger::PrintError("DxHelper::CreateRwStructuredBuffer - Buffer");
+					Logger::Error("DxHelper::CreateRwStructuredBuffer - Buffer");
 
 				result = Globals::pGpu->GetDevice().CreateShaderResourceView(pBuffer, &viewDesc, &pView);
 				if (FAILED(result))
-					Logger::PrintError("DxHelper::CreateRwStructuredBuffer - View");
+					Logger::Error("DxHelper::CreateRwStructuredBuffer - View");
 			}
 		}
 	}

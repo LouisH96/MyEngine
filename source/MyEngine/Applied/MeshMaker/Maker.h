@@ -126,7 +126,7 @@ inline unsigned MakerBase2<Vertex, Topology, true, TResult>::Transform(const Mak
 	}
 	else
 	{
-		Logger::PrintError("[Maker::Transform] vertex of unknown type");
+		Logger::Error("[Maker::Transform] vertex of unknown type");
 		return 0;
 	}
 }
@@ -216,7 +216,7 @@ inline Vertex MakerBase2<Vertex, Topology, false, TResult>::Transform(const Make
 	}
 	else
 	{
-		Logger::PrintError("[Maker<false, TResult>::Transform] unknown vertex");
+		Logger::Error("[Maker<false, TResult>::Transform] unknown vertex");
 		return {};
 	}
 }

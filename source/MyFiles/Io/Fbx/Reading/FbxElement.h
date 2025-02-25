@@ -105,7 +105,7 @@ namespace MyEngine
 						ReplaceArrayProperty<double, T>(propertyIdx);
 						return true;
 					}
-					Logger::PrintError("[FbxElement::EnsureArrayPropertyType] unsupported type");
+					Logger::Error("[FbxElement::EnsureArrayPropertyType] unsupported type");
 					return true;
 				}
 
@@ -126,7 +126,7 @@ namespace MyEngine
 					if (TryCopyArrayProperty<double, T>(pProperty, target)) return;
 
 					//error
-					Logger::PrintError("[FbxElement::MovePropertyTo] unsupported source type");
+					Logger::Error("[FbxElement::MovePropertyTo] unsupported source type");
 				}
 
 				template <typename T>
@@ -146,7 +146,7 @@ namespace MyEngine
 					if (TryCopyValue<double>(pProperty, target)) return;
 
 					//error
-					Logger::PrintError("[FbxElement::CopyPropertyTo] unsupported source type");
+					Logger::Error("[FbxElement::CopyPropertyTo] unsupported source type");
 				}
 
 				template <typename T>

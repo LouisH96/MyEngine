@@ -145,7 +145,7 @@ namespace MyEngine
 		{
 			D3D11_MAPPED_SUBRESOURCE mappedResource{};
 			const HRESULT result{ Globals::pGpu->GetContext().Map(m_pBuffers[IDX_INSTANCES], 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource) };
-			if (FAILED(result)) Logger::PrintError("Failed updating instances in InstanceArray");
+			if (FAILED(result)) Logger::Error("Failed updating instances in InstanceArray");
 			memcpy(mappedResource.pData, pInstances, nrInstances * sizeof(Instance));
 			Globals::pGpu->GetContext().Unmap(m_pBuffers[IDX_INSTANCES], 0);
 		}
@@ -156,7 +156,7 @@ namespace MyEngine
 			D3D11_MAPPED_SUBRESOURCE mappedResource{};
 			const HRESULT result{ Globals::pGpu->GetContext().Map(m_pBuffers[IDX_INSTANCES], 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource) };
 			if (FAILED(result)) {
-				Logger::PrintError("[InstanceArray::BeginUpdateInstance] Failed mapping resource");
+				Logger::Error("[InstanceArray::BeginUpdateInstance] Failed mapping resource");
 			}
 			return reinterpret_cast<Instance*>(mappedResource.pData);
 		}

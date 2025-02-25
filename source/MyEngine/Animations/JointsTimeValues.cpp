@@ -98,7 +98,7 @@ void JointsTimeValues::FillData(const List<FbxJoint>& joints, const FbxAnimation
 		const unsigned assertCurrent{ static_cast<unsigned>(pData - m_Data.GetData()) };
 		const unsigned assertExpected{ m_Lookup[iJoint * NR_PROPERTIES] };
 		if (assertCurrent != assertExpected)
-			Logger::PrintWarning("[JointsTimeValues::FillData] lookup doesn't match iData");
+			Logger::Warning("[JointsTimeValues::FillData] lookup doesn't match iData");
 
 		if (!pCurves)
 		{
@@ -207,7 +207,7 @@ void JointsTimeValues::AddDefaultPropertyList(
 	{
 		const float time{ static_cast<float>((times[iTime] - startTime)) * normalizeTime };
 		if (time > 1.f)
-			Logger::PrintWarning("[JointsTimeValues::FillData] time bigger than 1");
+			Logger::Warning("[JointsTimeValues::FillData] time bigger than 1");
 		*pData = time;
 		pData += SIZE_PROPERTY[iProperty];
 	}

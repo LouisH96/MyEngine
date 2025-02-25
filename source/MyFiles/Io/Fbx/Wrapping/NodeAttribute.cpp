@@ -14,7 +14,7 @@ MyEngine::Io::Fbx::Wrapping::NodeAttribute::NodeAttribute(Reading::FbxElement& o
 void MyEngine::Io::Fbx::Wrapping::NodeAttribute::SetParentModel(const Model& parentModel)
 {
 	if (m_pParentModel)
-		Logger::PrintError("NodeAttribute already has a parent model");
+		Logger::Error("NodeAttribute already has a parent model");
 	m_pParentModel = &parentModel;
 }
 

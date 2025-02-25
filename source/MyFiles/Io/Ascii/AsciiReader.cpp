@@ -54,7 +54,7 @@ std::string AsciiReader::ReadUntil(std::istream& stream, char delim)
 			return ReadFrom(stream, begin);
 		}
 	}
-	Logger::PrintWarning("[AsciiReader::ReadUntil] eof before delim");
+	Logger::Warning("[AsciiReader::ReadUntil] eof before delim");
 	return "";
 }
 
@@ -71,7 +71,7 @@ std::string AsciiReader::ReadUntil(std::istream& stream, char delim1, char orDel
 			return ReadFrom(stream, begin);
 		}
 	}
-	Logger::PrintWarning("[AsciiReader::ReadUntil] eof before delim");
+	Logger::Warning("[AsciiReader::ReadUntil] eof before delim");
 	return "";
 }
 
@@ -456,7 +456,7 @@ double AsciiReader::GetDouble(char separator)
 			break;
 		}
 		if (next == 'e' || next == 'E')
-			Logger::PrintError("[AsciiReader::GetDouble] e found before separator");
+			Logger::Error("[AsciiReader::GetDouble] e found before separator");
 		number *= 10;
 		number += next - '0';
 	}
@@ -495,7 +495,7 @@ std::string AsciiReader::GetString()
 {
 #ifdef ASCII_READER_DEBUG
 	if (GetChar() != '"')
-		Logger::PrintError("[AsciiReader::GetString] first character should be \"");
+		Logger::Error("[AsciiReader::GetString] first character should be \"");
 #else
 	GetChar();
 #endif

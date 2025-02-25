@@ -33,7 +33,7 @@ HRESULT ShaderIncludes::Open(D3D_INCLUDE_TYPE IncludeType, LPCSTR pFileName, LPC
 	std::ifstream f{ filePath, std::ios::binary };
 
 	if (!f.is_open())
-		Logger::PrintError("[ShaderIncludes] could not open file");
+		Logger::Error("[ShaderIncludes] could not open file");
 
 	const std::streampos begin{ f.tellg() };
 	f.seekg(0, std::ios::end);

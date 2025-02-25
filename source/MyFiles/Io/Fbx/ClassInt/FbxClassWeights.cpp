@@ -57,7 +57,7 @@ void FbxClassWeights::CreateFromSkinDeformer(
 		const Deformer& deformer{ *skinDeformer.GetChildDeformers()[iCluster] };
 		if (!deformer.HasClusterData())
 		{
-			Logger::PrintWarning("[FbxClassWeights::GetWeightsFromSkinDeformer] child-deformer isn't a cluster-deformer");
+			Logger::Warning("[FbxClassWeights::GetWeightsFromSkinDeformer] child-deformer isn't a cluster-deformer");
 			continue;
 		}
 		const DeformerClusterData& clusterData{ deformer.GetClusterData() };

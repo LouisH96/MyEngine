@@ -19,7 +19,6 @@
 #include <App/Win32/Keyboard_MsgListener.h>
 #include <App/Win32/KeyCodes.h>
 #include <Logger/Logger.h>
-#include <Logger/ToString.h>
 #include <Debug/Rendering/DebugRenderer.h>
 #include <Timing/Counter.h>
 #include <Timing/AvgCounter.h>

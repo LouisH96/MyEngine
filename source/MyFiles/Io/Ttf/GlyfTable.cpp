@@ -44,7 +44,7 @@ GlyfTable::CompoundComponent::CompoundComponent(Bin::BigBinReader& reader)
 		}
 		else
 		{
-			Logger::PrintError("[GlyfTable::GetCompoundGlyphContour] Point values not supported yet");
+			Logger::Error("[GlyfTable::GetCompoundGlyphContour] Point values not supported yet");
 			argument1 = reader.Uint16();
 			argument2 = reader.Uint16();
 		}
@@ -58,7 +58,7 @@ GlyfTable::CompoundComponent::CompoundComponent(Bin::BigBinReader& reader)
 		}
 		else
 		{
-			Logger::PrintError("[GlyfTable::GetCompoundGlyphContour] Point values not supported yet");
+			Logger::Error("[GlyfTable::GetCompoundGlyphContour] Point values not supported yet");
 			argument1 = reader.Uint8();
 			argument2 = reader.Uint8();
 		}
@@ -66,7 +66,7 @@ GlyfTable::CompoundComponent::CompoundComponent(Bin::BigBinReader& reader)
 
 	if (flag.bits.weHaveInstructions)
 	{
-		Logger::PrintError("[GlyfTable::GetCompoundGlyphContour] instructions not supported yet");
+		Logger::Error("[GlyfTable::GetCompoundGlyphContour] instructions not supported yet");
 	}
 
 	transform[0] = 1;
@@ -76,19 +76,19 @@ GlyfTable::CompoundComponent::CompoundComponent(Bin::BigBinReader& reader)
 
 	if (flag.bits.weHaveAScale)
 	{
-		Logger::PrintError("[GlyfTable::GetCompoundGlyphContour] (A-Scale) transformation not supported yet");
+		Logger::Error("[GlyfTable::GetCompoundGlyphContour] (A-Scale) transformation not supported yet");
 		transform[0] = reader.Int16();
 		transform[3] = transform[0];
 	}
 	else if (flag.bits.weHaveAnXAndYScale)
 	{
-		Logger::PrintError("[GlyfTable::GetCompoundGlyphContour] (X&Y-Scale) transformation not supported yet");
+		Logger::Error("[GlyfTable::GetCompoundGlyphContour] (X&Y-Scale) transformation not supported yet");
 		transform[0] = reader.Int16();
 		transform[3] = reader.Int16();
 	}
 	else if (flag.bits.weHaveATwoByTwo)
 	{
-		Logger::PrintError("[GlyfTable::GetCompoundGlyphContour] (TwoByTwo) transformation not supported yet");
+		Logger::Error("[GlyfTable::GetCompoundGlyphContour] (TwoByTwo) transformation not supported yet");
 		transform[0] = reader.Int16();
 		transform[1] = reader.Int16();
 		transform[2] = reader.Int16();
@@ -114,7 +114,7 @@ Array<Array<TtfPoint>> GlyfTable::GetContours(Bin::BigBinReader& reader, uint32_
 		contours = GetCompoundGlyphContour(reader, nrContours, ttfReader);
 	else
 	{
-		Logger::PrintWarning("[GlyfTable::GetContours] No contour");
+		Logger::Warning("[GlyfTable::GetContours] No contour");
 		contours = {};
 	}
 	return contours;

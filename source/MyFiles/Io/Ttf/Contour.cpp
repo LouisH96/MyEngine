@@ -33,7 +33,7 @@ void Contour::AddIntersections(std::vector<Intersection>& intersections, double 
 void Contour::DebugDraw(const Float3& color, const Float3& offset, int pointsPerCurve) const
 {
 	//todo:
-	Logger::PrintError("DebugDraw not supported in lib");
+	Logger::Error("DebugDraw not supported in lib");
 
 	/*int nrPoints = 1;
 	for (int i = 0; i < m_Segments.GetSize(); i++)
@@ -64,7 +64,7 @@ void Contour::DebugDraw(const Float3& color, const Float3& offset, int pointsPer
 void Contour::DebugDrawSegments(const Float3& offset, int pointsPerCurve) const
 {
 	//todo:
-	Logger::PrintError("DebugDraw not supported in lib");
+	Logger::Error("DebugDraw not supported in lib");
 
 	//const Float3 color1{ 0,0,0 };
 	//const Float3 color2{ 1,1,1 };

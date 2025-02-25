@@ -12,7 +12,6 @@
     <ClInclude Include="Math\Vector4.h" />
     <ClInclude Include="Math\Vectors.h" />
     <ClInclude Include="Logger\Logger.h" />
-    <ClInclude Include="Logger\ToString.h" />
     <ClInclude Include="DataStructures\Algorithms.h" />
     <ClInclude Include="DataStructures\Array.h" />
     <ClInclude Include="DataStructures\DsUtils.h" />
@@ -48,6 +47,7 @@
     <ClInclude Include="Transform\ViewMatrix.h" />
     <ClInclude Include="Math\Math.h" />
     <ClInclude Include="Timing\AvgCounter.h" />
+    <ClInclude Include="Logger\BasicLogger.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Math\Quaternion.cpp" />
@@ -65,5 +65,6 @@
     <ClCompile Include="Math\Vectors.cpp" />
     <ClCompile Include="Transform\ViewMatrix.cpp" />
     <ClCompile Include="Timing\AvgCounter.cpp" />
+    <ClCompile Include="Logger\BasicLogger.cpp" />
   </ItemGroup>
 </Project>

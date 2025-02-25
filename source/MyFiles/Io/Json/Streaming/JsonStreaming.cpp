@@ -1,6 +1,7 @@
 #include "JsonStreaming.h"
 
 #include <fstream>
+#include <sstream>
 #include <stack>
 #include <vector>
 
@@ -29,7 +30,7 @@ std::string Json::JsonStreaming::GetNextProperty()
 {
 	if (m_State != StreamState::InObject)
 	{
-		Logger::PrintError("Not in object");
+		Logger::Error("Not in object");
 		return "";
 	}
 	SkipWhiteSpace(m_Stream);
@@ -41,7 +42,7 @@ std::string Json::JsonStreaming::GetNextProperty()
 	next = m_Stream.get();
 	if (next != ':')
 	{
-		Logger::PrintError(": expected but found: " + std::string{ next });
+		Logger::Error(": expected but found: " + std::string{ next });
 		return "";
 	}
 	return propertyName;
@@ -132,7 +133,7 @@ void Json::JsonStreaming::GetOutOfScope()
 		else if (next == '}' || next == ']')
 		{
 			if (!m_Scopes.empty())
-				Logger::PrintError("scopes should be empty");
+				Logger::Error("scopes should be empty");
 			return;
 		}
 	}
@@ -153,7 +154,7 @@ void Json::JsonStreaming::SkipNextNull()
 {
 	SkipWhiteSpace(m_Stream);
 	if (m_Stream.get() != 'n')
-		Logger::PrintError("null not found");
+		Logger::Error("null not found");
 	m_Stream.seekg(3, std::ios_base::cur);
 }
 
@@ -185,7 +186,7 @@ void Json::JsonStreaming::SkipNextPropertyValue()
 	case ElementType::Null: SkipNextNull(); break;
 	case ElementType::Unknown:
 	default:
-		Logger::PrintError("trying to skip unknown property-value");;
+		Logger::Error("trying to skip unknown property-value");;
 	}
 }
 
@@ -194,7 +195,7 @@ void Json::JsonStreaming::SkipNextProperty()
 	SkipNextScope();
 	SkipWhiteSpace(m_Stream);
 	if (m_Stream.get() != ':')
-		Logger::PrintError(": expected during skip property");
+		Logger::Error(": expected during skip property");
 	SkipNextPropertyValue();
 }
 
@@ -229,7 +230,7 @@ void Json::JsonStreaming::GetInNextObject()
 			m_State = StreamState::InObject;
 			return;
 		}
-	Logger::PrintError("Next object not found");
+	Logger::Error("Next object not found");
 }
 
 void Json::JsonStreaming::GetInArray()
@@ -239,7 +240,7 @@ void Json::JsonStreaming::GetInArray()
 		m_Stream.seekg(-1, std::ios_base::cur);
 	SkipWhiteSpace(m_Stream);
 	if (m_Stream.get() != '[')
-		Logger::PrintError("Next element is not an array");
+		Logger::Error("Next element is not an array");
 }
 
 ElementType Json::JsonStreaming::FindNextElementType()
@@ -281,7 +282,7 @@ std::string Json::JsonStreaming::GetNextString(std::ifstream& stream)
 				ss << "[JsonStreaming::GetNextString] "
 					<< "unexpected character in get next string: "
 					<< next << std::endl;
-				Logger::PrintError(ss.str());
+				Logger::Error(ss.str());
 				return "";
 			}
 			begin = stream.tellg();
@@ -299,7 +300,7 @@ std::string Json::JsonStreaming::GetNextString(std::ifstream& stream)
 			return value;
 		}
 	}
-	Logger::PrintError("Failed finding next property name");
+	Logger::Error("Failed finding next property name");
 	return "";
 }
 

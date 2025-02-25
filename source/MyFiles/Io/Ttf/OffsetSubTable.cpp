@@ -21,13 +21,13 @@ void MyEngine::Io::Ttf::OffsetSubTable::ValidateType(uint32_t type)
 		return;
 	if (type == 0x4F'54'54'4F)
 	{
-		Logger::PrintError("TTF format is OpenType with PostScript outlines, which is not supported");
+		Logger::Error("TTF format is OpenType with PostScript outlines, which is not supported");
 		return;
 	}
 	if (type == 0x74'79'70'31)
 	{
-		Logger::PrintError("TTF format is type1 postscript which is not supported");
+		Logger::Error("TTF format is type1 postscript which is not supported");
 		return;
 	}
-	Logger::PrintError("TTF format has unknown scalarType");
+	Logger::Error("TTF format has unknown scalarType");
 }

@@ -1,122 +1,74 @@
 #pragma once
-#include <sstream>
-#include <string>
-#include <bitset>
-#include <intsafe.h>
-#include <vector>
 
-#include "ToString.h"
-#include <Math/Vectors.h>
+#include "BasicLogger.h"
+
+#include <DataStructures\Array.h>
+#include <String\Convert.h>
+
+#include <string>
 
 namespace MyEngine
 {
-	class Logger
-	{
-	public:
-		static std::string GetLogLine(const std::string& logMessage); //returns: [13:20:13]: MyMessage/n
-		static void Print(const std::string& logMessage); //print to console: [13:20:13]: MyMessage/n
+class Logger
+{
+public:
+	//---| Print |---
+	static void Print(const std::string& msg);
 
-		static void Print(const std::string& prefix, float value);
-		static void Print(float x, float y, float z);
-		static void PrintXYZ(const float* x);
-		static void PrintXYZ(const Float3& vector);
-		static void PrintXYZ(const std::string& prefix, const Float3& vector);
-		static void PrintXY(const Int2& vector);
-		static void PrintXY(const std::string& prefix, const Int2& vector);
+	template<typename T>
+	static void Print(const std::string& prefix, const T& value);
 
-		static void PrintError(const std::string& message);
-		static void PrintWarning(const std::string& message);
+	static void BeginPrint();
+	static void BeginPrint(const std::string& msg);
 
-		static void PrintError(const std::string& first, const HRESULT& hResult);
+	static void ContinuePrint(const std::string& msg);
 
-		static void BeginError();
-		static void EndError();
+	static void EndPrint();
+	static void EndPrint(const std::string& msg);
 
-		static void BeginError(const std::string& string);
-		static void ContinueError(const std::string& string);
-		static void EndError(const std::string& string);
+	//---| Warning |---
+	static void Warning(const std::string& msg);
+	template<typename T>
+	static void Warning(const std::string& prefix, const T& value);
 
-		static std::string ToString(float x, float y, float z);
-		static std::string ToStringXYZ(const float* x);
-		static std::string ToStringXYZ(const Float3& vector);
-		static std::string ToStringXY(const Int2& vector);
+	static void BeginWarning();
+	static void BeginWarning(const std::string& msg);
 
-		template <typename T>
-		static void ToStringPrint(const T& value);
+	static void ContinueWarning(const std::string& msg);
 
-		template<typename T>
-		static void Print(const std::string& description, const Array<T>& array);
+	static void EndWarning();
+	static void EndWarning(const std::string& msg);
 
-		template<typename T>
-		static void PrintBinary(const std::string& description, const Array<T>& array);
+	//---| Error |--
+	static void Error(const std::string& msg);
+	template<typename T>
+	static void Error(const std::string& prefix, const T& value);
+	static void BeginError();
+	static void BeginError(const std::string& msg);
 
-		template<typename T>
-		static void Print(const std::string& description, const std::vector<T>& vector);
+	static void ContinueError(const std::string& msg);
 
-		template<typename T>
-		static void Print(const std::string& description, const T& value);
+	static void EndError();
+	static void EndError(const std::string& msg);
 
-		template<typename T>
-		static void PrintToString(const std::string& description, const T& value);
+private:
+	Logger() = delete;
+	~Logger() = delete;
+};
 
-		static void SetColorWhite();
-	private:
-		static void SetColorYellow();
-		static void SetColorRed();
-		static void SetColor(short attribute);
-
-		static void AddPrefix(std::stringstream& ss, const std::string& prefix);
-	};
-
-	template <typename T>
-	void Logger::ToStringPrint(const T& value)
-	{
-		Print(std::to_string(value));
-	}
-
-	template <typename T>
-	void Logger::Print(const std::string& description, const Array<T>& array)
-	{
-		std::stringstream ss{};
-		ss << description << "[" << array.GetSize() << "]\n";
-		for (unsigned i = 0; i < array.GetSize(); i++)
-			ss << " [" << i << "] " << std::to_string(array[i]) << '\n';
-		Print(ss.str());
-	}
-
-	template <typename T>
-	void Logger::PrintBinary(const std::string& description, const Array<T>& array)
-	{
-		std::stringstream ss{};
-		ss << description << "[" << array.GetSize() << "]\n";
-		for (unsigned i = 0; i < array.GetSize(); i++)
-			ss << " [" << i << "] " << std::bitset<8 * sizeof(T)>(array[i]);
-		Print(ss.str());
-	}
-
-	template <typename T>
-	void Logger::Print(const std::string& description, const std::vector<T>& vector)
-	{
-		std::stringstream ss{};
-		ss << description << "[" << vector.GetSize() << "]\n";
-		for (unsigned i = 0; i < vector.GetSize(); i++)
-			ss << " [" << i << "] " << std::to_string(vector[i]);
-		Print(ss.str());
-	}
-
-	template <typename T>
-	void Logger::Print(const std::string& description, const T& value)
-	{
-		std::stringstream ss{};
-		ss << description << ": " << ToString::Convert(value);
-		Print(ss.str());
-	}
-
-	template <typename T>
-	void Logger::PrintToString(const std::string& description, const T& value)
-	{
-		std::stringstream ss{};
-		ss << description << ": " << ToString::Convert(value);
-		Print(ss.str());
-	}
+template<typename T>
+inline void Logger::Print(const std::string& prefix, const T& value)
+{
+	BasicLogger::Print(prefix, Convert::ToString(value));
+}
+template<typename T>
+inline void Logger::Warning(const std::string& prefix, const T& value)
+{
+	BasicLogger::Warning(prefix, Convert::ToString(value));
+}
+template<typename T>
+inline void Logger::Error(const std::string& prefix, const T& value)
+{
+	BasicLogger::Error(prefix, Convert::ToString(value));
+}
 }

@@ -369,7 +369,7 @@ void List<T>::ReduceSize(unsigned amount)
 {
 #ifdef LIST_DEBUG
 	if (amount > m_Size)
-		Logger::PrintError("[List::ReduceSize] amount bigger than size");
+		Logger::Error("[List::ReduceSize] amount bigger than size");
 #endif
 	m_Size -= amount;
 }

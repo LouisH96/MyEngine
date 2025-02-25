@@ -98,7 +98,7 @@ public:
 		case ModelTopology::TriangleStripIdx:
 			return DrawType::Triangle;
 		default:
-			Logger::PrintError("[TopologyInfo::GetUnityType] unknown type");
+			Logger::Error("[TopologyInfo::GetUnityType] unknown type");
 			return {};
 		}
 	}
@@ -118,7 +118,7 @@ public:
 		case ModelTopology::TriangleStripIdx:
 			return FormatType::Strip;
 		default:
-			Logger::PrintError("[TopologyInfo::GetFormatType] unknown type");
+			Logger::Error("[TopologyInfo::GetFormatType] unknown type");
 			return {};
 		}
 	}
@@ -138,7 +138,7 @@ public:
 		case ModelTopology::TriangleStripIdx:
 			return UnitType::Index;
 		default:
-			Logger::PrintError("[TopologyInfo::GetUnityType] unknown type");
+			Logger::Error("[TopologyInfo::GetUnityType] unknown type");
 			return {};
 		}
 	}
@@ -164,7 +164,7 @@ public:
 			return BaseType::TriangleStrip;
 
 		default:
-			Logger::PrintError("[ModelTopology::GetBaseType] unknown type");
+			Logger::Error("[ModelTopology::GetBaseType] unknown type");
 			return {};
 		}
 	}

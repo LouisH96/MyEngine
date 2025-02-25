@@ -13,12 +13,12 @@ std::vector<uint8_t> MyEngine::Io::Zlib::ZlibDecompress::Unzip(std::istream& str
 	const char compressionInfo = cmf >> 4;
 	if (compressionMethod != 8)
 	{
-		Logger::PrintError("CompressionMethod is not DEFLATE");
+		Logger::Error("CompressionMethod is not DEFLATE");
 		return{};
 	}
 	if (compressionInfo != 7)
 	{
-		Logger::PrintError("CompressionInfo does not indicate a 32K window");
+		Logger::Error("CompressionInfo does not indicate a 32K window");
 		return{};
 	}
 	//FLG
@@ -28,7 +28,7 @@ std::vector<uint8_t> MyEngine::Io::Zlib::ZlibDecompress::Unzip(std::istream& str
 	const uint8_t fLevel = flag & 0x110'0000;
 	if ((cmf * 256 + flag) % 31 != 0)
 	{
-		Logger::PrintError("FlagCheck (/31) failed");
+		Logger::Error("FlagCheck (/31) failed");
 		return{};
 	}
 

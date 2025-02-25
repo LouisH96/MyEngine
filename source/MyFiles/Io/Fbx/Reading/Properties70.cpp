@@ -164,6 +164,6 @@ const MyEngine::Io::Fbx::Reading::FbxElement* MyEngine::Io::Fbx::Reading::Proper
 	for (unsigned i = 0; i < m_Object.GetChildren().GetSize(); i++)
 		if (m_Object.GetChildren()[i].GetProperty(0).AsString() == name)
 			return &m_Object.GetChildren()[i];
-	Logger::PrintError("Property(" + name + ") not found");
+	Logger::Error("Property(" + name + ") not found");
 	return nullptr;
 }

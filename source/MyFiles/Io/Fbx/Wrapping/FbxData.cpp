@@ -347,7 +347,7 @@ void FbxData::ReadDeformers(FbxElement& objectsObject)
 void FbxData::ReadPoses(FbxElement& objectsObject)
 {
 	const List<FbxElement*> poses{ objectsObject.GetChildren("Pose") };
-	if (poses.GetSize() > 1) Logger::PrintWarning("Doesn't support multiple poses");
+	if (poses.GetSize() > 1) Logger::Warning("Doesn't support multiple poses");
 	if (poses.GetSize() > 0)
 		m_BindPose = Pose{ *poses[0] };
 }
@@ -718,12 +718,12 @@ std::string FbxData::FindTypeName(const int64_t& id) const
 void FbxData::PrintUnhandledConnectionError(const std::string& parentType,
 	const std::string& childType)
 {
-	Logger::PrintError(childType + " has an unsupported connection to a parent " + parentType);
+	Logger::Error(childType + " has an unsupported connection to a parent " + parentType);
 }
 
 void FbxData::PrintUnhandledConnectionError(const std::string& parentType, const int64_t& parentId,
 	const std::string& childType, const int64_t& childId)
 {
-	Logger::PrintError(childType + "(" + ToString::Convert(childId)
-		+ ") has an unsupported connection to a parent " + parentType + "(" + ToString::Convert(parentId) + ")");
+	Logger::Error(childType + "(" + Convert::ToString(childId)
+		+ ") has an unsupported connection to a parent " + parentType + "(" + Convert::ToString(parentId) + ")");
 }

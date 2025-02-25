@@ -114,7 +114,7 @@ FbxProperty* AsciiFbxReader::ReadNextProperty(AsciiReader& reader)
 			return new FbxPropString("Y");
 		}
 		const char unexpectedChar{ reader.PeekChar() };
-		Logger::PrintError("[AsciiFbxReader::ReadProperties] unexpected character: " + ToString::Convert(unexpectedChar));
+		Logger::Error("[AsciiFbxReader::ReadProperties] unexpected character: " + Convert::ToString(unexpectedChar));
 		return nullptr;
 	}
 }

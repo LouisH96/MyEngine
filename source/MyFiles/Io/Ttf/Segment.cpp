@@ -5,7 +5,6 @@
 
 #include "Intersection.h"
 #include "Logger/Logger.h"
-#include "Logger/ToString.h"
 #include "Math/Vectors.h"
 
 MyEngine::Io::Ttf::Segment::Segment(const Double2& begin, const Double2& controlPoint, const Double2& end)
@@ -56,14 +55,14 @@ void MyEngine::Io::Ttf::Segment::DebugPrint() const
 	if (IsLinear())
 	{
 		std::cout << "LinearSegment: \n";
-		std::cout << "\t Begin: " << ToString::Convert(m_Begin) << std::endl;
-		std::cout << "\t End:" << ToString::Convert(m_End) << std::endl;
+		std::cout << "\t Begin: " << Convert::ToString(m_Begin) << std::endl;
+		std::cout << "\t End:" << Convert::ToString(m_End) << std::endl;
 		return;
 	}
 	std::cout << "CurveSegment: \n";
-	std::cout << "\t Begin: " << ToString::Convert(m_Begin) << std::endl;
-	std::cout << "\t ControlPoint: " << ToString::Convert(m_ControlPoint) << std::endl;
-	std::cout << "\t End: " << ToString::Convert(m_End) << std::endl;
+	std::cout << "\t Begin: " << Convert::ToString(m_Begin) << std::endl;
+	std::cout << "\t ControlPoint: " << Convert::ToString(m_ControlPoint) << std::endl;
+	std::cout << "\t End: " << Convert::ToString(m_End) << std::endl;
 }
 
 void MyEngine::Io::Ttf::Segment::AddIntersectionPointsLinear(std::vector<Intersection>& intersections, double height) const
@@ -125,7 +124,7 @@ void MyEngine::Io::Ttf::Segment::AddCurvePoints(Array<Double2>& points, int offs
 {
 	if (pointsPerCurve < 2)
 	{
-		Logger::PrintError("Need at least 2 points to draw curve");
+		Logger::Error("Need at least 2 points to draw curve");
 		return;
 	}
 	const double alphaStep = 1.0 / (pointsPerCurve - 1);

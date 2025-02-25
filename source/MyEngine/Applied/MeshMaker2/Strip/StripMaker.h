@@ -114,7 +114,7 @@ inline Array<typename StripMaker<TVertex, TTopology, TEdgeStyle, TEndStyle, TRes
 StripMaker<TVertex, TTopology, TEdgeStyle, TEndStyle, TResult>::CreateSplitEdgeShapeVertices()
 {
 	if constexpr (TEdgeStyle != StripEdgeStyle::Split)
-		Logger::PrintWarning("[StripMaker::CreateSplitEdgeShapeVertices] should only be called with Split edges");
+		Logger::Warning("[StripMaker::CreateSplitEdgeShapeVertices] should only be called with Split edges");
 
 	Array<ShapeVertex> vertices{ m_Strip.GetNrWalls() * 4 };
 	for (unsigned iWall{ 0 }; iWall < m_Strip.GetNrWalls(); ++iWall)

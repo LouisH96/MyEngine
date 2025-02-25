@@ -69,7 +69,7 @@ unsigned CsvReader::GetColumnIdx(const std::string& name)
 			begin = m_Reader.GetPos();
 		}
 	}
-	Logger::PrintWarning("[CsvReader::GetColumnIdx] ColumnName not found");
+	Logger::Warning("[CsvReader::GetColumnIdx] ColumnName not found");
 	return static_cast<unsigned>(-1);
 }
 

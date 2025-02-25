@@ -32,7 +32,7 @@ namespace MyEngine
 			{
 				if (nrBits > sizeof(T) * 8)
 				{
-					Logger::PrintError("NrBits is too big for this return type");
+					Logger::Error("NrBits is too big for this return type");
 					return 0;
 				}
 				T result = 0;
@@ -59,7 +59,7 @@ namespace MyEngine
 			{
 				if (nrBits > sizeof(T) * 8)
 				{
-					Logger::PrintError("NrBits is too big for this return type");
+					Logger::Error("NrBits is too big for this return type");
 					return 0;
 				}
 				T result = 0;

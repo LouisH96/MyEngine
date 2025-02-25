@@ -1,6 +1,7 @@
 #include "JsonString.h"
 
 #include <fstream>
+#include <sstream>
 
 #include "Logger/Logger.h"
 
@@ -12,7 +13,7 @@ MyEngine::Io::Json::JsonString::JsonString(std::ifstream& stream)
 		std::stringstream ss{};
 		ss << "[JsonString::JsonString] first char in JsonString should be \" instead of ";
 		ss << first << std::endl;
-		Logger::PrintError(ss.str());
+		Logger::Error(ss.str());
 		return;
 	}
 	const std::streampos begin = stream.tellg();

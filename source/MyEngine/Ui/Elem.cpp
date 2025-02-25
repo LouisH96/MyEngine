@@ -101,9 +101,9 @@ void Elem::RequestUpdate()
 void Elem::AssertWithinMaxSize(const Float2& desired, const ResizePref& pref)
 {
 	if (desired.x > pref.maxSize.x)
-		Logger::PrintWarning("[Elem::AssertWithinMaxSize] Elem is too wide for parent");
+		Logger::Warning("[Elem::AssertWithinMaxSize] Elem is too wide for parent");
 	if (desired.y > pref.maxSize.y)
-		Logger::PrintWarning("[Elem::AssertWithinMaxSize] Elem is too high for parent");
+		Logger::Warning("[Elem::AssertWithinMaxSize] Elem is too high for parent");
 }
 
 UiShapeRenderer& Elem::Draw()

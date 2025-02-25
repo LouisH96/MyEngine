@@ -70,7 +70,7 @@ const FbxElement* FbxElement::GetChild(const std::string& name) const
 	for (unsigned i = 0; i < m_Children.GetSize(); i++)
 		if (m_Children[i].GetName() == name)
 			return &m_Children[i];
-	Logger::PrintError("[FbxElement] Child with name " + name + " not found");
+	Logger::Error("[FbxElement] Child with name " + name + " not found");
 	return nullptr;
 }
 
@@ -93,7 +93,7 @@ FbxElement* FbxElement::GetChild(const std::string& name)
 	for (unsigned i = 0; i < m_Children.GetSize(); i++)
 		if (m_Children[i].GetName() == name)
 			return &m_Children[i];
-	Logger::PrintError("[FbxElement] Child with name " + name + " not found");
+	Logger::Error("[FbxElement] Child with name " + name + " not found");
 	return nullptr;
 }
 

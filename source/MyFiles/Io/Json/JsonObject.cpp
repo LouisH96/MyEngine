@@ -11,7 +11,7 @@ MyEngine::Io::Json::JsonObject::JsonObject(std::ifstream& stream)
 	const char first = stream.get();
 	if (first != '{')
 	{
-		Logger::PrintError("first char in JsonObject should be { instead of " + first + '\n');
+		Logger::Error("first char in JsonObject should be { instead of " + first + '\n');
 		return;
 	}
 
@@ -101,12 +101,12 @@ bool MyEngine::Io::Json::JsonObject::FindNextProperty(std::ifstream& file, std::
 				delete[] pChar;
 			}
 			else
-				Logger::PrintError("Should not encounter another \"");
+				Logger::Error("Should not encounter another \"");
 		}
 		else if (c == ':')
 		{
 			if (propertyName.empty())
-				Logger::PrintError(": found before property-name");
+				Logger::Error(": found before property-name");
 			else
 				return true;
 		}
@@ -114,10 +114,10 @@ bool MyEngine::Io::Json::JsonObject::FindNextProperty(std::ifstream& file, std::
 			return false;
 		else if (c == ',')
 		{
-			Logger::PrintError("Unexpected ,");
+			Logger::Error("Unexpected ,");
 		}
 	}
-	Logger::PrintError("invalid property");
+	Logger::Error("invalid property");
 	return false;
 }
 
@@ -130,6 +130,6 @@ bool MyEngine::Io::Json::JsonObject::FindComma(std::ifstream& stream)
 		if (c == '}') return false;
 	}
 
-	Logger::PrintError("FindComma function failed");
+	Logger::Error("FindComma function failed");
 	return false;
 }

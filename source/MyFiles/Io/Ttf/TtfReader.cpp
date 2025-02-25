@@ -33,7 +33,7 @@ Glyph TtfReader::GetGlyph(char character)
 	const uint32_t glyphOffset = m_LocaTable.GetGlyphOffset(m_Reader, glyphIndex);
 	Glyph glyph{ m_GlyfTable.GetGlyph(m_Reader, glyphOffset, *this) };
 	if (!glyph.IsValid())
-		Logger::PrintWarning("invalid glyph for " + Convert::ToString(character));
+		Logger::Warning("invalid glyph for " + Convert::ToString(character));
 
 	return glyph;
 }
@@ -43,7 +43,7 @@ Glyph TtfReader::GetGlyphFromIndex(uint16_t glyphIndex)
 	const uint32_t glyphOffset = m_LocaTable.GetGlyphOffset(m_Reader, glyphIndex);
 	Glyph glyph{ m_GlyfTable.GetGlyph(m_Reader, glyphOffset, *this) };
 	if (!glyph.IsValid())
-		Logger::PrintWarning("[TtfReader::GetGlyphFromIndex] invalid glyph for " + std::to_string(glyphIndex));
+		Logger::Warning("[TtfReader::GetGlyphFromIndex] invalid glyph for " + std::to_string(glyphIndex));
 
 	return glyph;
 }
