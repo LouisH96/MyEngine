@@ -26,11 +26,14 @@ public:
 
 	void AddChild(Elem* pChild);
 
+	void SetUniformFillSize(bool uniformFillSize);
+
 private:
 	Float2 m_FlowDir;
 	Float2 m_FillDir;
 	float m_ChildMargin;
 	float m_LineMargin;
+	bool m_UniformFillSize{ true };
 
 	explicit ListPanel(const Float2& flowDir, const Float2& fillDir, float childMargin, float lineMargin);
 

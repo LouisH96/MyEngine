@@ -23,6 +23,11 @@ void ListPanel::AddChild(Elem* pChild)
 	ParentElem::AddChild({ pChild });
 }
 
+void ListPanel::SetUniformFillSize(bool uniformFillSize)
+{
+	m_UniformFillSize = uniformFillSize;
+}
+
 void ListPanel::UpdateSizeAndTreePositions(const ResizePref& pref)
 {
 	m_NrVisibleChilds = 0;
@@ -45,6 +50,34 @@ void ListPanel::UpdateSizeAndTreePositions(const ResizePref& pref)
 		float lineFillSize{ maxListFillSize - listFillSize }; //not it means the max line fill size, after function it is the actual size
 
 		CreateLineOnOrigin(iChild, lineFlowSize, lineFillSize, isLastLine);
+
+		//extend
+		if (m_UniformFillSize)
+		{
+			ResizePref childPref;
+			if (m_FillDir.x != 0)
+			{
+				childPref.horMode = FillMode::Max;
+				childPref.verMode = FillMode::Min;
+			}
+			else
+			{
+				childPref.horMode = FillMode::Min;
+				childPref.verMode = FillMode::Max;
+			}
+
+			for (unsigned iExtend{ iChildBegin }; iExtend < iChild; ++iExtend)
+			{
+				Elem& child{ GetChild(iExtend) };
+				childPref.maxSize = m_FlowDir * m_FlowDir.Dot(child.GetSize());
+				childPref.maxSize += m_FillDir.Abs() * lineFillSize;
+				UpdateChildSize(iExtend, childPref);
+
+				Float2 pos{ m_FlowDir * m_FlowDir.Dot(child.GetPosition()) };
+				pos -= m_FillDir.Abs() * lineFillSize * .5f;
+				SetChildPosition(iExtend, pos);
+			}
+		}
 
 		//move line
 		const Float2 linePos{ m_FillDir * (listFillSize + lineFillSize * .5f) };
