@@ -33,6 +33,7 @@
     <ClCompile Include="Applied\2D\Camera2D.cpp" />
     <ClCompile Include="Applied\2D\Camera2DController.cpp" />
     <ClCompile Include="Ui\Elements\IsClickedElem.cpp" />
+    <ClCompile Include="Ui\Elements\MouseDownElem.cpp" />
     <ClCompile Include="Ui\Elements\ToggleBtnBase.cpp" />
     <ClCompile Include="Ui\GraphicsId.cpp" />
     <ClCompile Include="Ui\Renderers\UiRectRenderer.cpp" />
@@ -206,6 +207,7 @@
     <ClInclude Include="Ui\Elements\IsClickedElem.h" />
     <ClInclude Include="Ui\Elements\ToggleBtnBase.h" />
     <ClInclude Include="Ui\GraphicsId.h" />
+    <ClInclude Include="Ui\Elements\MouseDownElem.h" />
     <ClInclude Include="Ui\Renderers\UiRectRenderer.h" />
     <ClInclude Include="Ui\Structures\SideMenu\Tabs\TitleTab.h" />
     <ClInclude Include="Ui\TreeManager.h" />
