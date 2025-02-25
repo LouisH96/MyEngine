@@ -16,6 +16,7 @@ public:
 	const std::string GetTypeName() const override;
 
 	void SetColor(const Float3& newColor);
+	void MoveTo(const Float2& leftBot);
 
 private:
 	RectId m_BoxId{ };

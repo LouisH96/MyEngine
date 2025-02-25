@@ -30,6 +30,7 @@ public:
 	unsigned Add(RectFloat rect, const Float3& color);
 
 	void SetColor(unsigned id, const Float3& color);
+	void MoveTo(unsigned id, Float2 leftBot);
 
 private:
 	static constexpr ModelTopology TOPOLOGY{ ModelTopology::TriangleStrip };

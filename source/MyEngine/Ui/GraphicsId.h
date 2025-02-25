@@ -99,6 +99,7 @@ public:
 	RectId(unsigned id);
 
 	void SetColor(const Float3& newColor);
+	void MoveTo(const Float2& leftBot);
 };
 
 }

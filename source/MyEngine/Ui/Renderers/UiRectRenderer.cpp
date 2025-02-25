@@ -54,3 +54,12 @@ void UiRectRenderer::SetColor(unsigned id, const Float3& color)
 {
 	m_Instances[id].Color = color;
 }
+
+void UiRectRenderer::MoveTo(unsigned id, Float2 leftBot)
+{
+	leftBot = Gui::NdcUtils::PointToNdc(leftBot);
+
+	Float3& inst{ m_Instances[id].Position };
+	inst.x = leftBot.x;
+	inst.y = leftBot.y;
+}

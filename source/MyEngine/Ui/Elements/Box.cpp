@@ -26,6 +26,11 @@ void Box::SetColor(const Float3& newColor)
 	m_BoxId.SetColor(newColor);
 }
 
+void Box::MoveTo(const Float2& leftBot)
+{
+	m_BoxId.MoveTo(leftBot);
+}
+
 void Box::Clear()
 {
 	m_BoxId.Clear();
