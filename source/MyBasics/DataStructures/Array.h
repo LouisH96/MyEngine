@@ -1,5 +1,8 @@
 #pragma once
 #include <iostream>
+#include <sstream>
+#include <Logger\BasicLogger.h>
+
 //#define ARRAY_DEBUG
 
 namespace MyEngine
@@ -455,7 +458,8 @@ namespace MyEngine
 	template <typename Data>
 	void Array<Data>::PrintOutOfBounds(unsigned idx) const
 	{
-		std::cout << "ArrayIdx " << idx
-			<< " out of bounds[0-" << m_Size - 1 << "]\n";
+		std::stringstream ss{};
+		ss << "[Array] Index(" << idx <<") out of bounds[" << m_Size-1 << "]";
+		BasicLogger::Error(ss.str());
 	}
 }

@@ -1,7 +1,13 @@
 #pragma once
 
 #include "Array.h"
-//#define LIST_DEBUG
+#include <windows.h>
+
+//#define MY_DEBUG
+
+#ifdef MY_DEBUG
+#include <Logger\BasicLogger.h>
+#endif
 
 namespace MyEngine
 {
@@ -87,6 +93,8 @@ private:
 		T* m_pOld;
 	};
 	_AddHelper _PreAdd(unsigned amount);
+
+	void AssertIdx(unsigned idx) const;
 
 	friend class _AddHelper;
 };
@@ -264,6 +272,7 @@ void List<T>::Insert(int idx, const T& value)
 		m_Size++;
 		return;
 	}
+	AssertIdx(idx);
 	std::move_backward(&m_pData[idx], &m_pData[m_Size], &m_pData[m_Size + 1]);
 	m_pData[idx] = value;
 	m_Size++;
@@ -279,6 +288,7 @@ void List<T>::InsertEmpty(int idx, int amount)
 		m_Size = newSize;
 		return;
 	}
+	AssertIdx(idx);
 	m_Capacity = newSize * 2;
 	T* pNew = new T[m_Capacity];
 	std::move(&m_pData[0], &m_pData[idx], &pNew[0]);
@@ -291,30 +301,35 @@ void List<T>::InsertEmpty(int idx, int amount)
 template <typename T>
 void List<T>::Remove(unsigned idx)
 {
+	AssertIdx(idx);
 	std::move(&m_pData[idx + 1], &m_pData[m_Size--], &m_pData[idx]);
 }
 
 template <typename T>
 const T& List<T>::operator[](int idx) const
 {
+	AssertIdx(idx);
 	return m_pData[idx];
 }
 
 template <typename T>
 const T& List<T>::operator[](unsigned idx) const
 {
+	AssertIdx(idx);
 	return m_pData[idx];
 }
 
 template <typename T>
 T& List<T>::operator[](int idx)
 {
+	AssertIdx(idx);
 	return m_pData[idx];
 }
 
 template <typename T>
 T& List<T>::operator[](unsigned idx)
 {
+	AssertIdx(idx);
 	return m_pData[idx];
 }
 
@@ -367,9 +382,9 @@ void List<T>::IncreaseSize(unsigned amount)
 template <typename T>
 void List<T>::ReduceSize(unsigned amount)
 {
-#ifdef LIST_DEBUG
+#ifdef MY_DEBUG
 	if (amount > m_Size)
-		Logger::Error("[List::ReduceSize] amount bigger than size");
+		BasicLogger::Error("[List::ReduceSize] amount bigger than size");
 #endif
 	m_Size -= amount;
 }
@@ -419,4 +434,17 @@ inline typename List<T>::_AddHelper List<T>::_PreAdd(unsigned amount)
 	return List<T>::_AddHelper{ amount, *this };
 }
 
+template<typename T>
+inline void List<T>::AssertIdx(unsigned idx) const
+{
+#ifdef MY_DEBUG
+	if (idx < 0 || idx >= m_Size)
+		BasicLogger::Error("[List] out of bounds");
+#else
+	UNREFERENCED_PARAMETER(idx);
+#endif
 }
+
+}
+
+#undef MY_DEBUG
