@@ -9,7 +9,7 @@ template<typename ChildData>
 class ParentElem : public Elem
 {
 public:
-	ParentElem(bool takeMouse = true);
+	ParentElem(bool takeMouse = false);
 	~ParentElem() override;
 	ParentElem(const ParentElem& other) = delete;
 	ParentElem(ParentElem&& other) noexcept = delete;
