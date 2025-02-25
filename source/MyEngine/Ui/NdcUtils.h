@@ -12,7 +12,8 @@ namespace MyEngine
 			//---| More General |---
 			static Float2 GetMouseNdc(const Float2& invCanvasSize);
 			static Float2 ScreenPointToNdc(const Int2& point, const Float2& invCanvasSize);
-			static Float2 ScreenPointToNdc(const Float2& point, const Float2& invCanvasSize);
+			static Float2 ScreenPointToNdc(const Float2& point, const Float2& invCanvasSize); //screenpoint = origin left-top
+			static Float2 PointToNdc(const Float2& point);
 
 			//---| Very specific |---
 			//very specific screen to ndc stuff. Taking into account the pivot for alignment (same pivot for ndcRect & screen)

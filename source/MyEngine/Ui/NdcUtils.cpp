@@ -21,6 +21,11 @@ Float2 NdcUtils::ScreenPointToNdc(const Float2& point, const Float2& invCanvasSi
 	return point * invCanvasSize * Float2{ 2,-2 } - Float2{ 1, -1 };
 }
 
+Float2 NdcUtils::PointToNdc(const Float2& point)
+{
+	return point * (CANVAS.GetInvSize() * 2) - 1;
+}
+
 Float2 NdcUtils::GetInvSize(const Int2& size)
 {
 	return Float2{ 1 } / size;
