@@ -7,7 +7,7 @@ namespace MyEngine
 {
 namespace Ui
 {
-class Border final
+class Border
 	: public ParentElem<EmptyChildOptions>
 {
 public:
