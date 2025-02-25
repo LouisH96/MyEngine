@@ -117,6 +117,7 @@ void UiSystem::UpdateCurrentElemState()
 		{
 			m_pCurrentElem->ToPressedState();
 			m_CurrentElemState = Pressed;
+			OnCurrentElemMouseDown();
 		}
 		else
 		{
@@ -138,6 +139,7 @@ void UiSystem::UpdateCurrentElemState()
 				{
 					m_pCurrentElem->ToPressedState();
 					m_CurrentElemState = Pressed;
+					OnCurrentElemMouseDown();
 				}
 
 				if (m_ShowDebugBorder)
@@ -169,10 +171,21 @@ void UiSystem::UpdateCurrentElemState()
 					m_pCurrentElem = nullptr;
 				}
 			}
-			else if (m_ShowDebugBorder)
-				CreateDebugBorder();
+			else
+			{
+				OnCurrentElemMouseDown();
+				if (m_ShowDebugBorder)
+					CreateDebugBorder();
+			}
 		}
 	}
+}
+
+void UiSystem::OnCurrentElemMouseDown()
+{
+	const Float2 mousePos{ MOUSE.GetPosLeftBot() };
+	const Float2& elemPos{ m_pCurrentElem->GetPosition() };
+	m_pCurrentElem->OnMouseDown(mousePos - elemPos);
 }
 
 void UiSystem::RecreateTree()

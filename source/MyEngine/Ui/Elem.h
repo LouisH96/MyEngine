@@ -47,12 +47,14 @@ public:
 	virtual void ToHoverState() {}
 	virtual void ToPressedState() {}
 	virtual void OnClick() {}
+	virtual void OnMouseDown(Float2 relativePos);
 
 	virtual const std::string GetTypeName() const = 0;
 
 	void SetTakeMouse(bool takeMouse);
 	virtual void SetChildrenTakeMouse(bool takeMouse);
 	void MakeTakeMouseParent();
+	void SetTakeMouseAll(bool takeMouse); //self & children
 
 protected:
 	void SetSize(const Float2& size);
