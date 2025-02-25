@@ -11,7 +11,8 @@ using namespace Ui;
 const Float2 Button::MARGIN{ 15.f, 11.f };
 
 Button::Button(const std::string& text, Function function, FunctionArg functionArg, float fontSize)
-	: m_Text{ text }
+	: Elem{ true }
+	, m_Text{ text }
 	, m_FontSize{ fontSize }
 	, m_Function{ function }
 	, m_FunctionArg{ functionArg }
@@ -72,7 +73,7 @@ void Button::Create()
 	const Float2 textPos{ (GetSize() - textSize) / 2.f + GetPosition() };
 
 	m_BorderId = UI_RECT.Add({ GetPosition(), GetSize() }, UiSystem::COLOR_MEDIUM);
-	m_BackgroundId = UI_RECT.Add({bgPos, bgSize}, UiSystem::COLOR_DARK);
+	m_BackgroundId = UI_RECT.Add({ bgPos, bgSize }, UiSystem::COLOR_DARK);
 	m_TextId = UI_FONT.Add_XCenter({ m_Text, m_FontSize, UiSystem::COLOR_MEDIUM }, textPos);
 }
 
