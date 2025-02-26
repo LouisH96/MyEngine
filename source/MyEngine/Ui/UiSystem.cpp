@@ -28,9 +28,9 @@ void UiSystem::OnCanvasResized(const App::ResizedEvent& event)
 
 void UiSystem::Update()
 {
-	UpdateCurrentElemState();
 	if (m_Tree.NedUpdate())
 		RecreateTree();
+	UpdateCurrentElemState();
 }
 
 void UiSystem::Render()
