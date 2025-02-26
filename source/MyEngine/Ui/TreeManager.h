@@ -17,7 +17,7 @@ public:
 	Elem* GetElemUnderMouse();
 
 	void RequestUpdate() { m_NeedUpdate = true; }
-	bool NedUpdate() const { return m_NeedUpdate; }
+	bool NeedUpdate() const { return m_NeedUpdate; }
 
 private:
 	AnchorParent m_Root;
