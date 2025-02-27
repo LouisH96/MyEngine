@@ -13,6 +13,7 @@ struct AnchorChild
 	FillMode FillHor{ FillMode::Min };
 	FillMode FillVer{ FillMode::Min };
 
+	void SetAnchors(const Float2& anchor);
 	void SetFillMin();
 	void SetFillMax();
 	void SetFill(FillMode fillMode);

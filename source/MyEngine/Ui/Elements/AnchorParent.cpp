@@ -82,6 +82,12 @@ void AnchorParent::Create()
 {
 }
 
+void AnchorChild::SetAnchors(const Float2& anchor)
+{
+	ParentAnchor = anchor;
+	ChildAnchor = anchor;
+}
+
 void AnchorChild::SetFillMin()
 {
 	SetFill(FillMode::Min);
