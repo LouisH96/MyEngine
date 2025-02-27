@@ -23,6 +23,9 @@ public:
 	void Clear();
 	unsigned GetId() const { return m_Id; }
 
+	bool IsEmpty() const { return m_Id == EMPTY; }
+	bool IsActive() const { return m_Id != EMPTY; }
+
 	static constexpr unsigned EMPTY{ Uint::MAX };
 
 protected:
