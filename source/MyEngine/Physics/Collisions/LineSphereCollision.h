@@ -30,7 +30,7 @@ namespace MyEngine
 		{
 			int idx{ -1 };
 			float closest{ Float::Max() };
-			for (int i = 0; i < spheres.count; i++)
+			for (unsigned i = 0; i < spheres.count; i++)
 			{
 				const Sphere& sphere{ spheres[i] };
 				const Float3 toCenter{ sphere.GetCenter() - ray.Origin };
