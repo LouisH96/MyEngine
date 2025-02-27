@@ -7,7 +7,21 @@ using namespace Ui;
 
 Border::Border()
 	: ParentElem<EmptyChildOptions>{}
+	, m_BackgroundColor{ UiSystem::COLOR_DARK }
+	, m_BorderColor{ UiSystem::COLOR_MEDIUM }
 {;
+}
+
+void Border::SetBorderColor(const Float3& borderColor)
+{
+	m_BorderColor = borderColor;
+	m_BorderId.SetColor(borderColor);
+}
+
+void Border::SetBackgroundColor(const Float3& backgroundColor)
+{
+	m_BackgroundColor = backgroundColor;
+	m_BackgroundId.SetColor(backgroundColor);
 }
 
 void Border::UpdateSizeAndTreePositions(const ResizePref& pref)
@@ -16,19 +30,19 @@ void Border::UpdateSizeAndTreePositions(const ResizePref& pref)
 	childPref.horMode = pref.horMode;
 	childPref.verMode = pref.verMode;
 	childPref.minSize = {};
-	childPref.maxSize = pref.maxSize - UiSystem::BORDER_THICKNESS * 4;
+	childPref.maxSize = pref.maxSize - BORDER_THICKNESS * 4;
 
 	Float2 childBounds{};
 	for (unsigned i = 0; i < GetNrChildren(); i++)
 	{
 		UpdateChildSize(i, childPref);
-		SetChildPosition(i, Float2{ UiSystem::BORDER_THICKNESS * 2 });
+		SetChildPosition(i, Float2{ BORDER_THICKNESS * 2 });
 
 		childBounds.x = Float::Max(childBounds.x, GetChild(i).GetWidth());
 		childBounds.y = Float::Max(childBounds.y, GetChild(i).GetHeight());
 	}
 
-	SetSize(childBounds + UiSystem::BORDER_THICKNESS * 4);
+	SetSize(childBounds + BORDER_THICKNESS * 4);
 }
 
 void Border::Clear()
@@ -39,6 +53,6 @@ void Border::Clear()
 
 void Border::Create()
 {
-	m_BorderId = UI_RECT.Add({ GetPosition(), GetSize() }, UiSystem::COLOR_MEDIUM);
-	m_BackgroundId = UI_RECT.Add({ GetPosition() + UiSystem::BORDER_THICKNESS, GetSize() - UiSystem::BORDER_THICKNESS * 2 }, UiSystem::COLOR_DARK);
+	m_BorderId = UI_RECT.Add({ GetPosition(), GetSize() }, m_BorderColor);
+	m_BackgroundId = UI_RECT.Add({ GetPosition() + BORDER_THICKNESS, GetSize() - BORDER_THICKNESS * 2 }, m_BackgroundColor);
 }
