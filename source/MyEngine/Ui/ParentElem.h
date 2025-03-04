@@ -49,7 +49,7 @@ private:
 	void CreateTree() final;
 
 	//---| Resizing |---
-	void UpdateTreePositions(const Float2& movement) final;
+	void UpdateTreePositions(const Float2& movement) override;
 
 	List<ChildData> m_Children;
 	friend class Root;
