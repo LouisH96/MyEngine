@@ -8,7 +8,8 @@ struct SizeDef
 {
 	enum class Mode
 	{
-		Pixels, Percentage, PercentageOfOther //percentage of width or height
+		Pixels, Percentage, PercentageOfOther, //percentage of width or height
+		NoChange
 	};
 	Mode HorizontalMode{ Mode::Percentage };
 	Mode VerticalMode{ Mode::Percentage };
