@@ -93,6 +93,7 @@ void ParentElem<ChildData>::RemoveChild(Elem* pChild)
 		if (m_Children[i].pChild == pChild)
 		{
 			m_Children.Remove(i);
+			pChild->ClearTree();
 			RequestUpdate();
 			return;
 		}
