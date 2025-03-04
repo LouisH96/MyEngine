@@ -13,8 +13,6 @@ TreeManager::TreeManager()
 
 void TreeManager::RecreateTree()
 {
-	m_NeedUpdate = false;
-
 	ClearGraphics();
 
 	Elem& root{ m_Root };
@@ -22,6 +20,8 @@ void TreeManager::RecreateTree()
 	root.UpdateTreePositions({ 0,0 });
 
 	CreateGraphics();
+
+	m_NeedUpdate = false;
 }
 
 Elem* TreeManager::GetElemUnderMouse()
