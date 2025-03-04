@@ -71,11 +71,11 @@ void ListPanel::UpdateSizeAndTreePositions(const ResizePref& pref)
 				Elem& child{ GetChild(iExtend) };
 				childPref.maxSize = m_FlowDir * m_FlowDir.Dot(child.GetSize());
 				childPref.maxSize += m_FillDir.Abs() * lineFillSize;
-				UpdateChildSize(iExtend, childPref);
+				ChildUpdateSizeAndTreePositions(iExtend, childPref);
 
 				Float2 pos{ m_FlowDir * m_FlowDir.Dot(child.GetPosition()) };
 				pos -= m_FillDir.Abs() * lineFillSize * .5f;
-				SetChildPosition(iExtend, pos);
+				ChildSetPosition(iExtend, pos);
 			}
 		}
 
@@ -84,7 +84,7 @@ void ListPanel::UpdateSizeAndTreePositions(const ResizePref& pref)
 		for (unsigned iMove = iChildBegin; iMove < iChild; iMove++)
 		{
 			Elem& child{ GetChild(iMove) };
-			SetChildPosition(iMove, child.GetPosition() + linePos);
+			ChildSetPosition(iMove, child.GetPosition() + linePos);
 		}
 
 		//apply changes
@@ -108,7 +108,7 @@ void ListPanel::UpdateSizeAndTreePositions(const ResizePref& pref)
 	for (iChild = 0; iChild < m_NrVisibleChilds; iChild++)
 	{
 		Elem& child{ GetChild(iChild) };
-		SetChildPosition(iChild, child.GetPosition() + movement);
+		ChildSetPosition(iChild, child.GetPosition() + movement);
 	}
 }
 
@@ -141,7 +141,7 @@ void ListPanel::CreateLineOnOrigin(unsigned& iChild, float& lineFlowSize, float&
 
 		//check child size
 		Elem& child{ GetChild(iChild) };
-		UpdateChildSize(iChild, childPref);
+		ChildUpdateSizeAndTreePositions(iChild, childPref);
 
 		const float childFlowSize{ abs(child.GetSize().Dot(m_FlowDir)) };
 		const float childFillSize{ abs(child.GetSize().Dot(m_FillDir)) };
@@ -171,7 +171,7 @@ void ListPanel::CreateLineOnOrigin(unsigned& iChild, float& lineFlowSize, float&
 		Float2 childPos{ m_FlowDir * (lineFlowSize + childFlowSize * .5f) }; //child center
 		childPos -= child.GetSize() * .5f; //child origin
 
-		SetChildPosition(iChild, childPos);
+		ChildSetPosition(iChild, childPos);
 
 		//apply changes
 		lineFillSize = futureLineFillSize;

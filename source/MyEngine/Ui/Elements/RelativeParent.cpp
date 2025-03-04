@@ -21,10 +21,10 @@ void RelativeParent::UpdateSizeAndTreePositions(const ResizePref& pref)
 		const RelativeChild& child{ GetChildData(i) };
 
 		resizePref.maxSize = GetSize() * Float2 { child.MaxWidthRatio, child.MaxHeightRatio };
-		UpdateChildSize(i, resizePref);
+		ChildUpdateSizeAndTreePositions(i, resizePref);
 
 		Float2 childPos{ (GetSize() - child.pChild->GetSize()) / 2.f };
-		SetChildPosition(i, childPos);
+		ChildSetPosition(i, childPos);
 	}
 }
 

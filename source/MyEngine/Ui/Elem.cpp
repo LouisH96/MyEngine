@@ -98,6 +98,71 @@ void Elem::RequestUpdate()
 	UI_TREE.RequestUpdate();
 }
 
+void Elem::ChildUpdateSizeAndTreePositions(Elem& child, const ResizePref& pref)
+{
+	child.UpdateSizeAndTreePositions(pref);
+}
+
+void Elem::ChildSetPosition(Elem& child, const Float2& position)
+{
+	child.SetPosition(position);
+}
+
+void Elem::ChildUpdateTreePositions(Elem& child, const Float2& position)
+{
+	child.UpdateTreePositions(position);
+}
+
+void Elem::ChildClearTree(Elem& child)
+{
+	child.ClearTree();
+}
+
+void Elem::ChildCreateTree(Elem& child)
+{
+	child.CreateTree();
+}
+
+void Elem::ChildUpdateSizeAndTreePositions(Elem* pChild, const ResizePref& pref)
+{
+	ChildUpdateSizeAndTreePositions(*pChild, pref);
+}
+
+void Elem::ChildSetPosition(Elem* pChild, const Float2& position)
+{
+	ChildSetPosition(*pChild, position);
+}
+
+void Elem::ChildUpdateTreePositions(Elem* pChild, const Float2& position)
+{
+	ChildUpdateTreePositions(*pChild, position);
+}
+
+void Elem::ChildClearTree(Elem* pChild)
+{
+	ChildClearTree(*pChild);
+}
+
+void Elem::ChildCreateTree(Elem* pChild)
+{
+	ChildCreateTree(*pChild);
+}
+
+void Elem::UpdateSizeAndTreePositions(Elem* pChild, const ResizePref& pref)
+{
+	pChild->UpdateSizeAndTreePositions(pref);
+}
+
+void Elem::SetPosition(Elem* pChild, const Float2& position)
+{
+	pChild->SetPosition(position);
+}
+
+void Elem::UpdateTreePositions(Elem* pChild, const Float2& position)
+{
+	pChild->UpdateTreePositions(position);
+}
+
 void Elem::AssertWithinMaxSize(const Float2& desired, const ResizePref& pref)
 {
 	if (desired.x > pref.maxSize.x)
@@ -111,7 +176,7 @@ UiShapeRenderer& Elem::Draw()
 	return UI.GetShapeRenderer();
 }
 
-void Elem::SetRelativePosition(const Float2& relativePosition)
+void Elem::SetPosition(const Float2& relativePosition)
 {
 	m_Bounds.SetLeftBot(relativePosition);
 }

@@ -64,11 +64,6 @@ protected:
 
 	void RequestUpdate();
 
-	static void AssertWithinMaxSize(const Float2& desired, const ResizePref& pref);
-
-	static UiShapeRenderer& Draw();
-
-private:
 	//---| Resizing |---
 	/* Functions that will be called for the resizing process:
 	 * 1) UpdateSizeAndTreePositions(..) -> In that function the element should:
@@ -79,8 +74,8 @@ private:
 	 * 3) ClearTree() -> Destroys visuals
 	 * 4) CreateTree() -> Creates visuals
 	 */
-	void SetRelativePosition(const Float2& relativePosition); //relative to parent
 	virtual void UpdateSizeAndTreePositions(const ResizePref& pref) = 0; //update this size, its children size and their relative positions
+	void SetPosition(const Float2& position); //relative to parent
 	virtual void UpdateTreePositions(const Float2& position);
 
 	//---| Visuals |---
@@ -90,6 +85,26 @@ private:
 	virtual void Clear() = 0;
 	virtual void Create() = 0;
 
+	static void ChildUpdateSizeAndTreePositions(Elem& child, const ResizePref& pref);
+	static void ChildSetPosition(Elem& child, const Float2& position);
+	static void ChildUpdateTreePositions(Elem& child, const Float2& position);
+	static void ChildClearTree(Elem& child);
+	static void ChildCreateTree(Elem& child);
+
+	static void ChildUpdateSizeAndTreePositions(Elem* pChild, const ResizePref& pref);
+	static void ChildSetPosition(Elem* pChild, const Float2& position);
+	static void ChildUpdateTreePositions(Elem* pChild, const Float2& position);
+	static void ChildClearTree(Elem* pChild);
+	static void ChildCreateTree(Elem* pChild);
+
+	static void UpdateSizeAndTreePositions(Elem* pChild, const ResizePref& pref);
+	static void SetPosition(Elem* pChild, const Float2& position);
+	static void UpdateTreePositions(Elem* pChild, const Float2& position);
+
+	static void AssertWithinMaxSize(const Float2& desired, const ResizePref& pref);
+
+	static UiShapeRenderer& Draw();
+private:
 	RectFloat m_Bounds;
 	bool m_TakeMouse;
 

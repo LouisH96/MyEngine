@@ -32,16 +32,16 @@ public:
 	void SetChildrenTakeMouse(bool takeMouse) override;
 
 protected:
-	void SetChildPosition(unsigned childIdx, const Float2& relativePosition);
-	void UpdateChildSize(unsigned childIdx, const ResizePref& pref);
+	unsigned m_NrVisibleChilds{ 0 };
+
+	void ChildSetPosition(unsigned iChild, const Float2& position);
+	void ChildUpdateSizeAndTreePositions(unsigned iChild, const ResizePref& pref);
 
 	ChildData& GetChildData(unsigned i) { return m_Children[i]; }
 	Elem& GetChild(unsigned i) { return *m_Children[i].pChild; }
 	unsigned GetNrChildren() const { return m_Children.GetSize(); }
 	float ChildWidth(unsigned i) const;
 	float ChildHeight(unsigned i) const;
-
-	unsigned m_NrVisibleChilds{ 0 };
 
 private:
 	//---| Visuals |---
@@ -182,16 +182,16 @@ inline void ParentElem<ChildData>::SetChildrenTakeMouse(bool takeMouse)
 	}
 }
 
-template <typename ChildData>
-void ParentElem<ChildData>::SetChildPosition(unsigned childIdx, const Float2& relativePosition)
+template<typename ChildData>
+inline void ParentElem<ChildData>::ChildSetPosition(unsigned iChild, const Float2& position)
 {
-	m_Children[childIdx].pChild->SetRelativePosition(relativePosition);
+	m_Children[iChild].pChild->SetPosition(position);
 }
 
-template <typename ChildData>
-void ParentElem<ChildData>::UpdateChildSize(unsigned childIdx, const ResizePref& pref)
+template<typename ChildData>
+inline void ParentElem<ChildData>::ChildUpdateSizeAndTreePositions(unsigned iChild, const ResizePref& pref)
 {
-	m_Children[childIdx].pChild->UpdateSizeAndTreePositions(pref);
+	m_Children[iChild].pChild->UpdateSizeAndTreePositions(pref);
 }
 
 template <typename ChildData>
