@@ -1,6 +1,7 @@
 #pragma once
 
 #include "AnchorParent.h"
+#include "BgColorParent.h"
 #include "Border.h"
 #include "Box.h"
 #include "Button.h"

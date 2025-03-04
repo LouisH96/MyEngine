@@ -137,6 +137,8 @@
     <ClCompile Include="Ui\GraphicsId.cpp" />
     <ClCompile Include="Ui\Elements\ToggleBtnBase.cpp" />
     <ClCompile Include="Ui\Elements\MouseDownElem.cpp" />
+    <ClCompile Include="Ui\Elements\BgColorParent.cpp" />
+    <ClCompile Include="Ui\Elements\SingleParent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -352,6 +354,8 @@
     <ClInclude Include="Ui\Elements\ToggleBtnBase.h" />
     <ClInclude Include="Other\Color.h" />
     <ClInclude Include="Ui\Elements\MouseDownElem.h" />
+    <ClInclude Include="Ui\Elements\BgColorParent.h" />
+    <ClInclude Include="Ui\Elements\SingleParent.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
