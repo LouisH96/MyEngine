@@ -37,6 +37,8 @@ public:
 
 	void EditColor(unsigned id, const Float3& newColor);
 
+	const Float3& GetColor(unsigned id) const;
+
 private:
 	using Vertex = Rendering::V_Pos2ColUv;
 	struct Entry

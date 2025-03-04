@@ -63,3 +63,8 @@ void UiRectRenderer::MoveTo(unsigned id, Float2 leftBot)
 	inst.x = leftBot.x;
 	inst.y = leftBot.y;
 }
+
+Float3 UiRectRenderer::GetColor(unsigned id) const
+{
+	return m_Instances[id].Color;
+}

@@ -143,6 +143,11 @@ void UiFontRenderer::EditColor(unsigned id, const Float3& newColor)
 		entry.Vertices[i].col = newColor;
 }
 
+const Float3& UiFontRenderer::GetColor(unsigned id) const
+{
+	return m_Entries.Get(id).Vertices.First().col;
+}
+
 void UiFontRenderer::WriteVertices(Vertex* pTarget) const
 {
 	const Entry* pEntriesEnd{ m_Entries.GetEnd() };

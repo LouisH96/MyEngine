@@ -20,6 +20,13 @@ void RectId::MoveTo(const Float2& leftBot)
 	GetRenderer().MoveTo(m_Id, leftBot);
 }
 
+Float3 RectId::GetColor() const
+{
+	if (IsEmpty())
+		return {};
+	return GetRenderer().GetColor(m_Id);
+}
+
 FontId::FontId(unsigned id)
 	: GraphicsId{ id }
 {
@@ -32,3 +39,10 @@ void FontId::SetColor(const Float3& newColor)
 	GetRenderer().EditColor(m_Id, newColor);
 }
 
+Float3 FontId::GetColor() const
+{
+	if (IsEmpty())
+		return {};
+
+	return GetRenderer().GetColor(m_Id);
+}

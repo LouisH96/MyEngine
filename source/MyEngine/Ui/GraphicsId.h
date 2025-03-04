@@ -32,6 +32,7 @@ protected:
 	unsigned m_Id{ EMPTY };
 
 	TRenderer& GetRenderer();
+	const TRenderer& GetRenderer() const;
 };
 
 template<typename TRenderer>
@@ -75,7 +76,17 @@ inline UiRectRenderer& GraphicsId<UiRectRenderer>::GetRenderer()
 	return UI_RECT;
 }
 template<>
+inline const UiRectRenderer& GraphicsId<UiRectRenderer>::GetRenderer() const
+{
+	return UI_RECT;
+}
+template<>
 inline UiFontRenderer& GraphicsId<UiFontRenderer>::GetRenderer()
+{
+	return UI_FONT;
+}
+template<>
+inline const UiFontRenderer& GraphicsId<UiFontRenderer>::GetRenderer() const
 {
 	return UI_FONT;
 }
@@ -85,7 +96,17 @@ inline UiShapeRenderer& GraphicsId<UiShapeRenderer>::GetRenderer()
 	return UI_SHAPE;
 }
 template<>
+inline const UiShapeRenderer& GraphicsId<UiShapeRenderer>::GetRenderer() const
+{
+	return UI_SHAPE;
+}
+template<>
 inline UiImageRenderer& GraphicsId<UiImageRenderer>::GetRenderer()
+{
+	return UI_IMAGE;
+}
+template<>
+inline const UiImageRenderer& GraphicsId<UiImageRenderer>::GetRenderer() const
 {
 	return UI_IMAGE;
 }
@@ -102,6 +123,8 @@ public:
 
 	void SetColor(const Float3& newColor);
 	void MoveTo(const Float2& leftBot);
+
+	Float3 GetColor() const;
 };
 
 class FontId
@@ -112,6 +135,7 @@ public:
 	FontId(unsigned id);
 
 	void SetColor(const Float3& newColor);
+	Float3 GetColor() const;
 };
 
 }
