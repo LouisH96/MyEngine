@@ -22,6 +22,7 @@
 #include <Debug/Rendering/DebugRenderer.h>
 #include <Timing/Counter.h>
 #include <Timing/AvgCounter.h>
+#include <Other\Color.h>
 
 using namespace MyEngine;
 using namespace Debug;
