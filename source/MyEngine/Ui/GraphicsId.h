@@ -90,7 +90,6 @@ inline UiImageRenderer& GraphicsId<UiImageRenderer>::GetRenderer()
 	return UI_IMAGE;
 }
 
-using FontId = GraphicsId<UiFontRenderer>;
 using ImageId = GraphicsId<UiImageRenderer>;
 using ShapeId = GraphicsId<UiShapeRenderer>;
 
@@ -103,6 +102,16 @@ public:
 
 	void SetColor(const Float3& newColor);
 	void MoveTo(const Float2& leftBot);
+};
+
+class FontId
+	: public GraphicsId<UiFontRenderer>
+{
+public:
+	FontId() = default;
+	FontId(unsigned id);
+
+	void SetColor(const Float3& newColor);
 };
 
 }
