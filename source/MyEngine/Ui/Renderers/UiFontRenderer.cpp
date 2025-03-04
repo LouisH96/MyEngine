@@ -130,6 +130,11 @@ Float2 UiFontRenderer::GetTextSize_XCenter(const std::string& text, float scale)
 	return m_Assembler.GetSize_XCenter(text, scale, baseline);
 }
 
+Float2 UiFontRenderer::GetTextSize_XCenter(const std::string& text, float scale, float& baseline)
+{
+	return m_Assembler.GetSize_XCenter(text, scale, baseline);
+}
+
 void UiFontRenderer::EditColor(unsigned id, const Float3& newColor)
 {
 	Entry& entry{ m_Entries.Get(id) };
