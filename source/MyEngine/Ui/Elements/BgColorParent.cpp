@@ -9,11 +9,11 @@ BgColorParent::BgColorParent(const Float3& color, bool takeMouse)
 {
 }
 
-void BgColorParent::UpdateSizeAndTreePositions(const ResizePref& pref)
+void BgColorParent::TreeUpdate(const ResizePref& pref)
 {
 	if (GetChild())
 	{
-		ChildUpdateSizeAndTreePositions(GetChild(), pref);
+		ChildTreeUpdate(GetChild(), pref);
 		ChildSetPosition(GetChild(), {});
 		SetSize(GetChild()->GetSize());
 	}

@@ -19,7 +19,7 @@ public:
 	bool IsOn() const { return m_IsOn; }
 
 private:
-	void UpdateSizeAndTreePositions(const ResizePref& pref) override;
+	void TreeUpdate(const ResizePref& pref) override;
 	void Clear() override {};
 	void Create() override {};
 

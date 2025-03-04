@@ -10,7 +10,7 @@ Box::Box(const Float3& color)
 {
 }
 
-void Box::UpdateSizeAndTreePositions(const ResizePref& pref)
+void Box::TreeUpdate(const ResizePref& pref)
 {
 	SetSize(pref);
 }

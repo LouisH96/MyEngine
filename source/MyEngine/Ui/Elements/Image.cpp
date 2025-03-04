@@ -13,7 +13,7 @@ Ui::Image::Image(unsigned textureId, const Float2& uvLeftTop, const Float2& uvRi
 {
 }
 
-void Ui::Image::UpdateSizeAndTreePositions(const ResizePref& pref)
+void Ui::Image::TreeUpdate(const ResizePref& pref)
 {
 	SetSize(pref);
 }

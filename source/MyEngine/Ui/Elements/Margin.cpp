@@ -8,7 +8,7 @@ Margin::Margin(float margin)
 {
 }
 
-void Margin::UpdateSizeAndTreePositions(const ResizePref& pref)
+void Margin::TreeUpdate(const ResizePref& pref)
 {
 	ResizePref childPref;
 	childPref.horMode = pref.horMode;

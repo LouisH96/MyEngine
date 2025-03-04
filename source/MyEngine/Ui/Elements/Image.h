@@ -12,7 +12,7 @@ public:
 	//TextureId coming from UiImageRenderer
 	Image(unsigned textureId, const Float2& uvLeftTop = { 0,0 }, const Float2& uvRightBot = { 1,1 });
 
-	void UpdateSizeAndTreePositions(const ResizePref& pref) override;
+	void TreeUpdate(const ResizePref& pref) override;
 	const std::string GetTypeName() const override { return "Image"; }
 
 	unsigned GetTextureId() const { return m_TextureId; }

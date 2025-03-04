@@ -24,7 +24,7 @@ public:
 	Elem* GetChild() { return m_pChild; }
 
 protected:
-	void UpdateTreePositions(const Float2& position);
+	void MoveAllPositions(const Float2& position);
 
 private:
 	Elem* m_pChild{};

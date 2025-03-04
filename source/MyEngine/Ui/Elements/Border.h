@@ -21,7 +21,7 @@ public:
 	static constexpr float MARGIN_THICKNESS{ BORDER_THICKNESS * 2 };
 
 private:
-	void UpdateSizeAndTreePositions(const ResizePref& pref) override;
+	void TreeUpdate(const ResizePref& pref) override;
 	void Clear() override;
 	void Create() override;
 

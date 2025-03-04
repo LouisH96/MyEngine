@@ -12,7 +12,7 @@ public:
 	MouseDownElem();
 
 	const std::string GetTypeName() const override { return "MouseDownElem"; }
-	void UpdateSizeAndTreePositions(const ResizePref& pref) override;
+	void TreeUpdate(const ResizePref& pref) override;
 
 	void OnMouseDown(Float2 relativePos) override;
 

@@ -16,7 +16,7 @@ public:
 	const std::string GetTypeName() const override { return "Label"; }
 
 private:
-	void UpdateSizeAndTreePositions(const ResizePref& pref) override;
+	void TreeUpdate(const ResizePref& pref) override;
 	void Clear() override;
 	void Create() override;
 

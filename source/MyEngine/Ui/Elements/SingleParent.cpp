@@ -43,11 +43,11 @@ Elem* SingleParent::SetChild(Elem* pChild)
 	return pOld;
 }
 
-void SingleParent::UpdateTreePositions(const Float2& position)
+void SingleParent::MoveAllPositions(const Float2& position)
 {
-	Elem::UpdateTreePositions(position);
+	Elem::MoveAllPositions(position);
 	if (m_pChild)
-		ChildUpdateTreePositions(m_pChild, GetPosition());
+		ChildMoveAllPositions(m_pChild, GetPosition());
 }
 
 void SingleParent::ClearTree()

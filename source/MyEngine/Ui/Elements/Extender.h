@@ -13,7 +13,7 @@ class Extender final
 public:
 	explicit Extender(const SizeDef& sizeDef);
 	const std::string GetTypeName() const override { return "Extender"; }
-	void UpdateSizeAndTreePositions(const ResizePref& pref) override;
+	void TreeUpdate(const ResizePref& pref) override;
 
 	void SetSizeDef(const Float2& value);
 	void SetSizeDefX(float valueX);

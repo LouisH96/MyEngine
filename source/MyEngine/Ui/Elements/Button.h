@@ -27,7 +27,7 @@ public:
 	void SetInteractColor(const Float3& color);
 
 private:
-	void UpdateSizeAndTreePositions(const ResizePref& pref) override;
+	void TreeUpdate(const ResizePref& pref) override;
 	void Clear() override;
 	void Create() override;
 

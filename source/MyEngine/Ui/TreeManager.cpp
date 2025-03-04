@@ -16,8 +16,8 @@ void TreeManager::RecreateTree()
 	ClearGraphics();
 
 	Elem& root{ m_Root };
-	root.UpdateSizeAndTreePositions(GetRootResizePref());
-	root.UpdateTreePositions({ 0,0 });
+	root.TreeUpdate(GetRootResizePref());
+	root.MoveAllPositions({ 0,0 });
 
 	CreateGraphics();
 

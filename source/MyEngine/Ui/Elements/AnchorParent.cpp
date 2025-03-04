@@ -18,7 +18,7 @@ void AnchorParent::AddChild(Elem* pElem, const Float2& parentAnchor, const Float
 	ParentElem::AddChild({ pElem, parentAnchor, childAnchor, FillMode::Min, FillMode::Min });
 }
 
-void AnchorParent::UpdateSizeAndTreePositions(const ResizePref& pref)
+void AnchorParent::TreeUpdate(const ResizePref& pref)
 {
 	SetSize(pref);
 

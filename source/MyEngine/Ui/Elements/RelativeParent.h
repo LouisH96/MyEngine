@@ -21,7 +21,7 @@ class RelativeParent final
 public:
 	RelativeParent();
 
-	void UpdateSizeAndTreePositions(const ResizePref& pref) override;
+	void TreeUpdate(const ResizePref& pref) override;
 	const std::string GetTypeName() const override;
 
 private:

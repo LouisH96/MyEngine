@@ -20,7 +20,7 @@ public:
 private:
 	bool m_IsClicked{ false }; //stays true until checked
 
-	void UpdateSizeAndTreePositions(const ResizePref& pref) override;
+	void TreeUpdate(const ResizePref& pref) override;
 	void Clear() override {};
 	void Create() override {};
 };

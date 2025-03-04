@@ -20,7 +20,7 @@ public:
 
 	void AddChild(Elem* pChild);
 
-	void UpdateSizeAndTreePositions(const ResizePref& pref) override;
+	void TreeUpdate(const ResizePref& pref) override;
 	const std::string GetTypeName() const override;
 
 private:

@@ -35,7 +35,7 @@ private:
 		void ClearGraphics();
 	};
 
-	void UpdateSizeAndTreePositions(const ResizePref& pref) override;
+	void TreeUpdate(const ResizePref& pref) override;
 	void Clear() override;
 	void Create() override;
 	void AddButton(SideMenuTab& tab);

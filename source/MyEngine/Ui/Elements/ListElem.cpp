@@ -18,7 +18,7 @@ void ListElem::AddChild(Elem* pChild)
 	ParentElem::AddChild({ pChild });
 }
 
-void ListElem::UpdateSizeAndTreePositions(const ResizePref& pref)
+void ListElem::TreeUpdate(const ResizePref& pref)
 {
 	ResizePref childPref;
 	childPref.maxSize = pref.maxSize;

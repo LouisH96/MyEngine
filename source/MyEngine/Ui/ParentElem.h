@@ -49,7 +49,7 @@ private:
 	void CreateTree() final;
 
 	//---| Resizing |---
-	void UpdateTreePositions(const Float2& movement) override;
+	void MoveAllPositions(const Float2& movement) override;
 
 	List<ChildData> m_Children;
 	friend class Root;
@@ -192,16 +192,16 @@ inline void ParentElem<ChildData>::ChildSetPosition(unsigned iChild, const Float
 template<typename ChildData>
 inline void ParentElem<ChildData>::ChildUpdateSizeAndTreePositions(unsigned iChild, const ResizePref& pref)
 {
-	m_Children[iChild].pChild->UpdateSizeAndTreePositions(pref);
+	m_Children[iChild].pChild->TreeUpdate(pref);
 }
 
 template <typename ChildData>
-void ParentElem<ChildData>::UpdateTreePositions(const Float2& movement)
+void ParentElem<ChildData>::MoveAllPositions(const Float2& movement)
 {
 	m_Bounds.Move(movement);
 
 	for (unsigned i = 0; i < m_NrVisibleChilds; i++)
-		m_Children[i].pChild->UpdateTreePositions(m_Bounds.GetLeftBot());
+		m_Children[i].pChild->MoveAllPositions(m_Bounds.GetLeftBot());
 }
 
 template <typename ChildData>

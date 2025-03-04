@@ -38,7 +38,7 @@ private:
 	explicit ListPanel(const Float2& flowDir, const Float2& fillDir, float childMargin, float lineMargin);
 
 	virtual const std::string GetTypeName() const override { return "ListPanel"; };
-	virtual void UpdateSizeAndTreePositions(const ResizePref& pref) override;
+	virtual void TreeUpdate(const ResizePref& pref) override;
 	virtual void Clear() override;
 	virtual void Create() override;
 

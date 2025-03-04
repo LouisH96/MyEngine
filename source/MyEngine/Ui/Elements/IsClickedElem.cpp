@@ -20,7 +20,7 @@ void IsClickedElem::OnClick()
 	m_IsClicked = true;
 }
 
-void IsClickedElem::UpdateSizeAndTreePositions(const ResizePref& pref)
+void IsClickedElem::TreeUpdate(const ResizePref& pref)
 {
 	SetSize(pref);
 }

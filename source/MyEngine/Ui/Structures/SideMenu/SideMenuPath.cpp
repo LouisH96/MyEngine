@@ -56,7 +56,7 @@ void SideMenuPath::AddButton(SideMenuTab& tab)
 	m_ButtonInfo.Add(button);
 }
 
-void SideMenuPath::UpdateSizeAndTreePositions(const ResizePref& pref)
+void SideMenuPath::TreeUpdate(const ResizePref& pref)
 {
 	SetWidth(pref.maxSize.x);
 

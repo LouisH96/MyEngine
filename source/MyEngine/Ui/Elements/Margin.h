@@ -15,7 +15,7 @@ public:
 	float GetMargin() const { return m_Margin; }
 
 private:
-	void UpdateSizeAndTreePositions(const ResizePref& pref) override;
+	void TreeUpdate(const ResizePref& pref) override;
 	void Clear() override;
 	void Create() override;
 

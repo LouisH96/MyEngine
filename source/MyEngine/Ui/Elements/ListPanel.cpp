@@ -28,7 +28,7 @@ void ListPanel::SetUniformFillSize(bool uniformFillSize)
 	m_UniformFillSize = uniformFillSize;
 }
 
-void ListPanel::UpdateSizeAndTreePositions(const ResizePref& pref)
+void ListPanel::TreeUpdate(const ResizePref& pref)
 {
 	m_NrVisibleChilds = 0;
 

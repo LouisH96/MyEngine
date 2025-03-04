@@ -24,7 +24,7 @@ void Border::SetBackgroundColor(const Float3& backgroundColor)
 	m_BackgroundId.SetColor(backgroundColor);
 }
 
-void Border::UpdateSizeAndTreePositions(const ResizePref& pref)
+void Border::TreeUpdate(const ResizePref& pref)
 {
 	ResizePref childPref;
 	childPref.horMode = pref.horMode;

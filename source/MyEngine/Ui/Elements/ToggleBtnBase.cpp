@@ -20,7 +20,7 @@ bool ToggleBtnBase::HasChanged()
 	return hasChanged;
 }
 
-void ToggleBtnBase::UpdateSizeAndTreePositions(const ResizePref& pref)
+void ToggleBtnBase::TreeUpdate(const ResizePref& pref)
 {
 	SetSize(pref);
 }

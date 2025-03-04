@@ -21,7 +21,7 @@ public:
 	BgColorParent(const Float3& color, bool takeMouse = false);
 
 	const std::string GetTypeName() const override { return "SingleParent"; }
-	void UpdateSizeAndTreePositions(const ResizePref& pref) override;
+	void TreeUpdate(const ResizePref& pref) override;
 
 protected:
 	void Clear() override;

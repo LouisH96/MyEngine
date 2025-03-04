@@ -8,7 +8,7 @@ Extender::Extender(const SizeDef& sizeDef)
 {
 }
 
-void Extender::UpdateSizeAndTreePositions(const ResizePref& pref)
+void Extender::TreeUpdate(const ResizePref& pref)
 {
 	const SizeDef::Mode& horMode{ m_SizeDef.HorizontalMode };
 	const SizeDef::Mode& verMode{ m_SizeDef.VerticalMode };

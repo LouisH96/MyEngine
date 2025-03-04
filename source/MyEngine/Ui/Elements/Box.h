@@ -12,7 +12,7 @@ class Box final
 public:
 	explicit Box(const Float3& color);
 
-	void UpdateSizeAndTreePositions(const ResizePref& pref) override;
+	void TreeUpdate(const ResizePref& pref) override;
 	const std::string GetTypeName() const override;
 
 	void SetColor(const Float3& newColor);

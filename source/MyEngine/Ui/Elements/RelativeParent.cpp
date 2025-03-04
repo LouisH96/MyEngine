@@ -8,7 +8,7 @@ RelativeParent::RelativeParent()
 {
 }
 
-void RelativeParent::UpdateSizeAndTreePositions(const ResizePref& pref)
+void RelativeParent::TreeUpdate(const ResizePref& pref)
 {
 	SetSize(pref.GetPreferredSize());
 

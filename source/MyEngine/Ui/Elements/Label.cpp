@@ -19,7 +19,7 @@ Label::Label(const std::string& text, const Float3& color, float fontSize)
 {
 }
 
-void Label::UpdateSizeAndTreePositions(const ResizePref& pref)
+void Label::TreeUpdate(const ResizePref& pref)
 {
 	const Float2 textSize{ UI_FONT.GetTextSize_XCenter(m_Text, m_FontSize) };
 

@@ -8,7 +8,7 @@ MouseDownElem::MouseDownElem()
 {
 }
 
-void MouseDownElem::UpdateSizeAndTreePositions(const ResizePref& pref)
+void MouseDownElem::TreeUpdate(const ResizePref& pref)
 {
 	SetSize(pref);
 }

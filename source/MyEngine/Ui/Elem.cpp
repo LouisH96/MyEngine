@@ -27,7 +27,7 @@ Float2 ResizePref::GetPreferredSize() const
 	return size;
 }
 
-void Elem::UpdateTreePositions(const Float2& position)
+void Elem::MoveAllPositions(const Float2& position)
 {
 	m_Bounds.Move(position);
 }
@@ -98,9 +98,9 @@ void Elem::RequestUpdate()
 	UI_TREE.RequestUpdate();
 }
 
-void Elem::ChildUpdateSizeAndTreePositions(Elem& child, const ResizePref& pref)
+void Elem::ChildTreeUpdate(Elem& child, const ResizePref& pref)
 {
-	child.UpdateSizeAndTreePositions(pref);
+	child.TreeUpdate(pref);
 }
 
 void Elem::ChildSetPosition(Elem& child, const Float2& position)
@@ -108,9 +108,9 @@ void Elem::ChildSetPosition(Elem& child, const Float2& position)
 	child.SetPosition(position);
 }
 
-void Elem::ChildUpdateTreePositions(Elem& child, const Float2& position)
+void Elem::ChildMoveAllPositions(Elem& child, const Float2& position)
 {
-	child.UpdateTreePositions(position);
+	child.MoveAllPositions(position);
 }
 
 void Elem::ChildClearTree(Elem& child)
@@ -123,9 +123,9 @@ void Elem::ChildCreateTree(Elem& child)
 	child.CreateTree();
 }
 
-void Elem::ChildUpdateSizeAndTreePositions(Elem* pChild, const ResizePref& pref)
+void Elem::ChildTreeUpdate(Elem* pChild, const ResizePref& pref)
 {
-	ChildUpdateSizeAndTreePositions(*pChild, pref);
+	ChildTreeUpdate(*pChild, pref);
 }
 
 void Elem::ChildSetPosition(Elem* pChild, const Float2& position)
@@ -133,9 +133,9 @@ void Elem::ChildSetPosition(Elem* pChild, const Float2& position)
 	ChildSetPosition(*pChild, position);
 }
 
-void Elem::ChildUpdateTreePositions(Elem* pChild, const Float2& position)
+void Elem::ChildMoveAllPositions(Elem* pChild, const Float2& position)
 {
-	ChildUpdateTreePositions(*pChild, position);
+	ChildMoveAllPositions(*pChild, position);
 }
 
 void Elem::ChildClearTree(Elem* pChild)
@@ -146,21 +146,6 @@ void Elem::ChildClearTree(Elem* pChild)
 void Elem::ChildCreateTree(Elem* pChild)
 {
 	ChildCreateTree(*pChild);
-}
-
-void Elem::UpdateSizeAndTreePositions(Elem* pChild, const ResizePref& pref)
-{
-	pChild->UpdateSizeAndTreePositions(pref);
-}
-
-void Elem::SetPosition(Elem* pChild, const Float2& position)
-{
-	pChild->SetPosition(position);
-}
-
-void Elem::UpdateTreePositions(Elem* pChild, const Float2& position)
-{
-	pChild->UpdateTreePositions(position);
 }
 
 void Elem::AssertWithinMaxSize(const Float2& desired, const ResizePref& pref)

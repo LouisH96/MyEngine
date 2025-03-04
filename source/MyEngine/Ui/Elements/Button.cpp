@@ -45,7 +45,7 @@ void Button::OnClick()
 	m_Function(m_FunctionArg);
 }
 
-void Button::UpdateSizeAndTreePositions(const ResizePref& pref)
+void Button::TreeUpdate(const ResizePref& pref)
 {
 	const Float2 textSize{ UI_FONT.GetTextSize_XCenter(m_Text, m_FontSize) };
 	const Float2 insideSize{ textSize + MARGIN * 2 };
