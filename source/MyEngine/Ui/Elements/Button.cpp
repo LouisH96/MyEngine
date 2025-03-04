@@ -16,25 +16,28 @@ Button::Button(const std::string& text, Function function, FunctionArg functionA
 	, m_FontSize{ fontSize }
 	, m_Function{ function }
 	, m_FunctionArg{ functionArg }
+	, m_BgColor{ UiSystem::COLOR_DARK }
+	, m_BorderColor{ UiSystem::COLOR_MEDIUM }
+	, m_InteractColor{ UiSystem::COLOR_LIGHT }
 {
 }
 
 void Button::ToDefaultState()
 {
-	UI_RECT.SetColor(m_BorderId.GetId(), UiSystem::COLOR_MEDIUM);
-	UI_FONT.EditColor(m_TextId.GetId(), UiSystem::COLOR_MEDIUM);
+	UI_RECT.SetColor(m_BorderId.GetId(), m_BorderColor);
+	UI_FONT.EditColor(m_TextId.GetId(), m_BorderColor);
 }
 
 void Button::ToHoverState()
 {
-	UI_RECT.SetColor(m_BorderId.GetId(), UiSystem::COLOR_LIGHT);
-	UI_FONT.EditColor(m_TextId.GetId(), UiSystem::COLOR_LIGHT);
+	UI_RECT.SetColor(m_BorderId.GetId(), m_InteractColor);
+	UI_FONT.EditColor(m_TextId.GetId(), m_InteractColor);
 }
 
 void Button::ToPressedState()
 {
-	UI_RECT.SetColor(m_BorderId.GetId(), UiSystem::COLOR_MEDIUM);
-	UI_FONT.EditColor(m_TextId.GetId(), UiSystem::COLOR_LIGHT);
+	UI_RECT.SetColor(m_BorderId.GetId(), m_BorderColor);
+	UI_FONT.EditColor(m_TextId.GetId(), m_InteractColor);
 }
 
 void Button::OnClick()
@@ -72,14 +75,50 @@ void Button::Create()
 	const Float2 textSize{ UI_FONT.GetTextSize_XCenter(m_Text, m_FontSize) };
 	const Float2 textPos{ (GetSize() - textSize) / 2.f + GetPosition() };
 
-	m_BorderId = UI_RECT.Add({ GetPosition(), GetSize() }, UiSystem::COLOR_MEDIUM);
-	m_BackgroundId = UI_RECT.Add({ bgPos, bgSize }, UiSystem::COLOR_DARK);
-	m_TextId = UI_FONT.Add_XCenter({ m_Text, m_FontSize, UiSystem::COLOR_MEDIUM }, textPos);
+	m_BorderId = UI_RECT.Add({ GetPosition(), GetSize() }, m_BorderColor);
+	m_BackgroundId = UI_RECT.Add({ bgPos, bgSize }, m_BgColor);
+	m_TextId = UI_FONT.Add_XCenter({ m_Text, m_FontSize, m_BorderColor }, textPos);
 }
 
 const std::string Button::GetTypeName() const
 {
 	return "Button";
+}
+
+void Button::SetBgColor(const Float3& color)
+{
+	m_BgColor = color;
+	m_BackgroundId.SetColor(color);
+}
+
+void Button::SetBorderColor(const Float3& color)
+{
+	if (m_BorderId.IsActive() &&
+		m_BorderId.GetColor() == m_BorderColor)
+	{
+		m_BorderId.SetColor(color);
+	}
+	if (m_TextId.IsActive() &&
+		m_TextId.GetColor() == m_BorderColor)
+	{
+		m_TextId.SetColor(color);
+	}
+	m_BorderColor = color;
+}
+
+void Button::SetInteractColor(const Float3& color)
+{
+	if (m_BorderId.IsActive() &&
+		m_BorderId.GetColor() == m_InteractColor)
+	{
+		m_BorderId.SetColor(color);
+	}
+	if (m_TextId.IsActive() &&
+		m_TextId.GetColor() == m_InteractColor)
+	{
+		m_TextId.SetColor(color);
+	}
+	m_InteractColor = color;
 }
 
 #undef MY_DEBUG

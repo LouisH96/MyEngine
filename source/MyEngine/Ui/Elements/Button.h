@@ -22,6 +22,10 @@ public:
 
 	const std::string GetTypeName() const override;
 
+	void SetBgColor(const Float3& color);
+	void SetBorderColor(const Float3& color);
+	void SetInteractColor(const Float3& color);
+
 private:
 	void UpdateSizeAndTreePositions(const ResizePref& pref) override;
 	void Clear() override;
@@ -36,6 +40,9 @@ private:
 	FontId m_TextId{};
 	Function m_Function;
 	FunctionArg m_FunctionArg;
+	Float3 m_BorderColor;
+	Float3 m_BgColor;
+	Float3 m_InteractColor;
 };
 }
 }
