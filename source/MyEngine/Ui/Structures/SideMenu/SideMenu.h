@@ -28,6 +28,7 @@ private:
 	bool m_Dragging{ false };
 
 	SideMenuTab* m_pActiveTab;
+	SideMenuTab* m_pRequestedTab{};
 
 	void ActivateNewTab(SideMenuTab& newTab);
 };

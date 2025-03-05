@@ -91,6 +91,13 @@ void SideMenu::Update()
 
 	//update tab
 	SideMenuTab* pNewTab{ m_pPath->GetClickedTab() };
+
+	if (m_pRequestedTab)
+	{
+		pNewTab = m_pRequestedTab;
+		m_pRequestedTab = nullptr;
+	}
+
 	if (pNewTab && pNewTab != m_pActiveTab)
 	{
 		m_pPath->SetTab(*pNewTab);
@@ -110,8 +117,7 @@ void SideMenu::Deactivate()
 
 void SideMenu::SetTab(SideMenuTab& newTab)
 {
-	m_pPath->SetTab(newTab);
-	ActivateNewTab(newTab);
+	m_pRequestedTab = &newTab;
 }
 
 void SideMenu::RefreshTab()
