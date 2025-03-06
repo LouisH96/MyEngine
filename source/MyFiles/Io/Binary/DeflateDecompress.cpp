@@ -1,7 +1,7 @@
 #include "DeflateDecompress.h"
 
-#include <vector>
 #include <Io/Binary/Huffman.h>
+#include <vector>
 
 #include "BitStream.h"
 
@@ -24,7 +24,8 @@ DeflateDecompress::DeflateDecompress(std::istream& stream)
 	while (isEnd == 0)
 	{
 		isEnd = m_BitStream.ReadBits(1);
-		const uint8_t bType = m_BitStream.ReadBits(1) + (m_BitStream.ReadBits(1) << 1);
+		uint8_t bType{ m_BitStream.ReadBits(1) };
+		bType += m_BitStream.ReadBits(1) << 1;
 
 		switch (bType)
 		{
