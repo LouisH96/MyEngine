@@ -30,8 +30,7 @@ public:
 
 	float GetMaxTextHeight(float scale) const;
 	Float2 GetTextSize(const std::string& text, float scale);
-	Float2 GetTextSize_XCenter(const std::string& text, float scale);
-	Float2 GetTextSize_XCenter(const std::string& text, float scale, float& baseline);
+	Float2 GetTextSize(const std::string& text, float scale, float& baseline);
 
 	void EditColor(unsigned id, const Float3& newColor);
 	void EditText(unsigned id, const std::string& newText); //should be same amount of characters!

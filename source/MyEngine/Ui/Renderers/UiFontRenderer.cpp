@@ -108,16 +108,10 @@ float UiFontRenderer::GetMaxTextHeight(float scale) const
 Float2 UiFontRenderer::GetTextSize(const std::string& text, float scale)
 {
 	float baseline;
-	return m_Assembler.GetSize(text, scale, baseline);
-}
-
-Float2 UiFontRenderer::GetTextSize_XCenter(const std::string& text, float scale)
-{
-	float baseline;
 	return m_Assembler.GetSize_XCenter(text, scale, baseline);
 }
 
-Float2 UiFontRenderer::GetTextSize_XCenter(const std::string& text, float scale, float& baseline)
+Float2 UiFontRenderer::GetTextSize(const std::string& text, float scale, float& baseline)
 {
 	return m_Assembler.GetSize_XCenter(text, scale, baseline);
 }

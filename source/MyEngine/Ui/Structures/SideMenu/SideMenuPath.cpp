@@ -10,8 +10,8 @@ using namespace Ui;
 const Float2 SideMenuPath::BUTTON_MARGIN{ 7,4 };
 
 SideMenuPath::SideMenuPath()
-	: m_ArrowSize{ UI_FONT.GetTextSize_XCenter(">", FONT_SIZE) }
-	, m_PointsSize{ UI_FONT.GetTextSize_XCenter("...", FONT_SIZE) }
+	: m_ArrowSize{ UI_FONT.GetTextSize(">", FONT_SIZE) }
+	, m_PointsSize{ UI_FONT.GetTextSize("...", FONT_SIZE) }
 {
 }
 
@@ -46,7 +46,7 @@ void SideMenuPath::SetTab(SideMenuTab& tab)
 
 void SideMenuPath::AddButton(SideMenuTab& tab)
 {
-	const Float2 textSize{ UI_FONT.GetTextSize_XCenter(tab.GetTitle(), FONT_SIZE) };
+	const Float2 textSize{ UI_FONT.GetTextSize(tab.GetTitle(), FONT_SIZE) };
 
 	ButtonInfo button{};
 	button.Text = tab.GetTitle();
@@ -85,7 +85,7 @@ void SideMenuPath::Create()
 
 		const std::string& buttonText{ info.DisplayPoints ? "..." : info.Text };
 
-		const Float2 textSize{ UI_FONT.GetTextSize_XCenter(buttonText, FONT_SIZE) };
+		const Float2 textSize{ UI_FONT.GetTextSize(buttonText, FONT_SIZE) };
 		const Float2 buttonSize{ info.DisplayPoints
 			? Float2{ m_PointsSize.x + BUTTON_MARGIN.x * 2, info.Size.y}
 			: info.Size };
