@@ -6,6 +6,8 @@
 #include <Framework/Resources.h>
 #include <Rendering/Font/FontAtlas.h>
 
+#define MY_DEBUG
+
 using namespace Ui;
 using namespace Rendering;
 
@@ -67,37 +69,22 @@ void UiFontRenderer::Render()
 	m_Vertices.Draw(m_NrVertices);
 }
 
-unsigned UiFontRenderer::Add(const TextInfo& text, const Float2& position)
+unsigned UiFontRenderer::Add(const TextInfo& text)
 {
 	Entry* pEntry;
 	const unsigned id{ m_Entries.Validate(pEntry) };
+	pEntry->Pivot = text.Pivot;
 
-	m_Assembler.AssembleInto([&text](const Float2& pos, const Float2& uv)
-		{
-			return Vertex{ pos, text.Color, uv };
-		}, ListAdder<Vertex>{pEntry->Vertices}, (position - m_HalfScreenSize)* m_ScreenSpaceToNdc, { 0,0 }, text.Text, m_ScreenSpaceToNdc* text.Scale);
-
-	m_NrVertices += pEntry->Vertices.GetSize();
-	return id;
-}
-
-unsigned UiFontRenderer::Add(const TextInfo& text, const Float2& position, const Float2& pivot)
-{
-	Entry* pEntry;
-	const unsigned id{ m_Entries.Validate(pEntry) };
+	pEntry->NdcPosition = PositionToNdc(text.Position);
+	pEntry->NdcScale = SizeToNdc(text.Scale);
 
 	m_Assembler.AssembleInto_XCenter([&text](const Float2& pos, const Float2& uv)
 		{
 			return Vertex{ pos, text.Color, uv };
-		}, ListAdder<Vertex>{pEntry->Vertices}, (position - m_HalfScreenSize)* m_ScreenSpaceToNdc, pivot, text.Text, m_ScreenSpaceToNdc* text.Scale);
+		}, ListAdder<Vertex>{pEntry->Vertices}, pEntry->NdcPosition, pEntry->Pivot, text.Text, pEntry->NdcScale);
 
 	m_NrVertices += pEntry->Vertices.GetSize();
 	return id;
-}
-
-unsigned UiFontRenderer::Add_XCenter(const TextInfo& text, const Float2& position)
-{
-	return Add(text, position, { 0,0 });
 }
 
 void UiFontRenderer::Remove(unsigned id)
@@ -143,6 +130,24 @@ void UiFontRenderer::EditColor(unsigned id, const Float3& newColor)
 		entry.Vertices[i].col = newColor;
 }
 
+void UiFontRenderer::EditText(unsigned id, const std::string& newText)
+{
+	Entry& entry{ m_Entries.Get(id) };
+
+#ifdef MY_DEBUG
+	if (newText.size() * VERTICES_PER_CHAR != entry.Vertices.GetSize())
+		Logger::Warning("[UiFontRenderer::EditText] newText is different length");
+#endif
+
+	const Float3 color{ entry.Vertices.First().col };
+	entry.Vertices.Clear();
+
+	m_Assembler.AssembleInto_XCenter([&color](const Float2& pos, const Float2& uv)
+		{
+			return Vertex{ pos, color, uv };
+		}, ListAdder<Vertex>{entry.Vertices}, entry.NdcPosition, entry.Pivot, newText, entry.NdcScale);
+}
+
 const Float3& UiFontRenderer::GetColor(unsigned id) const
 {
 	return m_Entries.Get(id).Vertices.First().col;
@@ -166,3 +171,20 @@ Float2 UiFontRenderer::CalculateScreenSpaceToNdc(const Float2& screenSpace)
 {
 	return Float2{ 1.f / screenSpace.x, 1.f / screenSpace.y }*2.f;
 }
+
+Float2 UiFontRenderer::PositionToNdc(const Float2& position) const
+{
+	return (position - m_HalfScreenSize) * m_ScreenSpaceToNdc;
+}
+
+Float2 UiFontRenderer::SizeToNdc(const Float2& size) const
+{
+	return m_ScreenSpaceToNdc * size;
+}
+
+Float2 UiFontRenderer::SizeToNdc(float size) const
+{
+	return m_ScreenSpaceToNdc * size;
+}
+
+#undef MY_DEBUG

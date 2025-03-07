@@ -12,9 +12,11 @@ class UiFontRenderer
 public:
 	struct TextInfo
 	{
-		std::string Text;
-		float Scale;
-		Float3 Color;
+		Float3 Color{};
+		Float2 Position{};
+		Float2 Pivot{};
+		std::string Text{};
+		float Scale{ 1 };
 	};
 
 	UiFontRenderer(const Float2& screenSize);
@@ -22,11 +24,7 @@ public:
 	void OnCanvasResized(const App::ResizedEvent& event);
 	void Render();
 
-	unsigned Add(const TextInfo& text, const Float2& position);
-
-	//x-center mode by default
-	unsigned Add(const TextInfo& text, const Float2& position, const Float2& pivot);
-	unsigned Add_XCenter(const TextInfo& text, const Float2& position);
+	unsigned Add(const TextInfo& text);
 	void Remove(unsigned id);
 	void Clear();
 
@@ -36,6 +34,7 @@ public:
 	Float2 GetTextSize_XCenter(const std::string& text, float scale, float& baseline);
 
 	void EditColor(unsigned id, const Float3& newColor);
+	void EditText(unsigned id, const std::string& newText); //should be same amount of characters!
 
 	const Float3& GetColor(unsigned id) const;
 
@@ -44,6 +43,9 @@ private:
 	struct Entry
 	{
 		List<Vertex> Vertices;
+		Float2 NdcPosition;
+		Float2 Pivot;
+		Float2 NdcScale;
 
 		bool IsValid() const { return Vertices.Any(); }
 		void Invalidate() { Vertices.Clear(); }
@@ -72,6 +74,9 @@ private:
 
 	void Update();
 	void WriteVertices(Vertex* pTarget) const;
+	Float2 PositionToNdc(const Float2& position) const;
+	Float2 SizeToNdc(const Float2& size) const;
+	Float2 SizeToNdc(float size) const;
 	static Float2 CalculateScreenSpaceToNdc(const Float2& screenSpace);
 };
 }

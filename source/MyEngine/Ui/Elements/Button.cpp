@@ -75,9 +75,15 @@ void Button::Create()
 	const Float2 textSize{ UI_FONT.GetTextSize_XCenter(m_Text, m_FontSize) };
 	const Float2 textPos{ (GetSize() - textSize) / 2.f + GetPosition() };
 
+	UiFontRenderer::TextInfo text{};
+	text.Text = m_Text;
+	text.Scale = m_FontSize;
+	text.Color = m_BorderColor;
+	text.Position = textPos;
+
 	m_BorderId = UI_RECT.Add({ GetPosition(), GetSize() }, m_BorderColor);
 	m_BackgroundId = UI_RECT.Add({ bgPos, bgSize }, m_BgColor);
-	m_TextId = UI_FONT.Add_XCenter({ m_Text, m_FontSize, m_BorderColor }, textPos);
+	m_TextId = UI_FONT.Add(text);
 }
 
 const std::string Button::GetTypeName() const

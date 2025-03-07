@@ -38,7 +38,12 @@ void Label::Clear()
 
 void Label::Create()
 {
-	m_TextId = UI_FONT.Add_XCenter({ m_Text, m_FontSize, m_Color }, GetPosition());
+	UiFontRenderer::TextInfo text;
+	text.Text = m_Text;
+	text.Scale = m_FontSize;
+	text.Color = m_Color;
+	text.Position = GetPosition();
+	m_TextId = UI_FONT.Add(text);
 }
 
 #undef MY_DEBUG

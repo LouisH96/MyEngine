@@ -93,14 +93,23 @@ void SideMenuPath::Create()
 		const Float2 textPosition{ GetPosition() + info.Pos + (buttonSize - textSize) / 2 };
 		const Float2 buttonPos{ GetPosition() + info.Pos };
 
+		UiFontRenderer::TextInfo text{};
+		text.Text = buttonText;
+		text.Scale = FONT_SIZE;
+		text.Color = UiSystem::COLOR_MEDIUM;
+		text.Position = textPosition;
+
 		info.BackgroundId = UI_RECT.Add({ buttonPos, buttonSize }, UiSystem::COLOR_DARK);
-		info.TextId = UI_FONT.Add_XCenter({ buttonText, FONT_SIZE, UiSystem::COLOR_MEDIUM }, textPosition);
+		info.TextId = UI_FONT.Add(text);
 
 		if (i == 0)
 			continue;
 
 		const Float2 arrowPos{ buttonPos.x - m_ArrowSize.x - ARROW_MARGIN, buttonPos.y + (buttonSize.y - m_ArrowSize.y) / 2 };
-		info.ArrowId = UI_FONT.Add_XCenter({ ">", FONT_SIZE, UiSystem::COLOR_DARK }, arrowPos);
+		text.Text = ">";
+		text.Color = UiSystem::COLOR_DARK;
+		text.Position = arrowPos;
+		info.ArrowId = UI_FONT.Add(text);
 	}
 }
 
