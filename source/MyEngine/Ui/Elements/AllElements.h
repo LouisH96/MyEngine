@@ -5,6 +5,7 @@
 #include "Border.h"
 #include "Box.h"
 #include "Button.h"
+#include "DynamicLabel.h"
 #include "Extender.h"
 #include "Image.h"
 #include "IsClickedElem.h"
