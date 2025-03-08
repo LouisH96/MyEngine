@@ -173,6 +173,11 @@ float* TextAssembler::GetCharData(unsigned charIdx) const
 	return &m_pData[static_cast<size_t>(DATA_NR_PROPS) * charIdx];
 }
 
+float* TextAssembler::GetCharData(char character) const
+{
+	return GetCharData(CharToIdx(character));
+}
+
 float TextAssembler::GetHeightInHuvSpace(unsigned charIdx) const
 {
 	return m_pData[static_cast<size_t>(DATA_NR_PROPS) * charIdx + DATA_HEIGHTS_IDX];

@@ -65,6 +65,7 @@ namespace MyEngine
 		RectFloat GetUvRect(unsigned charIdx) const;
 
 		float* GetCharData(unsigned charIdx) const;
+		float* GetCharData(char character) const;
 		static unsigned CharToIdx(char character);
 	};
 
