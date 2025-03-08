@@ -6,6 +6,7 @@
 #include "Box.h"
 #include "Button.h"
 #include "DynamicLabel.h"
+#include "DynamicNumberLabel.h"
 #include "Extender.h"
 #include "Image.h"
 #include "IsClickedElem.h"

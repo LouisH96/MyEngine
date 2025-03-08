@@ -140,6 +140,7 @@
     <ClCompile Include="Ui\Elements\BgColorParent.cpp" />
     <ClCompile Include="Ui\Elements\SingleParent.cpp" />
     <ClCompile Include="Ui\Elements\DynamicLabel.cpp" />
+    <ClCompile Include="Ui\Elements\DynamicNumberLabel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -358,6 +359,7 @@
     <ClInclude Include="Ui\Elements\BgColorParent.h" />
     <ClInclude Include="Ui\Elements\SingleParent.h" />
     <ClInclude Include="Ui\Elements\DynamicLabel.h" />
+    <ClInclude Include="Ui\Elements\DynamicNumberLabel.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

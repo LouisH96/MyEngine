@@ -34,6 +34,7 @@
     <ClCompile Include="Applied\2D\Camera2DController.cpp" />
     <ClCompile Include="Ui\Elements\BgColorParent.cpp" />
     <ClCompile Include="Ui\Elements\DynamicLabel.cpp" />
+    <ClCompile Include="Ui\Elements\DynamicNumberLabel.cpp" />
     <ClCompile Include="Ui\Elements\IsClickedElem.cpp" />
     <ClCompile Include="Ui\Elements\MouseDownElem.cpp" />
     <ClCompile Include="Ui\Elements\SingleParent.cpp" />
@@ -209,6 +210,7 @@
     <ClInclude Include="Ui\Elements\AnchorParent.h" />
     <ClInclude Include="Ui\Elements\BgColorParent.h" />
     <ClInclude Include="Ui\Elements\DynamicLabel.h" />
+    <ClInclude Include="Ui\Elements\DynamicNumberLabel.h" />
     <ClInclude Include="Ui\Elements\IsClickedElem.h" />
     <ClInclude Include="Ui\Elements\SingleParent.h" />
     <ClInclude Include="Ui\Elements\ToggleBtnBase.h" />
