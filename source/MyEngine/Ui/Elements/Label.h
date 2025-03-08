@@ -15,8 +15,6 @@ public:
 
 	const std::string GetTypeName() const override { return "Label"; }
 
-	FontId m_TextId{};
-
 private:
 	void TreeUpdate(const ResizePref& pref) override;
 	void Clear() override;
@@ -25,7 +23,7 @@ private:
 	std::string m_Text;
 	Float3 m_Color;
 	float m_FontSize;
-
+	FontId m_TextId{};
 };
 }
 }
