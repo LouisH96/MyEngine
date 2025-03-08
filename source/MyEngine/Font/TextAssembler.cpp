@@ -132,8 +132,9 @@ Float2 TextAssembler::GetSize(const std::string& text, float& baseline) const
 	baseline = Float::MAX;
 	Float2 size{ 0, -Float::MAX }; //y = highest
 
-	for (const char character : text)
+	for (unsigned iChar{ 0 }; iChar < text.size(); ++iChar)
 	{
+		const char& character{ text[iChar] };
 		if (character == ' ')
 		{
 			size.x += m_SpaceWidthInWuvSpace;
@@ -148,7 +149,10 @@ Float2 TextAssembler::GetSize(const std::string& text, float& baseline) const
 		if (charTop > size.y) size.y = charTop;
 
 		pData += DATA_POSITIONS_IDX;
-		size.x += -*pData + *(pData + DATA_NR_PROPS) + pData[DATA_HOR_OFFSET_IDX]; // next char position - current position + horOffset
+		size.x += -*pData + *(pData + DATA_NR_PROPS); // next char position - current position
+
+		if (iChar != 0)
+			size.x += pData[DATA_HOR_OFFSET_IDX]; //horizontal padding before character
 	}
 
 	size.y -= baseline;

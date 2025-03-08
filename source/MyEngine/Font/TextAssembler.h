@@ -101,8 +101,10 @@ namespace MyEngine
 		RectFloat posRect{};
 		posRect.SetLeft(bounds.GetLeft());
 
-		for (const char character : text)
+
+		for (unsigned iChar{ 0 }; iChar < text.size(); ++iChar)
 		{
+			const char& character{ text[iChar] };
 			if (character == ' ')
 			{
 				posRect.SetLeft(posRect.GetLeft() + m_SpaceWidthInWuvSpace * m_WuvSpaceToXSpace * scale.x);
@@ -117,7 +119,9 @@ namespace MyEngine
 				uvRect.GetHeight() * m_HuvSpaceToXSpace * scale.y
 				});
 			posRect.SetBottom(baseline + GetVerOffsetInXSpace(charIdx) * scale.y);
-			posRect.SetLeft(posRect.GetLeft() + GetHorOffsetInXSpace(charIdx) * scale.x);
+
+			if(iChar != 0)
+				posRect.SetLeft(posRect.GetLeft() + GetHorOffsetInXSpace(charIdx) * scale.x);
 
 			adder.Add(
 				combinator(posRect.GetLeftBot(), uvRect.GetLeftBot()),
