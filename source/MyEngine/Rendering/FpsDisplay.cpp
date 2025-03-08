@@ -23,38 +23,15 @@ Rendering::FpsDisplay::FpsDisplay()
 	rootChild.pChild = pMargin;
 	UI_ROOT.AddChild(rootChild);
 
-	Extender* pExtender{ new Extender(SizeDef::Pixels(maxLabelSize)) };
-	pMargin->AddChild(pExtender);
-
-	m_pLabel = new DynamicLabel(std::string(NR_CHAR, '0'), Color::Yellow, FONT_SCALE);
+	m_pLabel = new DynamicNumberLabel(NR_CHAR, Color::Yellow, FONT_SCALE);
 	m_pLabel->SetPivot({ 1,0 });
-	pExtender->AddChild(m_pLabel);
+	pMargin->AddChild(m_pLabel);
 
-	SetText(m_Fps);
+	m_pLabel->SetNumber(0);
 }
 
 void Rendering::FpsDisplay::SetFps(unsigned fps)
 {
-	m_Fps = fps;
-	SetText(fps);
+	m_pLabel->SetNumber(fps);
 }
 
-void Rendering::FpsDisplay::SetText(unsigned fps)
-{
-	std::string& text{ m_pLabel->GetText() };
-
-	for (unsigned iChar{ 0 }; iChar < NR_CHAR; ++iChar)
-	{
-		char character;
-		if (fps == 0)
-			character = ' ';
-		else
-		{
-			const unsigned number{ fps % 10 };
-			fps /= 10;
-			character = static_cast<char>('0' + number);
-		}
-		text[NR_CHAR - 1 - iChar] = character;
-	}
-	m_pLabel->UpdateText();
-}
