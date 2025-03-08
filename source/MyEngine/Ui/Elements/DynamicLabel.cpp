@@ -4,17 +4,12 @@
 using namespace Ui;
 
 //#define MY_DEBUG
-
-DynamicLabel::DynamicLabel(const std::string& text, float fontSize)
-	: DynamicLabel{ text, UiSystem::COLOR_MEDIUM, fontSize }
-{
-}
-
-DynamicLabel::DynamicLabel(const std::string& text, const Float3& color, float fontSize)
+DynamicLabel::DynamicLabel(const std::string& text, const Float2& size, const Float3& color, float fontSize)
 	: m_Text{ text }
 	, m_Color{ color }
 	, m_FontSize{ fontSize }
 {
+	SetSize(size);
 }
 
 void DynamicLabel::UpdateText()
@@ -34,7 +29,6 @@ void DynamicLabel::SetColor(const Float3& color)
 
 void DynamicLabel::TreeUpdate(const ResizePref& pref)
 {
-	SetSize(pref.maxSize);
 }
 
 void DynamicLabel::Clear()
