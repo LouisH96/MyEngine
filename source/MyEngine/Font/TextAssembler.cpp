@@ -85,6 +85,37 @@ float TextAssembler::GetMaxTextHeight(float scale) const
 	return m_MaxTextHeight * scale;
 }
 
+TextAssembler::MaxCharBounds TextAssembler::GetMaxNumberBounds(float scale) const
+{
+	MaxCharBounds info{};
+
+	for (char number{ '0' }; number <= '9'; ++number)
+	{
+		const float* pData{ GetCharData(CharToIdx(number)) };
+
+		const float charBottom{ pData[DATA_VER_OFFSET_IDX] };
+		const float charTop{ charBottom + pData[DATA_HEIGHTS_IDX] };
+		const float charWidth{ pData[DATA_POSITIONS_IDX + DATA_NR_PROPS] - pData[DATA_POSITIONS_IDX] };
+		const float charHorOffset{ pData[DATA_HOR_OFFSET_IDX] };
+		const float charWidthPlusOffset{ charWidth + charHorOffset };
+
+		info.Lowest = Float::Min(info.Lowest, charBottom);
+		info.Highest = Float::Max(info.Highest, charTop);
+		info.MaxSize.x = Float::Max(info.MaxSize.x, charWidth);
+		info.MaxHorOffset = Float::Max(info.MaxHorOffset, charHorOffset);
+		info.MaxWidthPlusHorOffset = Float::Max(info.MaxWidthPlusHorOffset, charWidthPlusOffset);
+	}
+
+	info.Lowest *= m_HuvSpaceToXSpace * scale;
+	info.Highest *= m_HuvSpaceToXSpace * scale;
+	info.MaxSize.y = info.Highest - info.Lowest;
+
+	info.MaxSize.x *= m_WuvSpaceToXSpace * scale;
+	info.MaxHorOffset *= m_WuvSpaceToXSpace * scale;
+	info.MaxWidthPlusHorOffset *= m_WuvSpaceToXSpace * scale;
+	return info;
+}
+
 Float2 TextAssembler::GetSize(const std::string& text, float scale, float& baseline) const
 {
 	const Float2 size{ GetSize(text, baseline) * scale };
@@ -216,4 +247,12 @@ float TextAssembler::GetWidthInXSpace(unsigned charIdx) const
 unsigned TextAssembler::CharToIdx(char character)
 {
 	return static_cast<unsigned>(character);
+}
+
+Float2 TextAssembler::MaxCharBounds::GetMaxTextBounds(unsigned nrChar) const
+{
+	return Float2{
+		MaxSize.x + MaxWidthPlusHorOffset * (nrChar - 1),
+		MaxSize.y
+	};
 }

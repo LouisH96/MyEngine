@@ -15,6 +15,17 @@ namespace MyEngine
 	class TextAssembler
 	{
 	public:
+		struct MaxCharBounds {
+			Float2 MaxSize{ -Float::MAX, -Float::MAX };
+			float Lowest{ Float::MAX };
+			float Highest{ -Float::MAX };
+			float MaxHorOffset{ -Float::MAX };
+			float MaxWidthPlusHorOffset{ -Float::MAX };
+
+			Float2 GetMaxTextBounds(unsigned nrChar) const;
+		};
+
+	public:
 		TextAssembler() = default;
 		explicit TextAssembler(Rendering::Font::FontAtlas&& fontAtlas);
 		~TextAssembler();
@@ -25,6 +36,7 @@ namespace MyEngine
 		TextAssembler& operator=(TextAssembler&& other) noexcept;
 
 		float GetMaxTextHeight(float scale) const;
+		MaxCharBounds GetMaxNumberBounds(float scale) const;
 		Float2 GetSize(const std::string& text, float scale, float& baseline) const;
 		Float2 GetSize(const std::string& text, const Float2& scale, float& baseline) const;
 		Float2 GetSize_XCenter(const std::string& text, float scale, float& baseline) const; //gets the size of the text with margins so that the x is centered between the ascending & descending characters
