@@ -11,6 +11,11 @@ char Convert::ToChar(unsigned oneNumber)
 	return static_cast<char>('0' + oneNumber);
 }
 
+std::string Convert::ToString(const std::string& string)
+{
+	return string;
+}
+
 std::string Convert::ToString(const std::wstring& wString)
 {
 	//https://learn.microsoft.com/en-us/cpp/c-runtime-library/reference/wcstombs-s-wcstombs-s-l?view=msvc-170

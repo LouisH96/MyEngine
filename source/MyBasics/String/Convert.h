@@ -13,6 +13,7 @@ namespace MyEngine
 	public:
 		static char ToChar(unsigned oneNumber);
 
+		static std::string ToString(const std::string& string);
 		static std::string ToString(const std::wstring& wString);
 		static std::string ToString(char c);
 		static std::string ToString(const Quaternion& quat);
