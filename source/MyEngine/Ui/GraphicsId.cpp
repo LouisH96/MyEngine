@@ -46,3 +46,11 @@ Float3 FontId::GetColor() const
 
 	return GetRenderer().GetColor(m_Id);
 }
+
+void FontId::SetText(const std::string& newText)
+{
+	if (IsEmpty())
+		return;
+
+	GetRenderer().EditText(m_Id, newText);
+}

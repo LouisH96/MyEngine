@@ -136,6 +136,8 @@ public:
 
 	void SetColor(const Float3& newColor);
 	Float3 GetColor() const;
+
+	void SetText(const std::string& newText);
 };
 
 }
