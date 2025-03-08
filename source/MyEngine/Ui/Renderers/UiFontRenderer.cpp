@@ -18,6 +18,7 @@ UiFontRenderer::UiFontRenderer(const Float2& screenSize)
 	, m_NrVertices{}
 	, m_ScreenSpaceToNdc{ CalculateScreenSpaceToNdc(screenSize) }
 	, m_HalfScreenSize{ screenSize / 2.f }
+	, m_Vertices{ 16 }
 {
 	Font::FontAtlas fontAtlas{ 64, Resources::Global(LR"(Fonts/Cascadia.ttf)") };
 	m_FontAtlas = Texture{ fontAtlas.GetImage() };
@@ -73,10 +74,11 @@ unsigned UiFontRenderer::Add(const TextInfo& text)
 {
 	Entry* pEntry;
 	const unsigned id{ m_Entries.Validate(pEntry) };
+	pEntry->Vertices.Clear();
 	pEntry->Pivot = text.Pivot;
-
 	pEntry->NdcPosition = PositionToNdc(text.Position);
 	pEntry->NdcScale = SizeToNdc(text.Scale);
+	pEntry->Color = text.Color;
 
 	m_Assembler.AssembleInto_XCenter([&text](const Float2& pos, const Float2& uv)
 		{
@@ -119,6 +121,7 @@ Float2 UiFontRenderer::GetTextSize(const std::string& text, float scale, float& 
 void UiFontRenderer::EditColor(unsigned id, const Float3& newColor)
 {
 	Entry& entry{ m_Entries.Get(id) };
+	entry.Color = newColor;
 
 	for (unsigned i = 0; i < entry.Vertices.GetSize(); i++)
 		entry.Vertices[i].col = newColor;
@@ -127,19 +130,16 @@ void UiFontRenderer::EditColor(unsigned id, const Float3& newColor)
 void UiFontRenderer::EditText(unsigned id, const std::string& newText)
 {
 	Entry& entry{ m_Entries.Get(id) };
+	m_NrVertices -= entry.Vertices.GetSize();
 
-#ifdef MY_DEBUG
-	if (newText.size() * VERTICES_PER_CHAR != entry.Vertices.GetSize())
-		Logger::Warning("[UiFontRenderer::EditText] newText is different length");
-#endif
-
-	const Float3 color{ entry.Vertices.First().col };
 	entry.Vertices.Clear();
 
-	m_Assembler.AssembleInto_XCenter([&color](const Float2& pos, const Float2& uv)
+	m_Assembler.AssembleInto_XCenter([&entry](const Float2& pos, const Float2& uv)
 		{
-			return Vertex{ pos, color, uv };
+			return Vertex{ pos, entry.Color, uv };
 		}, ListAdder<Vertex>{entry.Vertices}, entry.NdcPosition, entry.Pivot, newText, entry.NdcScale);
+
+	m_NrVertices += entry.Vertices.GetSize();
 }
 
 const Float3& UiFontRenderer::GetColor(unsigned id) const
