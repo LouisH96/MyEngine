@@ -2,38 +2,59 @@
 #include "FpsDisplay.h"
 
 #include <Io/Ttf/TtfReader.h>
+#include <Ui\Elements\Extender.h>
+#include <Ui\Elements\Margin.h>
+#include <Ui\Elements\Box.h>
 
 using namespace MyEngine;
 
 Rendering::FpsDisplay::FpsDisplay()
 {
-	SetText();
+	const TextAssembler& assembler{ UI_FONT.GetTextAssembler() };
+
+	const TextAssembler::MaxCharBounds maxNumber{ assembler.GetMaxNumberBounds(FONT_SCALE) };
+	const Float2 maxLabelSize{ maxNumber.GetMaxTextBounds(NR_CHAR) };
+
+	AnchorChild rootChild{};
+	rootChild.SetFillMin();
+	rootChild.SetAnchors({ 1,0 });
+
+	Margin* pMargin{ new Margin(5.f) };
+	rootChild.pChild = pMargin;
+	UI_ROOT.AddChild(rootChild);
+
+	Extender* pExtender{ new Extender(SizeDef::Pixels(maxLabelSize)) };
+	pMargin->AddChild(pExtender);
+
+	m_pLabel = new DynamicLabel(std::string(NR_CHAR, '0'), Color::Yellow, FONT_SCALE);
+	m_pLabel->SetPivot({ 1,0 });
+	pExtender->AddChild(m_pLabel);
+
+	SetText(m_Fps);
 }
 
-void Rendering::FpsDisplay::Render()
+void Rendering::FpsDisplay::SetFps(unsigned fps)
 {
-	//todo
-	//Globals::pFontRenderer->Remove(m_TextId);
-	SetText();
+	m_Fps = fps;
+	SetText(fps);
 }
 
-void Rendering::FpsDisplay::SetText()
+void Rendering::FpsDisplay::SetText(unsigned fps)
 {
-	constexpr unsigned nrNumbers{ 4 };
-	char chars[nrNumbers + 1];
-	chars[nrNumbers - 1] = '0';
-	chars[nrNumbers] = '\0';
-	unsigned first{ 3 };
+	std::string& text{ m_pLabel->GetText() };
 
-	float fps{ static_cast<float>(m_Fps) };
-	for (unsigned i = 0; i < nrNumbers; i++)
+	for (unsigned iChar{ 0 }; iChar < NR_CHAR; ++iChar)
 	{
-		const int current{ static_cast<int>(fps / 1000) };
-		if (current > 0 && i < first)
-			first = i;
-		chars[i] = static_cast<char>('0' + current);
-		fps -= static_cast<float>(current * 1000);
-		fps *= 10;
+		char character;
+		if (fps == 0)
+			character = ' ';
+		else
+		{
+			const unsigned number{ fps % 10 };
+			fps /= 10;
+			character = static_cast<char>('0' + number);
+		}
+		text[NR_CHAR - 1 - iChar] = character;
 	}
-	//m_TextId = Globals::pFontRenderer->AddRightBot({ &chars[first] }, 9, { -5, 5 }, { 1,1,0 }, 1);
+	m_pLabel->UpdateText();
 }

@@ -1,22 +1,26 @@
 #pragma once
 
+#include <Ui\Elements\DynamicLabel.h>
+
 namespace MyEngine
 {
-	namespace Rendering
-	{
-		class FpsDisplay
-		{
-		public:
-			FpsDisplay();
-			
-			void Render();
-			void SetFps(int fps) { m_Fps = fps; }
+namespace Rendering
+{
+class FpsDisplay
+{
+public:
+	FpsDisplay();
 
-		private:
-			int m_Fps{};
-			int m_TextId{};
+	void SetFps(unsigned fps);
 
-			void SetText();
-		};
-	}
+private:
+	static constexpr unsigned NR_CHAR{ 3 };
+	static constexpr float FONT_SCALE{ 8 };
+
+	unsigned m_Fps{};
+	DynamicLabel* m_pLabel{};
+
+	void SetText(unsigned fps);
+};
+}
 }

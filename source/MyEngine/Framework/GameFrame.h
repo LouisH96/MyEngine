@@ -91,7 +91,6 @@ void GameFrame::Run(const std::wstring& windowName, App::Win32::Window::Options 
 		canvas.ClearDepthBuffer();
 		pApp->RenderUi();
 		Globals::pUi->Render();
-		fpsDisplay.Render();
 		canvas.Present();
 	}
 
