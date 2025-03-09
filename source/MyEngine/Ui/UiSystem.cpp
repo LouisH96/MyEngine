@@ -190,8 +190,6 @@ void UiSystem::OnCurrentElemMouseDown()
 
 void UiSystem::RecreateTree()
 {
-	Logger::Print("RecreateTree");
-
 	if (m_ShowDebugBorder && m_pCurrentElem)
 		ClearDebugBorder();
 
