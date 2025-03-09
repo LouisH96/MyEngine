@@ -19,13 +19,16 @@ class DynamicNumberLabel
 public:
 	DynamicNumberLabel(unsigned maxLength, const Float3& color, float fontSize = 18);
 
+	const std::string GetTypeName() const override { return "DynamicNumberLabel"; }
+
 	void SetNumber(unsigned number);
 
 private:
 	using DynamicLabel::UpdateText;
 	using DynamicLabel::GetText;
+	unsigned m_MaxUnits; //max nr of numbers (123 => 3)
 
-	static void ToString(unsigned number, std::string& str);
+	void ToString(unsigned number, std::string& str);
 };
 }
 }

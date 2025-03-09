@@ -8,9 +8,10 @@ DynamicNumberLabel::DynamicNumberLabel(unsigned maxLength, const Float3& color, 
 		std::string(maxLength, '0'),
 		UI_FONT.GetTextAssembler().GetMaxNumberBounds(fontSize).GetMaxTextBounds(maxLength),
 		color,
-		fontSize }
+		fontSize
+	}
+	, m_MaxUnits{ maxLength }
 {
-	SetPivot({ 1,0 });
 }
 
 void DynamicNumberLabel::SetNumber(unsigned number)
@@ -21,22 +22,22 @@ void DynamicNumberLabel::SetNumber(unsigned number)
 
 void DynamicNumberLabel::ToString(unsigned number, std::string& str)
 {
-	/*
-		todo: the spaces should be removed.The string should just be shorter.
-			Did it like this because the plan was to only change the existing
-			vertices. But that's not necessary in the current implementation.
-	*/
-	for (unsigned iChar{ 0 }; iChar < str.size(); ++iChar)
+	str.resize(m_MaxUnits);
+	for (unsigned iNumber{ 0 }; iNumber < m_MaxUnits; ++iNumber)
 	{
-		char character;
-		if (number == 0 && iChar != 0)
-			character = ' ';
-		else
+		if (number == 0 && iNumber != 0)
 		{
-			const unsigned unitValue{ number % 10 };
-			number /= 10;
-			character = static_cast<char>('0' + unitValue);
+			const unsigned shift{ m_MaxUnits - iNumber };
+
+			memcpy(&str[0], &str[shift], iNumber);
+			str.resize(iNumber);
+			break;
 		}
-		str[str.size() - 1 - iChar] = character;
+
+		const unsigned unitValue{ number % 10 };
+		number /= 10;
+
+		const char character{ static_cast<char>('0' + unitValue) };
+		str[m_MaxUnits - 1 - iNumber] = character;
 	}
 }
