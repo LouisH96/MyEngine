@@ -24,10 +24,11 @@ void DynamicLabel::SetPivot(const Float2& pivot)
 
 void DynamicLabel::SetColor(const Float3& color)
 {
+	m_Color = color;
 	m_TextId.SetColor(m_Color);
 }
 
-void DynamicLabel::TreeUpdate(const ResizePref& pref)
+void DynamicLabel::TreeUpdate(const ResizePref&)
 {
 }
 
