@@ -74,7 +74,7 @@ void ListPanel::TreeUpdate(const ResizePref& pref)
 				ChildUpdateSizeAndTreePositions(iExtend, childPref);
 
 				Float2 pos{ m_FlowDir * m_FlowDir.Dot(child.GetPosition()) };
-				pos -= m_FillDir.Abs() * lineFillSize * .5f;
+				pos -= m_FillDir.Abs() * m_FillDir.Dot(child.GetSize()) * .5f;
 				ChildSetPosition(iExtend, pos);
 			}
 		}
