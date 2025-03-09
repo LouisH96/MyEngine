@@ -35,7 +35,7 @@ void Border::TreeUpdate(const ResizePref& pref)
 	Float2 childBounds{};
 	for (unsigned i = 0; i < GetNrChildren(); i++)
 	{
-		ChildUpdateSizeAndTreePositions(i, childPref);
+		ChildTreeUpdate(i, childPref);
 		ChildSetPosition(i, Float2{ BORDER_THICKNESS * 2 });
 
 		childBounds.x = Float::Max(childBounds.x, GetChild(i).GetWidth());

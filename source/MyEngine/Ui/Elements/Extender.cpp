@@ -51,7 +51,7 @@ void Extender::TreeUpdate(const ResizePref& pref)
 	Float2 childBounds{};
 	for (unsigned i = 0; i < GetNrChildren(); i++)
 	{
-		ChildUpdateSizeAndTreePositions(i, childPref);
+		ChildTreeUpdate(i, childPref);
 
 		const Float2& childSize{ GetChild(i).GetSize() };
 		childBounds.x = Float::Max(childBounds.x, childSize.x);
@@ -81,7 +81,7 @@ void Extender::TreeUpdate(const ResizePref& pref)
 	childPref.maxSize = GetSize();
 	childPref.SetMax();
 	for (unsigned i{ 0 }; i < GetNrChildren(); ++i)
-		ChildUpdateSizeAndTreePositions(i, childPref);
+		ChildTreeUpdate(i, childPref);
 }
 
 void Extender::SetSizeDef(const Float2& value)

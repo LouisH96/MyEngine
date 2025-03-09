@@ -21,7 +21,7 @@ void RelativeParent::TreeUpdate(const ResizePref& pref)
 		const RelativeChild& child{ GetChildData(i) };
 
 		resizePref.maxSize = GetSize() * Float2 { child.MaxWidthRatio, child.MaxHeightRatio };
-		ChildUpdateSizeAndTreePositions(i, resizePref);
+		ChildTreeUpdate(i, resizePref);
 
 		Float2 childPos{ (GetSize() - child.pChild->GetSize()) / 2.f };
 		ChildSetPosition(i, childPos);

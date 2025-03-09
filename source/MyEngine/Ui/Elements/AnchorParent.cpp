@@ -50,7 +50,7 @@ void AnchorParent::TreeUpdate(const ResizePref& pref)
 			(1 - child.ParentAnchor.y) /
 			(1 - child.ChildAnchor.y);
 
-		ChildUpdateSizeAndTreePositions(iChild, childPref);
+		ChildTreeUpdate(iChild, childPref);
 
 		//Update my size
 			const Float2& childSize{ GetChild(iChild).GetSize() };

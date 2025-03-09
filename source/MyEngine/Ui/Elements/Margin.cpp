@@ -19,7 +19,7 @@ void Margin::TreeUpdate(const ResizePref& pref)
 	Float2 childBounds{};
 	for (unsigned i = 0; i < GetNrChildren(); i++)
 	{
-		ChildUpdateSizeAndTreePositions(i, childPref);
+		ChildTreeUpdate(i, childPref);
 		ChildSetPosition(i, Float2{ m_Margin });
 
 		childBounds.x = Float::Max(childBounds.x, GetChild(i).GetWidth());

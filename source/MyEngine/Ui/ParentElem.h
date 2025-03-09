@@ -35,7 +35,7 @@ protected:
 	unsigned m_NrVisibleChilds{ 0 };
 
 	void ChildSetPosition(unsigned iChild, const Float2& position);
-	void ChildUpdateSizeAndTreePositions(unsigned iChild, const ResizePref& pref);
+	void ChildTreeUpdate(unsigned iChild, const ResizePref& pref);
 
 	ChildData& GetChildData(unsigned i) { return m_Children[i]; }
 	Elem& GetChild(unsigned i) { return *m_Children[i].pChild; }
@@ -190,7 +190,7 @@ inline void ParentElem<ChildData>::ChildSetPosition(unsigned iChild, const Float
 }
 
 template<typename ChildData>
-inline void ParentElem<ChildData>::ChildUpdateSizeAndTreePositions(unsigned iChild, const ResizePref& pref)
+inline void ParentElem<ChildData>::ChildTreeUpdate(unsigned iChild, const ResizePref& pref)
 {
 	m_Children[iChild].pChild->TreeUpdate(pref);
 }

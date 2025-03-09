@@ -30,7 +30,7 @@ void ListElem::TreeUpdate(const ResizePref& pref)
 	for (unsigned i = 0; i < GetNrChildren(); i++)
 	{
 		Elem& child{ GetChild(i) };
-		ChildUpdateSizeAndTreePositions(i, childPref);
+		ChildTreeUpdate(i, childPref);
 
 		const float childWidth{ child.GetWidth() };
 #ifdef MY_DEBUG
@@ -75,7 +75,7 @@ void ListElem::TreeUpdate(const ResizePref& pref)
 		for (unsigned i = 0; i < GetNrChildren(); i++)
 		{
 			Elem& child{ GetChild(i) };
-			ChildUpdateSizeAndTreePositions(i, childPref);
+			ChildTreeUpdate(i, childPref);
 
 			childPos.x = (GetWidth() - child.GetWidth()) / 2;
 			childPos.y -= child.GetHeight();
