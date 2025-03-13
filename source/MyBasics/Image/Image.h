@@ -7,6 +7,9 @@ namespace MyEngine
 {
 	namespace Rendering
 	{
+	/*
+		Row0 is top of image.
+	*/
 		class Image
 		{
 		public:
