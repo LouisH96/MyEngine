@@ -177,8 +177,7 @@ Array<Array<TtfPoint>> GlyfTable::GetSimpleGlyphContour(Bin::BigBinReader& reade
 			prevX = points[i].position.x;
 			points[i].isOnCurve = flag.onCurve;
 		}
-		points[points.GetSize() - 1].position.x = points[0].position.x;
-		points[points.GetSize() - 1].isOnCurve = true;
+		points.Last() = points.First();
 	}
 
 	//yCoord
@@ -203,8 +202,21 @@ Array<Array<TtfPoint>> GlyfTable::GetSimpleGlyphContour(Bin::BigBinReader& reade
 			}
 			prevY = points[i].position.y;
 		}
-		points[points.GetSize() - 1].position.y = points[0].position.y;
+		points.Last().position.y = points.First().position.y;
 	}
+
+	//Fix contours beginning with control point
+	for (unsigned iContour{ 0 }; iContour < contours.GetSize(); ++iContour)
+	{
+		Array<TtfPoint>& points{ contours[iContour] };
+
+		if (points.First().isOnCurve)
+			continue;
+
+		std::copy_backward(&points[0], &points[points.GetSize() - 1], &points[points.GetSize()]);
+		points.First() = points.Last();
+	}
+
 	return contours;
 }
 
