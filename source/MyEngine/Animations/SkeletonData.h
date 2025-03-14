@@ -21,7 +21,7 @@ public:
 		Float4X4 BindTransform;
 	};
 
-	SkeletonData() = default;
+	SkeletonData();
 	SkeletonData(const Io::Fbx::FbxSkeleton& skeleton);
 
 	const unsigned* GetChildrenIt(const unsigned*& pFirst, unsigned iJoint) const;

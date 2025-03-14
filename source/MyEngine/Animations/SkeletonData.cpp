@@ -2,14 +2,31 @@
 #include "SkeletonData.h"
 
 #include <Io\Fbx\FbxSkeleton.h>
+#include <Transform\WorldMatrix.h>
 
 using namespace MyEngine::Animations;
 using namespace Io::Fbx;
 
+SkeletonData::SkeletonData()
+	: m_BoneRelations{ 2 }
+	, m_JointData{ 1 }
+{
+	m_BoneRelations[0] = 0;
+	m_BoneRelations[1] = 0;
+	m_JointData[0].BindTransform = WorldMatrix::GetIdentity();
+}
+
 SkeletonData::SkeletonData(const FbxSkeleton& skeleton)
 {
-	CreateMemory(skeleton);
-	FillMemory(skeleton);
+	if (skeleton.GetNrJoints() == 0)
+	{
+		*this = SkeletonData{};
+	}
+	else
+	{
+		CreateMemory(skeleton);
+		FillMemory(skeleton);
+	}
 }
 
 const unsigned* SkeletonData::GetChildrenIt(const unsigned*& pFirst, unsigned iJoint) const
@@ -30,7 +47,7 @@ unsigned SkeletonData::FindParent(unsigned iJoint) const
 		{
 			const unsigned index{ static_cast<unsigned>(pChildrenIt - m_BoneRelations.GetData()) };
 
-			const unsigned* const pLookupBegin{ &m_BoneRelations[0]};
+			const unsigned* const pLookupBegin{ &m_BoneRelations[0] };
 			const unsigned* const pLookupEnd{ pChildrenBegin };
 
 			const unsigned* pLookupIt{ pLookupBegin };

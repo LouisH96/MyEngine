@@ -9,7 +9,7 @@ namespace Animations
 class JointsTimeValues
 {
 public:
-	JointsTimeValues() = default;
+	JointsTimeValues();
 	JointsTimeValues(
 		const List<Io::Fbx::FbxJoint>& joints,
 		const Io::Fbx::FbxAnimation& animation,

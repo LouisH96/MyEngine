@@ -6,6 +6,27 @@
 using namespace MyEngine::Animations;
 using namespace Io::Fbx;
 
+JointsTimeValues::JointsTimeValues()
+	: m_Lookup{ 4 }
+	, m_Data{ (SIZE_PROPERTY_POSITION +
+			SIZE_PROPERTY_ROTATION +
+			SIZE_PROPERTY_SCALE) * 2 }
+{
+	float* const pDataBegin{ m_Data.GetData() };
+	float* pData{ pDataBegin };
+
+	m_Lookup[0] = 0;
+	AddIdentityProperty<0>(pData);
+
+	m_Lookup[1] = static_cast<unsigned>(pData - pDataBegin);
+	AddIdentityProperty<1>(pData);
+
+	m_Lookup[2] = static_cast<unsigned>(pData - pDataBegin);
+	AddIdentityProperty<2>(pData);
+
+	m_Lookup[3] = static_cast<unsigned>(pData - pDataBegin);
+}
+
 JointsTimeValues::JointsTimeValues(
 	const List<FbxJoint>& joints,
 	const Io::Fbx::FbxAnimation& animation,
@@ -21,8 +42,15 @@ JointsTimeValues::JointsTimeValues(
 	const Io::Fbx::FbxAnimationLayer& animLayer,
 	uint64_t start, uint64_t end)
 {
-	FillLookup(joints, animLayer, start, end);
-	FillData(joints, animLayer, start, end);
+	if (joints.GetSize() == 0)
+	{
+		*this = JointsTimeValues{};
+	}
+	else
+	{
+		FillLookup(joints, animLayer, start, end);
+		FillData(joints, animLayer, start, end);
+	}
 }
 
 Float3 JointsTimeValues::GetPosition(unsigned iJoint, float time) const

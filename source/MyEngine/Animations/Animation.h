@@ -11,7 +11,7 @@ namespace Animations
 class Animation
 {
 public:
-	Animation() = default;
+	Animation();
 	Animation(const Io::Fbx::FbxClass& fbx, const Io::Fbx::FbxAnimation& animation);
 	Animation(const Io::Fbx::FbxClass& fbx, const Io::Fbx::FbxAnimation& animation, uint64_t start, uint64_t end);
 

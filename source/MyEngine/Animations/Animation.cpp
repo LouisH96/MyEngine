@@ -6,6 +6,13 @@
 using namespace MyEngine::Animations;
 using namespace Io::Fbx;
 
+Animation::Animation()
+	: m_TimeValues{}
+	, m_Skeleton{}
+	, m_Duration{ 1.f }
+{
+}
+
 Animation::Animation(const FbxClass& fbx, const FbxAnimation& animation)
 	: Animation{ fbx, animation, animation.GetLocalStart(), animation.GetLocalStop() }
 {
