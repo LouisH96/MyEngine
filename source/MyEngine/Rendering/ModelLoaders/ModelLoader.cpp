@@ -1,16 +1,15 @@
 #include "pch.h"
 #include "ModelLoader.h"
 
-#include "Io/Fbx/FbxClass.h"
-#include "Io/Fbx/Wrapping/Geometry.h"
+#include <Io\Fbx\FbxClass.h>
+#include <Io\Fbx\Wrapping\Geometry.h>
 
 using namespace Rendering;
+using namespace Io::Fbx;
 
 void ModelLoader::Load(const std::wstring& path, float scale,
 	Buffer<V_PosColNorm>& vertices, const Float3& color)
 {
-	using namespace Io::Fbx;
-
 	//load
 	FbxClass fbx{ path, scale };
 
@@ -36,4 +35,25 @@ void ModelLoader::Load(const std::wstring& path, float scale,
 		}
 	}
 	vertices = Buffer<V_PosColNorm>{ {tempVertices}, false };
+}
+
+void ModelLoader::Load(const std::wstring& path, float scale,
+	MeshData<V_PosNorUv, ModelTopology::TriangleList>& vertices)
+{
+	FbxClass fbx{ path, scale };
+
+	for (unsigned iGeom{ 0 }; iGeom < fbx.GetGeometries().GetSize(); ++iGeom)
+	{
+		vertices.StartShape();
+		FbxClass::Geometry& geometry{ fbx.GetGeometry(iGeom) };
+
+		for (unsigned iPoint{ 0 }; iPoint < geometry.Points.GetSize(); ++iPoint)
+		{
+			V_PosNorUv vertex{};
+			vertex.Pos = geometry.Points[iPoint];
+			vertex.Normal = geometry.Normals[iPoint];
+			vertex.Uv = geometry.Uvs[iPoint];
+			vertices.Vertices.Add(vertex);
+		}
+	}
 }
