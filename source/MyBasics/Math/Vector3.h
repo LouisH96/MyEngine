@@ -46,7 +46,7 @@ struct Vector3
 	Vector2<T> Xz() const;
 	void AddXz(const Vector2<T>& xz);
 
-	void Reverse();
+	void Reverse(); // -value
 	void Scale(const Vector3& r);
 	Vector3 Scaled(const Vector3& scale) const;
 	void Divide(const Vector3& r);
@@ -58,6 +58,7 @@ struct Vector3
 	void Normalize(float& length);
 	Vector3 Normalized(float& length) const;
 	Vector3 NormalizedSafe() const;
+	Vector3 Inversed() const; // 1/value
 
 	Vector3 Cross(const Vector3& other) const;
 	float Dot(const Vector3& other) const;
@@ -254,6 +255,12 @@ Vector3<T> Vector3<T>::NormalizedSafe() const
 	const float lengthSq{ LengthSq() };
 	if (lengthSq == 0) return *this;
 	return *this / sqrtf(lengthSq);
+}
+
+template<typename T>
+Vector3<T> Vector3<T>::Inversed() const
+{
+	return { static_cast<T>(1) / x, static_cast<T>(1) / y, static_cast<T>(1) / z };
 }
 
 template <typename T>
