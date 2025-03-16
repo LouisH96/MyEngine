@@ -40,6 +40,7 @@ public:
 	void Add(const List& list);
 	void Add(const Array<T>& arr);
 	void AddMultipleTimes(const T& value, unsigned count);
+	T& AddEmpty();
 	void Insert(int idx, const T& value);
 	void InsertEmpty(int idx, int amount);
 
@@ -255,6 +256,13 @@ void List<T>::AddMultipleTimes(const T& value, unsigned count)
 
 	for (unsigned i = 0; i < count; i++)
 		m_pData[m_Size++] = value;
+}
+
+template<typename T>
+inline T& List<T>::AddEmpty()
+{
+	_AddHelper helper{ _PreAdd(1) };
+	return m_pData[m_Size++];
 }
 
 template <typename T>
