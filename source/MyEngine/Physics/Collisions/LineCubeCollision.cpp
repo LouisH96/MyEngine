@@ -1,4 +1,4 @@
- #include "pch.h"
+#include "pch.h"
 #include "LineCubeCollision.h"
 
 #include "Geometry/Shapes/Cube.h"
@@ -52,4 +52,39 @@ bool LineCubeCollision::Detect(const Ray& ray, const CubeAA& cube)
 	zA = ray.Origin.z + ray.Direction.z * distanceA;
 	zB = ray.Origin.z + ray.Direction.z * distanceB;
 	return Float::HasOverlap(cube.GetFront(), cube.GetBack(), zA, zB);
+}
+
+/*
+	RealTime Collision Detection book (p.181)
+*/
+bool LineCubeCollision::Detect(const Ray& ray, const Float3& invDirection, const Float3& boxSize)
+{
+	float tMin{ 0 };
+	float tMax{ ray.Length };
+
+	for (unsigned iDim{ 0 }; iDim < 3; ++iDim)
+	{
+		if (abs(ray.Direction[iDim]) < 0.00001f)
+		{
+			//Parallel
+			//Origin should be inside slab
+			if (ray.Origin[iDim] < 0 || ray.Origin[iDim] > boxSize[iDim])
+				return false;
+		}
+		else
+		{
+			float t1{ -ray.Origin[iDim] * invDirection[iDim] };
+			float t2{ (boxSize[iDim] - ray.Origin[iDim]) * invDirection[iDim] };
+
+			if (t1 > t2)
+				std::swap(t1, t2);
+
+			Float::UpdateMax(tMin, t1);
+			Float::UpdateMin(tMax, t2);
+
+			if (tMin > tMax)
+				return false;
+		}
+	}
+	return true;
 }
