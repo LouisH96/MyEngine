@@ -73,7 +73,7 @@ FbxClass::FbxClass(FbxData&& data, float scale)
 		{
 			Float3& normal{ modelGeometry.Normals[iNormal] };
 			normal.x = -normal.x;
-			normal = WorldMatrix::RotatePoint(transform, normal);
+			WorldMatrix::RotatePoint(transform, normal);
 		}
 
 		//Weights

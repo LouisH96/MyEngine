@@ -79,9 +79,9 @@ namespace MyEngine
 	}
 
 	template <typename T>
-	Vector3<T> WorldMatrix::RotatePoint(const Matrix4X4<T>& matrix, const Vector3<T>& point)
+	void WorldMatrix::RotatePoint(const Matrix4X4<T>& matrix, Vector3<T>& point)
 	{
-		return {
+		point = Vector3<T>{
 			reinterpret_cast<const Vector3<T>&>(matrix.GetCol0()).Dot(point),
 			reinterpret_cast<const Vector3<T>&>(matrix.GetCol1()).Dot(point),
 			reinterpret_cast<const Vector3<T>&>(matrix.GetCol2()).Dot(point)
