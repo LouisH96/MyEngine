@@ -29,6 +29,9 @@ namespace MyEngine
 
 		static T Max(const T& a, const T& b);
 		static T Min(const T& a, const T& b);
+		static void UpdateMax(T& currentMax, const T& possibleMax);
+		static void UpdateMin(T& currentMin, const T& possibleMin);
+
 		static T Max();
 		static T Min();
 		static void MinAndMax(const T& a, const T& b, T& min, T& max);
@@ -116,6 +119,20 @@ namespace MyEngine
 	T Scalar<T>::Min(const T& a, const T& b)
 	{
 		return a <= b ? a : b;
+	}
+
+	template<typename T>
+	inline void Scalar<T>::UpdateMax(T& currentMax, const T& possibleMax)
+	{
+		if (possibleMax > currentMax)
+			currentMax = possibleMax;
+	}
+
+	template<typename T>
+	inline void Scalar<T>::UpdateMin(T& currentMin, const T& possibleMin)
+	{
+		if (possibleMin < currentMin)
+			currentMin = possibleMin;
 	}
 
 	template <typename T>
