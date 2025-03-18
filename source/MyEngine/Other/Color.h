@@ -5,11 +5,20 @@ namespace MyEngine
 {
 namespace Color
 {
+static const Float3 Black{ 0,0,0 };
+static const Float3 White{ 1,1,1 };
+
 static const Float3 Red{ 1,0,0 };
 static const Float3 Green{ 0,1,0 };
 static const Float3 Blue{ 0,0,1 };
 
 static const Float3 Yellow{ 1,1,0 };
+
+class Functions
+{
+public:
+	static const Float3& GetColor(unsigned id);
+};
 
 namespace Chill
 {
