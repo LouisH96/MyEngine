@@ -61,7 +61,7 @@ namespace MyEngine
 			static void AddRay(const Float3& origin, const Float3& displacement, const Float3& color);
 
 			static void AddRect(const Float3& leftTop, const Float3& rightTop, const Float3& rightBot, const Float3& leftBot, const
-				Float3& color);;
+				Float3& color);
 			template<typename T> static void AddRect(const Vector2<T>& min, const Vector2<T>& max, const Float3& offset, const
 				Float3& color);
 

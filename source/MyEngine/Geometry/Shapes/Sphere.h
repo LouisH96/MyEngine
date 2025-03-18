@@ -19,6 +19,6 @@ namespace MyEngine
 
 	private:
 		Float3 m_Center;
-		float m_Radius;
+		float m_Radius{};
 	};
 }
