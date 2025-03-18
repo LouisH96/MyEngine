@@ -29,6 +29,7 @@
     <ClCompile Include="Applied\MeshMaker\Shapes\FlatStrip.cpp" />
     <ClCompile Include="Applied\MeshMaker\Shapes\Strip.cpp" />
     <ClCompile Include="Applied\MeshMaker\Shapes\StripLoop.cpp" />
+    <ClCompile Include="Other\Color.cpp" />
     <ClCompile Include="Ui\Elements\AnchorParent.cpp" />
     <ClCompile Include="Applied\2D\Camera2D.cpp" />
     <ClCompile Include="Applied\2D\Camera2DController.cpp" />

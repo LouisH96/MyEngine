@@ -141,6 +141,7 @@
     <ClCompile Include="Ui\Elements\SingleParent.cpp" />
     <ClCompile Include="Ui\Elements\DynamicLabel.cpp" />
     <ClCompile Include="Ui\Elements\DynamicNumberLabel.cpp" />
+    <ClCompile Include="Other\Color.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
