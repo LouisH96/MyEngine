@@ -9,21 +9,25 @@ using namespace Physics;
 bool CollisionDetection::Detect(const Float3& from, const Float3& to,
 	const Array<Float3>& vertices, const Array<Float3>& triangleNormals, Collision& collision)
 {
-	float rayLength;
-	const Float3 ray{ (to - from).Normalized(rayLength) };
+	return Detect(Ray{ from, to }, vertices, triangleNormals, collision);
+}
 
+bool CollisionDetection::Detect(const Ray& ray,
+	const Array<Float3>& vertices, const Array<Float3>& triangleNormals,
+	Collision& collision)
+{
 	for (unsigned iVertex = 0, iTriangle = 0; iVertex < vertices.GetSize(); iVertex += 3, iTriangle++)
 	{
 		const Float3& v0{ vertices[iVertex + 0] };
 		const Float3& normal{ triangleNormals[iTriangle] };
 
-		const float time{ GetTime(v0, normal, from, ray) };
-		if (time < 0 || time > rayLength) continue;
+		const float time{ GetTime(v0, normal, ray.Origin, ray.Direction) };
+		if (time < 0 || time > ray.Length || isnan(time)) continue;
 
 		const Float3& v1{ vertices[iVertex + 1] };
 		const Float3& v2{ vertices[iVertex + 2] };
 
-		const Float3 hitPoint{ from + ray * time };
+		const Float3 hitPoint{ ray.GetPoint(time) };
 		if (!IsPlanePointInTriangle(hitPoint, v0, v1, v2, normal)) continue;
 		collision.position = hitPoint;
 		return true;

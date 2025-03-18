@@ -18,6 +18,10 @@ namespace MyEngine
 				const Array<Float3>& vertices, const Array<Float3>& triangleNormals,
 				Collision& collision);
 
+			static bool Detect(const Ray& ray,
+				const Array<Float3>& vertices, const Array<Float3>& triangleNormals,
+				Collision& collision);
+
 			static bool Detect(const Float3& from, const Float3& to,
 				const Array<Float3>& vertices, const Array<Float3>& triangleNormals, const Array<int>& indices,
 				Collision& collision);
