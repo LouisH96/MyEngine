@@ -20,6 +20,9 @@ namespace MyEngine
 			template<typename T>
 			static void Center2DPoints(Array<Vector2<T>>& points);
 
+			template<typename T>
+			static void UpdateBounds(const Vector3<T>& value, Vector3<T>& min, Vector3<T>& max);
+
 			template<typename T> static void Scale(Array<Vector2<T>>& points, T scale);
 			template<typename T> static void Scale(Array<Vector3<T>>& points, T scale);
 
@@ -53,6 +56,16 @@ namespace MyEngine
 			const Vector2<T> center{ (min + max) / static_cast<T>(2) };
 			for (int i = 0; i < points.GetSize(); i++)
 				points[i] -= center;
+		}
+
+		template<typename T>
+		inline void PointUtils::UpdateBounds(const Vector3<T>& value, Vector3<T>& min, Vector3<T>& max)
+		{
+			for (unsigned iDim{ 0 }; iDim < Vector3<T>::NR_AXIS; ++iDim)
+			{
+				Scalar<T>::UpdateMin(min[iDim], value[iDim]);
+				Scalar<T>::UpdateMax(max[iDim], value[iDim]);
+			}
 		}
 
 		template<typename T>
