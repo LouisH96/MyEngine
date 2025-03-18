@@ -49,6 +49,9 @@ namespace MyEngine
 		template<typename T>
 		static void RotatePoint(const Matrix4X4<T>& matrix, Vector3<T>& point);
 
+		template<typename T>
+		static Vector3<T> RotatedPoint(const Matrix4X4<T>& matrix, const Vector3<T>& point);
+
 		template<typename T> static void Inverse(Matrix4X4<T>& matrix);
 		template<typename T> static Matrix4X4<T> GetInversed(const Matrix4X4<T>& matrix);
 
@@ -88,6 +91,16 @@ namespace MyEngine
 		};
 	}
 
+	template <typename T>
+	Vector3<T> WorldMatrix::RotatedPoint(const Matrix4X4<T>& matrix, const Vector3<T>& point)
+	{
+		return Vector3<T>{
+			reinterpret_cast<const Vector3<T>&>(matrix.GetCol0()).Dot(point),
+			reinterpret_cast<const Vector3<T>&>(matrix.GetCol1()).Dot(point),
+			reinterpret_cast<const Vector3<T>&>(matrix.GetCol2()).Dot(point)
+		};
+	}
+
 	//cannot handle scaling
 	template <typename T>
 	void WorldMatrix::Inverse(Matrix4X4<T>& matrix)
@@ -107,7 +120,7 @@ namespace MyEngine
 		matrix.Set(1, 2, matrix.Get(2, 1));
 		matrix.Set(2, 1, temp);
 
-		matrix.SetRow3(-RotatePoint(matrix, matrix.GetRow3().Xyz()));
+		matrix.SetRow3(-RotatedPoint(matrix, matrix.GetRow3().Xyz()));
 	}
 
 	template <typename T>
@@ -119,7 +132,7 @@ namespace MyEngine
 			{ matrix.Get(0,1),matrix.Get(1,1),matrix.Get(2,1)},
 			{ matrix.Get(0,2), matrix.Get(1,2),matrix.Get(2,2)}
 		};
-		inv.SetRow3(-RotatePoint(inv, matrix.GetRow3().Xyz()));
+		inv.SetRow3(-RotatedPoint(inv, matrix.GetRow3().Xyz()));
 		inv.Set(3, 3, 1);
 		return inv;
 	}
