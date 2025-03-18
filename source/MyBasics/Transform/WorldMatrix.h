@@ -47,7 +47,7 @@ namespace MyEngine
 		static void TransformPoint(const Matrix4X4<T>& matrix, Vector3<T>& point);
 
 		template<typename T>
-		static Vector3<T> RotatePoint(const Matrix4X4<T>& matrix, const Vector3<T>& point);
+		static void RotatePoint(const Matrix4X4<T>& matrix, Vector3<T>& point);
 
 		template<typename T> static void Inverse(Matrix4X4<T>& matrix);
 		template<typename T> static Matrix4X4<T> GetInversed(const Matrix4X4<T>& matrix);
