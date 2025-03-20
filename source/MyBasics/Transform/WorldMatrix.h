@@ -47,6 +47,9 @@ namespace MyEngine
 		static void TransformPoint(const Matrix4X4<T>& matrix, Vector3<T>& point);
 
 		template<typename T>
+		static Vector3<T> TransformedPoint(const Matrix4X4<T>& matrix, const Vector3<T>& point);
+
+		template<typename T>
 		static void RotatePoint(const Matrix4X4<T>& matrix, Vector3<T>& point);
 
 		template<typename T>
@@ -75,6 +78,16 @@ namespace MyEngine
 	void WorldMatrix::TransformPoint(const Matrix4X4<T>& matrix, Vector3<T>& point)
 	{
 		point = Vector3<T>{
+			reinterpret_cast<const Vector3<T>&>(matrix.GetCol0()).Dot(point),
+			reinterpret_cast<const Vector3<T>&>(matrix.GetCol1()).Dot(point),
+			reinterpret_cast<const Vector3<T>&>(matrix.GetCol2()).Dot(point) }
+		+ reinterpret_cast<const Vector3<T>&>(matrix.GetRow3());
+	}
+
+	template<typename T>
+	inline Vector3<T> WorldMatrix::TransformedPoint(const Matrix4X4<T>& matrix, const Vector3<T>& point)
+	{
+		return Vector3<T>{
 			reinterpret_cast<const Vector3<T>&>(matrix.GetCol0()).Dot(point),
 			reinterpret_cast<const Vector3<T>&>(matrix.GetCol1()).Dot(point),
 			reinterpret_cast<const Vector3<T>&>(matrix.GetCol2()).Dot(point) }
