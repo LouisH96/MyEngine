@@ -142,6 +142,10 @@
     <ClCompile Include="Ui\Elements\DynamicLabel.cpp" />
     <ClCompile Include="Ui\Elements\DynamicNumberLabel.cpp" />
     <ClCompile Include="Other\Color.cpp" />
+    <ClCompile Include="Physics\Collisions\SphereTriangleCollision.cpp" />
+    <ClCompile Include="Physics\Collisions\SphereAabCollision.cpp" />
+    <ClCompile Include="Physics\Collisions\PointAabCollision.cpp" />
+    <ClCompile Include="Physics\Collisions\PointTriangleCollision.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -361,6 +365,10 @@
     <ClInclude Include="Ui\Elements\SingleParent.h" />
     <ClInclude Include="Ui\Elements\DynamicLabel.h" />
     <ClInclude Include="Ui\Elements\DynamicNumberLabel.h" />
+    <ClInclude Include="Physics\Collisions\SphereTriangleCollision.h" />
+    <ClInclude Include="Physics\Collisions\SphereAabCollision.h" />
+    <ClInclude Include="Physics\Collisions\PointAabCollision.h" />
+    <ClInclude Include="Physics\Collisions\PointTriangleCollision.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
