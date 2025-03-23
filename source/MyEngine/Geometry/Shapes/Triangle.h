@@ -10,8 +10,10 @@ public:
 	
 	Float3 Points[NR_POINTS];
 
-	//lh-coord, thus: clockwise is looking at top.
+	//lh-coord, thus: clockwise is looking at front.
 	static Float3 FindNormal(const Float3& p0, const Float3& p1, const Float3& p2);
+
+	static Float3 FindNormal(const Float3* pPoint);
 };
 }
 
