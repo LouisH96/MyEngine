@@ -16,6 +16,7 @@ namespace MyEngine
 		void SetPositionY(float y) { m_Position.y = y; }
 		void SetPositionXz(const Float2& position);;
 		void MoveRelative(const Float3& movement);
+		void Move(const Float3& movement);
 		Float2 GetXzForward() const;
 		Float3 GetXzForward3() const;
 

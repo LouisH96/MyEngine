@@ -41,7 +41,12 @@ void FpsCameraController::SetPositionXz(const Float2& position)
 
 void FpsCameraController::MoveRelative(const Float3& movement)
 {
-	m_Position += GetRelativeMovement(movement);
+	Move(GetRelativeMovement(movement));
+}
+
+void FpsCameraController::Move(const Float3& movement)
+{
+	m_Position += movement;
 }
 
 Float2 FpsCameraController::GetXzForward() const
