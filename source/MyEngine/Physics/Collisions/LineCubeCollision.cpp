@@ -54,27 +54,48 @@ bool LineCubeCollision::Detect(const Ray& ray, const CubeAA& cube)
 	return Float::HasOverlap(cube.GetFront(), cube.GetBack(), zA, zB);
 }
 
+bool LineCubeCollision::Detect(const Ray& ray, const Float3& invDirection, const Float3& boxSize)
+{
+	return Detect(
+		ray.Origin, ray.Direction, ray.Length,
+		invDirection,
+		boxSize);
+}
+
+bool LineCubeCollision::Detect(
+	const Float3& origin, const Float3& direction, float length,
+	const Float3& boxSize)
+{
+	return Detect(
+		origin, direction, length,
+		direction.Inversed(),
+		boxSize);
+}
+
 /*
 	RealTime Collision Detection book (p.181)
 */
-bool LineCubeCollision::Detect(const Ray& ray, const Float3& invDirection, const Float3& boxSize)
+bool LineCubeCollision::Detect(
+	const Float3& origin, const Float3& direction, float length, 
+	const Float3& invDirection, 
+	const Float3& boxSize)
 {
 	float tMin{ 0 };
-	float tMax{ ray.Length };
+	float tMax{ length };
 
 	for (unsigned iDim{ 0 }; iDim < 3; ++iDim)
 	{
-		if (abs(ray.Direction[iDim]) < 0.00001f)
+		if (abs(direction[iDim]) < 0.00001f)
 		{
 			//Parallel
 			//Origin should be inside slab
-			if (ray.Origin[iDim] < 0 || ray.Origin[iDim] > boxSize[iDim])
+			if (origin[iDim] < 0 || origin[iDim] > boxSize[iDim])
 				return false;
 		}
 		else
 		{
-			float t1{ -ray.Origin[iDim] * invDirection[iDim] };
-			float t2{ (boxSize[iDim] - ray.Origin[iDim]) * invDirection[iDim] };
+			float t1{ -origin[iDim] * invDirection[iDim] };
+			float t2{ (boxSize[iDim] - origin[iDim]) * invDirection[iDim] };
 
 			if (t1 > t2)
 				std::swap(t1, t2);
