@@ -19,6 +19,10 @@ public:
 
 	static bool Detect(const Sphere& sphere, const Array<Float3>& points);
 
+	//Moving
+	static bool Detect(
+		const Sphere& sphere, const Float3& direction, float amount,
+		const Array<Float3>& points, const Array<Float3>& normals);
 };
 }
 }

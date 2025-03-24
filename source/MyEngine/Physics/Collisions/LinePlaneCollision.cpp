@@ -1,7 +1,9 @@
 #include "pch.h"
 #include "LinePlaneCollision.h"
 
-bool Physics::LinePlaneCollision::DetectXz(const Ray& ray, float planeY, Float2& hitPoint)
+using namespace Physics;
+
+bool LinePlaneCollision::DetectXz(const Ray& ray, float planeY, Float2& hitPoint)
 {
 	if (ray.Direction.y == 0) return false;
 	const float  t{ (planeY - ray.Origin.y) / ray.Direction.y };
@@ -9,7 +11,7 @@ bool Physics::LinePlaneCollision::DetectXz(const Ray& ray, float planeY, Float2&
 	return true;
 }
 
-bool Physics::LinePlaneCollision::Detect(const Ray& ray, const Float3& planeOrigin, const Float3& planeRight,
+bool LinePlaneCollision::Detect(const Ray& ray, const Float3& planeOrigin, const Float3& planeRight,
 	const Float3& planeUp, Float2& hitPoint)
 {
 	const Float3 normal{ planeUp.Cross(planeRight) };
@@ -26,5 +28,28 @@ bool Physics::LinePlaneCollision::Detect(const Ray& ray, const Float3& planeOrig
 
 	hitPoint.x = toHitPoint3.Dot(planeRight);
 	hitPoint.y = toHitPoint3.Dot(planeUp);
+	return true;
+}
+
+bool LinePlaneCollision::Detect(
+	const Float3& origin, const Float3& direction, float length,
+	const Float3& planePoint, const Float3& planeNormal,
+	Float3& hitPoint)
+{
+	const float distance{
+		(origin - planePoint).Dot(planeNormal)
+	};
+
+	const float speed{
+		direction.Dot(planeNormal)
+	};
+	if (speed == 0) return false;
+
+	const float time{
+		distance / -speed
+	};
+	if (time < 0 || time > length) return false;
+
+	hitPoint = origin + direction * time;
 	return true;
 }
