@@ -4,8 +4,11 @@
 #include "Geometry/Shapes/Ray.h"
 #include "Geometry/Shapes/Sphere.h"
 
-bool Physics::LineSphereCollision::Detect(const Ray& ray, const Sphere& sphere)
+using namespace Physics;
+
+bool LineSphereCollision::Detect(const Ray& ray, const Sphere& sphere)
 {
+	//todo: uncomplete
 	const Float3 toCenter{ sphere.GetCenter() - ray.Origin };
 	const float dot{ ray.Direction.Dot(toCenter) };
 	if (dot < 0 || dot > ray.Length) return false;
@@ -14,7 +17,31 @@ bool Physics::LineSphereCollision::Detect(const Ray& ray, const Sphere& sphere)
 	return closest.DistanceSq(sphere.GetCenter()) <= sphere.GetRadiusSq();
 }
 
-int Physics::LineSphereCollision::Detect(const Ray& ray, PtrRangeConst<Sphere> spheres)
+/*
+	Real-Time Collision Detection book.
+		p.178
+*/
+bool LineSphereCollision::Detect(const Ray& ray, const Sphere& sphere, float& t)
+{
+	const Float3 m{ ray.Origin - sphere.GetCenter() };
+	const float b{ m.Dot(ray.Direction) };
+	const float c{ m.LengthSq() - sphere.GetRadiusSq() };
+
+	if (c > 0 && b > 0)
+		return false;
+
+	const float discr{ b * b - c };
+	if (discr < 0)
+		return false;
+
+	t = -b - sqrtf(discr);
+	if (t < 0)
+		t = 0;
+
+	return true;
+}
+
+int LineSphereCollision::Detect(const Ray& ray, PtrRangeConst<Sphere> spheres)
 {
 	int idx{ -1 };
 	float closest{ Float::Max() };

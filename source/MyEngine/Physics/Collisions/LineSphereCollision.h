@@ -14,6 +14,11 @@ namespace MyEngine
 			static bool Detect(
 				const Ray& ray,
 				const Sphere& sphere);
+			
+			static bool Detect(
+				const Ray& ray,
+				const Sphere& sphere,
+				float& t);
 
 			static int Detect(
 				const Ray& ray,
