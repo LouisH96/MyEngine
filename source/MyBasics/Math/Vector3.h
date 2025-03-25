@@ -45,6 +45,7 @@ struct Vector3
 
 	Vector2<T> Xz() const;
 	void AddXz(const Vector2<T>& xz);
+	void SetXz(const Vector2<T>& xz);
 
 	void Reverse(); // -value
 	void Scale(const Vector3& r);
@@ -165,6 +166,13 @@ inline void Vector3<T>::AddXz(const Vector2<T>& xz)
 {
 	x += xz.x;
 	z += xz.y;
+}
+
+template<typename T>
+inline void Vector3<T>::SetXz(const Vector2<T>& xz)
+{
+	x = xz.x;
+	z = xz.y;
 }
 
 template <typename T>
