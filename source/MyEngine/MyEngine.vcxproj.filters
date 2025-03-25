@@ -146,6 +146,7 @@
     <ClCompile Include="Physics\Collisions\SphereAabCollision.cpp" />
     <ClCompile Include="Physics\Collisions\PointAabCollision.cpp" />
     <ClCompile Include="Physics\Collisions\PointTriangleCollision.cpp" />
+    <ClCompile Include="Debug\Rendering\DebugTriangles.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -369,6 +370,7 @@
     <ClInclude Include="Physics\Collisions\SphereAabCollision.h" />
     <ClInclude Include="Physics\Collisions\PointAabCollision.h" />
     <ClInclude Include="Physics\Collisions\PointTriangleCollision.h" />
+    <ClInclude Include="Debug\Rendering\DebugTriangles.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

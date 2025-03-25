@@ -13,6 +13,7 @@
 #include "DebugCubes.h"
 #include "DebugLines.h"
 #include "DebugSpheres.h"
+#include "DebugTriangles.h"
 
 namespace MyEngine
 {
@@ -57,6 +58,7 @@ namespace MyEngine
 			static void DrawLine(PtrRangeConst<Float3> points, const Float3& color);
 			static void DrawRay(const Float3& origin, const Float3& displacement, const Float3& color);
 			static void DrawRay(const Ray& ray, const Float3& color);
+			static void DrawTriangle(const Triangle& triangle, const Float3& color);
 
 			static void AddRay(const Float3& origin, const Float3& displacement, const Float3& color);
 
@@ -98,6 +100,7 @@ namespace MyEngine
 			DebugLines m_LinesRenderer2;
 			DebugCubes m_CubeRenderer;
 			DebugCones m_ConeRenderer;
+			DebugTriangles m_TriangleRenderer;
 
 			//---| Mesh |---
 			Array<Rendering::Mesh*> m_Meshes{};

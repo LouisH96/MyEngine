@@ -1,12 +1,13 @@
 #include "pch.h"
-#include "DebugRenderer.h"
 
+#include "DebugRenderer.h"
 #include <Framework/Resources.h>
 #include <Generation/Shapes.h>
+#include <Geometry/Shapes/Sphere.h>
 #include <Rendering/State/Mesh.h>
 #include <Rendering/Structs/VertexTypes.h>
 
-#include "Geometry/Shapes/Sphere.h"
+using namespace Rendering;
 
 DebugRenderer* DebugRenderer::m_pStatic = nullptr;
 
@@ -71,12 +72,17 @@ void DebugRenderer::DrawRay(const Ray& ray, const Float3& color)
 	m_pStatic->m_LinesRenderer2.DrawRay(ray, color);
 }
 
+void DebugRenderer::DrawTriangle(const Triangle& triangle, const Float3& color)
+{
+	m_pStatic->m_TriangleRenderer.Draw(triangle, color);
+}
+
 void DebugRenderer::AddRay(const Float3& origin, const Float3& displacement, const Float3& color)
 {
 	Array<LineVertex> vertices{ 2 };
 	vertices[0] = { origin, color };
 	vertices[1] = { origin + displacement, color };
-	m_pStatic->m_pLineRenderer->AddMesh(Rendering::Mesh::Create(vertices, Rendering::Topology::LineStrip));
+	m_pStatic->m_pLineRenderer->AddMesh(Mesh::Create(vertices, Topology::LineStrip));
 }
 
 void DebugRenderer::AddRect(const Float3& leftTop, const Float3& rightTop, const Float3& rightBot,
@@ -158,7 +164,7 @@ void DebugRenderer::AddGridXy(const Float3& offset, const Float2& bounds, int nr
 	else
 		vertex.Pos.x = right;
 	vertices[iVertex] = vertex;
-	m_pStatic->m_pLineRenderer->AddMesh(Rendering::Mesh::Create(vertices, Rendering::Topology::LineStrip));
+	m_pStatic->m_pLineRenderer->AddMesh(Mesh::Create(vertices, Topology::LineStrip));
 }
 
 void DebugRenderer::DrawSphere(const Float3& position, const Float3& color, float radius)
@@ -194,7 +200,7 @@ void DebugRenderer::DrawCone(const Cone& cone, const Float3& color)
 DebugRenderer::DebugRenderer()
 	: m_InputLayout(Vertex::ELEMENTS, Vertex::NR_ELEMENTS)
 	, m_Shader(Resources::GlobalShader(L"lambertCamDir.hlsl"))
-	, m_pLineRenderer(Rendering::RendererFactory::CreateUnlitRenderer())
+	, m_pLineRenderer(RendererFactory::CreateUnlitRenderer())
 {
 }
 
@@ -210,7 +216,7 @@ void DebugRenderer::Class_Render()
 	m_LinesRenderer2.Render();
 
 	m_DepthStencilState.Activate();
-	m_ConstantBuffer.Update(Rendering::CB_CamMatPos{ Globals::pCamera->GetPosition(), Globals::pCamera->GetViewProjection()});
+	m_ConstantBuffer.Update(CB_CamMatPos{ Globals::pCamera->GetPosition(), Globals::pCamera->GetViewProjection()});
 	m_ConstantBuffer.Activate();
 	m_RasterizerState.Activate();
 	m_InputLayout.Activate();
@@ -223,6 +229,10 @@ void DebugRenderer::Class_Render()
 	}
 	m_CubeRenderer.Render();
 	m_ConeRenderer.Render();
+
+	PrimitiveTopology::Activate(ModelTopology::TriangleList);
+	m_TriangleRenderer.Render();
+
 	m_SpheresRenderer.Render();
 }
 
@@ -236,7 +246,7 @@ void DebugRenderer::Class_AddSphere(const Float3& position, const Float3& color,
 	Array<Vertex> vertices{ positions.GetSize() };
 	for (unsigned i = 0; i < positions.GetSize(); i++)
 		vertices[i] = Vertex{ positions[i], color, normals[i] };
-	m_Meshes.Add(Rendering::Mesh::Create<Vertex>(vertices, indices));
+	m_Meshes.Add(Mesh::Create<Vertex>(vertices, indices));
 }
 
 void DebugRenderer::Class_AddSpheres(const Array<Float3>& positions, const Float3& color, float radius)
@@ -251,7 +261,7 @@ void DebugRenderer::Class_AddLine(const Float3& begin, const Float3& end, const 
 	Array<LineVertex> vertices{ 2 };
 	vertices[0] = { begin, color };
 	vertices[1] = { end, color };
-	m_pLineRenderer->AddMesh(Rendering::Mesh::Create(vertices, Rendering::Topology::LineStrip));
+	m_pLineRenderer->AddMesh(Mesh::Create(vertices, Topology::LineStrip));
 }
 
 void DebugRenderer::Class_AddLine(const Array<Float3>& points, const Float3& color) const
@@ -259,7 +269,7 @@ void DebugRenderer::Class_AddLine(const Array<Float3>& points, const Float3& col
 	Array<LineVertex> vertices{ points.GetSize() };
 	for (unsigned i = 0; i < points.GetSize(); i++)
 		vertices[i] = { points[i], color };
-	m_pLineRenderer->AddMesh(Rendering::Mesh::Create(vertices, Rendering::Topology::LineStrip));
+	m_pLineRenderer->AddMesh(Mesh::Create(vertices, Topology::LineStrip));
 }
 
 void DebugRenderer::Class_AddRect(const Float3& leftTop, const Float3& rightTop,
@@ -269,5 +279,5 @@ void DebugRenderer::Class_AddRect(const Float3& leftTop, const Float3& rightTop,
 	vertices[0] = { leftTop, color }; vertices[1] = { rightTop, color };
 	vertices[2] = { rightBot, color }; vertices[3] = { leftBot, color };
 	vertices[4] = vertices[0];
-	m_pLineRenderer->AddMesh(Rendering::Mesh::Create(vertices, Rendering::Topology::LineStrip));
+	m_pLineRenderer->AddMesh(Mesh::Create(vertices, Topology::LineStrip));
 }
