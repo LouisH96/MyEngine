@@ -3,6 +3,11 @@
 
 using namespace MyEngine;
 
+Float3 Triangle::FindNormal() const
+{
+	return FindNormal(Points);
+}
+
 Float3 Triangle::FindNormal(const Float3& p0, const Float3& p1, const Float3& p2)
 {
 	const Float3 to1{ p1 - p0 };
