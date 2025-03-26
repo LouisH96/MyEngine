@@ -16,3 +16,13 @@ void Sphere::SetRadius(float radius)
 {
 	m_Radius = radius;
 }
+
+Sphere Sphere::operator+(const Float3& movement) const
+{
+	return Sphere{ m_Center + movement, m_Radius };
+}
+
+Sphere Sphere::operator-(const Float3& movement) const
+{
+	return Sphere{ m_Center - movement, m_Radius };
+}

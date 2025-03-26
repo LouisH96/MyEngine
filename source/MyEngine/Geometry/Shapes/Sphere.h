@@ -17,6 +17,9 @@ namespace MyEngine
 		float GetRadius() const { return m_Radius; }
 		float GetRadiusSq() const { return m_Radius * m_Radius; }
 
+		Sphere operator+(const Float3& movement) const;
+		Sphere operator-(const Float3& movement) const;
+
 	private:
 		Float3 m_Center;
 		float m_Radius{};
