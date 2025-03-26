@@ -35,6 +35,9 @@ bool LineSphereCollision::Detect(const Ray& ray, const Sphere& sphere, float& t)
 		return false;
 
 	t = -b - sqrtf(discr);
+	if (t > ray.Length)
+		return false;
+	
 	if (t < 0)
 		t = 0;
 
