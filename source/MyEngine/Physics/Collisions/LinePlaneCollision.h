@@ -22,6 +22,11 @@ namespace MyEngine
 				const Float3& origin, const Float3& direction, float length,
 				const Float3& planePoint, const Float3& planeNormal,
 				Float3& hitPoint);
+
+			static void Detect(
+				const Float3& origin, const Float3& direction,
+				const Float3& planePoint, const Float3& planeNormal,
+				float& t);
 		};
 	}
 }

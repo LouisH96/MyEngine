@@ -53,3 +53,17 @@ bool LinePlaneCollision::Detect(
 	hitPoint = origin + direction * time;
 	return true;
 }
+
+void LinePlaneCollision::Detect(
+	const Float3& origin, const Float3& direction,
+	const Float3& planePoint, const Float3& planeNormal,
+	float& t)
+{
+	const float distance{
+		(origin - planePoint).Dot(planeNormal)
+	};
+	const float speed{
+		direction.Dot(planeNormal)
+	};
+	t = distance / -speed;
+}
