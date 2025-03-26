@@ -59,6 +59,7 @@ namespace MyEngine
 			static void DrawRay(const Float3& origin, const Float3& displacement, const Float3& color);
 			static void DrawRay(const Ray& ray, const Float3& color);
 			static void DrawTriangle(const Triangle& triangle, const Float3& color);
+			static void DrawTriangle(const Float3* pTriangle, const Float3& color);
 
 			static void AddRay(const Float3& origin, const Float3& displacement, const Float3& color);
 

@@ -77,6 +77,11 @@ void DebugRenderer::DrawTriangle(const Triangle& triangle, const Float3& color)
 	m_pStatic->m_TriangleRenderer.Draw(triangle, color);
 }
 
+void DebugRenderer::DrawTriangle(const Float3* pTriangle, const Float3& color)
+{
+	m_pStatic->m_TriangleRenderer.Draw(pTriangle, color);
+}
+
 void DebugRenderer::AddRay(const Float3& origin, const Float3& displacement, const Float3& color)
 {
 	Array<LineVertex> vertices{ 2 };

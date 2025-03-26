@@ -17,3 +17,12 @@ void DebugTriangles::Draw(const Triangle& triangle, const Float3& color)
 		m_Vertices.Add(Vertex{
 		triangle.Points[i], color, normal });
 }
+
+void DebugTriangles::Draw(const Float3* pTriangle, const Float3& color)
+{
+	const Float3 normal{ Triangle::FindNormal(pTriangle) };
+
+	for (unsigned i{ 0 }; i < 3; ++i)
+		m_Vertices.Add(Vertex{
+		pTriangle[i], color, normal });
+}
