@@ -101,7 +101,11 @@ template <typename T> Vector3<T> Vector3<T>::operator*(const Vector3& r) const {
 template <typename T> Vector3<T> Vector3<T>::operator+(const T& r) const { return { x + r, y + r, z + r }; }
 template <typename T> Vector3<T> Vector3<T>::operator-(const T& r) const { return { x - r, y - r, z - r }; }
 template <typename T> Vector3<T> Vector3<T>::operator*(const T& r) const { return { x * r, y * r, z * r }; }
-template <typename T>Vector3<T> Vector3<T>::operator/(const T& r) const { return { x / r, y / r, z / r }; }
+template <typename T>Vector3<T> Vector3<T>::operator/(const T& r) const 
+{
+	const float inv{ 1.f / r };
+	return { x * inv, y * inv, z * inv };
+}
 template <typename T> void Vector3<T>::operator+=(const Vector3& r) { x += r.x; y += r.y; z += r.z; }
 template <typename T> void Vector3<T>::operator-=(const Vector3& r) { x -= r.x; y -= r.y; z -= r.z; }
 template <typename T> void Vector3<T>::operator*=(const Vector3& r) { x *= r.x; y *= r.y; z *= r.z; }
