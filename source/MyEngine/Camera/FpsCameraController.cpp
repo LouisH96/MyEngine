@@ -61,6 +61,11 @@ Float3 FpsCameraController::GetXzForward3() const
 	return { sinf(yawRad), 0, cosf(yawRad) };
 }
 
+Float3 FpsCameraController::GetForward() const
+{
+	return m_pCamera->GetForward();
+}
+
 Transform FpsCameraController::GetTransform() const
 {
 	return Transform{

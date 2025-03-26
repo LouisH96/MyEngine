@@ -20,6 +20,8 @@ namespace MyEngine
 		Float2 GetXzForward() const;
 		Float3 GetXzForward3() const;
 
+		Float3 GetForward() const;
+
 		const Camera& GetCamera() const { return *m_pCamera; }
 		const Float3& GetPosition() const { return m_Position; }
 		Transform GetTransform() const;
