@@ -22,7 +22,7 @@ bool SphereTriangleCollision::Detect_Rough(
 }
 
 bool SphereTriangleCollision::Detect_Rough(
-	const Sphere& sphere, const Array<Float3>& points)
+	const Sphere& sphere, const List<Float3>& points)
 {
 	const float radiusSq{ sphere.GetRadiusSq() };
 
@@ -36,7 +36,7 @@ bool SphereTriangleCollision::Detect_Rough(
 }
 
 bool SphereTriangleCollision::Detect(
-	const Sphere& sphere, const Array<Float3>& points)
+	const Sphere& sphere, const List<Float3>& points)
 {
 	const float radiusSq{ sphere.GetRadiusSq() };
 	for (unsigned iPoint{ 2 }; iPoint < points.GetSize(); iPoint += 3)
@@ -53,36 +53,74 @@ bool SphereTriangleCollision::Detect(
 	return false;
 }
 
+bool SphereTriangleCollision::Detect(const Sphere& sphere, const Float3* pPoints)
+{
+	const Float3 closest{ PointTriangleCollision::Closest(
+		sphere.GetCenter(),
+		pPoints)
+	};
+
+	const Float3 v{ closest - sphere.GetCenter() };
+	if (v.LengthSq() <= sphere.GetRadiusSq())
+		return true;
+	return false;
+}
+
 /*
 	Real-Time Collision Detection book
 		5.5.6 Intersecting Moving Sphere Against Triangle (and Polygon)(p.226)
+
+	Need some improvement. For example if the sphere starts inside the triangle.
 */
 bool SphereTriangleCollision::Detect(
-	const Sphere& sphere, const Float3& direction, float amount,
-	const Array<Float3>& points, const Array<Float3>& normals)
+	const Sphere& sphere, const Float3& direction, float length,
+	PtrRangeConst<Float3> points, PtrRangeConst<Float3> normals)
 {
-	for (unsigned iPoint{ 2 }, iNormal{ 0 };
-		iPoint < points.GetSize();
-		iPoint += 3, iNormal++)
+	float closestT{ std::nextafterf(length, Float::MAX) };
+	unsigned closestTriangle{ Uint::MAX };
+
+	for (unsigned iPoint{ 2 }, iTriangle{ 0 };
+		iPoint < points.count;
+		iPoint += 3, iTriangle++)
 	{
 		const Float3* pTriangle{ &points[iPoint - 2] };
-		const Float3& normal{ normals[iNormal] };
+		const Float3& normal{ normals[iTriangle] };
+
+		if (SphereTriangleCollision::Detect(sphere, pTriangle))
+		{
+			closestT = 0;
+			closestTriangle = iTriangle;
+			return true;
+		}
 
 		const Float3 d{ sphere.GetCenter() - normal * sphere.GetRadius() }; //point on sphere that will hit plane first
-		Float3 p{}; //point on plane that will be hit first
 
-		if (!LinePlaneCollision::Detect(
-			d, direction, amount, points[iPoint], normal, p))
-			continue; //todo: only false if parallel 
-							//but this could still be a hit if sphere starts in plane
+		float t;
+		LinePlaneCollision::Detect(
+			d, direction, points[iPoint], normal, t);
+
+		if (t < 0 || t >= closestT)
+			continue;
+
+		const Float3 p{ d + direction * t }; //point on plane that will be hit first
 
 		Float3 q{}; //closest triangle point to p
 		if (PointTriangleCollision::DetectOrClosest(p, pTriangle, q))
-			return true;
+		{
+			closestT = t;
+			closestTriangle = iTriangle;
+			continue;
+		}
 
-		Ray returnRay{ q, -direction, amount };
-		if (LineSphereCollision::Detect(returnRay, sphere))
-			return true;
+		Ray returnRay{ q, -direction, closestT };
+		if (LineSphereCollision::Detect(returnRay, sphere, t))
+		{
+			closestT = t;
+			closestTriangle = iTriangle;
+		}
 	}
-	return false;
+
+	if (closestTriangle == Uint::MAX)
+		return false;
+	return true;
 }
