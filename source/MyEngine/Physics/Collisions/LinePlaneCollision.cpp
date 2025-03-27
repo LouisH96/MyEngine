@@ -1,8 +1,6 @@
 #include "pch.h"
 #include "LinePlaneCollision.h"
 
-using namespace Physics;
-
 bool LinePlaneCollision::DetectXz(const Ray& ray, float planeY, Float2& hitPoint)
 {
 	if (ray.Direction.y == 0) return false;
