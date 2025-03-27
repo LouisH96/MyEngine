@@ -6,17 +6,20 @@
 
 using namespace Physics;
 
-bool CollisionDetection::Detect(const Float3& from, const Float3& to,
-	const Array<Float3>& vertices, const Array<Float3>& triangleNormals, Collision& collision)
+bool CollisionDetection::Detect(
+	const Float3& from, const Float3& to,
+	PtrRangeConst<Float3> vertices, PtrRangeConst<Float3> triangleNormals,
+	Collision& collision)
 {
 	return Detect(Ray{ from, to }, vertices, triangleNormals, collision);
 }
 
-bool CollisionDetection::Detect(const Ray& ray,
-	const Array<Float3>& vertices, const Array<Float3>& triangleNormals,
+bool CollisionDetection::Detect(
+	const Ray& ray,
+	PtrRangeConst<Float3> vertices, PtrRangeConst<Float3> triangleNormals,
 	Collision& collision)
 {
-	for (unsigned iVertex = 0, iTriangle = 0; iVertex < vertices.GetSize(); iVertex += 3, iTriangle++)
+	for (unsigned iVertex = 0, iTriangle = 0; iVertex < vertices.count; iVertex += 3, iTriangle++)
 	{
 		const Float3& v0{ vertices[iVertex + 0] };
 		const Float3& normal{ triangleNormals[iTriangle] };
@@ -35,14 +38,16 @@ bool CollisionDetection::Detect(const Ray& ray,
 	return false;
 }
 
-bool CollisionDetection::Detect(const Float3& from, const Float3& to,
-	const Array<Float3>& vertices, const Array<Float3>& triangleNormals, const Array<int>& indices, Collision& collision)
+bool CollisionDetection::Detect(
+	const Float3& from, const Float3& to,
+	PtrRangeConst<Float3> vertices, PtrRangeConst<Float3> triangleNormals, PtrRangeConst<int> indices,
+	Collision& collision)
 {
 	float rayLength;
 	const Float3 ray{ (to - from).Normalized(rayLength) };
 
 	int iTriangle = 0;
-	for (unsigned iIndex = 2; iIndex < indices.GetSize(); iIndex += 3, iTriangle++)
+	for (unsigned iIndex = 2; iIndex < indices.count; iIndex += 3, iTriangle++)
 	{
 		const Float3& v0{ vertices[indices[iIndex - 2]] };
 		const Float3& normal{ triangleNormals[iTriangle] };
@@ -63,10 +68,10 @@ bool CollisionDetection::Detect(const Float3& from, const Float3& to,
 
 bool CollisionDetection::Detect(
 	const Sphere& sphere,
-	const Array<Float3>& vertices, const Array<Float3>& triangleNormals, const Array<int>& indices,
+	PtrRangeConst<Float3> vertices, PtrRangeConst<Float3> triangleNormals, PtrRangeConst<int> indices,
 	Float3& overlap)
 {
-	for (unsigned iIndex = 2, iTriangle = 0; iIndex < indices.GetSize(); iIndex += 3, iTriangle++)
+	for (unsigned iIndex = 2, iTriangle = 0; iIndex < indices.count; iIndex += 3, iTriangle++)
 	{
 		const Float3& v2{ vertices[indices[iIndex]] };
 		const Float3& normal{ triangleNormals[iTriangle] };
