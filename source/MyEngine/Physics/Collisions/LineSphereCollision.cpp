@@ -1,9 +1,6 @@
 #include "pch.h"
 #include "LineSphereCollision.h"
 
-#include "Geometry/Shapes/Ray.h"
-#include "Geometry/Shapes/Sphere.h"
-
 using namespace Physics;
 
 bool LineSphereCollision::Detect(const Ray& ray, const Sphere& sphere)
