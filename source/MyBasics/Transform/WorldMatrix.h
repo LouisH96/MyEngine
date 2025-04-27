@@ -27,6 +27,8 @@ namespace MyEngine
 		static float GetYaw(const Float4X4& world);
 		static void SetYaw(Float4X4& world, float yaw);
 
+		static Float3 GetAxis(const Float4X4& world, unsigned iAxis);
+
 		static void SetPosition(Float4X4& world, const Float3& position);
 		static Float4X4 Translation(const Float3& translation);
 		static Float4X4 Rotation(const Float3& forward);

@@ -75,6 +75,13 @@ void WorldMatrix::SetYaw(Float4X4& world, float yaw)
 	world[2].Xyz() = { -s, 0, c }; //xAxis.z, yAxis.z, zAxis.z
 }
 
+Float3 WorldMatrix::GetAxis(const Float4X4& world, unsigned iAxis)
+{
+	return Float3{
+		world[0][iAxis], world[1][iAxis], world[2][iAxis]
+	};
+}
+
 void WorldMatrix::SetPosition(Float4X4& world, const Float3& position)
 {
 	world.SetRow3(position);
