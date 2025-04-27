@@ -7,7 +7,7 @@ class Triangle
 {
 public:
 	static constexpr unsigned NR_POINTS{ 3 };
-	
+
 	Float3 Points[NR_POINTS];
 
 	Float3 FindNormal() const;
