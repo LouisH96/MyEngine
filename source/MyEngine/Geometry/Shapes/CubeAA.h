@@ -1,5 +1,6 @@
 #pragma once
-#include "Math/Vectors.h"
+#include <Math\Matrices.h>
+#include <Math\Vectors.h>
 
 namespace MyEngine
 {
@@ -52,10 +53,14 @@ namespace MyEngine
 
 		Float3 GetRelativePoint(const Float3& alpha) const;
 
+		bool Overlaps(const CubeAA& other) const;
+
 		static constexpr unsigned NR_SIDES = 6;
 
 		static CubeAA FromCenter(const Float3& center, const Float3& size);
 		static CubeAA FromBotCenter(const Float3& botCenter, const Float3& size);
+
+		static CubeAA MakeGlobalBounds(const Float4X4& transform, const Float3& size);
 
 	private:
 		Float3 m_Origin; //left-bottom-back
