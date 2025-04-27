@@ -11,12 +11,14 @@ public:
 	Float3 Points[NR_POINTS];
 
 	Float3 FindNormal() const;
+	bool FindNormal(Float3& normal) const;
 
 	//lh-coord, thus: clockwise is looking at front.
 	static Float3 FindNormal(const Float3& p0, const Float3& p1, const Float3& p2);
 	static Float3 FindNormal(const Float3* pPoint);
 
 	static bool FindNormal(const Float3& p0, const Float3& p1, const Float3& p2, Float3& normal);
+	static bool FindNormal(const Float3* pPoints, Float3& normal);
 };
 }
 
