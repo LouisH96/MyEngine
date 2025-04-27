@@ -1,8 +1,10 @@
 #pragma once
-#include <Geometry\ModelTopology.h>
-#include <DataStructures\List.h>
 #include <DataStructures\Adders\ListAdder.h>
 #include <DataStructures\Container.h>
+#include <DataStructures\List.h>
+#include <Geometry\ModelTopology.h>
+#include <Geometry\PointUtils.h>
+#include <Geometry\Shapes\CubeAA.h>
 
 namespace MyEngine
 {
@@ -19,6 +21,8 @@ namespace MyEngine
 		void StartShape();
 		void Clear();
 		void Add(const MeshDataWithoutIndices<Vertex, Topology>& other);
+
+		CubeAA GetBounds() const;
 	};
 
 	template<typename Vertex, ModelTopology Topology>
@@ -66,6 +70,19 @@ namespace MyEngine
 	void MeshDataWithoutIndices<Vertex, Topology>::Add(const MeshDataWithoutIndices<Vertex, Topology>& other)
 	{
 		Vertices.Add(other.Vertices);
+	}
+
+	template<typename Vertex, ModelTopology Topology>
+	inline CubeAA MeshDataWithoutIndices<Vertex, Topology>::GetBounds() const
+	{
+		//Bounds
+		Float3 minBounds{ Float::MAX };
+		Float3 maxBounds{ -Float::MAX };
+		for (unsigned iPoint{ 0 }; iPoint < Vertices.GetSize(); ++iPoint)
+			Geometry::PointUtils::UpdateBounds(
+				Vertices[iPoint].Pos, minBounds, maxBounds);
+
+		return CubeAA{minBounds, maxBounds-minBounds};
 	}
 
 	template<typename Vertex, ModelTopology Topology>
