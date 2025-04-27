@@ -70,6 +70,8 @@ struct Vector3
 	float Distance(const Vector3& other) const;
 	float DistanceSq(const Vector3& other) const;
 
+	bool HasNan() const;
+
 	//will normalize [0,255] to [0,1]
 	static Vector3 Color(const T& r, const T& g, const T& b);
 	static Vector3 Color(int hex);
@@ -326,6 +328,12 @@ template <typename T>
 float Vector3<T>::DistanceSq(const Vector3& other) const
 {
 	return (other - *this).LengthSq();
+}
+
+template<typename T>
+inline bool Vector3<T>::HasNan() const
+{
+	return isnan(x) || isnan(y) || isnan(z);
 }
 
 template <typename T>
