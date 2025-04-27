@@ -18,6 +18,8 @@ namespace MyEngine
 		static constexpr float FLOAT_MAX = std::numeric_limits<float>::max();
 		static constexpr float FLOAT_INVALID = std::numeric_limits<float>::infinity();
 		static constexpr float FLOAT_INFINITY = std::numeric_limits<float>::infinity();
+
+		static constexpr float PHYSICS_EPSILON = 1e-4f;
 	};
 
 	static constexpr float ToRad(float degrees) { return degrees * Constants::TO_RAD; }

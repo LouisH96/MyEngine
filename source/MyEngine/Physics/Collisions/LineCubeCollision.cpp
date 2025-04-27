@@ -85,7 +85,7 @@ bool LineCubeCollision::Detect(
 
 	for (unsigned iDim{ 0 }; iDim < 3; ++iDim)
 	{
-		if (abs(direction[iDim]) < 0.00001f)
+		if (abs(direction[iDim]) < Constants::PHYSICS_EPSILON)
 		{
 			//Parallel
 			//Origin should be inside slab
