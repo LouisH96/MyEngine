@@ -45,31 +45,22 @@ Rendering::Mesh* Generation::PlaneGeneration::MeshTowardsZMin(const Float3& left
 void Generation::PlaneGeneration::TowardXMin(const Float3& leftBot, const Float2& size, const Float3& color,
 	List<Rendering::V_PosColNorm>& vertices, List<int>& indices)
 {
-	const Float3 right{ 0,0,1 };
-	const Float3 up{ 0,1,0 };
-	const Float3 normal{ 1,0,0 };
-	Create(right, up, normal, leftBot, size, color, vertices, indices);
-}
-
-void Generation::PlaneGeneration::TowardXMax(const Float3& leftBot, const Float2& size, const Float3& color,
-	List<Rendering::V_PosColNorm>& vertices, List<int>& indices)
-{
 	const Float3 right{ 0,0,-1 };
 	const Float3 up{ 0,1,0 };
 	const Float3 normal{ -1,0,0 };
 	Create(right, up, normal, leftBot, size, color, vertices, indices);
 }
 
-void Generation::PlaneGeneration::TowardYMin(const Float3& leftBot, const Float2& size, const Float3& color,
+void Generation::PlaneGeneration::TowardXMax(const Float3& leftBot, const Float2& size, const Float3& color,
 	List<Rendering::V_PosColNorm>& vertices, List<int>& indices)
 {
-	const Float3 right{ 1,0,0 };
-	const Float3 up{ 0,0,1 };
-	const Float3 normal{ 0,1,0 };
+	const Float3 right{ 0,0,1 };
+	const Float3 up{ 0,1,0 };
+	const Float3 normal{ 1,0,0 };
 	Create(right, up, normal, leftBot, size, color, vertices, indices);
 }
 
-void Generation::PlaneGeneration::TowardYMax(const Float3& leftBot, const Float2& size, const Float3& color,
+void Generation::PlaneGeneration::TowardYMin(const Float3& leftBot, const Float2& size, const Float3& color,
 	List<Rendering::V_PosColNorm>& vertices, List<int>& indices)
 {
 	const Float3 right{ 1,0,0 };
@@ -78,21 +69,30 @@ void Generation::PlaneGeneration::TowardYMax(const Float3& leftBot, const Float2
 	Create(right, up, normal, leftBot, size, color, vertices, indices);
 }
 
+void Generation::PlaneGeneration::TowardYMax(const Float3& leftBot, const Float2& size, const Float3& color,
+	List<Rendering::V_PosColNorm>& vertices, List<int>& indices)
+{
+	const Float3 right{ 1,0,0 };
+	const Float3 up{ 0,0,1 };
+	const Float3 normal{ 0,1,0 };
+	Create(right, up, normal, leftBot, size, color, vertices, indices);
+}
+
 void Generation::PlaneGeneration::TowardZMin(const Float3& leftBot, const Float2& size, const Float3& color,
 	List<Rendering::V_PosColNorm>& vertices, List<int>& indices)
 {
-	const Float3 right{ -1,0,0 };
+	const Float3 right{ 1,0,0 };
 	const Float3 up{ 0,1,0 };
-	const Float3 normal{ 0,0,1 };
+	const Float3 normal{ 0,0,-1 };
 	Create(right, up, normal, leftBot, size, color, vertices, indices);
 }
 
 void Generation::PlaneGeneration::TowardZMax(const Float3& leftBot, const Float2& size, const Float3& color,
 	List<Rendering::V_PosColNorm>& vertices, List<int>& indices)
 {
-	const Float3 right{ 1,0,0 };
+	const Float3 right{ -1,0,0 };
 	const Float3 up{ 0,1,0 };
-	const Float3 normal{ 0,0,-1 };
+	const Float3 normal{ 0,0,1 };
 	Create(right, up, normal, leftBot, size, color, vertices, indices);
 }
 
