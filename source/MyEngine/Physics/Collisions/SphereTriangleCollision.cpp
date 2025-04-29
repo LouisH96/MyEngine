@@ -149,37 +149,48 @@ bool SphereTriangleCollision::ContinueDetecting(
 		const Float3* pTriangle{ &points[iPoint - 2] };
 		const Float3& normal{ triangleNormals[iTriangle] };
 
-		if (normal.Dot(direction) > 0)
-			continue;
-
-		const Float3 sphereFirstHit{
-			sphere.GetCenter() - normal * sphere.GetRadius() }; //point on sphere that will hit plane first
-
-		float t;
-		LinePlaneCollision::Detect(
-			sphereFirstHit, direction, points[iPoint], normal, t);
-
-		if (t < 0 || t >= result.T)
-			continue;
-
-		const Float3 planeFirstHit{
-			sphereFirstHit + direction * t }; //point on plane that will be hit first
-
-		Float3 triangleClosest{}; //closest triangle point (to planeFirstHit)
-		if (PointTriangleCollision::DetectOrClosest(planeFirstHit, pTriangle, triangleClosest))
-		{
-			result.HitDirection = -normal;
-			result.T = t;
-			continue;
-		}
-
-		Ray returnRay{ triangleClosest, -direction, result.T };
-		if (LineSphereCollision::Detect(returnRay, sphere, t))
-		{
-			result.HitDirection = triangleClosest - (sphere.GetCenter() + direction * t);
-			result.T = t;
-		}
+		ContinueDetecting(
+			sphere, direction,
+			pTriangle, normal,
+			result);
 	}
 
 	return result.T < initT;
+}
+
+void SphereTriangleCollision::ContinueDetecting(
+	const Sphere& sphere, const Float3& direction,
+	const Float3* pTriangle, const Float3& triangleNormal,
+	MovingSphereCollision& result)
+{
+	if (triangleNormal.Dot(direction) > 0)
+		return;
+
+	const Float3 sphereFirstHit{
+		sphere.GetCenter() - triangleNormal * sphere.GetRadius() }; //point on sphere that will hit plane first
+
+	float t;
+	LinePlaneCollision::Detect(
+		sphereFirstHit, direction, *pTriangle, triangleNormal, t);
+
+	if (t < 0 || t >= result.T)
+		return;
+
+	const Float3 planeFirstHit{
+		sphereFirstHit + direction * t }; //point on plane that will be hit first
+
+	Float3 triangleClosest{}; //closest triangle point (to planeFirstHit)
+	if (PointTriangleCollision::DetectOrClosest(planeFirstHit, pTriangle, triangleClosest))
+	{
+		result.HitDirection = -triangleNormal;
+		result.T = t;
+		return;
+	}
+
+	Ray returnRay{ triangleClosest, -direction, result.T };
+	if (LineSphereCollision::Detect(returnRay, sphere, t))
+	{
+		result.HitDirection = triangleClosest - (sphere.GetCenter() + direction * t);
+		result.T = t;
+	}
 }

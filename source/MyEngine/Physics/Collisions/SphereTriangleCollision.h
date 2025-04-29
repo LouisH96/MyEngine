@@ -83,6 +83,14 @@ public:
 		//Result
 		MovingSphereCollision& result
 	);
+	static void ContinueDetecting(
+		//A
+		const Sphere& sphere, const Float3& direction,
+		//B
+		const Float3* pTriangle, const Float3& triangleNormal,
+		//Result
+		MovingSphereCollision& result
+	);
 
 	template<typename TPoints, typename TNormals>
 	static bool Detect(
