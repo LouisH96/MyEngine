@@ -219,7 +219,6 @@
     <ClInclude Include="Geometry\Shapes\Quad.h" />
     <ClInclude Include="Generation\PrismGenerator.h" />
     <ClInclude Include="Geometry\Shapes\Line.h" />
-    <ClInclude Include="App\Win32\KeyCodes.h" />
     <ClInclude Include="Geometry\Shapes\Rect3.h" />
     <ClInclude Include="Rendering\Buffers\Buffer.h" />
     <ClInclude Include="Rendering\Buffers\InvalidateBuffer.h" />
@@ -371,6 +370,7 @@
     <ClInclude Include="Physics\Collisions\PointAabCollision.h" />
     <ClInclude Include="Physics\Collisions\PointTriangleCollision.h" />
     <ClInclude Include="Debug\Rendering\DebugTriangles.h" />
+    <ClInclude Include="App\Win32\KeyCode.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

@@ -1,24 +1,25 @@
 #include "pch.h"
-// ReSharper disable CppClangTidyPerformanceNoIntToPtr
 #include "Window.h"
 
 #include "IExtraWinProc.h"
 #include "Screen.h"
 #include <Rendering/Canvas.h>
 
-App::Win32::Window::Window(const std::wstring& title, Options options)
+using namespace App::Win32;
+
+Window::Window(const std::wstring& title, Options options)
 	: m_pExtraWinProc{ nullptr }
 {
 	Init(title, options);
 }
 
-App::Win32::Window::Window(const std::wstring& title, IExtraWinProc& extraWinProc, Options options)
+Window::Window(const std::wstring& title, IExtraWinProc& extraWinProc, Options options)
 	: m_pExtraWinProc{ &extraWinProc }
 {
 	Init(title, options);
 }
 
-App::Win32::Window::Window(const std::wstring& title, const Int2& clientSize,
+Window::Window(const std::wstring& title, const Int2& clientSize,
 	Options options)
 	: m_ClientSize(clientSize.x, clientSize.y)
 	, m_pExtraWinProc{ nullptr }
@@ -26,7 +27,7 @@ App::Win32::Window::Window(const std::wstring& title, const Int2& clientSize,
 	Init(title, options);
 }
 
-App::Win32::Window::Window(const std::wstring& title, const Int2& clientSize,
+Window::Window(const std::wstring& title, const Int2& clientSize,
 	IExtraWinProc& extraWinProc, Options options)
 	: m_ClientSize(clientSize.x, clientSize.y)
 	, m_pExtraWinProc{ &extraWinProc }
@@ -34,12 +35,12 @@ App::Win32::Window::Window(const std::wstring& title, const Int2& clientSize,
 	Init(title, options);
 }
 
-App::Win32::Window::~Window()
+Window::~Window()
 {
 	Release();
 }
 
-void App::Win32::Window::Init(const std::wstring& title, const Options& options)
+void Window::Init(const std::wstring& title, const Options& options)
 {
 	//Register window class
 	const std::wstring className = L"MyWindowClass";
@@ -93,13 +94,13 @@ void App::Win32::Window::Init(const std::wstring& title, const Options& options)
 	//HandleMessages();
 }
 
-void App::Win32::Window::Release()
+void Window::Release()
 {
 	//todo: check if and how you could quit the app from here, and not from a quit msg on the queue
 	//simply PostMessage with wm_quit would work probably, but normally this shouldn't be closed like this
 }
 
-void App::Win32::Window::FindInitPosAndSize(const Int2& desiredCanvasSize, Int2& windowPos, Int2& windowSize, bool& maximized)
+void Window::FindInitPosAndSize(const Int2& desiredCanvasSize, Int2& windowPos, Int2& windowSize, bool& maximized)
 {
 	//get work area
 	HMONITOR monitorHandle = MonitorFromWindow(m_WindowHandle, MONITOR_DEFAULTTONEAREST);
@@ -123,12 +124,12 @@ void App::Win32::Window::FindInitPosAndSize(const Int2& desiredCanvasSize, Int2&
 	if (windowSize.x >= workAreaSize.x)
 	{
 		borderCount++;
-		windowSize.x = static_cast<int>(workAreaSize.x );
+		windowSize.x = static_cast<int>(workAreaSize.x);
 	}
 	if (windowSize.y >= workAreaSize.y)
 	{
 		borderCount++;
-		windowSize.y = static_cast<int>(workAreaSize.y );
+		windowSize.y = static_cast<int>(workAreaSize.y);
 	}
 
 	maximized = borderCount == 2;
@@ -143,7 +144,44 @@ void App::Win32::Window::FindInitPosAndSize(const Int2& desiredCanvasSize, Int2&
 	maximized = borderCount == 2;
 }
 
-void App::Win32::Window::SetCursorFocusMode(bool cursorFocused)
+uint8_t Window::GetVirtualKey(const WPARAM& wParam, const LPARAM& lParam)
+{
+	/*
+		lParam's bit 16-23 = scancode
+	*/
+	const uint8_t virtualKey{ static_cast<uint8_t>(wParam) };
+
+	switch (virtualKey)
+	{
+	case VK_SHIFT:
+		/*
+			VK_LSHIFT = 0xA0 or 1010'0000
+			VK_RSHIFT = 0xA1 or 1010'0001
+
+			SC_LSHIFT = 0010'1010
+			SC_RSHIFT = 0011'0110
+		*/
+		return 0xA0
+			+ (lParam >> (16 + 2) & 1);
+
+	case VK_CONTROL:
+		/*
+			VK_LCONTROL = 0xA2
+			VK_RCONTROL = 0xA3
+
+			Scancodes of left and right ctrl are the same.
+			Difference can be found in the 24'th bit of the lParam.
+				If bit = 1 -> right ctrl.
+		*/
+		return VK_LCONTROL
+			+ (lParam >> 24 & 1);
+
+	default:
+		return virtualKey;
+	}
+}
+
+void Window::SetCursorFocusMode(bool cursorFocused)
 {
 	m_CursorFocusMode = cursorFocused;
 	if (m_CursorFocusMode)
@@ -152,7 +190,7 @@ void App::Win32::Window::SetCursorFocusMode(bool cursorFocused)
 		while (ShowCursor(true) < 0) {}
 }
 
-void App::Win32::Window::HandleMessages()
+void Window::HandleMessages()
 {
 	m_IsResized = false;
 	m_Mouse.PreChange();
@@ -176,7 +214,7 @@ void App::Win32::Window::HandleMessages()
 
 LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	App::Win32::Window& window = *reinterpret_cast<App::Win32::Window*>(GetWindowLongPtr(windowHandle, GWLP_USERDATA));
+	Window& window = *reinterpret_cast<Window*>(GetWindowLongPtr(windowHandle, GWLP_USERDATA));
 
 	switch (uMsg)
 	{
@@ -190,10 +228,10 @@ LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, 
 		window.m_IsResized = window.m_ClientSize.x > 0 && window.m_ClientSize.y > 0;
 		break;
 	case WM_KEYDOWN:
-		window.m_Keyboard.KeyDown(static_cast<char>(wParam));
+		window.m_Keyboard.KeyDown(Window::GetVirtualKey(wParam, lParam));
 		break;
 	case WM_KEYUP:
-		window.m_Keyboard.KeyUp(static_cast<char>(wParam));
+		window.m_Keyboard.KeyUp(Window::GetVirtualKey(wParam, lParam));
 		break;
 	case WM_MOUSEMOVE:
 		window.m_Mouse.OnMove(lParam);

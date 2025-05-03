@@ -1,37 +1,31 @@
 #pragma once
 #include "../Win32/Keyboard_.h"
 
-namespace MyEngine
+namespace MyEngine::App::Win32
 {
-	namespace App
-	{
-		namespace Win32
-		{
-			class Keyboard_MsgListener
-				: public Keyboard_<Keyboard_MsgListener>
-			{
-			public:
-				Keyboard_MsgListener();
+class Keyboard_MsgListener
+	: public Keyboard_<Keyboard_MsgListener>
+{
+public:
+	Keyboard_MsgListener();
 
-				void PreInput();
+	void PreInput();
 
-				void KeyUp(char c);
-				void KeyDown(char c);
+	void KeyUp(Key c);
+	void KeyDown(Key c);
 
-				bool IsDown_(char c) const;
-				bool IsPressed(char c) const;
-				bool IsReleased(char c) const;
+	bool IsDown_(Key c) const;
+	bool IsPressed(Key c) const;
+	bool IsReleased(Key c) const;
 
-				Int2 GetPressedArrowInput() const;
+	Int2 GetPressedArrowInput() const;
 
-			private:
-				static constexpr unsigned NR_KEYS = 256;
-				static constexpr int PACK_SIZE = 8;
-				static constexpr int PACKS_PER_STATE = NR_KEYS / PACK_SIZE;
-				static constexpr int NR_STATES = 2; //first: is currently down?, second: was down?
-				static constexpr int TOTAL_PACKS = PACKS_PER_STATE * NR_STATES;
-				unsigned char m_Keys[TOTAL_PACKS]{};
-			};
-		}
-	}
+private:
+	static constexpr unsigned NR_KEYS = 256;
+	static constexpr int PACK_SIZE = 8;
+	static constexpr int PACKS_PER_STATE = NR_KEYS / PACK_SIZE;
+	static constexpr int NR_STATES = 2; //first: is currently down?, second: was down?
+	static constexpr int TOTAL_PACKS = PACKS_PER_STATE * NR_STATES;
+	uint8_t m_Keys[TOTAL_PACKS]{};
+};
 }

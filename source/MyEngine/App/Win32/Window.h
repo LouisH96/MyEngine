@@ -85,6 +85,8 @@ namespace MyEngine
 				bool m_HasFocus{ true };
 				bool m_CursorFocusMode{ false };
 
+				static uint8_t GetVirtualKey(const WPARAM& wParam, const LPARAM& lParam);
+
 				friend LRESULT CALLBACK::win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam);
 				friend LRESULT CALLBACK::win32_window_proc_extra(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam);
 			};

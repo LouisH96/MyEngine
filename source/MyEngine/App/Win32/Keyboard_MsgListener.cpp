@@ -13,14 +13,14 @@ void App::Win32::Keyboard_MsgListener::PreInput()
 		m_Keys[i + PACKS_PER_STATE] = m_Keys[i];
 }
 
-bool App::Win32::Keyboard_MsgListener::IsDown_(char c) const
+bool App::Win32::Keyboard_MsgListener::IsDown_(Key c) const
 {
 	const int iPack = c / PACK_SIZE;
 	const int iBit = c % PACK_SIZE;
 	return m_Keys[iPack] & (1 << iBit);
 }
 
-bool App::Win32::Keyboard_MsgListener::IsPressed(char c) const
+bool App::Win32::Keyboard_MsgListener::IsPressed(Key c) const
 {
 	const int iPack = c / PACK_SIZE;
 	const int iBit = c % PACK_SIZE;
@@ -29,7 +29,7 @@ bool App::Win32::Keyboard_MsgListener::IsPressed(char c) const
 	return isDown && !wasDown;
 }
 
-bool App::Win32::Keyboard_MsgListener::IsReleased(char c) const
+bool App::Win32::Keyboard_MsgListener::IsReleased(Key c) const
 {
 	const int iPack = c / PACK_SIZE;
 	const int iBit = c % PACK_SIZE;
@@ -41,18 +41,18 @@ bool App::Win32::Keyboard_MsgListener::IsReleased(char c) const
 Int2 App::Win32::Keyboard_MsgListener::GetPressedArrowInput() const
 {
 	return{
-		IsPressed(KeyCodes::ARROW_RIGHT) - IsPressed(KeyCodes::ARROW_LEFT),
-		IsPressed(KeyCodes::ARROW_UP) - IsPressed(KeyCodes::ARROW_DOWN) };
+		IsPressed(KeyCode::ArrowRight) - IsPressed(KeyCode::ArrowLeft),
+		IsPressed(KeyCode::ArrowUp) - IsPressed(KeyCode::ArrowDown) };
 }
 
-void App::Win32::Keyboard_MsgListener::KeyUp(char c)
+void App::Win32::Keyboard_MsgListener::KeyUp(Key c)
 {
 	const int iPack = c / PACK_SIZE;
 	const int iBit = c % PACK_SIZE;
 	m_Keys[iPack] &= ~(1 << iBit);
 }
 
-void App::Win32::Keyboard_MsgListener::KeyDown(char c)
+void App::Win32::Keyboard_MsgListener::KeyDown(Key c)
 {
 	const int iPack = c / PACK_SIZE;
 	const int iBit = c % PACK_SIZE;
