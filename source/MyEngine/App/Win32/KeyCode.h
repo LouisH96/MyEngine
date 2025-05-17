@@ -180,6 +180,6 @@ enum KeyCode : KeyCodeType
 	LaunchEmail = 0xE06C,
 	LaunchMedia = 0xE06D,
 
-	Pause = 0xE11D45,
+	//Pause = 0xE11D45,
 };
 }
