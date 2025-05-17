@@ -53,7 +53,7 @@ namespace MyEngine
 		template <typename Vertex, typename CamData>
 		BasicRenderer<Vertex, CamData>::BasicRenderer(
 			const std::wstring& shaderPath, bool isWireframe)
-			: m_RasterizerState(isWireframe)
+			: m_RasterizerState{ RasterizerState::MakeDefault(isWireframe) }
 			, m_Shader(shaderPath)
 			, m_InputLayout(Vertex::ELEMENTS, Vertex::NR_ELEMENTS)
 			, m_ConstantBuffer{}

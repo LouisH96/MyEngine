@@ -2,24 +2,31 @@
 
 struct ID3D11RasterizerState;
 
-namespace MyEngine
+namespace MyEngine::Rendering
 {
-	namespace Rendering
-	{
-		class RasterizerState
-		{
-		public:
-			explicit RasterizerState(bool isWireframe = false);
-			~RasterizerState();
-			RasterizerState(const RasterizerState& other) = delete;
-			RasterizerState(RasterizerState&& other) noexcept = delete;
-			RasterizerState& operator=(const RasterizerState& other) = delete;
-			RasterizerState& operator=(RasterizerState&& other) noexcept = delete;
+class RasterizerState
+{
+public:
+	enum class Culling {
+		Front, Back, None
+	};
 
-			void Activate() const;
+public:
+	explicit RasterizerState(Culling culling = Culling::Back, bool isWireframe = false);
+	~RasterizerState();
+	RasterizerState(const RasterizerState& other) = delete;
+	RasterizerState(RasterizerState&& other) noexcept = delete;
+	RasterizerState& operator=(const RasterizerState& other) = delete;
+	RasterizerState& operator=(RasterizerState&& other) noexcept = delete;
 
-		private:
-			ID3D11RasterizerState* m_pState{};
-		};
-	}
+	void Activate() const;
+
+	static RasterizerState MakeWireframe();
+	static RasterizerState MakeDefault(bool isWireframe);
+
+private:
+	ID3D11RasterizerState* m_pState{};
+
+	static D3D11_CULL_MODE ToDx(Culling culling);
+};
 }

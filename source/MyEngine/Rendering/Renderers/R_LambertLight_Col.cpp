@@ -8,7 +8,7 @@
 using namespace Rendering;
 
 R_LambertLight_Col::R_LambertLight_Col(bool isWireframe)
-	: m_RasterizerState{ isWireframe }
+	: m_RasterizerState{ RasterizerState::MakeDefault(isWireframe) }
 	, m_InputLayout{ Vertex::ELEMENTS, Vertex::NR_ELEMENTS }
 	, m_Shader{ Resources::GlobalShader(L"LambertLight_Col.hlsl") }
 	, m_Entries{ 0 }
@@ -25,7 +25,7 @@ void R_LambertLight_Col::Render_Internal()
 	m_BlendState.Activate();
 	for (unsigned i = 0; i < m_Entries.GetSize(); i++)
 	{
-		m_CameraConstantBuffer.Update(CB_CamMatPos{ Globals::pCamera->GetPosition(), Globals::pCamera->GetViewProjection()});
+		m_CameraConstantBuffer.Update(CB_CamMatPos{ Globals::pCamera->GetPosition(), Globals::pCamera->GetViewProjection() });
 		m_CameraConstantBuffer.Activate();
 		m_Entries[i]->Activate();
 		m_Entries[i]->Draw();

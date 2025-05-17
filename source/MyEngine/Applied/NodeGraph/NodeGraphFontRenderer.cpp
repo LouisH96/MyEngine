@@ -11,7 +11,7 @@ using namespace Rendering;
 NodeGraphFontRenderer::NodeGraphFontRenderer()
 	: m_InputLayout{ InputLayout::FromType<Vertex>() }
 	, m_Shader{ Resources::GlobalShader(L"NodeGraph_Tex.hlsl") }
-	, m_RasterizerState{ false }
+	, m_RasterizerState{ }
 {
 	Font::FontAtlas fontAtlas{ 64 };
 	m_FontAtlas = Texture{ fontAtlas.GetImage() };

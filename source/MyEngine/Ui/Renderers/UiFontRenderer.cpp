@@ -14,7 +14,7 @@ using namespace Rendering;
 UiFontRenderer::UiFontRenderer(const Float2& screenSize)
 	: m_InputLayout{ InputLayout::FromType<Vertex>() }
 	, m_Shader{ Resources::GlobalShader(L"Font.hlsl") }
-	, m_RasterizerState{ false }
+	, m_RasterizerState{ }
 	, m_NrVertices{}
 	, m_ScreenSpaceToNdc{ CalculateScreenSpaceToNdc(screenSize) }
 	, m_HalfScreenSize{ screenSize / 2.f }
