@@ -196,4 +196,5 @@ void UiSystem::RecreateTree()
 	m_pCurrentElem = nullptr;
 
 	m_Tree.RecreateTree();
+	m_ImageRenderer.CreateBuffer();
 }
