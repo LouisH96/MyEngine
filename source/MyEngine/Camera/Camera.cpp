@@ -99,6 +99,11 @@ Float3 Camera::GetForward() const
 	return m_World.GetRow2().Xyz();
 }
 
+Float3 Camera::GetFarPlaneCenter() const
+{
+	return GetPosition() + GetForward() * m_Far;
+}
+
 Float3 Camera::GetRightXz() const
 {
 	return {
@@ -118,6 +123,11 @@ Float3 Camera::GetForwardXz() const
 float Camera::GetHalfFov() const
 {
 	return atan(m_TanHalfFov);
+}
+
+Float2 Camera::GetFarPlaneHalfSize() const
+{
+	return { m_TanHalfFov * m_AspectRatio * m_Far, m_TanHalfFov * m_Far };
 }
 
 Ray Camera::GetMouseRay(float rayLength)

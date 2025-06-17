@@ -28,6 +28,7 @@ namespace MyEngine
 		Float3 GetRight() const;
 		Float3 GetUp() const;
 		Float3 GetForward() const;
+		Float3 GetFarPlaneCenter() const;
 
 		Float3 GetRightXz() const;
 		Float3 GetForwardXz() const;
@@ -41,6 +42,10 @@ namespace MyEngine
 		float GetHalfFov() const; //in radians
 		float GetTanHalfFov() const { return m_TanHalfFov; }
 		float GetAspectRatio() const { return m_AspectRatio; }
+		float GetNear() const { return m_Near; }
+		float GetFar() const { return m_Far; }
+		Float2 GetFarPlaneHalfSize() const;
+		Float2 GetFarPlaneSize() const { return GetFarPlaneHalfSize() * 2; }
 
 		Ray GetMouseRay(float rayLength = 100);
 		Ray GetRay(const Int2& pixel, float rayLength = 1) const;
