@@ -94,6 +94,11 @@ Float4X4 WorldMatrix::Translation(const Float3& translation)
 	return m;
 }
 
+Float4X4 WorldMatrix::Translation(const Float4& translation)
+{
+	return Translation(translation.Xyz());
+}
+
 Float4X4 WorldMatrix::Rotation(const Float3& forward)
 {
 	Float4X4 world{};
@@ -122,6 +127,16 @@ Float4X4 WorldMatrix::Rotation(float yaw, float pitch)
 			Float4{sinPitch, cosPitch,0, 0},
 			Float4{sinYaw * cosPitch, -sinPitch * sinYaw, cosYaw, 0},
 			Float4{0,0,0,1}
+	};
+}
+
+Float4X4 WorldMatrix::Scale(const Float3& scale)
+{
+	return Float4X4{
+		Float4{scale.x, 0,0,0},
+		Float4{0, scale.y, 0, 0},
+		Float4{0, 0, scale.z, 0},
+		Float4{0,0,0,1}
 	};
 }
 
