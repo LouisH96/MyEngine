@@ -45,6 +45,11 @@ struct Vector4
 	Vector4& operator=(const Vector2<T>& vector2);
 	Vector4& operator=(const Vector3<T>& vector3);
 
+	Vector4 operator+(const Vector3<T>& v) const;
+	Vector4& operator+=(const Vector3<T>& v);
+	Vector4 operator-(const Vector3<T>& v) const;
+	Vector4& operator-=(const Vector3<T>& v);
+
 	T Get(int i) const;
 	void Set(T f, int i);
 	void Inverse();
@@ -57,6 +62,7 @@ struct Vector4
 	Vector4 Normalized() const;
 
 	//---| Cast |---
+	Vector2<T> Xy() const;
 	Vector3<T> Xyz() const;
 	Vector3<T>& Xyz();
 };
@@ -124,6 +130,44 @@ Vector4<T>& Vector4<T>::operator=(const Vector3<T>& vector3)
 	return *this;
 }
 
+template<typename T>
+inline Vector4<T> Vector4<T>::operator+(const Vector3<T>& v) const
+{
+	return {
+		x + v.x,
+		y + v.y,
+		z + v.z,
+		w
+	};
+}
+
+template<typename T>
+inline Vector4<T>& Vector4<T>::operator+=(const Vector3<T>& v)
+{
+	x += v.x;
+	y += v.y;
+	z += v.z;
+}
+
+template<typename T>
+inline Vector4<T> Vector4<T>::operator-(const Vector3<T>& v) const
+{
+	return {
+		x - v.x,
+		y - v.y,
+		z - v.z,
+		w
+	};
+}
+
+template<typename T>
+inline Vector4<T>& Vector4<T>::operator-=(const Vector3<T>& v)
+{
+	x -= v.x;
+	y -= v.y;
+	z -= v.z;
+}
+
 template <typename T> T Vector4<T>::Get(int i) const { return *(&x + i); }
 template <typename T> void Vector4<T>::Set(T f, int i) { *(&x + i) = f; }
 template <typename T> void Vector4<T>::Inverse() { x = -x; y = -y; z = -z; w = -w; }
@@ -144,7 +188,13 @@ template <typename T>
 Vector4<T> Vector4<T>::Normalized() const
 {
 	const T invLength{ static_cast<T>(1) / Length() };
-	return this * invLength;
+	return *this * invLength;
+}
+
+template<typename T>
+Vector2<T> Vector4<T>::Xy() const
+{
+	return { x, y };
 }
 
 template <typename T>

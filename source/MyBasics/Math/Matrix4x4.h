@@ -91,6 +91,8 @@ namespace MyEngine
 		Matrix4X4 operator*(float r) const;
 		Matrix4X4& operator*=(float r);
 
+		Vector4<T> operator*(const Vector4<T>& v) const;
+
 		Vector3<T> AppliedToPoint(const Vector3<T>& v) const; // (rowVector,1) * matrix
 		Vector3<T> AppliedToVector(const Vector3<T>& v) const; // (rowVector,0) * matrix
 
@@ -99,6 +101,25 @@ namespace MyEngine
 	private:
 		Vector4<T> m_Cols[NR_COLS];
 	};
+
+	template<typename T>
+	Vector4<T> operator*(const Vector4<T>& vector, const Matrix4X4<T>& matrix)
+	{
+		return {
+			vector.Dot(matrix[0]),
+			vector.Dot(matrix[1]),
+			vector.Dot(matrix[2]),
+			vector.Dot(matrix[3])
+		};
+	}
+
+	template<typename T>
+	Vector4<T>& operator*=(Vector4<T>& vector, const Matrix4X4<T>&matrix)
+	{
+		const Vector4<T> result{ vector * matrix };
+		vector = result;
+		return vector;
+	}
 
 	template <typename T>
 	Matrix4X4<T>::Matrix4X4(const Vector4<T>& col0, const Vector4<T>& col1, const Vector4<T>& col2,
@@ -507,6 +528,17 @@ namespace MyEngine
 	}
 
 	template<typename T>
+	inline Vector4<T> Matrix4X4<T>::operator*(const Vector4<T>& v) const
+	{
+		return {
+			m_Cols[0][0] * v.x + m_Cols[1][0] * v.y + m_Cols[2][0] * v.z + m_Cols[3][0] * v.w,
+			m_Cols[0][1] * v.x + m_Cols[1][1] * v.y + m_Cols[2][1] * v.z + m_Cols[3][1] * v.w,
+			m_Cols[0][2] * v.x + m_Cols[1][2] * v.y + m_Cols[2][2] * v.z + m_Cols[3][2] * v.w,
+			m_Cols[0][3] * v.x + m_Cols[1][3] * v.y + m_Cols[2][3] * v.z + m_Cols[3][3] * v.w,
+		};
+	}
+
+	template<typename T>
 	inline Vector3<T> Matrix4X4<T>::AppliedToPoint(const Vector3<T>& v) const
 	{
 		return Vector3<T>{
@@ -520,9 +552,9 @@ namespace MyEngine
 	inline Vector3<T> Matrix4X4<T>::AppliedToVector(const Vector3<T>& v) const
 	{
 		return Vector3<T>{
-			v.x* m_Cols[0].x + v.y * m_Cols[0].y + v.z * m_Cols[0].z + m_Cols[0].w,
-				v.x* m_Cols[1].x + v.y * m_Cols[1].y + v.z * m_Cols[1].z + m_Cols[1].w,
-				v.x* m_Cols[2].x + v.y * m_Cols[2].y + v.z * m_Cols[2].z + m_Cols[2].w,
+			v.x* m_Cols[0].x + v.y * m_Cols[0].y + v.z * m_Cols[0].z + 0,
+				v.x* m_Cols[1].x + v.y * m_Cols[1].y + v.z * m_Cols[1].z + 0,
+				v.x* m_Cols[2].x + v.y * m_Cols[2].y + v.z * m_Cols[2].z + 0,
 		};
 	}
 

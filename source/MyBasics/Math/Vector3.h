@@ -43,6 +43,7 @@ struct Vector3
 	T Get(int i) const;
 	void Set(T f, int i);
 
+	Vector2<T> Xy() const;
 	Vector2<T> Xz() const;
 	void AddXz(const Vector2<T>& xz);
 	void SetXz(const Vector2<T>& xz);
@@ -159,6 +160,12 @@ void Vector3<T>::Set(T f, int i)
 	if (i == 0) x = f;
 	else if (i == 1) y = f;
 	else z = f;
+}
+
+template<typename T>
+inline Vector2<T> Vector3<T>::Xy() const
+{
+	return { x, y };
 }
 
 template <typename T>
