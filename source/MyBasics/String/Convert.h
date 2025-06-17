@@ -20,9 +20,10 @@ namespace MyEngine
 
 		template<typename T>
 		static std::string ToString(const Vector2<T>& vector);
-
 		template<typename T>
 		static std::string ToString(const Vector3<T>& vector);
+		template<typename T>
+		static std::string ToString(const Vector4<T>& vector);
 
 		template<typename T>
 		static std::string ToString(const Array<T>& array);
@@ -53,6 +54,18 @@ namespace MyEngine
 		ss << "(" << ToString(vector.x)
 			<< ", " << ToString(vector.y)
 			<< ", " << ToString(vector.z) << ")";
+		return ss.str();
+	}
+
+	template <typename T>
+	std::string Convert::ToString(const Vector4<T>& vector)
+	{
+		std::stringstream ss{};
+		ss << "(" << ToString(vector.x)
+			<< ", " << ToString(vector.y)
+			<< ", " << ToString(vector.z)
+			<< ", " << ToString(vector.w)
+			<< ")";
 		return ss.str();
 	}
 
