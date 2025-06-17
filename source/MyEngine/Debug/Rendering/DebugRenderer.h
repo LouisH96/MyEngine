@@ -1,4 +1,5 @@
 #pragma once
+#include <App\ResizedEvent.h>
 #include <Math/Vectors.h>
 #include <Rendering/Renderers/RendererFactory.h>
 #include <Rendering/State/BlendState.h>
@@ -12,6 +13,7 @@
 #include "DebugCones.h"
 #include "DebugCubes.h"
 #include "DebugLines.h"
+#include "DebugLinesScreenSpace.h"
 #include "DebugSpheres.h"
 #include "DebugTriangles.h"
 
@@ -46,6 +48,7 @@ namespace MyEngine
 			static void Init();
 			static void Release();
 			static void Render();
+			static void OnCanvasResized(const App::ResizedEvent& resizedEvent);
 
 			static void AddSphere(const Float3& position, const Float3& color, float radius);
 			static void AddSpheres(const Array<Float3>& positions, const Float3& color, float radius);
@@ -61,6 +64,9 @@ namespace MyEngine
 			static void DrawTriangle(const Triangle& triangle, const Float3& color);
 			static void DrawTriangle(const Float3* pTriangle, const Float3& color);
 			static void DrawTriangle(const Float3* pTriangle, const Float3& normal, const Float3& color);
+
+			static void DrawLine(const Float2& begin, const Float2& end, const Float3& color);
+			static void DrawRay(const Float2& begin, const Float2& displacement, const Float3& color);
 
 			static void AddRay(const Float3& origin, const Float3& displacement, const Float3& color);
 
@@ -90,7 +96,8 @@ namespace MyEngine
 			static DebugRenderer* m_pStatic;
 
 			//---| RenderState |---
-			Rendering::DepthStencilState m_DepthStencilState;
+			Rendering::DepthStencilState m_DepthOn;
+			Rendering::DepthStencilState m_DepthOff;
 			Rendering::BlendState m_BlendState;
 			Rendering::RasterizerState m_RasterizerState;
 			Rendering::InputLayout m_InputLayout;
@@ -103,6 +110,7 @@ namespace MyEngine
 			DebugCubes m_CubeRenderer;
 			DebugCones m_ConeRenderer;
 			DebugTriangles m_TriangleRenderer;
+			DebugLinesScreenSpace m_ScreenLines;
 
 			//---| Mesh |---
 			Array<Rendering::Mesh*> m_Meshes{};

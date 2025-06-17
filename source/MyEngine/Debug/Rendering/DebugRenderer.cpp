@@ -15,6 +15,8 @@ void DebugRenderer::Init()
 {
 	if (m_pStatic) Logger::Error("Static DebugRenderer already assigned");
 	m_pStatic = new DebugRenderer();
+
+	m_pStatic->m_ScreenLines.Init();
 }
 
 void DebugRenderer::Release()
@@ -25,6 +27,11 @@ void DebugRenderer::Release()
 void DebugRenderer::Render()
 {
 	m_pStatic->Class_Render();
+}
+
+void DebugRenderer::OnCanvasResized(const App::ResizedEvent& resizedEvent)
+{
+	m_pStatic->m_ScreenLines.OnCanvasResized(resizedEvent);
 }
 
 void DebugRenderer::AddSphere(const Float3& position, const Float3& color, float radius)
@@ -85,6 +92,16 @@ void DebugRenderer::DrawTriangle(const Float3* pTriangle, const Float3& color)
 void DebugRenderer::DrawTriangle(const Float3* pTriangle, const Float3& normal, const Float3& color)
 {
 	m_pStatic->m_TriangleRenderer.Draw(pTriangle, normal, color);
+}
+
+void DebugRenderer::DrawLine(const Float2& begin, const Float2& end, const Float3& color)
+{
+	m_pStatic->m_ScreenLines.DrawLine(begin, end, color);
+}
+
+void DebugRenderer::DrawRay(const Float2& begin, const Float2& displacement, const Float3& color)
+{
+	m_pStatic->m_ScreenLines.DrawRay(begin, displacement, color);
 }
 
 void DebugRenderer::AddRay(const Float3& origin, const Float3& displacement, const Float3& color)
@@ -211,6 +228,7 @@ DebugRenderer::DebugRenderer()
 	: m_InputLayout(Vertex::ELEMENTS, Vertex::NR_ELEMENTS)
 	, m_Shader(Resources::GlobalShader(L"lambertCamDir.hlsl"))
 	, m_pLineRenderer(RendererFactory::CreateUnlitRenderer())
+	, m_DepthOff{ false }
 {
 }
 
@@ -225,8 +243,8 @@ void DebugRenderer::Class_Render()
 	m_pLineRenderer->Render();
 	m_LinesRenderer2.Render();
 
-	m_DepthStencilState.Activate();
-	m_ConstantBuffer.Update(CB_CamMatPos{ Globals::pCamera->GetPosition(), Globals::pCamera->GetViewProjection()});
+	m_DepthOn.Activate();
+	m_ConstantBuffer.Update(CB_CamMatPos{ Globals::pCamera->GetPosition(), Globals::pCamera->GetViewProjection() });
 	m_ConstantBuffer.Activate();
 	m_RasterizerState.Activate();
 	m_InputLayout.Activate();
@@ -244,6 +262,9 @@ void DebugRenderer::Class_Render()
 	m_TriangleRenderer.Render();
 
 	m_SpheresRenderer.Render();
+
+	m_DepthOff.Activate();
+	m_ScreenLines.Render();
 }
 
 void DebugRenderer::Class_AddSphere(const Float3& position, const Float3& color, float radius)

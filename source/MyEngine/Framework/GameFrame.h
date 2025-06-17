@@ -72,8 +72,9 @@ void GameFrame::Run(const std::wstring& windowName, App::Win32::Window::Options 
 			const ResizedEvent resizedEvent{ canvas.OnWindowResized(window.GetClientSize()) };
 
 			Globals::pUi->OnCanvasResized(resizedEvent);
-
 			camera.OnCanvasResized(resizedEvent);
+			DebugRenderer::OnCanvasResized(resizedEvent);
+
 			pApp->OnCanvasResized(resizedEvent);
 		}
 
