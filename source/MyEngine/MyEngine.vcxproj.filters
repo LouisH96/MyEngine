@@ -148,6 +148,7 @@
     <ClCompile Include="Physics\Collisions\PointTriangleCollision.cpp" />
     <ClCompile Include="Debug\Rendering\DebugTriangles.cpp" />
     <ClCompile Include="Debug\Rendering\DebugLinesScreenSpace.cpp" />
+    <ClCompile Include="Framework\Systems\Systems.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -373,6 +374,8 @@
     <ClInclude Include="Debug\Rendering\DebugTriangles.h" />
     <ClInclude Include="App\Win32\KeyCode.h" />
     <ClInclude Include="Debug\Rendering\DebugLinesScreenSpace.h" />
+    <ClInclude Include="Framework\Systems\System.h" />
+    <ClInclude Include="Framework\Systems\Systems.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
