@@ -46,6 +46,20 @@ CB_CamPos::CB_CamPos(const Float3& position)
 {
 }
 
+CB_CamMatPosFor::CB_CamMatPosFor(const Camera& camera)
+	: CameraMatrix{ camera.GetViewProjection() }
+	, CameraPos{ camera.GetPosition() }
+	, CameraForward{ camera.GetForward() }
+{
+}
+
+CB_CamMatPosFor::CB_CamMatPosFor(const Float3& position, const Float3& forward, const Float4X4& matrix)
+	: CameraMatrix{ matrix }
+	, CameraPos{ position }
+	, CameraForward{ forward }
+{
+}
+
 CB_Cam_View_ViewProj_Pos_For::CB_Cam_View_ViewProj_Pos_For(const Camera& camera)
 	: View{ camera.GetView() }
 	, ViewProjection{ camera.GetViewProjection() }

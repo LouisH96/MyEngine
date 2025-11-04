@@ -27,6 +27,17 @@ namespace MyEngine
 			explicit CB_CamMatPos(const Float3& position, const Float4X4& matrix);
 			explicit CB_CamMatPos(const Float3& position, const Float4X4& viewProjection, const Transform& transform);
 		};
+		struct CB_CamMatPosFor
+		{
+			Float4X4 CameraMatrix{};
+			Float3 CameraPos;
+			float padding1;
+			Float3 CameraForward;
+			float padding2;
+
+			CB_CamMatPosFor(const Camera& camera);
+			explicit CB_CamMatPosFor(const Float3& position, const Float3& forward, const Float4X4& matrix);
+		};
 		struct CB_CamPos
 		{
 			Float3 CameraPos;
