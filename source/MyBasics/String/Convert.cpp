@@ -33,6 +33,13 @@ std::string Convert::ToString(const std::wstring& wString)
 	return result;
 }
 
+std::string Convert::ToString(bool b)
+{
+	return b
+		? "true"
+		: "false";
+}
+
 std::string Convert::ToString(char c)
 {
 	return { c };

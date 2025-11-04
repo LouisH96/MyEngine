@@ -15,6 +15,7 @@ namespace MyEngine
 
 		static std::string ToString(const std::string& string);
 		static std::string ToString(const std::wstring& wString);
+		static std::string ToString(bool b);
 		static std::string ToString(char c);
 		static std::string ToString(const Quaternion& quat);
 
