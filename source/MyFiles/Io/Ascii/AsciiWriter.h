@@ -23,8 +23,10 @@ namespace MyEngine
 				template<typename T>
 				std::ostream& operator<<(T value);
 
-			private:
+			protected:
 				std::ostream& m_Stream;
+
+			private:
 				int m_NrTabs;
 			};
 
