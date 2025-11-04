@@ -109,7 +109,11 @@ void MyEngine::Rendering::Dx::DxHelper::CompileFromFile(const std::wstring& path
 	}
 	else if (FAILED(hr))
 	{
-		Logger::Warning("[DxHelper::CompileFromFile] failed");
+		std::stringstream ss{};
+		ss << "[DxHelper::CompileFromFile]\n";
+		ss << "\t[Path: " << Convert::ToString(path) << "]\n";
+		ss << "\t[HResult: " << GetHResultString(hr) << "]\n";
+		Logger::Error(ss.str());
 		if (pBlob)
 			pBlob->Release();
 	}
