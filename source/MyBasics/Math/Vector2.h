@@ -161,7 +161,11 @@ Vector2<T> Vector2<T>::operator/(const Vector2& r) const
 template <typename T> Vector2<T> Vector2<T>::operator+(const T& r) const { return { static_cast<T>(x + r), static_cast<T>(y + r) }; }
 template <typename T> Vector2<T> Vector2<T>::operator-(const T& r) const { return { static_cast<T>(x - r), static_cast<T>(y - r) }; }
 template <typename T> Vector2<T> Vector2<T>::operator*(const T& r) const { return { static_cast<T>(x * r), static_cast<T>(y * r) }; }
-template <typename T> Vector2<T> Vector2<T>::operator/(const T& r) const { return { static_cast<T>(x / r), static_cast<T>(y / r) }; }
+template <typename T> Vector2<T> Vector2<T>::operator/(const T& r) const
+{
+	const T inv{ static_cast<T>(1) / r };
+	return *this * inv;
+}
 template <typename T> void Vector2<T>::operator+=(const Vector2& r) { x += r.x; y += r.y; }
 template <typename T> void Vector2<T>::operator-=(const Vector2& r) { x -= r.x; y -= r.y; }
 
@@ -182,7 +186,11 @@ void Vector2<T>::operator/=(const Vector2& r)
 template <typename T> void Vector2<T>::operator+=(const T& r) { x += r; y += r; }
 template <typename T> void Vector2<T>::operator-=(const T& r) { x -= r; y -= r; }
 template <typename T> void Vector2<T>::operator*=(const T& r) { x *= r; y *= r; }
-template <typename T> void Vector2<T>::operator/=(const T& r) { x /= r; y /= r; }
+template <typename T> void Vector2<T>::operator/=(const T& r) 
+{
+	const T inv{ static_cast<T>(1) / r };
+	*this *= inv;
+}
 
 template <typename T>
 template <typename TR>
