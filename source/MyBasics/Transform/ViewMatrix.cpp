@@ -36,6 +36,18 @@ Float4X4 ViewMatrix::From(const Float3& forward, const Float3& position)
 	};
 }
 
+void ViewMatrix::Scale(Float4X4& matrix, const Float3& scale)
+{
+	for (unsigned iCol{ 0 }; iCol < 3; ++iCol)
+		matrix[iCol] /= scale[iCol];
+}
+
+void ViewMatrix::ScaleInv(Float4X4& matrix, const Float3& scale)
+{
+	for (unsigned iCol{ 0 }; iCol < 3; ++iCol)
+		matrix[iCol] *= scale[iCol];
+}
+
 void ViewMatrix::SetPosition(Float4X4& viewMatrix, const Float3& position)
 {
 	viewMatrix[0][3] = -viewMatrix.GetCol0().Dot(position);
