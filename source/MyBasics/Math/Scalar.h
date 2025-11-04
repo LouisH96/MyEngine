@@ -28,7 +28,9 @@ namespace MyEngine
 		static T Sign(const T& value);
 
 		static T Max(const T& a, const T& b);
+		static T Max(const T& a, const T& b, const T& c);
 		static T Min(const T& a, const T& b);
+		static T Min(const T& a, const T& b, const T& c);
 		static void UpdateMax(T& currentMax, const T& possibleMax);
 		static void UpdateMin(T& currentMin, const T& possibleMin);
 
@@ -116,9 +118,27 @@ namespace MyEngine
 	}
 
 	template <typename T>
+	T Scalar<T>::Max(const T& a, const T& b, const T& c)
+	{
+		if (a >= b)
+			return a >= c ? a : c;
+		else
+			return b >= c ? b : c;
+	}
+
+	template <typename T>
 	T Scalar<T>::Min(const T& a, const T& b)
 	{
 		return a <= b ? a : b;
+	}
+
+	template <typename T>
+	T Scalar<T>::Min(const T& a, const T& b, const T& c)
+	{
+		if (a <= b)
+			return a <= c ? a : c;
+		else
+			return b <= c ? b : c;
 	}
 
 	template<typename T>

@@ -9,6 +9,7 @@ struct Vector3
 {
 	Vector3();
 	Vector3(T x, T y, T z);
+	Vector3(const Vector2<T>& other, float z);
 	explicit Vector3(T all);
 	~Vector3() = default;
 	Vector3(const Vector3& other) = default;
@@ -95,6 +96,14 @@ Vector3<T>::Vector3(const Vector3<O>& other)
 	: x{ Scalar<T>::Cast(other.x) }
 	, y{ Scalar<T>::Cast(other.y) }
 	, z{ Scalar<T>::Cast(other.z) }
+{
+}
+
+template<typename T>
+inline Vector3<T>::Vector3(const Vector2<T>& other, float z)
+	: x{ other.x }
+	, y{ other.y }
+	, z{ z }
 {
 }
 

@@ -12,6 +12,7 @@ struct Vector4
 	//---| Constructor/Destructor |---
 	Vector4();
 	Vector4(T x, T y, T z, T w);
+	Vector4(const Vector2<T>& vector2, T z, T w);
 	Vector4(const Vector3<T>& vector3, T w);
 	explicit Vector4(T all);
 
@@ -69,6 +70,14 @@ struct Vector4
 
 template <typename T> Vector4<T>::Vector4() : x{ 0 }, y{ 0 }, z{ 0 }, w{ 0 } {}
 template <typename T> Vector4<T>::Vector4(T x, T y, T z, T w) : x{ x }, y{ y }, z{ z }, w{ w } {}
+template<typename T>
+inline Vector4<T>::Vector4(const Vector2<T>& vector2, T z, T w)
+	: x{ vector2.x }
+	, y{ vector2.y }
+	, z{ z }
+	, w{ w }
+{
+}
 template <typename T> Vector4<T>::Vector4(const Vector3<T>& vector3, T w) : x{ vector3.x }, y{ vector3.y }, z{ vector3.z }, w{ w } {}
 template <typename T> Vector4<T>::Vector4(T all) : x{ all }, y{ all }, z{ all }, w{ all } {}
 

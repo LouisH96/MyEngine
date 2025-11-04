@@ -63,6 +63,8 @@ struct Vector2
 
 	T Get(int i) const;
 	void Set(T v, int i);
+	T& operator[](unsigned i);
+	const T& operator[](unsigned i) const;
 
 	void Reverse();
 	T Length() const;
@@ -215,6 +217,18 @@ void Vector2<T>::Set(T v, int i)
 {
 	if (i == 0)x = v;
 	y = v;
+}
+
+template<typename T>
+inline T& Vector2<T>::operator[](unsigned i)
+{
+	return i == 0 ? x : y;
+}
+
+template<typename T>
+inline const T& Vector2<T>::operator[](unsigned i) const
+{
+	return i == 0 ? x : y;
 }
 
 template <typename T>
