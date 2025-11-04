@@ -33,6 +33,7 @@ namespace MyEngine
 			double GetNextNumberValue();
 			void SkipNextScope();
 			void SkipNextNull();
+			void SkipNextBool();
 			void SkipNextNumber();
 			void SkipNextPropertyValue();
 			void SkipNextProperty();

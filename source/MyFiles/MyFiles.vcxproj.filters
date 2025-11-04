@@ -65,6 +65,7 @@
     <ClCompile Include="Io\Fbx\ClassInt\FbxClassWeights.cpp" />
     <ClCompile Include="Io\Ttf\Tables\HheaTable.cpp" />
     <ClCompile Include="Io\Ttf\Tables\HmtxTable.cpp" />
+    <ClCompile Include="Io\Json\JsonBool.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Io\Ascii\AsciiWriter.h" />
@@ -138,5 +139,6 @@
     <ClInclude Include="Io\Fbx\ClassInt\FbxClassWeights.h" />
     <ClInclude Include="Io\Ttf\Tables\HheaTable.h" />
     <ClInclude Include="Io\Ttf\Tables\HmtxTable.h" />
+    <ClInclude Include="Io\Json\JsonBool.h" />
   </ItemGroup>
 </Project>

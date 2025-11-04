@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Io\Json\JsonBool.cpp" />
     <ClCompile Include="Io\Ttf\Tables\HmtxTable.cpp" />
     <ClCompile Include="Io\Ttf\Tables\HheaTable.cpp" />
     <ClCompile Include="Io\Fbx\ClassInt\FbxClassWeights.cpp" />
@@ -85,6 +86,7 @@
     <ClCompile Include="Io\Zlib\ZlibDecompress.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Io\Json\JsonBool.h" />
     <ClInclude Include="Io\Ttf\Tables\HmtxTable.h" />
     <ClInclude Include="Io\Ttf\Tables\HheaTable.h" />
     <ClInclude Include="Io\Fbx\ClassInt\FbxClassWeights.h" />
@@ -235,6 +237,8 @@
       <ExceptionHandling>false</ExceptionHandling>
       <AdditionalOptions>-D_HAS_EXCEPTIONS=0 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

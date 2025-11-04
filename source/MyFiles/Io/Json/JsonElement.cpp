@@ -4,6 +4,7 @@
 
 #include "JsonArray.h"
 #include "JsonNull.h"
+#include "JsonBool.h"
 #include "JsonNumber.h"
 #include "JsonObject.h"
 #include "JsonString.h"
@@ -39,6 +40,7 @@ MyEngine::Io::Json::ElementType MyEngine::Io::Json::JsonElement::FindElementType
 		if (JsonArray::DetectType(c))  return ElementType::Array;
 		if (JsonObject::DetectType(c)) return ElementType::Object;
 		if (JsonString::DetectType(c)) return ElementType::String;
+		if (JsonBool::DetectType(c)) return ElementType::Bool;
 		if (JsonNumber::DetectType(c)) return ElementType::Number;
 		if (JsonNull::DetectType(c)) return ElementType::Null;
 		Logger::Error("Unknown character");

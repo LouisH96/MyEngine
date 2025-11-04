@@ -1,15 +1,9 @@
 #pragma once
 
-namespace MyEngine
+namespace MyEngine::Io::Json
 {
-	namespace Io
-	{
-		namespace Json
-		{
-			enum class ElementType
-			{
-				Object, Array, String, Number, Null, Unknown
-			};
-		}
-	}
+enum class ElementType
+{
+	Object, Array, String, Number, Bool, Null, Unknown
+};
 }

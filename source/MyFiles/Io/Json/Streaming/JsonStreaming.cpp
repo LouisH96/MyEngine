@@ -8,6 +8,7 @@
 #include "Io/Ascii/AsciiReader.h"
 #include "Io/Json/ElementType.h"
 #include "Io/Json/JsonElement.h"
+#include "Io/Json/JsonBool.h"
 #include "Io/Json/JsonNumber.h"
 #include "Io/Json/JsonString.h"
 #include "Logger/Logger.h"
@@ -16,7 +17,7 @@ using namespace MyEngine;
 using namespace Io::Json;
 
 Json::JsonStreaming::JsonStreaming(const std::wstring& path)
-	: m_Stream(path, std::ifstream::binary)
+	: m_Stream{ path, std::ios_base::in | std::ios_base::binary }
 	, m_State(MyEngine::Json::StreamState::Root)
 {
 }
@@ -158,16 +159,23 @@ void Json::JsonStreaming::SkipNextNull()
 	m_Stream.seekg(3, std::ios_base::cur);
 }
 
+void Json::JsonStreaming::SkipNextBool()
+{
+	SkipWhiteSpace(m_Stream);
+	const bool b{ JsonBool::Read(m_Stream) };
+}
+
 void Json::JsonStreaming::SkipNextNumber()
 {
 	SkipWhiteSpace(m_Stream);
 	char next;
 	while (m_Stream.get(next))
 	{
-		if (next != '-' && next != 'f' && next != '.')
-			return;
-		if (next >= '0' && next <= '9')
-			return;
+		const bool isNumber{ next >= '0' && next <= '9' };
+		const bool isSymbol{ next == '-' || next == 'f' || next == '.' };
+		if (isNumber || isSymbol)
+			continue;
+		return;
 	}
 }
 
@@ -182,6 +190,7 @@ void Json::JsonStreaming::SkipNextPropertyValue()
 	case ElementType::String:
 		SkipNextScope();
 		break;
+	case ElementType::Bool: SkipNextBool(); break;
 	case ElementType::Number: SkipNextNumber(); break;
 	case ElementType::Null: SkipNextNull(); break;
 	case ElementType::Unknown:

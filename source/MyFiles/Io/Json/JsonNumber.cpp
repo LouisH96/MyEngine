@@ -1,6 +1,7 @@
 #include "JsonNumber.h"
 
 #include <fstream>
+#include <iostream>
 
 MyEngine::Io::Json::JsonNumber::JsonNumber(std::ifstream& file)
 	: m_Number(Read(file))
@@ -27,6 +28,12 @@ double MyEngine::Io::Json::JsonNumber::Read(std::ifstream& stream)
 	char c;
 	while (stream.get(c))
 	{
+		if (stream.eof())
+			std::cout << "eof\n";
+
+		if (!stream.good())
+			std::cout << "not good\n";
+
 		if (c >= '0' && c <= '9')
 		{
 			number *= 10;
@@ -60,6 +67,8 @@ double MyEngine::Io::Json::JsonNumber::Read(std::ifstream& stream)
 			}
 			else if (c == 'f')
 				break;
+			else if (c == 'e')
+				break;
 			else
 			{
 				stream.seekg(-1, std::ios_base::cur);
@@ -67,6 +76,28 @@ double MyEngine::Io::Json::JsonNumber::Read(std::ifstream& stream)
 			}
 		}
 		number += decimalPart / decimalScale;
+	}
+	if (c == 'e')
+	{
+		double exponent{ 0 };
+		char sign{};
+		stream.get(sign);
+
+		if (sign == '-')
+			exponent *= -1;
+
+		while (stream.get(c))
+		{
+			if (c >= '0' && c <= '9')
+			{
+				exponent *= 10;
+				exponent += static_cast<double>(c - '0');
+			}
+			else
+				break;
+		}
+
+		number *= pow(10, exponent);
 	}
 
 	number *= isNeg;
