@@ -104,13 +104,21 @@ template <typename T> Vector4<T> Vector4<T>::operator-(const Vector4& r) const {
 template <typename T> Vector4<T> Vector4<T>::operator+(const T& r) const { return { x + r, y + r, z + r, w + r }; }
 template <typename T> Vector4<T> Vector4<T>::operator-(const T& r) const { return { x - r, y - r, z - r, w - r }; }
 template <typename T> Vector4<T> Vector4<T>::operator*(const T& r) const { return { x * r, y * r, z * r, w * r }; }
-template <typename T> Vector4<T> Vector4<T>::operator/(const T& r) const { return { x / r, y / r, z / r, w / r }; }
+template <typename T> Vector4<T> Vector4<T>::operator/(const T& r) const
+{
+	const T scale{ static_cast<T>(1) / r };
+	return *this * scale;
+}
 template <typename T> void Vector4<T>::operator+=(const Vector4& r) { x += r.x; y += r.y; z += r.z; w += r.w; }
 template <typename T> void Vector4<T>::operator-=(const Vector4& r) { x -= r.x; y -= r.y; z -= r.z; w -= r.w; }
 template <typename T> void Vector4<T>::operator+=(const T& r) { x += r; y += r; z += r; w += r; }
 template <typename T> void Vector4<T>::operator-=(const T& r) { x -= r; y -= r; z -= r; w -= r; }
 template <typename T> void Vector4<T>::operator*=(const T& r) { x *= r; y *= r; z *= r; w *= r; }
-template <typename T> void Vector4<T>::operator/=(const T& r) { x /= r; y /= r; z /= r; w /= r; }
+template <typename T> void Vector4<T>::operator/=(const T& r)
+{
+	const T scale{ static_cast<T>(1) / r };
+	*this *= scale;
+}
 template <typename T> Vector4<T> Vector4<T>::operator-() const { return{ -x, -y, -z, -w }; }
 
 template <typename T>
