@@ -20,6 +20,7 @@ std::string CsvReader::ReadColumn(const std::string& columnName, unsigned row)
 
 std::string CsvReader::ReadColumn(unsigned column, unsigned row)
 {
+	m_Reader.Reset();
 	m_Reader.IgnoreLines(row + 1);
 	m_Reader.Ignore(',', column);
 	return m_Reader.ReadUntil(',', '\n');
@@ -43,7 +44,6 @@ List<std::string> CsvReader::ReadColumns(unsigned column)
 		m_Reader.IgnoreLine();
 		while (m_Reader.PeekChar() == '\n')
 			m_Reader.Ignore(1);
-		std::cout << values[values.GetSizeS() - 1] << std::endl;
 	}
 	return values;
 }
