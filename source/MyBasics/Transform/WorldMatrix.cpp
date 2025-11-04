@@ -140,6 +140,16 @@ Float4X4 WorldMatrix::Scale(const Float3& scale)
 	};
 }
 
+Float4X4 WorldMatrix::Scale(const Float4& scale)
+{
+	return Float4X4{
+		Float4{scale.x, 0,0,0},
+		Float4{0, scale.y, 0, 0},
+		Float4{0, 0, scale.z, 0},
+		Float4{0,0,0, scale.w}
+	};
+}
+
 void WorldMatrix::Translate(Float4X4& m, const Float3& translation)
 {
 	m[0].w += translation.x;

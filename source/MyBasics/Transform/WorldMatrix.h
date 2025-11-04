@@ -35,6 +35,7 @@ namespace MyEngine
 		static Float4X4 Rotation(const Float3& forward);
 		static Float4X4 Rotation(float yaw, float pitch);
 		static Float4X4 Scale(const Float3& scale);
+		static Float4X4 Scale(const Float4& scale);
 
 		static void Translate(Float4X4& m, const Float3& translation);
 
