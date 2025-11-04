@@ -376,6 +376,7 @@ void List<T>::DeleteAll()
 {
 	for (unsigned i = 0; i < m_Size; i++)
 		delete m_pData[i];
+	m_Size = 0;
 }
 
 template <typename T>
