@@ -18,6 +18,7 @@ namespace MyEngine
 				void IncreaseTab(unsigned amount = 1);
 				void DecreaseTab(unsigned amount = 1);
 				void EndLine();
+				unsigned GetNrTabs() const;
 
 				template<typename T>
 				std::ostream& operator<<(T value);

@@ -33,3 +33,8 @@ void AsciiWriter::EndLine()
 {
 	m_Stream << std::endl;
 }
+
+unsigned AsciiWriter::GetNrTabs() const
+{
+	return static_cast<unsigned>(m_NrTabs);
+}
