@@ -67,6 +67,9 @@ namespace MyEngine
 
 			static const InputLayout::Element ELEMENTS[];
 			static constexpr unsigned NR_ELEMENTS = 2;
+
+			bool IsValid() const { return Pos.x != Float::MAX; }
+			void Invalidate() { Pos.x = Float::MAX; }
 		};
 		struct V_PosColNorm
 		{
