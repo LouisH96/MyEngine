@@ -3,6 +3,19 @@
 
 #include "PtrRangeConst.h"
 
+/*
+	List for adding and removing elements.
+	Elements don't get moved, thus index stays valid.
+	List only keeps track of 1 (the first) gap.
+	If there's space in front of the first element, the GapIndicator = 0.
+	The GapIndicator should always point to an empty space, thus never past/at the capacity
+
+	Idea for improvements:
+		- Add in front of first instead of at begin of array.
+		- Only update GapIndicator before adding? instead of after adding.
+			Because it might save some GapIndicator updates?
+*/
+
 namespace MyEngine
 {
 	template<typename Data>
@@ -23,6 +36,10 @@ namespace MyEngine
 		//---| Functions |---
 		unsigned Add(const Data& data);
 		unsigned Add(Data&& data);
+		unsigned AddContinuous(const Data& d0, const Data& d1);
+		unsigned AddContinuous(const Data& d0, const Data& d1, const Data& d2);
+		unsigned AddContinuous(const Data& proto, unsigned count);
+		unsigned AddContinuous(const Data* pFirst, unsigned count);
 		unsigned Validate(Data*& pOut);
 		Data Remove(unsigned idx);
 		Data InvalidateAndReturn(unsigned idx); //same are removing but doesn't deconstruct(move) the object
@@ -69,9 +86,13 @@ namespace MyEngine
 		unsigned m_First, m_End, m_GapIndicator;
 		bool m_Changed;
 
+		void IncreaseCapacity();
 		void IncreaseCapacity(unsigned increase);
 
+		unsigned AddContinuous(unsigned count); //Update indicators but doesn't validate
+
 		bool IsEmpty(unsigned idx) const;
+		bool AreAllEmpty(unsigned iFirst, unsigned count, unsigned& firstInUse) const;
 
 		void UpdateFirstIndicator();
 		void UpdateEndIndicator();
@@ -195,6 +216,42 @@ namespace MyEngine
 		m_pData[id] = std::move(data);
 		InternalPostAdd();
 		return id;
+	}
+
+	template<typename Data>
+	inline unsigned InvalidateList<Data>::AddContinuous(const Data& d0, const Data& d1)
+	{
+		const unsigned iFirst{ AddContinuous(2) };
+		m_pData[iFirst + 0] = d0;
+		m_pData[iFirst + 1] = d1;
+		return iFirst;
+	}
+
+	template<typename Data>
+	inline unsigned InvalidateList<Data>::AddContinuous(const Data& d0, const Data& d1, const Data& d2)
+	{
+		const unsigned iFirst{ AddContinuous(3) };
+		m_pData[iFirst + 0] = d0;
+		m_pData[iFirst + 1] = d1;
+		m_pData[iFirst + 2] = d2;
+		return iFirst;
+	}
+
+	template<typename Data>
+	inline unsigned InvalidateList<Data>::AddContinuous(const Data& proto, unsigned count)
+	{
+		const unsigned iFirst{ AddContinuous(count) };
+		for (unsigned i{ iFirst }; i < iFirst + count; ++i)
+			m_pData[i] = proto;
+		return iFirst;
+	}
+
+	template<typename Data>
+	inline unsigned InvalidateList<Data>::AddContinuous(const Data* pFirst, unsigned count)
+	{
+		const unsigned iFirst{ AddContinuous(count) };
+		std::copy(pFirst, pFirst + count, &m_pData[iFirst]);
+		return iFirst;
 	}
 
 	template <typename Data>
@@ -384,6 +441,18 @@ namespace MyEngine
 		return !m_pData[idx].IsValid();
 	}
 
+	template<typename Data>
+	inline bool InvalidateList<Data>::AreAllEmpty(unsigned iFirst, unsigned count, unsigned& firstInUse) const
+	{
+		for (unsigned i{ iFirst }; i < iFirst + count; ++i)
+			if (!IsEmpty(i))
+			{
+				firstInUse = i;
+				return false;
+			}
+		return true;
+	}
+
 	template <typename Data>
 	void InvalidateList<Data>::UpdateFirstIndicator()
 	{
@@ -452,6 +521,12 @@ namespace MyEngine
 		m_End = 0;
 	}
 
+	template<typename Data>
+	inline void InvalidateList<Data>::IncreaseCapacity()
+	{
+		IncreaseCapacity(m_Capacity);
+	}
+
 	template <typename Data>
 	void InvalidateList<Data>::IncreaseCapacity(unsigned increase)
 	{
@@ -462,5 +537,54 @@ namespace MyEngine
 		m_Capacity = m_Capacity + increase;
 		for (unsigned i = m_Capacity - increase; i < m_Capacity; i++)
 			m_pData[i].Invalidate();
+	}
+	template<typename Data>
+	inline unsigned InvalidateList<Data>::AddContinuous(unsigned count)
+	{
+		m_Changed = true;
+
+		if (m_First >= count) //Add at the front
+		{
+#ifdef INVALIDATE_LIST_DEBUG
+			if (m_GapIndicator != 0)
+				Logger::Warning("[InvalidateList] GapIndicator should be 0");
+#endif
+			m_First -= count;
+			if (m_First == 0)
+			{
+				m_GapIndicator = count;
+				UpdateGapIndicator();
+			}
+			return m_First - count;
+		}
+
+		//Search for gap big enough
+		unsigned iFirst{ m_GapIndicator };
+		unsigned iEnd{ iFirst + count };
+		while (iEnd < m_End)
+		{
+			unsigned firstInUse{};
+			if (AreAllEmpty(iFirst, count, firstInUse))
+			{
+				if (iFirst == m_GapIndicator)
+				{
+					m_GapIndicator += count - 1;
+					UpdateGapIndicator();
+				}
+				return iFirst;
+			}
+			iFirst = firstInUse + 1;
+			iEnd = iFirst + count;
+		}
+
+		//At end
+		if (iEnd >= m_Capacity)
+			IncreaseCapacity(m_Capacity + count);
+
+		m_End = iEnd;
+		if (iFirst == m_GapIndicator)
+			m_GapIndicator = m_End;
+
+		return iFirst;
 	}
 }
