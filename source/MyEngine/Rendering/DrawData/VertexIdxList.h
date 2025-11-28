@@ -28,10 +28,23 @@ namespace MyEngine
 
 			//---| Functions |---
 			void Draw(unsigned idx = 0);
+
 			void Add(
 				const Vertex* pVertices, unsigned nrVertices,
 				const int* pIndices, unsigned nrIndices);
+			void AddVertex(const Vertex& vertex);
+			void AddIndex(unsigned index);
+			void AddIndices(unsigned i0, unsigned i1, unsigned i2);
+
 			void Clear();
+
+			List<Vertex>& GetVertices();
+			List<int>& GetIndices();
+			
+			const List<Vertex>& GetVertices() const { return m_CpuVertices; }
+			const List<int>& GetIndices() const { return m_CpuIndices; };
+			unsigned GetNrVertices() const { return m_CpuVertices.GetSize(); }
+			unsigned GetNrIndices() const { return m_CpuIndices.GetSize(); }
 
 		private:
 			List<Vertex> m_CpuVertices;
@@ -86,12 +99,45 @@ namespace MyEngine
 				m_CpuIndices.Add(pIndices[i] + oldSize);
 		}
 
+		template<typename Vertex>
+		inline void VertexIdxList<Vertex>::AddVertex(const Vertex& vertex)
+		{
+			m_Changed = true;
+			m_CpuVertices.Add(vertex);
+		}
+
+		template<typename Vertex>
+		inline void VertexIdxList<Vertex>::AddIndex(unsigned index)
+		{
+			m_Changed = true;
+			m_CpuIndices.Add(index);
+		}
+
+		template<typename Vertex>
+		inline void VertexIdxList<Vertex>::AddIndices(unsigned i0, unsigned i1, unsigned i2)
+		{
+			m_Changed = true;
+			m_CpuIndices.Add(i0, i1, i2);
+		}
+
 		template <typename Vertex>
 		void VertexIdxList<Vertex>::Clear()
 		{
 			m_Changed = true;
 			m_CpuVertices.Clear();
 			m_CpuIndices.Clear();
+		}
+		template<typename Vertex>
+		inline List<Vertex>& VertexIdxList<Vertex>::GetVertices()
+		{
+			m_Changed = true;
+			return m_CpuVertices;
+		}
+		template<typename Vertex>
+		inline List<int>& VertexIdxList<Vertex>::GetIndices()
+		{
+			m_Changed = true;
+			return m_CpuIndices;
 		}
 	}
 }
