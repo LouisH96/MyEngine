@@ -49,7 +49,6 @@ Rendering::VertexIdxArray& Rendering::VertexIdxArray::operator=(VertexIdxArray&&
 
 void Rendering::VertexIdxArray::Draw(unsigned idx) const
 {
-	Globals::pGpu->GetContext().IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	Globals::pGpu->GetContext().IASetIndexBuffer(m_pBuffers[IDX_INDICES], DXGI_FORMAT_R32_UINT, m_Offsets[IDX_INDICES]);
 	Globals::pGpu->GetContext().IASetVertexBuffers(idx, 1, m_pBuffers, m_Strides, m_Offsets);
 	Globals::pGpu->GetContext().DrawIndexed(m_Counts[IDX_INDICES], 0, 0);
