@@ -1,7 +1,10 @@
 #include "pch.h"
 #include "DepthStencilBuffer.h"
 
+#include "..\RenderOptions.h"
+
 using namespace Rendering;
+using namespace Dx;
 
 bool DepthStencilBuffer::Init(const Int2& size, bool asShaderResource)
 {
@@ -15,16 +18,17 @@ bool DepthStencilBuffer::Init(const Int2& size, bool asShaderResource)
 	//View
 	D3D11_DEPTH_STENCIL_VIEW_DESC desc{};
 	desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-	desc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	desc.ViewDimension = RenderOptions::UsingMultiSampling()
+		? D3D11_DSV_DIMENSION_TEXTURE2DMS
+		: D3D11_DSV_DIMENSION_TEXTURE2D;
 	desc.Texture2D.MipSlice = 0;
 	const HRESULT result{
 		Globals::pGpu->GetDevice().CreateDepthStencilView(
 			pTexture, &desc, &m_pView)
 	};
-	if (FAILED(result)) {
-		Logger::Error("[DepthStencilBuffer] Failed creating view.");
+	if (DxHelper::OnFail("[DepthStencilBuffer::CreateView]", result))
 		success = false;
-	}
+
 	pTexture->Release();
 	return success;
 }
@@ -54,7 +58,7 @@ ID3D11Texture2D* DepthStencilBuffer::MakeTexture(const Int2& size, bool asShader
 	desc.MipLevels = 1;
 	desc.ArraySize = 1;
 	desc.Format = asShaderResource ? DXGI_FORMAT_R24G8_TYPELESS : DXGI_FORMAT_D24_UNORM_S8_UINT;
-	desc.SampleDesc.Count = 1;
+	desc.SampleDesc.Count = RenderOptions::Samples;
 	desc.SampleDesc.Quality = 0;
 	desc.Usage = D3D11_USAGE_DEFAULT;
 	desc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
@@ -65,8 +69,7 @@ ID3D11Texture2D* DepthStencilBuffer::MakeTexture(const Int2& size, bool asShader
 	const HRESULT result{
 		Globals::pGpu->GetDevice().CreateTexture2D(&desc, nullptr, &pTexture)
 	};
-	if (FAILED(result)) {
-		Logger::Error("[DepthStencilBuffer::MakeTexture] Failed creating texture.");
+	if (DxHelper::OnFail("[DepthStencilBuffer::MakeTexture] Failed creating texture.", result)) {
 		return nullptr;
 	}
 	return pTexture;
@@ -84,7 +87,9 @@ ID3D11ShaderResourceView* DepthStencilBuffer::MakeShaderResourceView() const
 	//Make ShaderResourceViewDesc
 	D3D11_SHADER_RESOURCE_VIEW_DESC resourceViewDesc{};
 	resourceViewDesc.Format = DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
-	resourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	resourceViewDesc.ViewDimension = RenderOptions::UsingMultiSampling()
+		? D3D11_SRV_DIMENSION_TEXTURE2DMS
+		: D3D11_SRV_DIMENSION_TEXTURE2D;
 	resourceViewDesc.Texture2D.MipLevels = 1;
 
 	//Make ShaderResourceView
@@ -94,10 +99,8 @@ ID3D11ShaderResourceView* DepthStencilBuffer::MakeShaderResourceView() const
 	};
 	SAFE_RELEASE(dsResource);
 
-	if (FAILED(result)) {
-		Logger::Error("[ShadowMapController::MakeTexture]");
+	if (DxHelper::OnFail("[DepthStencilBuffer::MakeShaderResourceView]", result))
 		SAFE_RELEASE(pShaderResourceView);
-	}
 
 	return pShaderResourceView;
 }

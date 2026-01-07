@@ -1,9 +1,11 @@
 #include "pch.h"
 #include "RasterizerState.h"
 
-#include "../Gpu.h"
+#include "..\Gpu.h"
+#include "..\RenderOptions.h"
 
 using namespace Rendering;
+using namespace Dx;
 
 RasterizerState::RasterizerState(Culling culling, bool isWireframe)
 {
@@ -19,10 +21,10 @@ RasterizerState::RasterizerState(Culling culling, bool isWireframe)
 	}
 	desc.CullMode = ToDx(culling);
 	desc.DepthClipEnable = true;
+	desc.MultisampleEnable = RenderOptions::UsingMultiSampling();
 
 	const HRESULT result = Globals::pGpu->GetDevice().CreateRasterizerState(&desc, &m_pState);
-	if (FAILED(result))
-		Logger::Error("RasterizerState");
+	DxHelper::OnFail("[RasterState()]", result);
 }
 
 RasterizerState::~RasterizerState()

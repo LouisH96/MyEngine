@@ -3,11 +3,13 @@
 
 #include "Dx/DxHelper.h"
 #include "Gpu.h"
+#include "RenderOptions.h"
 #include <App/Win32/Window.h>
 
 #include <dxgi1_2.h>
 
 using namespace Rendering;
+using namespace Dx;
 
 Canvas::Canvas(App::Win32::Window& window, const Float3& color)
 	: m_Size{ window.GetClientSize() }
@@ -26,13 +28,14 @@ Canvas::Canvas(App::Win32::Window& window, const Float3& color)
 void Canvas::Activate()
 {
 	//Rendertarget
-	Globals::pGpu->GetContext().OMSetRenderTargets(1, &m_pMainRenderTargetView, m_DepthStencilBuffer.GetView());
+	Globals::pGpu->GetContext().OMSetRenderTargets(1, &m_pRenderTargetView, m_DepthStencilBuffer.GetView());
 	m_Viewport.Activate();
 }
 
 Canvas::~Canvas()
 {
-	SAFE_RELEASE(m_pMainRenderTargetView);
+	SAFE_RELEASE(m_pRenderTargetView);
+	SAFE_RELEASE(m_pSwapChainBuffer);
 	SAFE_RELEASE(m_pSwapChain);
 }
 
@@ -51,17 +54,23 @@ void Canvas::Clear()
 {
 	/* clear the back buffer to cornflower blue for the new frame */
 	Globals::pGpu->GetContext().ClearRenderTargetView(
-		m_pMainRenderTargetView, &m_Color.x);
+		m_pRenderTargetView, &m_Color.x);
 	ClearDepthBuffer();
 }
 
 void Canvas::Present() const
 {
+	Globals::pGpu->GetContext().ResolveSubresource(
+		m_pSwapChainBuffer,
+		0,
+		m_pRenderTargetTexture,
+		0,
+		SWAPCHAIN_FORMAT);
+
 	DXGI_PRESENT_PARAMETERS param{ 0,nullptr,0,nullptr };
 
 	const HRESULT result{ m_pSwapChain->Present1(1, 0, &param) };
-	if (FAILED(result))
-		Logger::Error("SwapChain", result);
+	DxHelper::OnFail("[Canvas::Present]", result);
 }
 
 App::ResizedEvent Canvas::OnWindowResized(Int2 newSize)
@@ -71,11 +80,11 @@ App::ResizedEvent Canvas::OnWindowResized(Int2 newSize)
 		m_Size,
 		newSize,
 	};
-	SAFE_RELEASE(m_pMainRenderTargetView);
+	SAFE_RELEASE(m_pRenderTargetView);
 	m_Size = newSize;
 	m_InvSize = { 1.f / newSize.x, 1.f / newSize.y };
 	const HRESULT result{ m_pSwapChain->ResizeBuffers(0, newSize.x, newSize.y, DXGI_FORMAT_UNKNOWN, 0) };
-	if (FAILED(result)) Logger::Error("[Canvas::OnWindowResized] failed resizing buffer");
+	DxHelper::OnFail("[Canvas::OnWindowResized] failed resizing buffer", result);
 	InitRenderTarget();
 	m_DepthStencilBuffer.Update(m_Size);
 	m_Viewport = { m_Size };
@@ -101,8 +110,8 @@ void Canvas::InitSwapChain(const App::Win32::Window& window)
 	IDXGIFactory2* pFactory{};
 	GetFactory2(pDevice2, pAdapter, pFactory);
 
-	if (pFactory->CreateSwapChainForHwnd(&Globals::pGpu->GetDevice(), window.GetWindowHandle(), &desc, nullptr, nullptr, &m_pSwapChain) != S_OK)
-		Logger::Error("Canvas::InitSwapChain");
+	const HRESULT result{ pFactory->CreateSwapChainForHwnd(&Globals::pGpu->GetDevice(), window.GetWindowHandle(), &desc, nullptr, nullptr, &m_pSwapChain) };
+	DxHelper::OnFail("[Canvas::InitSwapChain]", result);
 
 	pFactory->Release();
 	pAdapter->Release();
@@ -111,25 +120,43 @@ void Canvas::InitSwapChain(const App::Win32::Window& window)
 
 void Canvas::InitRenderTarget()
 {
-	ID3D11Texture2D* pBackBuffer;
-	m_pSwapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer));
-	if (pBackBuffer)
-		Globals::pGpu->GetDevice().CreateRenderTargetView(pBackBuffer, nullptr, &m_pMainRenderTargetView);
-	pBackBuffer->Release();
+	m_pSwapChain->GetBuffer(0, IID_PPV_ARGS(&m_pSwapChainBuffer));
+
+	D3D11_TEXTURE2D_DESC desc{};
+	desc.Width = m_Size.x;
+	desc.Height = m_Size.y;
+	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	desc.Usage = D3D11_USAGE_DEFAULT;
+	desc.MipLevels = 1;
+	desc.ArraySize = 1;
+	desc.SampleDesc.Count = RenderOptions::Samples;
+	desc.SampleDesc.Quality = 0;
+	desc.BindFlags = D3D11_BIND_RENDER_TARGET;
+	HRESULT result{ Globals::pGpu->GetDevice().CreateTexture2D(&desc, nullptr, &m_pRenderTargetTexture) };
+
+	DxHelper::OnFail("Canvas::InitRenderTarget::CreateTexture", result);
+
+	D3D11_RENDER_TARGET_VIEW_DESC viewDesc{};
+	viewDesc.Format = desc.Format;
+	viewDesc.ViewDimension = RenderOptions::UsingMultiSampling() ? D3D11_RTV_DIMENSION_TEXTURE2DMS : D3D11_RTV_DIMENSION_TEXTURE2D;
+
+	if (m_pRenderTargetTexture)
+	{
+		result =
+			Globals::pGpu->GetDevice().CreateRenderTargetView(m_pRenderTargetTexture, &viewDesc, &m_pRenderTargetView);
+		DxHelper::OnFail("Canvas::InitRenderTarget", result);
+	}
 }
 
 void Canvas::GetFactory2(IDXGIDevice2*& pDevice2, IDXGIAdapter*& pAdapter,
 	IDXGIFactory2*& pFactory) const
 {
 	HRESULT hr = Globals::pGpu->GetDevice().QueryInterface(__uuidof(IDXGIDevice2), reinterpret_cast<void**>(&pDevice2));
-	if (FAILED(hr))
-		Logger::Error("Canvas::GetFactory2::Device2");
+	DxHelper::OnFail("Canvas::GetFactory2::Device2", hr);
 
 	hr = pDevice2->GetParent(__uuidof(IDXGIAdapter), reinterpret_cast<void**>(&pAdapter));
-	if (FAILED(hr))
-		Logger::Error("Canvas::GetFactory2::Adapter");
+	DxHelper::OnFail("Canvas::GetFactory2::Adapter", hr);
 
 	hr = pAdapter->GetParent(__uuidof(IDXGIFactory2), reinterpret_cast<void**>(&pFactory));
-	if (FAILED(hr))
-		Logger::Error("Canvas::GetFactory2::Factory");
+	DxHelper::OnFail("Canvas::GetFactory2::Factory", hr);
 }

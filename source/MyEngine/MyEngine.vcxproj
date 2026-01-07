@@ -223,6 +223,7 @@
     <ClInclude Include="Physics\Collisions\PointTriangleCollision.h" />
     <ClInclude Include="Physics\Collisions\SphereAabCollision.h" />
     <ClInclude Include="Physics\Collisions\SphereTriangleCollision.h" />
+    <ClInclude Include="Rendering\RenderOptions.h" />
     <ClInclude Include="Ui\Elements\AllElements.h" />
     <ClInclude Include="Ui\Elements\AnchorParent.h" />
     <ClInclude Include="Ui\Elements\BgColorParent.h" />

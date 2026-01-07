@@ -376,6 +376,7 @@
     <ClInclude Include="Debug\Rendering\DebugLinesScreenSpace.h" />
     <ClInclude Include="Framework\Systems\System.h" />
     <ClInclude Include="Framework\Systems\Systems.h" />
+    <ClInclude Include="Rendering\RenderOptions.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

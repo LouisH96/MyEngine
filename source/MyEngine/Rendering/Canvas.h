@@ -47,10 +47,14 @@ public:
 	const Float2& GetInvSize() const { return m_InvSize; }
 
 private:
+	static constexpr DXGI_FORMAT SWAPCHAIN_FORMAT{ DXGI_FORMAT_R8G8B8A8_UNORM };
 	IDXGISwapChain1* m_pSwapChain{};
-	ID3D11RenderTargetView* m_pMainRenderTargetView{};
-	Viewport m_Viewport;
+	ID3D11Texture2D* m_pSwapChainBuffer{};
 
+	ID3D11RenderTargetView* m_pRenderTargetView{};
+	ID3D11Texture2D* m_pRenderTargetTexture{};
+	
+	Viewport m_Viewport;
 	DepthStencilBuffer m_DepthStencilBuffer;
 
 	Int2 m_Size;
