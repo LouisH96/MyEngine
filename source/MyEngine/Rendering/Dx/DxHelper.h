@@ -73,6 +73,9 @@ namespace MyEngine
 				static void CreateInstanceBuffer(ID3D11Buffer*& pBuffer, const Array<T>& data, bool immutable);
 
 				static std::string GetHResultString(const HRESULT& result);
+				static void LogError(const std::string& prefix, const HRESULT& result);
+
+				static bool OnFail(const std::string& prefix, const HRESULT& result);
 
 			private:
 				static void AssertMultipleOf16(unsigned sizeOf);
