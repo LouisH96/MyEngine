@@ -51,6 +51,8 @@ public:
 	const T& operator[](unsigned idx) const;
 	T& operator[](int idx);
 	T& operator[](unsigned idx);
+	const T& GetReverse(unsigned idx) const;
+	T& GetReverse(unsigned idx);
 
 	void Clear();
 
@@ -71,9 +73,19 @@ public:
 	void DeleteAll();
 	void IncreaseSize(unsigned amount);
 	void ReduceSize(unsigned amount);
+	void ShrinkFromBegin(unsigned amount);
 
 	bool Any() const { return m_Size > 0; }
 	bool Empty() const { return m_Size == 0; }
+
+	//SHIFTS - 
+	void ShiftLeft(unsigned amount, T replacement = {}); //Backward
+	void ShiftRight(unsigned amount, T replacement = {}); //Forward
+	void Shift(int amount, T replacement = {});
+
+	void ShiftLeftSimple(unsigned amount); //Backward
+	void ShiftRightSimple(unsigned amount); //Forward
+	void ShiftSimple(int amount);
 
 	Array<T> ToArray();
 
@@ -159,11 +171,22 @@ List<T>::List(List&& other) noexcept
 template <typename T>
 List<T>& List<T>::operator=(const List& other)
 {
-	if (&other == this) return *this;
-	delete[] m_pData;
-	m_pData = new T[other.m_Capacity];
-	std::copy(&other.m_pData[0], &other.m_pData[other.m_Size], &m_pData[0]);
-	m_Capacity = other.m_Capacity;
+	//if (&other == this) return *this; //only needed if copy to same place would be problematic
+
+	if (m_Capacity >= other.m_Capacity)
+	{
+		std::copy(other.m_pData, &other.m_pData[other.m_Size], m_pData);
+		for (unsigned i{ other.m_Size }; i < m_Size; ++i)
+			m_pData[i] = T{};
+	}
+	else
+	{
+		delete[] m_pData;
+		m_pData = new T[other.m_Capacity];
+		std::copy(other.m_pData, &other.m_pData[other.m_Size], m_pData);
+		m_Capacity = other.m_Capacity;
+	}
+
 	m_Size = other.m_Size;
 	return *this;
 }
@@ -351,6 +374,18 @@ T& List<T>::operator[](unsigned idx)
 	return m_pData[idx];
 }
 
+template<typename T>
+inline const T& List<T>::GetReverse(unsigned idx) const
+{
+	return m_pData[m_Size - 1 - idx];
+}
+
+template<typename T>
+inline T& List<T>::GetReverse(unsigned idx)
+{
+	return m_pData[m_Size - 1 - idx];
+}
+
 template <typename T>
 void List<T>::Clear()
 {
@@ -406,6 +441,80 @@ void List<T>::ReduceSize(unsigned amount)
 		BasicLogger::Error("[List::ReduceSize] amount bigger than size");
 #endif
 	m_Size -= amount;
+}
+
+template<typename T>
+inline void List<T>::ShrinkFromBegin(unsigned amount)
+{
+	ShiftLeft(amount);
+	if (amount >= m_Size)
+		m_Size = 0;
+	else
+		m_Size -= amount;
+}
+
+template<typename T>
+inline void List<T>::ShiftLeftSimple(unsigned amount)
+{
+	if (amount >= m_Size)
+		return;
+	std::move(&m_pData[amount], &m_pData[m_Size], m_pData);
+}
+
+template<typename T>
+inline void List<T>::ShiftRightSimple(unsigned amount)
+{
+	if (amount >= m_Size)
+		return;
+	std::move_backward(m_pData, &m_pData[m_Size - amount], &m_pData[amount]);
+}
+
+template<typename T>
+inline void List<T>::ShiftSimple(int amount)
+{
+	if (amount >= 0)
+		ShiftRight(amount);
+	else
+		ShiftLeft(-amount);
+}
+
+template<typename T>
+inline void List<T>::ShiftLeft(unsigned amount, T replacement)
+{
+	unsigned iReplace{ 0 };
+
+	if (amount < m_Size)
+	{
+		std::move(&m_pData[amount], &m_pData[m_Size], m_pData);
+		iReplace = m_Size - amount;
+	}
+
+	for (; iReplace < m_Size; ++iReplace)
+		m_pData[iReplace] = replacement;
+}
+
+template<typename T>
+inline void List<T>::ShiftRight(unsigned amount, T replacement)
+{
+	unsigned iReplace{ m_Size };
+
+	if (amount < m_Size)
+	{
+		std::move_backward(m_pData, &m_pData[m_Size - amount], &m_pData[amount]);
+		iReplace = amount;
+	}
+
+	for (; iReplace != static_cast<unsigned>(-1); --iReplace)
+		m_pData[iReplace] = replacement;
+}
+
+template<typename T>
+inline void List<T>::Shift(int amount, T replacement)
+{
+	if (amount >= 0)
+		ShiftRight(amount, replacement);
+	else
+		ShiftLeft(-amount, replacement);
 }
 
 template <typename T>
