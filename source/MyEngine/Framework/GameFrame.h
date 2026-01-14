@@ -62,8 +62,9 @@ void GameFrame::Run(const std::wstring& windowName, App::Win32::Window::Options 
 	fpsControl.Reset();
 	while (!window.IsDestroyed())
 	{
-		//FPS
+		//TIME
 		fpsControl.NoWait();
+		Globals::Time += Globals::DeltaTime;
 
 		//WINDOW MESSAGES
 		window.HandleMessages();

@@ -48,6 +48,7 @@ using Keyboard = App::Win32::Keyboard_MsgListener;
 class Globals
 {
 public:
+	static float Time;
 	static float DeltaTime;
 	static App::Win32::Window* pWindow;
 	static const Keyboard* pKeyboard;
