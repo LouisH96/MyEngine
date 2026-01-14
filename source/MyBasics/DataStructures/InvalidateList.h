@@ -44,6 +44,7 @@ public:
 	Data Remove(unsigned idx);
 	Data InvalidateAndReturn(unsigned idx); //same are removing but doesn't deconstruct(move) the object
 	void Invalidate(unsigned idx);
+	void InvalidateContinuous(unsigned iFirst, unsigned count);
 
 	void Clear();
 
@@ -310,6 +311,15 @@ void InvalidateList<Data>::Invalidate(unsigned idx)
 	else if (idx == m_End - 1) UpdateEndIndicator();
 }
 
+template<typename Data>
+inline void InvalidateList<Data>::InvalidateContinuous(unsigned iFirst, unsigned count)
+{
+	m_Changed = true;
+
+	for (unsigned iData{ iFirst }; iData < iFirst + count; ++iData)
+		m_pData[iData].Invalidate();
+}
+
 template <typename Data>
 void InvalidateList<Data>::Clear()
 {
@@ -555,7 +565,7 @@ inline unsigned InvalidateList<Data>::AddContinuous(unsigned count)
 			m_GapIndicator = count;
 			UpdateGapIndicator();
 		}
-		return m_First - count;
+		return m_First;
 	}
 
 	//Search for gap big enough
