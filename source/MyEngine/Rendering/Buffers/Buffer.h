@@ -50,9 +50,7 @@ namespace MyEngine
 
 		template <typename Data>
 		Buffer<Data>::Buffer()
-			: m_pBuffer{ nullptr }
-			, m_Capacity(0)
-			, m_IsDynamic(false)
+			: Buffer{8}
 		{
 		}
 
