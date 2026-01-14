@@ -45,7 +45,7 @@ namespace MyEngine
 			));
 
 			//middle
-			const float layerAngleStep{ Constants::PI / (options.NrLayers + 1) };
+			const float layerAngleStep{ Constants::PI / options.NrLayers };
 			const float cornerAngleStep{ Constants::PI2 / options.NrCorners };
 
 			for (unsigned iLayer = 0; iLayer < options.NrLayers; iLayer++)
