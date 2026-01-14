@@ -38,7 +38,7 @@ private:
 	static constexpr ModelTopology TOPOLOGY{ ModelTopology::TriangleStrip };
 
 	Rendering::Buffer<Vertex> m_Vertices;
-	Rendering::InvalidateBuffer<Instance> m_Instances;
+	InvalidateBuffer<Instance> m_Instances;
 
 	Rendering::Shader m_Shader;
 	Rendering::InputLayout m_InputLayout;

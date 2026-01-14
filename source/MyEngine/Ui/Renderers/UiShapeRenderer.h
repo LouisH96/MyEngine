@@ -36,20 +36,20 @@ private:
 	Rendering::InputLayout m_InputLayout;
 
 	InvalidateList<Shape> m_Shapes;
-	Rendering::InvalidateBuffer<Vertex> m_Vertices;
+	InvalidateBuffer<Vertex> m_Vertices;
 
 	Float2 m_ToNdcMultiplier;
 
 	class Adder
 	{
 	public:
-		explicit Adder(Shape& shape, Rendering::InvalidateBuffer<Vertex>& vertices);
+		explicit Adder(Shape& shape, InvalidateBuffer<Vertex>& vertices);
 
 		void Add(const Vertex& vertex);
 
 	private:
 		Shape& m_Shape;
-		Rendering::InvalidateBuffer<Vertex>& m_Vertices;
+		InvalidateBuffer<Vertex>& m_Vertices;
 		unsigned m_NrVertices;
 	};
 };

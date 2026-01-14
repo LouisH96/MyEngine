@@ -137,7 +137,7 @@ unsigned UiShapeRenderer::Circle(Float2 center, Generation::DiskGenerator<TOPOLO
 	return shapeId;
 }
 
-UiShapeRenderer::Adder::Adder(Shape& shape, Rendering::InvalidateBuffer<Vertex>& vertices)
+UiShapeRenderer::Adder::Adder(Shape& shape, InvalidateBuffer<Vertex>& vertices)
 	: m_Shape{ shape }
 	, m_Vertices{ vertices }
 	, m_NrVertices{ 0 }
