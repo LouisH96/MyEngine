@@ -38,7 +38,7 @@ namespace MyEngine
 		void CreateBuffers(PtrRangeConst<Vertex> vertices, PtrRangeConst<int> indices);
 
 		Rendering::Buffer<Vertex> VertexBuffer;
-		Rendering::IdxBuffer IndexBuffer;
+		IdxBuffer IndexBuffer{};
 	};
 
 	template<typename Vertex, ModelTopology Topology>
@@ -124,12 +124,12 @@ namespace MyEngine
 	inline void MeshBuffersWithIndices<Vertex, Topology>::CreateBuffers(MeshData<Vertex, Topology>& data)
 	{
 		VertexBuffer = Rendering::Buffer<Vertex>(data.Vertices, false);
-		IndexBuffer = Rendering::IdxBuffer{ data.Indices };
+		IndexBuffer = IdxBuffer{ data.Indices };
 	}
 	template<typename Vertex, ModelTopology Topology>
 	inline void MeshBuffersWithIndices<Vertex, Topology>::CreateBuffers(PtrRangeConst<Vertex> vertices, PtrRangeConst<int> indices)
 	{
 		VertexBuffer = Rendering::Buffer<Vertex>(vertices, false);
-		IndexBuffer = Rendering::IdxBuffer(indices);
+		IndexBuffer = IdxBuffer(indices);
 	}
 }

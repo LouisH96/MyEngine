@@ -18,7 +18,7 @@ namespace MyEngine
 			Rendering::Shader m_Shader;
 			Rendering::InputLayout m_InputLayout;
 			Rendering::Buffer<Vertex> m_Vertices;
-			Rendering::IdxBuffer m_Indices;
+			IdxBuffer m_Indices;
 		};
 	}
 }

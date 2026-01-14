@@ -9,6 +9,13 @@ IdxBuffer::IdxBuffer()
 {
 }
 
+IdxBuffer::IdxBuffer(unsigned capacity)
+	: m_pBuffer{}
+	, m_Capacity{ capacity }
+{
+	Dx::DxHelper::CreateIndexBuffer(m_pBuffer, capacity, false);
+}
+
 IdxBuffer::IdxBuffer(PtrRangeConst<int> indices, bool dynamic)
 	: IdxBuffer{ indices.pData, indices.count, dynamic }
 {
@@ -53,6 +60,16 @@ IdxBuffer& IdxBuffer::operator=(IdxBuffer&& other) noexcept
 void IdxBuffer::Activate() const
 {
 	Globals::pGpu->GetContext().IASetIndexBuffer(m_pBuffer, DXGI_FORMAT_R32_UINT, 0);
+}
+
+void IdxBuffer::EnsureCapacityNoCopy(unsigned capacity, bool dynamic)
+{
+	if (capacity <= m_Capacity)
+		return;
+
+	m_pBuffer->Release();
+	Dx::DxHelper::CreateIndexBuffer(m_pBuffer, capacity, !dynamic);
+	m_Capacity = capacity;
 }
 
 void IdxBuffer::Draw() const

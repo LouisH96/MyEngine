@@ -4,13 +4,12 @@ struct ID3D11Buffer;
 
 namespace MyEngine
 {
-	namespace Rendering
-	{
 		class IdxBuffer
 		{
 		public:
 			//---| Construction |---
 			IdxBuffer();
+			explicit IdxBuffer(unsigned capacity);
 			explicit IdxBuffer(PtrRangeConst<int> indices, bool dynamic = false);
 			explicit IdxBuffer(const int* pData, unsigned count, bool dynamic = false);
 			~IdxBuffer();
@@ -23,6 +22,7 @@ namespace MyEngine
 			//---| Functions |---
 			void Activate() const;
 			unsigned GetCapacity() const { return m_Capacity; }
+			void EnsureCapacityNoCopy(unsigned capacity, bool dynamic = false);
 
 			void Draw() const;
 			void Draw(unsigned start, unsigned count) const;
@@ -35,5 +35,4 @@ namespace MyEngine
 			ID3D11Buffer* m_pBuffer;
 			unsigned m_Capacity;
 		};
-	}
 }

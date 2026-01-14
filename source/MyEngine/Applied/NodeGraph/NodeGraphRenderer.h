@@ -1,8 +1,11 @@
 #pragma once
-#include "Node.h"
 #include "Applied/2D/Camera2D.h"
-#include "Rendering/Buffers/Buffer.h"
-#include "Rendering/Buffers/IdxBuffer.h"
+#include "Node.h"
+#include <Rendering\Buffers\Buffer.h>
+#include <Rendering\Buffers\IdxBuffer.h>
+#include <Rendering\State\ConstantBuffer.h>
+#include <Rendering\State\InputLayout.h>
+#include <Rendering\State\Shader.h>
 
 namespace MyEngine
 {
@@ -28,7 +31,7 @@ namespace MyEngine
 			Rendering::Shader m_Shader;
 
 			Rendering::Buffer<Node::Vertex> m_Vertices;
-			Rendering::IdxBuffer m_Indices;
+			IdxBuffer m_Indices;
 
 			unsigned m_NrIndices{ 0 };
 			unsigned m_NrVertices{ 0 };
