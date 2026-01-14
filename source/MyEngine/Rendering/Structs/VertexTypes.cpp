@@ -54,6 +54,20 @@ const InputLayout::Element V_PosNorCol::ELEMENTS[] =
 	{"COLOR", InputLayout::ElementType::Float3}
 };
 
+const InputLayout::Element V_PosColUv::ELEMENTS[] =
+{
+	{"POSITION", InputLayout::ElementType::Float3},
+	{"COLOR", InputLayout::ElementType::Float3},
+	{"TEXCOORD", InputLayout::ElementType::Float2}
+};
+
+const InputLayout::Element V_PosCol4Uv::ELEMENTS[] =
+{
+	{"POSITION", InputLayout::ElementType::Float3},
+	{"COLOR", InputLayout::ElementType::Float4},
+	{"TEXCOORD", InputLayout::ElementType::Float2}
+};
+
 const InputLayout::Element V_PosUv::ELEMENTS[] =
 {
 	{"POSITION", InputLayout::ElementType::Float3},

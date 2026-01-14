@@ -89,6 +89,30 @@ namespace MyEngine
 			static const InputLayout::Element ELEMENTS[];
 			static constexpr unsigned NR_ELEMENTS = 3;
 		};
+		struct V_PosColUv
+		{
+			Float3 Pos{};
+			Float3 Color{};
+			Float2 Uv{};
+
+			static const InputLayout::Element ELEMENTS[];
+			static constexpr unsigned NR_ELEMENTS{ 3 };
+
+			void Invalidate() { Pos.x = Float::MAX; }
+			bool IsValid() const { return Pos.x != Float::MAX; }
+		};
+		struct V_PosCol4Uv
+		{
+			Float3 Pos{};
+			Float4 Color{};
+			Float2 Uv{};
+
+			static const InputLayout::Element ELEMENTS[];
+			static constexpr unsigned NR_ELEMENTS{ 3 };
+
+			void Invalidate() { Pos.x = Float::MAX; }
+			bool IsValid() const { return Pos.x != Float::MAX; }
+		};
 		struct V_PosUv
 		{
 			Float3 Pos{};
