@@ -123,7 +123,7 @@ void SideMenu::SetTab(SideMenuTab& newTab)
 void SideMenu::RefreshTab()
 {
 	m_pContentList->DeleteAllChildren();
-	m_pActiveTab->Generate(*m_pContentList);
+	m_pActiveTab->FullGenerate(*m_pContentList);
 }
 
 void SideMenu::ActivateNewTab(SideMenuTab& newTab)
@@ -159,7 +159,7 @@ void SideMenu::ActivateNewTab(SideMenuTab& newTab)
 	//ui elements
 	m_pContentList->DeleteAllChildren();
 	m_pActiveTab = &newTab;
-	m_pActiveTab->Generate(*m_pContentList);
+	m_pActiveTab->FullGenerate(*m_pContentList);
 
 	m_pPath->SetTab(*m_pActiveTab);
 

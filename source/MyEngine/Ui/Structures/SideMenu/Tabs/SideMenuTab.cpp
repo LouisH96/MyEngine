@@ -9,6 +9,12 @@ SideMenuTab::SideMenuTab(const std::string& title, SideMenuTab* pParent)
 {
 }
 
+void SideMenuTab::FullGenerate(Ui::ListElem& parent)
+{
+	BaseGenerate(parent);
+	Generate(parent);
+}
+
 SideMenuTab* SideMenuTab::GetRootParent()
 {
 	SideMenuTab* pRoot{ this };

@@ -18,6 +18,8 @@ public:
 	SideMenuTab& operator=(const SideMenuTab& other) = delete;
 	SideMenuTab& operator=(SideMenuTab&& other) = delete;
 
+	void FullGenerate(Ui::ListElem& parent);
+	virtual void BaseGenerate(Ui::ListElem& parent) {};
 	virtual void Generate(Ui::ListElem& parent) = 0;
 
 	virtual void Activate() {}
