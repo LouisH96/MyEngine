@@ -273,6 +273,13 @@ void Texture::Update(const Image& image)
 	Globals::pGpu->GetContext().Unmap(m_pTexture, 0);
 }
 
+D3D11_TEXTURE2D_DESC Texture::GetDesc() const
+{
+	D3D11_TEXTURE2D_DESC desc{};
+	m_pTexture->GetDesc(&desc);
+	return desc;
+}
+
 void Texture::Unset(unsigned slot)
 {
 	ID3D11ShaderResourceView* view[]{

@@ -30,6 +30,8 @@ public:
 
 	void Update(const Image& image);
 
+	D3D11_TEXTURE2D_DESC GetDesc() const;
+
 	static void Unset(unsigned slot);
 
 private:
