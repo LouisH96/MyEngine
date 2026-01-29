@@ -148,8 +148,7 @@ Texture::Texture(const std::wstring& path)
 	initData.SysMemPitch = bytesPerRow;
 	//initData.SysMemSlicePitch = bytesPerRow * textureHeight;
 
-	ID3D11Texture2D* pTexture{};
-	hr = Globals::pGpu->GetDevice().CreateTexture2D(&desc, &initData, &pTexture);
+	hr = Globals::pGpu->GetDevice().CreateTexture2D(&desc, &initData, &m_pTexture);
 	if (FAILED(hr))
 	{
 		Logger::Error("Failed creating Texture2D");
@@ -161,14 +160,13 @@ Texture::Texture(const std::wstring& path)
 	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = 1;
 
-	Globals::pGpu->GetDevice().CreateShaderResourceView(pTexture, &srvDesc, &m_pShaderResourceView);
+	Globals::pGpu->GetDevice().CreateShaderResourceView(m_pTexture, &srvDesc, &m_pShaderResourceView);
 	if (FAILED(hr))
 	{
 		Logger::Error("Failed to create shaderResource");
 		return;
 	}
 
-	pTexture->Release();
 	delete[] pImageData;
 }
 
