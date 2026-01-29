@@ -35,6 +35,7 @@ void Canvas::Activate()
 Canvas::~Canvas()
 {
 	SAFE_RELEASE(m_pRenderTargetView);
+	SAFE_RELEASE(m_pRenderTargetTexture);
 	SAFE_RELEASE(m_pSwapChainBuffer);
 	SAFE_RELEASE(m_pSwapChain);
 }
