@@ -115,8 +115,19 @@ template <typename T> Vector3<T> Vector3<T>::operator-(const T& r) const { retur
 template <typename T> Vector3<T> Vector3<T>::operator*(const T& r) const { return { x * r, y * r, z * r }; }
 template <typename T> Vector3<T> Vector3<T>::operator/(const T& r) const
 {
-	const T inv{ static_cast<T>(1) / r };
-	return *this * inv;
+	if constexpr (Scalar<T>::HasDecimals())
+	{
+		const T inv{ static_cast<T>(1) / r };
+		return *this * inv;
+	}
+	else
+	{
+		return {
+			static_cast<T>(x / r),
+			static_cast<T>(y / r),
+			static_cast<T>(z / r)
+		};
+	}
 }
 template <typename T> void Vector3<T>::operator+=(const Vector3& r) { x += r.x; y += r.y; z += r.z; }
 template <typename T> void Vector3<T>::operator-=(const Vector3& r) { x -= r.x; y -= r.y; z -= r.z; }
@@ -126,8 +137,17 @@ template <typename T> void Vector3<T>::operator-=(const T& r) { x -= r; y -= r; 
 template <typename T> void Vector3<T>::operator*=(const T& r) { x *= r; y *= r; z *= r; }
 template <typename T> void Vector3<T>::operator/=(const T& r)
 {
-	const T inv{ static_cast<T>(1) / r };
-	*this *= inv;
+	if constexpr (Scalar<T>::HasDecimals())
+	{
+		const T inv{ static_cast<T>(1) / r };
+		*this *= inv;
+	}
+	else
+	{
+		x /= r;
+		y /= r;
+		z /= r;
+	}
 }
 template <typename T>Vector3<T> Vector3<T>::operator-() const { return { -x, -y, -z }; }
 
