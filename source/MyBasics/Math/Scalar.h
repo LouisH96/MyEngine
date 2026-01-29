@@ -15,6 +15,8 @@ namespace MyEngine
 		static constexpr T MAX{ std::numeric_limits<T>().max() };
 		static constexpr T INVALID{ MAX };
 
+		static constexpr bool HasDecimals();
+
 		template<typename D> static T Unlerp(const D& value, const D& begin, const D& end);
 		template<typename D> static D Lerp(const T& alpha, const D& begin, const D& end);
 		template<typename D> static D LerpClamp(const T& alpha, const D& begin, const D& end);
@@ -200,5 +202,10 @@ namespace MyEngine
 		if (a1 <= b1)
 			return a2 >= b1;
 		return a1 <= b2;
+	}
+	template<typename T>
+	inline constexpr bool Scalar<T>::HasDecimals()
+	{
+		return static_cast<T>(.5) != 0;
 	}
 }
