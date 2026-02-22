@@ -2,16 +2,29 @@
 
 #include <d3d11.h>
 
-namespace MyEngine
-{
-namespace Rendering
+namespace MyEngine::Rendering
 {
 class DepthStencilBuffer
 {
 public:
-	DepthStencilBuffer() = default;
-	bool Init(const Int2& size, bool asShaderResource = false);
-	bool Update(const Int2& size, bool asShaderResource = false);
+	struct Options
+	{
+		enum MultiSampling
+		{
+			GlobalSetting, Enabled, Disabled
+		};
+
+		MultiSampling MultiSampling{ GlobalSetting };
+		bool AsShaderResource{ false };
+
+		bool UsingMultiSampling() const;
+	};
+
+public:
+	DepthStencilBuffer(Options options = {});
+	bool Init(const Int2& size);
+	bool Init(const Int2& size, Options options);
+	bool Update(const Int2& size);
 	void Clear();
 	~DepthStencilBuffer();
 
@@ -22,8 +35,8 @@ public:
 
 private:
 	ID3D11DepthStencilView* m_pView{ nullptr };
+	Options m_Options;
 
-	static ID3D11Texture2D* MakeTexture(const Int2& size, bool asShaderResource);
+	static ID3D11Texture2D* MakeTexture(const Int2& size, Options options);
 };
-}
 }

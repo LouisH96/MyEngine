@@ -6,19 +6,30 @@
 using namespace Rendering;
 using namespace Dx;
 
-bool DepthStencilBuffer::Init(const Int2& size, bool asShaderResource)
+DepthStencilBuffer::DepthStencilBuffer(Options options)
+	: m_Options{ options }
+{
+}
+
+bool DepthStencilBuffer::Init(const Int2& size, Options options)
+{
+	m_Options = options;
+	return Init(size);
+}
+
+bool DepthStencilBuffer::Init(const Int2& size)
 {
 	bool success{ true };
 
 	//Texture
-	ID3D11Texture2D* pTexture{ MakeTexture(size, asShaderResource) };
+	ID3D11Texture2D* pTexture{ MakeTexture(size, m_Options) };
 	if (!pTexture)
 		return false;
 
 	//View
 	D3D11_DEPTH_STENCIL_VIEW_DESC desc{};
 	desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-	desc.ViewDimension = RenderOptions::UsingMultiSampling()
+	desc.ViewDimension = m_Options.UsingMultiSampling()
 		? D3D11_DSV_DIMENSION_TEXTURE2DMS
 		: D3D11_DSV_DIMENSION_TEXTURE2D;
 	desc.Texture2D.MipSlice = 0;
@@ -33,10 +44,10 @@ bool DepthStencilBuffer::Init(const Int2& size, bool asShaderResource)
 	return success;
 }
 
-bool DepthStencilBuffer::Update(const Int2& size, bool asShaderResource)
+bool DepthStencilBuffer::Update(const Int2& size)
 {
 	SAFE_RELEASE(m_pView);
-	return Init(size, asShaderResource);
+	return Init(size);
 }
 
 void DepthStencilBuffer::Clear()
@@ -49,7 +60,7 @@ DepthStencilBuffer::~DepthStencilBuffer()
 	SAFE_RELEASE(m_pView);
 }
 
-ID3D11Texture2D* DepthStencilBuffer::MakeTexture(const Int2& size, bool asShaderResource)
+ID3D11Texture2D* DepthStencilBuffer::MakeTexture(const Int2& size, Options options)
 {
 	ID3D11Texture2D* pTexture{ nullptr };
 	D3D11_TEXTURE2D_DESC desc{};
@@ -57,12 +68,12 @@ ID3D11Texture2D* DepthStencilBuffer::MakeTexture(const Int2& size, bool asShader
 	desc.Height = size.y;
 	desc.MipLevels = 1;
 	desc.ArraySize = 1;
-	desc.Format = asShaderResource ? DXGI_FORMAT_R24G8_TYPELESS : DXGI_FORMAT_D24_UNORM_S8_UINT;
-	desc.SampleDesc.Count = RenderOptions::Samples;
+	desc.Format = options.AsShaderResource ? DXGI_FORMAT_R24G8_TYPELESS : DXGI_FORMAT_D24_UNORM_S8_UINT;
+	desc.SampleDesc.Count = options.UsingMultiSampling() ? RenderOptions::Samples : 1;
 	desc.SampleDesc.Quality = 0;
 	desc.Usage = D3D11_USAGE_DEFAULT;
 	desc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-	if (asShaderResource)
+	if (options.AsShaderResource)
 		desc.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
 	desc.CPUAccessFlags = 0;
 	desc.MiscFlags = 0;
@@ -87,7 +98,7 @@ ID3D11ShaderResourceView* DepthStencilBuffer::MakeShaderResourceView() const
 	//Make ShaderResourceViewDesc
 	D3D11_SHADER_RESOURCE_VIEW_DESC resourceViewDesc{};
 	resourceViewDesc.Format = DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
-	resourceViewDesc.ViewDimension = RenderOptions::UsingMultiSampling()
+	resourceViewDesc.ViewDimension = m_Options.UsingMultiSampling()
 		? D3D11_SRV_DIMENSION_TEXTURE2DMS
 		: D3D11_SRV_DIMENSION_TEXTURE2D;
 	resourceViewDesc.Texture2D.MipLevels = 1;
@@ -103,4 +114,11 @@ ID3D11ShaderResourceView* DepthStencilBuffer::MakeShaderResourceView() const
 		SAFE_RELEASE(pShaderResourceView);
 
 	return pShaderResourceView;
+}
+
+bool DepthStencilBuffer::Options::UsingMultiSampling() const
+{
+	if (MultiSampling == GlobalSetting)
+		return RenderOptions::UsingMultiSampling();
+	return MultiSampling == Enabled;
 }
