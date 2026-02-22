@@ -76,17 +76,18 @@ void Canvas::Present() const
 
 App::ResizedEvent Canvas::OnWindowResized(Int2 newSize)
 {
+	//Calculate
 	const App::ResizedEvent event
 	{
 		m_Size,
 		newSize,
 	};
-	SAFE_RELEASE(m_pRenderTargetView);
 	m_Size = newSize;
 	m_InvSize = { 1.f / newSize.x, 1.f / newSize.y };
-	const HRESULT result{ m_pSwapChain->ResizeBuffers(0, newSize.x, newSize.y, DXGI_FORMAT_UNKNOWN, 0) };
-	DxHelper::OnFail("[Canvas::OnWindowResized] failed resizing buffer", result);
-	InitRenderTarget();
+	//Resize
+	ResizeSwapChain();
+	ResizeRenderTarget();
+	//Notify
 	m_DepthStencilBuffer.Update(m_Size);
 	m_Viewport = { m_Size };
 	return event;
@@ -111,8 +112,10 @@ void Canvas::InitSwapChain(const App::Win32::Window& window)
 	IDXGIFactory2* pFactory{};
 	GetFactory2(pDevice2, pAdapter, pFactory);
 
-	const HRESULT result{ pFactory->CreateSwapChainForHwnd(&Globals::pGpu->GetDevice(), window.GetWindowHandle(), &desc, nullptr, nullptr, &m_pSwapChain) };
-	DxHelper::OnFail("[Canvas::InitSwapChain]", result);
+	HRESULT result{ pFactory->CreateSwapChainForHwnd(&Globals::pGpu->GetDevice(), window.GetWindowHandle(), &desc, nullptr, nullptr, &m_pSwapChain) };
+	DxHelper::OnFail("[Canvas::InitSwapChain::CreateSwapChain]", result);
+	result = m_pSwapChain->GetBuffer(0, IID_PPV_ARGS(&m_pSwapChainBuffer));
+	DxHelper::OnFail("[Canvas::InitSwapChain::GetBuffer]", result);
 
 	pFactory->Release();
 	pAdapter->Release();
@@ -121,8 +124,6 @@ void Canvas::InitSwapChain(const App::Win32::Window& window)
 
 void Canvas::InitRenderTarget()
 {
-	m_pSwapChain->GetBuffer(0, IID_PPV_ARGS(&m_pSwapChainBuffer));
-
 	D3D11_TEXTURE2D_DESC desc{};
 	desc.Width = m_Size.x;
 	desc.Height = m_Size.y;
@@ -147,6 +148,23 @@ void Canvas::InitRenderTarget()
 			Globals::pGpu->GetDevice().CreateRenderTargetView(m_pRenderTargetTexture, &viewDesc, &m_pRenderTargetView);
 		DxHelper::OnFail("Canvas::InitRenderTarget", result);
 	}
+}
+
+void Canvas::ResizeSwapChain()
+{
+	m_pSwapChainBuffer->Release();
+	HRESULT result;
+	result = m_pSwapChain->ResizeBuffers(0, m_Size.x, m_Size.y, DXGI_FORMAT_UNKNOWN, 0);
+	DxHelper::OnFail("[Canvas::OnWindowResized] failed resizing buffer", result);
+	result = m_pSwapChain->GetBuffer(0, IID_PPV_ARGS(&m_pSwapChainBuffer));
+	DxHelper::OnFail("[Canvas::InitSwapChain::GetBuffer]", result);
+}
+
+void Canvas::ResizeRenderTarget()
+{
+	m_pRenderTargetTexture->Release();
+	m_pRenderTargetView->Release();
+	InitRenderTarget();
 }
 
 void Canvas::GetFactory2(IDXGIDevice2*& pDevice2, IDXGIAdapter*& pAdapter,
