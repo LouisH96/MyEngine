@@ -4,19 +4,21 @@
     <ShowAllFiles>true</ShowAllFiles>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LocalDebuggerCommandArguments>$(SolutionDir)resources\</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerCommandArgumentsHistory>|C:\Users\louis\My\MyEngine\MyEngine\resources\|C:\Users\louis\My\MyEngine\MyEngine\source\MyEngine\Resources\|</LocalDebuggerCommandArgumentsHistory>
+    <LocalDebuggerCommandArguments>$(MyEngine)MyEngine\Resources\</LocalDebuggerCommandArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='PartialDebug|x64'">
-    <LocalDebuggerCommandArguments>$(SolutionDir)resources\</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>$(MyEngine)MyEngine\Resources\</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerCommandArgumentsHistory>C:\Users\louis\My\MyEngine\Projects\Tower\Tower\resources\|C:\Users\louis\My\MyEngine\MyEngine\source\MyEngine\Resources\|</LocalDebuggerCommandArgumentsHistory>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LocalDebuggerCommandArguments>$(SolutionDir)resources\</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>$(MyEngine)MyEngine\Resources\</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='PartialDebug_Release|x64'">
-    <LocalDebuggerCommandArguments>$(SolutionDir)resources\</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>$(MyEngine)MyEngine\Resources\</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
 </Project>
