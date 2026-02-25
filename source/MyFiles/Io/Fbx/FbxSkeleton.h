@@ -35,6 +35,7 @@ namespace MyEngine
 				const FbxJoint& GetRootJoint() const { return m_Joints.First(); }
 				unsigned GetNrJoints() const;
 				const FbxJoint& GetJoint(unsigned iJoint) const { return m_Joints[iJoint]; }
+				bool FindJointIdx(unsigned& idx, const std::string& name) const;
 
 				void PrintLocalJointData() const;
 

@@ -22,6 +22,17 @@ unsigned FbxSkeleton::GetNrJoints() const
 	return m_Joints.GetSize();
 }
 
+bool FbxSkeleton::FindJointIdx(unsigned& idx, const std::string& name) const
+{
+	for (unsigned i{ 0 }; i < m_Joints.GetSize(); ++i)
+		if (m_Joints[i].GetName() == name)
+		{
+			idx = i;
+			return true;
+		}
+	return false;
+}
+
 void FbxSkeleton::PrintLocalJointData() const
 {
 	GetRootJoint().PrintLocalData();
