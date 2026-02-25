@@ -32,6 +32,7 @@
     <ClCompile Include="Debug\Rendering\DebugLinesScreenSpace.cpp" />
     <ClCompile Include="Debug\Rendering\DebugTriangles.cpp" />
     <ClCompile Include="Framework\Systems\Systems.cpp" />
+    <ClCompile Include="Geometry\Bounds.cpp" />
     <ClCompile Include="Other\Color.cpp" />
     <ClCompile Include="Physics\Collisions\PointAabCollision.cpp" />
     <ClCompile Include="Physics\Collisions\PointTriangleCollision.cpp" />
@@ -218,6 +219,7 @@
     <ClInclude Include="Debug\Rendering\DebugTriangles.h" />
     <ClInclude Include="Framework\Systems\System.h" />
     <ClInclude Include="Framework\Systems\Systems.h" />
+    <ClInclude Include="Geometry\Bounds.h" />
     <ClInclude Include="Other\Color.h" />
     <ClInclude Include="Physics\Collisions\PointAabCollision.h" />
     <ClInclude Include="Physics\Collisions\PointTriangleCollision.h" />
