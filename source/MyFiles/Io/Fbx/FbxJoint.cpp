@@ -114,6 +114,14 @@ const FbxTransformCurve* FbxJoint::FindCurve(const FbxAnimationLayer& layer) con
 	return nullptr;
 }
 
+Float4X4 FbxJoint::CalculatePoseMatrix() const
+{
+	Float4X4 pose{ m_LocalTransform.AsMatrix() };
+	if (m_pParent)
+		pose *= m_pParent->CalculatePoseMatrix();
+	return pose;
+}
+
 void FbxJoint::PrintLocalData() const
 {
 	std::stringstream ss{};

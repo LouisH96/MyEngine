@@ -48,6 +48,7 @@ namespace MyEngine
 
 				const Transform& GetLocalTransform() const { return m_LocalTransform; }
 				const Float4X4& GetBindTransform() const { return m_BindTransform; }
+				Float4X4 CalculatePoseMatrix() const;
 
 				void PrintLocalData() const;
 				const std::string& GetName() const { return m_Name; }
