@@ -61,6 +61,9 @@ namespace MyEngine
 				const Array<FbxAnimation>& GetAnimations() const { return m_Animations; }
 				int GetNrOfAnimationLayers() const;
 
+				void Attach(const FbxClass& object, int jointIdx);
+				void Attach(const FbxClass& object, const std::string& jointName);
+
 			private:
 				Array<Geometry> m_Geometries{};
 				Array<FbxAnimation> m_Animations{};

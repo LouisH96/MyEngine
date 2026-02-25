@@ -95,6 +95,86 @@ int FbxClass::GetNrOfAnimationLayers() const
 	return total;
 }
 
+void FbxClass::Attach(const FbxClass& object, const std::string& jointName)
+{
+	unsigned jointIdx{};
+	if (!GetSkeleton().FindJointIdx(jointIdx, jointName))
+	{
+		Logger::Warning("[FbxClass::Attach] Target joint not found");
+		return;
+	}
+	Attach(object, jointIdx);
+}
+
+void FbxClass::Attach(const FbxClass& object, int jointIdx)
+{
+	//Get
+	FbxClass::Geometry& modelGeom{ m_Geometries.First() };
+	const FbxJoint& joint{ GetSkeleton().GetJoint(jointIdx) };
+	const Float4X4 parentMatrix{ joint.CalculatePoseMatrix() };
+
+	//Ensure Array-Size
+	const unsigned nrOldPoints{ modelGeom.Points.GetSize() };
+	const unsigned nrOldNormals{ modelGeom.Normals.GetSize() };
+	const unsigned nrOldUvs{ modelGeom.Uvs.GetSize() };
+	const unsigned nrOldIndices{ modelGeom.Indices.GetSize() };
+	const unsigned nrOldWeights{ modelGeom.Weights.GetSize() };
+	unsigned nrNewPoints{ 0 };
+	unsigned nrNewNormals{ 0 };
+	unsigned nrNewUvs{ 0 };
+	unsigned nrNewIndices{ 0 };
+	unsigned nrNewWeights{ 0 };
+	for (unsigned iGeom{ 0 }; iGeom < object.GetGeometries().GetSize(); ++iGeom)
+	{
+		const FbxClass::Geometry& geom{ object.GetGeometry(iGeom) };
+		nrNewPoints += geom.Points.GetSize();
+		nrNewNormals += geom.Normals.GetSize();
+		nrNewUvs += geom.Uvs.GetSize();
+		nrNewIndices += geom.Indices.GetSize();
+		nrNewWeights += geom.Weights.GetSize();
+	}
+	modelGeom.Points.IncreaseSizeWith(nrNewPoints);
+	modelGeom.Normals.IncreaseSizeWith(nrNewNormals);
+	modelGeom.Uvs.IncreaseSizeWith(nrNewUvs);
+	modelGeom.Indices.IncreaseSizeWith(nrNewIndices);
+	modelGeom.Weights.IncreaseSizeWith(nrNewWeights);
+
+	//Copy & Transform data
+	for (unsigned iGeom{ 0 }; iGeom < object.GetGeometries().GetSize(); ++iGeom)
+	{
+		const FbxClass::Geometry& geom{ object.GetGeometry(iGeom) };
+		//Points
+		for (unsigned iPoint{ 0 }; iPoint < geom.Points.GetSize(); ++iPoint)
+		{
+			modelGeom.Points[nrOldPoints + iPoint] =
+				parentMatrix.AppliedToPoint(geom.Points[iPoint]);
+		}
+		//Normals
+		for (unsigned iNormal{ 0 }; iNormal < geom.Normals.GetSize(); ++iNormal)
+		{
+			modelGeom.Normals[nrOldNormals + iNormal] =
+				parentMatrix.AppliedToVector(geom.Normals[iNormal]);
+		}
+		//Uvs
+		std::copy(&geom.Uvs.First(), geom.Uvs.End(), &modelGeom.Uvs[nrOldUvs]);
+		//Indices
+		for (unsigned iIndex{ 0 }; iIndex < geom.Indices.GetSize(); ++iIndex)
+			modelGeom.Indices[nrOldIndices + iIndex] = nrOldPoints + geom.Indices[iIndex];
+		//Weights
+		for (unsigned iWeight{ 0 }; iWeight < geom.Weights.GetSize(); ++iWeight)
+		{
+			BlendData& weights{ modelGeom.Weights[nrOldWeights + iWeight] };
+			weights.jointIdx[0] = jointIdx;
+			weights.weight[0] = 1.f;
+			for (unsigned iOtherWeight{ 1 }; iOtherWeight < BlendData::NR_WEIGHTS; ++iOtherWeight)
+			{
+				weights.jointIdx[iOtherWeight] = -1;
+				weights.weight[iOtherWeight] = 0;
+			}
+		}
+	}
+}
+
 void FbxClass::MakeTriangleList(Geometry& geomStruct, const FbxOrientation& orientation)
 {
 	std::vector<Float3> positions{};
