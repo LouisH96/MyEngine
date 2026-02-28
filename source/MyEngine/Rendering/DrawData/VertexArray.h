@@ -38,6 +38,8 @@ namespace MyEngine
 			void Draw() const;
 			void Draw(unsigned offset, unsigned count) const;
 
+			void DrawAsInstances(unsigned nrVertices, unsigned nrInstances, unsigned instanceOffset) const;
+
 			unsigned int GetOffset() const { return m_Offset; }
 			unsigned int GetCapacity() const { return m_Capacity; }
 			unsigned int GetCount() const { return m_Count; }
@@ -155,6 +157,12 @@ namespace MyEngine
 		void VertexArray<Vertex>::Draw(unsigned offset, unsigned count) const
 		{
 			Globals::pGpu->GetContext().Draw(count, offset);
+		}
+
+		template<typename Vertex>
+		inline void VertexArray<Vertex>::DrawAsInstances(unsigned nrVertices, unsigned nrInstances, unsigned instanceOffset) const
+		{
+			Globals::pGpu->GetContext().DrawInstanced(nrVertices, nrInstances, 0, instanceOffset);
 		}
 
 		template <typename Vertex>
