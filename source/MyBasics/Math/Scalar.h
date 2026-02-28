@@ -41,7 +41,7 @@ namespace MyEngine
 		static void MinAndMax(const T& a, const T& b, T& min, T& max);
 		static void SortAscending(T& a, T& b);
 
-		static bool HasOverlap(float a1, float a2, float b1, float b2);
+		static bool HasOverlap(T a1, T a2,T b1, T b2);
 	};
 
 	template <typename T>
@@ -194,7 +194,7 @@ namespace MyEngine
 	}
 
 	template <typename T>
-	bool Scalar<T>::HasOverlap(float a1, float a2, float b1, float b2)
+	bool Scalar<T>::HasOverlap(T a1, T a2, T b1, T b2)
 	{
 		SortAscending(a1, a2);
 		SortAscending(b1, b2);
