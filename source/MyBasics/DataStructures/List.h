@@ -39,6 +39,7 @@ public:
 	void Add(const T& value1, const T& value2, const T& value3);
 	void Add(const List& list);
 	void Add(const Array<T>& arr);
+	T& AddAndGet(const T& value);
 	void AddMultipleTimes(const T& value, unsigned count);
 	T& AddEmpty();
 	T& AddEmpty(unsigned count);
@@ -62,6 +63,7 @@ public:
 	const T* GetEnd() const { return &m_pData[m_Size]; }
 	T& First() { return m_pData[0]; }
 	T& Last() { return m_pData[m_Size - 1]; }
+	unsigned LastIdx() const { return m_Size - 1; }
 	int GetSizeS() const { return static_cast<int>(m_Size); }
 	unsigned GetSize() const { return m_Size; }
 	int GetCapacityS() const { return static_cast<int>(m_Capacity); }
@@ -271,6 +273,13 @@ void List<T>::Add(const Array<T>& arr)
 
 	std::copy(arr.GetData(), &arr.GetData()[arr.GetSize()], &m_pData[m_Size]);
 	m_Size += arr.GetSize();
+}
+
+template<typename T>
+inline T& List<T>::AddAndGet(const T& value)
+{
+	Add(value);
+	return Last();
 }
 
 template <typename T>
