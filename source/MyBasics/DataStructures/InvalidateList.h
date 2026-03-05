@@ -40,7 +40,9 @@ public:
 	unsigned AddContinuous(const Data& d0, const Data& d1, const Data& d2);
 	unsigned AddContinuous(const Data& proto, unsigned count);
 	unsigned AddContinuous(const Data* pFirst, unsigned count);
+	Data& AddAndGet(const Data& data);
 	unsigned Validate(Data*& pOut);
+	Data& Validate();
 	Data Remove(unsigned idx);
 	Data InvalidateAndReturn(unsigned idx); //same are removing but doesn't deconstruct(move) the object
 	void Invalidate(unsigned idx);
@@ -255,8 +257,25 @@ inline unsigned InvalidateList<Data>::AddContinuous(const Data* pFirst, unsigned
 	return iFirst;
 }
 
+template<typename Data>
+inline Data& InvalidateList<Data>::AddAndGet(const Data& data)
+{
+	const unsigned id{ InternalPreAdd() };
+	m_pData[id] = data;
+	InternalPostAdd();
+	return m_pData[id];
+}
+
 template <typename Data>
 unsigned InvalidateList<Data>::Validate(Data*& pOut)
+{
+	Data& d{ Validate() };
+	pOut = &d;
+	return pOut - m_pData;
+}
+
+template<typename Data>
+inline Data& InvalidateList<Data>::Validate()
 {
 #ifdef INVALIDATE_LIST_DEBUG
 	if (!IsEmpty(m_GapIndicator))
@@ -267,8 +286,7 @@ unsigned InvalidateList<Data>::Validate(Data*& pOut)
 	if (idx >= m_End) m_End = idx + 1;
 	else if (idx < m_First) m_First = idx;
 	UpdateGapIndicator();
-	pOut = &m_pData[idx];
-	return idx;
+	return m_pData[idx];
 }
 
 template <typename Data>
