@@ -29,6 +29,7 @@ public:
 
 	const SkeletonData& GetSkeleton() const { return m_Skeleton; }
 	unsigned GetNrBones() const { return m_Skeleton.GetNrBones(); }
+	const JointsTimeValues& GetTimeValues() const { return m_TimeValues; }
 
 private:
 	JointsTimeValues m_TimeValues;

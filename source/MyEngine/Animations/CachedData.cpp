@@ -8,8 +8,13 @@ using namespace MyEngine::Animations;
 CachedData::CachedData(const JointsTimeValues& source)
 	: m_Data{ source.GetNrJoints() }
 {
-	for (unsigned iJoint{ 0 }; iJoint < m_Data.GetSize(); ++iJoint)
-		m_Data[iJoint].Init(source, iJoint);
+	SetupData(source);
+}
+
+void CachedData::SetTimeValues(const JointsTimeValues& source)
+{
+	m_Data.EnsureSize(source.GetNrJoints());
+	SetupData(source);
 }
 
 const JointCacheData& CachedData::Get(const JointsTimeValues& source, unsigned iJoint, float time)
@@ -23,6 +28,12 @@ const JointCacheData& CachedData::Get(const JointsTimeValues& source, unsigned i
 		data.Rotation.Update<1>(source, iJoint, time);
 
 	return data;
+}
+
+void CachedData::SetupData(const JointsTimeValues& source)
+{
+	for (unsigned iJoint{ 0 }; iJoint < m_Data.GetSize(); ++iJoint)
+		m_Data[iJoint].Init(source, iJoint);
 }
 
 Float3 JointCacheData::GetPosition(float time) const

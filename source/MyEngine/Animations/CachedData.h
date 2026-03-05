@@ -57,9 +57,13 @@ public:
 	CachedData() = default;
 	CachedData(const JointsTimeValues& source);
 
+	void SetTimeValues(const JointsTimeValues& source);
+
 	const JointCacheData& Get(const JointsTimeValues& source, unsigned iJoint, float time);
 
 private:
+	void SetupData(const JointsTimeValues& source);
+
 	Array<JointCacheData> m_Data;
 };
 template<typename T>

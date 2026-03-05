@@ -7,15 +7,17 @@ using namespace MyEngine::Animations;
 
 Animator::Animator(const Animation& animation)
 	: m_Bones{ animation.GetNrBones() }
-	, m_Time{ 0 }
 	, m_Cache{ animation.MakeCachedData() }
 {
-	if (animation.GetDuration() == 0)
-		m_TimeScale = 1.f;
-	else
-		m_TimeScale = 1.f / animation.GetDuration();
+	SetupAnimation(animation);
+}
 
-	SetTime(animation, 0);
+void Animator::SetAnimation(const Animation& animation)
+{
+	m_Bones.EnsureSize(animation.GetNrBones());
+	m_Cache.SetTimeValues(animation.GetTimeValues());
+
+	SetupAnimation(animation);
 }
 
 unsigned Animator::ProgressTime(const Animation& animation)
@@ -105,4 +107,14 @@ void Animator::SetTimeScale(float timeScale)
 Float2 Animator::GetRootXz() const
 {
 	return WorldMatrix::GetPositionXz(m_Bones.First());
+}
+
+void Animator::SetupAnimation(const Animation& animation)
+{
+	if (animation.GetDuration() == 0)
+		m_TimeScale = 1.f;
+	else
+		m_TimeScale = 1.f / animation.GetDuration();
+
+	SetTime(animation, 0);
 }

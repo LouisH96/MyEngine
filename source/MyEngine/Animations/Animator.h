@@ -2,15 +2,15 @@
 #include "Animation.h"
 #include "CachedData.h"
 
-namespace MyEngine
-{
-namespace Animations
+namespace MyEngine::Animations
 {
 class Animator
 {
 public:
 	Animator() = default;
 	Animator(const Animation& animation);
+
+	void SetAnimation(const Animation& animation);
 
 	unsigned ProgressTime(const Animation& animation);
 	unsigned ProgressTime(const Animation& animation, float time); //return nr of times it crossed the end
@@ -35,6 +35,7 @@ private:
 	CachedData m_Cache;
 	float m_Time{ 0 };
 	float m_TimeScale{ 1 };
+
+	void SetupAnimation(const Animation& animation);
 };
-}
 }
