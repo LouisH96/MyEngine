@@ -228,7 +228,7 @@ DebugRenderer::DebugRenderer()
 	: m_InputLayout(Vertex::ELEMENTS, Vertex::NR_ELEMENTS)
 	, m_Shader(Resources::GlobalShader(L"lambertCamDir.hlsl"))
 	, m_pLineRenderer(RendererFactory::CreateUnlitRenderer())
-	, m_DepthOff{ false }
+	, m_DepthOff{ false , false }
 {
 }
 
