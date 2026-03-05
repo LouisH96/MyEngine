@@ -540,12 +540,12 @@ inline void InvalidateList<Data>::IncreaseCapacity()
 template <typename Data>
 void InvalidateList<Data>::IncreaseCapacity(unsigned increase)
 {
-	Data* pNew = new Data[m_Capacity + increase];
-	std::move(&m_pData[m_First], &m_pData[m_End], &pNew[m_First]);
+	Data* pNew{ new Data[m_Capacity + increase] };
+	std::move(m_pData, &m_pData[m_Capacity], pNew);
 	delete[] m_pData;
 	m_pData = pNew;
-	m_Capacity = m_Capacity + increase;
-	for (unsigned i = m_Capacity - increase; i < m_Capacity; i++)
+	m_Capacity += increase;
+	for (unsigned i{ m_Capacity - increase }; i < m_Capacity; ++i)
 		m_pData[i].Invalidate();
 }
 template<typename Data>
