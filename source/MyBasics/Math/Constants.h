@@ -21,6 +21,7 @@ namespace MyEngine
 
 		static constexpr float PHYSICS_EPSILON = 1e-4f;
 		static constexpr float GRAVITY = -9.81f;
+		static constexpr float GRAVITY_HALF = -9.81f/2.f;
 	};
 
 	static constexpr float ToRad(float degrees) { return degrees * Constants::TO_RAD; }
