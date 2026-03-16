@@ -6,7 +6,7 @@
 #include "RenderOptions.h"
 #include <App/Win32/Window.h>
 
-#include <dxgi1_2.h>
+#include <dxgi1_3.h>
 
 using namespace Rendering;
 using namespace Dx;
@@ -74,6 +74,12 @@ void Canvas::Present() const
 	DxHelper::OnFail("[Canvas::Present]", result);
 }
 
+void Canvas::Wait() const
+{
+	static constexpr DWORD timeout{ 2000 };
+	WaitForSingleObject(m_SwapChainWait, timeout);
+}
+
 App::ResizedEvent Canvas::OnWindowResized(Int2 newSize)
 {
 	//Calculate
@@ -98,7 +104,7 @@ void Canvas::InitSwapChain(const App::Win32::Window& window)
 	DXGI_SWAP_CHAIN_DESC1 desc{};
 	desc.BufferCount = 2;
 	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	desc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
+	desc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH | DXGI_SWAP_CHAIN_FLAG_FRAME_LATENCY_WAITABLE_OBJECT;
 	desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	desc.SampleDesc.Count = 1;
 	desc.SampleDesc.Quality = 0;
@@ -112,8 +118,19 @@ void Canvas::InitSwapChain(const App::Win32::Window& window)
 	IDXGIFactory2* pFactory{};
 	GetFactory2(pDevice2, pAdapter, pFactory);
 
-	HRESULT result{ pFactory->CreateSwapChainForHwnd(&Globals::pGpu->GetDevice(), window.GetWindowHandle(), &desc, nullptr, nullptr, &m_pSwapChain) };
+	//Get SwapChain1
+	IDXGISwapChain1* pSwapChain1{};
+	HRESULT result{ pFactory->CreateSwapChainForHwnd(&Globals::pGpu->GetDevice(), window.GetWindowHandle(), &desc, nullptr, nullptr, &pSwapChain1) };
 	DxHelper::OnFail("[Canvas::InitSwapChain::CreateSwapChain]", result);
+
+	//Cast to SwapChain2
+	result = pSwapChain1->QueryInterface(__uuidof(IDXGISwapChain2), reinterpret_cast<void**>(&m_pSwapChain));
+	DxHelper::OnFail("[Canvas::InitSwapChain::CastToSwapChain2]", result);
+	pSwapChain1->Release();
+	
+	//Get WaitHandle
+	m_SwapChainWait = m_pSwapChain->GetFrameLatencyWaitableObject();
+
 	result = m_pSwapChain->GetBuffer(0, IID_PPV_ARGS(&m_pSwapChainBuffer));
 	DxHelper::OnFail("[Canvas::InitSwapChain::GetBuffer]", result);
 

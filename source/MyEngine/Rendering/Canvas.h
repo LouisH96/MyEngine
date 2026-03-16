@@ -8,7 +8,7 @@
 
 struct IDXGIDevice2;
 struct IDXGIFactory2;
-struct IDXGISwapChain1;
+struct IDXGISwapChain2;
 
 namespace MyEngine
 {
@@ -37,6 +37,7 @@ public:
 	void ClearDepthBuffer();
 	void BeginPaint();
 	void Present() const;
+	void Wait() const;
 
 	App::ResizedEvent OnWindowResized(Int2 newSize);
 	const Int2& GetSize() const { return m_Size; }
@@ -48,8 +49,9 @@ public:
 
 private:
 	static constexpr DXGI_FORMAT SWAPCHAIN_FORMAT{ DXGI_FORMAT_R8G8B8A8_UNORM };
-	IDXGISwapChain1* m_pSwapChain{};
+	IDXGISwapChain2* m_pSwapChain{};
 	ID3D11Texture2D* m_pSwapChainBuffer{};
+	HANDLE m_SwapChainWait{};
 
 	ID3D11RenderTargetView* m_pRenderTargetView{};
 	ID3D11Texture2D* m_pRenderTargetTexture{};

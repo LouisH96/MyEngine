@@ -63,6 +63,7 @@ void GameFrame::Run(const std::wstring& windowName, App::Win32::Window::Options 
 	while (!window.IsDestroyed())
 	{
 		//TIME
+		canvas.Wait();
 		fpsControl.NoWait();
 		Globals::Time += Globals::DeltaTime;
 
