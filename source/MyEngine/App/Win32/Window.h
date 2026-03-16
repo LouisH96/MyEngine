@@ -4,6 +4,7 @@
 #include <string>
 #include "Keyboard_MsgListener.h"
 #include "Mouse.h"
+#include "RawInput.h"
 
 LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK win32_window_proc_extra(HWND windowHandle, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -77,6 +78,7 @@ namespace MyEngine
 
 				Keyboard m_Keyboard{};
 				Mouse m_Mouse{};
+				RawInput m_RawInput{};
 				Int2 m_ClientSize{ 1200,800 };
 				HWND m_WindowHandle{};
 				IExtraWinProc* m_pExtraWinProc{};

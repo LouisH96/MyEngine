@@ -150,6 +150,7 @@
     <ClCompile Include="Debug\Rendering\DebugLinesScreenSpace.cpp" />
     <ClCompile Include="Framework\Systems\Systems.cpp" />
     <ClCompile Include="Geometry\Bounds.cpp" />
+    <ClCompile Include="App\Win32\RawInput.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Dx\DxHelper.h" />
@@ -379,6 +380,7 @@
     <ClInclude Include="Framework\Systems\Systems.h" />
     <ClInclude Include="Rendering\RenderOptions.h" />
     <ClInclude Include="Geometry\Bounds.h" />
+    <ClInclude Include="App\Win32\RawInput.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

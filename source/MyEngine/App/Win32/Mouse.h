@@ -53,6 +53,8 @@ namespace MyEngine
 				Int2 m_Movement{0, 0};
 				float m_Scroll{ 0 };
 				int m_State{ 0 };
+
+				friend class RawInput;
 			};
 		}
 	}

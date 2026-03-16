@@ -83,6 +83,9 @@ void Window::Init(const std::wstring& title, const Options& options)
 	ShowWindow(m_WindowHandle, maximizeWindow ? SW_MAXIMIZE : SW_NORMAL);
 	SetCursorFocusMode(options.CursorFocusMode);
 
+	//RawInput
+	m_RawInput.Init(m_WindowHandle);
+
 	//GLOBALS
 	if (Globals::pWindow) Logger::Error("Global window already set");
 	if (Globals::pMouse) Logger::Error("A second mouse is made");
@@ -196,6 +199,9 @@ void Window::HandleMessages()
 	m_Mouse.PreChange();
 	m_Keyboard.PreInput();
 
+	//RawInput
+	m_RawInput.Process(m_Mouse);
+
 	//win32-messages
 	MSG msg;
 	while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
@@ -205,10 +211,15 @@ void Window::HandleMessages()
 
 	if (m_CursorFocusMode && m_HasFocus)
 	{
-		tagPOINT pos{ m_ClientSize.x / 2,m_ClientSize.y / 2 };
-		m_Mouse.SetPos({ pos.x, pos.y });
-		ClientToScreen(m_WindowHandle, &pos);
-		SetCursorPos(pos.x, pos.y);
+		constexpr unsigned margin{ 5 };
+		tagPOINT topLeft{ margin, margin };
+		ClientToScreen(m_WindowHandle, &topLeft);
+		RECT screenRect{};
+		screenRect.left = topLeft.x;
+		screenRect.top = topLeft.y;
+		screenRect.right = screenRect.left + m_ClientSize.x - margin * 2;
+		screenRect.bottom = screenRect.top + m_ClientSize.y - margin * 2;
+		ClipCursor(&screenRect);
 	}
 }
 

@@ -81,7 +81,7 @@ void Mouse::SetPosRuntime(Int2 position)
 
 void Mouse::PreChange()
 {
-	m_Movement = m_Pos; //temp store old position in m_Movement
+	m_Movement = Int2{ 0 };
 	m_Scroll = 0;
 	m_State &= LEFT_MASK | MIDDLE_MASK | RIGHT_MASK;
 	m_State |= m_State << NR_BUTTONS;
@@ -89,7 +89,6 @@ void Mouse::PreChange()
 
 void Mouse::PostChange()
 {
-	m_Movement = m_Pos - m_Movement;
 }
 
 void Mouse::OnMove(long long position)

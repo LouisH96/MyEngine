@@ -29,6 +29,7 @@
     <ClCompile Include="Applied\MeshMaker\Shapes\FlatStrip.cpp" />
     <ClCompile Include="Applied\MeshMaker\Shapes\Strip.cpp" />
     <ClCompile Include="Applied\MeshMaker\Shapes\StripLoop.cpp" />
+    <ClCompile Include="App\Win32\RawInput.cpp" />
     <ClCompile Include="Debug\Rendering\DebugLinesScreenSpace.cpp" />
     <ClCompile Include="Debug\Rendering\DebugTriangles.cpp" />
     <ClCompile Include="Framework\Systems\Systems.cpp" />
@@ -215,6 +216,7 @@
     <ClInclude Include="Applied\MeshMaker\Shapes\Strip.h" />
     <ClInclude Include="Applied\MeshMaker\Shapes\StripLoop.h" />
     <ClInclude Include="App\Win32\KeyCode.h" />
+    <ClInclude Include="App\Win32\RawInput.h" />
     <ClInclude Include="Debug\Rendering\DebugLinesScreenSpace.h" />
     <ClInclude Include="Debug\Rendering\DebugTriangles.h" />
     <ClInclude Include="Framework\Systems\System.h" />
