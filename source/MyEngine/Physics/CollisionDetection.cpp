@@ -33,6 +33,7 @@ bool CollisionDetection::Detect(
 		const Float3 hitPoint{ ray.GetPoint(time) };
 		if (!IsPlanePointInTriangle(hitPoint, v0, v1, v2, normal)) continue;
 		collision.position = hitPoint;
+		collision.t = time;
 		return true;
 	}
 	return false;
@@ -104,6 +105,7 @@ bool CollisionDetection::IsLineInTriangle(
 	const Float3 hitPoint{ l0 + ray * time };
 	if (!IsPlanePointInTriangle(hitPoint, t0, t1, t2, tNormal)) return false;
 	collision.position = hitPoint;
+	collision.t = time;
 	return true;
 }
 

@@ -14,6 +14,7 @@ public:
 	struct Collision
 	{
 		Float3 position;
+		float t{ 0.f }; //not implemented for each function
 	};
 
 	//--| From, To |-VS-| Points, TriangleNormals |--
