@@ -271,7 +271,7 @@ unsigned InvalidateList<Data>::Validate(Data*& pOut)
 {
 	Data& d{ Validate() };
 	pOut = &d;
-	return pOut - m_pData;
+	return static_cast<unsigned>(pOut - m_pData);
 }
 
 template<typename Data>
