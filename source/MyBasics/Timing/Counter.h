@@ -13,6 +13,7 @@ namespace MyEngine
 
 			void Begin();
 			void End(const std::string& name) const;
+			float End() const;
 
 			float GetMs() const;
 

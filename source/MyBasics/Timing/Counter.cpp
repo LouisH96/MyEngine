@@ -35,6 +35,14 @@ void Counter::End(const std::string& name) const
 	Logger::Print(ss.str());
 }
 
+float Counter::End() const
+{
+	const auto now = App::Time::Clock::now();
+	const auto dur = now - m_Begin;
+	const double nrMillis = App::Time::ToMilliseconds(dur);
+	return nrMillis;
+}
+
 float Counter::GetMs() const
 {
 	const auto now = App::Time::Clock::now();
