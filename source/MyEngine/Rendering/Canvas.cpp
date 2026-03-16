@@ -101,42 +101,55 @@ App::ResizedEvent Canvas::OnWindowResized(Int2 newSize)
 
 void Canvas::InitSwapChain(const App::Win32::Window& window)
 {
-	DXGI_SWAP_CHAIN_DESC1 desc{};
-	desc.BufferCount = 2;
-	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	desc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH | DXGI_SWAP_CHAIN_FLAG_FRAME_LATENCY_WAITABLE_OBJECT;
-	desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-	desc.SampleDesc.Count = 1;
-	desc.SampleDesc.Quality = 0;
-	desc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
-	desc.Scaling = DXGI_SCALING_NONE;
-	desc.Width = m_Size.x;
-	desc.Height = m_Size.y;
-
-	IDXGIDevice2* pDevice2{};
-	IDXGIAdapter* pAdapter{};
+	//Def Tools
+	ID3D11Device* pDevice{ &Globals::pGpu->GetDevice() };
 	IDXGIFactory2* pFactory{};
-	GetFactory2(pDevice2, pAdapter, pFactory);
+	HRESULT result{};
 
-	//Get SwapChain1
-	IDXGISwapChain1* pSwapChain1{};
-	HRESULT result{ pFactory->CreateSwapChainForHwnd(&Globals::pGpu->GetDevice(), window.GetWindowHandle(), &desc, nullptr, nullptr, &pSwapChain1) };
-	DxHelper::OnFail("[Canvas::InitSwapChain::CreateSwapChain]", result);
+	//Get Factory
+	{
+		IDXGIDevice2* pDevice2{};
+		IDXGIAdapter* pAdapter{};
+		GetFactory2(pDevice2, pAdapter, pFactory);
+		pAdapter->Release();
+		pDevice2->Release();
+	}
 
-	//Cast to SwapChain2
-	result = pSwapChain1->QueryInterface(__uuidof(IDXGISwapChain2), reinterpret_cast<void**>(&m_pSwapChain));
-	DxHelper::OnFail("[Canvas::InitSwapChain::CastToSwapChain2]", result);
-	pSwapChain1->Release();
-	
+	//Get SwapChain2
+	{
+		//Create Desc
+		DXGI_SWAP_CHAIN_DESC1 desc{};
+		desc.BufferCount = 2;
+		desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		desc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH | DXGI_SWAP_CHAIN_FLAG_FRAME_LATENCY_WAITABLE_OBJECT;
+		desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+		desc.SampleDesc.Count = 1;
+		desc.SampleDesc.Quality = 0;
+		desc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
+		desc.Scaling = DXGI_SCALING_NONE;
+		desc.Width = m_Size.x;
+		desc.Height = m_Size.y;
+
+		//Get SwapChain1
+		IDXGISwapChain1* pSwapChain1{};
+		result = pFactory->CreateSwapChainForHwnd(pDevice, window.GetWindowHandle(), &desc, nullptr, nullptr, &pSwapChain1);
+		DxHelper::OnFail("[Canvas::InitSwapChain::CreateSwapChain]", result);
+
+		//Cast to SwapChain2
+		result = pSwapChain1->QueryInterface(__uuidof(IDXGISwapChain2), reinterpret_cast<void**>(&m_pSwapChain));
+		DxHelper::OnFail("[Canvas::InitSwapChain::CastToSwapChain2]", result);
+		pSwapChain1->Release();
+	}
+
 	//Get WaitHandle
 	m_SwapChainWait = m_pSwapChain->GetFrameLatencyWaitableObject();
 
+	//Get SwapChainBuffer
 	result = m_pSwapChain->GetBuffer(0, IID_PPV_ARGS(&m_pSwapChainBuffer));
 	DxHelper::OnFail("[Canvas::InitSwapChain::GetBuffer]", result);
 
+	//Release
 	pFactory->Release();
-	pAdapter->Release();
-	pDevice2->Release();
 }
 
 void Canvas::InitRenderTarget()
