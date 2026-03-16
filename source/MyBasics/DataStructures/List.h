@@ -68,6 +68,7 @@ public:
 	unsigned GetSize() const { return m_Size; }
 	int GetCapacityS() const { return static_cast<int>(m_Capacity); }
 	unsigned GetCapacity() const { return m_Capacity; }
+	unsigned GetCapacityInBytes() const { return m_Capacity * sizeof(T); }
 	bool IsEmpty() const { return m_Size == 0; }
 	void SetSize(int size);
 	void EnsureCapacity(unsigned minCapacity);
