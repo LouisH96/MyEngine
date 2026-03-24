@@ -49,6 +49,8 @@ public:
 
 private:
 	static constexpr DXGI_FORMAT SWAPCHAIN_FORMAT{ DXGI_FORMAT_R8G8B8A8_UNORM };
+	static constexpr UINT SWAPCHAIN_FLAGS{
+		DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH | DXGI_SWAP_CHAIN_FLAG_FRAME_LATENCY_WAITABLE_OBJECT };
 	IDXGISwapChain2* m_pSwapChain{};
 	ID3D11Texture2D* m_pSwapChainBuffer{};
 	HANDLE m_SwapChainWait{};

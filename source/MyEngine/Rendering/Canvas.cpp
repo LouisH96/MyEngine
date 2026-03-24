@@ -121,7 +121,7 @@ void Canvas::InitSwapChain(const App::Win32::Window& window)
 		DXGI_SWAP_CHAIN_DESC1 desc{};
 		desc.BufferCount = 2;
 		desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-		desc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH | DXGI_SWAP_CHAIN_FLAG_FRAME_LATENCY_WAITABLE_OBJECT;
+		desc.Flags = SWAPCHAIN_FLAGS;
 		desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 		desc.SampleDesc.Count = 1;
 		desc.SampleDesc.Quality = 0;
@@ -184,10 +184,10 @@ void Canvas::ResizeSwapChain()
 {
 	m_pSwapChainBuffer->Release();
 	HRESULT result;
-	result = m_pSwapChain->ResizeBuffers(0, m_Size.x, m_Size.y, DXGI_FORMAT_UNKNOWN, 0);
-	DxHelper::OnFail("[Canvas::OnWindowResized] failed resizing buffer", result);
+	result = m_pSwapChain->ResizeBuffers(0, m_Size.x, m_Size.y, DXGI_FORMAT_UNKNOWN, SWAPCHAIN_FLAGS);
+	DxHelper::OnFail("[Canvas::ResizeSwapChain] failed resizing buffer", result);
 	result = m_pSwapChain->GetBuffer(0, IID_PPV_ARGS(&m_pSwapChainBuffer));
-	DxHelper::OnFail("[Canvas::InitSwapChain::GetBuffer]", result);
+	DxHelper::OnFail("[Canvas::InitSwapChain] failed getting buffer", result);
 }
 
 void Canvas::ResizeRenderTarget()
