@@ -44,6 +44,10 @@ namespace MyEngine
 
 				void SetPosRuntime(Int2 position);
 
+				void SetCursorVisibility(bool isVisible);
+				void HideCursor();
+				void ShowCursor();
+
 			private:
 				static constexpr int LEFT_MASK = 1;
 				static constexpr int RIGHT_MASK = 2;

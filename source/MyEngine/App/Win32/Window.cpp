@@ -187,10 +187,7 @@ uint8_t Window::GetVirtualKey(const WPARAM& wParam, const LPARAM& lParam)
 void Window::SetCursorFocusMode(bool cursorFocused)
 {
 	m_CursorFocusMode = cursorFocused;
-	if (m_CursorFocusMode)
-		while (ShowCursor(false) >= 0) {}
-	else
-		while (ShowCursor(true) < 0) {}
+	m_Mouse.SetCursorVisibility(!m_CursorFocusMode);
 }
 
 void Window::HandleMessages()
@@ -276,9 +273,11 @@ LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, 
 		break;
 	case WM_SETFOCUS:
 		window.m_HasFocus = true;
+		window.GetMouse().HideCursor();
 		break;
 	case WM_KILLFOCUS:
 		window.m_HasFocus = false;
+		window.GetMouse().ShowCursor();
 		break;
 	default:;
 	}

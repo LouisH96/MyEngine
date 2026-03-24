@@ -61,6 +61,8 @@ public:
 	//input
 	const Keyboard& GetKeyboard() const { return m_Keyboard; }
 	const Mouse& GetMouse() const { return m_Mouse; }
+	Keyboard& GetKeyboard() { return m_Keyboard; }
+	Mouse& GetMouse() { return m_Mouse; }
 
 private:
 	static constexpr int INIT_POS{ 500 };

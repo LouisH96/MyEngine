@@ -79,6 +79,21 @@ void Mouse::SetPosRuntime(Int2 position)
 	m_Pos = position;
 }
 
+void Mouse::SetCursorVisibility(bool isVisible) 
+{
+	isVisible ? ShowCursor() : HideCursor();
+}
+
+void Mouse::HideCursor()
+{
+	while (::ShowCursor(false) >= 0);
+}
+
+void Mouse::ShowCursor() 
+{
+	while (::ShowCursor(true) < 0);
+}
+
 void Mouse::PreChange()
 {
 	m_Movement = Int2{ 0 };
