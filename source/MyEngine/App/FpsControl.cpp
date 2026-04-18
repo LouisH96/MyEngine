@@ -85,7 +85,8 @@ void App::FpsControl::NoWait()
 		m_NrFramesThisSec++;
 
 	m_DurationLastFrame = (now - m_BeginPrevFrame).count() * Time::CLOCK_UNIT_TO_SEC;
-	Globals::DeltaTime = m_DurationLastFrame > .1f ? .1f : m_DurationLastFrame;
+	Globals::UnscaledDeltaTime = m_DurationLastFrame > .1f ? .1f : m_DurationLastFrame;
+	Globals::UnscaledTime += Globals::UnscaledDeltaTime;
 	m_BeginPrevFrame = now;
 	m_BeginPrevUpdate = now;
 }
