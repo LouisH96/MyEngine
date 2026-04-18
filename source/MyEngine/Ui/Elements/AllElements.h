@@ -17,3 +17,5 @@
 #include "MouseDownElem.h"
 #include "RelativeParent.h"
 #include "ToggleBtnBase.h"
+
+using SimpleParent = ParentElem<EmptyChildOptions>;
