@@ -188,6 +188,10 @@ void Window::SetCursorFocusMode(bool cursorFocused)
 {
 	m_CursorFocusMode = cursorFocused;
 	m_Mouse.SetCursorVisibility(!m_CursorFocusMode);
+	if (!cursorFocused)
+	{
+		ClipCursor(nullptr);
+	}
 }
 
 void Window::HandleMessages()
@@ -273,7 +277,8 @@ LRESULT CALLBACK win32_window_proc(HWND windowHandle, UINT uMsg, WPARAM wParam, 
 		break;
 	case WM_SETFOCUS:
 		window.m_HasFocus = true;
-		window.GetMouse().HideCursor();
+		if (window.m_CursorFocusMode)
+			window.GetMouse().HideCursor();
 		break;
 	case WM_KILLFOCUS:
 		window.m_HasFocus = false;
