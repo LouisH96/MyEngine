@@ -1,15 +1,17 @@
 #include "pch.h"
 #include "Border.h"
 
-#include "..\UiSystem.h"
+#include "../UiSystem.h"
 
 using namespace Ui;
 
-Border::Border()
+Border::Border(float border, float innerMargin)
 	: ParentElem<EmptyChildOptions>{}
 	, m_BackgroundColor{ UiSystem::COLOR_DARK }
 	, m_BorderColor{ UiSystem::COLOR_MEDIUM }
-{;
+	, m_BorderThickness{ border }
+	, m_Margin{ border + innerMargin }
+{
 }
 
 void Border::SetBorderColor(const Float3& borderColor)
@@ -30,19 +32,19 @@ void Border::TreeUpdate(const ResizePref& pref)
 	childPref.horMode = pref.horMode;
 	childPref.verMode = pref.verMode;
 	childPref.minSize = {};
-	childPref.maxSize = pref.maxSize - BORDER_THICKNESS * 4;
+	childPref.maxSize = pref.maxSize - m_Margin * 2;
 
 	Float2 childBounds{};
 	for (unsigned i = 0; i < GetNrChildren(); i++)
 	{
 		ChildTreeUpdate(i, childPref);
-		ChildSetPosition(i, Float2{ BORDER_THICKNESS * 2 });
+		ChildSetPosition(i, Float2{ m_Margin });
 
 		childBounds.x = Float::Max(childBounds.x, GetChild(i).GetWidth());
 		childBounds.y = Float::Max(childBounds.y, GetChild(i).GetHeight());
 	}
 
-	SetSize(childBounds + BORDER_THICKNESS * 4);
+	SetSize(childBounds + m_Margin * 2);
 }
 
 void Border::Clear()
@@ -54,5 +56,5 @@ void Border::Clear()
 void Border::Create()
 {
 	m_BorderId = UI_RECT.Add({ GetPosition(), GetSize() }, m_BorderColor);
-	m_BackgroundId = UI_RECT.Add({ GetPosition() + BORDER_THICKNESS, GetSize() - BORDER_THICKNESS * 2 }, m_BackgroundColor);
+	m_BackgroundId = UI_RECT.Add({ GetPosition() + m_BorderThickness, GetSize() - m_BorderThickness * 2 }, m_BackgroundColor);
 }
