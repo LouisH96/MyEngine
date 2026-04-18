@@ -28,6 +28,9 @@ public:
 
 	void SetUniformFillSize(bool uniformFillSize);
 
+	static ListPanel* Horizontal(float childMargin = 5, float lineMargin = 5);
+	static ListPanel* Vertical(float childMargin = 5, float lineMargin = 5);
+
 private:
 	Float2 m_FlowDir;
 	Float2 m_FillDir;

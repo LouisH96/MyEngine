@@ -214,3 +214,13 @@ Float2 ListPanel::ToFillDirection(Direction direction)
 
 	return fill;
 }
+
+ListPanel* ListPanel::Horizontal(float childMargin, float lineMargin)
+{
+	return new ListPanel(Direction::RightAndDown, childMargin, lineMargin);
+}
+
+ListPanel* ListPanel::Vertical(float childMargin, float lineMargin)
+{
+	return new ListPanel(Direction::DownAndRight, childMargin, lineMargin);
+}
