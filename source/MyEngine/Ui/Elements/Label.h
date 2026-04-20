@@ -13,6 +13,8 @@ public:
 	explicit Label(const std::string& text, float fontSize = 18);
 	explicit Label(const std::string& text, const Float3& color, float fontSize = 18);
 
+	void SetText(const std::string& newText);
+
 	const std::string GetTypeName() const override { return "Label"; }
 
 private:

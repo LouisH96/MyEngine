@@ -19,6 +19,12 @@ Label::Label(const std::string& text, const Float3& color, float fontSize)
 {
 }
 
+void Label::SetText(const std::string& newText)
+{
+	m_Text = newText;
+	UI.GetTreeManager().RequestUpdate();
+}
+
 void Label::TreeUpdate(const ResizePref& pref)
 {
 	const Float2 textSize{ UI_FONT.GetTextSize(m_Text, m_FontSize) };
