@@ -9,7 +9,7 @@ struct Vertex
 struct Pixel
 {
     float4 pos : SV_POSITION;
-    float2 uv : TEXCOORD;
+    noperspective centroid float2 uv : TEXCOORD;
     float3 color : COLOR;
 };
 
