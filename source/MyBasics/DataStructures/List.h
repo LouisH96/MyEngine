@@ -90,6 +90,10 @@ public:
 	void ShiftRightSimple(unsigned amount); //Forward
 	void ShiftSimple(int amount);
 
+	//ALGORITHMS
+	void Reverse();
+
+	//CONVERT
 	Array<T> ToArray();
 
 private:
@@ -486,6 +490,12 @@ inline void List<T>::ShiftSimple(int amount)
 		ShiftRight(amount);
 	else
 		ShiftLeft(-amount);
+}
+
+template<typename T>
+inline void List<T>::Reverse()
+{
+	std::reverse(m_pData, &m_pData[m_Size]);
 }
 
 template<typename T>
