@@ -34,6 +34,9 @@ namespace MyEngine
 		int Find(const T& value) const;
 		void Edit(unsigned idx, const T& newValue);
 
+		template<typename U = T>
+		bool Contains(const U& value) const;
+
 		const T* GetData() const { return m_pData; }
 
 	private:
@@ -211,5 +214,14 @@ namespace MyEngine
 
 		RemoveSection(idx, 1);
 		TryAdd(newValue);
+	}
+	template<typename T>
+	template<typename U>
+	inline bool SortedList<T>::Contains(const U& value) const
+	{
+		for (unsigned i{ 0 }; i < m_Size; ++i)
+			if (value == m_pData[i])
+				return true;
+		return false;
 	}
 }
