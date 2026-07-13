@@ -20,7 +20,7 @@ public:
 	//---| Constructor/Destructor |---
 	List(unsigned capacity = 5);
 	List(int capacity);
-	~List();
+	virtual ~List();
 
 	List(Array<T>&& array);
 
