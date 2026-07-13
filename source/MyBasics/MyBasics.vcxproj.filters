@@ -48,6 +48,7 @@
     <ClInclude Include="Math\Math.h" />
     <ClInclude Include="Timing\AvgCounter.h" />
     <ClInclude Include="Logger\BasicLogger.h" />
+    <ClInclude Include="Utils\Utils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Math\Quaternion.cpp" />
