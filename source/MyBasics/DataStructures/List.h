@@ -39,6 +39,8 @@ public:
 	void Add(const T& value1, const T& value2, const T& value3);
 	void Add(const List& list);
 	void Add(const Array<T>& arr);
+	template<typename P>
+	P& AddAndGet(const P& value);
 	T& AddAndGet(const T& value);
 	void AddMultipleTimes(const T& value, unsigned count);
 	T& AddEmpty();
@@ -278,6 +280,14 @@ void List<T>::Add(const Array<T>& arr)
 
 	std::copy(arr.GetData(), &arr.GetData()[arr.GetSize()], &m_pData[m_Size]);
 	m_Size += arr.GetSize();
+}
+
+template<typename T>
+template<typename P>
+inline P& List<T>::AddAndGet(const P& value)
+{
+	Add(value);
+	return reinterpret_cast<P&>(Last());
 }
 
 template<typename T>
