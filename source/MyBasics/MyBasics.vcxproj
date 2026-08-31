@@ -161,6 +161,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="DataStructures\Algortihms2.h" />
     <ClInclude Include="Logger\BasicLogger.h" />
     <ClInclude Include="Timing\AvgCounter.h" />
     <ClInclude Include="DataStructures\Adders\ArrayAdder.h" />
@@ -211,6 +212,7 @@
     <ClInclude Include="Utils\Utils.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DataStructures\Algortihms2.cpp" />
     <ClCompile Include="Logger\BasicLogger.cpp" />
     <ClCompile Include="Timing\AvgCounter.cpp" />
     <ClCompile Include="FileUtils\Drive.cpp" />
