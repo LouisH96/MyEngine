@@ -8,6 +8,7 @@
 
 #include <cmath>
 #include <iostream>
+#include <string>
 
 #include <Math\Matrices.h>
 #include <Math\Scalars.h>
